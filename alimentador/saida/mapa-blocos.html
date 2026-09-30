@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mapa de Blocos · EXEMPLO_AL-ILUSTRATIVO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<style>
+/* Layout: mapa em primeiro plano; abas das 5 visualizações acima; painel da visualização ao lado (desktop) ou abaixo (celular). */
+:root{
+  --bg:#f2f3f0; --paper:#fbfbf9; --fg:#1b2024; --muted:#5a636a; --line:#d6dad6; --ink:#232a2f;
+  --accent:#b8431f; --mapbg:#1a2126; --hit:#fff1d6;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --z1:#3b82f6; --z2:#22c55e; --z3:#facc15; --z4:#f97316; --z5:#d946ef;
+  --z1s:#dbeafe; --z2s:#dcfce7; --z3s:#fef3c7; --z4s:#ffedd5; --z5s:#fae8ff;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
+  --accent:#f08a5d; --mapbg:#0f1417; --hit:#3a3120;
+  --z1s:#1e3a5f; --z2s:#173d27; --z3s:#44390f; --z4s:#4a2a14; --z5s:#43204a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
+  --accent:#f08a5d; --mapbg:#0f1417; --hit:#3a3120;
+  --z1s:#1e3a5f; --z2s:#173d27; --z3s:#44390f; --z4s:#4a2a14; --z5s:#43204a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-body)}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:16px;padding-block:24px 56px;display:grid;gap:22px}
+.wrap>*{min-width:0}
+header{display:grid;gap:6px;max-width:72ch}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(26px,4vw,36px)/1.1 var(--f-display);margin:0;text-wrap:balance}
+h2{font:600 20px/1.2 var(--f-display);margin:0 0 10px}
+h3{font:600 17px/1.2 var(--f-display);margin:0}
+p{margin:0}
+.lede{color:var(--muted)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);color:var(--fg);border-radius:999px;padding:8px 14px;font:500 14px/1 var(--f-body);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.tab .n{font:600 12px/1 var(--f-mono);color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] .n{color:var(--bg)}
+.tab:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start}
+@media (max-width:980px){.stage{grid-template-columns:1fr}}
+.mapbox{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--mapbg)}
+#map{height:min(68vh,640px);min-height:380px;background:var(--mapbg)}
+.banner{position:absolute;left:54px;right:10px;top:10px;z-index:800;background:rgba(15,20,23,.88);color:#f3f4f4;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.45}
+.banner b{color:#fde68a}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:12px;min-width:0}
+.panel .use{font-size:13.5px;color:var(--muted)}
+.legend{display:grid;gap:6px;font-size:13.5px}
+.legend .row{display:flex;align-items:center;gap:8px}
+.sw{flex:0 0 32px;height:12px;border-radius:3px;background:#20282d;display:grid;align-items:center;padding:0 4px}
+.sw::after{content:"";height:5px;border-radius:2px;background:var(--c)}
+.sw.thin::after{height:3px}
+.sw.dash::after{background:repeating-linear-gradient(90deg,var(--c) 0 6px,transparent 6px 10px)}
+#map.small .dv span{display:none}
+.info{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:14px}
+.info .k{font:600 11.5px/1.2 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.crumb{font:600 13.5px/1.5 var(--f-mono);word-break:break-word}
+.crumb .sep{color:var(--muted);padding:0 3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:5px 9px;font:600 12.5px/1 var(--f-mono);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mono{font-family:var(--f-mono)}
+.num{font-variant-numeric:tabular-nums}
+a{color:var(--accent)}
+/* marcadores no mapa */
+.dv{display:flex;align-items:center;gap:4px;white-space:nowrap;pointer-events:auto}
+.dv b{display:inline-grid;place-items:center;min-width:30px;height:22px;padding:0 4px;background:#fbfbf9;color:#1b2024;border:2px solid #1b2024;border-radius:3px;font:600 12px/1 var(--f-mono)}
+.dv.c88 b{min-width:26px;height:18px;background:#dbeafe;border-color:#1d4ed8;color:#1d4ed8;font-size:11px}
+.dv span{font:600 12px/1 var(--f-mono);color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000}
+.dv.sel b{outline:3px solid #fde047;outline-offset:1px}
+.dv.dim{opacity:.45}
+.bb{display:grid;place-items:center;width:24px;height:24px;border-radius:12px;background:var(--c);color:#111;border:2px solid #111;font:700 12px/1 var(--f-mono);box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.rl{font:700 12.5px/1.1 var(--f-display);color:#fff;background:rgba(0,0,0,.62);border-left:4px solid var(--c);padding:3px 6px;border-radius:3px;white-space:nowrap}
+.pin{width:18px;height:18px;border-radius:50%;background:#ef4444;border:3px solid #fff;box-shadow:0 0 0 3px rgba(239,68,68,.45)}
+@media (prefers-reduced-motion:no-preference){.pin{animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7)}100%{box-shadow:0 0 0 14px rgba(239,68,68,0)}}}
+.leaflet-container{font-family:var(--f-body)}
+.leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
+.leaflet-popup-content .mono{font-size:12.5px}
+/* avaliação e excel */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.card ul{margin:8px 0 0;padding-left:18px;display:grid;gap:8px}
+.verdict{font:600 16px/1.4 var(--f-body)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:13.5px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font:600 11.5px/1.2 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+td.lv{text-align:center;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+td.lv.ref{color:var(--fg);font-weight:600;background:var(--zs);outline:1px solid var(--ink);outline-offset:-1px}
+td.zt{font:600 12.5px var(--f-mono);background:var(--zs);text-align:center}
+tr.grp td{background:var(--ink);color:var(--bg);font:600 12.5px/1.2 var(--f-mono);letter-spacing:.04em}
+.foot{font-size:13px;color:var(--muted)}
+</style>
+
+</head><body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Circuito de exemplo · não é rede real</span>
+    <h1>Como o alimentador fica organizado</h1>
+    <p class="lede">Cinco formas de ver a mesma organização: Alimentador › Zona › Tronco ou Ramal › Bloco (ativo de referência) › Vão entre postes. Toque nas abas e no mapa.</p>
+    <p class="lede" id="avisos" hidden></p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Visualizações">
+    <button class="tab" role="tab" id="t-zonas" data-v="zonas"><span class="n">1</span>Zonas</button>
+    <button class="tab" role="tab" id="t-ramais" data-v="ramais"><span class="n">2</span>Tronco e ramais</button>
+    <button class="tab" role="tab" id="t-blocos" data-v="blocos"><span class="n">3</span>Blocos</button>
+    <button class="tab" role="tab" id="t-engloba" data-v="engloba"><span class="n">4</span>O que cada ativo engloba</button>
+    <button class="tab" role="tab" id="t-vao" data-v="vao"><span class="n">5</span>Localizar um vão</button>
+  </div>
+
+  <div class="stage">
+    <div class="mapbox">
+      <div id="map" role="region" aria-label="Mapa do alimentador de exemplo"></div>
+      <div class="banner" id="nosat" hidden><b>A imagem de satélite não carregou.</b> Confira a conexão com a internet. O desenho da rede funciona igual.</div>
+      <div class="banner" id="nolib" hidden><b>O mapa não carregou.</b> A página precisa de internet para baixar a biblioteca de mapa (Leaflet).</div>
+    </div>
+    <aside class="panel" aria-live="polite">
+      <div><h3 id="p-title"></h3></div>
+      <p id="p-desc"></p>
+      <p class="use" id="p-use"></p>
+      <div class="chips" id="p-chips" hidden></div>
+      <div class="legend" id="p-legend"></div>
+      <div class="info" id="p-info"></div>
+    </aside>
+  </div>
+
+  <section>
+    <h2>É uma boa forma de organizar?</h2>
+    <div class="two">
+      <div class="card">
+        <p class="verdict">Sim. Para localizar defeito e planejar manutenção, organizar pelo ativo de referência é a forma mais útil.</p>
+        <ul>
+          <li><b>Segue a proteção.</b> O ativo de referência é o equipamento que atua num defeito naquele vão. Fala a mesma língua do COD e da equipe de campo.</li>
+          <li><b>Usa nomes da própria rede.</b> Código do ativo e do poste, sem numeração inventada.</li>
+          <li><b>Hierarquia curta.</b> Zona › Tronco/Ramal › Bloco › Vão. Dá para filtrar em qualquer nível.</li>
+          <li><b>Mesma estrutura no mapa, no KMZ e no Excel.</b> O que você vê aqui é o que está nas pastas do KMZ e nas abas da planilha.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="verdict">Cuidados antes de aplicar na rede real</p>
+        <ul>
+          <li><b>Bloco comprido em rede rural.</b> Só o bloco não basta; por isso cada vão também tem poste e distância a partir do ativo.</li>
+          <li><b>Depende da ligação entre os vãos.</b> Vão que não encosta no outro quebra a sequência. O script precisa avisar esses pontos.</li>
+          <li><b>Número do bloco muda se a rede mudar.</b> Use o nome do ativo de referência como chave; o número é só apoio visual.</li>
+          <li><b>Zonas depois do T3</b> (T4, T5) seguem a regra que ainda falta você confirmar.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como fica no Excel: aba "Árvore de blocos"</h2>
+    <div class="card scroll"><table id="arvore"></table></div>
+    <p class="foot">A célula com borda é o ativo de referência do bloco, na cor da zona. As células em cinza são os ativos antes dele, desde o DJ. No Excel, a aba "Por bloco" traz os vãos de cada bloco agrupados (botão + à esquerda).</p>
+  </section>
+
+  <p class="foot">Imagem de satélite: Esri World Imagery, carregada ao vivo no navegador. A rede é desenhada pelo mesmo script que gera o KMZ e o Excel.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+const D = {"trechos":[{"id":"TR-001","a":[-9.6039526,-48.4489067],"b":[-9.6039526,-48.4485058],"ini":"P-201","fim":"P-214","ext":43.95,"dj":44,"dref":44,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":""},{"id":"TR-002","a":[-9.6039526,-48.4485058],"b":[-9.6039526,-48.448105],"ini":"P-214","fim":"P-215","ext":43.95,"dj":88,"dref":88,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":""},{"id":"TR-003","a":[-9.6039526,-48.448105],"b":[-9.6039526,-48.4477041],"ini":"P-215","fim":"P-216","ext":43.95,"dj":132,"dref":132,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":""},{"id":"TR-004","a":[-9.6039526,-48.4477041],"b":[-9.6039526,-48.4473032],"ini":"P-216","fim":"P-217","ext":43.95,"dj":176,"dref":176,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":""},{"id":"TR-005","a":[-9.6039526,-48.4473032],"b":[-9.6039526,-48.4469024],"ini":"P-217","fim":"P-102","ext":43.95,"dj":220,"dref":220,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":""},{"id":"TR-006","a":[-9.6039526,-48.4469024],"b":[-9.6039526,-48.4465015],"ini":"P-102","fim":"P-218","ext":43.95,"dj":264,"dref":264,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C"],"c88":""},{"id":"TR-007","a":[-9.6039526,-48.4465015],"b":[-9.6039526,-48.4461006],"ini":"P-218","fim":"P-219","ext":43.95,"dj":308,"dref":308,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C"],"c88":""},{"id":"TR-008","a":[-9.6039526,-48.4461006],"b":[-9.6039526,-48.4456998],"ini":"P-219","fim":"P-220","ext":43.95,"dj":352,"dref":352,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C"],"c88":""},{"id":"TR-009","a":[-9.6039526,-48.4456998],"b":[-9.6039526,-48.4452989],"ini":"P-220","fim":"P-221","ext":43.95,"dj":396,"dref":396,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C"],"c88":""},{"id":"TR-010","a":[-9.6039526,-48.4452989],"b":[-9.6039526,-48.444898],"ini":"P-221","fim":"P-105","ext":43.95,"dj":440,"dref":440,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C"],"c88":""},{"id":"TR-011","a":[-9.6039526,-48.444898],"b":[-9.6039526,-48.4444971],"ini":"P-105","fim":"P-222","ext":43.95,"dj":483,"dref":483,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-012","a":[-9.6039526,-48.4444971],"b":[-9.6039526,-48.4440963],"ini":"P-222","fim":"P-223","ext":43.95,"dj":527,"dref":527,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-013","a":[-9.6039526,-48.4440963],"b":[-9.6039526,-48.4436954],"ini":"P-223","fim":"P-224","ext":43.95,"dj":571,"dref":571,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-014","a":[-9.6039526,-48.4436954],"b":[-9.6039526,-48.4432945],"ini":"P-224","fim":"P-225","ext":43.95,"dj":615,"dref":615,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-015","a":[-9.6039526,-48.4432945],"b":[-9.6039526,-48.4428937],"ini":"P-225","fim":"P-202","ext":43.95,"dj":659,"dref":659,"z":1,"tr":"Tronco","ramal":"Tronco","bloco":1,"ref":"DJ","path":["DJ"],"prox":"RL1","post":["RL1","RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-016","a":[-9.6039526,-48.4428937],"b":[-9.6039526,-48.4424928],"ini":"P-202","fim":"P-226","ext":43.95,"dj":703,"dref":44,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-017","a":[-9.6039526,-48.4424928],"b":[-9.6039526,-48.4420919],"ini":"P-226","fim":"P-227","ext":43.95,"dj":747,"dref":88,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-018","a":[-9.6039526,-48.4420919],"b":[-9.6039526,-48.441691],"ini":"P-227","fim":"P-228","ext":43.95,"dj":791,"dref":132,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-019","a":[-9.6039526,-48.441691],"b":[-9.6039526,-48.4412902],"ini":"P-228","fim":"P-229","ext":43.95,"dj":835,"dref":176,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-020","a":[-9.6039526,-48.4412902],"b":[-9.6039526,-48.4408893],"ini":"P-229","fim":"P-131","ext":43.95,"dj":879,"dref":220,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F","03-D"],"c88":""},{"id":"TR-021","a":[-9.6039526,-48.4408893],"b":[-9.6039526,-48.4405552],"ini":"P-131","fim":"P-230","ext":36.625,"dj":916,"dref":256,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-022","a":[-9.6039526,-48.4405552],"b":[-9.6039526,-48.4402212],"ini":"P-230","fim":"P-231","ext":36.625,"dj":952,"dref":293,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-023","a":[-9.6039526,-48.4402212],"b":[-9.6039526,-48.4398871],"ini":"P-231","fim":"P-203","ext":36.625,"dj":989,"dref":330,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":"88-A"},{"id":"TR-024","a":[-9.6039526,-48.4398871],"b":[-9.6039526,-48.4395531],"ini":"P-203","fim":"P-232","ext":36.625,"dj":1026,"dref":366,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-025","a":[-9.6039526,-48.4395531],"b":[-9.6039526,-48.439219],"ini":"P-232","fim":"P-233","ext":36.625,"dj":1062,"dref":403,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-026","a":[-9.6039526,-48.439219],"b":[-9.6039526,-48.4388849],"ini":"P-233","fim":"P-138","ext":36.625,"dj":1099,"dref":440,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-027","a":[-9.6039526,-48.4388849],"b":[-9.6039526,-48.4384841],"ini":"P-138","fim":"P-234","ext":43.95,"dj":1143,"dref":483,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-028","a":[-9.6039526,-48.4384841],"b":[-9.6039526,-48.4380832],"ini":"P-234","fim":"P-235","ext":43.95,"dj":1187,"dref":527,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-029","a":[-9.6039526,-48.4380832],"b":[-9.6039526,-48.4376823],"ini":"P-235","fim":"P-236","ext":43.95,"dj":1231,"dref":571,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-030","a":[-9.6039526,-48.4376823],"b":[-9.6039526,-48.4372815],"ini":"P-236","fim":"P-237","ext":43.95,"dj":1275,"dref":615,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-031","a":[-9.6039526,-48.4372815],"b":[-9.6039526,-48.4368806],"ini":"P-237","fim":"P-204","ext":43.95,"dj":1319,"dref":659,"z":2,"tr":"Tronco","ramal":"Tronco","bloco":2,"ref":"RL1","path":["DJ","RL1"],"prox":"RL2","post":["RL2","RL3","03-E","03-F"],"c88":""},{"id":"TR-032","a":[-9.6039526,-48.4469024],"b":[-9.6043119,-48.4469024],"ini":"P-102","fim":"P-272","ext":39.955,"dj":260,"dref":260,"z":1,"tr":"Ramal","ramal":"Ramal P-102","bloco":3,"ref":"DJ","path":["DJ"],"prox":"RL-A","post":["RL-A","03-A","03-B"],"c88":""},{"id":"TR-033","a":[-9.6043119,-48.4469024],"b":[-9.6046712,-48.4469024],"ini":"P-272","fim":"P-273","ext":39.955,"dj":300,"dref":300,"z":1,"tr":"Ramal","ramal":"Ramal P-102","bloco":3,"ref":"DJ","path":["DJ"],"prox":"RL-A","post":["RL-A","03-A","03-B"],"c88":""},{"id":"TR-034","a":[-9.6046712,-48.4469024],"b":[-9.6050305,-48.4469024],"ini":"P-273","fim":"P-274","ext":39.955,"dj":340,"dref":340,"z":1,"tr":"Ramal","ramal":"Ramal P-102","bloco":3,"ref":"DJ","path":["DJ"],"prox":"RL-A","post":["RL-A","03-A","03-B"],"c88":""},{"id":"TR-035","a":[-9.6050305,-48.4469024],"b":[-9.6053899,-48.4469024],"ini":"P-274","fim":"P-275","ext":39.955,"dj":380,"dref":380,"z":1,"tr":"Ramal","ramal":"Ramal P-102","bloco":3,"ref":"DJ","path":["DJ"],"prox":"RL-A","post":["RL-A","03-A","03-B"],"c88":""},{"id":"TR-036","a":[-9.6053899,-48.4469024],"b":[-9.6057492,-48.4469024],"ini":"P-275","fim":"P-209","ext":39.955,"dj":420,"dref":420,"z":1,"tr":"Ramal","ramal":"Ramal P-102","bloco":3,"ref":"DJ","path":["DJ"],"prox":"RL-A","post":["RL-A","03-A","03-B"],"c88":""},{"id":"TR-037","a":[-9.6057492,-48.4469024],"b":[-9.6061444,-48.4469024],"ini":"P-209","fim":"P-276","ext":43.951,"dj":463,"dref":44,"z":2,"tr":"Ramal","ramal":"Ramal P-102","bloco":4,"ref":"RL-A","path":["DJ","RL-A"],"prox":"03-A","post":["03-A","03-B"],"c88":""},{"id":"TR-038","a":[-9.6061444,-48.4469024],"b":[-9.6065397,-48.4469024],"ini":"P-276","fim":"P-277","ext":43.951,"dj":507,"dref":88,"z":2,"tr":"Ramal","ramal":"Ramal P-102","bloco":4,"ref":"RL-A","path":["DJ","RL-A"],"prox":"03-A","post":["03-A","03-B"],"c88":""},{"id":"TR-039","a":[-9.6065397,-48.4469024],"b":[-9.606935,-48.4469024],"ini":"P-277","fim":"P-278","ext":43.951,"dj":551,"dref":132,"z":2,"tr":"Ramal","ramal":"Ramal P-102","bloco":4,"ref":"RL-A","path":["DJ","RL-A"],"prox":"03-A","post":["03-A","03-B"],"c88":""},{"id":"TR-040","a":[-9.606935,-48.4469024],"b":[-9.6073302,-48.4469024],"ini":"P-278","fim":"P-279","ext":43.951,"dj":595,"dref":176,"z":2,"tr":"Ramal","ramal":"Ramal P-102","bloco":4,"ref":"RL-A","path":["DJ","RL-A"],"prox":"03-A","post":["03-A","03-B"],"c88":""},{"id":"TR-041","a":[-9.6073302,-48.4469024],"b":[-9.6077255,-48.4469024],"ini":"P-279","fim":"P-210","ext":43.951,"dj":639,"dref":220,"z":2,"tr":"Ramal","ramal":"Ramal P-102","bloco":4,"ref":"RL-A","path":["DJ","RL-A"],"prox":"03-A","post":["03-A","03-B"],"c88":""},{"id":"TR-042","a":[-9.6077255,-48.4469024],"b":[-9.6080848,-48.4469024],"ini":"P-210","fim":"P-280","ext":39.955,"dj":679,"dref":40,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-043","a":[-9.6080848,-48.4469024],"b":[-9.6084441,-48.4469024],"ini":"P-280","fim":"P-281","ext":39.955,"dj":719,"dref":80,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-044","a":[-9.6084441,-48.4469024],"b":[-9.6088034,-48.4469024],"ini":"P-281","fim":"P-282","ext":39.955,"dj":759,"dref":120,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-045","a":[-9.6088034,-48.4469024],"b":[-9.6091628,-48.4469024],"ini":"P-282","fim":"P-283","ext":39.955,"dj":799,"dref":160,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-046","a":[-9.6091628,-48.4469024],"b":[-9.6095221,-48.4469024],"ini":"P-283","fim":"P-120","ext":39.955,"dj":839,"dref":200,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-047","a":[-9.6095221,-48.4469024],"b":[-9.6095221,-48.4465076],"ini":"P-120","fim":"P-284","ext":43.283,"dj":882,"dref":243,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-048","a":[-9.6095221,-48.4465076],"b":[-9.6095221,-48.4461128],"ini":"P-284","fim":"P-285","ext":43.283,"dj":926,"dref":286,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-049","a":[-9.6095221,-48.4461128],"b":[-9.6095221,-48.445718],"ini":"P-285","fim":"P-286","ext":43.283,"dj":969,"dref":330,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-050","a":[-9.6095221,-48.445718],"b":[-9.6095221,-48.4453232],"ini":"P-286","fim":"P-287","ext":43.283,"dj":1012,"dref":373,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-051","a":[-9.6095221,-48.4453232],"b":[-9.6095221,-48.4449284],"ini":"P-287","fim":"P-288","ext":43.283,"dj":1055,"dref":416,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-052","a":[-9.6095221,-48.4449284],"b":[-9.6095221,-48.4445336],"ini":"P-288","fim":"P-211","ext":43.283,"dj":1099,"dref":459,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":["03-B"],"c88":""},{"id":"TR-053","a":[-9.6095221,-48.4469024],"b":[-9.6098814,-48.4469024],"ini":"P-120","fim":"P-294","ext":39.955,"dj":879,"dref":240,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":[],"c88":""},{"id":"TR-054","a":[-9.6098814,-48.4469024],"b":[-9.6102407,-48.4469024],"ini":"P-294","fim":"P-295","ext":39.955,"dj":919,"dref":280,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":[],"c88":""},{"id":"TR-055","a":[-9.6102407,-48.4469024],"b":[-9.6106001,-48.4469024],"ini":"P-295","fim":"P-296","ext":39.955,"dj":959,"dref":320,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":[],"c88":""},{"id":"TR-056","a":[-9.6106001,-48.4469024],"b":[-9.6109594,-48.4469024],"ini":"P-296","fim":"P-297","ext":39.955,"dj":999,"dref":360,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":[],"c88":""},{"id":"TR-057","a":[-9.6109594,-48.4469024],"b":[-9.6113187,-48.4469024],"ini":"P-297","fim":"P-124","ext":39.955,"dj":1039,"dref":400,"z":3,"tr":"Ramal","ramal":"Ramal P-102","bloco":5,"ref":"03-A","path":["DJ","RL-A","03-A"],"prox":"03-B / fim P-124","post":[],"c88":""},{"id":"TR-058","a":[-9.6095221,-48.4445336],"b":[-9.6095221,-48.4441692],"ini":"P-211","fim":"P-289","ext":39.954,"dj":1139,"dref":40,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-059","a":[-9.6095221,-48.4441692],"b":[-9.6095221,-48.4438047],"ini":"P-289","fim":"P-290","ext":39.954,"dj":1179,"dref":80,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-060","a":[-9.6095221,-48.4438047],"b":[-9.6095221,-48.4434403],"ini":"P-290","fim":"P-291","ext":39.954,"dj":1219,"dref":120,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-061","a":[-9.6095221,-48.4434403],"b":[-9.6095221,-48.4430759],"ini":"P-291","fim":"P-292","ext":39.954,"dj":1259,"dref":160,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-062","a":[-9.6095221,-48.4430759],"b":[-9.6095221,-48.4427114],"ini":"P-292","fim":"P-293","ext":39.954,"dj":1299,"dref":200,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-063","a":[-9.6095221,-48.4427114],"b":[-9.6095221,-48.442347],"ini":"P-293","fim":"P-127","ext":39.954,"dj":1338,"dref":240,"z":4,"tr":"Ramal","ramal":"Ramal P-102","bloco":6,"ref":"03-B","path":["DJ","RL-A","03-A","03-B"],"prox":"fim P-127","post":[],"c88":""},{"id":"TR-064","a":[-9.6039526,-48.444898],"b":[-9.6035932,-48.444898],"ini":"P-105","fim":"P-298","ext":39.955,"dj":479,"dref":479,"z":1,"tr":"Ramal","ramal":"Ramal P-105","bloco":7,"ref":"DJ","path":["DJ"],"prox":"03-C","post":["03-C"],"c88":""},{"id":"TR-065","a":[-9.6035932,-48.444898],"b":[-9.6032339,-48.444898],"ini":"P-298","fim":"P-299","ext":39.955,"dj":519,"dref":519,"z":1,"tr":"Ramal","ramal":"Ramal P-105","bloco":7,"ref":"DJ","path":["DJ"],"prox":"03-C","post":["03-C"],"c88":""},{"id":"TR-066","a":[-9.6032339,-48.444898],"b":[-9.6028746,-48.444898],"ini":"P-299","fim":"P-300","ext":39.955,"dj":559,"dref":559,"z":1,"tr":"Ramal","ramal":"Ramal P-105","bloco":7,"ref":"DJ","path":["DJ"],"prox":"03-C","post":["03-C"],"c88":""},{"id":"TR-067","a":[-9.6028746,-48.444898],"b":[-9.6025153,-48.444898],"ini":"P-300","fim":"P-301","ext":39.955,"dj":599,"dref":599,"z":1,"tr":"Ramal","ramal":"Ramal P-105","bloco":7,"ref":"DJ","path":["DJ"],"prox":"03-C","post":["03-C"],"c88":""},{"id":"TR-068","a":[-9.6025153,-48.444898],"b":[-9.6021559,-48.444898],"ini":"P-301","fim":"P-212","ext":39.955,"dj":639,"dref":639,"z":1,"tr":"Ramal","ramal":"Ramal P-105","bloco":7,"ref":"DJ","path":["DJ"],"prox":"03-C","post":["03-C"],"c88":""},{"id":"TR-069","a":[-9.6021559,-48.444898],"b":[-9.6017966,-48.444898],"ini":"P-212","fim":"P-302","ext":39.955,"dj":679,"dref":40,"z":3,"tr":"Ramal","ramal":"Ramal P-105","bloco":8,"ref":"03-C","path":["DJ","03-C"],"prox":"fim P-110","post":[],"c88":""},{"id":"TR-070","a":[-9.6017966,-48.444898],"b":[-9.6014373,-48.444898],"ini":"P-302","fim":"P-303","ext":39.955,"dj":719,"dref":80,"z":3,"tr":"Ramal","ramal":"Ramal P-105","bloco":8,"ref":"03-C","path":["DJ","03-C"],"prox":"fim P-110","post":[],"c88":""},{"id":"TR-071","a":[-9.6014373,-48.444898],"b":[-9.601078,-48.444898],"ini":"P-303","fim":"P-304","ext":39.955,"dj":759,"dref":120,"z":3,"tr":"Ramal","ramal":"Ramal P-105","bloco":8,"ref":"03-C","path":["DJ","03-C"],"prox":"fim P-110","post":[],"c88":""},{"id":"TR-072","a":[-9.601078,-48.444898],"b":[-9.6007186,-48.444898],"ini":"P-304","fim":"P-110","ext":39.955,"dj":799,"dref":160,"z":3,"tr":"Ramal","ramal":"Ramal P-105","bloco":8,"ref":"03-C","path":["DJ","03-C"],"prox":"fim P-110","post":[],"c88":""},{"id":"TR-073","a":[-9.6039526,-48.4408893],"b":[-9.6043478,-48.4408893],"ini":"P-131","fim":"P-305","ext":43.951,"dj":923,"dref":264,"z":2,"tr":"Ramal","ramal":"Ramal P-131","bloco":9,"ref":"RL1","path":["DJ","RL1"],"prox":"03-D","post":["03-D"],"c88":""},{"id":"TR-074","a":[-9.6043478,-48.4408893],"b":[-9.6047431,-48.4408893],"ini":"P-305","fim":"P-306","ext":43.951,"dj":967,"dref":308,"z":2,"tr":"Ramal","ramal":"Ramal P-131","bloco":9,"ref":"RL1","path":["DJ","RL1"],"prox":"03-D","post":["03-D"],"c88":""},{"id":"TR-075","a":[-9.6047431,-48.4408893],"b":[-9.6051383,-48.4408893],"ini":"P-306","fim":"P-307","ext":43.951,"dj":1011,"dref":352,"z":2,"tr":"Ramal","ramal":"Ramal P-131","bloco":9,"ref":"RL1","path":["DJ","RL1"],"prox":"03-D","post":["03-D"],"c88":""},{"id":"TR-076","a":[-9.6051383,-48.4408893],"b":[-9.6055336,-48.4408893],"ini":"P-307","fim":"P-308","ext":43.951,"dj":1055,"dref":396,"z":2,"tr":"Ramal","ramal":"Ramal P-131","bloco":9,"ref":"RL1","path":["DJ","RL1"],"prox":"03-D","post":["03-D"],"c88":""},{"id":"TR-077","a":[-9.6055336,-48.4408893],"b":[-9.6059289,-48.4408893],"ini":"P-308","fim":"P-213","ext":43.951,"dj":1099,"dref":440,"z":2,"tr":"Ramal","ramal":"Ramal P-131","bloco":9,"ref":"RL1","path":["DJ","RL1"],"prox":"03-D","post":["03-D"],"c88":""},{"id":"TR-078","a":[-9.6059289,-48.4408893],"b":[-9.6063241,-48.4408893],"ini":"P-213","fim":"P-309","ext":43.951,"dj":1143,"dref":44,"z":3,"tr":"Ramal","ramal":"Ramal P-131","bloco":10,"ref":"03-D","path":["DJ","RL1","03-D"],"prox":"fim P-135","post":[],"c88":""},{"id":"TR-079","a":[-9.6063241,-48.4408893],"b":[-9.6067194,-48.4408893],"ini":"P-309","fim":"P-310","ext":43.951,"dj":1187,"dref":88,"z":3,"tr":"Ramal","ramal":"Ramal P-131","bloco":10,"ref":"03-D","path":["DJ","RL1","03-D"],"prox":"fim P-135","post":[],"c88":""},{"id":"TR-080","a":[-9.6067194,-48.4408893],"b":[-9.6071146,-48.4408893],"ini":"P-310","fim":"P-311","ext":43.951,"dj":1231,"dref":132,"z":3,"tr":"Ramal","ramal":"Ramal P-131","bloco":10,"ref":"03-D","path":["DJ","RL1","03-D"],"prox":"fim P-135","post":[],"c88":""},{"id":"TR-081","a":[-9.6071146,-48.4408893],"b":[-9.6075099,-48.4408893],"ini":"P-311","fim":"P-312","ext":43.951,"dj":1275,"dref":176,"z":3,"tr":"Ramal","ramal":"Ramal P-131","bloco":10,"ref":"03-D","path":["DJ","RL1","03-D"],"prox":"fim P-135","post":[],"c88":""},{"id":"TR-082","a":[-9.6075099,-48.4408893],"b":[-9.6079051,-48.4408893],"ini":"P-312","fim":"P-135","ext":43.951,"dj":1319,"dref":220,"z":3,"tr":"Ramal","ramal":"Ramal P-131","bloco":10,"ref":"03-D","path":["DJ","RL1","03-D"],"prox":"fim P-135","post":[],"c88":""},{"id":"TR-083","a":[-9.6039526,-48.4388849],"b":[-9.6035932,-48.4388849],"ini":"P-138","fim":"P-313","ext":39.955,"dj":1139,"dref":479,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-084","a":[-9.6035932,-48.4388849],"b":[-9.6032339,-48.4388849],"ini":"P-313","fim":"P-314","ext":39.955,"dj":1179,"dref":519,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-085","a":[-9.6032339,-48.4388849],"b":[-9.6028746,-48.4388849],"ini":"P-314","fim":"P-315","ext":39.955,"dj":1219,"dref":559,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-086","a":[-9.6028746,-48.4388849],"b":[-9.6025153,-48.4388849],"ini":"P-315","fim":"P-316","ext":39.955,"dj":1259,"dref":599,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-087","a":[-9.6025153,-48.4388849],"b":[-9.6021559,-48.4388849],"ini":"P-316","fim":"P-317","ext":39.955,"dj":1299,"dref":639,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-088","a":[-9.6021559,-48.4388849],"b":[-9.6017966,-48.4388849],"ini":"P-317","fim":"P-318","ext":39.955,"dj":1338,"dref":679,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-089","a":[-9.6017966,-48.4388849],"b":[-9.6014373,-48.4388849],"ini":"P-318","fim":"P-319","ext":39.955,"dj":1378,"dref":719,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-090","a":[-9.6014373,-48.4388849],"b":[-9.601078,-48.4388849],"ini":"P-319","fim":"P-140","ext":39.955,"dj":1418,"dref":759,"z":2,"tr":"Ramal","ramal":"Ramal P-138","bloco":11,"ref":"RL1","path":["DJ","RL1"],"prox":"fim P-140","post":[],"c88":""},{"id":"TR-091","a":[-9.6039526,-48.4368806],"b":[-9.6039526,-48.4365162],"ini":"P-204","fim":"P-238","ext":39.955,"dj":1358,"dref":40,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-092","a":[-9.6039526,-48.4365162],"b":[-9.6039526,-48.4361517],"ini":"P-238","fim":"P-239","ext":39.955,"dj":1398,"dref":80,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-093","a":[-9.6039526,-48.4361517],"b":[-9.6039526,-48.4357873],"ini":"P-239","fim":"P-240","ext":39.955,"dj":1438,"dref":120,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-094","a":[-9.6039526,-48.4357873],"b":[-9.6039526,-48.4354229],"ini":"P-240","fim":"P-241","ext":39.955,"dj":1478,"dref":160,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-095","a":[-9.6039526,-48.4354229],"b":[-9.6039526,-48.4350585],"ini":"P-241","fim":"P-242","ext":39.955,"dj":1518,"dref":200,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-096","a":[-9.6039526,-48.4350585],"b":[-9.6039526,-48.434694],"ini":"P-242","fim":"P-160","ext":39.955,"dj":1558,"dref":240,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3","03-E","03-F"],"c88":""},{"id":"TR-097","a":[-9.6039526,-48.434694],"b":[-9.6035932,-48.434694],"ini":"P-160","fim":"P-243","ext":39.955,"dj":1598,"dref":280,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3"],"c88":""},{"id":"TR-098","a":[-9.6035932,-48.434694],"b":[-9.6032339,-48.434694],"ini":"P-243","fim":"P-244","ext":39.955,"dj":1638,"dref":320,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3"],"c88":""},{"id":"TR-099","a":[-9.6032339,-48.434694],"b":[-9.6028746,-48.434694],"ini":"P-244","fim":"P-245","ext":39.955,"dj":1678,"dref":360,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3"],"c88":""},{"id":"TR-100","a":[-9.6028746,-48.434694],"b":[-9.6025153,-48.434694],"ini":"P-245","fim":"P-246","ext":39.955,"dj":1718,"dref":400,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3"],"c88":""},{"id":"TR-101","a":[-9.6025153,-48.434694],"b":[-9.6021559,-48.434694],"ini":"P-246","fim":"P-205","ext":39.955,"dj":1758,"dref":440,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["RL3"],"c88":""},{"id":"TR-102","a":[-9.6039526,-48.434694],"b":[-9.6039526,-48.4343296],"ini":"P-160","fim":"P-250","ext":39.955,"dj":1598,"dref":280,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-103","a":[-9.6039526,-48.4343296],"b":[-9.6039526,-48.4339652],"ini":"P-250","fim":"P-251","ext":39.955,"dj":1638,"dref":320,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-104","a":[-9.6039526,-48.4339652],"b":[-9.6039526,-48.4336007],"ini":"P-251","fim":"P-252","ext":39.955,"dj":1678,"dref":360,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-105","a":[-9.6039526,-48.4336007],"b":[-9.6039526,-48.4332363],"ini":"P-252","fim":"P-253","ext":39.955,"dj":1718,"dref":400,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-106","a":[-9.6039526,-48.4332363],"b":[-9.6039526,-48.4328719],"ini":"P-253","fim":"P-254","ext":39.955,"dj":1758,"dref":440,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-107","a":[-9.6039526,-48.4328719],"b":[-9.6039526,-48.4325075],"ini":"P-254","fim":"P-206","ext":39.955,"dj":1798,"dref":479,"z":3,"tr":"Ramal","ramal":"Ramal após RL2","bloco":12,"ref":"RL2","path":["DJ","RL1","RL2"],"prox":"RL3 / 03-E","post":["03-E","03-F"],"c88":""},{"id":"TR-108","a":[-9.6021559,-48.434694],"b":[-9.6017966,-48.434694],"ini":"P-205","fim":"P-247","ext":39.955,"dj":1798,"dref":40,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":13,"ref":"RL3","path":["DJ","RL1","RL2","RL3"],"prox":"fim P-171","post":[],"c88":""},{"id":"TR-109","a":[-9.6017966,-48.434694],"b":[-9.6014373,-48.434694],"ini":"P-247","fim":"P-248","ext":39.955,"dj":1838,"dref":80,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":13,"ref":"RL3","path":["DJ","RL1","RL2","RL3"],"prox":"fim P-171","post":[],"c88":""},{"id":"TR-110","a":[-9.6014373,-48.434694],"b":[-9.601078,-48.434694],"ini":"P-248","fim":"P-249","ext":39.955,"dj":1878,"dref":120,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":13,"ref":"RL3","path":["DJ","RL1","RL2","RL3"],"prox":"fim P-171","post":[],"c88":""},{"id":"TR-111","a":[-9.601078,-48.434694],"b":[-9.6007186,-48.434694],"ini":"P-249","fim":"P-171","ext":39.955,"dj":1918,"dref":160,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":13,"ref":"RL3","path":["DJ","RL1","RL2","RL3"],"prox":"fim P-171","post":[],"c88":""},{"id":"TR-112","a":[-9.6039526,-48.4325075],"b":[-9.6039526,-48.432143],"ini":"P-206","fim":"P-255","ext":39.955,"dj":1838,"dref":40,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-113","a":[-9.6039526,-48.432143],"b":[-9.6039526,-48.4317786],"ini":"P-255","fim":"P-256","ext":39.955,"dj":1878,"dref":80,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-114","a":[-9.6039526,-48.4317786],"b":[-9.6039526,-48.4314142],"ini":"P-256","fim":"P-257","ext":39.955,"dj":1918,"dref":120,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-115","a":[-9.6039526,-48.4314142],"b":[-9.6039526,-48.4310497],"ini":"P-257","fim":"P-207","ext":39.955,"dj":1958,"dref":160,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":"88-B"},{"id":"TR-116","a":[-9.6039526,-48.4310497],"b":[-9.6039526,-48.4306853],"ini":"P-207","fim":"P-258","ext":39.955,"dj":1998,"dref":200,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-117","a":[-9.6039526,-48.4306853],"b":[-9.6039526,-48.4303209],"ini":"P-258","fim":"P-190","ext":39.955,"dj":2038,"dref":240,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-118","a":[-9.6039526,-48.4303209],"b":[-9.6035932,-48.4303209],"ini":"P-190","fim":"P-259","ext":39.955,"dj":2078,"dref":280,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-119","a":[-9.6035932,-48.4303209],"b":[-9.6032339,-48.4303209],"ini":"P-259","fim":"P-260","ext":39.955,"dj":2118,"dref":320,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-120","a":[-9.6032339,-48.4303209],"b":[-9.6028746,-48.4303209],"ini":"P-260","fim":"P-261","ext":39.955,"dj":2158,"dref":360,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-121","a":[-9.6028746,-48.4303209],"b":[-9.6025153,-48.4303209],"ini":"P-261","fim":"P-262","ext":39.955,"dj":2198,"dref":400,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-122","a":[-9.6025153,-48.4303209],"b":[-9.6021559,-48.4303209],"ini":"P-262","fim":"P-208","ext":39.955,"dj":2237,"dref":440,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":["03-F"],"c88":""},{"id":"TR-123","a":[-9.6039526,-48.4303209],"b":[-9.6043119,-48.4303209],"ini":"P-190","fim":"P-266","ext":39.955,"dj":2078,"dref":280,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-124","a":[-9.6043119,-48.4303209],"b":[-9.6046712,-48.4303209],"ini":"P-266","fim":"P-267","ext":39.955,"dj":2118,"dref":320,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-125","a":[-9.6046712,-48.4303209],"b":[-9.6050305,-48.4303209],"ini":"P-267","fim":"P-268","ext":39.955,"dj":2158,"dref":360,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-126","a":[-9.6050305,-48.4303209],"b":[-9.6053899,-48.4303209],"ini":"P-268","fim":"P-269","ext":39.955,"dj":2198,"dref":400,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-127","a":[-9.6053899,-48.4303209],"b":[-9.6057492,-48.4303209],"ini":"P-269","fim":"P-270","ext":39.955,"dj":2237,"dref":440,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-128","a":[-9.6057492,-48.4303209],"b":[-9.6061085,-48.4303209],"ini":"P-270","fim":"P-271","ext":39.955,"dj":2277,"dref":479,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-129","a":[-9.6061085,-48.4303209],"b":[-9.6064678,-48.4303209],"ini":"P-271","fim":"P-195","ext":39.955,"dj":2317,"dref":519,"z":4,"tr":"Ramal","ramal":"Ramal após RL2","bloco":14,"ref":"03-E","path":["DJ","RL1","RL2","03-E"],"prox":"03-F / fim P-195","post":[],"c88":""},{"id":"TR-130","a":[-9.6021559,-48.4303209],"b":[-9.6017966,-48.4303209],"ini":"P-208","fim":"P-263","ext":39.955,"dj":2277,"dref":40,"z":5,"tr":"Ramal","ramal":"Ramal após RL2","bloco":15,"ref":"03-F","path":["DJ","RL1","RL2","03-E","03-F"],"prox":"fim P-199","post":[],"c88":""},{"id":"TR-131","a":[-9.6017966,-48.4303209],"b":[-9.6014373,-48.4303209],"ini":"P-263","fim":"P-264","ext":39.955,"dj":2317,"dref":80,"z":5,"tr":"Ramal","ramal":"Ramal após RL2","bloco":15,"ref":"03-F","path":["DJ","RL1","RL2","03-E","03-F"],"prox":"fim P-199","post":[],"c88":""},{"id":"TR-132","a":[-9.6014373,-48.4303209],"b":[-9.601078,-48.4303209],"ini":"P-264","fim":"P-265","ext":39.955,"dj":2357,"dref":120,"z":5,"tr":"Ramal","ramal":"Ramal após RL2","bloco":15,"ref":"03-F","path":["DJ","RL1","RL2","03-E","03-F"],"prox":"fim P-199","post":[],"c88":""},{"id":"TR-133","a":[-9.601078,-48.4303209],"b":[-9.6007186,-48.4303209],"ini":"P-265","fim":"P-199","ext":39.955,"dj":2397,"dref":160,"z":5,"tr":"Ramal","ramal":"Ramal após RL2","bloco":15,"ref":"03-F","path":["DJ","RL1","RL2","03-E","03-F"],"prox":"fim P-199","post":[],"c88":""}],"ativos":[{"nome":"DJ","t":"DJ","lat":-9.6039526,"lon":-48.4489067,"zin":null,"zout":1,"poste":"P-201","post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"path":["DJ"],"bloco":null},{"nome":"RL1","t":"79","lat":-9.6039526,"lon":-48.4428937,"zin":1,"zout":2,"poste":"P-202","post":["RL2","RL3","03-E","03-F","03-D"],"path":["DJ","RL1"],"bloco":1},{"nome":"88-A","t":"88","lat":-9.6039526,"lon":-48.4398871,"zin":2,"zout":2,"poste":"P-203","post":["RL2","RL3","03-E","03-F"],"path":["DJ","RL1"],"bloco":2},{"nome":"RL2","t":"79","lat":-9.6039526,"lon":-48.4368806,"zin":2,"zout":3,"poste":"P-204","post":["RL3","03-E","03-F"],"path":["DJ","RL1","RL2"],"bloco":2},{"nome":"RL-A","t":"79","lat":-9.6057492,"lon":-48.4469024,"zin":1,"zout":2,"poste":"P-209","post":["03-A","03-B"],"path":["DJ","RL-A"],"bloco":3},{"nome":"03-A","t":"03","lat":-9.6077255,"lon":-48.4469024,"zin":2,"zout":3,"poste":"P-210","post":["03-B"],"path":["DJ","RL-A","03-A"],"bloco":4},{"nome":"03-B","t":"03","lat":-9.6095221,"lon":-48.4445336,"zin":3,"zout":4,"poste":"P-211","post":[],"path":["DJ","RL-A","03-A","03-B"],"bloco":5},{"nome":"03-C","t":"03","lat":-9.6021559,"lon":-48.444898,"zin":1,"zout":3,"poste":"P-212","post":[],"path":["DJ","03-C"],"bloco":7},{"nome":"03-D","t":"03","lat":-9.6059289,"lon":-48.4408893,"zin":2,"zout":3,"poste":"P-213","post":[],"path":["DJ","RL1","03-D"],"bloco":9},{"nome":"RL3","t":"79","lat":-9.6021559,"lon":-48.434694,"zin":3,"zout":4,"poste":"P-205","post":[],"path":["DJ","RL1","RL2","RL3"],"bloco":12},{"nome":"03-E","t":"03","lat":-9.6039526,"lon":-48.4325075,"zin":3,"zout":4,"poste":"P-206","post":["03-F"],"path":["DJ","RL1","RL2","03-E"],"bloco":12},{"nome":"88-B","t":"88","lat":-9.6039526,"lon":-48.4310497,"zin":4,"zout":4,"poste":"P-207","post":["03-F"],"path":["DJ","RL1","RL2","03-E"],"bloco":14},{"nome":"03-F","t":"03","lat":-9.6021559,"lon":-48.4303209,"zin":4,"zout":5,"poste":"P-208","post":[],"path":["DJ","RL1","RL2","03-E","03-F"],"bloco":14}],"blocos":[{"n":1,"z":1,"r":"Tronco","ref":"DJ","de":"DJ","ate":["RL1"],"path":["DJ"],"post":["RL1","RL2","RL3","03-E","03-F","03-D","03-C","RL-A","03-A","03-B"],"c88":[],"qtd":15,"ext":659,"pos":[-9.6039526,-48.4459002]},{"n":2,"z":2,"r":"Tronco","ref":"RL1","de":"RL1","ate":["RL2"],"path":["DJ","RL1"],"post":["RL2","RL3","03-E","03-F","03-D"],"c88":["88-A"],"qtd":16,"ext":659,"pos":[-9.6039526,-48.4397201]},{"n":3,"z":1,"r":"Ramal P-102","ref":"DJ","de":"poste P-102","ate":["RL-A"],"path":["DJ"],"post":["RL-A","03-A","03-B"],"c88":[],"qtd":5,"ext":200,"pos":[-9.6048509,-48.4469024]},{"n":4,"z":2,"r":"Ramal P-102","ref":"RL-A","de":"RL-A","ate":["03-A"],"path":["DJ","RL-A"],"post":["03-A","03-B"],"c88":[],"qtd":5,"ext":220,"pos":[-9.6067373,-48.4469024]},{"n":5,"z":3,"r":"Ramal P-102","ref":"03-A","de":"03-A","ate":["03-B","fim P-124"],"path":["DJ","RL-A","03-A"],"post":["03-B"],"c88":[],"qtd":16,"ext":659,"pos":[-9.6095221,-48.446705]},{"n":6,"z":4,"r":"Ramal P-102","ref":"03-B","de":"03-B","ate":["fim P-127"],"path":["DJ","RL-A","03-A","03-B"],"post":[],"c88":[],"qtd":6,"ext":240,"pos":[-9.6095221,-48.4432581]},{"n":7,"z":1,"r":"Ramal P-105","ref":"DJ","de":"poste P-105","ate":["03-C"],"path":["DJ"],"post":["03-C"],"c88":[],"qtd":5,"ext":200,"pos":[-9.6030543,-48.444898]},{"n":8,"z":3,"r":"Ramal P-105","ref":"03-C","de":"03-C","ate":["fim P-110"],"path":["DJ","03-C"],"post":[],"c88":[],"qtd":4,"ext":160,"pos":[-9.6012576,-48.444898]},{"n":9,"z":2,"r":"Ramal P-131","ref":"RL1","de":"poste P-131","ate":["03-D"],"path":["DJ","RL1"],"post":["03-D"],"c88":[],"qtd":5,"ext":220,"pos":[-9.6049407,-48.4408893]},{"n":10,"z":3,"r":"Ramal P-131","ref":"03-D","de":"03-D","ate":["fim P-135"],"path":["DJ","RL1","03-D"],"post":[],"c88":[],"qtd":5,"ext":220,"pos":[-9.606917,-48.4408893]},{"n":11,"z":2,"r":"Ramal P-138","ref":"RL1","de":"poste P-138","ate":["fim P-140"],"path":["DJ","RL1"],"post":[],"c88":[],"qtd":8,"ext":320,"pos":[-9.6023356,-48.4388849]},{"n":12,"z":3,"r":"Ramal após RL2","ref":"RL2","de":"RL2","ate":["RL3","03-E"],"path":["DJ","RL1","RL2"],"post":["RL3","03-E","03-F"],"c88":[],"qtd":17,"ext":679,"pos":[-9.6039526,-48.4348762]},{"n":13,"z":4,"r":"Ramal após RL2","ref":"RL3","de":"RL3","ate":["fim P-171"],"path":["DJ","RL1","RL2","RL3"],"post":[],"c88":[],"qtd":4,"ext":160,"pos":[-9.6012576,-48.434694]},{"n":14,"z":4,"r":"Ramal após RL2","ref":"03-E","de":"03-E","ate":["03-F","fim P-195"],"path":["DJ","RL1","RL2","03-E"],"post":["03-F"],"c88":["88-B"],"qtd":18,"ext":719,"pos":[-9.6039526,-48.4305031]},{"n":15,"z":5,"r":"Ramal após RL2","ref":"03-F","de":"03-F","ate":["fim P-199"],"path":["DJ","RL1","RL2","03-E","03-F"],"post":[],"c88":[],"qtd":4,"ext":160,"pos":[-9.6012576,-48.4303209]}],"defeito":"TR-132","avisos":[]};
+const ZP = ['#3b82f6','#22c55e','#facc15','#f97316','#d946ef','#ec4899','#818cf8','#2dd4bf'];
+const ZC = new Proxy({}, {get:(_,z)=>ZP[Math.min(+z,ZP.length)-1]});
+const NV = Math.max(...D.blocos.map(b=>b.path.length));
+const PROT = new Set(['DJ','79','03']);
+if (D.avisos && D.avisos.length){ const e=document.getElementById('avisos'); e.hidden=false; e.textContent='Avisos: '+D.avisos.join(' '); }
+const BCOL = ['#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#46f0f0','#f032e6','#bcf60c','#fabebe','#008080','#e6beff','#9a6324','#fffac8','#aaffc3'];
+const RAMAIS = [...new Set(D.blocos.map(b=>b.r))];
+const RCOL = {'Tronco':'#ef4444'}; ['#38bdf8','#f472b6','#a3e635','#fbbf24','#c084fc','#2dd4bf'].forEach((c,i)=>{ if(RAMAIS[i+1]) RCOL[RAMAIS[i+1]]=c; });
+const fmt = n => Math.round(n).toLocaleString('pt-BR');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byId = Object.fromEntries(D.trechos.map(t=>[t.id,t]));
+const byFim = Object.fromEntries(D.trechos.map(t=>[t.fim,t]));
+const ativo = Object.fromEntries(D.ativos.map(a=>[a.nome,a]));
+const crumb = arr => arr.map(esc).join('<span class="sep">›</span>');
+
+// ---------- tabela "Árvore de blocos" (mesma lógica da aba do Excel)
+(function(){
+  const t = document.getElementById('arvore');
+  let h = '<thead><tr><th>Bloco</th><th>Zona</th>'+Array.from({length:NV},(_,i)=>`<th>Nível ${i+1}</th>`).join('')+'<th>De</th><th>Até</th><th>Vãos</th><th>Extensão (m)</th><th>Chaves 88</th><th>Ativos englobados</th></tr></thead><tbody>';
+  const tit = r => r==='Tronco' ? 'TRONCO — do DJ até o 2º religador' : r.startsWith('Ramal após') ? r.toUpperCase()+' — tudo depois do 2º religador' : r.toUpperCase()+' — sai do tronco no poste '+r.split(' ').pop();
+  RAMAIS.forEach(r=>{
+    h += `<tr class="grp"><td colspan="${NV+8}">${esc(tit(r))}</td></tr>`;
+    D.blocos.filter(b=>b.r===r).forEach(b=>{
+      const zs = `var(--z${b.z}s)`;
+      let lv=''; for(let i=0;i<NV;i++){ const a=b.path[i]; lv += a===undefined?'<td class="lv"></td>':`<td class="lv${i===b.path.length-1?' ref':''}" style="--zs:${zs}">${esc(a)}</td>`; }
+      h += `<tr><td class="num"><b>${b.n}</b></td><td class="zt" style="--zs:${zs}">T${b.z}</td>${lv}<td class="mono">${esc(b.de)}</td><td class="mono">${esc(b.ate.join(' / '))}</td><td class="num">${b.qtd}</td><td class="num">${fmt(b.ext)}</td><td class="mono">${esc(b.c88.join(', ')||'—')}</td><td class="mono">${esc(b.post.join(', ')||'—')}</td></tr>`;
+    });
+  });
+  t.innerHTML = h + '</tbody>';
+})();
+
+// ---------- mapa
+if (!window.L) { document.getElementById('nolib').hidden = false; }
+else {
+const map = L.map('map', {zoomControl:true, attributionControl:true, zoomSnap:0.25, zoomDelta:0.5, preferCanvas:true});
+const mapEl = document.getElementById('map');
+map.on('zoomend', ()=> mapEl.classList.toggle('small', map.getZoom() < 14.5));
+const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom:20, maxNativeZoom:18,
+  attribution:'Imagem © Esri — Esri, Maxar, Earthstar Geographics, GIS User Community'}).addTo(map);
+let tilesOk = 0; sat.on('tileload', ()=>{ tilesOk++; document.getElementById('nosat').hidden = true; });
+setTimeout(()=>{ if(!tilesOk) document.getElementById('nosat').hidden = false; }, 5000);
+
+const layer = L.layerGroup().addTo(map), overlay = L.layerGroup().addTo(map);
+// três passadas: contorno escuro de todos, depois as linhas coloridas, depois a área de toque
+const casings = D.trechos.map(t=>L.polyline([t.a,t.b], {color:'#0b0f12', weight:9, opacity:.55, lineCap:'round', interactive:false}).addTo(layer));
+const lines = D.trechos.map((t,i)=>({t, casing:casings[i], line:L.polyline([t.a,t.b], {weight:5, lineCap:'round', interactive:false}).addTo(layer)}));
+D.trechos.forEach(t=>L.polyline([t.a,t.b], {weight:18, opacity:0}).on('click', e=>onTrecho(t, e.latlng)).addTo(layer));
+const markers = D.ativos.map(a=>{
+  const m = L.marker([a.lat,a.lon], {icon:L.divIcon({className:'', html:`<div class="dv${a.t==='88'?' c88':''}" data-a="${esc(a.nome)}"><b>${a.t}</b>${a.t==='DJ'?'':`<span>${esc(a.nome)}</span>`}</div>`, iconSize:[90,24], iconAnchor:[17,12]}), keyboard:false, zIndexOffset:500}).addTo(map);
+  m.on('click', ()=>{ if (PROT.has(a.t)) setView('engloba', a.nome); else L.popup().setLatLng([a.lat,a.lon]).setContent(`<b class="mono">${esc(a.nome)}</b> · chave 88 · poste ${esc(a.poste)}<br>Bloco ${a.bloco} · T${a.zout}<br>Depois dela: <span class="mono">${esc(a.post.join(', ')||'—')}</span>`).openOn(map); });
+  return {a, m};
+});
+map.fitBounds(L.latLngBounds(D.trechos.flatMap(t=>[t.a,t.b])), {padding:[30,30]});
+
+function vert(t){ return Math.abs(t.a[0]-t.b[0]) > Math.abs(t.a[1]-t.b[1]); }
+function mid(t){ return [(t.a[0]+t.b[0])/2, (t.a[1]+t.b[1])/2]; }
+function midOf(list){ return mid(list[Math.floor(list.length/2)]); }
+function styleAll(fn){ lines.forEach(o=>{ const s = fn(o.t); o.line.setStyle({color:s.c, weight:s.w, opacity:s.o??1, dashArray:s.d||null}); o.casing.setStyle({weight:s.w+4, opacity:(s.o??1)*.55}); }); }
+function markAssets(sel, dimFn){ markers.forEach(({a,m})=>{ const el=m.getElement()?.querySelector('.dv'); if(!el) return; el.classList.toggle('sel', a.nome===sel); el.classList.toggle('dim', !!(dimFn && dimFn(a))); }); }
+function popup(t, at){
+  L.popup().setLatLng(at||mid(t)).setContent(
+    `<b class="mono">${t.id}</b> · ${esc(t.ini)} → ${esc(t.fim)}<br>T${t.z} · ${esc(t.ramal)} · Bloco ${t.bloco}<br>`+
+    `Ativo de referência: <b>${esc(t.ref)}</b> (${fmt(t.dref)} m depois dele)<br><span class="mono">${crumb(t.path)}</span>`).openOn(map);
+}
+
+const P = id => document.getElementById(id);
+const legendRow = (c, txt, thin) => `<div class="row"><i class="sw${thin==='dash'?' thin dash':thin?' thin':''}" style="--c:${c}"></i><span>${txt}</span></div>`;
+const rl2 = D.ativos.find(a=>a.t==='79' && a.path.filter(x=>ativo[x] && ativo[x].t==='79').length===2);
+let view = 'zonas', selAtivo = (rl2 || D.ativos.find(a=>a.t==='79') || D.ativos[0]).nome, selVao = D.defeito || D.trechos[0].id;
+
+const VIEWS = {
+  zonas: {
+    title:'1 · Zonas', desc:'Cada cor é uma zona de proteção. T1 vai do DJ ao 1º religador; cada religador no caminho soma uma zona; depois de uma chave 03 é no mínimo T3.',
+    use:'Serve para: saber em que zona está cada vão e priorizar por zona.',
+    draw(){ styleAll(t=>({c:ZC[t.z], w:t.tr==='Tronco'?7:4.5})); markAssets(null);
+      P('p-legend').innerHTML = [1,2,3,4,5].map(z=>legendRow(ZC[z], `T${z} · ${D.trechos.filter(t=>t.z===z).length} vãos · ${fmt(D.trechos.filter(t=>t.z===z).reduce((s,t)=>s+t.ext,0))} m`)).join('')+legendRow('#ccc','Linha grossa = tronco · fina = ramal',true);
+      P('p-info').innerHTML = '<span class="k">Toque num vão</span><span>Mostra zona, bloco e ativo de referência.</span>'; }
+  },
+  ramais: {
+    title:'2 · Tronco e ramais', desc:'O tronco (vermelho, grosso) vai do DJ até o 2º religador. Cada ramal tem uma cor e o nome do poste onde sai do tronco.',
+    use:'Serve para: dividir o trabalho por ramal e saber de onde cada ramal sai.',
+    draw(){ styleAll(t=>({c:RCOL[t.ramal], w:t.tr==='Tronco'?8:4.5})); markAssets(null);
+      RAMAIS.forEach(r=>{ const ts=D.trechos.filter(t=>t.ramal===r); const p = r==='Tronco'? midOf(ts.slice(0,15)) : mid(ts[0]); const vt = r!=='Tronco' && vert(ts[0]);
+        L.marker(p,{icon:L.divIcon({className:'',html:`<div class="rl" style="--c:${RCOL[r]}">${esc(r)}</div>`,iconSize:[1,1],iconAnchor:vt?[-10,10]:[-8,34]}),interactive:false}).addTo(overlay); });
+      P('p-legend').innerHTML = RAMAIS.map(r=>{ const ts=D.trechos.filter(t=>t.ramal===r); return legendRow(RCOL[r], `${esc(r)} · ${ts.length} vãos · ${fmt(ts.reduce((s,t)=>s+t.ext,0))} m`, r!=='Tronco'); }).join('');
+      P('p-info').innerHTML = '<span class="k">Regra</span><span>Tronco nunca tem T3. Tudo depois do 2º religador é ramal.</span>'; }
+  },
+  blocos: {
+    title:'3 · Blocos', desc:'Cada número é um bloco: os vãos entre um ativo e o(s) próximo(s). O bloco leva o nome do ativo de referência.',
+    use:'Serve para: dizer "o defeito está no bloco do 03-F", a menor parte que um ativo isola.',
+    draw(){ styleAll(t=>({c:BCOL[(t.bloco-1)%BCOL.length], w:t.tr==='Tronco'?7:5}));  markAssets(null);
+      D.blocos.forEach(b=>{ const ts=D.trechos.filter(t=>t.bloco===b.n);
+        L.marker(b.pos,{icon:L.divIcon({className:'',html:`<div class="bb" style="--c:${BCOL[(b.n-1)%BCOL.length]}">${b.n}</div>`,iconSize:[24,24],iconAnchor:vert(ts[0])?[-10,12]:[12,34]}),title:`Bloco ${b.n}`}).on('click',()=>showBloco(b)).addTo(overlay); });
+      P('p-legend').innerHTML = '<span class="k" style="font:600 11.5px var(--f-mono);color:var(--muted)">TOQUE NUM NÚMERO</span>';
+      showBloco(D.blocos.find(b=>b.n===(byId[D.defeito]||{}).bloco) || D.blocos[D.blocos.length-1]); }
+  },
+  engloba: {
+    title:'4 · O que cada ativo engloba', desc:'Escolha um ativo: acende tudo o que fica depois dele. Se esse ativo abrir, esses vãos ficam sem energia.',
+    use:'Serve para: ver o alcance de cada chave ou religador e o tamanho do trecho sob ele.',
+    draw(){ const a = ativo[selAtivo];
+      styleAll(t=>{ const own = t.ref===a.nome, dentro = t.path.includes(a.nome);
+        return own? {c:ZC[t.z], w:8} : dentro? {c:ZC[t.z], w:4.5, o:.9, d:'8 6'} : {c:'#9aa4ab', w:3, o:.35}; });
+      markAssets(a.nome, x => !(x.path.includes(a.nome)));
+      const P_ = P('p-chips'); P_.hidden=false;
+      P_.innerHTML = D.ativos.filter(x=>PROT.has(x.t)).map(x=>`<button class="chip" aria-pressed="${x.nome===a.nome}" data-a="${esc(x.nome)}">${esc(x.nome)}</button>`).join('');
+      P_.querySelectorAll('.chip').forEach(c=>c.onclick=()=>setView('engloba', c.dataset.a));
+      const all = D.trechos.filter(t=>t.path.includes(a.nome)), own = D.trechos.filter(t=>t.ref===a.nome);
+      P('p-legend').innerHTML = legendRow('#ffffff','Cheia e grossa = bloco do próprio ativo (cor da zona)')+legendRow('#ffffff','Tracejada = depois dos próximos ativos, ainda englobado','dash')+legendRow('#9aa4ab','Cinza = fora do alcance',true);
+      P('p-info').innerHTML = `<span class="k">${esc(a.nome)} · ${a.t==='DJ'?'Disjuntor':a.t==='79'?'Religador':'Chave fusível'} · poste ${esc(a.poste)}</span>
+        <span>Zona antes: <b>${a.zin?'T'+a.zin:'—'}</b> · depois: <b>T${a.zout}</b></span>
+        <span>Bloco próprio: <b class="num">${own.length} vãos · ${fmt(own.reduce((s,t)=>s+t.ext,0))} m</b></span>
+        <span>Engloba ao todo: <b class="num">${all.length} vãos · ${fmt(all.reduce((s,t)=>s+t.ext,0))} m</b></span>
+        <span>Ativos depois dele: <b class="mono">${esc(a.post.join(', ')||'nenhum (fim de linha)')}</b></span>
+        <span class="crumb">${crumb(a.path)}</span>`;
+      map.fitBounds(L.latLngBounds(all.flatMap(t=>[t.a,t.b]).concat([[a.lat,a.lon]])), {padding:[40,40], maxZoom:17}); }
+  },
+  vao: {
+    title:'5 · Localizar um vão', desc:'Toque em qualquer vão. Aparece o caminho desde o DJ, o bloco, o ativo de referência e a distância até ele.',
+    use:'Serve para: receber "defeito entre o poste X e Y" e saber na hora a sequência e qual ativo atua.',
+    draw(){ const t = byId[selVao]; const chain = new Set(); let c = t; while(c){ chain.add(c.id); c = byFim[c.ini]; }
+      styleAll(x=> x.id===t.id? {c:'#ef4444', w:9} : chain.has(x.id)? {c:'#f8fafc', w:5} : {c:ZC[x.z], w:3, o:.35});
+      markAssets(t.ref, x => !t.path.includes(x.nome));
+      L.marker(mid(t),{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false}).addTo(overlay);
+      P('p-legend').innerHTML = legendRow('#ef4444','Vão selecionado')+legendRow('#f8fafc','Caminho desde o DJ',true);
+      const q = `https://www.google.com/maps?q=${mid(t)[0].toFixed(6)},${mid(t)[1].toFixed(6)}`;
+      P('p-info').innerHTML = `<span class="k">${t.id===D.defeito?'Exemplo de defeito · ':''}${esc(t.id)} · poste ${esc(t.ini)} → ${esc(t.fim)}</span>
+        <span class="crumb">${crumb(t.path.concat([t.id]))}</span>
+        <span>Zona <b>T${t.z}</b> · ${esc(t.ramal)} · Bloco <b>${t.bloco}</b></span>
+        <span>Ativo de referência: <b>${esc(t.ref)}</b>, a <b class="num">${fmt(t.dref)} m</b> seguindo a rede</span>
+        <span>Distância desde o DJ: <b class="num">${fmt(t.dj)} m</b> · vão de ${t.ext.toFixed(1).replace('.',',')} m</span>
+        <span>Depois deste vão: <b class="mono">${esc(t.post.join(', ')||'nenhum ativo (fim de linha)')}</b></span>
+        <span>Chaves 88 no bloco: <b class="mono">${esc((D.blocos.find(b=>b.n===t.bloco).c88).join(', ')||'—')}</b></span>
+        <a href="${q}" target="_blank" rel="noopener">Abrir o ponto no Google Maps</a>`; }
+  }
+};
+function showBloco(b){
+  const ts = D.trechos.filter(t=>t.bloco===b.n);
+  P('p-info').innerHTML = `<span class="k">Bloco ${b.n} · T${b.z} · ${esc(b.r)}</span>
+    <span>Ativo de referência: <b>${esc(b.ref)}</b></span>
+    <span>De <b class="mono">${esc(b.de)}</b> até <b class="mono">${esc(b.ate.join(' / '))}</b></span>
+    <span class="num">${b.qtd} vãos · ${fmt(b.ext)} m</span>
+    <span>Chaves 88 no bloco: <b class="mono">${esc(b.c88.join(', ')||'—')}</b></span>
+    <span>Ativos englobados depois: <b class="mono">${esc(b.post.join(', ')||'—')}</b></span>
+    <span class="crumb">${crumb(b.path)}</span>`;
+}
+function onTrecho(t, at){
+  if (view==='vao'){ selVao = t.id; setView('vao'); }
+  else if (view==='engloba'){ setView('engloba', t.ref); }
+  else if (view==='blocos'){ showBloco(D.blocos.find(b=>b.n===t.bloco)); popup(t, at); }
+  else popup(t, at);
+}
+function setView(v, arg){
+  view = v; if (v==='engloba' && arg) selAtivo = arg;
+  overlay.clearLayers(); map.closePopup(); P('p-chips').hidden = true;
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.v===v));
+  const V = VIEWS[v]; P('p-title').textContent = V.title; P('p-desc').textContent = V.desc; P('p-use').textContent = V.use;
+  if (v!=='engloba') map.fitBounds(L.latLngBounds(D.trechos.flatMap(t=>[t.a,t.b])), {padding:[30,30]});
+  V.draw();
+  try { history.replaceState(null,'','#'+v); } catch(e) {}
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+const h0 = (location.hash||'').slice(1);
+setView(VIEWS[h0] ? h0 : 'zonas');
+window.__setView = setView;
+}
+</script>
+</body></html>
