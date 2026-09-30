@@ -39,8 +39,11 @@ def test_zonas():
     res = regras.analisar(*rede_linha(['79', 'P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
     assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 2, 3, 4], 'religador nunca cria T3'
     res = regras.analisar(*rede_linha(['79', 'P', '03', 'P', '79', 'P']), 'DJ')
-    assert zona_apos(res, '79-5') == 3, 'religador dentro de T3 não muda a zona'
-    assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos']), 'religador depois de 03 não é o 2º do tronco'
+    assert zona_apos(res, '03-3') == 2 and zona_apos(res, '79-5') == 2, '03 antes de religador é seccionamento'
+    assert res['fim_tronco'] == '79-5' and any('seccionamento' in a for a in res['avisos'])
+    assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos'])
+    res = regras.analisar(*rede_linha(['P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
+    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [3, 4], 'fusível sem religador depois continua fusível'
     res = regras.analisar(*rede_linha(['P', '79', 'P', '79', 'P'], desvio=(1, ['P', '79', 'P', '03', 'P'])), 'DJ')
     assert zona_apos(res, '79-d2') == 2, 'religador em ramal também conta'
     assert zona_apos(res, '03-d4') == 3
@@ -104,6 +107,11 @@ def test_exemplo_completo():
     zonas_ref = {b['ref']: b['zona'] for b in res['blocos']}
     assert zonas_ref['RL2'] == 2 and zonas_ref['RL3'] == 2, 'depois do 2º religador ainda é T2 (T2 Ramal)'
     assert zonas_ref['03-E'] == 3 and zonas_ref['03-F'] == 4 and zonas_ref['03-C'] == 3
+    rl2 = next(b for b in res['blocos'] if b['ref'] == 'RL2' and b['tronco'])
+    assert set(rl2['ate']) == {'RL3', '03-E'}, 'o T depois do 2º religador é tronco até os próximos ativos'
+    ramais = {b['ref']: b['ramal'] for b in res['blocos'] if not b['tronco']}
+    assert ramais['RL3'] == 'Ramal após RL3' and ramais['03-E'] == 'Ramal após 03-E' and ramais['03-F'] == 'Ramal após 03-E'
+    assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos'])
 
     with tempfile.TemporaryDirectory() as d:
         d = Path(d)
@@ -119,6 +127,45 @@ def test_exemplo_completo():
         assert wb['Trechos'].max_row == len(res['vaos']) + 1
         html = (d / 't.html').read_text(encoding='utf-8')
         assert '%%' not in html and '"trechos"' in html
+
+
+def _kml_daimon(chaves, trechos):
+    pm_c = ''.join(f'<Placemark><name>{n}</name><styleUrl>#mapDaimonChave{"NA" if na else ""}</styleUrl>'
+                   f'<Point><coordinates>{lon},{lat},0</coordinates></Point></Placemark>' for n, lat, lon, na in chaves)
+    pm_t = ''.join(f'<Placemark><name>{n}</name><LineString><coordinates>{a[1]},{a[0]},0 {b[1]},{b[0]},0'
+                   f'</coordinates></LineString></Placemark>' for n, a, b in trechos)
+    return ('<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>'
+            f'<Folder><name>Circ_X</name><Folder><name>Chave</name>{pm_c}</Folder>'
+            f'<Folder><name>Trecho</name>{pm_t}</Folder></Folder></Document></kml>')
+
+
+def test_leitor_daimon():
+    """DJ → religador com 90 em série e bypass NA em paralelo → fusível. A energia passa pelo religador."""
+    from . import daimon
+    y = lambda i: -9.6 + i * 0.0003     # pontos numa linha, ~33 m entre eles
+    P = {i: (y(i), -48.45) for i in range(12)}
+    B = (y(4), -48.4497)                # ponto do desvio (bypass) ao lado
+    chaves = [('DJ_X_FICT', (y(-1) + P[0][0]) / 2, (-48.4503 + P[0][1]) / 2, False),   # DJ no meio do suporte (empate) ('9000001', (y(2) + y(3)) / 2, -48.45, False),
+              ('7900001', (y(3) + y(4)) / 2, -48.45, False), ('9000002', (y(4) + y(5)) / 2, -48.45, False),
+              ('8000001', (y(3) + B[0]) / 2, -48.4498, True), ('0300001', (y(8) + y(9)) / 2, -48.45, False)]
+    trechos = [('Suporte Chave DJ_X_FICT', (y(-1), -48.4503), P[0]), ('t1', P[0], P[1]), ('t2', P[1], P[2]),
+               ('Suporte Chave 9000001', P[2], P[3]), ('Suporte Chave 7900001', P[3], P[4]),
+               ('Suporte Chave 9000002', P[4], P[5]), ('Suporte Chave 8000001', P[3], B), ('t3', B, P[5]),
+               ('t4', P[5], P[6]), ('t5', P[6], P[7]), ('t6', P[7], P[8]), ('Suporte Chave 0300001', P[8], P[9]),
+               ('t7', P[9], P[10]), ('t8', P[10], P[11])]
+    with tempfile.TemporaryDirectory() as d:
+        arq = Path(d) / 'SE-X_Circ-ALTESTE.kml'
+        arq.write_text(_kml_daimon(chaves, trechos), encoding='utf-8')
+        nos, vaos, raiz, info = daimon.ler_circuito(arq)
+    assert info['abertas'] == ['8000001'], info['abertas']
+    assert nos[raiz]['lat'] == round(P[0][0], 6), 'raiz é a ponta do suporte do DJ mais longe do ponto do DJ'
+    tipos = sorted(n['tipo'] for n in nos.values() if n['tipo'] != 'P')
+    assert tipos == ['03', '79', 'DJ'], tipos          # 90 vira passagem; 80 NA fica fora
+    res = regras.analisar(nos, vaos, raiz)
+    assert zona_apos(res, '7900001') == 2 and zona_apos(res, '0300001') == 3
+    # sai só o suporte do DJ e o da chave NA; o fio do desvio fica como ponta sem saída, ligado do lado de baixo
+    assert len(res['vaos']) == len(trechos) - 2
+    assert info['nomes_vaos'][next(v for v in vaos if nos[v[1]]['tipo'] == '79')] == 'Suporte Chave 7900001'
 
 
 if __name__ == '__main__':

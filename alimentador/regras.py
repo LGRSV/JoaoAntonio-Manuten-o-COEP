@@ -2,24 +2,30 @@
 
 Entrada: a rede como árvore de vãos com raiz no DJ.
 
-    nos  = {id: {'tipo': 'DJ' | '79' | '03' | '88' | 'P', 'nome': str, 'poste': str, 'lat': float, 'lon': float}}
-           'P' é poste sem equipamento (passagem, derivação ou fim de linha).
+    nos  = {id: {'tipo': 'DJ' | '79' | '03' | '33' | '02' | '88' | … | 'P', 'nome': str, 'poste': str, 'lat': float, 'lon': float}}
+           'P' é poste sem equipamento (passagem, derivação ou fim de linha). O tipo é o prefixo do código da chave.
     vaos = [(pai, filho), ...]   um vão por poste a poste, orientado a partir do DJ.
 
 Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo aprovado até agora):
     - Zona: T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 em ramal e 79 depois do 2º:
       religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já era T3 ou mais, soma uma
       (a confirmar: 03 depois de T3 vira T4).
-    - Tronco: caminho DJ → 1º 79 → 2º 79; termina no 2º 79 e nunca tem T3.
+    - Tronco: caminho DJ → 1º 79 → 2º 79 e, depois do 2º 79, até os próximos ativos (79 ou fusível): o trecho
+      entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3.
       Se houver mais de um candidato a 2º 79, fica o que tem mais rede depois dele (a confirmar).
       Sem 2º 79, o tronco segue o lado com mais rede T1/T2 e para antes de um 03 (a confirmar; gera aviso).
     - Ramal: todo o resto. Leva o nome do poste onde sai do tronco; depois do 2º 79 é "Ramal após <2º 79>".
     - Ativo de referência de um vão: o último DJ/79/03 antes dele, vindo do DJ. Ele engloba o vão e tudo depois.
-    - Bloco: vãos com o mesmo ativo de referência e o mesmo ramal. Chaves 88 não dividem bloco; são só listadas.
+    - Bloco: vãos com o mesmo ativo de referência e o mesmo ramal. Chaves 88 (e outras que não são DJ/79/fusível)
+      não dividem bloco; são só listadas.
+    - Chaves 02 e 33 contam como fusível (03), como no prompt original (a confirmar para 02).
+    - Chave 03/33/02 com religador depois é seccionamento, não fusível: não muda a zona e só é listada (a confirmar).
 """
 import math
 
-PROTECAO = ('DJ', '79', '03')
+FUSIVEIS = ('03', '33', '02')
+SECCIONAMENTO = 'SEC'   # 03/33/02 com religador depois
+PROTECAO = ('DJ', '79') + FUSIVEIS
 RAIO_TERRA = 6371000.0
 
 
@@ -69,7 +75,7 @@ def analisar(nos, vaos, raiz):
     if soltos:
         raise RedeInvalida(f'{len(soltos)} nó(s) sem ligação com o DJ, ex.: {sorted(soltos)[:5]}')
 
-    tipo = lambda n: nos[n]['tipo']
+    tipo_cad = lambda n: nos[n]['tipo']
     nome = lambda n: nos[n]['nome']
     pt = lambda n: (nos[n]['lat'], nos[n]['lon'])
     comp = {(p, c): haversine(pt(p), pt(c)) for p, c in vaos}
@@ -79,11 +85,18 @@ def analisar(nos, vaos, raiz):
     for n in ordem_nos:
         ordem_nos.extend(filhos.get(n, []))
 
+    # chave 03/33/02 com religador depois é seccionamento, não fusível: fusível não fica antes de religador
+    rl_abaixo = {}
+    for n in reversed(ordem_nos):
+        rl_abaixo[n] = any(tipo_cad(c) == '79' or rl_abaixo[c] for c in filhos.get(n, []))
+    secc = {n for n in ordem_nos if tipo_cad(n) in FUSIVEIS and rl_abaixo[n]}
+    tipo = lambda n: SECCIONAMENTO if n in secc else tipo_cad(n)
+
     # zona de saída de cada nó
     zona = {raiz: 1}
     for n in ordem_nos[1:]:
         z = zona[pai[n]]
-        zona[n] = max(z, 2) if tipo(n) == '79' else max(z + 1, 3) if tipo(n) == '03' else z
+        zona[n] = max(z, 2) if tipo(n) == '79' else max(z + 1, 3) if tipo(n) in FUSIVEIS else z
 
     # extensão total e extensão T1/T2 pendurada em cada nó
     abaixo, abaixo12 = {}, {}
@@ -97,6 +110,9 @@ def analisar(nos, vaos, raiz):
         rl_acima[n] = rl_acima[pai[n]] + (1 if tipo(pai[n]) == '79' else 0)
 
     avisos = []
+    if secc:
+        avisos.append(f'{len(secc)} chave(s) 03/33/02 com religador depois tratada(s) como seccionamento '
+                      f'(não mudam a zona; entram na lista do bloco): ' + ', '.join(nome(n) for n in ordem_nos if n in secc))
     # 2º religador do tronco: um 79 com exatamente um 79 antes dele e sem chave 03 no caminho (tronco nunca tem T3)
     candidatos = [n for n in ordem_nos if tipo(n) == '79' and rl_acima[n] == 1 and zona[pai[n]] <= 2]
     tronco = set()
@@ -115,12 +131,25 @@ def analisar(nos, vaos, raiz):
         avisos.append('Alimentador sem 2º religador: o tronco seguiu o lado com mais rede T1/T2 e parou antes de chave 03.')
         n = raiz
         while True:
-            opcoes = [c for c in filhos.get(n, []) if tipo(c) != '03']
+            opcoes = [c for c in filhos.get(n, []) if tipo(c) not in FUSIVEIS]
             if not opcoes:
                 break
             c = max(opcoes, key=lambda k: comp[(n, k)] * (zona[n] <= 2) + abaixo12[k])
             tronco.add((n, c))
             n = c
+    if fim_rl2 is not None:
+        # depois do 2º religador o tronco segue até os próximos ativos (vem depois de um ativo do tronco)
+        tem_ativo = {}
+        for n in reversed(ordem_nos):
+            tem_ativo[n] = tipo(n) in PROTECAO or any(tem_ativo[c] for c in filhos.get(n, []))
+        pilha = [fim_rl2]
+        while pilha:
+            n = pilha.pop()
+            for c in filhos.get(n, []):
+                if tem_ativo[c] and zona[n] <= 2:
+                    tronco.add((n, c))
+                    if tipo(c) not in PROTECAO:
+                        pilha.append(c)
     nos_tronco = {x for v in tronco for x in v} or {raiz}   # DJ ligado direto a um 03: sem tronco
     if any(zona[p] > 2 for p, _ in tronco):
         raise RedeInvalida('regra violada: tronco com T3 ou mais')
@@ -136,6 +165,9 @@ def analisar(nos, vaos, raiz):
         ordem_vaos.append((n, c))
         pilha.append((c, iter(sorted(filhos.get(c, []), key=lambda k: (c, k) not in tronco))))
     idx_vao = {v: i for i, v in enumerate(ordem_vaos)}
+
+    def listada(n):   # chave que não é DJ/79/fusível: só aparece na lista do bloco
+        return tipo(n) not in PROTECAO and tipo(n) != 'P'
 
     def ref_de(n):
         while tipo(n) not in PROTECAO:
@@ -167,6 +199,16 @@ def analisar(nos, vaos, raiz):
     for n in ordem_nos[1:]:
         dist[n] = dist[pai[n]] + comp[(pai[n], n)]
 
+    def nome_ramal(dep):
+        # sai de um ativo no fim do tronco: "Ramal após <ativo>"; senão, poste de onde sai do tronco;
+        # sem poste conhecido, o 1º equipamento do ramal
+        if tipo(dep) in PROTECAO and dep != raiz:
+            return f'Ramal após {nome(dep)}'
+        if nos[dep].get('poste_real', True):
+            return f'Ramal {nos[dep]["poste"]}'
+        primeiro = next((a for c in filhos.get(dep, []) if (dep, c) not in tronco for a in jusante[c]), None)
+        return f'Ramal do {primeiro}' if primeiro else f'Ramal {nos[dep]["poste"]}'
+
     registros = []
     for p, c in ordem_vaos:
         ref = ref_de(p)
@@ -174,8 +216,8 @@ def analisar(nos, vaos, raiz):
             ramal, dep = 'Tronco', None
         else:
             dep = saida_do_tronco(c)
-            ramal = f'Ramal após {nome(fim_rl2)}' if dep == fim_rl2 else f'Ramal {nos[dep]["poste"]}'
-        raiz_bloco = dep if (dep is not None and ref in nos_tronco and ref != fim_rl2) else ref
+            ramal = nome_ramal(dep)
+        raiz_bloco = dep if (dep is not None and ref in nos_tronco) else ref
         registros.append(dict(p=p, c=c, ref=ref, ramal=ramal, dep=dep, raiz_bloco=raiz_bloco))
 
     # blocos: tronco primeiro, depois ramais na ordem em que saem do tronco
@@ -201,7 +243,7 @@ def analisar(nos, vaos, raiz):
             ext=comp[(p, c)], dist_dj=dist[c], dist_ref=dist[c] - dist[ref],
             zona=zona[p], tronco=(p, c) in tronco, ramal=r['ramal'], bloco=num_bloco[chave_bloco(r)],
             ref=nome(ref), ref_tipo=tipo(ref), caminho=caminho(ref), posteriores=jusante[c],
-            chave88_fim=nome(c) if tipo(c) == '88' else '', _p=p, _c=c))
+            chave88_fim=nome(c) if listada(c) else '', _p=p, _c=c))
 
     blocos = []
     for k in ordem_bloco:
@@ -212,7 +254,7 @@ def analisar(nos, vaos, raiz):
             c = r['c']
             if tipo(c) in PROTECAO:
                 fins.append(nome(c))
-            elif tipo(c) == '88':
+            elif listada(c):
                 chaves88.append(nome(c))
             if not filhos.get(c):
                 fins.append(f'fim {nos[c]["poste"]}')
@@ -229,7 +271,7 @@ def analisar(nos, vaos, raiz):
     bloco_do_vao_ate = {v['_c']: v['bloco'] for v in saida_vaos}
     pos_vao = {v['_c']: i for i, v in enumerate(saida_vaos)}
     for n in sorted(ordem_nos, key=lambda n: pos_vao.get(n, -1)):
-        if tipo(n) not in PROTECAO + ('88',):
+        if tipo(n) == 'P':
             continue
         proprios = sorted({b['n'] for b in blocos if b['ref'] == nome(n)}) if tipo(n) in PROTECAO else []
         ativos.append(dict(

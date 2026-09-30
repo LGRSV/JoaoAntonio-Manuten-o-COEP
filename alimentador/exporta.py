@@ -10,16 +10,26 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
-TIPO = {'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fusível (03)', '88': 'Chave 88'}
+class _Tipos(dict):
+    def __missing__(self, t):
+        return f'Chave ({t})'
+
+
+TIPO = _Tipos({'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fusível (03)', '33': 'Chave fusível (33)',
+               '02': 'Chave 02 (conta como fusível)', '88': 'Chave 88',
+               'SEC': 'Chave 03 de seccionamento (tem religador depois)'})
 REGRAS_TXT = [
     ('Zona', 'T1 do DJ ao 1º religador (79). Depois de qualquer religador é T2, inclusive religador em ramal: '
              'religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já estava em T3 ou mais, soma uma.'),
-    ('Tronco', 'Caminho DJ → 1º religador → 2º religador; termina no 2º religador. Nunca tem T3. '
+    ('Seccionamento', 'Chave 03/33/02 com religador depois dela não conta como fusível: não muda a zona e aparece em '
+                      '"Outras chaves no bloco (88…)" como "Chave 03 de seccionamento".'),
+    ('Tronco', 'Caminho DJ → 1º religador → 2º religador e, depois do 2º, até os próximos ativos (religador ou fusível): '
+               'o trecho entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3. '
                'O resto é ramal, com o nome do poste onde sai do tronco.'),
     ('Ativo de referência', 'Último DJ, 79 ou 03 antes do vão, vindo do DJ. Ele engloba o vão e tudo o que vem depois.'),
     ('Ativos posteriores englobados', 'Os DJ/79/03 que ficam depois do vão ou do bloco. Se o ativo de referência abrir, todos ficam sem energia.'),
     ('Bloco', 'Vãos com o mesmo ativo de referência e o mesmo ramal (de um ativo até o próximo). '
-              'Chaves 88 não dividem bloco: aparecem listadas na coluna "Chaves 88 no bloco".'),
+              'Chaves 88 e outras que não são DJ/79/fusível não dividem bloco: aparecem na coluna "Outras chaves no bloco (88…)". Chaves 02 e 33 contam como fusível.'),
     ('Nível 1…N', 'Sequência de ativos desde o DJ até o ativo de referência. Filtrar um nível mostra tudo o que fica depois daquele ativo.'),
     ('Distâncias', 'Calculadas a partir das coordenadas (haversine, raio 6.371 km), seguindo a rede.'),
 ]
@@ -36,7 +46,8 @@ def _prox(res):
 def kmz(res, nome, caminho, defeito=None, aviso_exemplo=False):
     icon = 'http://maps.google.com/mapfiles/kml/paddle/wht-circle.png'
     dot = 'http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png'
-    cor_ativo = {'DJ': 'ff0000ff', '79': 'ff00ff00', '03': 'ff00ffff', '88': 'ffff0000'}
+    cor_ativo = {'DJ': 'ff0000ff', '79': 'ff00ff00', '03': 'ff00ffff', '88': 'ffff0000', 'outra': 'ffffffff'}
+    estilo_at = lambda t: t if t in cor_ativo else ('03' if t in ('33', '02') else 'outra')
     prox = _prox(res)
     desc = ('<b>DADOS DE EXEMPLO.</b> Circuito ilustrativo; não é rede real.<br>' if aviso_exemplo else '') + \
         '<br>'.join(f'<b>{a}:</b> {escape(b)}' for a, b in REGRAS_TXT[:5])
@@ -63,14 +74,14 @@ def kmz(res, nome, caminho, defeito=None, aviso_exemplo=False):
 
     def placemark_vao(v):
         z = min(v['zona'], len(KML_Z))
-        campos = [('Trecho', v['id']), ('Poste início', v['ini']), ('Poste fim', v['fim']),
+        campos = [('Trecho', v['id']), ('Trecho no Daimon', v.get('trecho_daimon', '') or '—'), ('Poste início', v['ini']), ('Poste fim', v['fim']),
                   ('Extensão (m)', f"{v['ext']:.1f}"), ('Distância do DJ (m)', f"{v['dist_dj']:.0f}"),
                   ('Distância do ativo de referência (m)', f"{v['dist_ref']:.0f}"),
                   ('Zona', f"T{v['zona']}"), ('Tronco/Ramal', 'Tronco' if v['tronco'] else 'Ramal'),
                   ('Ramal', v['ramal']), ('Bloco', v['bloco']), ('Ativo de referência', v['ref']),
                   ('Tipo do ativo de referência', TIPO[v['ref_tipo']]), ('Próximo(s) ativo(s)', ' / '.join(prox[v['bloco']])),
                   ('Ativos posteriores englobados', ', '.join(v['posteriores']) or '—'),
-                  ('Chave 88 no fim do vão', v['chave88_fim'] or '—'), ('Caminho desde o DJ', ' › '.join(v['caminho']))]
+                  ('Outra chave no fim do vão (88…)', v['chave88_fim'] or '—'), ('Caminho desde o DJ', ' › '.join(v['caminho']))]
         d = f"Ref.: {v['ref']} · T{v['zona']} · {v['ramal']} · " + ' › '.join(v['caminho'])
         return (f'<Placemark><name>{v["id"]}</name><description>{escape(d)}</description>'
                 f'<styleUrl>#z{z}{"Tronco" if v["tronco"] else "Ramal"}</styleUrl>{xd(campos)}'
@@ -87,7 +98,7 @@ def kmz(res, nome, caminho, defeito=None, aviso_exemplo=False):
         return out
 
     k.append(f'<Folder><name>{escape(nome)}</name><open>1</open>')
-    k.append('<Folder><name>Tronco (DJ → 2º religador)</name><open>1</open>')
+    k.append('<Folder><name>Tronco</name><open>1</open>')
     for b in res['blocos']:
         if b['tronco']:
             k += pasta_bloco(b)
@@ -106,7 +117,7 @@ def kmz(res, nome, caminho, defeito=None, aviso_exemplo=False):
                   ('Bloco onde está', a['bloco'] or '—'),
                   ('Blocos em que é referência', ', '.join(map(str, a['blocos_proprios'])) or '—'),
                   ('Ativos posteriores englobados', ', '.join(a['posteriores']) or '—')]
-        k.append(f'<Placemark><name>{escape(a["nome"])}</name><styleUrl>#at{a["tipo"]}</styleUrl>{xd(campos)}'
+        k.append(f'<Placemark><name>{escape(a["nome"])}</name><styleUrl>#at{estilo_at(a["tipo"])}</styleUrl>{xd(campos)}'
                  f'<Point><coordinates>{a["lon"]:.7f},{a["lat"]:.7f},0</coordinates></Point></Placemark>')
     k.append('</Folder><Folder><name>Postes</name>')
     vistos = set()
@@ -193,22 +204,22 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
 
     # --- Trechos
     wt = wb.create_sheet('Trechos')
-    HT = ['Seq', 'Trecho', 'Poste início', 'Poste fim', 'Extensão (m)', 'Distância do DJ até o fim (m)',
+    HT = ['Seq', 'Trecho', 'Trecho no Daimon', 'Poste início', 'Poste fim', 'Extensão (m)', 'Distância do DJ até o fim (m)',
           'Distância do ativo de referência até o fim (m)', 'Zona', 'Tronco/Ramal', 'Ramal', 'Bloco',
           'Ativo de referência', 'Tipo do ativo de referência', 'Próximo(s) ativo(s)', 'Ativos posteriores englobados',
-          'Qtd. ativos posteriores', 'Chave 88 no fim do vão'] + [f'Nível {i}' for i in range(1, NV + 1)] + \
+          'Qtd. ativos posteriores', 'Outra chave no fim do vão (88…)'] + [f'Nível {i}' for i in range(1, NV + 1)] + \
          ['Caminho desde o DJ', 'Latitude (meio do vão)', 'Longitude (meio do vão)', 'Mapa', 'Chave do caminho (uso das fórmulas)']
     col = {h: i + 1 for i, h in enumerate(HT)}
     rows = []
     for i, v in enumerate(vaos, 1):
         m = ((v['a'][0] + v['b'][0]) / 2, (v['a'][1] + v['b'][1]) / 2)
         v['_meio'] = m
-        rows.append([i, v['id'], v['ini'], v['fim'], v['ext'], v['dist_dj'], v['dist_ref'], f"T{v['zona']}",
+        rows.append([i, v['id'], v.get('trecho_daimon', ''), v['ini'], v['fim'], v['ext'], v['dist_dj'], v['dist_ref'], f"T{v['zona']}",
                      'Tronco' if v['tronco'] else 'Ramal', v['ramal'], v['bloco'], v['ref'], TIPO[v['ref_tipo']],
                      ' / '.join(prox[v['bloco']]), ', '.join(v['posteriores']) or '—', len(v['posteriores']),
                      v['chave88_fim'] or None, *(v['caminho'] + [None] * (NV - len(v['caminho']))),
                      ' › '.join(v['caminho']), round(m[0], 7), round(m[1], 7), 'abrir', '|' + '|'.join(v['caminho']) + '|'])
-    tabela(wt, 'Trechos', HT, rows, [6, 9, 11, 11, 10, 13, 15, 7, 11, 17, 7, 12, 18, 22, 34, 11, 12] + [8] * NV
+    tabela(wt, 'Trechos', HT, rows, [6, 9, 18, 11, 11, 10, 13, 15, 7, 11, 17, 7, 12, 18, 22, 34, 11, 12] + [8] * NV
            + [34, 13, 13, 8, 26])
     wt.freeze_panes = 'C2'
     for i, v in enumerate(vaos, 2):
@@ -232,7 +243,7 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
     HB = (['Bloco', 'Zona', 'Tronco/Ramal', 'Ramal', 'Ativo de referência', 'De']
           + [f'Próximo ativo {i}' for i in range(1, MAXN + 1)] + [f'Nível {i}' for i in range(1, NV + 1)]
           + ['Qtd. vãos', 'Extensão do bloco (m)', 'Qtd. ativos posteriores', 'Ativos posteriores (concatenado)',
-             'Chaves 88 no bloco'] + [f'Posterior {i}' for i in range(1, MAXP + 1)])
+             'Outras chaves no bloco (88…)'] + [f'Posterior {i}' for i in range(1, MAXP + 1)])
     cb = {h: i + 1 for i, h in enumerate(HB)}
     rb = [[b['n'], f"T{b['zona']}", 'Tronco' if b['tronco'] else 'Ramal', b['ramal'], b['ref'], b['de'],
            *(b['ate'] + [None] * (MAXN - len(b['ate']))), *(b['caminho'] + [None] * (NV - len(b['caminho']))),
@@ -264,8 +275,8 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
     # --- Por bloco (vãos agrupados; botão +/− na linha do bloco)
     wg = wb.create_sheet('Por bloco')
     HG = ['Bloco', 'Zona', 'Tronco/Ramal', 'Ramal', 'Ativo de referência', 'Trecho', 'Poste início', 'Poste fim',
-          'Extensão (m)', 'Distância do ativo de referência até o fim (m)', 'Chave 88 no fim do vão',
-          'Próximos ativos', 'Chaves 88 no bloco', 'Ativos posteriores']
+          'Extensão (m)', 'Distância do ativo de referência até o fim (m)', 'Outra chave no fim do vão (88…)',
+          'Próximos ativos', 'Outras chaves no bloco (88…)', 'Ativos posteriores']
     cabecalho(wg, HG)
     wg.sheet_properties.outlinePr.summaryBelow = False
     row = 2
@@ -304,12 +315,12 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
         c = wa.cell(3, 1 + z, f'T{z}')
         c.fill, c.font, c.alignment = zfill(z), bold, Alignment(horizontal='center')
     HA = ['Bloco', 'Zona'] + [f'Nível {i}' for i in range(1, NV + 1)] + \
-         ['De', 'Até (próximos ativos)', 'Vãos', 'Extensão (m)', 'Chaves 88 no bloco', 'Ativos englobados (depois do bloco)']
+         ['De', 'Até (próximos ativos)', 'Vãos', 'Extensão (m)', 'Outras chaves no bloco (88…)', 'Ativos englobados (depois do bloco)']
     cabecalho(wa, HA, 5)
     caixa = Border(*(Side(style='thin', color='2B3136'),) * 4)
     grupo = PatternFill('solid', fgColor='3A4248')
-    titulo = lambda r: ('TRONCO — do DJ até o 2º religador' if r == 'Tronco' else
-                        f'{r.upper()} — tudo depois do 2º religador' if r.startswith('Ramal após') else
+    titulo = lambda r: ('TRONCO — do DJ ao 2º religador e até os próximos ativos' if r == 'Tronco' else
+                        f'{r.upper()} — sai do fim do tronco' if r.startswith('Ramal após') else
                         f'{r.upper()} — sai do tronco no poste {r.split()[-1]}')
     row = 6
     for ram in dict.fromkeys(b['ramal'] for b in blocos):
@@ -348,7 +359,7 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
     # --- Ativos
     wx = wb.create_sheet('Ativos')
     HX = ['Ativo', 'Tipo', 'Poste', 'No tronco', 'Zona antes', 'Zona depois', 'Bloco onde está',
-          'Blocos em que é referência', 'Caminho desde o DJ', 'Vãos no próprio bloco', 'Extensão do próprio bloco (m)',
+          'Blocos em que é referência', 'Caminho desde o DJ', 'Vãos em que é a referência', 'Extensão em que é a referência (m)',
           'Vãos englobados (tudo a jusante)', 'Extensão englobada (m)', 'Ativos posteriores englobados',
           'Latitude', 'Longitude', 'Mapa']
     rx = [[a['nome'], TIPO[a['tipo']], a['poste'], 'sim' if a['no_tronco'] else 'não',
@@ -357,7 +368,7 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
            ', '.join(a['posteriores']) or '—', round(a['lat'], 7), round(a['lon'], 7), 'abrir'] for a in ativos]
     tabela(wx, 'Ativos', HX, rx, [10, 18, 9, 9, 10, 11, 10, 14, 30, 11, 14, 14, 14, 40, 12, 12, 8])
     for i, a in enumerate(ativos, 2):
-        if a['tipo'] != '88':
+        if a['tipo'] in ('DJ', '79', '03', '33', '02'):
             wx.cell(i, 10, f'=COUNTIFS({R_REF},A{i})').font = body
             c = wx.cell(i, 11, f'=SUMIFS({R_EXT},{R_REF},A{i})')
             c.font, c.number_format = body, '#,##0'
@@ -388,7 +399,7 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
                 ('Distância do ativo de referência (m)', 'Distância do ativo de referência até o fim (m)'),
                 ('Distância do DJ (m)', 'Distância do DJ até o fim (m)'),
                 ('Ativos posteriores englobados', 'Ativos posteriores englobados'),
-                ('Chave 88 no fim do vão', 'Chave 88 no fim do vão'), ('Caminho desde o DJ', 'Caminho desde o DJ'),
+                ('Outra chave no fim do vão (88…)', 'Outra chave no fim do vão (88…)'), ('Caminho desde o DJ', 'Caminho desde o DJ'),
                 ('Latitude', 'Latitude (meio do vão)'), ('Longitude', 'Longitude (meio do vão)')]
     for j, (lab, h) in enumerate(consulta, 6):
         wc.cell(j, 1, lab).font = bold
