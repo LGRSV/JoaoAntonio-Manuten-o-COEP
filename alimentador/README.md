@@ -11,7 +11,7 @@ Hoje roda com um **circuito de exemplo** (não é rede real). O leitor do export
 
 | Item | Regra |
 |---|---|
-| Zona | T1 do DJ ao 1º religador (79). Cada 79 no caminho soma uma zona, inclusive 79 dentro de ramal. Depois de uma chave fusível (03) é no mínimo T3; se já era T3 ou mais, soma uma. |
+| Zona | T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 dentro de ramal ou depois do 2º 79: religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já era T3 ou mais, soma uma. |
 | Tronco | Caminho DJ → 1º 79 → 2º 79; termina no 2º 79. Nunca tem T3. |
 | Ramal | Todo o resto. Leva o nome do poste onde sai do tronco. Depois do 2º 79: "Ramal após <2º 79>". |
 | Ativo de referência | Último DJ, 79 ou 03 antes do vão. Engloba o vão e tudo o que vem depois. |
@@ -19,7 +19,7 @@ Hoje roda com um **circuito de exemplo** (não é rede real). O leitor do export
 
 Pontos ainda a confirmar (o código segue o exemplo aprovado até agora e avisa quando acontecem):
 
-- Zonas depois do T3 (03 depois do 2º 79 vira T4; cada novo 79/03 soma mais uma).
+- Chave 03 depois de T3 vira T4 (religador dentro de T3 não muda a zona).
 - Mais de um candidato a 2º religador: fica o que tem mais rede depois dele.
 - Alimentador sem 2º religador: o tronco segue o lado com mais rede T1/T2 e para antes de um 03.
 

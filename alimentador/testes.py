@@ -37,7 +37,10 @@ def test_zonas():
     res = regras.analisar(*rede_linha(['P', '03', 'P']), 'DJ')
     assert zona_apos(res, '03-2') == 3, 'fusível no T1 vai direto para T3'
     res = regras.analisar(*rede_linha(['79', 'P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 3, 4, 5]
+    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 2, 3, 4], 'religador nunca cria T3'
+    res = regras.analisar(*rede_linha(['79', 'P', '03', 'P', '79', 'P']), 'DJ')
+    assert zona_apos(res, '79-5') == 3, 'religador dentro de T3 não muda a zona'
+    assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos']), 'religador depois de 03 não é o 2º do tronco'
     res = regras.analisar(*rede_linha(['P', '79', 'P', '79', 'P'], desvio=(1, ['P', '79', 'P', '03', 'P'])), 'DJ')
     assert zona_apos(res, '79-d2') == 2, 'religador em ramal também conta'
     assert zona_apos(res, '03-d4') == 3
@@ -99,7 +102,8 @@ def test_exemplo_completo():
     assert b88['88-A']['ref'] == 'RL1' and b88['88-A']['tronco']
     assert b88['88-B']['ref'] == '03-E'
     zonas_ref = {b['ref']: b['zona'] for b in res['blocos']}
-    assert zonas_ref['RL2'] == 3 and zonas_ref['03-E'] == 4 and zonas_ref['03-F'] == 5 and zonas_ref['03-C'] == 3
+    assert zonas_ref['RL2'] == 2 and zonas_ref['RL3'] == 2, 'depois do 2º religador ainda é T2 (T2 Ramal)'
+    assert zonas_ref['03-E'] == 3 and zonas_ref['03-F'] == 4 and zonas_ref['03-C'] == 3
 
     with tempfile.TemporaryDirectory() as d:
         d = Path(d)

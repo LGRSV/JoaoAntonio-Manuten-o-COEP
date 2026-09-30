@@ -149,7 +149,7 @@ tr.grp td{background:var(--ink);color:var(--bg);font:600 12.5px/1.2 var(--f-mono
           <li><b>Bloco comprido em rede rural.</b> Só o bloco não basta; por isso cada vão também tem poste e distância a partir do ativo.</li>
           <li><b>Depende da ligação entre os vãos.</b> Vão que não encosta no outro quebra a sequência. O script precisa avisar esses pontos.</li>
           <li><b>Número do bloco muda se a rede mudar.</b> Use o nome do ativo de referência como chave; o número é só apoio visual.</li>
-          <li><b>Zonas depois do T3</b> (T4, T5) seguem a regra que ainda falta você confirmar.</li>
+          <li><b>Chave 03 depois de T3</b> vira T4: segue a regra que ainda falta você confirmar.</li>
         </ul>
       </div>
     </div>
@@ -240,10 +240,10 @@ let view = 'zonas', selAtivo = (rl2 || D.ativos.find(a=>a.t==='79') || D.ativos[
 
 const VIEWS = {
   zonas: {
-    title:'1 · Zonas', desc:'Cada cor é uma zona de proteção. T1 vai do DJ ao 1º religador; cada religador no caminho soma uma zona; depois de uma chave 03 é no mínimo T3.',
+    title:'1 · Zonas', desc:'Cada cor é uma zona de proteção. T1 vai do DJ ao 1º religador; depois de qualquer religador é T2 (religador nunca cria T3); depois de uma chave 03 é no mínimo T3.',
     use:'Serve para: saber em que zona está cada vão e priorizar por zona.',
     draw(){ styleAll(t=>({c:ZC[t.z], w:t.tr==='Tronco'?7:4.5})); markAssets(null);
-      P('p-legend').innerHTML = [1,2,3,4,5].map(z=>legendRow(ZC[z], `T${z} · ${D.trechos.filter(t=>t.z===z).length} vãos · ${fmt(D.trechos.filter(t=>t.z===z).reduce((s,t)=>s+t.ext,0))} m`)).join('')+legendRow('#ccc','Linha grossa = tronco · fina = ramal',true);
+      P('p-legend').innerHTML = [...new Set(D.trechos.map(t=>t.z))].sort((a,b)=>a-b).map(z=>legendRow(ZC[z], `T${z} · ${D.trechos.filter(t=>t.z===z).length} vãos · ${fmt(D.trechos.filter(t=>t.z===z).reduce((s,t)=>s+t.ext,0))} m`)).join('')+legendRow('#ccc','Linha grossa = tronco · fina = ramal',true);
       P('p-info').innerHTML = '<span class="k">Toque num vão</span><span>Mostra zona, bloco e ativo de referência.</span>'; }
   },
   ramais: {

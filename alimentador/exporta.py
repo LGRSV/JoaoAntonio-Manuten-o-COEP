@@ -12,8 +12,8 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 TIPO = {'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fusível (03)', '88': 'Chave 88'}
 REGRAS_TXT = [
-    ('Zona', 'T1 do DJ ao 1º religador (79). Cada religador no caminho soma uma zona, inclusive religador em ramal. '
-             'Depois de uma chave fusível (03) é no mínimo T3; se já estava em T3 ou mais, soma uma.'),
+    ('Zona', 'T1 do DJ ao 1º religador (79). Depois de qualquer religador é T2, inclusive religador em ramal: '
+             'religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já estava em T3 ou mais, soma uma.'),
     ('Tronco', 'Caminho DJ → 1º religador → 2º religador; termina no 2º religador. Nunca tem T3. '
                'O resto é ramal, com o nome do poste onde sai do tronco.'),
     ('Ativo de referência', 'Último DJ, 79 ou 03 antes do vão, vindo do DJ. Ele engloba o vão e tudo o que vem depois.'),

@@ -7,8 +7,9 @@ Entrada: a rede como árvore de vãos com raiz no DJ.
     vaos = [(pai, filho), ...]   um vão por poste a poste, orientado a partir do DJ.
 
 Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo aprovado até agora):
-    - Zona: T1 do DJ ao 1º religador (79). Cada 79 no caminho soma uma zona, inclusive 79 em ramal.
-      Depois de uma chave fusível (03) a zona é no mínimo T3; se já era T3 ou mais, soma uma (a confirmar: T4, T5...).
+    - Zona: T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 em ramal e 79 depois do 2º:
+      religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já era T3 ou mais, soma uma
+      (a confirmar: 03 depois de T3 vira T4).
     - Tronco: caminho DJ → 1º 79 → 2º 79; termina no 2º 79 e nunca tem T3.
       Se houver mais de um candidato a 2º 79, fica o que tem mais rede depois dele (a confirmar).
       Sem 2º 79, o tronco segue o lado com mais rede T1/T2 e para antes de um 03 (a confirmar; gera aviso).
@@ -82,7 +83,7 @@ def analisar(nos, vaos, raiz):
     zona = {raiz: 1}
     for n in ordem_nos[1:]:
         z = zona[pai[n]]
-        zona[n] = z + 1 if tipo(n) == '79' else max(z + 1, 3) if tipo(n) == '03' else z
+        zona[n] = max(z, 2) if tipo(n) == '79' else max(z + 1, 3) if tipo(n) == '03' else z
 
     # extensão total e extensão T1/T2 pendurada em cada nó
     abaixo, abaixo12 = {}, {}
@@ -96,7 +97,8 @@ def analisar(nos, vaos, raiz):
         rl_acima[n] = rl_acima[pai[n]] + (1 if tipo(pai[n]) == '79' else 0)
 
     avisos = []
-    candidatos = [n for n in ordem_nos if tipo(n) == '79' and rl_acima[n] == 1]
+    # 2º religador do tronco: um 79 com exatamente um 79 antes dele e sem chave 03 no caminho (tronco nunca tem T3)
+    candidatos = [n for n in ordem_nos if tipo(n) == '79' and rl_acima[n] == 1 and zona[pai[n]] <= 2]
     tronco = set()
     fim_rl2 = None
     if candidatos:
