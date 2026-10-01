@@ -14,6 +14,7 @@ seguindo a linha principal (rumo ao ponto mais distante do DJ), a 1ª chave onde
 o poste de fim de linha. Religador fora do tronco que sai do T1/T2 é derivação, não fim.
 """
 import json
+import zipfile
 from collections import defaultdict
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -172,4 +173,117 @@ def mapa(nos, res, nome, caminho):
             .replace('%%DADOS%%', json.dumps(dados, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')))
     assert '%%' not in html
     Path(caminho).write_text(html, encoding='utf-8')
+    return ts
+
+
+COR_Z = {1: '3b82f6', 2: '22c55e', 3: 'facc15'}               # mesmas cores do mapa_trechos.html
+COR_R = ['2dd4bf', 'a3e635', '67e8f9', '86efac', '5eead4', 'bef264']
+TIPO_AT = {'DJ': 'disjuntor', '79': 'religador', '03': 'fusível 03', '33': 'fusível 33', '02': 'chave 02',
+           'SEC': 'seccionamento'}
+ICONES = 'http://maps.google.com/mapfiles/kml/shapes/'
+
+
+def _cadeias(t, por_id):
+    """Vãos do trecho juntados em linhas contínuas (uma por pedaço entre derivações)."""
+    vs = [por_id[i] for i in t['vaos']]
+    chega = {v['_c'] for v in vs}
+    fil = defaultdict(list)
+    for v in vs:
+        fil[v['_p']].append(v)
+    linhas = []
+    for v in vs:
+        if v['_p'] in chega and len(fil[v['_p']]) == 1:
+            continue   # vem emendado no vão anterior
+        pts, cur = [v['a'], v['b']], v
+        while len(fil[cur['_c']]) == 1:
+            cur = fil[cur['_c']][0]
+            pts.append(cur['b'])
+        linhas.append(pts)
+    assert sum(len(p) - 1 for p in linhas) == len(vs)
+    return linhas
+
+
+def kmz(nos, res, nome, caminho):
+    """KMZ para Google Earth (e importável no Google My Maps): uma pasta por trecho, início e fim no balão."""
+    ts = segmentar(nos, res)
+    por_id = {v['id']: v for v in res['vaos']}
+    cor, nr = {}, 0
+    for t in ts:
+        if t['tipo'] == 'ramal':
+            cor[t['nome']], nr = COR_R[nr % len(COR_R)], nr + 1
+        else:
+            cor[t['nome']] = COR_Z.get(t['zona'], 'd946ef')
+    kml_cor = lambda h: 'ff' + h[4:6] + h[2:4] + h[0:2]
+    largura = {'principal': 6, 'ramal': 5, 'fusivel': 3.5}
+    km = lambda m: f'{m:.0f} m' if m < 1000 else f'{m / 1000:.2f} km'.replace('.', ',')
+    pt = lambda p: f'{p[1]:.7f},{p[0]:.7f},0'
+    papel = defaultdict(list)
+    for t in ts:
+        papel[t['inicio']].append(f"início do {t['nome']}")
+        for f in t['fim']:
+            papel[f].append(f"fim do {t['nome']}")
+
+    def balao(t):
+        itens = [('Início', f"{t['inicio']} · {TIPO_AT.get(t['inicio_tipo'], t['inicio_tipo'])} · poste {t['inicio_poste']}"),
+                 ('Fim', ' / '.join(t['fim']))]
+        if t['passa']:
+            itens.append(('Passa por', ', '.join(t['passa'])))
+        itens += [('Extensão', f"{km(t['ext'])} · {t['qtd']} {'vão' if t['qtd'] == 1 else 'vãos'}"),
+                  ('Vem de', t['pai'] or '—'), ('Derivações', ', '.join(t['derivacoes']) or '—')]
+        return '<![CDATA[' + '<br>'.join(f'<b>{a}:</b> {escape(b)}' for a, b in itens) + ']]>'
+
+    lats = [p[0] for v in res['vaos'] for p in (v['a'], v['b'])]
+    lons = [p[1] for v in res['vaos'] for p in (v['a'], v['b'])]
+    clat, clon = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
+    diag = ((max(lats) - min(lats)) ** 2 + ((max(lons) - min(lons)) * 0.99) ** 2) ** 0.5 * 111_320
+    regra = ('T1: DJ → 1º religador. T2: religador → religador (tronco). T2-A, T2-B…: rede T2 que começa num religador '
+             'fora do tronco. T3-A, T3-B…: cada fusível, em ordem a partir do DJ (não existe T4). '
+             'Toque numa linha para ver a chave de início e de fim.')
+    k = ['<?xml version="1.0" encoding="UTF-8"?>', '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>',
+         f'<name>{escape(nome)} · trechos</name><open>1</open><description>{escape(regra)}</description>',
+         f'<LookAt><longitude>{clon:.6f}</longitude><latitude>{clat:.6f}</latitude><altitude>0</altitude>'
+         f'<heading>0</heading><tilt>0</tilt><range>{max(diag * 1.6, 1500):.0f}</range></LookAt>']
+    for i, t in enumerate(ts):
+        c = kml_cor(cor[t['nome']])
+        k.append(f'<Style id="l{i}"><LineStyle><color>{c}</color><width>{largura[t["tipo"]]}</width></LineStyle></Style>'
+                 f'<Style id="n{i}"><IconStyle><scale>0</scale></IconStyle><LabelStyle><color>{c}</color>'
+                 f'<scale>{1.1 if t["tipo"] != "fusivel" else 0.8}</scale></LabelStyle></Style>')
+    k.append(f'<Style id="rl"><IconStyle><scale>1.1</scale><Icon><href>{ICONES}placemark_square.png</href></Icon>'
+             '</IconStyle><LabelStyle><scale>0.9</scale></LabelStyle></Style>'
+             f'<Style id="fus"><IconStyle><scale>0.6</scale><Icon><href>{ICONES}placemark_circle.png</href></Icon>'
+             '</IconStyle><LabelStyle><scale>0</scale></LabelStyle></Style>')
+
+    k.append('<Folder><name>Trechos</name><open>1</open>')
+    for tipo, titulo in (('principal', 'T1 e T2'), ('ramal', 'Ramais T2'), ('fusivel', 'T3 (depois de fusível)')):
+        grupo = [(i, t) for i, t in enumerate(ts) if t['tipo'] == tipo]
+        if not grupo:
+            continue
+        k.append(f'<Folder><name>{titulo}</name><open>{0 if tipo == "fusivel" else 1}</open>')
+        for i, t in grupo:
+            fim = ' / '.join(f.replace('fim de linha · poste ', 'fim ') for f in t['fim'])
+            k.append(f'<Folder><name>{escape(t["nome"])} · {escape(t["inicio"])} → {escape(fim)} · {km(t["ext"])}</name>'
+                     f'<description>{balao(t)}</description>')
+            for pts in _cadeias(t, por_id):
+                k.append(f'<Placemark><name>{escape(t["nome"])}</name><description>{balao(t)}</description>'
+                         f'<styleUrl>#l{i}</styleUrl><LineString><tessellate>1</tessellate><coordinates>'
+                         + ' '.join(pt(p) for p in pts) + '</coordinates></LineString></Placemark>')
+            k.append('</Folder>')
+        k.append('</Folder>')
+    k.append('</Folder><Folder><name>Nomes dos trechos</name>')
+    for i, t in enumerate(ts):
+        k.append(f'<Placemark><name>{escape(t["nome"])}</name><description>{balao(t)}</description>'
+                 f'<styleUrl>#n{i}</styleUrl><Point><coordinates>{pt(t["rotulo"])}</coordinates></Point></Placemark>')
+    k.append('</Folder>')
+    for titulo, tipos, estilo in (('DJ e religadores', ('DJ', '79'), 'rl'), ('Chaves fusíveis', ('03', '33', '02', 'SEC'), 'fus')):
+        k.append(f'<Folder><name>{titulo}</name>')
+        for a in res['ativos']:
+            if a['tipo'] in tipos:
+                d = ' · '.join([TIPO_AT.get(a['tipo'], a['tipo']), f"poste {a['poste']}"] + papel.get(a['nome'], []))
+                k.append(f'<Placemark><name>{escape(a["nome"])}</name><description>{escape(d)}</description>'
+                         f'<styleUrl>#{estilo}</styleUrl><Point><coordinates>{a["lon"]:.7f},{a["lat"]:.7f},0'
+                         '</coordinates></Point></Placemark>')
+        k.append('</Folder>')
+    k.append('</Document></kml>')
+    with zipfile.ZipFile(caminho, 'w', zipfile.ZIP_DEFLATED) as z:
+        z.writestr('doc.kml', '\n'.join(k))
     return ts

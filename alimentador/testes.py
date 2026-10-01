@@ -190,6 +190,13 @@ def test_trechos():
         trechos.mapa(nos, res, 'TESTE', Path(d) / 'm.html')
         html = (Path(d) / 'm.html').read_text(encoding='utf-8')
         assert '%%' not in html and '"nome":"T2-A"' in html
+        trechos.kmz(nos, res, 'TESTE', Path(d) / 't.kmz')
+        doc = ET.fromstring(zipfile.ZipFile(Path(d) / 't.kmz').read('doc.kml'))
+        n = '{http://www.opengis.net/kml/2.2}'
+        pastas = [f.find(n + 'name').text for g in doc.find(n + 'Document').find(n + 'Folder').findall(n + 'Folder')
+                  for f in g.findall(n + 'Folder')]
+        assert [p.split(' · ')[0] for p in pastas] == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T3-C'], pastas
+        assert pastas[3].startswith('T3-A · 03-6 → 03-8')
 
 
 if __name__ == '__main__':

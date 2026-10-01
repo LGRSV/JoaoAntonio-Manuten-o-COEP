@@ -58,6 +58,7 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 
 | Arquivo | O que é |
 |---|---|
+| `*-trechos.kmz` | Os mesmos trechos para o **Google Earth** (satélite) ou para importar no **Google My Maps**: uma pasta por trecho (T1, T2, T2-A…, T3-A…), início e fim no balão, DJ/religadores com código. |
 | `mapa-trechos.html` | Mapa simplificado (uma visão): trechos T1, T2, T2-A…, T3-A… com ativo de início e fim (`trechos.py`). Protótipo em validação. |
 | `mapa-blocos.html` | Mapa sobre imagem de satélite com 5 visualizações: zonas, tronco e ramais, blocos, o que cada ativo engloba, localizar um vão. Baixe e abra no navegador com internet. |
 | `*.kmz` | Para o Google Earth. Pastas Tronco › Bloco e Ramais › Ramal › Bloco; cada vão com zona, bloco, ativo de referência e ativos posteriores no balão. |
@@ -69,6 +70,6 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 - `daimon.py`: lê o KML do Daimon e chama as regras e as saídas.
 - `exemplo.py`: monta o circuito de exemplo e gera as saídas.
 - `exporta.py`: KMZ, Excel e mapa HTML.
-- `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) e o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`).
+- `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`) e o `*-trechos.kmz`.
 - `mapa_modelo.html`: modelo do mapa (Leaflet + imagem Esri World Imagery, carregados ao vivo).
 - `testes.py`: testes.
