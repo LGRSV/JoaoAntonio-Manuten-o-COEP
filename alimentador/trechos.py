@@ -1,12 +1,12 @@
-"""Trechos nomeados pelos ativos: T1, T2, T2-A…, T3-A…, T4-A…, cada um com ativo de início e fim.
+"""Trechos nomeados pelos ativos: T1, T2, T2-A…, T3-A…, cada um com ativo de início e fim.
 
 Regras (a partir do resultado de regras.analisar):
     - T1: do DJ até o 1º religador. Derivação em poste sem ativo continua no T1.
     - T2: rede T2 do tronco (passa pelos religadores do tronco). Derivação em poste sem ativo continua no T2.
     - T2-A, T2-B…: rede T2 que começa num religador fora do tronco (ou no último religador do tronco,
       quando dele só sai ramal). A letra só nasce em ativo.
-    - T3-A, T3-B…: cada fusível (03/33/02) que sai do T1/T2, em ordem de distância a partir do DJ:
-      A…Z, AA, AB…  Fusível dentro de fusível segue a zona das regras (T4-A…, T5-A…), com sequência própria.
+    - T3-A, T3-B…: cada fusível (03/33/02), inclusive fusível dentro de fusível (não existe T4), em ordem de
+      distância a partir do DJ: A…Z, AA, AB…
     - Chave de seccionamento (SEC), 88 e outras não criam trecho.
 Início e fim vão de chave até chave: T1 = DJ → religador; T2 = religador → religador (ou → chave); do T2 pra frente,
 chave → chave. Fim do trecho: o religador do tronco (ou de dentro do ramal) onde começa o T2 seguinte; sem ele,

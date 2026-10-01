@@ -11,7 +11,7 @@ Também tem um circuito de exemplo (não é rede real) para mostrar as regras.
 
 | Item | Regra |
 |---|---|
-| Zona | T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 dentro de ramal ou depois do 2º 79: religador nunca cria T3. Depois de uma chave fusível (03, 33 ou 02) é no mínimo T3; se já era T3 ou mais, soma uma. |
+| Zona | T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 dentro de ramal ou depois do 2º 79: religador nunca cria T3. Depois de uma chave fusível (03, 33 ou 02) é T3; fusível depois de fusível continua T3 (não existe T4). |
 | Seccionamento | Chave 03/33/02 que tem religador depois dela não é tratada como fusível: não muda a zona e aparece na lista de chaves do bloco (tipo `SEC`). Sai um aviso com a lista. |
 | Tronco | Caminho DJ → 1º 79 → 2º 79 e, depois do 2º 79, até os próximos ativos (79 ou fusível): o trecho entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3. |
 | Ramal | Todo o resto. Nome: "Ramal após <ativo>" quando sai de um ativo; senão o poste de onde sai do tronco; se esse ponto não tem poste cadastrado, "Ramal do <primeiro ativo>". |
@@ -24,7 +24,6 @@ Postes (opcional, lista `{id, lat, lon}`) dão nome aos nós até 6 m; nó sem p
 
 Pontos ainda a confirmar (o código avisa quando acontecem):
 
-- Chave 03 depois de T3 vira T4, T5… (no AL01010004 chega a T7).
 - Chave 03 com religador depois = seccionamento.
 - Chave 02 conta como fusível.
 - Alimentador sem 2º religador: o tronco segue o lado com mais rede T1/T2 e para antes de um fusível.

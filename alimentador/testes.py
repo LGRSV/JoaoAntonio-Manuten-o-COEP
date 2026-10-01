@@ -37,13 +37,13 @@ def test_zonas():
     res = regras.analisar(*rede_linha(['P', '03', 'P']), 'DJ')
     assert zona_apos(res, '03-2') == 3, 'fusível no T1 vai direto para T3'
     res = regras.analisar(*rede_linha(['79', 'P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 2, 3, 4], 'religador nunca cria T3'
+    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 2, 3, 3], 'religador nunca cria T3; não existe T4'
     res = regras.analisar(*rede_linha(['79', 'P', '03', 'P', '79', 'P']), 'DJ')
     assert zona_apos(res, '03-3') == 2 and zona_apos(res, '79-5') == 2, '03 antes de religador é seccionamento'
     assert res['fim_tronco'] == '79-5' and any('seccionamento' in a for a in res['avisos'])
     assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos'])
     res = regras.analisar(*rede_linha(['P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [3, 4], 'fusível sem religador depois continua fusível'
+    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [3, 3], 'fusível sem religador depois continua fusível (T3)'
     res = regras.analisar(*rede_linha(['P', '79', 'P', '79', 'P'], desvio=(1, ['P', '79', 'P', '03', 'P'])), 'DJ')
     assert zona_apos(res, '79-d2') == 2, 'religador em ramal também conta'
     assert zona_apos(res, '03-d4') == 3
@@ -106,7 +106,7 @@ def test_exemplo_completo():
     assert b88['88-B']['ref'] == '03-E'
     zonas_ref = {b['ref']: b['zona'] for b in res['blocos']}
     assert zonas_ref['RL2'] == 2 and zonas_ref['RL3'] == 2, 'depois do 2º religador ainda é T2 (T2 Ramal)'
-    assert zonas_ref['03-E'] == 3 and zonas_ref['03-F'] == 4 and zonas_ref['03-C'] == 3
+    assert zonas_ref['03-E'] == 3 and zonas_ref['03-F'] == 3 and zonas_ref['03-C'] == 3
     rl2 = next(b for b in res['blocos'] if b['ref'] == 'RL2' and b['tronco'])
     assert set(rl2['ate']) == {'RL3', '03-E'}, 'o T depois do 2º religador é tronco até os próximos ativos'
     ramais = {b['ref']: b['ramal'] for b in res['blocos'] if not b['tronco']}
@@ -174,15 +174,15 @@ def test_trechos():
     nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
     res = regras.analisar(nos, vaos, 'DJ')
     ts = {t['nome']: t for t in trechos.segmentar(nos, res)}
-    assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T4-A'], sorted(ts)
+    assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T3-C'], sorted(ts)
     assert (ts['T1']['inicio'], ts['T1']['fim']) == ('DJ', ['79-2'])
     assert (ts['T2']['inicio'], ts['T2']['passa']) == ('79-2', ['79-4']), 'religadores do tronco ficam no T2'
     assert ts['T2']['derivacoes'] == ['T2-A', 'T3-A'], 'religador fora do tronco é derivação, em ordem do DJ'
     assert (ts['T2-A']['inicio'], ts['T2-A']['pai'], ts['T2-A']['derivacoes']) == ('79-d2', 'T2', ['T3-B'])
     assert ts['T2']['fim'] == ['03-6'] and ts['T2-A']['fim'] == ['03-d4'], 'sem religador no fim: ponto mais distante'
     assert ts['T3-B']['fim'] == ['fim de linha · poste Pd5']
-    assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T4-A')] == ['03-6', '03-d4', '03-8'], 'letras pela distância do DJ'
-    assert ts['T3-A']['fim'] == ['03-8'] and ts['T4-A']['pai'] == 'T3-A'
+    assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T3-C')] == ['03-6', '03-d4', '03-8'], 'só T3, letras pela distância do DJ'
+    assert ts['T3-A']['fim'] == ['03-8'] and ts['T3-C']['pai'] == 'T3-A', 'fusível dentro de fusível também é T3'
     assert abs(sum(t['ext'] for t in ts.values()) - res['total_m']) < 0.5
     assert all(v['zona'] == ts[v['trecho']]['zona'] for v in res['vaos'])
     assert [trechos.letras(i) for i in (0, 25, 26, 27, 51, 52)] == ['A', 'Z', 'AA', 'AB', 'AZ', 'BA']

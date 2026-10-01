@@ -20,7 +20,7 @@ TIPO = _Tipos({'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fus�
                'SEC': 'Chave 03 de seccionamento (tem religador depois)'})
 REGRAS_TXT = [
     ('Zona', 'T1 do DJ ao 1º religador (79). Depois de qualquer religador é T2, inclusive religador em ramal: '
-             'religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já estava em T3 ou mais, soma uma.'),
+             'religador nunca cria T3. Depois de uma chave fusível (03) é T3; fusível depois de fusível continua T3 (não existe T4).'),
     ('Seccionamento', 'Chave 03/33/02 com religador depois dela não conta como fusível: não muda a zona e aparece em '
                       '"Outras chaves no bloco (88…)" como "Chave 03 de seccionamento".'),
     ('Tronco', 'Caminho DJ → 1º religador → 2º religador e, depois do 2º, até os próximos ativos (religador ou fusível): '

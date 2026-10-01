@@ -75,7 +75,7 @@ def main():
     res = regras.analisar(nos, vaos, 'DJ')
     saida = Path(__file__).resolve().parent / 'saida'
     saida.mkdir(exist_ok=True)
-    # defeito de exemplo: vão do meio do bloco da chave 03-F (fim de linha no T5)
+    # defeito de exemplo: vão do meio do bloco da chave 03-F (fim de linha, dentro de outro fusível: T3)
     b03f = next(b for b in res['blocos'] if b['ref'] == '03-F')
     vaos_b = [v for v in res['vaos'] if v['bloco'] == b03f['n']]
     defeito = vaos_b[len(vaos_b) // 2]['id']

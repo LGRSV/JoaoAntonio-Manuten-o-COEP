@@ -8,8 +8,8 @@ Entrada: a rede como árvore de vãos com raiz no DJ.
 
 Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo aprovado até agora):
     - Zona: T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 em ramal e 79 depois do 2º:
-      religador nunca cria T3. Depois de uma chave fusível (03) é no mínimo T3; se já era T3 ou mais, soma uma
-      (a confirmar: 03 depois de T3 vira T4).
+      religador nunca cria T3. Depois de uma chave fusível (03/33/02) é T3; fusível depois de fusível continua T3
+      (não existe T4).
     - Tronco: caminho DJ → 1º 79 → 2º 79 e, depois do 2º 79, até os próximos ativos (79 ou fusível): o trecho
       entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3.
       Se houver mais de um candidato a 2º 79, fica o que tem mais rede depois dele (a confirmar).
@@ -96,7 +96,7 @@ def analisar(nos, vaos, raiz):
     zona = {raiz: 1}
     for n in ordem_nos[1:]:
         z = zona[pai[n]]
-        zona[n] = max(z, 2) if tipo(n) == '79' else max(z + 1, 3) if tipo(n) in FUSIVEIS else z
+        zona[n] = max(z, 2) if tipo(n) == '79' else 3 if tipo(n) in FUSIVEIS else z
 
     # extensão total e extensão T1/T2 pendurada em cada nó
     abaixo, abaixo12 = {}, {}
