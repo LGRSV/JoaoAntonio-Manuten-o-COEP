@@ -174,12 +174,13 @@ def test_trechos():
     nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
     res = regras.analisar(nos, vaos, 'DJ')
     ts = {t['nome']: t for t in trechos.segmentar(nos, res)}
-    assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T3-C'], sorted(ts)
+    assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T2-B', 'T3-A', 'T3-B', 'T3-C'], sorted(ts)
     assert (ts['T1']['inicio'], ts['T1']['fim']) == ('DJ', ['79-2'])
-    assert (ts['T2']['inicio'], ts['T2']['passa']) == ('79-2', ['79-4']), 'religadores do tronco ficam no T2'
-    assert ts['T2']['derivacoes'] == ['T2-A', 'T3-A'], 'religador fora do tronco é derivação, em ordem do DJ'
-    assert (ts['T2-A']['inicio'], ts['T2-A']['pai'], ts['T2-A']['derivacoes']) == ('79-d2', 'T2', ['T3-B'])
-    assert ts['T2']['fim'] == ['03-6'] and ts['T2-A']['fim'] == ['03-d4'], 'sem religador no fim: ponto mais distante'
+    assert (ts['T2']['inicio'], ts['T2']['fim']) == ('79-2', ['79-4']), 'T2 vai de religador até religador'
+    assert (ts['T2-A']['inicio'], ts['T2-A']['pai'], ts['T2-A']['tronco']) == ('79-4', 'T2', True), '2º religador abre T2-A'
+    assert ts['T2']['derivacoes'] == ['T2-B'], 'religador fora do tronco é derivação'
+    assert (ts['T2-B']['inicio'], ts['T2-B']['pai'], ts['T2-B']['derivacoes']) == ('79-d2', 'T2', ['T3-B'])
+    assert ts['T2-A']['fim'] == ['03-6'] and ts['T2-B']['fim'] == ['03-d4'], 'sem religador no fim: ponto mais distante'
     assert ts['T3-B']['fim'] == ['fim de linha · poste Pd5']
     assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T3-C')] == ['03-6', '03-d4', '03-8'], 'só T3, letras pela distância do DJ'
     assert ts['T3-A']['fim'] == ['03-8'] and ts['T3-C']['pai'] == 'T3-A', 'fusível dentro de fusível também é T3'
@@ -195,8 +196,8 @@ def test_trechos():
         n = '{http://www.opengis.net/kml/2.2}'
         pastas = [f.find(n + 'name').text for g in doc.find(n + 'Document').find(n + 'Folder').findall(n + 'Folder')
                   for f in g.findall(n + 'Folder')]
-        assert [p.split(' · ')[0] for p in pastas] == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T3-C'], pastas
-        assert pastas[3].startswith('T3-A · 03-6 → 03-8')
+        assert [p.split(' · ')[0] for p in pastas] == ['T1', 'T2', 'T2-A', 'T2-B', 'T3-A', 'T3-B', 'T3-C'], pastas
+        assert pastas[4].startswith('T3-A · 03-6 → 03-8')
 
 
 if __name__ == '__main__':

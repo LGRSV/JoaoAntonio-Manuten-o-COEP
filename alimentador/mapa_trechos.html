@@ -86,7 +86,7 @@ p{margin:0}
   <header>
     <span class="eyebrow">%%ROTULO%%</span>
     <h1>Trechos por ativo</h1>
-    <p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> segue pelos religadores do tronco. <b>T2-A, T2-B…</b> é rede T2 que começa num religador fora do tronco. <b>T3-A, T3-B…</b> é cada fusível, em ordem a partir do DJ; fusível dentro de fusível também é T3 (não existe T4). Cada trecho vai de chave até chave: toque num trecho no mapa ou na lista para ver a chave de início e de fim.</p>
+    <p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> vai do 1º ao 2º religador; cada religador seguinte abre um novo T2: <b>T2-A, T2-B…</b>, em ordem a partir do DJ. <b>T3-A, T3-B…</b> é cada fusível, em ordem a partir do DJ; fusível dentro de fusível também é T3 (não existe T4). Cada trecho vai de chave até chave: toque num trecho no mapa ou na lista para ver a chave de início e de fim.</p>
   </header>
 
   <div class="stage">
@@ -130,7 +130,7 @@ if (D.trechos.some(t => t.zona > 5)) leg.push(['T6+', '#d946ef', 'fino']);
 $('legenda').innerHTML = leg.map(([n, c, k]) => `<span><i class="${k}" style="--c:${c}"></i>${esc(n)}</span>`).join('');
 
 // lista
-const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'Ramais T2 (começam num religador)'], ['fusivel', 'Depois de fusível']];
+const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'T2-A, T2-B… (um por religador)'], ['fusivel', 'Depois de fusível']];
 function fimTxt(t) { return t.fim.join(' / '); }
 function desenhaLista(filtro) {
   const q = (filtro || '').trim().toLowerCase();
@@ -148,7 +148,7 @@ $('lista').addEventListener('click', e => { const b = e.target.closest('.row'); 
 // detalhe
 function detalhe(t, vao) {
   const chips = l => l.length ? `<div class="chips">${l.map(n => `<button class="chip" data-t="${esc(n)}">${esc(n)}</button>`).join('')}</div>` : '—';
-  const tipoTxt = {principal: t.zona === 1 ? 'tronco T1' : 'tronco T2', ramal: 'ramal T2', fusivel: `depois de fusível · T${t.zona}`}[t.tipo];
+  const tipoTxt = {principal: t.zona === 1 ? 'tronco T1' : 'tronco T2', ramal: t.tronco ? 'T2 · tronco' : 'T2 · ramal', fusivel: `depois de fusível · T${t.zona}`}[t.tipo];
   $('det').innerHTML = `<h2><i style="--c:${t.cor}"></i>${esc(t.nome)} <small>${tipoTxt}</small></h2><dl>
     <dt>Início</dt><dd><span class="mono">${esc(t.inicio)}</span> · ${TIPO[t.inicio_tipo] || t.inicio_tipo} · poste ${esc(t.inicio_poste)}</dd>
     ${t.passa.length ? `<dt>Passa por</dt><dd class="mono">${t.passa.map(esc).join(', ')}</dd>` : ''}

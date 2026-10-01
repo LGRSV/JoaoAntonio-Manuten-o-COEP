@@ -2,9 +2,9 @@
 
 Regras (a partir do resultado de regras.analisar):
     - T1: do DJ até o 1º religador. Derivação em poste sem ativo continua no T1.
-    - T2: rede T2 do tronco (passa pelos religadores do tronco). Derivação em poste sem ativo continua no T2.
-    - T2-A, T2-B…: rede T2 que começa num religador fora do tronco (ou no último religador do tronco,
-      quando dele só sai ramal). A letra só nasce em ativo.
+    - T2: do 1º religador (onde o tronco sai do T1) até o próximo religador. Derivação em poste sem ativo continua no T2.
+    - T2-A, T2-B…: cada religador seguinte abre um novo T2 (de religador até religador), no tronco ou fora dele,
+      em ordem de distância a partir do DJ. A letra só nasce em ativo.
     - T3-A, T3-B…: cada fusível (03/33/02), inclusive fusível dentro de fusível (não existe T4), em ordem de
       distância a partir do DJ: A…Z, AA, AB…
     - Chave de seccionamento (SEC), 88 e outras não criam trecho.
@@ -54,7 +54,7 @@ def segmentar(nos, res):
             elif t in FUSIVEIS:
                 k = ('F', n)
             elif t == '79':
-                k = 'T2' if any(x['tronco'] for x in filhos[n]) else ('R', n)
+                k = 'T2' if atual == 'T1' and any(x['tronco'] for x in filhos[n]) else ('R', n)
             else:
                 k = atual
             if k != atual or t == '79':
@@ -95,6 +95,7 @@ def segmentar(nos, res):
             raise ValueError(f"vão {v['id']} é T{v['zona']} mas caiu no trecho {t['nome']}")
         t['ext'] += v['ext']
         t['qtd'] += 1
+        t['tronco'] = t.get('tronco', False) or v['tronco']
         t['vaos'].append(v['id'])
         v['trecho'] = t['nome']
 
@@ -236,8 +237,8 @@ def kmz(nos, res, nome, caminho):
     lons = [p[1] for v in res['vaos'] for p in (v['a'], v['b'])]
     clat, clon = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
     diag = ((max(lats) - min(lats)) ** 2 + ((max(lons) - min(lons)) * 0.99) ** 2) ** 0.5 * 111_320
-    regra = ('T1: DJ → 1º religador. T2: religador → religador (tronco). T2-A, T2-B…: rede T2 que começa num religador '
-             'fora do tronco. T3-A, T3-B…: cada fusível, em ordem a partir do DJ (não existe T4). '
+    regra = ('T1: DJ → 1º religador. T2: 1º → 2º religador. T2-A, T2-B…: cada religador seguinte abre um novo T2, '
+             'em ordem a partir do DJ. T3-A, T3-B…: cada fusível, em ordem a partir do DJ (não existe T4). '
              'Toque numa linha para ver a chave de início e de fim.')
     k = ['<?xml version="1.0" encoding="UTF-8"?>', '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>',
          f'<name>{escape(nome)} · trechos</name><open>1</open><description>{escape(regra)}</description>',
@@ -254,7 +255,7 @@ def kmz(nos, res, nome, caminho):
              '</IconStyle><LabelStyle><scale>0</scale></LabelStyle></Style>')
 
     k.append('<Folder><name>Trechos</name><open>1</open>')
-    for tipo, titulo in (('principal', 'T1 e T2'), ('ramal', 'Ramais T2'), ('fusivel', 'T3 (depois de fusível)')):
+    for tipo, titulo in (('principal', 'T1 e T2'), ('ramal', 'T2-A, T2-B… (um por religador)'), ('fusivel', 'T3 (depois de fusível)')):
         grupo = [(i, t) for i, t in enumerate(ts) if t['tipo'] == tipo]
         if not grupo:
             continue
