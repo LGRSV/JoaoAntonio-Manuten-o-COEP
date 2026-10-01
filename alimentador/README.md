@@ -35,7 +35,7 @@ Pontos ainda a confirmar (o código avisa quando acontecem):
 ```bash
 pip install -r alimentador/requirements.txt
 python -m alimentador.exemplo      # gera alimentador/saida/ com o circuito de exemplo
-python -m alimentador.testes       # 6 testes das regras, do leitor do Daimon e das saídas
+python -m alimentador.testes       # 7 testes das regras, do leitor do Daimon e das saídas
 ```
 
 Alimentador real:
@@ -59,6 +59,7 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 
 | Arquivo | O que é |
 |---|---|
+| `mapa-trechos.html` | Mapa simplificado (uma visão): trechos T1, T2, T2-A…, T3-A… com ativo de início e fim (`trechos.py`). Protótipo em validação. |
 | `mapa-blocos.html` | Mapa sobre imagem de satélite com 5 visualizações: zonas, tronco e ramais, blocos, o que cada ativo engloba, localizar um vão. Baixe e abra no navegador com internet. |
 | `*.kmz` | Para o Google Earth. Pastas Tronco › Bloco e Ramais › Ramal › Bloco; cada vão com zona, bloco, ativo de referência e ativos posteriores no balão. |
 | `*.xlsx` | Abas: Árvore de blocos, Consulta (digite um poste), Blocos (ativos um por coluna e concatenados), Por bloco (vãos agrupados, botão +), Trechos (um vão por linha, com o nome do trecho no Daimon), Ativos. As fórmulas recalculam ao abrir. |
@@ -69,5 +70,6 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 - `daimon.py`: lê o KML do Daimon e chama as regras e as saídas.
 - `exemplo.py`: monta o circuito de exemplo e gera as saídas.
 - `exporta.py`: KMZ, Excel e mapa HTML.
+- `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) e o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`).
 - `mapa_modelo.html`: modelo do mapa (Leaflet + imagem Esri World Imagery, carregados ao vivo).
 - `testes.py`: testes.

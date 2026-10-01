@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trechos · %%TITULO%%</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<style>
+/* Uma visão só: mapa com os trechos (T1, T2, T2-A…, T3-A…) e, ao lado, a lista com início e fim de cada um. */
+:root{
+  --bg:#f2f3f0; --paper:#fbfbf9; --fg:#1b2024; --muted:#5a636a; --line:#d6dad6; --ink:#232a2f;
+  --accent:#b8431f; --mapbg:#1a2126; --sel:#fff1d6;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
+  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
+  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1360px;margin:0 auto;padding:20px 16px 40px;display:grid;gap:16px}
+.wrap>*{min-width:0}
+header{display:grid;gap:6px;max-width:80ch}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(24px,3.6vw,32px)/1.1 var(--f-display);margin:0}
+p{margin:0}
+.lede{color:var(--muted);font-size:14px}
+[hidden]{display:none!important}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:14px;align-items:start}
+@media (max-width:980px){.stage{grid-template-columns:1fr}}
+.mapbox{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--mapbg)}
+#map{height:min(78vh,760px);min-height:400px;background:var(--mapbg)}
+.banner{position:absolute;left:54px;right:10px;top:10px;z-index:800;background:rgba(15,20,23,.88);color:#f3f4f4;border-radius:6px;padding:9px 12px;font-size:13.5px}
+.banner b{color:#fde68a}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:12px;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font:600 12.5px/1 var(--f-mono)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:22px;height:5px;border-radius:2px;background:var(--c)}
+.legend i.fino{height:3px}
+.busca{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);font:14px var(--f-body)}
+.busca:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.det{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:8px;background:var(--bg)}
+.det h2{margin:0;font:700 22px/1 var(--f-display);display:flex;align-items:center;gap:10px}
+.det h2 i{width:14px;height:14px;border-radius:3px;background:var(--c)}
+.det h2 small{font:500 13px var(--f-body);color:var(--muted)}
+.det dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:5px 12px;font-size:14px}
+.det dt{font:600 11.5px/1.7 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.det dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.mono{font-family:var(--f-mono)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{border:1px solid var(--line);background:var(--paper);color:var(--fg);border-radius:5px;padding:4px 7px;font:600 12px/1 var(--f-mono);cursor:pointer}
+.chip:focus-visible,.row:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.lista{display:grid;gap:2px;max-height:min(46vh,430px);overflow-y:auto;padding-right:2px}
+.grp{font:600 11.5px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 4px 5px;position:sticky;top:0;background:var(--paper)}
+.row{display:grid;grid-template-columns:10px 54px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-radius:5px;background:transparent;color:var(--fg);padding:6px 6px;cursor:pointer;font:13px/1.3 var(--f-body)}
+.row:hover{background:var(--bg)}
+.row[aria-current="true"]{background:var(--sel)}
+.row i{width:10px;height:10px;border-radius:2px;background:var(--c)}
+.row b{font:600 13px var(--f-mono)}
+.row span{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--f-mono);font-size:12px}
+.row em{font-style:normal;font:12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.foot{font-size:12.5px;color:var(--muted)}
+/* marcadores */
+.at{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.at b{display:inline-grid;place-items:center;min-width:28px;height:20px;padding:0 4px;background:#fbfbf9;color:#1b2024;border:2px solid #1b2024;border-radius:3px;font:600 11.5px/1 var(--f-mono)}
+.at span{font:600 11.5px/1 var(--f-mono);color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
+.lb{font:700 13px/1 var(--f-display);color:#fff;background:rgba(0,0,0,.66);border-left:4px solid var(--c);padding:4px 7px;border-radius:3px;white-space:nowrap;cursor:pointer}
+.lb.fus{font-size:11.5px;padding:3px 5px;border-left-width:3px}
+#map.longe .lb.fus{display:none}
+#map.longe .lb.fus.sel{display:block}
+.lb.sel{outline:2px solid #fde047}
+.leaflet-container{font-family:var(--f-body)}
+</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">%%ROTULO%%</span>
+    <h1>Trechos por ativo</h1>
+    <p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> segue pelos religadores do tronco. <b>T2-A, T2-B…</b> é rede T2 que começa num religador fora do tronco. <b>T3-A, T3-B…</b> é cada fusível que sai do T1/T2, em ordem a partir do DJ; fusível dentro de fusível vira <b>T4-A…</b>. Toque num trecho no mapa ou na lista.</p>
+  </header>
+
+  <div class="stage">
+    <div class="mapbox">
+      <div id="map" role="region" aria-label="Mapa dos trechos"></div>
+      <div class="banner" id="nosat" hidden><b>A imagem de satélite não carregou.</b> Confira a internet. Os trechos aparecem igual.</div>
+      <div class="banner" id="nolib" hidden><b>O mapa não carregou.</b> A biblioteca de mapa (Leaflet) não foi encontrada.</div>
+    </div>
+    <aside class="panel">
+      <div class="legend" id="legenda"></div>
+      <input class="busca" id="busca" type="search" placeholder="Buscar trecho, ativo ou poste" aria-label="Buscar trecho, ativo ou poste">
+      <section class="det" id="det" aria-live="polite"></section>
+      <div class="lista" id="lista" role="list"></div>
+    </aside>
+  </div>
+  <p class="foot">Fim do trecho: religador onde começa o trecho seguinte; se não tem, o poste de fim de linha mais distante do DJ. Chaves 88 não aparecem. Imagem de satélite: Esri World Imagery, carregada ao vivo.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+const D = %%DADOS%%;
+const COR_Z = {1:'#3b82f6', 2:'#22c55e', 3:'#facc15', 4:'#f97316', 5:'#ef4444'};
+const COR_R = ['#2dd4bf', '#a3e635', '#67e8f9', '#86efac', '#5eead4', '#bef264'];
+let nr = 0;
+D.trechos.forEach(t => {
+  t.cor = t.tipo === 'ramal' ? COR_R[nr++ % COR_R.length] : (COR_Z[t.zona] || '#d946ef');
+  t.peso = t.tipo === 'principal' ? 6 : t.tipo === 'ramal' ? 4.5 : 3;
+});
+const TR = Object.fromEntries(D.trechos.map(t => [t.nome, t]));
+const TIPO = {DJ:'disjuntor', '79':'religador', '03':'fusível 03', '33':'fusível 33', '02':'chave 02', SEC:'seccionamento'};
+const km = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' km';
+const nv = q => q + (q === 1 ? ' vão' : ' vãos');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $ = id => document.getElementById(id);
+
+// legenda
+const leg = [['T1', COR_Z[1], ''], ['T2', COR_Z[2], '']];
+D.trechos.filter(t => t.tipo === 'ramal').forEach(t => leg.push([t.nome, t.cor, '']));
+[3, 4, 5].forEach(z => { if (D.trechos.some(t => t.zona === z)) leg.push([`T${z}-…`, COR_Z[z], 'fino']); });
+if (D.trechos.some(t => t.zona > 5)) leg.push(['T6+', '#d946ef', 'fino']);
+$('legenda').innerHTML = leg.map(([n, c, k]) => `<span><i class="${k}" style="--c:${c}"></i>${esc(n)}</span>`).join('');
+
+// lista
+const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'Ramais T2 (começam num religador)'], ['fusivel', 'Depois de fusível']];
+function fimTxt(t) { return t.fim.join(' / '); }
+function desenhaLista(filtro) {
+  const q = (filtro || '').trim().toLowerCase();
+  const casa = t => !q || [t.nome, t.inicio, t.inicio_poste, ...t.fim, ...t.passa].some(s => String(s).toLowerCase().includes(q));
+  $('lista').innerHTML = GRUPOS.map(([g, titulo]) => {
+    const ts = D.trechos.filter(t => t.tipo === g && casa(t));
+    if (!ts.length) return '';
+    return `<div class="grp">${titulo} · ${ts.length}</div>` + ts.map(t =>
+      `<button class="row" role="listitem" data-t="${esc(t.nome)}" aria-current="${t.nome === sel}"><i style="--c:${t.cor}"></i><b>${esc(t.nome)}</b>` +
+      `<span title="${esc(t.inicio + ' → ' + fimTxt(t))}">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</span><em>${km(t.ext)}</em></button>`).join('');
+  }).join('') || '<p class="lede">Nada encontrado.</p>';
+}
+$('lista').addEventListener('click', e => { const b = e.target.closest('.row'); if (b) selecionar(b.dataset.t, true); });
+
+// detalhe
+function detalhe(t, vao) {
+  const chips = l => l.length ? `<div class="chips">${l.map(n => `<button class="chip" data-t="${esc(n)}">${esc(n)}</button>`).join('')}</div>` : '—';
+  const tipoTxt = {principal: t.zona === 1 ? 'tronco T1' : 'tronco T2', ramal: 'ramal T2', fusivel: `depois de fusível · T${t.zona}`}[t.tipo];
+  $('det').innerHTML = `<h2><i style="--c:${t.cor}"></i>${esc(t.nome)} <small>${tipoTxt}</small></h2><dl>
+    <dt>Início</dt><dd><span class="mono">${esc(t.inicio)}</span> · ${TIPO[t.inicio_tipo] || t.inicio_tipo} · poste ${esc(t.inicio_poste)}</dd>
+    ${t.passa.length ? `<dt>Passa por</dt><dd class="mono">${t.passa.map(esc).join(', ')}</dd>` : ''}
+    <dt>Fim</dt><dd class="mono">${t.fim.map(esc).join('<br>')}</dd>
+    <dt>Extensão</dt><dd>${km(t.ext)} · ${nv(t.qtd)}</dd>
+    <dt>Vem de</dt><dd>${t.pai ? chips([t.pai]) : '—'}</dd>
+    <dt>Derivações</dt><dd>${chips(t.derivacoes)}</dd>
+    ${vao ? `<dt>Vão</dt><dd class="mono">${esc(vao[5])} · poste ${esc(vao[6])} → ${esc(vao[7])} · ${Math.round(vao[8])} m</dd>` : ''}
+  </dl><div><button class="chip" id="todos">Ver todos</button></div>`;
+}
+function resumo() {
+  const total = D.trechos.reduce((s, t) => s + t.ext, 0);
+  const fus = D.trechos.filter(t => t.tipo === 'fusivel');
+  const porZ = {};
+  fus.forEach(t => { porZ[t.zona] = (porZ[t.zona] || 0) + 1; });
+  const linha = t => `<dt>${esc(t.nome)}</dt><dd><span class="mono">${esc(t.inicio)} → ${esc(fimTxt(t))}</span> · ${km(t.ext)}</dd>`;
+  $('det').innerHTML = `<h2>${D.trechos.length} trechos <small>${km(total)} de rede</small></h2><dl>
+    ${D.trechos.filter(t => t.tipo !== 'fusivel').map(linha).join('')}
+    <dt>Fusíveis</dt><dd>${fus.length} trechos (${Object.entries(porZ).map(([z, n]) => `T${z}: ${n}`).join(' · ')})</dd>
+  </dl><p class="lede">Toque num trecho no mapa ou na lista para ver início, fim e derivações.</p>`;
+}
+$('det').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; b.id === 'todos' ? limpar() : selecionar(b.dataset.t, true); });
+
+// mapa
+let map = null, sel = null;
+const linhas = [], rotulos = {};
+let halo = null;
+function selecionar(nome, enquadrar, vao) {
+  sel = nome;
+  const t = TR[nome];
+  detalhe(t, vao);
+  desenhaLista($('busca').value);
+  const b = document.querySelector(`.row[data-t="${CSS.escape(nome)}"]`);
+  if (b) b.scrollIntoView({block: 'nearest'});
+  if (!map) return;
+  linhas.forEach(([l, v]) => l.setStyle({opacity: D.trechos[v[4]].nome === nome ? 1 : 0.28}));
+  if (halo) halo.remove();
+  const meus = linhas.filter(([, v]) => D.trechos[v[4]].nome === nome).map(([, v]) => [[v[0], v[1]], [v[2], v[3]]]);
+  halo = L.polyline(meus, {color: '#fff', weight: t.peso + 6, opacity: .9, interactive: false}).addTo(map);
+  halo.bringToBack();
+  Object.entries(rotulos).forEach(([n, m]) => m.getElement() && m.getElement().firstChild.classList.toggle('sel', n === nome));
+  if (enquadrar) map.fitBounds(L.latLngBounds(meus.flat()).pad(0.25), {maxZoom: 17});
+}
+function limpar() {
+  sel = null;
+  resumo();
+  desenhaLista($('busca').value);
+  if (!map) return;
+  linhas.forEach(([l]) => l.setStyle({opacity: 1}));
+  if (halo) { halo.remove(); halo = null; }
+  Object.values(rotulos).forEach(m => m.getElement() && m.getElement().firstChild.classList.remove('sel'));
+}
+
+if (typeof L === 'undefined') {
+  $('nolib').hidden = false;
+} else {
+  map = L.map('map', {preferCanvas: true, zoomSnap: 0.25, zoomDelta: 0.5});
+  window.__map = map;
+  let falhas = 0;
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagem © Esri — Esri, Maxar, Earthstar Geographics'
+  }).on('tileerror', () => { if (++falhas > 3) $('nosat').hidden = false; }).addTo(map);
+  // v = [lat1, lon1, lat2, lon2, idx_trecho, id, poste_ini, poste_fim, ext]
+  D.vaos.forEach(v => {
+    const t = D.trechos[v[4]];
+    const l = L.polyline([[v[0], v[1]], [v[2], v[3]]], {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);
+    l.on('click', e => { L.DomEvent.stopPropagation(e); selecionar(t.nome, false, v); });
+    linhas.push([l, v]);
+  });
+  D.fusiveis.forEach(a => {
+    L.circleMarker([a.lat, a.lon], {radius: 4, color: '#111', weight: 1.5, fillColor: a.t === 'SEC' ? '#9ca3af' : '#fff', fillOpacity: 1})
+      .bindTooltip(`${a.nome} · ${TIPO[a.t] || a.t}${a.trecho ? ' · início do ' + a.trecho : ''}`, {direction: 'top'})
+      .on('click', e => { L.DomEvent.stopPropagation(e); if (a.trecho) selecionar(a.trecho, false); }).addTo(map);
+  });
+  D.principais.forEach(a => {
+    L.marker([a.lat, a.lon], {icon: L.divIcon({className: '', iconSize: null, html: `<div class="at"><b>${a.t === 'DJ' ? 'DJ' : '79'}</b><span>${esc(a.nome)}</span></div>`}), zIndexOffset: 500})
+      .bindTooltip(`${a.nome} · ${TIPO[a.t]} · poste ${a.poste}`, {direction: 'top'}).addTo(map);
+  });
+  D.trechos.forEach(t => {
+    const m = L.marker(t.rotulo, {icon: L.divIcon({className: '', iconSize: null, html: `<div class="lb ${t.tipo === 'fusivel' ? 'fus' : ''}" style="--c:${t.cor}">${esc(t.nome)}</div>`}), zIndexOffset: t.tipo === 'fusivel' ? 0 : 400})
+      .on('click', e => { L.DomEvent.stopPropagation(e); selecionar(t.nome, false); }).addTo(map);
+    rotulos[t.nome] = m;
+  });
+  const todos = L.latLngBounds(D.vaos.flatMap(v => [[v[0], v[1]], [v[2], v[3]]]));
+  map.fitBounds(todos.pad(0.04));
+  const zoomClasse = () => $('map').classList.toggle('longe', map.getZoom() < 15.5);
+  map.on('zoomend', zoomClasse); zoomClasse();
+  map.on('click', limpar);
+}
+
+$('busca').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  desenhaLista(q);
+  const qq = q.toLowerCase();
+  if (!qq) return;
+  if (TR[q.toUpperCase()]) return selecionar(q.toUpperCase(), true);
+  const at = D.trechos.find(t => t.inicio.toLowerCase() === qq);
+  if (at) return selecionar(at.nome, true);
+  const v = D.vaos.find(v => String(v[6]).toLowerCase() === qq || String(v[7]).toLowerCase() === qq);
+  if (v) { selecionar(D.trechos[v[4]].nome, false, v); if (map) map.setView([v[2], v[3]], Math.max(map.getZoom(), 17)); }
+});
+window.__sel = selecionar;
+window.__limpar = limpar;
+limpar();
+</script>
+</body></html>

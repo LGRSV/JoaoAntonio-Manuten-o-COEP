@@ -6,7 +6,7 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 
-from . import exemplo, exporta, regras
+from . import exemplo, exporta, regras, trechos
 
 
 def rede_linha(tipos, desvio=None):
@@ -166,6 +166,30 @@ def test_leitor_daimon():
     # sai só o suporte do DJ e o da chave NA; o fio do desvio fica como ponta sem saída, ligado do lado de baixo
     assert len(res['vaos']) == len(trechos) - 2
     assert info['nomes_vaos'][next(v for v in vaos if nos[v[1]]['tipo'] == '79')] == 'Suporte Chave 7900001'
+
+
+
+def test_trechos():
+    # DJ → RL1 → RL2 → 03 → 03 no tronco; do poste entre RL1 e RL2 sai um desvio com religador e fusível
+    nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
+    res = regras.analisar(nos, vaos, 'DJ')
+    ts = {t['nome']: t for t in trechos.segmentar(nos, res)}
+    assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T3-A', 'T3-B', 'T4-A'], sorted(ts)
+    assert (ts['T1']['inicio'], ts['T1']['fim']) == ('DJ', ['79-2'])
+    assert (ts['T2']['inicio'], ts['T2']['passa']) == ('79-2', ['79-4']), 'religadores do tronco ficam no T2'
+    assert ts['T2']['derivacoes'] == ['T2-A', 'T3-A'], 'religador fora do tronco é derivação, em ordem do DJ'
+    assert (ts['T2-A']['inicio'], ts['T2-A']['pai'], ts['T2-A']['derivacoes']) == ('79-d2', 'T2', ['T3-B'])
+    assert ts['T2']['fim'] == ['03-6'] and ts['T2-A']['fim'] == ['03-d4'], 'sem religador no fim: ponto mais distante'
+    assert ts['T3-B']['fim'] == ['fim de linha · poste Pd5']
+    assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T4-A')] == ['03-6', '03-d4', '03-8'], 'letras pela distância do DJ'
+    assert ts['T3-A']['fim'] == ['03-8'] and ts['T4-A']['pai'] == 'T3-A'
+    assert abs(sum(t['ext'] for t in ts.values()) - res['total_m']) < 0.5
+    assert all(v['zona'] == ts[v['trecho']]['zona'] for v in res['vaos'])
+    assert [trechos.letras(i) for i in (0, 25, 26, 27, 51, 52)] == ['A', 'Z', 'AA', 'AB', 'AZ', 'BA']
+    with tempfile.TemporaryDirectory() as d:
+        trechos.mapa(nos, res, 'TESTE', Path(d) / 'm.html')
+        html = (Path(d) / 'm.html').read_text(encoding='utf-8')
+        assert '%%' not in html and '"nome":"T2-A"' in html
 
 
 if __name__ == '__main__':
