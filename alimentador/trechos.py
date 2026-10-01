@@ -8,9 +8,10 @@ Regras (a partir do resultado de regras.analisar):
     - T3-A, T3-B…: cada fusível (03/33/02) que sai do T1/T2, em ordem de distância a partir do DJ:
       A…Z, AA, AB…  Fusível dentro de fusível segue a zona das regras (T4-A…, T5-A…), com sequência própria.
     - Chave de seccionamento (SEC), 88 e outras não criam trecho.
-Fim do trecho: o religador do tronco (ou de dentro do ramal) onde começa o T2 seguinte; sem ele, o ponto do trecho
-mais distante do DJ (poste de fim de linha ou ativo onde passa para outro trecho). Religador fora do tronco que sai
-do T1/T2 é derivação, não fim.
+Início e fim vão de chave até chave: T1 = DJ → religador; T2 = religador → religador (ou → chave); do T2 pra frente,
+chave → chave. Fim do trecho: o religador do tronco (ou de dentro do ramal) onde começa o T2 seguinte; sem ele,
+seguindo a linha principal (rumo ao ponto mais distante do DJ), a 1ª chave onde começa outro trecho ou, se não houver,
+o poste de fim de linha. Religador fora do tronco que sai do T1/T2 é derivação, não fim.
 """
 import json
 from collections import defaultdict
@@ -107,12 +108,27 @@ def segmentar(nos, res):
             pai['fim'].append(t['inicio'])
         else:
             pai['derivacoes'].append(t['nome'])
+    # alcance: maior distância do DJ que se atinge descendo de cada nó
+    ordem = [raiz]
+    for n in ordem:
+        ordem.extend(v['_c'] for v in filhos[n])
+    alcance = {}
+    for n in reversed(ordem):
+        alcance[n] = max((alcance[v['_c']] for v in filhos[n]), default=dist_no(n))
+    no_de = {nos[n]['nome']: n for n in ordem if nos[n]['tipo'] != 'P'}
     for k, t in tr.items():
-        if not t['fim']:   # ponto mais distante do DJ: fim de linha ou ativo onde passa para outro trecho
-            cands = [(v['dist_dj'], f"fim de linha · poste {v['fim']}") for v in vaos
-                     if chave_vao[v['id']] == k and not filhos[v['_c']]]
-            cands += [(x['dist_inicio'], x['inicio']) for x in tr.values() if x['nome'] in t['derivacoes']]
-            t['fim'] = [max(cands)[1]]
+        if t['fim']:
+            fins = [no_de[a] for a in t['fim']]
+        else:   # segue a linha principal (rumo ao ponto mais distante) até a 1ª chave de outro trecho ou o fim de linha
+            n = t['_nos'][0]
+            while True:
+                v = max(filhos[n], key=lambda v: alcance[v['_c']], default=None)
+                if v is None or chave_vao[v['id']] != k:
+                    break
+                n = v['_c']
+            fins = [n]
+            t['fim'] = [nos[n]['nome'] if filhos[n] else f"fim de linha · poste {nos[n]['poste']}"]
+        t['fim_pts'] = [[round(nos[n]['lat'], 7), round(nos[n]['lon'], 7)] for n in fins]
         t['ext'] = round(t['ext'], 1)
         t['rotulo'] = _ponto_rotulo(t, vaos, chave_vao, chegada, k)
         del t['_nos']

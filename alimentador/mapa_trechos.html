@@ -58,6 +58,7 @@ p{margin:0}
 .lista{display:grid;gap:2px;max-height:min(46vh,430px);overflow-y:auto;padding-right:2px}
 .grp{font:600 11.5px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 4px 5px;position:sticky;top:0;background:var(--paper)}
 .row{display:grid;grid-template-columns:10px 54px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-radius:5px;background:transparent;color:var(--fg);padding:6px 6px;cursor:pointer;font:13px/1.3 var(--f-body)}
+.row{scroll-margin-top:30px}
 .row:hover{background:var(--bg)}
 .row[aria-current="true"]{background:var(--sel)}
 .row i{width:10px;height:10px;border-radius:2px;background:var(--c)}
@@ -74,6 +75,10 @@ p{margin:0}
 #map.longe .lb.fus{display:none}
 #map.longe .lb.fus.sel{display:block}
 .lb.sel{outline:2px solid #fde047}
+/* chaves de início e fim do trecho selecionado */
+.ie{display:inline-flex;gap:5px;align-items:center;transform:translate(-50%,calc(-100% - 9px));font:600 12px/1 var(--f-mono);background:#fbfbf9;color:#1b2024;border:2px solid #1b2024;border-radius:4px;padding:3px 6px 3px 3px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.ie em{font-style:normal;font-size:10.5px;letter-spacing:.05em;padding:2px 4px;border-radius:2px;color:#fff;background:#15803d}
+.ie.fim em{background:#b91c1c}
 .leaflet-container{font-family:var(--f-body)}
 </style>
 </head><body>
@@ -81,7 +86,7 @@ p{margin:0}
   <header>
     <span class="eyebrow">%%ROTULO%%</span>
     <h1>Trechos por ativo</h1>
-    <p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> segue pelos religadores do tronco. <b>T2-A, T2-B…</b> é rede T2 que começa num religador fora do tronco. <b>T3-A, T3-B…</b> é cada fusível que sai do T1/T2, em ordem a partir do DJ; fusível dentro de fusível vira <b>T4-A…</b>. Toque num trecho no mapa ou na lista.</p>
+    <p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> segue pelos religadores do tronco. <b>T2-A, T2-B…</b> é rede T2 que começa num religador fora do tronco. <b>T3-A, T3-B…</b> é cada fusível que sai do T1/T2, em ordem a partir do DJ; fusível dentro de fusível vira <b>T4-A…</b>. Cada trecho vai de chave até chave: toque num trecho no mapa ou na lista para ver a chave de início e de fim.</p>
   </header>
 
   <div class="stage">
@@ -97,7 +102,7 @@ p{margin:0}
       <div class="lista" id="lista" role="list"></div>
     </aside>
   </div>
-  <p class="foot">Fim do trecho: religador onde começa o trecho seguinte; se não tem, o poste de fim de linha mais distante do DJ. Chaves 88 não aparecem. Imagem de satélite: Esri World Imagery, carregada ao vivo.</p>
+  <p class="foot">Fim do trecho: o religador onde começa o T2 seguinte; senão, seguindo a linha principal (rumo ao ponto mais distante do DJ), a 1ª chave onde começa outro trecho ou, se não houver, o poste de fim de linha. Chaves 88 não aparecem. Imagem de satélite: Esri World Imagery, carregada ao vivo.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
@@ -170,7 +175,10 @@ $('det').addEventListener('click', e => { const b = e.target.closest('.chip'); i
 // mapa
 let map = null, sel = null;
 const linhas = [], rotulos = {};
-let halo = null;
+let halo = null, marcas = null;
+const fimDe = {};
+D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
+const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
 function selecionar(nome, enquadrar, vao) {
   sel = nome;
   const t = TR[nome];
@@ -185,6 +193,10 @@ function selecionar(nome, enquadrar, vao) {
   halo = L.polyline(meus, {color: '#fff', weight: t.peso + 6, opacity: .9, interactive: false}).addTo(map);
   halo.bringToBack();
   Object.entries(rotulos).forEach(([n, m]) => m.getElement() && m.getElement().firstChild.classList.toggle('sel', n === nome));
+  if (marcas) marcas.remove();
+  const pino = (pt, cls, tag, txt) => L.marker(pt, {interactive: false, zIndexOffset: 900, icon: L.divIcon({className: '', iconSize: null, html: `<div class="ie ${cls}"><em>${tag}</em>${esc(txt)}</div>`})});
+  marcas = L.layerGroup([pino([t.inicio_lat, t.inicio_lon], 'ini', 'INÍCIO', t.inicio),
+    ...t.fim.map((f, i) => pino(t.fim_pts[i], 'fim', 'FIM', f.replace('fim de linha · poste ', 'poste ') + (f.startsWith('fim de linha') ? ' (fim de linha)' : '')))]).addTo(map);
   if (enquadrar) map.fitBounds(L.latLngBounds(meus.flat()).pad(0.25), {maxZoom: 17});
 }
 function limpar() {
@@ -194,6 +206,7 @@ function limpar() {
   if (!map) return;
   linhas.forEach(([l]) => l.setStyle({opacity: 1}));
   if (halo) { halo.remove(); halo = null; }
+  if (marcas) { marcas.remove(); marcas = null; }
   Object.values(rotulos).forEach(m => m.getElement() && m.getElement().firstChild.classList.remove('sel'));
 }
 
@@ -215,15 +228,16 @@ if (typeof L === 'undefined') {
   });
   D.fusiveis.forEach(a => {
     L.circleMarker([a.lat, a.lon], {radius: 4, color: '#111', weight: 1.5, fillColor: a.t === 'SEC' ? '#9ca3af' : '#fff', fillOpacity: 1})
-      .bindTooltip(`${a.nome} · ${TIPO[a.t] || a.t}${a.trecho ? ' · início do ' + a.trecho : ''}`, {direction: 'top'})
+      .bindTooltip(`${a.nome} · ${TIPO[a.t] || a.t}${papel(a.nome) ? ' · ' + papel(a.nome) : ''}`, {direction: 'top'})
       .on('click', e => { L.DomEvent.stopPropagation(e); if (a.trecho) selecionar(a.trecho, false); }).addTo(map);
   });
   D.principais.forEach(a => {
     L.marker([a.lat, a.lon], {icon: L.divIcon({className: '', iconSize: null, html: `<div class="at"><b>${a.t === 'DJ' ? 'DJ' : '79'}</b><span>${esc(a.nome)}</span></div>`}), zIndexOffset: 500})
-      .bindTooltip(`${a.nome} · ${TIPO[a.t]} · poste ${a.poste}`, {direction: 'top'}).addTo(map);
+      .bindTooltip(`${a.nome} · ${TIPO[a.t]} · poste ${a.poste}${papel(a.nome) ? ' · ' + papel(a.nome) : ''}`, {direction: 'top'}).addTo(map);
   });
   D.trechos.forEach(t => {
     const m = L.marker(t.rotulo, {icon: L.divIcon({className: '', iconSize: null, html: `<div class="lb ${t.tipo === 'fusivel' ? 'fus' : ''}" style="--c:${t.cor}">${esc(t.nome)}</div>`}), zIndexOffset: t.tipo === 'fusivel' ? 0 : 400})
+      .bindTooltip(`${t.inicio} → ${fimTxt(t)}`, {direction: 'top'})
       .on('click', e => { L.DomEvent.stopPropagation(e); selecionar(t.nome, false); }).addTo(map);
     rotulos[t.nome] = m;
   });
