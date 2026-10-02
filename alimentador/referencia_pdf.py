@@ -269,8 +269,8 @@ def gerar(destino):
               '<b>A letra só nasce em chave.</b> Derivação num poste sem chave continua no trecho de onde saiu, '
               'qualquer que seja o tamanho.',
               '<b>Seccionamento:</b> fusível que tem religador depois dele não abre trecho nem muda a zona.',
-              '<b>Fusível no tronco:</b> fusível na linha principal do tronco (do 2º religador, ou do DJ, até o fim pelo '
-              'lado com mais rede) não abre T3: o tronco continua T1/T2. Fusível em derivação abre T3.',
+              '<b>Fusível no tronco:</b> a 1ª chave fusível depois do religador do tronco, na linha principal, não abre '
+              'T3: o tronco segue como T2 até a próxima chave, que já abre T3.',
               'Chaves 88, facas (80) e chaves de passagem (90, 31, 68) não dividem trecho. Chave com estilo '
               '<i>ChaveNA</i> está aberta: o que vem depois dela fica fora do alimentador.']:
         h.append(item(t))
@@ -318,7 +318,8 @@ def gerar(destino):
         h.append(Paragraph(t, E['item'], bulletText=f'{i}.'))
     h.append(Spacer(1, 4))
     h.append(P('<b>Tronco</b>: DJ → 1º religador → 2º religador e, depois do 2º, até os próximos ativos. Nunca tem T3. '
-               'Sem 2º religador, o tronco segue a linha principal até o fim, passando pelos fusíveis do tronco. Se mais de um '
+               'Sem 2º religador, o tronco segue o lado com mais rede T1/T2 e para antes de um fusível (passa pela 1ª chave '
+               'fusível depois do religador). Se mais de um '
                'religador pode ser o 2º (religadores em paralelo logo depois do 1º), fica o que tem mais rede depois '
                'dele. Nos dois casos o programa avisa.'))
     h.append(P('Cada trecho guarda: chave de início (com tipo e poste), fim, extensão, de onde vem, os trechos que saem '

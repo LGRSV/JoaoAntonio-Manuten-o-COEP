@@ -48,9 +48,9 @@ def test_zonas():
     assert res['fim_tronco'] == '79-5' and any('seccionamento' in a for a in res['avisos'])
     assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos'])
     res = regras.analisar(*rede_linha(['P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [2, 2], 'fusível na linha principal do tronco não abre T3'
-    assert {a['tipo'] for a in res['ativos'] if a['nome'] in ('03-4', '03-6')} == {'FTR'}
-    assert any('linha principal do tronco' in a for a in res['avisos'])
+    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [2, 3], 'só a 1ª chave fusível depois do religador é do tronco'
+    assert [a['tipo'] for a in res['ativos'] if a['nome'] in ('03-4', '03-6')] == ['FTR', '03']
+    assert any('depois do religador do tronco' in a for a in res['avisos'])
     res = regras.analisar(*rede_linha(['P', '79', 'P', '79', 'P'], desvio=(1, ['P', '79', 'P', '03', 'P'])), 'DJ')
     assert zona_apos(res, '79-d2') == 2, 'religador em ramal também conta'
     assert zona_apos(res, '03-d4') == 3, 'fusível em ramal fora da linha principal é T3'
@@ -71,11 +71,11 @@ def test_tronco_e_blocos():
 def test_tronco_sem_segundo_religador():
     res = regras.analisar(*rede_linha(['P', '79', 'P', 'P', 'P'], desvio=(3, ['03', 'P', 'P', 'P', 'P', 'P', 'P'])), 'DJ')
     assert any('sem 2º religador' in a for a in res['avisos'])
-    assert next(a['tipo'] for a in res['ativos'] if a['nome'] == '03-d1') == 'FTR', 'linha principal passa pelo fusível'
+    assert next(a['tipo'] for a in res['ativos'] if a['nome'] == '03-d1') == 'FTR', '1ª chave fusível depois do religador'
     assert all(v['zona'] <= 2 for v in res['vaos']) and all(v['tronco'] for v in res['vaos'] if v['_c'].startswith('d'))
     assert not any(v['tronco'] for v in res['vaos'] if v['_c'] in ('n4', 'n5')), 'ponta mais curta fica fora do tronco'
     res = regras.analisar(*rede_linha(['03', 'P', 'P']), 'DJ')
-    assert {v['zona'] for v in res['vaos']} == {1} and all(v['tronco'] for v in res['vaos']), 'DJ direto num 03 do tronco'
+    assert not any(v['tronco'] for v in res['vaos']) and {v['zona'] for v in res['vaos']} == {1, 3}, 'DJ direto num 03: sem religador antes, abre T3'
 
 
 def test_rede_invalida():

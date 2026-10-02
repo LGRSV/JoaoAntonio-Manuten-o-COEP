@@ -20,10 +20,10 @@ só quer receber o que foi conferido. Fale sempre em português, inclusive nas m
 
 - A letra só nasce em ativo: derivação em poste sem chave continua no trecho de onde saiu.
 - Fusível com religador depois dele é **seccionamento**: não abre trecho e não muda a zona.
-- **Fusível no tronco** (FTR): fusível na linha principal do tronco não abre T3; o tronco segue como T1/T2. A linha
-  principal sai do 2º religador (ou do DJ, se não houver 2º) e vai até o fim pelo lado que ainda tem religador e,
-  entre esses, pelo de mais rede. Fusível em derivação continua abrindo T3. (Caso real: AL01086016, chave 3300018016
-  logo depois do religador abria um "T3" de 14 km que era o tronco.)
+- **Fusível no tronco** (FTR): só a **1ª chave fusível depois do religador do tronco**, na linha principal, não
+  abre T3; o tronco segue como T2 até a próxima chave, que já abre T3. Linha principal: do 2º religador (ou do DJ)
+  até o fim, pelo lado que ainda tem religador (com ≥ 100 m de rede depois; toco não conta) e, entre esses, pelo
+  ramo que chega mais longe do DJ. Caso real: AL01086016, chave 3300018016 logo depois do religador.
 - Chaves 88 e outras (80, 90, 31, 68) não dividem trecho.
 - Fim do trecho: o religador onde começa o T2 seguinte; senão, seguindo a linha principal (rumo ao ponto mais
   distante do DJ), a 1ª chave onde começa outro trecho; sem chave, o poste de fim de linha.

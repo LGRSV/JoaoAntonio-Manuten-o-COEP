@@ -335,7 +335,7 @@ def validar(c):
     if any(v[4] is None for v in c['vaos']):
         cri.append('vãos sem trecho')
     soma = sum(t['ext_m'] for t in c['trechos'])
-    if abs(soma - c['resumo']['extensao_m']) > 1:
+    if abs(soma - c['resumo']['extensao_m']) > 0.05 * len(c['trechos']) + 0.2:   # cada trecho vem arredondado a 0,1 m
         cri.append(f'soma dos trechos ({soma:.1f} m) ≠ extensão total ({c["resumo"]["extensao_m"]:.1f} m)')
     if not all(LON[0] <= v[0] <= LON[1] and LAT[0] <= v[1] <= LAT[1] and LON[0] <= v[2] <= LON[1]
                and LAT[0] <= v[3] <= LAT[1] for v in c['vaos']):

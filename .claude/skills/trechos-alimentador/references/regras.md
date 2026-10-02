@@ -12,17 +12,18 @@ Código: `alimentador/regras.py` (zonas, tronco, blocos), `alimentador/trechos.p
   usuário; antes somava uma zona por fusível).
 - **Seccionamento:** fusível que tem religador depois dele não conta como fusível (não muda a zona). Exemplo
   real: chave 0349277004 entre os dois religadores do AL01010004.
-- **Fusível no tronco (FTR):** fusível na linha principal do tronco não abre T3 nem muda a zona. Linha principal:
-  caminho do DJ até o 2º religador e, dali (ou do DJ, sem 2º religador), sempre o filho que ainda tem religador
-  depois e, entre esses, o de mais rede, até o fim. Exemplo real: AL01086016, 3300018016 logo depois do religador.
+- **Fusível no tronco (FTR):** só a 1ª chave fusível depois do religador do tronco, na linha principal, não abre
+  T3 nem muda a zona; a chave seguinte já abre T3. Linha principal: caminho do DJ até o 2º religador e, dali (ou do
+  DJ, sem 2º religador), sempre o filho que ainda tem religador (com ≥ 100 m de rede depois) e, entre esses, o que
+  chega mais longe do DJ, até o fim. Exemplo real: AL01086016, 3300018016 logo depois do religador.
 
 ## 2. Tronco
 
 DJ → 1º religador → 2º religador e, depois do 2º, até os próximos ativos (o trecho entre dois ativos do tronco
 ainda é tronco). Nunca tem T3.
 
-- **Sem 2º religador:** o tronco é a linha principal inteira, até o fim, passando pelos fusíveis do tronco (gera
-  aviso). Antes parava no 1º fusível; o usuário corrigiu ao ver o AL01086016.
+- **Sem 2º religador:** o tronco segue o lado com mais rede T1/T2 e para antes de um fusível (gera aviso); a 1ª
+  chave fusível depois do religador não conta como fusível, então o tronco passa por ela.
 - **Mais de um candidato a 2º religador** (religadores em paralelo logo depois do 1º): fica o que tem mais rede
   depois dele (gera aviso). Ex.: LD02110005, 7932028020 escolhido; 7936769005 virou T2-A.
 
@@ -94,7 +95,8 @@ passou para o AL02040004 em abril.
 - Ao ver o mapa: "aqui seria um T2-A e o outro azul clarinho o T2-B" → cada religador abre um T2.
 - "Tá perfeito essa lógica."
 - AL01086016: "quando a gente tiver uma chave fusível no contexto dessa aqui que tem a nomenclatura de tronco,
-  consideramos como T2 tronco ainda" → escolhido "fusível no caminho do tronco" (não toda 33, não só a 1ª).
+  consideramos como T2 tronco ainda". Primeiro valeu "todo fusível no caminho do tronco"; depois de ver o
+  resultado o usuário preferiu "só a primeira chave [fusível] depois do RL".
 
 Pendentes: chave 02 conta como fusível? Ocorrência na subestação entra no T1? Tronco no alimentador sem 2º
 religador e escolha entre religadores em paralelo (a regra decide sozinha e avisa).
