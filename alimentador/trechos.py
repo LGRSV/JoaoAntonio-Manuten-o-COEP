@@ -19,7 +19,11 @@ from collections import defaultdict
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-FUSIVEIS = {'03', '33', '02'}
+from . import regras as _regras
+
+# Uma fonte só: duplicar a lista aqui fez o trip saver (40/41) virar zona T3
+# em regras.py sem abrir trecho aqui, e a checagem de coerência estourava.
+FUSIVEIS = set(_regras.FUSIVEIS)
 
 
 def letras(i):
@@ -195,6 +199,7 @@ def mapa(nos, res, nome, caminho, interrupcoes=None):
 COR_Z = {1: '3b82f6', 2: '22c55e', 3: 'facc15'}               # mesmas cores do mapa_trechos.html
 COR_R = ['2dd4bf', 'a3e635', '67e8f9', '86efac', '5eead4', 'bef264']
 TIPO_AT = {'DJ': 'disjuntor', '79': 'religador', '03': 'fusível 03', '33': 'fusível 33', '02': 'chave 02',
+           '40': 'trip saver 40', '41': 'trip saver 41',
            'SEC': 'seccionamento', 'FTR': 'fusível no tronco'}
 ICONES = 'http://maps.google.com/mapfiles/kml/shapes/'
 
@@ -290,7 +295,8 @@ def kmz(nos, res, nome, caminho):
         k.append(f'<Placemark><name>{escape(t["nome"])}</name><description>{balao(t)}</description>'
                  f'<styleUrl>#n{i}</styleUrl><Point><coordinates>{pt(t["rotulo"])}</coordinates></Point></Placemark>')
     k.append('</Folder>')
-    for titulo, tipos, estilo in (('DJ e religadores', ('DJ', '79'), 'rl'), ('Chaves fusíveis', ('03', '33', '02', 'SEC', 'FTR'), 'fus')):
+    for titulo, tipos, estilo in (('DJ e religadores', ('DJ', '79'), 'rl'),
+                                  ('Chaves fusíveis e trip savers', tuple(sorted(FUSIVEIS)) + ('SEC', 'FTR'), 'fus')):
         k.append(f'<Folder><name>{titulo}</name>')
         for a in res['ativos']:
             if a['tipo'] in tipos:

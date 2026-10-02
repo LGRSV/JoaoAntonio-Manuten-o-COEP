@@ -8,7 +8,7 @@ Entrada: a rede como árvore de vãos com raiz no DJ.
 
 Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo aprovado até agora):
     - Zona: T1 do DJ ao 1º religador (79). Depois de qualquer 79 é T2, inclusive 79 em ramal e 79 depois do 2º:
-      religador nunca cria T3. Depois de uma chave fusível (03/33/02) é T3; fusível depois de fusível continua T3
+      religador nunca cria T3. Depois de uma chave fusível (03/33/02) ou trip saver (40/41) é T3; fusível depois de fusível continua T3
       (não existe T4).
     - Tronco: caminho DJ → 1º 79 → 2º 79 e, depois do 2º 79, até os próximos ativos (79 ou fusível): o trecho
       entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3.
@@ -22,11 +22,12 @@ Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo a
     - Bloco: vãos com o mesmo ativo de referência e o mesmo ramal. Chaves 88 (e outras que não são DJ/79/fusível)
       não dividem bloco; são só listadas.
     - Chaves 02 e 33 contam como fusível (03), como no prompt original (a confirmar para 02).
+    - Trip saver (código começando em 40 ou 41) é dispositivo de proteção e abre T3, como fusível.
     - Chave 03/33/02 com religador depois é seccionamento, não fusível: não muda a zona e só é listada (a confirmar).
 """
 import math
 
-FUSIVEIS = ('03', '33', '02')
+FUSIVEIS = ('03', '33', '02', '40', '41')   # 40/41 = trip saver (dispositivo de proteção), abre T3
 SECCIONAMENTO = 'SEC'   # 03/33/02 com religador depois
 FUSIVEL_TRONCO = 'FTR'  # 03/33/02 na linha principal do tronco
 RL_MIN_M = 100          # religador com menos de ~2 vãos de rede depois dele (toco) não puxa a linha principal

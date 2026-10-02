@@ -44,6 +44,14 @@ LON, LAT = (-51.0, -45.0), (-14.0, -5.0)     # caixa do Tocantins, para conferir
 CLASSES = ('T1', 'T2', 'T3')
 
 
+FASE_TXT = {1: 'monofásico', 2: 'bifásico', 3: 'trifásico'}
+
+
+def fase_txt(letras: str) -> str:
+    """'ABC' -> trifásico, 'AB' -> bifásico, 'A' -> monofásico."""
+    return FASE_TXT.get(len(letras), 'não informado')
+
+
 def classe(nome):
     return nome.split('-')[0]
 
@@ -217,11 +225,14 @@ def processar(al, fontes, malha, saida, data_ref):
     try:
         nos, vaos, raiz, info = daimon.ler_circuito(kml, postes)
         res = regras.analisar(nos, vaos, raiz)
+        # segmentar também entra no try: a checagem de coerência dela levanta
+        # ValueError e, fora daqui, derrubava a rodada inteira em vez de
+        # marcar só este alimentador como falha.
+        ts = trechos.segmentar(nos, res)
     except (ValueError, regras.RedeInvalida) as e:
         c = dict(base, erro=str(e), validacao=dict(status='falha', criticas=[f'não processado: {e}'], avisos=[]))
         grava_json(saida / 'dados' / 'alimentadores' / f'{al}.json', c)
         return c
-    ts = trechos.segmentar(nos, res)
     oc = None
     if fontes.critica is not None:
         oc = critica.ocorrencias(fontes.critica.get(al, []))
@@ -266,6 +277,13 @@ def processar(al, fontes, malha, saida, data_ref):
             motivos.append('alimentador sem 2º religador: fim do T2 decidido pela regra')
         return ('revisar', motivos) if motivos else ('alta', [])
 
+    # fases de cada trecho (metros por combinação; a predominante nomeia)
+    f_trecho = [{} for _ in ts]
+    for v in res['vaos']:
+        f = info.get('fases_vaos', {}).get((v['_p'], v['_c']), '')
+        d = f_trecho[idx[v['trecho']]]
+        d[f] = d.get(f, 0) + v['ext']
+
     ativos = {a['nome'] for a in res['ativos']}
     sem_corresp = [n for n in info['nomes_chaves'] if n not in ativos and n not in info['abertas']
                    and n[:2] not in ('90', '31', '68') and not n.startswith('DJ_')]
@@ -279,6 +297,8 @@ def processar(al, fontes, malha, saida, data_ref):
             fim=t['fim'], fim_lonlat=[[p[1], p[0]] for p in t['fim_pts']], pai=t['pai'], caminho=caminho(t),
             passa=t['passa'], derivacoes=t['derivacoes'], ext_m=t['ext'], vaos=t['qtd'],
             municipios={str(c): round(x, 1) for c, x in sorted(m_trecho[i].items(), key=str)},
+            fase=fase_txt(max(sorted(f_trecho[i]), key=lambda k: f_trecho[i][k]) if f_trecho[i] else ''),
+            fases={(k or 'não informado'): round(x, 1) for k, x in sorted(f_trecho[i].items())},
             confianca=conf, motivos=motivos))
 
     resumo = dict(extensao_m=round(res['total_m'], 1), trechos=len(ts),
@@ -289,6 +309,12 @@ def processar(al, fontes, malha, saida, data_ref):
     for k in CLASSES:
         resumo[k] = dict(n=sum(classe(t['nome']) == k for t in ts),
                          m=round(sum(t['ext'] for t in ts if classe(t['nome']) == k), 1))
+    por_fase = {}
+    for d in f_trecho:
+        for k, x in d.items():
+            t = fase_txt(k)
+            por_fase[t] = por_fase.get(t, 0) + x
+    resumo['fases'] = {k: round(x, 1) for k, x in sorted(por_fase.items(), key=lambda kv: -kv[1])}
     soltos = sum(int(x) for a in avisos for x in re.findall(r'(\d+) ponto\(s\) sem ligação', a))
     c = dict(base, dj=info['dj'], resumo=resumo, municipios=municipios,
              fora_do_to_m=round(m_total.get(None, 0), 1) if malha else None,
@@ -357,6 +383,12 @@ def validar(c):
         av.append(f'{len(c["limitrofes"])} vão(s) na divisa entre municípios (medidos por amostragem de {PASSO_M} m)')
     if any(t['confianca'] != 'alta' for t in c['trechos']):
         av.append('trechos a revisar: ' + ', '.join(t['nome'] for t in c['trechos'] if t['confianca'] != 'alta'))
+    # Avisos do daimon/regras (tronco decidido sem 2º religador, seccionamento,
+    # laço fora da árvore, chave em paralelo) também contam: sem isso um
+    # alimentador cujo tronco saiu de heurística aparecia como "ok".
+    for a in c.get('avisos') or []:
+        if a not in av:
+            av.append(a)
     return dict(status='falha' if cri else 'aviso' if av else 'ok', criticas=cri, avisos=av)
 
 

@@ -39,6 +39,15 @@ def _coords(pm):
     return pts
 
 
+def _fase(pm):
+    """Fases do vão, se o KML trouxer (FaseConcat/Fase/fase no ExtendedData)."""
+    for d in pm.iter(KML + 'Data'):
+        if (d.get('name') or '').lower() in ('faseconcat', 'fase', 'fases'):
+            v = (d.findtext(KML + 'value') or '').strip().upper()
+            return ''.join(sorted(set(c for c in v if c in 'ABC')))
+    return ''
+
+
 def _prefixo(nome):
     return nome[:2] if nome[:2].isdigit() else nome.split('_')[0]
 
@@ -54,12 +63,13 @@ def ler_circuito(caminho, postes=None, raio_poste=6.0):
         nome = (pm.findtext(KML + 'name') or '').strip()
         estilo = (pm.findtext(KML + 'styleUrl') or '')
         chaves[nome] = dict(pt=_coords(pm)[0], na='ChaveNA' in estilo)
-    trechos = []
+    trechos, fases = [], []
     for pm in _pasta(root, 'Trecho').findall(KML + 'Placemark'):
         pts = _coords(pm)
         if len(pts) != 2:
             raise ValueError(f'trecho {pm.findtext(KML + "name")} com {len(pts)} pontos (esperado 2)')
         trechos.append(((pm.findtext(KML + 'name') or '').strip(), pts[0], pts[1]))
+        fases.append(_fase(pm))
 
     dj = [k for k in chaves if k.startswith('DJ_') and k.endswith('_FICT')]
     if len(dj) != 1:
@@ -146,9 +156,10 @@ def ler_circuito(caminho, postes=None, raio_poste=6.0):
     if not vaos:
         raise ValueError('nenhum trecho ligado ao DJ')
     nomes_vaos = {(ids[pai[y]], ids[y]): trechos[via[y]][0] for y in pai}
+    fases_vaos = {(ids[pai[y]], ids[y]): fases[via[y]] for y in pai}
 
     info = dict(dj=dj, chaves=len(chaves), trechos=len(trechos), vaos=len(vaos), abertas=abertas,
-                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos, nomes_chaves=sorted(chaves),
+                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos, fases_vaos=fases_vaos, nomes_chaves=sorted(chaves),
                 postes_ligados=sum(1 for p in ids if p in nomes_postes))
     return nos, vaos, 'DJ', info
 

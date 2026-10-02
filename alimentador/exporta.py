@@ -16,6 +16,7 @@ class _Tipos(dict):
 
 
 TIPO = _Tipos({'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fusível (03)', '33': 'Chave fusível (33)',
+       '40': 'Trip saver (40)', '41': 'Trip saver (41)',
                '02': 'Chave 02 (conta como fusível)', '88': 'Chave 88',
                'SEC': 'Chave 03 de seccionamento (tem religador depois)',
                'FTR': 'Fusível na linha principal do tronco (não abre T3)'})
@@ -48,7 +49,7 @@ def kmz(res, nome, caminho, defeito=None, aviso_exemplo=False):
     icon = 'http://maps.google.com/mapfiles/kml/paddle/wht-circle.png'
     dot = 'http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png'
     cor_ativo = {'DJ': 'ff0000ff', '79': 'ff00ff00', '03': 'ff00ffff', '88': 'ffff0000', 'outra': 'ffffffff'}
-    estilo_at = lambda t: t if t in cor_ativo else ('03' if t in ('33', '02') else 'outra')
+    estilo_at = lambda t: t if t in cor_ativo else ('03' if t in ('33', '02', '40', '41') else 'outra')
     prox = _prox(res)
     desc = ('<b>DADOS DE EXEMPLO.</b> Circuito ilustrativo; não é rede real.<br>' if aviso_exemplo else '') + \
         '<br>'.join(f'<b>{a}:</b> {escape(b)}' for a, b in REGRAS_TXT[:5])
@@ -369,7 +370,7 @@ def excel(res, nome, caminho, defeito=None, aviso_exemplo=False):
            ', '.join(a['posteriores']) or '—', round(a['lat'], 7), round(a['lon'], 7), 'abrir'] for a in ativos]
     tabela(wx, 'Ativos', HX, rx, [10, 18, 9, 9, 10, 11, 10, 14, 30, 11, 14, 14, 14, 40, 12, 12, 8])
     for i, a in enumerate(ativos, 2):
-        if a['tipo'] in ('DJ', '79', '03', '33', '02'):
+        if a['tipo'] in ('DJ', '79', '03', '33', '02', '40', '41'):
             wx.cell(i, 10, f'=COUNTIFS({R_REF},A{i})').font = body
             c = wx.cell(i, 11, f'=SUMIFS({R_EXT},{R_REF},A{i})')
             c.font, c.number_format = body, '#,##0'
