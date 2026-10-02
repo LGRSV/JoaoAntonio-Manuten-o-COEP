@@ -148,7 +148,7 @@ def ler_circuito(caminho, postes=None, raio_poste=6.0):
     nomes_vaos = {(ids[pai[y]], ids[y]): trechos[via[y]][0] for y in pai}
 
     info = dict(dj=dj, chaves=len(chaves), trechos=len(trechos), vaos=len(vaos), abertas=abertas,
-                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos,
+                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos, nomes_chaves=sorted(chaves),
                 postes_ligados=sum(1 for p in ids if p in nomes_postes))
     return nos, vaos, 'DJ', info
 

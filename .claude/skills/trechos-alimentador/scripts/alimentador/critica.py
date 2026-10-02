@@ -31,10 +31,16 @@ PASSO = ('NUM_SEQ_OPER_INIC_HDE', 'NUM_PASSO_INIC_HDE', 'NUM_PASSO_FIM_HDE', 'DT
          'COD_ELE_PROBLEMA', 'COD_ELE_INTERROMPIDO', 'DTA_ABERT', 'DTA_FECH', 'COD_ELE_FECHADO')
 
 
-def ler(arquivos, alimentador):
-    """Linhas do alimentador de todos os arquivos. Passo que vem em mais de um arquivo fica uma vez só: a versão do
-    arquivo do mês da competência (Critica-…_MM-AAAA.txt) ou, sem ele, a do primeiro arquivo."""
-    por_passo = OrderedDict()                       # passo → (mês-ano do arquivo, linhas desse arquivo)
+# colunas guardadas de cada linha (o resto do arquivo não é usado)
+CAMPOS = PASSO + ('ABRANGÊNCIA', 'COD_ELE_REDE_PROBLEMA', 'COD_ELE_REDE_INTERROMPIDO', 'QTD_CONS_INTER_FAT', 'DURACAO',
+                  'DES_CAUSA_INTER_CAU', 'DES_SUB_CAUSA_INTER_SCR', 'QTD_IFEC_ALIM', 'QTD_IDEC_ALIM', 'COD_ALIMENTADOR')
+
+
+def ler(arquivos, alimentador=None):
+    """Linhas do alimentador de todos os arquivos (alimentador=None: dict alimentador → linhas, lendo os arquivos
+    uma vez só). Passo que vem em mais de um arquivo fica uma vez só: a versão do arquivo do mês da competência
+    (Critica-…_MM-AAAA.txt) ou, sem ele, a do primeiro arquivo."""
+    por_passo = OrderedDict()                       # (alimentador, passo) → (mês-ano do arquivo, linhas desse arquivo)
     for arq in arquivos:
         m = re.search(r'(\d{2})-(\d{4})', Path(arq).name)
         mes_arq = f'{m.group(1)}/{m.group(2)[2:]}' if m else None      # 'mm/aa', como no fim de DTA_CMPT_HDE
@@ -47,12 +53,19 @@ def ler(arquivos, alimentador):
                     continue
                 vistas.add(tuple(row))
                 d = dict(zip(cab, row))
-                if d['COD_ALIMENTADOR'].strip() == alimentador:
-                    deste.setdefault(tuple(d.get(c, '') for c in PASSO), []).append(d)
+                al = d['COD_ALIMENTADOR'].strip()
+                if alimentador is None or al == alimentador:
+                    d = {c: d.get(c, '') for c in CAMPOS}
+                    deste.setdefault((al,) + tuple(d[c] for c in PASSO), []).append(d)
         for k, ls in deste.items():
             if k not in por_passo or _mes_cmpt(ls[0]) == mes_arq != por_passo[k][0]:
                 por_passo[k] = (mes_arq, ls)
-    return [d for _, ls in por_passo.values() for d in ls]
+    if alimentador is not None:
+        return [d for _, ls in por_passo.values() for d in ls]
+    todos = {}
+    for (al, *_), (_, ls) in por_passo.items():
+        todos.setdefault(al, []).extend(ls)
+    return todos
 
 
 def _mes_cmpt(d):
@@ -111,28 +124,32 @@ def ocorrencias(linhas):
 
 
 def por_trecho(oc, res, ts, pontos, outros=None):
-    """Põe em cada ocorrência o trecho (ou o motivo de ficar fora) e o ativo usado para localizar."""
+    """Põe em cada ocorrência o trecho (ou o motivo de ficar fora), o ativo usado para localizar, a regra
+    (abrangência DJ, chave de início do trecho, vão mais próximo do ponto do ativo) e, na última, a distância em m."""
     inicio = {t['inicio']: t['nome'] for t in ts}
     perto = {}
 
     def trecho_do_ponto(cod):
         if cod not in perto:
             p = pontos[cod]
-            perto[cod] = min(res['vaos'], key=lambda v: min(haversine(p, v['a']), haversine(p, v['b'])))['trecho']
+            dist, v = min((min(haversine(p, v['a']), haversine(p, v['b'])), i) for i, v in enumerate(res['vaos']))
+            perto[cod] = (res['vaos'][v]['trecho'], round(dist, 1))
         return perto[cod]
 
     for o in oc:
+        o['dist_m'] = None
         if o['abr'] == 'DJ':
-            o['trecho'], o['ativo'] = 'T1', o['prob']
+            o['trecho'], o['ativo'], o['regra'] = 'T1', o['prob'], 'abrangência DJ'
         elif o['abr'] == 'SE':
-            o['trecho'], o['ativo'], o['fora'] = None, o['prob'] or o['inter'], 'na subestação'
+            o['trecho'], o['ativo'], o['fora'], o['regra'] = None, o['prob'] or o['inter'], 'na subestação', 'abrangência SE'
         elif o['prob'] in inicio:
-            o['trecho'], o['ativo'] = inicio[o['prob']], o['prob']
+            o['trecho'], o['ativo'], o['regra'] = inicio[o['prob']], o['prob'], 'chave de início do trecho'
         else:
             achado = next((c for c in (o['prob'], o['inter']) if c and c in pontos), None)
             if achado:
-                o['trecho'], o['ativo'] = trecho_do_ponto(achado), achado
+                (o['trecho'], o['dist_m']), o['ativo'], o['regra'] = trecho_do_ponto(achado), achado, 'vão mais próximo do ativo'
             else:
+                o['regra'] = 'ativo fora do KML'
                 o['ativo'] = o['prob'] or o['inter']
                 onde = next((nome for nome, pts in (outros or {}).items() if o['ativo'] in pts), None)
                 o['trecho'] = None

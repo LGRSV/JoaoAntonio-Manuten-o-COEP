@@ -156,8 +156,8 @@ def _ponto_rotulo(t, vaos, chave_vao, chegada, k):
     return [round(cam[-1]['b'][0], 7), round(cam[-1]['b'][1], 7)]
 
 
-def mapa(nos, res, nome, caminho, interrupcoes=None):
-    """Mapa HTML com os trechos (uma visão só): DJ e religadores com código, fusíveis como ponto, 88 escondidas.
+def dados_mapa(nos, res, interrupcoes=None):
+    """Trechos e o objeto de dados do mapa (o `D` de mapa_trechos.html; coordenadas [lat, lon]).
 
     interrupcoes: ocorrências de critica.por_trecho(); viram o NAE por trecho e mês na lista lateral.
     """
@@ -177,7 +177,13 @@ def mapa(nos, res, nome, caminho, interrupcoes=None):
         dados['nae'] = dict(meses=sorted({o['mes'] for o in interrupcoes}), oc=[dict(
             mes=o['mes'], dia=f"{o['abert'][8:10]}/{o['abert'][5:7]} {o['abert'][11:16]}", col=o['coletiva'], abr=o['abr'],
             ativo=o['ativo'], prob=o['prob'], causa=o['causa'], sub=o['sub'], prog=o['programada'], cons=o['cons'], dur=o['dur'],
-            trecho=o['trecho'], fora=o.get('fora')) for o in interrupcoes])
+            trecho=o['trecho'], fora=o.get('fora'), regra=o.get('regra'), dist_m=o.get('dist_m')) for o in interrupcoes])
+    return ts, dados
+
+
+def mapa(nos, res, nome, caminho, interrupcoes=None):
+    """Mapa HTML com os trechos (uma visão só): DJ e religadores com código, fusíveis como ponto, 88 escondidas."""
+    ts, dados = dados_mapa(nos, res, interrupcoes)
     modelo = (Path(__file__).resolve().parent / 'mapa_trechos.html').read_text(encoding='utf-8')
     html = (modelo.replace('%%TITULO%%', escape(nome)).replace('%%ROTULO%%', escape(f'Alimentador {nome}'))
             .replace('%%DADOS%%', json.dumps(dados, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')))
