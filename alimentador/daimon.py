@@ -58,6 +58,8 @@ def ler_circuito(caminho, postes=None, raio_poste=6.0):
     Devolve (nos, vaos, raiz, info) no formato de regras.analisar(), mais info com contagens e avisos.
     """
     root = ET.parse(caminho).getroot()
+    doc = root.find(KML + 'Document')
+    observacao = ((doc.findtext(KML + 'description') if doc is not None else None) or '').strip()
     chaves = {}
     for pm in _pasta(root, 'Chave').findall(KML + 'Placemark'):
         nome = (pm.findtext(KML + 'name') or '').strip()
@@ -159,7 +161,8 @@ def ler_circuito(caminho, postes=None, raio_poste=6.0):
     fases_vaos = {(ids[pai[y]], ids[y]): fases[via[y]] for y in pai}
 
     info = dict(dj=dj, chaves=len(chaves), trechos=len(trechos), vaos=len(vaos), abertas=abertas,
-                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos, fases_vaos=fases_vaos, nomes_chaves=sorted(chaves),
+                fora_da_arvore=len(fora), avisos=avisos, nomes_vaos=nomes_vaos, fases_vaos=fases_vaos, observacao=observacao,
+                nomes_chaves=sorted(chaves),
                 postes_ligados=sum(1 for p in ids if p in nomes_postes))
     return nos, vaos, 'DJ', info
 

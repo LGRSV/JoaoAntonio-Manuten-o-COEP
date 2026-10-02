@@ -229,6 +229,7 @@ def processar(al, fontes, malha, saida, data_ref):
         # ValueError e, fora daqui, derrubava a rodada inteira em vez de
         # marcar só este alimentador como falha.
         ts = trechos.segmentar(nos, res)
+        base['origem']['observacao'] = info.get('observacao') or None
     except (ValueError, regras.RedeInvalida) as e:
         c = dict(base, erro=str(e), validacao=dict(status='falha', criticas=[f'não processado: {e}'], avisos=[]))
         grava_json(saida / 'dados' / 'alimentadores' / f'{al}.json', c)
@@ -283,6 +284,10 @@ def processar(al, fontes, malha, saida, data_ref):
         f = info.get('fases_vaos', {}).get((v['_p'], v['_c']), '')
         d = f_trecho[idx[v['trecho']]]
         d[f] = d.get(f, 0) + v['ext']
+
+    for i, t in enumerate(D['trechos']):           # a página lê o D, não o canônico
+        t['fase'] = fase_txt(max(sorted(f_trecho[i]), key=lambda k: f_trecho[i][k]) if f_trecho[i] else '')
+        t['fases'] = {(k or 'não informado'): round(x, 1) for k, x in sorted(f_trecho[i].items())}
 
     ativos = {a['nome'] for a in res['ativos']}
     sem_corresp = [n for n in info['nomes_chaves'] if n not in ativos and n not in info['abertas']
@@ -381,6 +386,24 @@ def validar(c):
         av.append('sem arquivo de postes: nós sem número de poste')
     if c['limitrofes']:
         av.append(f'{len(c["limitrofes"])} vão(s) na divisa entre municípios (medidos por amostragem de {PASSO_M} m)')
+    # chave de proteção que não abriu trecho: era o defeito que mais escondia
+    # erro de fonte (90 religadores sumindo sem um aviso)
+    inicios = {t['inicio']['chave'] for t in c['trechos']}
+    orfas = [a['nome'] for a in c['chaves']
+             if a['tipo'] in regras.FUSIVEIS + ('79',) and a['nome'] not in inicios]
+    if orfas:
+        rl = [n for n in orfas if n[:2] == '79']
+        av.append(f'{len(orfas)} chave(s) de proteção sem trecho (não seccionam a rede): '
+                  + ', '.join(orfas[:10]) + ('…' if len(orfas) > 10 else '')
+                  + (f' — {len(rl)} religador(es)' if rl else ''))
+    # Crítica só quando a classificação está estruturalmente quebrada: rede
+    # grande com um punhado de trechos, ou religador no cadastro e nenhum T2.
+    km = c['resumo']['extensao_m'] / 1000
+    if km > 5 and c['resumo']['trechos'] <= 2:
+        cri.append(f'classificação colapsada: {c["resumo"]["trechos"]} trecho(s) para {km:.1f} km')
+    n_rl = sum(1 for a in c['chaves'] if a['tipo'] == '79')
+    if n_rl and not c['resumo']['T2']['n']:
+        cri.append(f'{n_rl} religador(es) no cadastro e nenhum T2: nenhum deles secciona a rede')
     if any(t['confianca'] != 'alta' for t in c['trechos']):
         av.append('trechos a revisar: ' + ', '.join(t['nome'] for t in c['trechos'] if t['confianca'] != 'alta'))
     # Avisos do daimon/regras (tronco decidido sem 2º religador, seccionamento,
