@@ -52,6 +52,7 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 
 | Pasta | Conteúdo |
 |---|---|
+| `LD01110005/`, `LD02110005/` | SE-2ARS (Arraias II): só o mapa de trechos com NAE e o KMZ dos trechos (478 km e 1.510 km). |
 | `AL04010004/` | Alimentador real de exemplo: 3 religadores em série (DJ → RL1 → RL2 → RL3), 14,9 km, 97 blocos. |
 | `AL01010004/`, `AL01048007/` | Alimentadores reais (export Daimon). |
 | raiz | Circuito de exemplo. |
