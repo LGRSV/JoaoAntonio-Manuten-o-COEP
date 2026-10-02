@@ -487,9 +487,13 @@ def manifesto(dados):
     lista = sorted(muns.values(), key=lambda m: slug(m['nome']))
     for m in lista:
         m['alimentadores'].sort(key=lambda a: (-a['m_no_municipio'], a['cod']))
+    # `pagina` diz se existe página publicada: alimentador com falha fica no
+    # manifesto (ele documenta a cobertura) mas sem link, senão quem consome o
+    # manifesto cai em 404.
     return dict(versao=1, municipios=lista, alimentadores={c['alimentador']: dict(
         polo=c['polo'], se=c['se'], se_nome=c['se_nome'], status=c['validacao']['status'],
         municipios=[m['cod'] for m in c.get('municipios', []) if m['m'] >= MIN_M],
+        pagina=(f'alimentadores/{c["alimentador"]}/' if c['validacao']['status'] != 'falha' else None),
         dados=f'dados/alimentadores/{c["alimentador"]}.json') for c in dados})
 
 
