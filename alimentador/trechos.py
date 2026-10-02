@@ -156,8 +156,11 @@ def _ponto_rotulo(t, vaos, chave_vao, chegada, k):
     return [round(cam[-1]['b'][0], 7), round(cam[-1]['b'][1], 7)]
 
 
-def mapa(nos, res, nome, caminho):
-    """Mapa HTML com os trechos (uma visão só): DJ e religadores com código, fusíveis como ponto, 88 escondidas."""
+def mapa(nos, res, nome, caminho, interrupcoes=None):
+    """Mapa HTML com os trechos (uma visão só): DJ e religadores com código, fusíveis como ponto, 88 escondidas.
+
+    interrupcoes: ocorrências de critica.por_trecho(); viram o NAE por trecho e mês na lista lateral.
+    """
     ts = segmentar(nos, res)
     idx = {t['nome']: i for i, t in enumerate(ts)}
     inicio_de = {t['inicio']: t['nome'] for t in ts if t['tipo'] == 'fusivel'}
@@ -170,6 +173,11 @@ def mapa(nos, res, nome, caminho):
                     for a in res['ativos'] if a['tipo'] in ('DJ', '79')],
         fusiveis=[dict(nome=a['nome'], t=a['tipo'], lat=r7(a['lat']), lon=r7(a['lon']), trecho=inicio_de.get(a['nome']))
                   for a in res['ativos'] if a['tipo'] in FUSIVEIS or a['tipo'] == 'SEC'])
+    if interrupcoes is not None:
+        dados['nae'] = dict(meses=sorted({o['mes'] for o in interrupcoes}), oc=[dict(
+            mes=o['mes'], dia=f"{o['abert'][8:10]}/{o['abert'][5:7]} {o['abert'][11:16]}", col=o['coletiva'], abr=o['abr'],
+            ativo=o['ativo'], prob=o['prob'], causa=o['causa'], sub=o['sub'], prog=o['programada'], cons=o['cons'], dur=o['dur'],
+            trecho=o['trecho'], fora=o.get('fora')) for o in interrupcoes])
     modelo = (Path(__file__).resolve().parent / 'mapa_trechos.html').read_text(encoding='utf-8')
     html = (modelo.replace('%%TITULO%%', escape(nome)).replace('%%ROTULO%%', escape(f'Alimentador {nome}'))
             .replace('%%DADOS%%', json.dumps(dados, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')))

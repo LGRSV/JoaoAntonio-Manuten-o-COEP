@@ -10,17 +10,17 @@
 /* Uma visão só: mapa com os trechos (T1, T2, T2-A…, T3-A…) e, ao lado, a lista com início e fim de cada um. */
 :root{
   --bg:#f2f3f0; --paper:#fbfbf9; --fg:#1b2024; --muted:#5a636a; --line:#d6dad6; --ink:#232a2f;
-  --accent:#b8431f; --mapbg:#1a2126; --sel:#fff1d6;
+  --accent:#b8431f; --mapbg:#1a2126; --sel:#fff1d6; --alerta:#b91c1c;
   --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
-  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; color-scheme:dark}}
+  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; --alerta:#ef4444; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab; --line:#30383e; --ink:#dfe4e6;
-  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; color-scheme:dark}
+  --accent:#f08a5d; --mapbg:#0f1417; --sel:#3a3120; --alerta:#ef4444; color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body)}
 .wrap{max-width:1360px;margin:0 auto;padding:20px 16px 40px;display:grid;gap:16px}
@@ -57,7 +57,7 @@ p{margin:0}
 .chip:focus-visible,.row:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .lista{display:grid;gap:2px;max-height:min(46vh,430px);overflow-y:auto;padding-right:2px}
 .grp{font:600 11.5px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 4px 5px;position:sticky;top:0;background:var(--paper)}
-.row{display:grid;grid-template-columns:10px 54px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-radius:5px;background:transparent;color:var(--fg);padding:6px 6px;cursor:pointer;font:13px/1.3 var(--f-body)}
+.row{display:grid;grid-template-columns:10px 54px minmax(0,1fr) auto auto;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-radius:5px;background:transparent;color:var(--fg);padding:6px 6px;cursor:pointer;font:13px/1.3 var(--f-body)}
 .row{scroll-margin-top:30px}
 .row:hover{background:var(--bg)}
 .row[aria-current="true"]{background:var(--sel)}
@@ -75,6 +75,18 @@ p{margin:0}
 #map.longe .lb.fus{display:none}
 #map.longe .lb.fus.sel{display:block}
 .lb.sel{outline:2px solid #fde047}
+/* interrupções (NAE) */
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13.5px}
+.ctrl label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.ctrl select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);font:14px var(--f-body)}
+.ctrl select:focus-visible,.ctrl input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.nae{display:inline-grid;place-items:center;min-width:24px;height:20px;padding:0 6px;border-radius:10px;font:600 12px/1 var(--f-mono);color:var(--muted);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.nae.tem{background:var(--alerta);border-color:var(--alerta);color:#fff}
+.oc{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:7px}
+.oc li{font-size:13px;line-height:1.4;border-left:3px solid var(--line);padding-left:8px}
+.oc li.col{border-left-color:var(--alerta)}
+.oc .q{font:12px var(--f-mono);color:var(--muted)}
+.lb .n{display:inline-block;margin-left:5px;padding:0 5px;border-radius:8px;background:#b91c1c;color:#fff;font:700 11px/16px var(--f-mono)}
 /* chaves de início e fim do trecho selecionado */
 .ie{display:inline-flex;gap:5px;align-items:center;transform:translate(-50%,calc(-100% - 9px));font:600 12px/1 var(--f-mono);background:#fbfbf9;color:#1b2024;border:2px solid #1b2024;border-radius:4px;padding:3px 6px 3px 3px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.5)}
 .ie em{font-style:normal;font-size:10.5px;letter-spacing:.05em;padding:2px 4px;border-radius:2px;color:#fff;background:#15803d}
@@ -98,6 +110,10 @@ p{margin:0}
     <aside class="panel">
       <div class="legend" id="legenda"></div>
       <input class="busca" id="busca" type="search" placeholder="Buscar trecho, ativo ou poste" aria-label="Buscar trecho, ativo ou poste">
+      <div class="ctrl" id="ctrl" hidden>
+        <label for="mes">NAE em <select id="mes"></select></label>
+        <label for="ind"><input type="checkbox" id="ind" checked> Contar individuais</label>
+      </div>
       <section class="det" id="det" aria-live="polite"></section>
       <div class="lista" id="lista" role="list"></div>
     </aside>
@@ -129,18 +145,48 @@ D.trechos.filter(t => t.tipo === 'ramal').forEach(t => leg.push([t.nome, t.cor, 
 if (D.trechos.some(t => t.zona > 5)) leg.push(['T6+', '#d946ef', 'fino']);
 $('legenda').innerHTML = leg.map(([n, c, k]) => `<span><i class="${k}" style="--c:${c}"></i>${esc(n)}</span>`).join('');
 
+// interrupções (NAE): coletiva = atuou DJ, religador, fusível ou trafo; individual = um consumidor
+const NAE = D.nae || null;
+const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const rotMes = m => `${MESES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
+const ABR = {DJ: 'DJ', RL: 'religador', 'CH FUS': 'fusível', CH: 'chave', TR: 'trafo', UC: 'consumidor'};
+if (NAE && NAE.meses.length) {
+  $('ctrl').hidden = false;
+  $('mes').innerHTML = NAE.meses.map(m => `<option value="${m}">${rotMes(m)}</option>`).join('');
+}
+const doMes = () => NAE ? NAE.oc.filter(o => o.mes === $('mes').value && (o.col || $('ind').checked)) : [];
+function contagem() { const c = {}; doMes().forEach(o => { if (o.trecho) c[o.trecho] = (c[o.trecho] || 0) + 1; }); return c; }
+function listaOc(os) {
+  return `<ul class="oc">${os.map(o => `<li class="${o.col ? 'col' : ''}"><span class="q">${esc(o.dia)} · ${!o.col ? '1 consumidor · trafo ' + esc(o.ativo) : esc(ABR[o.abr] || o.abr) + ' ' + esc(o.prob || o.ativo) + (o.prob && o.prob !== o.ativo ? ' · trafo ' + esc(o.ativo) : '')}</span><br>` +
+    `${esc(o.sub || o.causa)}${o.prog ? ' · <b>programada</b>' : ''} · ${o.cons} cons. · ${o.dur} min</li>`).join('')}</ul>`;
+}
+function blocoNae(nome) {
+  const os = doMes().filter(o => o.trecho === nome), col = os.filter(o => o.col).length;
+  const ind = $('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : '';
+  return `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind})${os.length ? listaOc(os) : ''}</dd>`;
+}
+function atualizaNae() {
+  desenhaLista($('busca').value);
+  sel ? detalhe(TR[sel]) : resumo();
+  const c = contagem();
+  Object.entries(rotulos).forEach(([n, m]) => { const el = m.getElement(); if (el) el.firstChild.innerHTML = esc(n) + (c[n] ? `<span class="n">${c[n]}</span>` : ''); });
+}
+$('mes').addEventListener('change', atualizaNae);
+$('ind').addEventListener('change', atualizaNae);
+
 // lista
 const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'T2-A, T2-B… (um por religador)'], ['fusivel', 'Depois de fusível']];
 function fimTxt(t) { return t.fim.join(' / '); }
 function desenhaLista(filtro) {
   const q = (filtro || '').trim().toLowerCase();
   const casa = t => !q || [t.nome, t.inicio, t.inicio_poste, ...t.fim, ...t.passa].some(s => String(s).toLowerCase().includes(q));
+  const cnt = NAE ? contagem() : null;
   $('lista').innerHTML = GRUPOS.map(([g, titulo]) => {
     const ts = D.trechos.filter(t => t.tipo === g && casa(t));
     if (!ts.length) return '';
     return `<div class="grp">${titulo} · ${ts.length}</div>` + ts.map(t =>
       `<button class="row" role="listitem" data-t="${esc(t.nome)}" aria-current="${t.nome === sel}"><i style="--c:${t.cor}"></i><b>${esc(t.nome)}</b>` +
-      `<span title="${esc(t.inicio + ' → ' + fimTxt(t))}">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</span><em>${km(t.ext)}</em></button>`).join('');
+      `<span title="${esc(t.inicio + ' → ' + fimTxt(t))}">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</span>${cnt ? `<strong class="nae ${cnt[t.nome] ? 'tem' : ''}" title="NAE no mês">${cnt[t.nome] || 0}</strong>` : ''}<em>${km(t.ext)}</em></button>`).join('');
   }).join('') || '<p class="lede">Nada encontrado.</p>';
 }
 $('lista').addEventListener('click', e => { const b = e.target.closest('.row'); if (b) selecionar(b.dataset.t, true); });
@@ -156,8 +202,15 @@ function detalhe(t, vao) {
     <dt>Extensão</dt><dd>${km(t.ext)} · ${nv(t.qtd)}</dd>
     <dt>Vem de</dt><dd>${t.pai ? chips([t.pai]) : '—'}</dd>
     <dt>Derivações</dt><dd>${chips(t.derivacoes)}</dd>
+    ${NAE ? blocoNae(t.nome) : ''}
     ${vao ? `<dt>Vão</dt><dd class="mono">${esc(vao[5])} · poste ${esc(vao[6])} → ${esc(vao[7])} · ${Math.round(vao[8])} m</dd>` : ''}
   </dl><div><button class="chip" id="todos">Ver todos</button></div>`;
+}
+function resumoNae() {
+  const os = doMes(), col = os.filter(o => o.col).length, fora = os.filter(o => !o.trecho), mot = {};
+  fora.forEach(o => { mot[o.fora] = (mot[o.fora] || 0) + 1; });
+  return `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> no alimentador (${col} coletivas${$('ind').checked ? ` · ${os.length - col} individuais` : ''})` +
+    `${fora.length ? `<br>Fora dos trechos atuais: ${Object.entries(mot).map(([m, n]) => `${n} ${esc(m)}`).join(' · ')}${listaOc(fora)}` : ''}</dd>`;
 }
 function resumo() {
   const total = D.trechos.reduce((s, t) => s + t.ext, 0);
@@ -168,6 +221,7 @@ function resumo() {
   $('det').innerHTML = `<h2>${D.trechos.length} trechos <small>${km(total)} de rede</small></h2><dl>
     ${D.trechos.filter(t => t.tipo !== 'fusivel').map(linha).join('')}
     <dt>Fusíveis</dt><dd>${fus.length} trechos (${Object.entries(porZ).map(([z, n]) => `T${z}: ${n}`).join(' · ')})</dd>
+    ${NAE ? resumoNae() : ''}
   </dl><p class="lede">Toque num trecho no mapa ou na lista para ver início, fim e derivações.</p>`;
 }
 $('det').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; b.id === 'todos' ? limpar() : selecionar(b.dataset.t, true); });
@@ -262,5 +316,6 @@ $('busca').addEventListener('input', e => {
 window.__sel = selecionar;
 window.__limpar = limpar;
 limpar();
+if (NAE) atualizaNae();
 </script>
 </body></html>

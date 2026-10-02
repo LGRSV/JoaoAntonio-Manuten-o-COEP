@@ -34,7 +34,7 @@ Pontos ainda a confirmar (o código avisa quando acontecem):
 ```bash
 pip install -r alimentador/requirements.txt
 python -m alimentador.exemplo      # gera alimentador/saida/ com o circuito de exemplo
-python -m alimentador.testes       # 7 testes das regras, do leitor do Daimon e das saídas
+python -m alimentador.testes       # 8 testes das regras, do leitor do Daimon e das saídas
 ```
 
 Alimentador real:
@@ -70,6 +70,7 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 - `daimon.py`: lê o KML do Daimon e chama as regras e as saídas.
 - `exemplo.py`: monta o circuito de exemplo e gera as saídas.
 - `exporta.py`: KMZ, Excel e mapa HTML.
+- `critica.py`: lê a Crítica (`Critica*.txt`) e põe cada interrupção num trecho: NAE (coletivas: DJ, religador, fusível, trafo) e individuais, por mês de competência. Aparece na lista do `mapa-trechos.html`. A Crítica fica fora do git.
 - `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`) e o `*-trechos.kmz`.
 - `mapa_modelo.html`: modelo do mapa (Leaflet + imagem Esri World Imagery, carregados ao vivo).
 - `testes.py`: testes.

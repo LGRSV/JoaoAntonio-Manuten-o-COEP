@@ -6,7 +6,7 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 
-from . import exemplo, exporta, regras, trechos
+from . import critica, exemplo, exporta, regras, trechos
 
 
 def rede_linha(tipos, desvio=None):
@@ -198,6 +198,38 @@ def test_trechos():
                   for f in g.findall(n + 'Folder')]
         assert [p.split(' · ')[0] for p in pastas] == ['T1', 'T2', 'T2-A', 'T2-B', 'T3-A', 'T3-B', 'T3-C'], pastas
         assert pastas[4].startswith('T3-A · 03-6 → 03-8')
+
+
+
+def test_critica():
+    nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
+    res = regras.analisar(nos, vaos, 'DJ')
+    ts = trechos.segmentar(nos, res)
+    cab = ['DTA_CMPT_HDE', 'TIPO_INTER_KTI', 'COD_ELE_REDE_PROBLEMA', 'COD_ELE_PROBLEMA', 'ABRANGÊNCIA', 'NUM_SEQ_OPER_INIC_HDE',
+           'DTA_ABERT', 'COD_ELE_REDE_INTERROMPIDO', 'COD_ELE_INTERROMPIDO', 'QTD_CONS_INTER_FAT', 'DURACAO',
+           'DES_CAUSA_INTER_CAU', 'DES_SUB_CAUSA_INTER_SCR', 'QTD_IFEC_ALIM', 'QTD_IDEC_ALIM', 'COD_ALIMENTADOR']
+    lin = lambda *v: ';'.join(v)
+    dj = lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '300', '51', 'TERCEIROS', 'OBJETO', ',07', ',06', 'ALX')
+    arq1 = [';'.join(cab), dj,
+            lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '20', '2', 'TERCEIROS', 'OBJETO', ',01', ',00', 'ALX'),
+            lin('01/01/26', 'COLETIVO', 'CH', '03-6', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'MEIO AMBIENTE', 'ARVORE', ',01', ',02', 'ALX'),
+            lin('01/01/26', 'INDIVIDUAL', 'UC', '123456', 'UC', '3', '21/01/2026 09:00', 'TR', 'TR-B', '1', '60', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
+            lin('01/02/26', 'INDIVIDUAL', 'UC', '654321', 'UC', '4', '02/02/2026 09:00', 'TR', 'TR-SUMIU', '1', '30', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
+            lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '5', '12/01/2026 08:00', 'DJ', '9DJ', '99', '5', 'X', 'Y', ',1', ',1', 'OUTRO')]
+    arq2 = [';'.join(cab), dj]                                   # linha repetida entre arquivos
+    fim_b = next(v for v in res['vaos'] if v['trecho'] == 'T2-B')['b']
+    with tempfile.TemporaryDirectory() as d:
+        for nome, linhas in (('a.txt', arq1), ('b.txt', arq2)):
+            Path(d, nome).write_bytes(('\r\n'.join(linhas) + '\r\n').encode('latin-1'))
+        linhas = critica.ler([Path(d, 'a.txt'), Path(d, 'b.txt')], 'ALX')
+    assert len(linhas) == 5, 'só o alimentador pedido e sem a linha repetida'
+    oc = critica.por_trecho(critica.ocorrencias(linhas), res, ts, {'TR-B': fim_b}, {'ALY': {'TR-SUMIU': (0, 0)}})
+    dj_oc = next(o for o in oc if o['abr'] == 'DJ')
+    assert (dj_oc['trecho'], dj_oc['cons'], dj_oc['mes']) == ('T1', 320, '2026-01'), 'passos somados numa ocorrência'
+    assert next(o for o in oc if o['abr'] == 'CH FUS')['trecho'] == 'T3-A', 'fusível que abre trecho'
+    uc = [o for o in oc if o['abr'] == 'UC']
+    assert uc[0]['trecho'] == 'T2-B' and uc[0]['prob'] == '' and not uc[0]['coletiva'], 'individual pelo trafo, sem o número da UC'
+    assert (uc[1]['mes'], uc[1]['trecho'], uc[1]['fora']) == ('2026-02', None, 'hoje no ALY'), 'competência e ativo fora do cadastro'
 
 
 if __name__ == '__main__':
