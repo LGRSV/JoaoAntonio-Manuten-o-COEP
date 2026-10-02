@@ -44,12 +44,13 @@ def test_pipeline():
                 '--alimentador', 'ALTESTE']
         assert gera_trechos.main(args) == 0
         c = json.loads((d / 'site' / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
-        assert [t['nome'] for t in c['trechos']] == ['T1', 'T2', 'T3-A'] and c['validacao']['status'] != 'falha'
+        assert [t['nome'] for t in c['trechos']] == ['T1', 'T2'] and c['validacao']['status'] != 'falha'
+        assert c['resumo']['fusiveis_tronco'] == 1, 'fusível na linha principal não abre T3'
         muns = {m['nome']: m['m'] for m in c['municipios']}
         assert set(muns) == {'Sul Teste', 'Norte Teste'} and abs(sum(muns.values()) - c['resumo']['extensao_m']) < 1
         assert len(c['limitrofes']) == 1 and c['limitrofes'][0]['trecho'] == 'T2', 'vão da divisa medido por amostra'
         assert set(c['trechos'][1]['municipios']) == {'1', '2'} and c['trechos'][0]['caminho'] == ['T1']
-        assert c['trechos'][2]['caminho'] == ['T1', 'T2', 'T3-A']
+        assert c['trechos'][1]['caminho'] == ['T1', 'T2']
         assert all(-51 < v[0] < -45 and -14 < v[1] < -5 for v in c['vaos']), 'coordenadas [lon, lat]'
         man = json.loads((d / 'site' / 'manifesto.json').read_text(encoding='utf-8'))
         assert [m['slug'] for m in man['municipios']] == ['norte-teste', 'sul-teste']

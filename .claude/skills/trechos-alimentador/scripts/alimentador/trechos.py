@@ -172,7 +172,7 @@ def dados_mapa(nos, res, interrupcoes=None):
         principais=[dict(nome=a['nome'], t=a['tipo'], lat=r7(a['lat']), lon=r7(a['lon']), poste=a['poste'])
                     for a in res['ativos'] if a['tipo'] in ('DJ', '79')],
         fusiveis=[dict(nome=a['nome'], t=a['tipo'], lat=r7(a['lat']), lon=r7(a['lon']), trecho=inicio_de.get(a['nome']))
-                  for a in res['ativos'] if a['tipo'] in FUSIVEIS or a['tipo'] == 'SEC'])
+                  for a in res['ativos'] if a['tipo'] in FUSIVEIS or a['tipo'] in ('SEC', 'FTR')])
     if interrupcoes is not None:
         dados['nae'] = dict(meses=sorted({o['mes'] for o in interrupcoes}), oc=[dict(
             mes=o['mes'], dia=f"{o['abert'][8:10]}/{o['abert'][5:7]} {o['abert'][11:16]}", col=o['coletiva'], abr=o['abr'],
@@ -195,7 +195,7 @@ def mapa(nos, res, nome, caminho, interrupcoes=None):
 COR_Z = {1: '3b82f6', 2: '22c55e', 3: 'facc15'}               # mesmas cores do mapa_trechos.html
 COR_R = ['2dd4bf', 'a3e635', '67e8f9', '86efac', '5eead4', 'bef264']
 TIPO_AT = {'DJ': 'disjuntor', '79': 'religador', '03': 'fusível 03', '33': 'fusível 33', '02': 'chave 02',
-           'SEC': 'seccionamento'}
+           'SEC': 'seccionamento', 'FTR': 'fusível no tronco'}
 ICONES = 'http://maps.google.com/mapfiles/kml/shapes/'
 
 
@@ -290,7 +290,7 @@ def kmz(nos, res, nome, caminho):
         k.append(f'<Placemark><name>{escape(t["nome"])}</name><description>{balao(t)}</description>'
                  f'<styleUrl>#n{i}</styleUrl><Point><coordinates>{pt(t["rotulo"])}</coordinates></Point></Placemark>')
     k.append('</Folder>')
-    for titulo, tipos, estilo in (('DJ e religadores', ('DJ', '79'), 'rl'), ('Chaves fusíveis', ('03', '33', '02', 'SEC'), 'fus')):
+    for titulo, tipos, estilo in (('DJ e religadores', ('DJ', '79'), 'rl'), ('Chaves fusíveis', ('03', '33', '02', 'SEC', 'FTR'), 'fus')):
         k.append(f'<Folder><name>{titulo}</name>')
         for a in res['ativos']:
             if a['tipo'] in tipos:

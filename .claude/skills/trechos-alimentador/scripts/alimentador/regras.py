@@ -13,7 +13,10 @@ Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo a
     - Tronco: caminho DJ → 1º 79 → 2º 79 e, depois do 2º 79, até os próximos ativos (79 ou fusível): o trecho
       entre dois ativos do tronco ainda é tronco. Pontas sem equipamento são ramal. Nunca tem T3.
       Se houver mais de um candidato a 2º 79, fica o que tem mais rede depois dele (a confirmar).
-      Sem 2º 79, o tronco segue o lado com mais rede T1/T2 e para antes de um 03 (a confirmar; gera aviso).
+      Linha principal: do 2º 79 (ou do DJ, sem 2º 79) até o fim, sempre pelo lado que ainda tem religador (com pelo
+      menos RL_MIN_M de rede depois dele) e, entre esses, pelo ramo que chega mais longe do DJ (o mesmo critério do
+      fim de trecho). Fusível nessa linha é "fusível no tronco" (FTR): não abre T3 nem muda a zona; o tronco
+      continua T1/T2 (decisão do usuário, AL01086016).
     - Ramal: todo o resto. Leva o nome do poste onde sai do tronco; depois do 2º 79 é "Ramal após <2º 79>".
     - Ativo de referência de um vão: o último DJ/79/03 antes dele, vindo do DJ. Ele engloba o vão e tudo depois.
     - Bloco: vãos com o mesmo ativo de referência e o mesmo ramal. Chaves 88 (e outras que não são DJ/79/fusível)
@@ -25,6 +28,8 @@ import math
 
 FUSIVEIS = ('03', '33', '02')
 SECCIONAMENTO = 'SEC'   # 03/33/02 com religador depois
+FUSIVEL_TRONCO = 'FTR'  # 03/33/02 na linha principal do tronco
+RL_MIN_M = 100          # religador com menos de ~2 vãos de rede depois dele (toco) não puxa a linha principal
 PROTECAO = ('DJ', '79') + FUSIVEIS
 RAIO_TERRA = 6371000.0
 
@@ -90,7 +95,37 @@ def analisar(nos, vaos, raiz):
     for n in reversed(ordem_nos):
         rl_abaixo[n] = any(tipo_cad(c) == '79' or rl_abaixo[c] for c in filhos.get(n, []))
     secc = {n for n in ordem_nos if tipo_cad(n) in FUSIVEIS and rl_abaixo[n]}
-    tipo = lambda n: SECCIONAMENTO if n in secc else tipo_cad(n)
+
+    # religadores a montante de cada nó (sem contar o próprio) e o 2º religador do tronco
+    rl_acima = {raiz: 0}
+    for n in ordem_nos[1:]:
+        rl_acima[n] = rl_acima[pai[n]] + (1 if tipo_cad(pai[n]) == '79' else 0)
+    abaixo = {}
+    for n in reversed(ordem_nos):
+        abaixo[n] = sum(comp[(n, c)] + abaixo[c] for c in filhos.get(n, []))
+    # 2º religador: um 79 com exatamente um 79 antes dele (fusível antes de religador é seccionamento)
+    candidatos = [n for n in ordem_nos if tipo_cad(n) == '79' and rl_acima[n] == 1]
+    fim_rl2 = max(candidatos, key=lambda n: abaixo[n]) if candidatos else None
+
+    # linha principal do tronco: até o 2º religador e, dali (ou do DJ), sempre o lado que ainda tem religador (que não
+    # seja toco) e, entre esses, o que chega mais longe do DJ, até o fim; fusível nela não abre T3 (fusível no tronco)
+    alcance, rl_rel = {}, {}
+    for n in reversed(ordem_nos):
+        fs = filhos.get(n, [])
+        alcance[n] = max((comp[(n, c)] + alcance[c] for c in fs), default=0)
+        rl_rel[n] = any((tipo_cad(c) == '79' and abaixo[c] >= RL_MIN_M) or rl_rel[c] for c in fs)
+    principal, x = [], fim_rl2
+    while x is not None and x != raiz:
+        principal.append((pai[x], x))
+        x = pai[x]
+    principal.reverse()
+    n = fim_rl2 if fim_rl2 is not None else raiz
+    while filhos.get(n):
+        c = max(filhos[n], key=lambda k: ((tipo_cad(k) == '79' and abaixo[k] >= RL_MIN_M) or rl_rel[k], comp[(n, k)] + alcance[k]))
+        principal.append((n, c))
+        n = c
+    ftr = {c for _, c in principal if tipo_cad(c) in FUSIVEIS and c not in secc}
+    tipo = lambda n: SECCIONAMENTO if n in secc else FUSIVEL_TRONCO if n in ftr else tipo_cad(n)
 
     # zona de saída de cada nó
     zona = {raiz: 1}
@@ -98,27 +133,15 @@ def analisar(nos, vaos, raiz):
         z = zona[pai[n]]
         zona[n] = max(z, 2) if tipo(n) == '79' else 3 if tipo(n) in FUSIVEIS else z
 
-    # extensão total e extensão T1/T2 pendurada em cada nó
-    abaixo, abaixo12 = {}, {}
-    for n in reversed(ordem_nos):
-        abaixo[n] = sum(comp[(n, c)] + abaixo[c] for c in filhos.get(n, []))
-        abaixo12[n] = sum((comp[(n, c)] if zona[n] <= 2 else 0) + abaixo12[c] for c in filhos.get(n, []))
-
-    # religadores a montante de cada nó (sem contar o próprio)
-    rl_acima = {raiz: 0}
-    for n in ordem_nos[1:]:
-        rl_acima[n] = rl_acima[pai[n]] + (1 if tipo(pai[n]) == '79' else 0)
-
     avisos = []
     if secc:
         avisos.append(f'{len(secc)} chave(s) 03/33/02 com religador depois tratada(s) como seccionamento '
                       f'(não mudam a zona; entram na lista do bloco): ' + ', '.join(nome(n) for n in ordem_nos if n in secc))
-    # 2º religador do tronco: um 79 com exatamente um 79 antes dele e sem chave 03 no caminho (tronco nunca tem T3)
-    candidatos = [n for n in ordem_nos if tipo(n) == '79' and rl_acima[n] == 1 and zona[pai[n]] <= 2]
+    if ftr:
+        avisos.append(f'{len(ftr)} fusível(is) na linha principal do tronco não abrem T3 (o tronco segue como T1/T2): '
+                      + ', '.join(nome(n) for n in ordem_nos if n in ftr))
     tronco = set()
-    fim_rl2 = None
     if candidatos:
-        fim_rl2 = max(candidatos, key=lambda n: abaixo[n])
         if len(candidatos) > 1:
             outros = ', '.join(nome(n) for n in candidatos if n != fim_rl2)
             avisos.append(f'Mais de um religador pode ser o 2º do tronco; escolhido {nome(fim_rl2)} '
@@ -128,15 +151,8 @@ def analisar(nos, vaos, raiz):
             tronco.add((pai[x], x))
             x = pai[x]
     else:
-        avisos.append('Alimentador sem 2º religador: o tronco seguiu o lado com mais rede T1/T2 e parou antes de chave 03.')
-        n = raiz
-        while True:
-            opcoes = [c for c in filhos.get(n, []) if tipo(c) not in FUSIVEIS]
-            if not opcoes:
-                break
-            c = max(opcoes, key=lambda k: comp[(n, k)] * (zona[n] <= 2) + abaixo12[k])
-            tronco.add((n, c))
-            n = c
+        avisos.append('Alimentador sem 2º religador: o tronco seguiu a linha principal (ramo que chega mais longe) até o fim.')
+        tronco = set(principal)
     if fim_rl2 is not None:
         # depois do 2º religador o tronco segue até os próximos ativos (vem depois de um ativo do tronco)
         tem_ativo = {}

@@ -284,7 +284,8 @@ def processar(al, fontes, malha, saida, data_ref):
     resumo = dict(extensao_m=round(res['total_m'], 1), trechos=len(ts),
                   religadores=sum(a['tipo'] == '79' for a in res['ativos']),
                   fusiveis=sum(a['tipo'] in regras.FUSIVEIS for a in res['ativos']),
-                  seccionamentos=sum(a['tipo'] == 'SEC' for a in res['ativos']))
+                  seccionamentos=sum(a['tipo'] == 'SEC' for a in res['ativos']),
+                  fusiveis_tronco=sum(a['tipo'] == 'FTR' for a in res['ativos']))
     for k in CLASSES:
         resumo[k] = dict(n=sum(classe(t['nome']) == k for t in ts),
                          m=round(sum(t['ext'] for t in ts if classe(t['nome']) == k), 1))

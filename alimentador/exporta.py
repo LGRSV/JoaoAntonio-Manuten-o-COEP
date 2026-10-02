@@ -17,7 +17,8 @@ class _Tipos(dict):
 
 TIPO = _Tipos({'DJ': 'Disjuntor (DJ)', '79': 'Religador (79)', '03': 'Chave fusível (03)', '33': 'Chave fusível (33)',
                '02': 'Chave 02 (conta como fusível)', '88': 'Chave 88',
-               'SEC': 'Chave 03 de seccionamento (tem religador depois)'})
+               'SEC': 'Chave 03 de seccionamento (tem religador depois)',
+               'FTR': 'Fusível na linha principal do tronco (não abre T3)'})
 REGRAS_TXT = [
     ('Zona', 'T1 do DJ ao 1º religador (79). Depois de qualquer religador é T2, inclusive religador em ramal: '
              'religador nunca cria T3. Depois de uma chave fusível (03) é T3; fusível depois de fusível continua T3 (não existe T4).'),

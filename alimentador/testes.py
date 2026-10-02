@@ -11,20 +11,23 @@ from openpyxl import load_workbook
 from . import critica, exemplo, exporta, regras, trechos
 
 
-def rede_linha(tipos, desvio=None):
-    """Linha reta DJ → tipos[0] → tipos[1] ... com vãos de ~40 m. desvio = (índice, [tipos]) cria um ramal."""
+def rede_linha(tipos, desvio=None, desvio2=None):
+    """Linha reta DJ → tipos[0] → tipos[1] ... com vãos de ~40 m. desvio/desvio2 = (índice, [tipos]) criam ramais
+    (nós d1, d2… para um lado e e1, e2… para o outro)."""
     nos = {'DJ': dict(tipo='DJ', nome='DJ', poste='P0', lat=-9.6, lon=-48.45)}
     vaos, ant = [], 'DJ'
     for i, t in enumerate(tipos, 1):
         nos[f'n{i}'] = dict(tipo=t, nome=f'{t}-{i}' if t != 'P' else f'P{i}', poste=f'P{i}', lat=-9.6, lon=-48.45 + i * 0.00037)
         vaos.append((ant, f'n{i}'))
         ant = f'n{i}'
-    if desvio:
-        idx, ts = desvio
+    for letra, dv, lado in (('d', desvio, -1), ('e', desvio2, 1)):
+        if not dv:
+            continue
+        idx, ts = dv
         ant = f'n{idx}'
         for j, t in enumerate(ts, 1):
-            k = f'd{j}'
-            nos[k] = dict(tipo=t, nome=f'{t}-d{j}' if t != 'P' else f'Pd{j}', poste=f'Pd{j}', lat=-9.6 - j * 0.00037,
+            k = f'{letra}{j}'
+            nos[k] = dict(tipo=t, nome=f'{t}-{k}' if t != 'P' else f'P{k}', poste=f'P{k}', lat=-9.6 + lado * j * 0.00037,
                           lon=-48.45 + idx * 0.00037)
             vaos.append((ant, k))
             ant = k
@@ -36,19 +39,21 @@ def zona_apos(res, nome):
 
 
 def test_zonas():
-    res = regras.analisar(*rede_linha(['P', '03', 'P']), 'DJ')
-    assert zona_apos(res, '03-2') == 3, 'fusível no T1 vai direto para T3'
-    res = regras.analisar(*rede_linha(['79', 'P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-5', '03-7')] == [2, 2, 3, 3], 'religador nunca cria T3; não existe T4'
+    res = regras.analisar(*rede_linha(['P', 'P', 'P', 'P'], desvio=(1, ['03', 'P'])), 'DJ')
+    assert zona_apos(res, '03-d1') == 3, 'fusível em derivação do T1 vai direto para T3'
+    res = regras.analisar(*rede_linha(['79', 'P', '79', 'P', 'P', 'P', 'P', 'P', 'P'], desvio=(4, ['03', 'P', '03', 'P'])), 'DJ')
+    assert [zona_apos(res, n) for n in ('79-1', '79-3', '03-d1', '03-d3')] == [2, 2, 3, 3], 'religador nunca cria T3; não existe T4'
     res = regras.analisar(*rede_linha(['79', 'P', '03', 'P', '79', 'P']), 'DJ')
     assert zona_apos(res, '03-3') == 2 and zona_apos(res, '79-5') == 2, '03 antes de religador é seccionamento'
     assert res['fim_tronco'] == '79-5' and any('seccionamento' in a for a in res['avisos'])
     assert not any(v['tronco'] and v['zona'] > 2 for v in res['vaos'])
     res = regras.analisar(*rede_linha(['P', '79', 'P', '03', 'P', '03', 'P']), 'DJ')
-    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [3, 3], 'fusível sem religador depois continua fusível (T3)'
+    assert [zona_apos(res, n) for n in ('03-4', '03-6')] == [2, 2], 'fusível na linha principal do tronco não abre T3'
+    assert {a['tipo'] for a in res['ativos'] if a['nome'] in ('03-4', '03-6')} == {'FTR'}
+    assert any('linha principal do tronco' in a for a in res['avisos'])
     res = regras.analisar(*rede_linha(['P', '79', 'P', '79', 'P'], desvio=(1, ['P', '79', 'P', '03', 'P'])), 'DJ')
     assert zona_apos(res, '79-d2') == 2, 'religador em ramal também conta'
-    assert zona_apos(res, '03-d4') == 3
+    assert zona_apos(res, '03-d4') == 3, 'fusível em ramal fora da linha principal é T3'
     res = regras.analisar(*rede_linha(['79', '88', 'P', '79', 'P']), 'DJ')
     assert zona_apos(res, '88-2') == 2, 'chave 88 não muda a zona'
 
@@ -65,12 +70,12 @@ def test_tronco_e_blocos():
 
 def test_tronco_sem_segundo_religador():
     res = regras.analisar(*rede_linha(['P', '79', 'P', 'P', 'P'], desvio=(3, ['03', 'P', 'P', 'P', 'P', 'P', 'P'])), 'DJ')
-    assert res['avisos'] and 'sem 2º religador' in res['avisos'][0]
-    tronco = [v for v in res['vaos'] if v['tronco']]
-    assert tronco and all(v['zona'] <= 2 for v in tronco)
-    assert not any(v['tronco'] for v in res['vaos'] if v['zona'] >= 3), 'tronco não entra depois do 03'
+    assert any('sem 2º religador' in a for a in res['avisos'])
+    assert next(a['tipo'] for a in res['ativos'] if a['nome'] == '03-d1') == 'FTR', 'linha principal passa pelo fusível'
+    assert all(v['zona'] <= 2 for v in res['vaos']) and all(v['tronco'] for v in res['vaos'] if v['_c'].startswith('d'))
+    assert not any(v['tronco'] for v in res['vaos'] if v['_c'] in ('n4', 'n5')), 'ponta mais curta fica fora do tronco'
     res = regras.analisar(*rede_linha(['03', 'P', 'P']), 'DJ')
-    assert not any(v['tronco'] for v in res['vaos']) and {v['zona'] for v in res['vaos']} == {1, 3}, 'DJ direto num 03'
+    assert {v['zona'] for v in res['vaos']} == {1} and all(v['tronco'] for v in res['vaos']), 'DJ direto num 03 do tronco'
 
 
 def test_rede_invalida():
@@ -171,16 +176,22 @@ def test_leitor_daimon():
     tipos = sorted(n['tipo'] for n in nos.values() if n['tipo'] != 'P')
     assert tipos == ['03', '79', 'DJ'], tipos          # 90 vira passagem; 80 NA fica fora
     res = regras.analisar(nos, vaos, raiz)
-    assert zona_apos(res, '7900001') == 2 and zona_apos(res, '0300001') == 3
+    assert zona_apos(res, '7900001') == 2 and zona_apos(res, '0300001') == 2, 'fusível na linha principal é do tronco'
     # sai só o suporte do DJ e o da chave NA; o fio do desvio fica como ponta sem saída, ligado do lado de baixo
     assert len(res['vaos']) == len(trechos) - 2
     assert info['nomes_vaos'][next(v for v in vaos if nos[v[1]]['tipo'] == '79')] == 'Suporte Chave 7900001'
 
 
 
+def rede_trechos():
+    """DJ → RL1 → RL2 → tronco até P11; entre RL1 e RL2 sai um desvio com religador e fusível; depois do RL2 sai um
+    ramal com fusível dentro de fusível."""
+    return rede_linha(['P', '79', 'P', '79', 'P', 'P', 'P', 'P', 'P', 'P', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']),
+                      desvio2=(5, ['03', 'P', '03', 'P']))
+
+
 def test_trechos():
-    # DJ → RL1 → RL2 → 03 → 03 no tronco; do poste entre RL1 e RL2 sai um desvio com religador e fusível
-    nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
+    nos, vaos = rede_trechos()
     res = regras.analisar(nos, vaos, 'DJ')
     ts = {t['nome']: t for t in trechos.segmentar(nos, res)}
     assert sorted(ts) == ['T1', 'T2', 'T2-A', 'T2-B', 'T3-A', 'T3-B', 'T3-C'], sorted(ts)
@@ -189,10 +200,10 @@ def test_trechos():
     assert (ts['T2-A']['inicio'], ts['T2-A']['pai'], ts['T2-A']['tronco']) == ('79-4', 'T2', True), '2º religador abre T2-A'
     assert ts['T2']['derivacoes'] == ['T2-B'], 'religador fora do tronco é derivação'
     assert (ts['T2-B']['inicio'], ts['T2-B']['pai'], ts['T2-B']['derivacoes']) == ('79-d2', 'T2', ['T3-B'])
-    assert ts['T2-A']['fim'] == ['03-6'] and ts['T2-B']['fim'] == ['03-d4'], 'sem religador no fim: ponto mais distante'
-    assert ts['T3-B']['fim'] == ['fim de linha · poste Pd5']
-    assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T3-C')] == ['03-6', '03-d4', '03-8'], 'só T3, letras pela distância do DJ'
-    assert ts['T3-A']['fim'] == ['03-8'] and ts['T3-C']['pai'] == 'T3-A', 'fusível dentro de fusível também é T3'
+    assert ts['T2-A']['fim'] == ['fim de linha · poste P11'] and ts['T2-B']['fim'] == ['03-d4'], 'sem religador: linha principal'
+    assert ts['T2-A']['derivacoes'] == ['T3-A'] and ts['T3-B']['fim'] == ['fim de linha · poste Pd5']
+    assert [ts[n]['inicio'] for n in ('T3-A', 'T3-B', 'T3-C')] == ['03-e1', '03-d4', '03-e3'], 'só T3, letras pela distância do DJ'
+    assert ts['T3-A']['fim'] == ['03-e3'] and ts['T3-C']['pai'] == 'T3-A', 'fusível dentro de fusível também é T3'
     assert abs(sum(t['ext'] for t in ts.values()) - res['total_m']) < 0.5
     assert all(v['zona'] == ts[v['trecho']]['zona'] for v in res['vaos'])
     assert [trechos.letras(i) for i in (0, 25, 26, 27, 51, 52)] == ['A', 'Z', 'AA', 'AB', 'AZ', 'BA']
@@ -206,7 +217,7 @@ def test_trechos():
         pastas = [f.find(n + 'name').text for g in doc.find(n + 'Document').find(n + 'Folder').findall(n + 'Folder')
                   for f in g.findall(n + 'Folder')]
         assert [p.split(' · ')[0] for p in pastas] == ['T1', 'T2', 'T2-A', 'T2-B', 'T3-A', 'T3-B', 'T3-C'], pastas
-        assert pastas[4].startswith('T3-A · 03-6 → 03-8')
+        assert pastas[4].startswith('T3-A · 03-e1 → 03-e3')
 
 
 
@@ -236,7 +247,7 @@ def test_gerar_trechos():
             gerar_trechos.main([str(kml), '--saida', str(d / 'saida'), '--critica', str(d / 'Critica-*.txt'),
                                 '--mes', '2026-01', '--site', str(d / 'site'), '--se-nome', 'SE-XTST=Teste'])
         texto = saida.getvalue()
-        assert 'T1: DJ ALTESTE → 7900001' in texto and '    T1: 1 · 0' in texto and '    T3-A: 1 · 0' in texto, texto
+        assert 'T1: DJ ALTESTE → 7900001' in texto and '    T1: 1 · 0' in texto and '    T2: 1 · 0' in texto, texto
         assert '    fora · na subestação: 1 · 0' in texto and '    fora do cadastro atual: 0 · 1' in texto, texto
         assert sorted(p.name for p in (d / 'saida' / 'ALTESTE').iterdir()) == ['ALTESTE-trechos.kmz', 'mapa-trechos.html']
         pag = (d / 'site' / 'ALTESTE.html').read_text(encoding='utf-8')
@@ -258,7 +269,7 @@ def test_copia_da_skill():
 
 
 def test_critica():
-    nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
+    nos, vaos = rede_trechos()
     res = regras.analisar(nos, vaos, 'DJ')
     ts = trechos.segmentar(nos, res)
     cab = CAB_CRITICA
@@ -266,7 +277,7 @@ def test_critica():
     dj = lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '300', '51', 'TERCEIROS', 'OBJETO', ',07', ',06', 'ALX')
     arq1 = [';'.join(cab), dj,
             lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '20', '2', 'TERCEIROS', 'OBJETO', ',01', ',00', 'ALX'),
-            lin('01/01/26', 'COLETIVO', 'CH', '03-6', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'NAO-PROGRAMADAS MEIO AMBIENTE', 'ARVORE', ',01', ',02', 'ALX'),
+            lin('01/01/26', 'COLETIVO', 'CH', '03-e1', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'NAO-PROGRAMADAS MEIO AMBIENTE', 'ARVORE', ',01', ',02', 'ALX'),
             lin('01/01/26', 'INDIVIDUAL', 'UC', '123456', 'UC', '3', '21/01/2026 09:00', 'TR', 'TR-B', '1', '60', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
             lin('01/02/26', 'INDIVIDUAL', 'UC', '654321', 'UC', '4', '02/02/2026 09:00', 'TR', 'TR-SUMIU', '1', '30', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
             lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '5', '12/01/2026 08:00', 'DJ', '9DJ', '99', '5', 'X', 'Y', ',1', ',1', 'OUTRO'),
