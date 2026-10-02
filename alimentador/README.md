@@ -34,8 +34,20 @@ Pontos ainda a confirmar (o código avisa quando acontecem):
 ```bash
 pip install -r alimentador/requirements.txt
 python -m alimentador.exemplo      # gera alimentador/saida/ com o circuito de exemplo
-python -m alimentador.testes       # 8 testes das regras, do leitor do Daimon e das saídas
+python -m alimentador.testes       # 10 testes das regras, do leitor do Daimon, do comando de trechos e das saídas
 ```
+
+Trechos e NAE por trecho de um ou mais alimentadores (só biblioteca padrão):
+
+```bash
+python -m alimentador.gerar_trechos alimentador/entrada/SE-2ARS_Circ-LD0*110005.kml \
+    --postes ../vera-vegetacao/dados --critica 'crit/Critica-CHEIO_0*-2026.txt' \
+    [--outros <KML vizinho>] [--site ../vera-vegeta-o-back --se-nome SE-2ARS='Arraias II']
+```
+
+Grava `mapa-trechos.html` e `<alimentador>-trechos.kmz` em `alimentador/saida/<alimentador>/`; com `--site`, também a página do alimentador, o KMZ e o `index.html` (lista por SE) na pasta do site (GitHub Pages).
+
+Referência da regra em PDF: [`docs/referencia-trechos.pdf`](docs/referencia-trechos.pdf) (refazer com `python -m alimentador.referencia_pdf`, precisa de reportlab e matplotlib). A skill `.claude/skills/trechos-alimentador/` leva as regras e uma cópia do código para o Claude usar em outras conversas.
 
 Alimentador real:
 
@@ -60,7 +72,7 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 | Arquivo | O que é |
 |---|---|
 | `*-trechos.kmz` | Os mesmos trechos para o **Google Earth** (satélite) ou para importar no **Google My Maps**: uma pasta por trecho (T1, T2, T2-A…, T3-A…), início e fim no balão, DJ/religadores com código. |
-| `mapa-trechos.html` | Mapa simplificado (uma visão): trechos T1, T2, T2-A…, T3-A… com ativo de início e fim (`trechos.py`). Protótipo em validação. |
+| `mapa-trechos.html` | Mapa simplificado (uma visão): trechos T1, T2, T2-A…, T3-A… com ativo de início e fim e NAE por trecho e mês (`trechos.py`). Regra aprovada. |
 | `mapa-blocos.html` | Mapa sobre imagem de satélite com 5 visualizações: zonas, tronco e ramais, blocos, o que cada ativo engloba, localizar um vão. Baixe e abra no navegador com internet. |
 | `*.kmz` | Para o Google Earth. Pastas Tronco › Bloco e Ramais › Ramal › Bloco; cada vão com zona, bloco, ativo de referência e ativos posteriores no balão. |
 | `*.xlsx` | Abas: Árvore de blocos, Consulta (digite um poste), Blocos (ativos um por coluna e concatenados), Por bloco (vãos agrupados, botão +), Trechos (um vão por linha, com o nome do trecho no Daimon), Ativos. As fórmulas recalculam ao abrir. |
@@ -74,4 +86,6 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 - `critica.py`: lê a Crítica (`Critica*.txt`) e põe cada interrupção num trecho: NAE (coletivas: DJ, religador, fusível, trafo) e individuais, por mês de competência. Aparece na lista do `mapa-trechos.html`. A Crítica fica fora do git.
 - `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`) e o `*-trechos.kmz`.
 - `mapa_modelo.html`: modelo do mapa (Leaflet + imagem Esri World Imagery, carregados ao vivo).
-- `testes.py`: testes.
+- `gerar_trechos.py`: comando de ponta a ponta (KMLs + postes + Crítica → mapa, KMZ e site); `site_indice.html` é o modelo do índice do site.
+- `referencia_pdf.py`: gera o PDF de referência (`docs/referencia-trechos.pdf`).
+- `testes.py`: testes (inclui a conferência de que a cópia do código na skill é igual à do pacote).

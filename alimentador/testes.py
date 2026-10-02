@@ -129,6 +129,12 @@ def test_exemplo_completo():
         assert '%%' not in html and '"trechos"' in html
 
 
+CAB_CRITICA = ['DTA_CMPT_HDE', 'TIPO_INTER_KTI', 'COD_ELE_REDE_PROBLEMA', 'COD_ELE_PROBLEMA', 'ABRANGÊNCIA',
+               'NUM_SEQ_OPER_INIC_HDE', 'DTA_ABERT', 'COD_ELE_REDE_INTERROMPIDO', 'COD_ELE_INTERROMPIDO',
+               'QTD_CONS_INTER_FAT', 'DURACAO', 'DES_CAUSA_INTER_CAU', 'DES_SUB_CAUSA_INTER_SCR', 'QTD_IFEC_ALIM',
+               'QTD_IDEC_ALIM', 'COD_ALIMENTADOR']
+
+
 def _kml_daimon(chaves, trechos):
     pm_c = ''.join(f'<Placemark><name>{n}</name><styleUrl>#mapDaimonChave{"NA" if na else ""}</styleUrl>'
                    f'<Point><coordinates>{lon},{lat},0</coordinates></Point></Placemark>' for n, lat, lon, na in chaves)
@@ -145,7 +151,8 @@ def test_leitor_daimon():
     y = lambda i: -9.6 + i * 0.0003     # pontos numa linha, ~33 m entre eles
     P = {i: (y(i), -48.45) for i in range(12)}
     B = (y(4), -48.4497)                # ponto do desvio (bypass) ao lado
-    chaves = [('DJ_X_FICT', (y(-1) + P[0][0]) / 2, (-48.4503 + P[0][1]) / 2, False),   # DJ no meio do suporte (empate) ('9000001', (y(2) + y(3)) / 2, -48.45, False),
+    chaves = [('DJ_X_FICT', (y(-1) + P[0][0]) / 2, (-48.4503 + P[0][1]) / 2, False),   # DJ no meio do suporte (empate)
+              ('9000001', (y(2) + y(3)) / 2, -48.45, False),
               ('7900001', (y(3) + y(4)) / 2, -48.45, False), ('9000002', (y(4) + y(5)) / 2, -48.45, False),
               ('8000001', (y(3) + B[0]) / 2, -48.4498, True), ('0300001', (y(8) + y(9)) / 2, -48.45, False)]
     trechos = [('Suporte Chave DJ_X_FICT', (y(-1), -48.4503), P[0]), ('t1', P[0], P[1]), ('t2', P[1], P[2]),
@@ -201,13 +208,50 @@ def test_trechos():
 
 
 
+def test_gerar_trechos():
+    """Comando de ponta a ponta: KML do Daimon + Crítica → mapa, KMZ, página do site e índice por SE."""
+    from . import gerar_trechos
+    y = lambda i: -9.6 + i * 0.0003
+    P = {i: (y(i), -48.45) for i in range(8)}
+    meio = lambda i: ((y(i) + y(i + 1)) / 2, -48.45)
+    chaves = [('DJ_ALTESTE_FICT', *meio(-1), False), ('7900001', *meio(2), False), ('0300001', *meio(5), False)]
+    trechos_kml = [('Suporte Chave DJ_ALTESTE_FICT', (y(-1), -48.45), P[0]), ('t1', P[0], P[1]), ('t2', P[1], P[2]),
+                   ('Suporte Chave 7900001', P[2], P[3]), ('t3', P[3], P[4]), ('t4', P[4], P[5]),
+                   ('Suporte Chave 0300001', P[5], P[6]), ('t5', P[6], P[7])]
+    linhas = [';'.join(CAB_CRITICA),
+              ';'.join(['01/01/26', 'COLETIVO', 'DJ', '1R0', 'DJ', '1', '11/01/2026 18:16', 'DJ', '1R0', '300', '51', 'X', 'Y', ',1', ',1', 'ALTESTE']),
+              ';'.join(['01/01/26', 'COLETIVO', 'CH', '0300001', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'X', 'Y', ',1', ',1', 'ALTESTE'])]
+    with tempfile.TemporaryDirectory() as d:
+        d = Path(d)
+        kml = d / 'SE-XTST_Circ-ALTESTE.kml'
+        kml.write_text(_kml_daimon(chaves, trechos_kml), encoding='utf-8')
+        (d / 'Critica-1.txt').write_bytes(('\r\n'.join(linhas) + '\r\n').encode('latin-1'))
+        (d / 'site').mkdir()
+        gerar_trechos.main([str(kml), '--saida', str(d / 'saida'), '--critica', str(d / 'Critica-*.txt'),
+                            '--site', str(d / 'site'), '--se-nome', 'SE-XTST=Teste'])
+        assert sorted(p.name for p in (d / 'saida' / 'ALTESTE').iterdir()) == ['ALTESTE-trechos.kmz', 'mapa-trechos.html']
+        pag = (d / 'site' / 'ALTESTE.html').read_text(encoding='utf-8')
+        assert 'noindex' in pag and 'href="ALTESTE-trechos.kmz"' in pag and '← Todos os alimentadores' in pag
+        indice = (d / 'site' / 'index.html').read_text(encoding='utf-8')
+        assert 'SE-XTST · Teste' in indice and 'href="ALTESTE.html"' in indice and '2</strong> coletivas' in indice
+        assert (d / 'site' / 'ALTESTE-trechos.kmz').exists() and (d / 'site' / '.nojekyll').exists()
+
+
+def test_copia_da_skill():
+    """A skill leva uma cópia do código (scripts/alimentador) para rodar fora do repositório: tem que ser igual."""
+    raiz = Path(__file__).resolve().parent
+    copia = raiz.parent / '.claude' / 'skills' / 'trechos-alimentador' / 'scripts' / 'alimentador'
+    arquivos = ['__init__.py', 'daimon.py', 'regras.py', 'trechos.py', 'critica.py', 'gerar_trechos.py',
+                'mapa_trechos.html', 'site_indice.html']
+    diferentes = [a for a in arquivos if (raiz / a).read_bytes() != (copia / a).read_bytes()]
+    assert not diferentes, f'copie de novo para {copia}: {diferentes}'
+
+
 def test_critica():
     nos, vaos = rede_linha(['P', '79', 'P', '79', 'P', '03', 'P', '03', 'P'], desvio=(3, ['P', '79', 'P', '03', 'P']))
     res = regras.analisar(nos, vaos, 'DJ')
     ts = trechos.segmentar(nos, res)
-    cab = ['DTA_CMPT_HDE', 'TIPO_INTER_KTI', 'COD_ELE_REDE_PROBLEMA', 'COD_ELE_PROBLEMA', 'ABRANGÊNCIA', 'NUM_SEQ_OPER_INIC_HDE',
-           'DTA_ABERT', 'COD_ELE_REDE_INTERROMPIDO', 'COD_ELE_INTERROMPIDO', 'QTD_CONS_INTER_FAT', 'DURACAO',
-           'DES_CAUSA_INTER_CAU', 'DES_SUB_CAUSA_INTER_SCR', 'QTD_IFEC_ALIM', 'QTD_IDEC_ALIM', 'COD_ALIMENTADOR']
+    cab = CAB_CRITICA
     lin = lambda *v: ';'.join(v)
     dj = lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '300', '51', 'TERCEIROS', 'OBJETO', ',07', ',06', 'ALX')
     arq1 = [';'.join(cab), dj,
