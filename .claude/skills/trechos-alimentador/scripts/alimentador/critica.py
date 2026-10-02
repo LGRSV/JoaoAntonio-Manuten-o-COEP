@@ -18,6 +18,7 @@ O número da UC (consumidor) não é guardado.
 """
 import csv
 import re
+import unicodedata
 from collections import OrderedDict
 from pathlib import Path
 
@@ -76,9 +77,11 @@ def pontos_kml(arq):
     """nome → (lat, lon) de todo Placemark de ponto do KML (chaves e transformadores)."""
     s = open(arq, encoding='utf-8', errors='replace').read()
     out = {}
-    for nome, lon, lat in re.findall(r'<Placemark>\s*<name>([^<]+)</name>.*?<Point>\s*<coordinates>\s*([-\d.]+),([-\d.]+)',
-                                     s, re.S):
-        out.setdefault(nome.strip(), (float(lat), float(lon)))
+    for pm in re.findall(r'<Placemark>(.*?)</Placemark>', s, re.S):      # um Placemark por vez: linear no arquivo
+        nome = re.match(r'\s*<name>([^<]+)</name>', pm)
+        pt = re.search(r'<Point>\s*<coordinates>\s*([-\d.]+),([-\d.]+)', pm)
+        if nome and pt:
+            out.setdefault(nome.group(1).strip(), (float(pt.group(2)), float(pt.group(1))))
     return out
 
 
@@ -95,6 +98,13 @@ def _programada(causa):
     """'DISTRIBUICAO PROGRAMADA' e 'PROGRAMADAS' sim; 'NAO-PROGRAMADAS…' não."""
     c = causa.strip().upper()
     return 'PROGRAMADA' in c and not c.startswith('NAO')
+
+
+def arvore_na_rede(o):
+    """Ocorrência de vegetação: causa MEIO AMBIENTE e subcausa ÁRVORE (pequeno/médio ou grande porte) ou EUCALIPTO,
+    na rede/faixa. Ficam fora árvore no ramal (causa entrada de serviço) e poda de árvores."""
+    sem_acento = lambda x: unicodedata.normalize('NFKD', x).encode('ascii', 'ignore').decode().upper().strip()
+    return sem_acento(o['causa']) == 'MEIO AMBIENTE' and sem_acento(o['sub']).startswith(('ARVORE', 'EUCALIPTO'))
 
 
 def ocorrencias(linhas):

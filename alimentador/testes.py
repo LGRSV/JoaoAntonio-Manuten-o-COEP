@@ -286,6 +286,10 @@ def test_critica():
     assert (dj_oc['trecho'], dj_oc['cons'], dj_oc['mes']) == ('T1', 320, '2026-01'), 'passos somados numa ocorrência'
     fus = next(o for o in oc if o['abr'] == 'CH FUS')
     assert fus['trecho'] == 'T3-A' and not fus['programada'], 'fusível que abre trecho; NAO-PROGRAMADAS não é programada'
+    assert not critica.arvore_na_rede(fus), 'NAO-PROGRAMADAS MEIO AMBIENTE não é a causa Meio Ambiente'
+    assert critica.arvore_na_rede(dict(causa='Meio ambiente', sub='Arvore de grande porte na rede / na faixa'))
+    assert critica.arvore_na_rede(dict(causa='Meio ambiente', sub='Eucalipto na rede / na faixa'))
+    assert not critica.arvore_na_rede(dict(causa='Entrada de servico aereo', sub='Arvore no ramal'))
     se = next(o for o in oc if o['abr'] == 'SE')
     assert (se['trecho'], se['fora'], se['programada']) == (None, 'na subestação', True), 'subestação fica à parte'
     uc = [o for o in oc if o['abr'] == 'UC']
