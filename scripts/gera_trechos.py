@@ -396,11 +396,25 @@ def validar(c):
         av.append(f'{len(orfas)} chave(s) de proteção sem trecho (não seccionam a rede): '
                   + ', '.join(orfas[:10]) + ('…' if len(orfas) > 10 else '')
                   + (f' — {len(rl)} religador(es)' if rl else ''))
-    # Crítica só quando a classificação está estruturalmente quebrada: rede
-    # grande com um punhado de trechos, ou religador no cadastro e nenhum T2.
+    # Rede descartada: o Dijkstra joga fora o que não chega no DJ, e isso não
+    # era checado em lugar nenhum — havia página publicada com 0,30 km
+    # classificados de uma rede de dezenas de km.
+    fora = tp.get('vaos_fora_da_arvore') or 0
+    dentro = len(c['vaos'])
+    perda = fora / (fora + dentro) if (fora + dentro) else 0
+    if perda:
+        texto = f'{perda * 100:.0f}% da rede fora da árvore do DJ ({fora} de {fora + dentro} vãos)'
+        (cri if perda > 0.25 else av).append(texto)
+
+    # Crítica quando a classificação está estruturalmente quebrada: trecho
+    # grande demais em média (um T1 engolindo o alimentador), rede
+    # classificada irrelevante, ou religador no cadastro sem nenhum T2.
     km = c['resumo']['extensao_m'] / 1000
-    if km > 5 and c['resumo']['trechos'] <= 2:
-        cri.append(f'classificação colapsada: {c["resumo"]["trechos"]} trecho(s) para {km:.1f} km')
+    n = c['resumo']['trechos'] or 1
+    if km > 5 and km / n > 50:
+        cri.append(f'classificação colapsada: {km / n:.0f} km por trecho ({n} trecho(s) para {km:.1f} km)')
+    # (um alimentador pequeno de verdade é legítimo; o que denuncia os casos
+    # de 7 m publicados é a perda de rede acima, não o tamanho absoluto)
     n_rl = sum(1 for a in c['chaves'] if a['tipo'] == '79')
     if n_rl and not c['resumo']['T2']['n']:
         cri.append(f'{n_rl} religador(es) no cadastro e nenhum T2: nenhum deles secciona a rede')
@@ -428,7 +442,7 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'site.css'):
+    for f in ('extras.js', 'site.css', 'mapa-municipios.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     return modelo
 
@@ -471,6 +485,47 @@ def km(m):
 
 def carregar_dados(saida):
     return [json.loads(p.read_text(encoding='utf-8')) for p in sorted((saida / 'dados' / 'alimentadores').glob('*.json'))]
+
+
+def mapa_e_ranking(saida, dados, man):
+    """assets/mapa-municipios-dados.js (window.MUN) e assets/ranking-nae.js (window.RANK).
+
+    A geometria dos 139 municípios é estática (contornos já projetados, em
+    alimentador/site/mapa-municipios-geo.json); o que a rodada preenche é
+    quais municípios têm alimentador (`slug`, `als`) e o ranking por NAE.
+    """
+    geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))
+    por_cod = {m['cod']: m for m in man['municipios']}
+    muns = []
+    for g in geo['muns']:
+        m = por_cod.get(g['cod'])
+        if m:
+            g = dict(g, slug=m['slug'], als=[dict(cod=a['cod'], se=a['se_nome'], m=a['m_no_municipio'])
+                                             for a in m['alimentadores']])
+        muns.append(g)
+    (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
+        'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns), ensure_ascii=False,
+                                   separators=(',', ':')) + ';\n', encoding='utf-8')
+
+    als, meses = [], set()
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        oc = (c.get('nae') or {}).get('oc', [])
+        meses |= {o['mes'] for o in oc}
+        als.append(dict(
+            al=c['alimentador'], se=c['se_nome'],
+            nae=len(oc), col=sum(1 for o in oc if o.get('col')),
+            cons=sum(o.get('cons') or 0 for o in oc),
+            chi=round(sum((o.get('cons') or 0) * (o.get('dur') or 0) for o in oc) / 60),
+            km=round(c['resumo']['extensao_m'] / 1000, 1),
+            ult_limpeza=None,                 # vem da limpeza de faixa, que não entra aqui
+            muns=[m['cod'] for m in c['municipios'] if m['m'] >= MIN_M]))
+    als.sort(key=lambda a: (-a['nae'], a['al']))
+    (saida / 'assets' / 'ranking-nae.js').write_text(
+        'window.RANK=' + json.dumps(dict(meses=[min(meses), max(meses)] if meses else [],
+                                         als=als), ensure_ascii=False, separators=(',', ':')) + ';\n',
+        encoding='utf-8')
 
 
 def manifesto(dados):
@@ -532,11 +587,16 @@ def interface(saida):
         p = saida / 'municipios' / m['slug'] / 'index.html'
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../'), encoding='utf-8')
-    corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município, depois o alimentador. T1 do DJ ao 1º '
-             'religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.</p></header>\n'
+    mapa_e_ranking(saida, dados, man)
+    corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
+             'alimentador. T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… '
+             'depois de cada fusível.</p></header>\n<div id="mapa-to"></div>\n'
              '<input class="busca" id="busca" type="search" placeholder="Buscar município">\n'
              f'<div class="grade">{"".join(cards)}</div>\n<p class="nota"><a href="relatorio.html">Relatório de validação'
-             '</a> · <a href="manifesto.json">manifesto.json</a></p>')
+             '</a> · <a href="manifesto.json">manifesto.json</a></p>\n'
+             '<script src="assets/mapa-municipios-dados.js"></script>\n'
+             '<script src="assets/ranking-nae.js"></script>\n'
+             '<script src="assets/mapa-municipios.js"></script>')
     (saida / 'index.html').write_text(casca('Trechos por município', corpo, ''), encoding='utf-8')
     (saida / '.nojekyll').touch()
     relatorio(saida, dados, man)

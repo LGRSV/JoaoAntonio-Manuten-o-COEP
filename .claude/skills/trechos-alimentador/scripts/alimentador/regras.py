@@ -167,7 +167,14 @@ def analisar(nos, vaos, raiz):
         avisos.append('Alimentador sem 2º religador: o tronco seguiu o lado com mais rede T1/T2 e parou antes de chave 03.')
         n = raiz
         while True:
+            # Preferir o ramo que ainda tem religador: com um único religador no
+            # alimentador, escolher só por extensão fazia o tronco passar ao
+            # lado dele, o T1 não terminava no 1º religador e ele era batizado
+            # T2-A sem existir T2 (10 de 44 alimentadores com religador).
             opcoes = [c for c in filhos.get(n, []) if tipo(c) not in FUSIVEIS]
+            com_rl = [c for c in opcoes if tipo_cad(c) == '79' or rl_rel[c]]
+            if com_rl:
+                opcoes = com_rl
             if not opcoes:
                 break
             c = max(opcoes, key=lambda k: comp[(n, k)] * (zona[n] <= 2) + abaixo12[k])
