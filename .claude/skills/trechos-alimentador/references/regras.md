@@ -49,11 +49,13 @@ derivações (trechos que saem dele) e se é tronco.
 ## 4. NAE por trecho (critica.por_trecho)
 
 - **DJ** (`ABRANGÊNCIA = DJ`): T1.
+- **Subestação** (`ABRANGÊNCIA = SE`): fora dos trechos, "na subestação" (pendente: o usuário pode querer no T1).
 - **Religador ou fusível que abre um trecho:** esse trecho.
 - **Trafo ou outro ativo com ponto no KML:** trecho do vão mais próximo. Individual (um consumidor) cai pelo trafo.
 - **Ativo fora do cadastro atual:** fora dos trechos, com "hoje no <alimentador>" se achado em `--outros`.
 - Coletiva = `TIPO_INTER_KTI = COLETIVO`; individual = `INDIVIDUAL`. Programada = causa "DISTRIBUICAO
-  PROGRAMADA". Consumidores e CHI somados entre os passos; duração = maior passo.
+  PROGRAMADA" ou "PROGRAMADAS" (não "NAO-PROGRAMADAS"). Consumidores e CHI somados entre os passos (passo repetido
+  entre arquivos conta uma vez); duração = maior passo.
 
 ## 5. Exemplos de referência
 
@@ -88,5 +90,5 @@ passou para o AL02040004 em abril.
 - Ao ver o mapa: "aqui seria um T2-A e o outro azul clarinho o T2-B" → cada religador abre um T2.
 - "Tá perfeito essa lógica."
 
-Pendentes: chave 02 conta como fusível? Tronco no alimentador sem 2º religador e escolha entre religadores em
-paralelo (a regra decide sozinha e avisa).
+Pendentes: chave 02 conta como fusível? Ocorrência na subestação entra no T1? Tronco no alimentador sem 2º
+religador e escolha entre religadores em paralelo (a regra decide sozinha e avisa).

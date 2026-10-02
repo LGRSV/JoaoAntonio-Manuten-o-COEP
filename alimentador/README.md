@@ -41,11 +41,12 @@ Trechos e NAE por trecho de um ou mais alimentadores (só biblioteca padrão):
 
 ```bash
 python -m alimentador.gerar_trechos alimentador/entrada/SE-2ARS_Circ-LD0*110005.kml \
-    --postes ../vera-vegetacao/dados --critica 'crit/Critica-CHEIO_0*-2026.txt' \
+    --postes ../vera-vegetacao/dados --critica 'crit/Critica-CHEIO_0*-2026.txt' --mes 2026-01 \
     [--outros <KML vizinho>] [--site ../vera-vegeta-o-back --se-nome SE-2ARS='Arraias II']
 ```
 
-Grava `mapa-trechos.html` e `<alimentador>-trechos.kmz` em `alimentador/saida/<alimentador>/`; com `--site`, também a página do alimentador, o KMZ e o `index.html` (lista por SE) na pasta do site (GitHub Pages).
+Grava `mapa-trechos.html` e `<alimentador>-trechos.kmz` em `alimentador/saida/<alimentador>/`; com `--site`, também a página do alimentador (com o Leaflet embutido), o KMZ e o `index.html` (lista por SE) na pasta do site
+(GitHub Pages). `--mes` imprime o NAE daquele mês por trecho.
 
 Referência da regra em PDF: [`docs/referencia-trechos.pdf`](docs/referencia-trechos.pdf) (refazer com `python -m alimentador.referencia_pdf`, precisa de reportlab e matplotlib). A skill `.claude/skills/trechos-alimentador/` leva as regras e uma cópia do código para o Claude usar em outras conversas.
 
@@ -87,5 +88,6 @@ daimon.gerar('alimentador/entrada/SE-2AR0_Circ-AL01010004.kml', 'alimentador/sai
 - `trechos.py`: trechos nomeados pelos ativos (T1, T2, T2-A…, T3-A… em ordem a partir do DJ) o mapa `mapa-trechos.html` (modelo `mapa_trechos.html`) e o `*-trechos.kmz`.
 - `mapa_modelo.html`: modelo do mapa (Leaflet + imagem Esri World Imagery, carregados ao vivo).
 - `gerar_trechos.py`: comando de ponta a ponta (KMLs + postes + Crítica → mapa, KMZ e site); `site_indice.html` é o modelo do índice do site.
+- `leaflet/`: Leaflet 1.9.4 (licença BSD-2 em `leaflet/LICENSE`), embutido nas páginas do site.
 - `referencia_pdf.py`: gera o PDF de referência (`docs/referencia-trechos.pdf`).
 - `testes.py`: testes (inclui a conferência de que a cópia do código na skill é igual à do pacote).

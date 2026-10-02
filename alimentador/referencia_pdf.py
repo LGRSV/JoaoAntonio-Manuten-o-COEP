@@ -327,6 +327,7 @@ def gerar(destino):
     h.append(tabela([
         ['Abrangência / ativo', 'Vai para'],
         ['DJ', 'T1'],
+        ['Subestação (SE): defeito fora da rede, ex.: falha de comando do disjuntor', 'fora dos trechos, como "na subestação"'],
         ['Religador ou fusível que abre um trecho', 'esse trecho'],
         ['Trafo, consumidor (individual, pelo trafo) ou outro ativo com ponto no KML', 'trecho do vão mais próximo'],
         ['Ativo que não está no KML atual', 'fora dos trechos; "hoje no &lt;alimentador&gt;" se for achado no KML vizinho'],
@@ -338,10 +339,12 @@ def gerar(destino):
               'fevereiro.',
               '<b>Ocorrência</b> = NUM_SEQ_OPER_INIC_HDE. Cada linha é um passo de manobra: consumidores e CHI são '
               'somados entre os passos; a duração é a do maior passo.',
-              'Linhas repetidas entre arquivos são descartadas (7 no 1º semestre de 2026).',
+              '<b>Passo em dois arquivos conta uma vez.</b> O arquivo de janeiro traz 915 passos de fevereiro que voltam no '
+              'de fevereiro só com os indicadores recalculados; vale o do mês da competência. Já as linhas do mesmo passo '
+              'por localidade, dentro de um arquivo, somam-se.',
               'O DJ tem código próprio na Crítica (ex.: 224R004) e o mesmo desarme pode aparecer em dois alimentadores '
               '(consumidores transferidos).',
-              '<b>Programada</b> = causa "Distribuição programada".',
+              '<b>Programada</b> = causa "Distribuição programada" ou "Programadas" (não as "Não-programadas").',
               'O número da unidade consumidora nunca vai para o mapa nem para o site.']:
         h.append(item(t))
 
@@ -406,7 +409,7 @@ def gerar(destino):
     h.append(Preformatted(
         'python -m alimentador.gerar_trechos SE-2ARS_Circ-LD01110005.kml SE-2ARS_Circ-LD02110005.kml \\\n'
         '    --saida alimentador/saida --postes ../vera-vegetacao/dados \\\n'
-        "    --critica 'crit/Critica-CHEIO_0*-2026.txt' \\\n"
+        "    --critica 'crit/Critica-CHEIO_0*-2026.txt' --mes 2026-01 \\\n"
         "    --site ../vera-vegeta-o-back --se-nome SE-2ARS='Arraias II'", E['code']))
     for t in ['<b>Entradas</b>: KML do Daimon por alimentador (Google Drive, pasta da SE), postes do vera-vegetacao '
               '(opcional, dá o número do poste), arquivos Critica*.txt (opcional, para o NAE) e, com <i>--outros</i>, o '
@@ -415,13 +418,14 @@ def gerar(destino):
               'NAE por mês, busca) e <i>&lt;alimentador&gt;-trechos.kmz</i> (Google Earth / My Maps).',
               '<b>Site</b> (<i>--site</i>): página do alimentador, KMZ e índice por SE em '
               'https://lgrsv.github.io/vera-vegeta-o-back/ (branch gh-pages). O site é público, sem indexação.',
-              'O comando imprime trechos, avisos e NAE por mês para conferir antes de entregar. Um alimentador de '
-              '1.500 km leva alguns minutos.']:
+              'O comando imprime trechos, avisos e NAE por mês (com <i>--mes</i>, também por trecho) para conferir antes '
+              'de entregar. Um alimentador de 1.500 km leva alguns minutos.']:
         h.append(item(t))
 
     h.append(P('9. Pontos em aberto', 'h1'))
     for t in ['<b>Chave 02 conta como fusível?</b> Hoje conta. No AL04010004 ela abre 35 dos 50 trechos T3, todos '
               'com menos de 50 m.',
+              '<b>Ocorrência na subestação</b> (abrangência SE) entra no T1? Hoje fica à parte, como "na subestação".',
               '<b>Alimentador sem 2º religador</b> e <b>religadores em paralelo</b>: a regra decide sozinha (lado com mais '
               'rede) e avisa; vale conferir caso a caso.']:
         h.append(item(t))

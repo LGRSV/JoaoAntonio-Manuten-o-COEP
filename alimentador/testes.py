@@ -1,4 +1,6 @@
 """Testes das regras e das saídas.  python -m alimentador.testes   (ou: pytest alimentador/testes.py)"""
+import contextlib
+import io
 import tempfile
 import xml.etree.ElementTree as ET
 import zipfile
@@ -220,20 +222,28 @@ def test_gerar_trechos():
                    ('Suporte Chave 0300001', P[5], P[6]), ('t5', P[6], P[7])]
     linhas = [';'.join(CAB_CRITICA),
               ';'.join(['01/01/26', 'COLETIVO', 'DJ', '1R0', 'DJ', '1', '11/01/2026 18:16', 'DJ', '1R0', '300', '51', 'X', 'Y', ',1', ',1', 'ALTESTE']),
-              ';'.join(['01/01/26', 'COLETIVO', 'CH', '0300001', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'X', 'Y', ',1', ',1', 'ALTESTE'])]
+              ';'.join(['01/01/26', 'COLETIVO', 'CH', '0300001', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'X', 'Y', ',1', ',1', 'ALTESTE']),
+              ';'.join(['01/01/26', 'COLETIVO', 'DJ', '1R0', 'SE', '3', '22/01/2026 10:00', 'DJ', '1R0', '300', '2', 'X', 'Y', ',1', ',1', 'ALTESTE']),
+              ';'.join(['01/01/26', 'INDIVIDUAL', 'UC', '999', 'UC', '4', '23/01/2026 10:00', 'TR', 'TR-SUMIU', '1', '9', 'X', 'Y', ',1', ',1', 'ALTESTE'])]
     with tempfile.TemporaryDirectory() as d:
         d = Path(d)
         kml = d / 'SE-XTST_Circ-ALTESTE.kml'
         kml.write_text(_kml_daimon(chaves, trechos_kml), encoding='utf-8')
         (d / 'Critica-1.txt').write_bytes(('\r\n'.join(linhas) + '\r\n').encode('latin-1'))
         (d / 'site').mkdir()
-        gerar_trechos.main([str(kml), '--saida', str(d / 'saida'), '--critica', str(d / 'Critica-*.txt'),
-                            '--site', str(d / 'site'), '--se-nome', 'SE-XTST=Teste'])
+        saida = io.StringIO()
+        with contextlib.redirect_stdout(saida):
+            gerar_trechos.main([str(kml), '--saida', str(d / 'saida'), '--critica', str(d / 'Critica-*.txt'),
+                                '--mes', '2026-01', '--site', str(d / 'site'), '--se-nome', 'SE-XTST=Teste'])
+        texto = saida.getvalue()
+        assert 'T1: DJ ALTESTE → 7900001' in texto and '    T1: 1 · 0' in texto and '    T3-A: 1 · 0' in texto, texto
+        assert '    fora · na subestação: 1 · 0' in texto and '    fora do cadastro atual: 0 · 1' in texto, texto
         assert sorted(p.name for p in (d / 'saida' / 'ALTESTE').iterdir()) == ['ALTESTE-trechos.kmz', 'mapa-trechos.html']
         pag = (d / 'site' / 'ALTESTE.html').read_text(encoding='utf-8')
         assert 'noindex' in pag and 'href="ALTESTE-trechos.kmz"' in pag and '← Todos os alimentadores' in pag
+        assert 'cdnjs' not in pag and 'Leaflet 1.9.4' in pag, 'site com o Leaflet embutido'
         indice = (d / 'site' / 'index.html').read_text(encoding='utf-8')
-        assert 'SE-XTST · Teste' in indice and 'href="ALTESTE.html"' in indice and '2</strong> coletivas' in indice
+        assert 'SE-XTST · Teste' in indice and 'href="ALTESTE.html"' in indice and '3</strong> coletivas' in indice
         assert (d / 'site' / 'ALTESTE-trechos.kmz').exists() and (d / 'site' / '.nojekyll').exists()
 
 
@@ -242,7 +252,7 @@ def test_copia_da_skill():
     raiz = Path(__file__).resolve().parent
     copia = raiz.parent / '.claude' / 'skills' / 'trechos-alimentador' / 'scripts' / 'alimentador'
     arquivos = ['__init__.py', 'daimon.py', 'regras.py', 'trechos.py', 'critica.py', 'gerar_trechos.py',
-                'mapa_trechos.html', 'site_indice.html']
+                'mapa_trechos.html', 'site_indice.html', 'leaflet/leaflet.js', 'leaflet/leaflet.css', 'leaflet/LICENSE']
     diferentes = [a for a in arquivos if (raiz / a).read_bytes() != (copia / a).read_bytes()]
     assert not diferentes, f'copie de novo para {copia}: {diferentes}'
 
@@ -256,24 +266,32 @@ def test_critica():
     dj = lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '300', '51', 'TERCEIROS', 'OBJETO', ',07', ',06', 'ALX')
     arq1 = [';'.join(cab), dj,
             lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '1', '11/01/2026 18:16', 'DJ', '9DJ', '20', '2', 'TERCEIROS', 'OBJETO', ',01', ',00', 'ALX'),
-            lin('01/01/26', 'COLETIVO', 'CH', '03-6', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'MEIO AMBIENTE', 'ARVORE', ',01', ',02', 'ALX'),
+            lin('01/01/26', 'COLETIVO', 'CH', '03-6', 'CH FUS', '2', '20/01/2026 10:00', 'TR', 'TRX', '40', '90', 'NAO-PROGRAMADAS MEIO AMBIENTE', 'ARVORE', ',01', ',02', 'ALX'),
             lin('01/01/26', 'INDIVIDUAL', 'UC', '123456', 'UC', '3', '21/01/2026 09:00', 'TR', 'TR-B', '1', '60', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
             lin('01/02/26', 'INDIVIDUAL', 'UC', '654321', 'UC', '4', '02/02/2026 09:00', 'TR', 'TR-SUMIU', '1', '30', 'CONEXAO', 'RAMAL', ',0002', ',0001', 'ALX'),
-            lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '5', '12/01/2026 08:00', 'DJ', '9DJ', '99', '5', 'X', 'Y', ',1', ',1', 'OUTRO')]
-    arq2 = [';'.join(cab), dj]                                   # linha repetida entre arquivos
+            lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'DJ', '5', '12/01/2026 08:00', 'DJ', '9DJ', '99', '5', 'X', 'Y', ',1', ',1', 'OUTRO'),
+            lin('01/01/26', 'COLETIVO', 'DJ', '9DJ', 'SE', '6', '25/01/2026 07:00', 'DJ', '9DJ', '300', '2', 'DISTRIBUICAO PROGRAMADA', 'Z', ',1', ',1', 'ALX')]
+    # no arquivo de fevereiro: a linha de janeiro repetida e o passo de fevereiro de novo, com o indicador recalculado
+    arq2 = [';'.join(cab), dj,
+            lin('01/02/26', 'INDIVIDUAL', 'UC', '654321', 'UC', '4', '02/02/2026 09:00', 'TR', 'TR-SUMIU', '1', '30', 'CONEXAO', 'RAMAL', ',0005', ',0001', 'ALX')]
     fim_b = next(v for v in res['vaos'] if v['trecho'] == 'T2-B')['b']
     with tempfile.TemporaryDirectory() as d:
-        for nome, linhas in (('a.txt', arq1), ('b.txt', arq2)):
-            Path(d, nome).write_bytes(('\r\n'.join(linhas) + '\r\n').encode('latin-1'))
-        linhas = critica.ler([Path(d, 'a.txt'), Path(d, 'b.txt')], 'ALX')
-    assert len(linhas) == 5, 'só o alimentador pedido e sem a linha repetida'
+        arqs = [Path(d, 'Critica-CHEIO_01-2026.txt'), Path(d, 'Critica-CHEIO_02-2026.txt')]
+        for arq, linhas in zip(arqs, (arq1, arq2)):
+            arq.write_bytes(('\r\n'.join(linhas) + '\r\n').encode('latin-1'))
+        linhas = critica.ler(arqs, 'ALX')
+    assert len(linhas) == 6, 'só o alimentador pedido e cada passo uma vez'
     oc = critica.por_trecho(critica.ocorrencias(linhas), res, ts, {'TR-B': fim_b}, {'ALY': {'TR-SUMIU': (0, 0)}})
     dj_oc = next(o for o in oc if o['abr'] == 'DJ')
     assert (dj_oc['trecho'], dj_oc['cons'], dj_oc['mes']) == ('T1', 320, '2026-01'), 'passos somados numa ocorrência'
-    assert next(o for o in oc if o['abr'] == 'CH FUS')['trecho'] == 'T3-A', 'fusível que abre trecho'
+    fus = next(o for o in oc if o['abr'] == 'CH FUS')
+    assert fus['trecho'] == 'T3-A' and not fus['programada'], 'fusível que abre trecho; NAO-PROGRAMADAS não é programada'
+    se = next(o for o in oc if o['abr'] == 'SE')
+    assert (se['trecho'], se['fora'], se['programada']) == (None, 'na subestação', True), 'subestação fica à parte'
     uc = [o for o in oc if o['abr'] == 'UC']
     assert uc[0]['trecho'] == 'T2-B' and uc[0]['prob'] == '' and not uc[0]['coletiva'], 'individual pelo trafo, sem o número da UC'
     assert (uc[1]['mes'], uc[1]['trecho'], uc[1]['fora']) == ('2026-02', None, 'hoje no ALY'), 'competência e ativo fora do cadastro'
+    assert (uc[1]['cons'], uc[1]['fec']) == (1, .0005), 'passo em dois arquivos conta uma vez, com o do mês da competência'
 
 
 if __name__ == '__main__':

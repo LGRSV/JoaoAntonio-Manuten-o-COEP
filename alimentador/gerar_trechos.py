@@ -1,7 +1,7 @@
 """Trechos (T1, T2, T2-A…, T3-A…) e NAE por trecho para um ou mais alimentadores, de ponta a ponta.
 
     python -m alimentador.gerar_trechos alimentador/entrada/SE-2ARS_Circ-LD0*110005.kml \\
-        --postes ../vera-vegetacao/dados --critica 'crit/Critica-CHEIO_0*-2026.txt' \\
+        --postes ../vera-vegetacao/dados --critica 'crit/Critica-CHEIO_0*-2026.txt' --mes 2026-01 \\
         --site ../vera-vegeta-o-back --se-nome SE-2ARS='Arraias II'
 
 Para cada KML (export do Daimon, nome SE-XXXX_Circ-<alimentador>.kml) grava em --saida/<alimentador>/:
@@ -46,7 +46,7 @@ def achar_postes(origem, al):
     return dados
 
 
-def processar(kml, saida, postes, arquivos_critica, outros):
+def processar(kml, saida, postes, arquivos_critica, outros, mes=None):
     se, al = nomes(kml)
     nos, vaos, raiz, info = daimon.ler_circuito(kml, postes)
     res = regras.analisar(nos, vaos, raiz)
@@ -78,11 +78,28 @@ def processar(kml, saida, postes, arquivos_critica, outros):
             m[2] += o['trecho'] is None
         for m, (c, i, f) in sorted(por_mes.items()):
             print(f'  NAE {m}: {c} coletivas · {i} individuais · {f} fora dos trechos atuais')
+        if mes:
+            print(f'  NAE {mes} por trecho (coletivas · individuais):')
+            ordem = {t['nome']: i for i, t in enumerate(ts)}
+            grupos = {}
+            for o in oc:
+                if o['mes'] == mes:
+                    nome = o['trecho'] or (o['fora'] if o['fora'].startswith('fora') else f"fora · {o['fora']}")
+                    g = grupos.setdefault(nome, [0, 0])
+                    g[0 if o['coletiva'] else 1] += 1
+            for nome, (c, i) in sorted(grupos.items(), key=lambda g: ordem.get(g[0], len(ordem))):
+                print(f'    {nome}: {c} · {i}')
+            if not grupos:
+                print('    nenhuma ocorrência')
     return se, al, pasta
 
 
+LEAFLET = Path(__file__).resolve().parent / 'leaflet'      # Leaflet 1.9.4 (licença BSD em leaflet/LICENSE)
+CDN = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/'
+
+
 def pagina_site(pasta, al, se, se_nome, site):
-    """Página do alimentador no site: sem indexação, link para a lista e para o KMZ."""
+    """Página do alimentador no site: Leaflet embutido (não depende de CDN), sem indexação, link para a lista e o KMZ."""
     h = (pasta / 'mapa-trechos.html').read_text(encoding='utf-8')
     rotulo = f'{se} {se_nome} · ' if se_nome else f'{se} · '
     meta = html.escape(f'{al}|{se}|{se_nome}')
@@ -92,7 +109,11 @@ def pagina_site(pasta, al, se, se_nome, site):
          f'<meta name="robots" content="noindex, nofollow">\n<meta name="alimentador" content="{meta}">'),
         ('Chaves 88 não aparecem.', f'Chaves 88 não aparecem. <a href="{al}-trechos.kmz">Baixar o KMZ para o Google Earth</a>.'),
         ('<span class="eyebrow">', f'<a href="./" style="font-size:14px">← Todos os alimentadores</a>\n    '
-                                   f'<span class="eyebrow">{html.escape(rotulo)}')]:
+                                   f'<span class="eyebrow">{html.escape(rotulo)}'),
+        (f'<link rel="stylesheet" href="{CDN}leaflet.css">',
+         '<style>\n' + (LEAFLET / 'leaflet.css').read_text(encoding='utf-8') + '\n</style>'),
+        (f'<script src="{CDN}leaflet.js"></script>',
+         '<script>\n' + (LEAFLET / 'leaflet.js').read_text(encoding='utf-8') + '\n</script>')]:
         assert h.count(a) == 1, a[:50]
         h = h.replace(a, b)
     (Path(site) / f'{al}.html').write_text(h, encoding='utf-8')
@@ -137,18 +158,21 @@ def main(argv=None):
     ap.add_argument('--saida', default='alimentador/saida', help='pasta das saídas (uma subpasta por alimentador)')
     ap.add_argument('--postes', help='JSON de postes ou pasta onde procurar <alimentador>.json (ex.: vera-vegetacao/dados)')
     ap.add_argument('--critica', action='append', default=[], help="Critica*.txt (aceita padrão entre aspas; repetir para vários)")
+    ap.add_argument('--mes', help='imprime o NAE por trecho deste mês de competência (AAAA-MM)')
     ap.add_argument('--outros', action='append', default=[],
                     help='KML de alimentador vizinho, para dizer onde está hoje o ativo que saiu do cadastro')
     ap.add_argument('--site', help='pasta do site (GitHub Pages): grava <alimentador>.html, o KMZ e refaz o index.html')
     ap.add_argument('--se-nome', action='append', default=[], help="nome da SE para o site, ex.: SE-2ARS='Arraias II'")
     a = ap.parse_args(argv)
+    if a.mes and not re.fullmatch(r'\d{4}-\d{2}', a.mes):
+        raise SystemExit(f'--mes no formato AAAA-MM, ex.: 2026-01 (veio {a.mes})')
     arquivos_critica = sorted({f for padrao in a.critica for f in glob.glob(padrao)})
     if a.critica and not arquivos_critica:
         raise SystemExit(f'nenhum arquivo da Crítica encontrado em {a.critica}')
     se_nomes = dict(s.split('=', 1) for s in a.se_nome)
     for kml in a.kml:
         se, al, pasta = processar(kml, a.saida, achar_postes(a.postes, nomes(kml)[1]), arquivos_critica,
-                                  a.outros + [k for k in a.kml if k != kml])
+                                  a.outros + [k for k in a.kml if k != kml], a.mes)
         if a.site:
             pagina_site(pasta, al, se, se_nomes.get(se, ''), a.site)
     if a.site:

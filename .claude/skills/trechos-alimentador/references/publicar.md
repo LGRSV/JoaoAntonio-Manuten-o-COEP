@@ -4,7 +4,8 @@
 
 - Repositório `LGRSV/vera-vegeta-o-back`, branch **`gh-pages`** (o `main` só tem o README; não mexa nele).
   Endereço: https://lgrsv.github.io/vera-vegeta-o-back/
-- Estrutura: `index.html` (lista por SE), `<alimentador>.html` (mapa) e `<alimentador>-trechos.kmz`.
+- Estrutura: `index.html` (lista por SE), `<alimentador>.html` (mapa) e `<alimentador>-trechos.kmz`. A página do
+  site leva o Leaflet 1.9.4 embutido (`alimentador/leaflet/`), então não depende de CDN; só o satélite vem da Esri.
 - Gerar: `python -m alimentador.gerar_trechos <KMLs> ... --site <clone do gh-pages> --se-nome SE-XXXX='Nome'`.
   O índice é refeito a partir de todas as páginas da pasta (meta `alimentador` em cada uma), então rodar só um
   alimentador novo não apaga os outros.

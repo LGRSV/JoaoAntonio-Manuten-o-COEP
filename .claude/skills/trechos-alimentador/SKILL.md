@@ -36,38 +36,48 @@ antes de mudar qualquer regra ou quando o resultado parecer estranho. Para o usu
    `dados/indice.json` do vera-vegetacao. Buscas e o limite de 10 MB do conector: `references/bases.md`.
 2. **Postes** (opcional, dá o número real do poste): `LGRSV/vera-vegetacao`, `dados/<REGIÃO>/<alimentador>.json`.
 3. **Crítica** (para o NAE): os `Critica*.txt` que o usuário envia (zip). Não ficam soltos no Drive.
-4. **Rodar o comando** (no repositório `LGRSV/smartled`, ou com a cópia em `scripts/` desta skill:
-   `cd <pasta da skill>/scripts`):
+4. **Rodar o comando** a partir de qualquer pasta, apontando o `PYTHONPATH` para o código (a raiz do repositório
+   `LGRSV/smartled` ou a pasta `scripts/` desta skill). Passe sempre `--saida` (o padrão é relativo à pasta atual):
 
    ```bash
-   python -m alimentador.gerar_trechos <KMLs...> --saida <pasta> \
-       --postes <vera-vegetacao>/dados --critica '<pasta>/Critica-*.txt' \
+   PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=<smartled ou pasta da skill>/scripts \
+   python3 -m alimentador.gerar_trechos <KMLs...> --saida <pasta> \
+       --postes <vera-vegetacao>/dados --critica '<pasta>/Critica-*.txt' --mes 2026-01 \
        [--outros <KML de alimentador vizinho>] [--site <pasta do site> --se-nome SE-XXXX='Nome']
    ```
 
+   `--mes AAAA-MM` imprime o NAE daquele mês por trecho (coletivas · individuais), além do total de cada mês.
    Só usa a biblioteca padrão do Python. Um alimentador de 1.500 km leva uns 4 minutos; rode em segundo plano.
    Se mudar o código no repositório, copie de novo para `scripts/alimentador/` (o teste `test_copia_da_skill`
    acusa a diferença).
 5. **Conferir antes de entregar.** O comando imprime trechos, avisos e NAE por mês. Confira:
    - a soma dos trechos bate com a extensão total (o código garante; se falhar, é bug);
    - os avisos (sem 2º religador, religadores em paralelo, seccionamento) viram perguntas ao usuário;
-   - abra o mapa num navegador se puder (Playwright): sem erro, sem rolagem lateral no celular.
+   - abra o mapa num navegador se puder: sem erro de JavaScript, sem rolagem lateral em 390 px. Neste ambiente o
+     Playwright está em `/opt/node22/lib/node_modules/playwright` (Chromium em `/opt/pw-browsers`). O
+     `mapa-trechos.html` puxa o Leaflet do cdnjs e o Chromium daqui não passa pelo proxy: teste a página gerada com
+     `--site` (Leaflet embutido) e responda às imagens do Esri (`arcgisonline`) com uma imagem qualquer via
+     `page.route`.
 6. **Publicar** quando o usuário quiser ver no celular: site no GitHub Pages (`references/publicar.md`). O site é
    público; confirme antes de publicar um alimentador novo.
-7. **Responder** curto: tabela dos trechos principais (início → fim, km), NAE do mês pedido, link e os pontos que
-   a regra decidiu sozinha.
+7. **Responder** curto: tabela dos trechos principais (início → fim, km), NAE do mês pedido por trecho, o link do
+   site (se publicou) ou o `mapa-trechos.html` e o KMZ enviados como arquivo, e os pontos que a regra decidiu
+   sozinha (avisos do comando) como perguntas.
 
 ## O que já deu errado (e como evitar)
 
-- **Crítica.** O mês é a competência (`DTA_CMPT_HDE`), não a abertura: o arquivo de janeiro traz linhas de
-  fevereiro. Há linhas repetidas entre arquivos. Cada linha é um passo de manobra; a ocorrência é
-  `NUM_SEQ_OPER_INIC_HDE`. O DJ da Crítica tem outro código (ex.: `224R004`); vai para o T1 pela
-  `ABRANGÊNCIA = DJ`. O código já trata tudo isso; o detalhe está em `references/bases.md`.
+- **Crítica.** O mês é a competência (`DTA_CMPT_HDE`), não a abertura: o arquivo de janeiro traz passos de
+  fevereiro, que voltam no arquivo de fevereiro só com os indicadores recalculados (contam uma vez). O mesmo passo
+  pode vir em várias linhas, uma por localidade (somam-se). A ocorrência é `NUM_SEQ_OPER_INIC_HDE`. O DJ da
+  Crítica tem outro código (ex.: `224R004`); vai para o T1 pela `ABRANGÊNCIA = DJ`. `ABRANGÊNCIA = SE` (defeito na
+  subestação) fica fora dos trechos como "na subestação". O código já trata tudo isso; detalhes em
+  `references/bases.md`.
 - **A rede muda entre meses.** Ativo que aparece na Crítica e não está no KML atual pode ter ido para outro
   alimentador. Passe o KML do vizinho em `--outros` para a página dizer "hoje no <alimentador>".
-- **NAE.** Coletiva = atuou DJ, religador, fusível ou trafo; individual = um consumidor (cai no trecho do trafo).
-  A página deixa escolher se conta as individuais. O número da UC nunca vai para a página.
+- **NAE.** Aqui é o número de interrupções coletivas do trecho no mês (atuou DJ, religador, fusível ou trafo); foi
+  assim que o usuário conferiu o T1 do AL04010004 (jan/2026 = 2). Individuais (um consumidor, no trecho do trafo)
+  vão à parte; a página deixa escolher se conta. O número da UC nunca vai para a página nem para a resposta.
 - **Satélite.** Páginas hospedadas no Claude não carregam imagem de outros sites; o usuário não quer mais esse
   caminho. Use o site no GitHub Pages ou o KMZ no Google Earth.
 - **Pendente com o usuário:** se a chave **02** conta como fusível (no AL04010004 ela abre 35 dos 50 trechos T3,
-  todos com menos de 50 m).
+  todos com menos de 50 m) e se a ocorrência "na subestação" (`ABRANGÊNCIA = SE`) deve entrar no T1.
