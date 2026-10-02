@@ -162,6 +162,9 @@ class Fontes:
         self.critica_arqs = arqs
         self.nae_filtro = a.nae
         self.critica = critica.ler(arqs) if arqs else None
+        # todos os meses de competência da Crítica: o seletor mostra cada mês, mesmo com zero ocorrência
+        self.meses = sorted({f'20{d["DTA_CMPT_HDE"].strip()[6:8]}-{d["DTA_CMPT_HDE"].strip()[3:5]}'
+                             for ls in (self.critica or {}).values() for d in ls})
         self._pontos = {}
 
     def postes(self, al):
@@ -226,6 +229,8 @@ def processar(al, fontes, malha, saida, data_ref):
             oc = [o for o in oc if critica.arvore_na_rede(o)]
         oc = critica.por_trecho(oc, res, ts, fontes.pontos(al), fontes.outros(al))
     ts, D = trechos.dados_mapa(nos, res, oc)
+    if oc is not None:
+        D['nae']['meses'] = fontes.meses
     idx = {t['nome']: i for i, t in enumerate(ts)}
     avisos = info['avisos'] + res['avisos']
 
