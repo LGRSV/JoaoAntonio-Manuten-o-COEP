@@ -1,0 +1,659 @@
+#!/usr/bin/env python3
+"""VERA · trechos por município: KMLs do Daimon → regras da skill trechos-alimentador (T1, T2, T2-A…, T3-A…)
+→ municípios (malha do IBGE, amostra a cada 20 m) → dados JSON, páginas Município → Alimentador → Trecho, KMZ e
+relatório de validação. Determinístico: as mesmas entradas geram os mesmos arquivos.
+
+    python scripts/gera_trechos.py --kml <pasta com SE-XXXX_Circ-*.kml> --vegetacao <clone do vera-vegetacao> \\
+        --saida <pasta do site> [--critica 'Critica-*.txt'] [--malha arquivo.geojson]
+        [--todos | --municipio Araguaína | --alimentador AL04010004 ...]
+    python scripts/gera_trechos.py --saida <pasta do site> --validar           só confere dados e páginas já gerados
+    python scripts/gera_trechos.py --saida <pasta do site> --so-interface      refaz páginas, índice e relatório
+    python scripts/gera_trechos.py --saida <pasta do site> --comparar <clone gh-pages publicado>
+
+Sem --malha, baixa a malha municipal do Tocantins da API do IBGE na 1ª vez e guarda em --cache.
+Nada é publicado: o script só grava em --saida. Ver scripts/README-gera_trechos.md.
+"""
+import argparse
+import glob
+import hashlib
+import html
+import json
+import math
+import re
+import shutil
+import sys
+import tempfile
+import unicodedata
+import urllib.request
+import zipfile
+from datetime import date
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(RAIZ))
+from alimentador import critica, daimon, regras, trechos  # noqa: E402  (regras da skill, sem cópia)
+from alimentador.gerar_trechos import nomes as nomes_kml  # noqa: E402
+
+PKG = RAIZ / 'alimentador'
+IBGE_MALHA = ('https://servicodados.ibge.gov.br/api/v3/malhas/estados/17?intrarregiao=municipio'
+              '&formato=application/vnd.geo+json&qualidade=maxima')
+IBGE_NOMES = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados/17/municipios'
+PASSO_M = 20          # amostra ao longo de cada vão (README do vera-vegetacao)
+MIN_M = 100           # extensão mínima dentro do município para o alimentador aparecer nele
+LON, LAT = (-51.0, -45.0), (-14.0, -5.0)     # caixa do Tocantins, para conferir a ordem [lon, lat]
+CLASSES = ('T1', 'T2', 'T3')
+
+
+def classe(nome):
+    return nome.split('-')[0]
+
+
+def slug(texto):
+    t = unicodedata.normalize('NFKD', texto).encode('ascii', 'ignore').decode().lower()
+    return re.sub(r'[^a-z0-9]+', '-', t).strip('-')
+
+
+def grava_json(caminho, obj):
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    caminho.write_text(json.dumps(obj, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+
+
+# ---------------------------------------------------------------- malha municipal
+
+class Malha:
+    """Ponto → código IBGE do município. Ray casting com as arestas de cada polígono em faixas de latitude."""
+    G = 0.25
+
+    def __init__(self, municipios, origem):
+        self.nome, self.origem, self.polis, self.grade = {}, origem, [], {}
+        for cod, nome, poligonos in sorted(municipios):
+            self.nome[cod] = nome
+            for aneis in poligonos:
+                arestas = [(x1, y1, x2, y2) for anel in aneis for (x1, y1, *_), (x2, y2, *_) in zip(anel, anel[1:])
+                           if y1 != y2]
+                if not arestas:
+                    continue
+                xs = [c for a in arestas for c in (a[0], a[2])]
+                ys = [c for a in arestas for c in (a[1], a[3])]
+                caixa = (min(xs), min(ys), max(xs), max(ys))
+                nf = max(1, len(arestas) // 4)
+                h = (caixa[3] - caixa[1]) / nf or 1.0
+                faixas = [[] for _ in range(nf)]
+                for a in arestas:
+                    for k in range(int((min(a[1], a[3]) - caixa[1]) / h), min(nf - 1, int((max(a[1], a[3]) - caixa[1]) / h)) + 1):
+                        faixas[k].append(a)
+                i = len(self.polis)
+                self.polis.append((caixa, h, faixas, cod))
+                for gx in range(math.floor(caixa[0] / self.G), math.floor(caixa[2] / self.G) + 1):
+                    for gy in range(math.floor(caixa[1] / self.G), math.floor(caixa[3] / self.G) + 1):
+                        self.grade.setdefault((gx, gy), []).append(i)
+
+    def municipio(self, lon, lat):
+        for i in self.grade.get((math.floor(lon / self.G), math.floor(lat / self.G)), ()):
+            caixa, h, faixas, cod = self.polis[i]
+            if not (caixa[0] <= lon <= caixa[2] and caixa[1] <= lat <= caixa[3]):
+                continue
+            dentro = False
+            for x1, y1, x2, y2 in faixas[min(len(faixas) - 1, int((lat - caixa[1]) / h))]:
+                if (y1 > lat) != (y2 > lat) and lon < x1 + (lat - y1) * (x2 - x1) / (y2 - y1):
+                    dentro = not dentro
+            if dentro:
+                return cod
+        return None
+
+
+def carregar_malha(arquivo, cache):
+    if arquivo:
+        geo, nomes, origem = json.loads(Path(arquivo).read_text(encoding='utf-8')), {}, Path(arquivo).name
+    else:
+        cache = Path(cache)
+        cache.mkdir(parents=True, exist_ok=True)
+        for url, nome in ((IBGE_MALHA, 'malha-TO.geojson'), (IBGE_NOMES, 'municipios-TO.json')):
+            if not (cache / nome).exists():
+                print(f'baixando {url}')
+                with urllib.request.urlopen(url, timeout=120) as r:
+                    (cache / nome).write_bytes(r.read())
+        geo = json.loads((cache / 'malha-TO.geojson').read_text(encoding='utf-8'))
+        nomes = {str(m['id']): m['nome'] for m in json.loads((cache / 'municipios-TO.json').read_text(encoding='utf-8'))}
+        origem = 'IBGE, API de malhas v3 (qualidade máxima)'
+    municipios = []
+    for f in geo['features']:
+        p = f['properties']
+        cod = str(p.get('codarea') or p.get('id') or p.get('CD_MUN'))
+        g = f['geometry']
+        municipios.append((cod, nomes.get(cod) or p.get('name') or p.get('nome') or p.get('NM_MUN') or cod,
+                           g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]))
+    return Malha(municipios, origem)
+
+
+def por_municipio(malha, a, b, ext):
+    """Metros do vão (a, b em [lat, lon]) em cada município, amostrando a cada PASSO_M (meio de cada pedaço)."""
+    n = max(1, math.ceil(ext / PASSO_M))
+    m = {}
+    for k in range(n):
+        f = (k + .5) / n
+        cod = malha.municipio(a[1] + (b[1] - a[1]) * f, a[0] + (b[0] - a[0]) * f)
+        m[cod] = m.get(cod, 0) + ext / n
+    return m
+
+
+# ---------------------------------------------------------------- fontes
+
+class Fontes:
+    def __init__(self, a):
+        self.kmls = {}
+        for pasta in a.kml or []:
+            for k in sorted(Path(pasta).rglob('*_Circ-*.kml')):
+                al = nomes_kml(k)[1]
+                if al in self.kmls:
+                    print(f'aviso: {al} em dois KMLs; fica {self.kmls[al]}')
+                    continue
+                self.kmls[al] = k
+        veg = Path(a.vegetacao) if a.vegetacao else None
+        self.veg = veg
+        self.indice = {}
+        if veg and (veg / 'dados' / 'indice.json').exists():
+            for polo, als in json.loads((veg / 'dados' / 'indice.json').read_text(encoding='utf-8')).items():
+                for al, d in als.items():
+                    self.indice[al] = dict(d, polo=polo)
+        arqs = sorted({f for p in a.critica or [] for f in glob.glob(p)})
+        if a.critica and not arqs:
+            raise SystemExit(f'nenhum arquivo da Crítica em {a.critica}')
+        self.critica_arqs = arqs
+        self.critica = critica.ler(arqs) if arqs else None
+        self._pontos = {}
+
+    def postes(self, al):
+        d = self.indice.get(al)
+        arq = self.veg / 'dados' / d['polo'] / f'{al}.json' if d and self.veg else None
+        if not arq or not arq.exists():
+            return None, None
+        dados = json.loads(arq.read_text(encoding='utf-8'))
+        if isinstance(dados, dict):
+            dados = dados.get('postes') or dados.get('features') or next(iter(dados.values()))
+        return dados, f'vera-vegetacao dados/{d["polo"]}/{al}.json'
+
+    def pontos(self, al):
+        if al not in self._pontos:
+            self._pontos[al] = critica.pontos_kml(self.kmls[al])
+        return self._pontos[al]
+
+    def outros(self, al):
+        fontes = self
+
+        class Outros:                                  # carrega os KMLs vizinhos só se alguma ocorrência precisar
+            def items(self):
+                return ((x, fontes.pontos(x)) for x in sorted(fontes.kmls) if x != al)
+        return Outros()
+
+
+# ---------------------------------------------------------------- processamento de um alimentador
+
+def kmz_fixo(nos, res, al, destino):
+    """KMZ dos trechos (da skill) regravado com data fixa no zip, para sair igual a cada execução."""
+    with tempfile.TemporaryDirectory() as d:
+        trechos.kmz(nos, res, al, Path(d) / 'x.kmz')
+        doc = zipfile.ZipFile(Path(d) / 'x.kmz').read('doc.kml')
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(destino, 'w', zipfile.ZIP_DEFLATED) as z:
+        z.writestr(zipfile.ZipInfo('doc.kml', (1980, 1, 1, 0, 0, 0)), doc, zipfile.ZIP_DEFLATED)
+
+
+def processar(al, fontes, malha, saida, data_ref):
+    kml = fontes.kmls[al]
+    se, _ = nomes_kml(kml)
+    ind = fontes.indice.get(al, {})
+    postes, origem_postes = fontes.postes(al)
+    base = dict(versao=1, alimentador=al, se=se, se_nome=ind.get('se', ''), polo=ind.get('polo', ''),
+                origem=dict(kml=kml.name, sha256=hashlib.sha256(kml.read_bytes()).hexdigest()[:16],
+                            data=data_ref or date.fromtimestamp(kml.stat().st_mtime).isoformat(),
+                            postes=origem_postes, critica=[Path(f).name for f in fontes.critica_arqs] or None,
+                            malha=malha.origem if malha else None))
+    try:
+        nos, vaos, raiz, info = daimon.ler_circuito(kml, postes)
+        res = regras.analisar(nos, vaos, raiz)
+    except (ValueError, regras.RedeInvalida) as e:
+        c = dict(base, erro=str(e), validacao=dict(status='falha', criticas=[f'não processado: {e}'], avisos=[]))
+        grava_json(saida / 'dados' / 'alimentadores' / f'{al}.json', c)
+        return c
+    ts = trechos.segmentar(nos, res)
+    oc = None
+    if fontes.critica is not None:
+        oc = critica.por_trecho(critica.ocorrencias(fontes.critica.get(al, [])), res, ts, fontes.pontos(al),
+                                fontes.outros(al))
+    ts, D = trechos.dados_mapa(nos, res, oc)
+    idx = {t['nome']: i for i, t in enumerate(ts)}
+    avisos = info['avisos'] + res['avisos']
+
+    # municípios de cada vão (amostra a cada 20 m) e de cada trecho
+    mun_vao, m_trecho, m_total, limitrofes = [], [{} for _ in ts], {}, []
+    for i, v in enumerate(res['vaos']):
+        m = por_municipio(malha, v['a'], v['b'], v['ext']) if malha else {None: v['ext']}
+        principal = max(sorted(m, key=str), key=lambda c: m[c])
+        mun_vao.append(principal)
+        if len(m) > 1:
+            limitrofes.append(dict(vao=i, trecho=v['trecho'], m={str(c): round(x, 1) for c, x in sorted(m.items(), key=str)}))
+        for c, x in m.items():
+            t = m_trecho[idx[v['trecho']]]
+            t[c] = t.get(c, 0) + x
+            m_total[c] = m_total.get(c, 0) + x
+
+    nome_mun = (lambda c: malha.nome.get(c, 'fora do Tocantins')) if malha else (lambda c: 'sem malha')
+    municipios = [dict(cod=c, nome=nome_mun(c), m=round(x, 1)) for c, x in
+                  sorted(m_total.items(), key=lambda kv: (-kv[1], str(kv[0]))) if c is not None]
+
+    # caminho a partir do DJ e confiança da classificação
+    por_nome = {t['nome']: t for t in ts}
+
+    def caminho(t):
+        c = [t['nome']]
+        while por_nome[c[-1]]['pai']:
+            c.append(por_nome[c[-1]]['pai'])
+        return c[::-1]
+
+    def confianca(t):
+        motivos = [a for a in avisos if re.search(rf'\b{re.escape(t["inicio"])}\b', a)]
+        if t['nome'] == 'T2' and any('sem 2º religador' in a for a in avisos):
+            motivos.append('alimentador sem 2º religador: fim do T2 decidido pela regra')
+        return ('revisar', motivos) if motivos else ('alta', [])
+
+    ativos = {a['nome'] for a in res['ativos']}
+    sem_corresp = [n for n in info['nomes_chaves'] if n not in ativos and n not in info['abertas']
+                   and n[:2] not in ('90', '31', '68') and not n.startswith('DJ_')]
+    canon_trechos = []
+    for i, t in enumerate(ts):
+        conf, motivos = confianca(t)
+        canon_trechos.append(dict(
+            nome=t['nome'], classe=classe(t['nome']), ordem=i, zona=t['zona'], tipo=t['tipo'], tronco=t['tronco'],
+            inicio=dict(chave=t['inicio'], tipo=t['inicio_tipo'], poste=t['inicio_poste'],
+                        lonlat=[t['inicio_lon'], t['inicio_lat']]),
+            fim=t['fim'], fim_lonlat=[[p[1], p[0]] for p in t['fim_pts']], pai=t['pai'], caminho=caminho(t),
+            passa=t['passa'], derivacoes=t['derivacoes'], ext_m=t['ext'], vaos=t['qtd'],
+            municipios={str(c): round(x, 1) for c, x in sorted(m_trecho[i].items(), key=str)},
+            confianca=conf, motivos=motivos))
+
+    resumo = dict(extensao_m=round(res['total_m'], 1), trechos=len(ts),
+                  religadores=sum(a['tipo'] == '79' for a in res['ativos']),
+                  fusiveis=sum(a['tipo'] in regras.FUSIVEIS for a in res['ativos']),
+                  seccionamentos=sum(a['tipo'] == 'SEC' for a in res['ativos']))
+    for k in CLASSES:
+        resumo[k] = dict(n=sum(classe(t['nome']) == k for t in ts),
+                         m=round(sum(t['ext'] for t in ts if classe(t['nome']) == k), 1))
+    soltos = sum(int(x) for a in avisos for x in re.findall(r'(\d+) ponto\(s\) sem ligação', a))
+    c = dict(base, dj=info['dj'], resumo=resumo, municipios=municipios,
+             fora_do_to_m=round(m_total.get(None, 0), 1) if malha else None,
+             trechos=canon_trechos,
+             vaos=[[v['a'][1], v['a'][0], v['b'][1], v['b'][0], idx[v['trecho']], round(v['ext'], 1), v['ini'], v['fim'],
+                    mun_vao[i]] for i, v in enumerate(res['vaos'])],
+             chaves=[dict(nome=a['nome'], tipo=a['tipo'], lonlat=[a['lon'], a['lat']], poste=a['poste'])
+                     for a in res['ativos']],
+             nae=D.get('nae'), limitrofes=limitrofes, continuidades_estimadas=[],
+             topologia=dict(pontos_sem_ligacao=soltos, vaos_fora_da_arvore=info['fora_da_arvore'],
+                            chaves_abertas=info['abertas'], chaves_sem_correspondencia=sem_corresp,
+                            postes_ligados=info['postes_ligados']),
+             avisos=avisos)
+    c['validacao'] = validar(c)
+    grava_json(saida / 'dados' / 'alimentadores' / f'{al}.json', c)
+    pasta = saida / 'alimentadores' / al
+    D['meta'] = meta_interface(c)
+    pasta.mkdir(parents=True, exist_ok=True)
+    (pasta / 'dados.js').write_text('window.D = ' + json.dumps(D, ensure_ascii=False, separators=(',', ':')) + ';\n',
+                                    encoding='utf-8')
+    kmz_fixo(nos, res, al, pasta / f'{al}-trechos.kmz')
+    return c
+
+
+def meta_interface(c):
+    """O que a página do alimentador usa além do D do mapa: municípios, resumo, avisos, validação e origem."""
+    return dict(al=c['alimentador'], se=c['se'], se_nome=c['se_nome'], polo=c['polo'], origem=c['origem'],
+                resumo=c['resumo'], avisos=c['avisos'], validacao=c['validacao'],
+                municipios=[dict(m, slug=slug(m['nome'])) for m in c['municipios']],
+                trecho_mun={t['nome']: sorted(k for k in t['municipios'] if k != 'None') for t in c['trechos']},
+                continuidades_estimadas=c['continuidades_estimadas'])
+
+
+# ---------------------------------------------------------------- validação
+
+def validar(c):
+    """Falha crítica tira o alimentador das páginas; aviso aparece na página e no relatório."""
+    cri, av = [], []
+    if not c.get('dj'):
+        cri.append('sem DJ (raiz)')
+    nomes = [t['nome'] for t in c['trechos']]
+    if len(nomes) != len(set(nomes)):
+        cri.append('nomes de trecho repetidos')
+    if any(v[4] is None for v in c['vaos']):
+        cri.append('vãos sem trecho')
+    soma = sum(t['ext_m'] for t in c['trechos'])
+    if abs(soma - c['resumo']['extensao_m']) > 1:
+        cri.append(f'soma dos trechos ({soma:.1f} m) ≠ extensão total ({c["resumo"]["extensao_m"]:.1f} m)')
+    if not all(LON[0] <= v[0] <= LON[1] and LAT[0] <= v[1] <= LAT[1] and LON[0] <= v[2] <= LON[1]
+               and LAT[0] <= v[3] <= LAT[1] for v in c['vaos']):
+        cri.append('coordenada fora do Tocantins ou fora da ordem [lon, lat]')
+    if c.get('fora_do_to_m'):
+        (cri if c['fora_do_to_m'] > c['resumo']['extensao_m'] / 2 else av).append(
+            f'{c["fora_do_to_m"]:.0f} m fora da malha municipal do Tocantins')
+    seg = [tuple(sorted(((v[0], v[1]), (v[2], v[3])))) for v in c['vaos']]
+    if len(seg) != len(set(seg)):
+        av.append(f'{len(seg) - len(set(seg))} vão(s) duplicado(s)')
+    tp = c['topologia']
+    if tp['pontos_sem_ligacao']:
+        av.append(f'{tp["pontos_sem_ligacao"]} ponto(s) sem ligação com o DJ (fora da classificação)')
+    if tp['chaves_sem_correspondencia']:
+        av.append(f'{len(tp["chaves_sem_correspondencia"])} chave(s) do KML sem vão correspondente na rede')
+    if not c['origem']['postes']:
+        av.append('sem arquivo de postes: nós sem número de poste')
+    if c['limitrofes']:
+        av.append(f'{len(c["limitrofes"])} vão(s) na divisa entre municípios (medidos por amostragem de {PASSO_M} m)')
+    if any(t['confianca'] != 'alta' for t in c['trechos']):
+        av.append('trechos a revisar: ' + ', '.join(t['nome'] for t in c['trechos'] if t['confianca'] != 'alta'))
+    return dict(status='falha' if cri else 'aviso' if av else 'ok', criticas=cri, avisos=av)
+
+
+# ---------------------------------------------------------------- interface
+
+def ativos_interface(saida):
+    """Assets compartilhados: CSS e JS do mapa saem do modelo da skill (mapa_trechos.html), sem cópia à mão."""
+    modelo = (PKG / 'mapa_trechos.html').read_text(encoding='utf-8')
+    css = re.search(r'<style>\n(.*?)</style>', modelo, re.S).group(1)
+    js = re.search(r'<script>\nconst D = %%DADOS%%;\n(.*?)</script>', modelo, re.S).group(1)
+    a = saida / 'assets'
+    (a / 'leaflet').mkdir(parents=True, exist_ok=True)
+    for f in ('leaflet.js', 'leaflet.css', 'LICENSE'):
+        shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
+    (a / 'alimentador.css').write_text(css, encoding='utf-8')
+    (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
+    for f in ('extras.js', 'site.css'):
+        shutil.copyfile(PKG / 'site' / f, a / f)
+    return modelo
+
+
+def pagina_alimentador(modelo, c):
+    al = c['alimentador']
+    cdn = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/'
+    h = modelo
+    for x, y in [
+            ('<title>Trechos · %%TITULO%%</title>', f'<title>{html.escape(al)} · trechos</title>'),
+            ('<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">',
+             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
+             '<meta name="robots" content="noindex, nofollow">'),
+            (f'<link rel="stylesheet" href="{cdn}leaflet.css">', '<link rel="stylesheet" href="../../assets/leaflet/leaflet.css">'),
+            (f'<script src="{cdn}leaflet.js"></script>', '<script src="../../assets/leaflet/leaflet.js"></script>'),
+            ('%%ROTULO%%', html.escape(f'{c["se"]} {c["se_nome"]} · Alimentador {al}'))]:
+        assert h.count(x) == 1, x[:50]
+        h = h.replace(x, y)
+    h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">', h, count=1, flags=re.S)
+    h = re.sub(r'<script>\nconst D = %%DADOS%%;\n.*?</script>',
+               '<script src="dados.js"></script>\n<script src="../../assets/alimentador.js"></script>\n'
+               '<script src="../../assets/extras.js"></script>', h, count=1, flags=re.S)
+    assert '%%' not in h
+    return h
+
+
+def casca(titulo, corpo, raiz):
+    return (f'<!doctype html>\n<html lang="pt-BR"><head><meta charset="utf-8">\n'
+            f'<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
+            f'<meta name="robots" content="noindex, nofollow">\n<title>{html.escape(titulo)}</title>\n'
+            f'<link rel="stylesheet" href="{raiz}assets/site.css"></head><body><div class="wrap">\n{corpo}\n</div>\n'
+            '<script>const b=document.getElementById("busca");if(b)b.addEventListener("input",()=>{const q=b.value'
+            '.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();document.querySelectorAll("[data-busca]")'
+            '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});});</script>\n</body></html>\n')
+
+
+def km(m):
+    return f'{m / 1000:,.1f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
+
+
+def carregar_dados(saida):
+    return [json.loads(p.read_text(encoding='utf-8')) for p in sorted((saida / 'dados' / 'alimentadores').glob('*.json'))]
+
+
+def manifesto(dados):
+    muns = {}
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        for m in c['municipios']:
+            if m['m'] >= MIN_M:
+                muns.setdefault(m['cod'], dict(cod=m['cod'], nome=m['nome'], slug=slug(m['nome']), alimentadores=[]))
+                muns[m['cod']]['alimentadores'].append(dict(
+                    cod=c['alimentador'], polo=c['polo'], se=c['se'], se_nome=c['se_nome'], m_no_municipio=m['m'],
+                    m_total=c['resumo']['extensao_m'], trechos=c['resumo']['trechos'], status=c['validacao']['status']))
+    lista = sorted(muns.values(), key=lambda m: slug(m['nome']))
+    for m in lista:
+        m['alimentadores'].sort(key=lambda a: (-a['m_no_municipio'], a['cod']))
+    return dict(versao=1, municipios=lista, alimentadores={c['alimentador']: dict(
+        polo=c['polo'], se=c['se'], se_nome=c['se_nome'], status=c['validacao']['status'],
+        municipios=[m['cod'] for m in c.get('municipios', []) if m['m'] >= MIN_M],
+        dados=f'dados/alimentadores/{c["alimentador"]}.json') for c in dados})
+
+
+def nae_resumo(c):
+    oc = (c.get('nae') or {}).get('oc', [])
+    return sum(1 for o in oc if o['trecho']), sum(1 for o in oc if not o['trecho'])
+
+
+def interface(saida):
+    dados = carregar_dados(saida)
+    modelo = ativos_interface(saida)
+    man = manifesto(dados)
+    grava_json(saida / 'manifesto.json', man)
+    for c in dados:
+        if c['validacao']['status'] != 'falha':
+            (saida / 'alimentadores' / c['alimentador'] / 'index.html').write_text(pagina_alimentador(modelo, c),
+                                                                                    encoding='utf-8')
+    cards = []
+    for m in man['municipios']:
+        tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
+        cards.append(f'<a class="card" data-busca="{html.escape(slug(m["nome"]).replace("-", " "))}" '
+                     f'href="municipios/{m["slug"]}/"><b>{html.escape(m["nome"])}</b><span>{len(m["alimentadores"])} '
+                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)} km de rede</span></a>')
+        linhas = []
+        for a in m['alimentadores']:
+            linhas.append(f'<a class="card" data-busca="{a["cod"].lower()} {html.escape(slug(a["se_nome"]).replace("-", " "))}" '
+                          f'href="../../alimentadores/{a["cod"]}/?m={m["slug"]}"><b>{a["cod"]}</b>'
+                          f'<span>{html.escape(a["se"])} {html.escape(a["se_nome"])} · polo {html.escape(a["polo"])}</span>'
+                          f'<span>{km(a["m_no_municipio"])} km no município de {km(a["m_total"])} km · {a["trechos"]} trechos'
+                          f'{" · <em>com avisos</em>" if a["status"] == "aviso" else ""}</span></a>')
+        corpo = (f'<nav class="migalhas"><a href="../../">Municípios</a> → <b>{html.escape(m["nome"])}</b></nav>\n'
+                 f'<header><h1>{html.escape(m["nome"])}</h1><p>Alimentadores com rede dentro do município (malha do '
+                 f'IBGE, amostra a cada {PASSO_M} m; mínimo de {MIN_M} m).</p></header>\n'
+                 '<input class="busca" id="busca" type="search" placeholder="Buscar alimentador ou SE">\n'
+                 f'<div class="grade">{"".join(linhas)}</div>')
+        p = saida / 'municipios' / m['slug'] / 'index.html'
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../'), encoding='utf-8')
+    corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município, depois o alimentador. T1 do DJ ao 1º '
+             'religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.</p></header>\n'
+             '<input class="busca" id="busca" type="search" placeholder="Buscar município">\n'
+             f'<div class="grade">{"".join(cards)}</div>\n<p class="nota"><a href="relatorio.html">Relatório de validação'
+             '</a> · <a href="manifesto.json">manifesto.json</a></p>')
+    (saida / 'index.html').write_text(casca('Trechos por município', corpo, ''), encoding='utf-8')
+    (saida / '.nojekyll').touch()
+    relatorio(saida, dados, man)
+    return dados, man
+
+
+# ---------------------------------------------------------------- relatório
+
+def relatorio(saida, dados, man, sem_kml=()):
+    cab = ('| Município | Polo | SE | Alimentador | Trechos | T1 | T2 | T3 | Extensão (km) | No município (km) | RL | '
+           'Fusíveis | NAE assoc. | NAE não assoc. | Pontos sem ligação | Contin. estimadas | Avisos | Status |\n'
+           '|' + '---|' * 18)
+    por = {c['alimentador']: c for c in dados}
+    md = ['# Relatório de validação · trechos por município', '',
+          f'Amostra de {PASSO_M} m por vão; alimentador entra no município com ≥ {MIN_M} m. NAE = ocorrências da Crítica '
+          '(coletivas e individuais) associadas a um trecho ou não.', '']
+    geral = dict(n=0, trechos=0, m=0, mm=0)
+    for m in man['municipios']:
+        md += [f'## {m["nome"]}', '', cab]
+        tot = dict(n=0, trechos=0, m=0, mm=0)
+        for a in m['alimentadores']:
+            c = por[a['cod']]
+            r, v = c['resumo'], c['validacao']
+            na, nn = nae_resumo(c)
+            md.append(f'| {m["nome"]} | {c["polo"]} | {c["se"]} | {c["alimentador"]} | {r["trechos"]} | {r["T1"]["n"]} | '
+                      f'{r["T2"]["n"]} | {r["T3"]["n"]} | {km(r["extensao_m"])} | {km(a["m_no_municipio"])} | '
+                      f'{r["religadores"]} | {r["fusiveis"]} | {na} | {nn} | {c["topologia"]["pontos_sem_ligacao"]} | '
+                      f'{len(c["continuidades_estimadas"])} | {len(v["avisos"])} | {v["status"]} |')
+            for k, x in (('n', 1), ('trechos', r['trechos']), ('m', r['extensao_m']), ('mm', a['m_no_municipio'])):
+                tot[k] += x
+        md += [f'| **Total {m["nome"]}** | | | {tot["n"]} alimentadores | {tot["trechos"]} | | | | {km(tot["m"])} | '
+               f'{km(tot["mm"])} | | | | | | | | |', '']
+        for k in ('n', 'trechos', 'mm'):
+            geral[k] += tot[k]
+    ok = [c for c in dados if c['validacao']['status'] != 'falha']
+    md += ['## Total geral', '', f'- Municípios: {len(man["municipios"])}',
+           f'- Alimentadores processados sem falha: {len(ok)} ({km(sum(c["resumo"]["extensao_m"] for c in ok))} km, '
+           f'{sum(c["resumo"]["trechos"] for c in ok)} trechos)', '']
+    md += ['## Avisos por alimentador', '']
+    for c in dados:
+        v = c['validacao']
+        if v['avisos'] or v['criticas']:
+            md.append(f'- **{c["alimentador"]}** ({v["status"]}): ' + '; '.join(v['criticas'] + v['avisos']))
+    md += ['', '## Não processados', '']
+    falhas = [f'- {c["alimentador"]}: {"; ".join(c["validacao"]["criticas"])}' for c in dados if c['validacao']['status'] == 'falha']
+    sem_mun = [f'- {c["alimentador"]}: nenhum município com ≥ {MIN_M} m' for c in dados
+               if c['validacao']['status'] != 'falha' and not any(m['m'] >= MIN_M for m in c['municipios'])]
+    md += falhas + sem_mun + [f'- {al}: sem KML do Daimon na pasta informada' for al in sorted(sem_kml)] or ['- nenhum']
+    texto = '\n'.join(md) + '\n'
+    (saida / 'relatorio.md').write_text(texto, encoding='utf-8')
+    corpo = '<nav class="migalhas"><a href="./">Municípios</a> → <b>Relatório</b></nav>\n<pre class="relatorio">' + \
+            html.escape(texto) + '</pre>'
+    (saida / 'relatorio.html').write_text(casca('Relatório de validação', corpo, ''), encoding='utf-8')
+
+
+# ---------------------------------------------------------------- validar e comparar
+
+def validar_saida(saida):
+    """Relê tudo o que foi gerado: JSON válido, validação de cada alimentador e links das páginas."""
+    erros = []
+    for p in sorted(saida.rglob('*.json')):
+        try:
+            json.loads(p.read_text(encoding='utf-8'))
+        except ValueError as e:
+            erros.append(f'JSON inválido {p.relative_to(saida)}: {e}')
+    for c in carregar_dados(saida):
+        if 'trechos' in c:
+            v = validar(c)
+            if v != c['validacao']:
+                erros.append(f'{c["alimentador"]}: validação gravada difere da recalculada')
+        if c['validacao']['status'] == 'falha':
+            print(f'  falha {c["alimentador"]}: {"; ".join(c["validacao"]["criticas"])}')
+    for p in sorted(saida.rglob('*.html')):
+        for ref in re.findall(r'(?:href|src)="([^"#?]+)', p.read_text(encoding='utf-8')):
+            if re.match(r'https?:|mailto:', ref):
+                continue
+            alvo = (p.parent / ref)
+            if not (alvo / 'index.html' if ref.endswith('/') else alvo).exists():
+                erros.append(f'link quebrado em {p.relative_to(saida)}: {ref}')
+    for e in erros:
+        print('  ' + e)
+    print(f'validação: {len(erros)} problema(s) nos arquivos gerados')
+    return not erros
+
+
+def comparar(saida, publicado):
+    """Compara as páginas novas com as publicadas (<AL>.html com o D embutido): trechos, geometria, chaves e NAE."""
+    for p in sorted(Path(publicado).glob('*.html')):
+        h = p.read_text(encoding='utf-8')
+        m = re.search(r'const D = (\{.*?\});\n', h, re.S)
+        novo = saida / 'alimentadores' / p.stem / 'dados.js'
+        if not m or not novo.exists():
+            continue
+        a = json.loads(m.group(1).replace('<\\/', '</'))
+        b = json.loads(novo.read_text(encoding='utf-8')[len('window.D = '):-2])
+        dif = []
+        if [t['nome'] for t in a['trechos']] != [t['nome'] for t in b['trechos']]:
+            dif.append(f'nomes dos trechos: {len(a["trechos"])} → {len(b["trechos"])}')
+        for x, y in zip(a['trechos'], b['trechos']):
+            for k in ('inicio', 'fim', 'pai', 'derivacoes', 'tronco', 'inicio_poste'):
+                if x.get(k) != y.get(k):
+                    dif.append(f'{x["nome"]}.{k}: {x.get(k)} → {y.get(k)}')
+            if abs(x['ext'] - y['ext']) > .05:
+                dif.append(f'{x["nome"]}.ext: {x["ext"]} → {y["ext"]}')
+        if a['vaos'] != b['vaos']:
+            dif.append(f'geometria: {sum(u != v for u, v in zip(a["vaos"], b["vaos"]))} vão(s) diferentes de {len(a["vaos"])}')
+        for k in ('principais', 'fusiveis'):
+            if a[k] != b[k]:
+                dif.append(f'{k} diferentes')
+        cont = lambda d: sorted((o['mes'], o['trecho'] or '-', o['col']) for o in (d.get('nae') or {}).get('oc', []))
+        if cont(a) != cont(b):
+            dif.append('NAE por trecho e mês diferente')
+        campos = ('cons', 'prog', 'fora')
+        mud = {k: sum(x.get(k) != y.get(k) for x, y in zip(a.get('nae', {}).get('oc', []), b.get('nae', {}).get('oc', [])))
+               for k in campos}
+        dif += [f'NAE: {n} ocorrência(s) com {k} diferente' for k, n in mud.items() if n]
+        print(f'{p.stem}: ' + ('igual' if not dif else '\n  ' + '\n  '.join(dif)))
+
+
+# ---------------------------------------------------------------- seleção e main
+
+def candidatos_municipio(nome, fontes, malha):
+    """Alimentadores com algum poste dentro do município (postes do vera-vegetacao contra a malha)."""
+    cods = [c for c, n in malha.nome.items() if slug(n) == slug(nome)]
+    if not cods:
+        raise SystemExit(f'município não encontrado na malha: {nome}')
+    achados = []
+    for al in sorted(fontes.indice):
+        postes, _ = fontes.postes(al)
+        if postes and any(malha.municipio(p['lon'], p['lat']) == cods[0] for p in postes):
+            achados.append(al)
+    return achados
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
+    ap.add_argument('--kml', action='append', help='pasta com os KMLs do Daimon (busca SE-XXXX_Circ-*.kml nas subpastas)')
+    ap.add_argument('--vegetacao', help='clone do LGRSV/vera-vegetacao (dados/indice.json e postes)')
+    ap.add_argument('--critica', action='append', help="Critica*.txt (aceita padrão entre aspas)")
+    ap.add_argument('--malha', help='GeoJSON dos municípios do TO (sem ele, baixa do IBGE para --cache)')
+    ap.add_argument('--cache', default='cache/ibge', help='onde guardar a malha baixada do IBGE')
+    ap.add_argument('--saida', required=True, help='pasta do site gerado')
+    ap.add_argument('--data', help='data de referência dos dados (AAAA-MM-DD); padrão: data do arquivo KML')
+    g = ap.add_mutually_exclusive_group()
+    g.add_argument('--todos', action='store_true', help='todos os KMLs encontrados')
+    g.add_argument('--municipio', help='só os alimentadores com poste no município')
+    g.add_argument('--alimentador', action='append', help='só estes alimentadores (repetir)')
+    g.add_argument('--validar', action='store_true', help='só confere o que já foi gerado')
+    g.add_argument('--so-interface', action='store_true', help='só refaz páginas, índice e relatório')
+    g.add_argument('--comparar', help='compara com as páginas publicadas nesta pasta (clone do gh-pages)')
+    a = ap.parse_args(argv)
+    saida = Path(a.saida)
+    if a.validar:
+        return 0 if validar_saida(saida) else 1
+    if a.so_interface:
+        interface(saida)
+        return 0 if validar_saida(saida) else 1
+    if a.comparar:
+        comparar(saida, a.comparar)
+        return 0
+    fontes = Fontes(a)
+    malha = carregar_malha(a.malha, a.cache)
+    if a.alimentador:
+        alvos = a.alimentador
+    elif a.municipio:
+        alvos = candidatos_municipio(a.municipio, fontes, malha)
+        print(f'{a.municipio}: {len(alvos)} alimentador(es) com poste no município: {" ".join(alvos)}')
+    else:
+        alvos = sorted(fontes.kmls)
+    sem_kml = [al for al in alvos if al not in fontes.kmls]
+    if a.todos:
+        sem_kml = sorted(set(fontes.indice) - set(fontes.kmls))
+    for al in alvos:
+        if al not in fontes.kmls:
+            continue
+        c = processar(al, fontes, malha, saida, a.data)
+        r = c.get('resumo')
+        print(f'{al}: {c["validacao"]["status"]}' + (f' · {r["trechos"]} trechos · {km(r["extensao_m"])} km · '
+              + ', '.join(f'{m["nome"]} {km(m["m"])} km' for m in c['municipios']) if r else f' · {c.get("erro")}'))
+    dados, man = interface(saida)
+    relatorio(saida, dados, man, sem_kml)
+    ok = validar_saida(saida)
+    print(f'{len(man["municipios"])} município(s) · {sum(c["validacao"]["status"] != "falha" for c in dados)} alimentador(es) '
+          f'nas páginas · relatório em {saida / "relatorio.md"}')
+    return 0 if ok else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())
