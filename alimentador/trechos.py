@@ -135,7 +135,8 @@ def segmentar(nos, res):
         t['rotulo'] = _ponto_rotulo(t, vaos, chave_vao, chegada, k)
         del t['_nos']
     grupo = {'principal': 0, 'ramal': 1, 'fusivel': 2}
-    return sorted(tr.values(), key=lambda t: (grupo[t['tipo']], t['zona'], t['dist_inicio']))
+    sufixo = lambda t: t['nome'].partition('-')[2]   # as letras já seguem a distância do DJ (A…Z, AA…)
+    return sorted(tr.values(), key=lambda t: (grupo[t['tipo']], t['zona'], len(sufixo(t)), sufixo(t)))
 
 
 def _ponto_rotulo(t, vaos, chave_vao, chegada, k):
