@@ -11,7 +11,7 @@ de conferir o relatório.
 |---|---|---|
 | `--kml <pasta>` | KMLs do Daimon (`SE-XXXX_Circ-<alimentador>.kml`), uma pasta por SE no Drive; busca nas subpastas | Rede com chaves (DJ, 79, 03/33/02…) e vãos: **única fonte com as chaves**. Os `cabos/` do vera-vegetacao só têm `t1`/`t2` sem chaves nem T3 |
 | `--vegetacao <clone>` | `LGRSV/vera-vegetacao` | `dados/indice.json` (polo, SE) e `dados/<POLO>/<AL>.json` (número dos postes) |
-| `--critica 'Critica-*.txt'` | zip da Crítica | NAE por trecho e mês (opcional) |
+| `--critica 'Critica-*.txt'` | zip da Crítica | NAE por trecho e mês (opcional). Por padrão só causa **Meio Ambiente** + subcausa **Árvore** (pequeno/médio ou grande porte) ou **Eucalipto**, na rede/faixa; `--nae todas` para todas |
 | `--malha <geojson>` | opcional | Sem ela, baixa a malha municipal do TO da API do IBGE (qualidade máxima) para `--cache` na 1ª vez |
 
 ## Comandos

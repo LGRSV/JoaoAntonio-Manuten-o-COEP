@@ -160,6 +160,7 @@ class Fontes:
         if a.critica and not arqs:
             raise SystemExit(f'nenhum arquivo da Crítica em {a.critica}')
         self.critica_arqs = arqs
+        self.nae_filtro = a.nae
         self.critica = critica.ler(arqs) if arqs else None
         self._pontos = {}
 
@@ -208,6 +209,7 @@ def processar(al, fontes, malha, saida, data_ref):
                 origem=dict(kml=kml.name, sha256=hashlib.sha256(kml.read_bytes()).hexdigest()[:16],
                             data=data_ref or date.fromtimestamp(kml.stat().st_mtime).isoformat(),
                             postes=origem_postes, critica=[Path(f).name for f in fontes.critica_arqs] or None,
+                            nae_filtro=fontes.nae_filtro if fontes.critica_arqs else None,
                             malha=malha.origem if malha else None))
     try:
         nos, vaos, raiz, info = daimon.ler_circuito(kml, postes)
@@ -219,8 +221,10 @@ def processar(al, fontes, malha, saida, data_ref):
     ts = trechos.segmentar(nos, res)
     oc = None
     if fontes.critica is not None:
-        oc = critica.por_trecho(critica.ocorrencias(fontes.critica.get(al, [])), res, ts, fontes.pontos(al),
-                                fontes.outros(al))
+        oc = critica.ocorrencias(fontes.critica.get(al, []))
+        if fontes.nae_filtro == 'arvore':
+            oc = [o for o in oc if critica.arvore_na_rede(o)]
+        oc = critica.por_trecho(oc, res, ts, fontes.pontos(al), fontes.outros(al))
     ts, D = trechos.dados_mapa(nos, res, oc)
     idx = {t['nome']: i for i, t in enumerate(ts)}
     avisos = info['avisos'] + res['avisos']
@@ -607,6 +611,8 @@ def main(argv=None):
     ap.add_argument('--kml', action='append', help='pasta com os KMLs do Daimon (busca SE-XXXX_Circ-*.kml nas subpastas)')
     ap.add_argument('--vegetacao', help='clone do LGRSV/vera-vegetacao (dados/indice.json e postes)')
     ap.add_argument('--critica', action='append', help="Critica*.txt (aceita padrão entre aspas)")
+    ap.add_argument('--nae', choices=('arvore', 'todas'), default='arvore',
+                    help='ocorrências da Crítica: só causa Meio Ambiente + subcausa Árvore (padrão) ou todas')
     ap.add_argument('--malha', help='GeoJSON dos municípios do TO (sem ele, baixa do IBGE para --cache)')
     ap.add_argument('--cache', default='cache/ibge', help='onde guardar a malha baixada do IBGE')
     ap.add_argument('--saida', required=True, help='pasta do site gerado')
