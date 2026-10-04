@@ -15,6 +15,7 @@ Nada é publicado: o script só grava em --saida. Ver scripts/README-gera_trecho
 """
 import argparse
 import glob
+import gzip
 import hashlib
 import html
 import json
@@ -120,7 +121,10 @@ def carregar_malha(arquivo, cache):
             if not (cache / nome).exists():
                 print(f'baixando {url}')
                 with urllib.request.urlopen(url, timeout=120) as r:
-                    (cache / nome).write_bytes(r.read())
+                    corpo = r.read()
+                if corpo[:2] == b'\x1f\x8b':          # a API do IBGE às vezes responde em gzip
+                    corpo = gzip.decompress(corpo)
+                (cache / nome).write_bytes(corpo)
         geo = json.loads((cache / 'malha-TO.geojson').read_text(encoding='utf-8'))
         nomes = {str(m['id']): m['nome'] for m in json.loads((cache / 'municipios-TO.json').read_text(encoding='utf-8'))}
         origem = 'IBGE, API de malhas v3 (qualidade máxima)'
