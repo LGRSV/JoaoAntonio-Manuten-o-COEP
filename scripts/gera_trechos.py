@@ -446,7 +446,7 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'site.css', 'mapa-municipios.js'):
+    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     return modelo
 
@@ -468,7 +468,10 @@ def pagina_alimentador(modelo, c):
     h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">', h, count=1, flags=re.S)
     h = re.sub(r'<script>\nconst D = %%DADOS%%;\n.*?</script>',
                '<script src="dados.js"></script>\n<script src="../../assets/alimentador.js"></script>\n'
-               '<script src="../../assets/extras.js"></script>', h, count=1, flags=re.S)
+               '<script src="../../assets/extras.js"></script>\n'
+               # limpeza de faixa: limpeza.js do alimentador vem de scripts/limpeza_faixa.py (sem ele, a camada não aparece)
+               '<script src="limpeza.js"></script>\n<script src="../../assets/limpeza.js"></script>\n'
+               '<script src="../../assets/telacheia.js"></script>', h, count=1, flags=re.S)
     assert '%%' not in h
     return h
 
@@ -570,6 +573,9 @@ def interface(saida):
         if c['validacao']['status'] != 'falha':
             (saida / 'alimentadores' / c['alimentador'] / 'index.html').write_text(pagina_alimentador(modelo, c),
                                                                                     encoding='utf-8')
+            limpeza = saida / 'alimentadores' / c['alimentador'] / 'limpeza.js'
+            if not limpeza.exists():                   # até rodar scripts/limpeza_faixa.py: página sem a camada
+                limpeza.write_text('window.LIMPEZA = null;\n', encoding='utf-8')
     cards = []
     for m in man['municipios']:
         tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
