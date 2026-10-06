@@ -773,7 +773,7 @@ def interface(saida):
              '</header>\n'
              '<form class="ativo" id="ativo" role="search"><label for="ativo-q"><b>Em que trecho está o ativo?</b> '
              'Código da chave (fusível, religador, faca…) ou número do poste</label><div><input class="busca" id="ativo-q" '
-             'type="search" inputmode="search" autocomplete="off" placeholder="Ex.: 0300350016 ou 553218">'
+             'type="search" inputmode="search" autocomplete="off" placeholder="Ex.: 0300350016">'
              '<button type="submit">Buscar</button></div><div id="ativo-res" aria-live="polite"></div></form>\n'
              '<div id="mapa-to"></div>\n'
              '<input class="busca" id="busca" type="search" placeholder="Buscar município">\n'
