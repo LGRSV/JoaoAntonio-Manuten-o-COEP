@@ -57,8 +57,11 @@ def transformadores(pasta):
             continue
         if '<name>Transformadores</name>' not in k[:2000]:
             continue
-        for pm in re.findall(r'<Placemark>.*?</Placemark>', k, re.S):
-            nome = re.search(r'<name>(.*?)</name>', pm).group(1).strip()
+        for pm in re.findall(r'<Placemark\b[^>]*>.*?</Placemark>', k, re.S):
+            m = re.search(r'<name>(.*?)</name>', pm, re.S)
+            if not m or not m.group(1).strip():
+                continue
+            nome = m.group(1).strip()
             dado = dict(re.findall(r'<Data name="([^"]+)"><value>([^<]*)</value></Data>', pm))
             c = re.search(r'<coordinates>\s*([-\d.]+),([-\d.]+)', pm)
             if c:
@@ -112,8 +115,8 @@ def aplica(site, pasta_kmz):
         al = jf.stem
         mf = site / 'alimentadores' / al / 'dados.js'
         c = json.loads(jf.read_text(encoding='utf-8'))
-        if c['validacao']['status'] == 'falha' or not mf.exists():
-            continue
+        if c['validacao']['status'] == 'falha' or not mf.exists() or not (c.get('nae') or {}).get('oc'):
+            continue                                             # sem NAE (site gerado sem a Crítica): nada a localizar
         vaos, ts = c['vaos'], c['trechos']
         grade = grade_de(vaos)
         cache = {}
@@ -154,14 +157,14 @@ def aplica(site, pasta_kmz):
                         longe.append((al, cod, d))
             return n
 
+        cab, D = le_js(mf)
         n = localiza(c['nae']['oc'], True)
+        if localiza(D['nae']['oc'], False) != n:                # confere antes de gravar: os dois arquivos andam juntos
+            raise SystemExit(f'{al}: NAE do JSON e do dados.js não batem')
         usados = {o['ativo'] for o in c['nae']['oc'] if o.get('regra') == REGRA}
         meus = sorted({k for k, p in pts.items() if p[2] == al} | usados)
         c['ativos_kml'] = [[k, 'TR', pts[k][0], pts[k][1], *onde(k)] for k in meus]
         jf.write_text(json.dumps(c, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-        cab, D = le_js(mf)
-        if localiza(D['nae']['oc'], False) != n:
-            raise SystemExit(f'{al}: NAE do JSON e do dados.js não batem')
         mf.write_text(cab + json.dumps(D, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
         tot['alimentadores'] += 1
         tot['ativos_kml'] += len(meus)
@@ -179,7 +182,7 @@ def outros(site, pasta_kmz=None, pts=None):
     pedidos = {}                                     # X → [(Y, índice da ocorrência no Y)]
     for al, jf in sorted(arq.items()):
         c = carrega(al)
-        for i, o in enumerate((c.get('nae') or {}).get('oc', [])):
+        for i, o in enumerate((c.get('nae') or {}).get('oc') or []):
             x = (o.get('fora') or '')[8:] if not o.get('trecho') and (o.get('fora') or '').startswith('hoje no ') else ''
             if x in arq and x != al:
                 pedidos.setdefault(x, []).append((al, i))
@@ -210,16 +213,25 @@ def outros(site, pasta_kmz=None, pts=None):
                             t, d, regra = ts[vaos[j][4]]['nome'], round(dd, 1), 'vão mais próximo do ativo'
                 achado[(y, i)] = (x, t)
                 if t:
-                    ext.append(dict(o, trecho=t, ativo=cod, fora=None, dist_m=d, regra=f'{REGRA_EXT} ({regra})', de=y))
+                    e = {k: v for k, v in o.items() if k not in ('hoje', 'lonlat')}    # de uma rodada anterior: não vale aqui
+                    ext.append(dict(e, trecho=t, ativo=cod, fora=None, dist_m=d, regra=f'{REGRA_EXT} ({regra})', de=y))
                     tot['no_trecho_do_outro'] += 1
                 else:
                     tot['sem_trecho_no_outro'] += 1
         if ok and (ext or (c.get('nae') or {}).get('ext')):
             ext.sort(key=lambda o: (o['mes'], o.get('dia') or ''))
             grava(site, x, lambda n: n.__setitem__('ext', ext) if ext else n.pop('ext', None))
-    for y in sorted({y for y, _ in achado}):          # no Y: onde o ativo está hoje (X e trecho), para o link na página
-        def marca(n, y=y):
+    for y in sorted(arq):                              # no Y: onde o ativo está hoje (X e trecho), para o link na página
+        c = carrega(y)
+        oc = (c.get('nae') or {}).get('oc') or []
+        if not any('hoje' in o for o in oc) and not any(yy == y for yy, _ in achado):
+            continue
+        if c['validacao']['status'] == 'falha' or not (site / 'alimentadores' / y / 'dados.js').exists():
+            continue
+
+        def marca(n, y=y):                               # refeito a cada rodada: tira o 'hoje' velho e põe o atual
             for i, o in enumerate(n['oc']):
+                o.pop('hoje', None)
                 if (y, i) in achado:
                     o['hoje'] = list(achado[(y, i)])
         grava(site, y, marca)
@@ -233,7 +245,8 @@ def posicoes(site, pasta_kmz=None, pts=None):
     tot = dict(nae_com_posicao=0, nae_no_trecho_sem_posicao=0)
     for jf in sorted((site / 'dados' / 'alimentadores').glob('*.json')):
         c = json.loads(jf.read_text(encoding='utf-8'))
-        if c['validacao']['status'] == 'falha' or not (site / 'alimentadores' / jf.stem / 'dados.js').exists():
+        if c['validacao']['status'] == 'falha' or not (site / 'alimentadores' / jf.stem / 'dados.js').exists() \
+                or not (c.get('nae') or {}).get('oc'):
             continue
         chave = {ch['nome']: ch['lonlat'] for ch in c['chaves']}
         dj = next((ch['lonlat'] for ch in c['chaves'] if ch.get('tipo') == 'DJ'), None)
@@ -259,6 +272,8 @@ def grava(site, al, muda):
     jf, mf = site / 'dados' / 'alimentadores' / f'{al}.json', site / 'alimentadores' / al / 'dados.js'
     c = json.loads(jf.read_text(encoding='utf-8'))
     cab, D = le_js(mf)
+    if not c.get('nae') or not D.get('nae'):
+        return
     if [(o['mes'], o.get('dia'), o.get('prob')) for o in c['nae']['oc']] != \
             [(o['mes'], o.get('dia'), o.get('prob')) for o in D['nae']['oc']]:
         raise SystemExit(f'{al}: NAE do JSON e do dados.js não batem')

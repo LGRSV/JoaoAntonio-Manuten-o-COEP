@@ -830,7 +830,7 @@ def interface(saida):
              '(fusível, religador, faca…), do transformador ou número do poste</span></form>'
              '<div class="mt-bmun"><label for="busca" class="rot">Município</label>'
              '<input class="busca" id="busca" type="search" aria-label="Buscar município" '
-             'placeholder="Buscar município (ex.: Arraias)"></div></div>\n'
+             'placeholder="Buscar município"></div></div>\n'
              '<aside class="mt-rank" aria-label="Ranking de alimentadores por NAE"></aside>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
              '<div class="mt-dica" aria-hidden="true"></div></div>\n'

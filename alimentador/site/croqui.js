@@ -143,8 +143,8 @@
     ctx.strokeText(txt, x0, y0 - 10); ctx.fillText(txt, x0, y0 - 10);
     ctx.restore();
   }
-  async function figura(nomes, ini, fim, tipo) {
-    const W = tipo === 'sat' ? 1100 : 900, H = tipo === 'sat' ? 996 : 866;
+  async function figura(nomes, ini, fim, tipo, prop) {      // prop: largura/altura da caixa da figura no modelo
+    const W = tipo === 'sat' ? 1100 : 900, H = Math.round(W / (prop || (tipo === 'sat' ? 1100 / 996 : 900 / 866)));
     // no satélite, o trecho fica na faixa do meio: as etiquetas do Excel ficam em cima e embaixo da figura
     const pad = tipo === 'sat' ? { l: .12, r: .12, t: .27, b: .24 } : { l: .15, r: .15, t: .15, b: .15 };
     const novo = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
@@ -188,7 +188,9 @@
     });
   }
   function cache(sheet, ref, valor, troca) {                // resultado guardado de uma fórmula (o Excel recalcula ao abrir)
-    const re = new RegExp(`<c r="${ref}"([^>]*?)>([\\s\\S]*?)</c>`);
+    const re = new RegExp(`<c r="${ref}"([^>]*?)(?:/>|>([\\s\\S]*?)</c>)`);
+    const m0 = sheet.match(re);
+    if (!m0 || !/<f[\s>\/]/.test(m0[2] || '')) throw new Error('modelo sem a fórmula em ' + ref);
     return sheet.replace(re, (m, at, corpo) => {
       let f = (corpo.match(/<f[^>]*>[\s\S]*?<\/f>|<f[^>]*\/>/) || [''])[0];
       if (troca) f = troca(f);
@@ -246,6 +248,14 @@
       const x0 = soma(f[0], larg) + f[1], y0 = soma(f[2], alt) + f[3];
       return [x0, y0, soma(t[0], larg) + t[1] - x0, soma(t[2], alt) + t[3] - y0];
     };
+  }
+  function proporcoes() {                                  // { sat, gis }: largura/altura das caixas das figuras no modelo
+    try {
+      const P = window.CROQUI_MODELO.partes, caixa = grade(P.find(p => p[0] === 'xl/worksheets/sheet1.xml')[2]);
+      const anc = (P.find(p => p[0] === 'xl/drawings/drawing1.xml')[2].match(/<xdr:twoCellAnchor[^>]*>[\s\S]*?<\/xdr:twoCellAnchor>/g) || []);
+      const pr = id => { const a = anc.find(x => new RegExp(`r:embed="${id}"`).test(x)), r = a && caixa(a); return r && r[3] > 0 ? r[2] / r[3] : null; };
+      return { sat: pr('rId1'), gis: pr('rId4') };
+    } catch (e) { return {}; }
   }
   // etiquetas ATIVO INICIAL / FINAL (ligadas a Y2 e Y3): texto novo e a linha apontando para o pino da figura
   function desenho(dr, c, fig, sheet) {
@@ -328,32 +338,53 @@
   const css = document.createElement('style');
   css.textContent = `.croqui-btn{font:600 var(--t-sm,13px)/1 var(--f-body,system-ui);padding:0 var(--s3,12px);min-height:var(--alvo,40px);border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);background:var(--paper);color:var(--fg);cursor:pointer;display:inline-flex;gap:var(--s2,8px);align-items:center;margin:var(--s1,4px) 0 var(--s3,12px);transition:border-color var(--dur,160ms) var(--ease,ease),background var(--dur,160ms) var(--ease,ease)}
 .croqui-btn:hover{border-color:var(--accent);background:var(--hover,transparent)}.croqui-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-dialog.croqui{border:0;border-radius:var(--r3,14px);padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:var(--paper);color:var(--fg);box-shadow:var(--sh2,0 20px 60px rgba(0,0,0,.35))}
+dialog.croqui{border:1px solid var(--line);border-radius:var(--r3,14px);padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:var(--paper);color:var(--fg);box-shadow:var(--sh2,0 20px 60px rgba(0,0,0,.35))}
 dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
 @media (prefers-reduced-motion:no-preference){dialog.croqui[open]{animation:croqui-entra var(--dur-l,220ms) var(--ease,ease)}}
 @keyframes croqui-entra{from{opacity:0;transform:translateY(6px)}}
-.croqui form{display:grid;gap:var(--s4,16px);padding:var(--s5,24px)}.croqui h2{margin:0;font:600 var(--t-xl,20px)/1.2 var(--f-display,var(--f-body,system-ui))}
+.croqui form{display:grid;gap:var(--s4,16px);padding:var(--s5,24px) var(--s5,24px) 0}
+.croqui .topo{display:flex;align-items:center;justify-content:space-between;gap:var(--s3,12px)}
+.croqui .fecha{flex:none;width:var(--alvo,40px);height:var(--alvo,40px);border:0;border-radius:var(--r2,10px);background:transparent;color:var(--muted);font-size:18px;cursor:pointer}
+.croqui .fecha:hover{background:var(--hover,transparent);color:var(--fg)}.croqui .fecha:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.croqui h2{margin:0;font:600 var(--t-xl,20px)/1.2 var(--f-display,var(--f-body,system-ui))}
 .croqui p{margin:0;font-size:var(--t-sm,13px);color:var(--muted)}
 .croqui dl{display:grid;grid-template-columns:auto 1fr;gap:var(--s1,4px) var(--s3,12px);margin:0;font-size:var(--t-sm,13px)}.croqui dt{color:var(--muted)}
 .croqui dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .croqui .campos{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3,12px)}.croqui label{display:grid;gap:var(--s1,4px);font-size:var(--t-xs,12px);color:var(--muted)}
 .croqui input,.croqui select{font:var(--t-base,15px) var(--f-body,system-ui);color:var(--fg);background:var(--paper);border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);padding:0 var(--s3,12px);min-height:var(--alvo,40px);min-width:0;width:100%}
 .croqui input:focus-visible,.croqui select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.croqui .fig{width:100%;aspect-ratio:1100/996;border-radius:var(--r2,10px);background:var(--bg) center/cover no-repeat}
-.croqui .acoes{display:flex;gap:var(--s2,8px);justify-content:flex-end;flex-wrap:wrap}
+.croqui .fig{width:100%;height:clamp(140px,26svh,260px);border-radius:var(--r2,10px);background:var(--bg) center/cover no-repeat}
+.croqui .acoes{position:sticky;bottom:0;display:flex;gap:var(--s2,8px);justify-content:flex-end;flex-wrap:wrap;margin:0 calc(-1 * var(--s5,24px));padding:var(--s3,12px) var(--s5,24px) var(--s4,16px);background:var(--paper);border-top:1px solid var(--line)}
 .croqui .acoes button{font:600 var(--t-md,14px) var(--f-body,system-ui);padding:0 var(--s4,16px);min-height:var(--alvo,40px);border-radius:var(--r2,10px);cursor:pointer;border:1px solid var(--line-forte,var(--line));background:var(--paper);color:var(--fg)}
 .croqui .acoes button[value=baixar]{background:var(--accent);border-color:var(--accent);color:var(--on-accent,#fff)}.croqui .acoes button:disabled{opacity:.6;cursor:progress}
-@media (max-width:520px){.croqui .campos{grid-template-columns:1fr}.croqui form{padding:var(--s4,16px)}.croqui input,.croqui select{font-size:16px;min-height:44px}}`;
+@media (max-width:520px){.croqui .campos{grid-template-columns:1fr}.croqui form{padding:var(--s4,16px) var(--s4,16px) 0}.croqui .acoes{margin:0 calc(-1 * var(--s4,16px));padding:var(--s3,12px) var(--s4,16px)}.croqui input,.croqui select{font-size:16px;min-height:44px}}`;
   document.head.append(css);
 
+  let municipiosDoTrecho = null;                          // { trecho: { cod: metros } } do JSON canônico (só quando precisa)
+  async function rede() {
+    if (municipiosDoTrecho) return municipiosDoTrecho;
+    try {
+      const r = await fetch(`../../dados/alimentadores/${encodeURIComponent(M.al)}.json`);
+      const c = await r.json();
+      municipiosDoTrecho = Object.fromEntries(c.trechos.map(t => [t.nome, t.municipios || {}]));
+    } catch (e) { municipiosDoTrecho = {}; }
+    return municipiosDoTrecho;
+  }
   async function abre() {
     const nomes = selecionados();
     if (!nomes.length) return;
     const d = dados(nomes);
+    let prop = {};
+    try { await carregaModelo(); prop = proporcoes(); } catch (e) { /* sem o modelo, a janela abre e o erro aparece ao baixar */ }
+    const mt = await rede(), soma = {};
+    nomes.forEach(n => Object.entries(mt[n] || {}).forEach(([cod, m]) => { if (cod !== 'None') soma[cod] = (soma[cod] || 0) + m; }));
+    if (Object.keys(soma).length) {                          // município onde o trecho tem mais rede primeiro
+      const nomeMun = Object.fromEntries((M.municipios || []).map(m => [m.cod, m.nome]));
+      d.muns = Object.keys(soma).sort((a, b) => soma[b] - soma[a]).map(c => nomeMun[c] || c);
+    }
     const dlg = document.createElement('dialog'); dlg.className = 'croqui';
     const opt = (l, f) => l.map((x, i) => `<option value="${i}">${esc(f(x))}</option>`).join('');
     dlg.innerHTML = `<form method="dialog">
-      <h2>Croqui de limpeza de faixa</h2>
+      <div class="topo"><h2>Croqui de limpeza de faixa</h2><button type="button" class="fecha" aria-label="Fechar">✕</button></div>
       <p>Preenchido a partir do mapa. Confira e complete OS, obra e deslocamento se quiser (dá para completar depois no Excel).</p>
       <div class="fig" role="img" aria-label="Figura do trecho no croqui"></div>
       <dl><dt>Alimentador</dt><dd>${esc(M.al)} · ${esc(M.se_nome || M.se || '')}</dd>
@@ -371,50 +402,54 @@ dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
         <label>Obra<input name="obra" autocomplete="off"></label>
         <label>Deslocamento até o ponto inicial (km)<input name="desloc" type="number" step="1" min="0" inputmode="numeric"></label>
       </div>
-      <div class="acoes"><button value="cancelar" formnovalidate>Cancelar</button><button value="baixar">Baixar croqui (Excel)</button></div>
+      <div class="acoes"><button type="button" class="cancela">Cancelar</button><button value="baixar">Baixar croqui (Excel)</button></div>
     </form>`;
     document.body.append(dlg);
     const f = dlg.querySelector('form'), fig = dlg.querySelector('.fig');
+    dlg.querySelectorAll('.fecha, .cancela').forEach(b => b.addEventListener('click', () => dlg.close()));
     const escolha = () => ({ ini: d.inicios[+f.ini.value], fim: d.fins[+f.fim.value] });
     const coords = () => {
       const { ini, fim } = escolha(), a = utm(ini.ll[0], ini.ll[1]), b = utm(fim.ll[0], fim.ll[1], a.z);
-      dlg.querySelector('.u-ini').textContent = `${ini.cod} · E ${a.e} · N ${a.n} (UTM ${a.fuso})`;
-      dlg.querySelector('.u-fim').textContent = `${textoFim(fim.cod)} · E ${b.e} · N ${b.n} (UTM ${b.fuso})`;
+      const nb = x => String(x).replace(/ /g, '\u00a0');      // E/N e o número não se separam na quebra de linha
+      dlg.querySelector('.u-ini').textContent = `${ini.cod} · ${nb('E ' + a.e)} · ${nb('N ' + a.n)} ${nb('(UTM ' + a.fuso + ')')}`;
+      dlg.querySelector('.u-fim').textContent = `${textoFim(fim.cod)} · ${nb('E ' + b.e)} · ${nb('N ' + b.n)} ${nb('(UTM ' + b.fuso + ')')}`;
       return { a, b };
     };
     let gerando = null;
     const desenha = () => {
       const { ini, fim } = escolha();
       fig.style.backgroundImage = '';
-      gerando = Promise.all([figura(nomes, ini, fim, 'sat'), figura(nomes, ini, fim, 'gis')]).then(r => {
+      gerando = Promise.all([figura(nomes, ini, fim, 'sat', prop.sat), figura(nomes, ini, fim, 'gis', prop.gis)]).then(r => {
         fig.style.backgroundImage = `url(${URL.createObjectURL(r[0].blob)})`; return r;
       });
       return gerando;
     };
     // tamanho da faixa: trecho inteiro (com os ramais curtos dentro dele) ou só o caminho de uma chave à outra
     const km2 = m => (Math.round(m / 10) / 100).toFixed(2);
-    let entre = null;
-    const tamanho = () => {
+    let entre = null, kmDigitado = false;
+    f.km.addEventListener('input', () => { kmDigitado = true; });
+    const tamanho = (escolheuBase) => {
+      if (escolheuBase === true) kmDigitado = false;
       const { ini, fim } = escolha();
       entre = caminho(nomes, ini, fim);
       f.base.options[0].textContent = `Trecho inteiro (${nf(d.ext / 1000, 2)} km)`;
       f.base.options[1].textContent = entre === null ? 'Só entre as chaves (sem ligação)' : `Só entre as chaves (${nf(entre / 1000, 2)} km)`;
       f.base.options[1].disabled = entre === null;
       if (entre === null && f.base.value === 'caminho') f.base.value = 'total';
-      f.km.value = km2(f.base.value === 'caminho' ? entre : d.ext);
+      if (!kmDigitado) f.km.value = km2(f.base.value === 'caminho' ? entre : d.ext);   // o que a pessoa digitou fica
       dlg.querySelector('.u-ext').textContent = `${nf(d.ext / 1000, 2)} km` + (entre !== null ? ` · entre as chaves ${nf(entre / 1000, 2)} km` : '');
     };
     coords(); tamanho(); desenha();
     f.ini.addEventListener('change', () => { coords(); tamanho(); desenha(); });
     f.fim.addEventListener('change', () => { coords(); tamanho(); desenha(); });
-    f.base.addEventListener('change', tamanho);
+    f.base.addEventListener('change', () => tamanho(true));
     dlg.addEventListener('close', () => dlg.remove());
-    f.addEventListener('submit', async e => {
-      if (e.submitter && e.submitter.value === 'cancelar') return;
+    f.addEventListener('submit', async e => {                // Enter num campo também baixa
       e.preventDefault();
       const bt = f.querySelector('button[value=baixar]'); bt.disabled = true; bt.textContent = 'Gerando…';
       try {
         await carregaModelo();
+        if (!prop.sat) { prop = proporcoes(); desenha(); }   // o modelo não tinha carregado ao abrir
         const [sat, gis] = await gerando;
         const { ini, fim } = escolha(), { a, b } = coords();
         const km = Math.max(0, +f.km.value || 0), desloc = f.desloc.value === '' ? null : Math.max(0, +f.desloc.value);

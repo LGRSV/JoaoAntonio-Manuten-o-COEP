@@ -72,8 +72,14 @@ def converte(xlsx, saida):
     sheet = partes[i_sh][2]
     assert 'absPath' not in next(p[2] for p in partes if p[0] == 'xl/workbook.xml')
     assert 'localizado em MUNICIPIO conforme' in sheet
-    for ref in ('U3', 'U6', 'U9', 'U11', 'I42'):                # células que o site preenche
-        assert f'<c r="{ref}"' in sheet, f'modelo sem a célula {ref}'
+    for ref in ('U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'T4', 'T5', 'T7', 'T8',
+                'X22', 'X23', 'X24', 'X25'):                     # células que o site preenche ou lê
+        assert re.search(rf'<c r="{ref}"[\s/>]', sheet), f'modelo sem a célula {ref}'
+    for ref in ('Y2', 'Y3', 'L41', 'I42', 'G43', 'G44', 'G45', 'G46', 'T17', 'U17', 'T18', 'U18', 'R43', 'R44', 'R45'):
+        assert re.search(rf'<c r="{ref}"[^>]*>(?:(?!</c>).)*?<f', sheet, re.S), f'modelo sem a fórmula em {ref}'
+    dr = next(p[2] for p in partes if p[0] == 'xl/drawings/drawing1.xml')
+    assert 'textlink="$Y$2"' in dr and 'textlink="$Y$3"' in dr and 'r:embed="rId1"' in dr and 'r:embed="rId4"' in dr, \
+        'modelo sem as etiquetas ligadas a Y2/Y3 ou sem as duas figuras'
     Path(saida).write_text('// Modelo do croqui de limpeza de faixa (gerado por scripts/croqui_modelo.py; não editar à mão)\n'
                            'window.CROQUI_MODELO=' + json.dumps(dict(partes=partes), ensure_ascii=False) + ';\n',
                            encoding='utf-8')

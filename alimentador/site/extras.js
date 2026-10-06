@@ -109,6 +109,10 @@
     `${o.postes ? ' · postes ' + esc(M.origem.postes) : ''}${o.critica ? ' · Crítica ' + esc(M.origem.critica.join(', ')) + (M.origem.nae_filtro === 'arvore' ? ' (só Meio Ambiente · Árvore/Eucalipto na rede)' : '') : ''}` +
     `${o.malha ? ' · municípios: ' + esc(M.origem.malha) : ''}</p><p class="origem"><a href="${esc(M.al)}-trechos.kmz">Baixar o KMZ (Google Earth)</a></p>`;
   document.querySelector('.panel').append(box);
+  const kmz = document.createElement('p');
+  kmz.className = 'origem kmz';
+  kmz.innerHTML = `<a href="${esc(M.al)}-trechos.kmz" download>Baixar o KMZ (Google Earth)</a>`;
+  box.before(kmz);
   const foot = document.querySelector('.foot');
   if (foot) box.append(foot);
 

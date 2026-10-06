@@ -17,7 +17,7 @@
   --line-forte:#8c948f;      /* borda de campo/select (3:1) */
   --accent:#b8431f; --on-accent:#ffffff;
   --sel:#f4e6df;             /* fundo de item escolhido (accent ~11% sobre paper) */
-  --hover:rgb(27 32 36 / .05);
+  --hover:rgb(27 32 36 / .05); --seg-on:var(--paper);
   --alerta:#b91c1c;          /* texto/traço de alerta (NAE, vencida) — também usado pelos marcadores do mapa: não mudar */
   --alerta-fundo:#b91c1c;    /* fundo de pílula com texto branco */
   --aviso:#b45309;           /* dados a conferir */
@@ -52,7 +52,7 @@
   --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab;
   --line:#30383e; --line-forte:#5f6b73;
   --accent:#f08a5d; --on-accent:#14181b;
-  --sel:#352b27; --hover:rgb(231 234 235 / .06);
+  --sel:#352b27; --hover:rgb(231 234 235 / .06); --seg-on:#323a41;
   --alerta:#ef4444; --alerta-fundo:#c81e1e; --aviso:#f59e0b; --sem:#343c42;
   --ink:#dfe4e6; --mapbg:#0f1417;
   --sh1:0 1px 2px rgb(0 0 0 / .45);
@@ -63,7 +63,7 @@
   --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab;
   --line:#30383e; --line-forte:#5f6b73;
   --accent:#f08a5d; --on-accent:#14181b;
-  --sel:#352b27; --hover:rgb(231 234 235 / .06);
+  --sel:#352b27; --hover:rgb(231 234 235 / .06); --seg-on:#323a41;
   --alerta:#ef4444; --alerta-fundo:#c81e1e; --aviso:#f59e0b; --sem:#343c42;
   --ink:#dfe4e6; --mapbg:#0f1417;
   --sh1:0 1px 2px rgb(0 0 0 / .45);
@@ -123,7 +123,7 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 @media (max-width:980px){
   .stage{grid-template-columns:minmax(0,1fr)}
   .mapbox{position:sticky;top:0;z-index:20;border-radius:var(--r2)}   /* celular: o mapa fica no alto e o painel rola embaixo */
-  #map{height:max(300px,44svh);min-height:0}
+  #map{height:clamp(340px,58svh,640px);min-height:0}   /* o mapa é a peça principal também no celular */
 }
 /* controles sobre o mapa: o mesmo vidro escuro de 40×40, a 12 px das bordas */
 .leaflet-top .leaflet-control{margin-top:12px}
@@ -170,7 +170,7 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .f-classe button{flex:1 1 0;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--alvo);padding:0 var(--s2);border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
 .f-classe button i{flex:none;width:8px;height:8px;border-radius:2px;background:var(--c)}
 .f-classe button:hover{color:var(--fg)}
-.f-classe button[aria-pressed="true"]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
+.f-classe button[aria-pressed="true"]{background:var(--seg-on,var(--paper));color:var(--fg);box-shadow:var(--sh1)}
 .f-classe button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 #ind{flex:none;width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
 .filtros select,#mes{-webkit-appearance:none;appearance:none;width:100%;min-width:0;min-height:40px;padding:0 32px 0 var(--s3);border:1px solid var(--line-forte);border-radius:var(--r2);
@@ -553,6 +553,7 @@ let map = null, sel = null, multi = [];                // multi: trechos escolhi
 const escolhido = n => n === sel || multi.includes(n);
 const linhas = {}, rotulos = {};
 const visivel = {T1: true, T2: true, T3: true};
+window.__visivel = visivel;                               // a camada de limpeza segue os botões T1/T2/T3
 let fusMarcas = null;                                     // pontos dos fusíveis: somem junto com o T3          // botões T1 / T2 / T3 sobre o mapa
 const classeDe = nome => nome.split('-')[0];          // nome do trecho → [polyline com todos os vãos, vãos]; rótulos no mapa
 let halo = null, marcas = null;
@@ -598,9 +599,10 @@ function realca(nomes, enquadrar) {
   marcas = L.layerGroup(nomes.length > 1 ? nomes.map(n => pino([TR[n].inicio_lat, TR[n].inicio_lon], 'ini', esc(n), TR[n].inicio))
     : [pino([t.inicio_lat, t.inicio_lon], 'ini', 'INÍCIO', t.inicio),
       ...t.fim.map((f, i) => pino(t.fim_pts[i], 'fim', 'FIM', f.replace('fim de linha · poste ', 'poste ') + (f.startsWith('fim de linha') ? ' (fim de linha)' : '')))]).addTo(map);
-  if (enquadrar) map.fitBounds(L.latLngBounds(nomes.flatMap(n => meus(n).flat())).pad(0.25), {maxZoom: 17});
+  if (enquadrar) map.fitBounds(L.latLngBounds(nomes.flatMap(n => meus(n).flat())).pad(0.12), {maxZoom: 17, paddingTopLeft: [24, 72], paddingBottomRight: [24, 64]});   // folga para os controles sobre o mapa
   marcaNae(nomes);
   rotulosT3();
+  if (window.__onSel) window.__onSel(nomes);               // contorno da seleção por cima da camada de limpeza
 }
 // ativos com NAE nos trechos escolhidos: um marcador vermelho por ativo, com quantas NAE teve (mês e filtro da tela)
 let naeMarcas = null;
@@ -617,6 +619,7 @@ function marcaNae(nomes) {
 function limpar() {
   sel = null; multi = [];
   marcaNae(null);
+  if (window.__onSel) window.__onSel(null);
   resumo();
   marcaLista();
   if (!map) return;
@@ -642,7 +645,7 @@ function vaoPerto(vs, ll) {
 // rótulos: T1/T2 sempre; T3 só de perto e só os que estão na tela (mais leve em alimentador grande)
 function rotulo(t, c) {
   const m = L.marker(t.rotulo, {icon: L.divIcon({className: '', iconSize: null, html: `<div class="lb ${t.tipo === 'fusivel' ? 'fus' : ''}${escolhido(t.nome) ? ' sel' : ''}${c && c[t.nome] ? ' oc' : ''}" style="--c:${t.cor}">${esc(t.nome)}${c && c[t.nome] ? `<span class="n">${c[t.nome]}</span>` : ''}</div>`}), zIndexOffset: t.tipo === 'fusivel' ? 0 : 400})
-    .bindTooltip(`${t.inicio} → ${fimTxt(t)}`, {direction: 'top'})
+    .bindTooltip(`${esc(t.inicio)} → ${esc(fimTxt(t))}`, {direction: 'top'})
     .on('click', e => { L.DomEvent.stopPropagation(e); clique(t.nome, e.originalEvent, false); }).addTo(map);
   rotulos[t.nome] = m;
 }
@@ -654,6 +657,7 @@ function mostraClasses() {
     if (v && !rotulos[t.nome]) rotulo(t, contagem()); else if (!v && rotulos[t.nome]) { rotulos[t.nome].remove(); delete rotulos[t.nome]; } });
   if (visivel.T3 && !map.hasLayer(fusMarcas)) fusMarcas.addTo(map); else if (!visivel.T3) fusMarcas.remove();
   rotulosT3();
+  if (window.__onClasses) window.__onClasses();
 }
 function rotulosT3() {
   if (!map) return;
@@ -683,7 +687,7 @@ if (typeof L === 'undefined') {
     const t = D.trechos[i], vs = vaosDe[i];
     const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);
     l.on('click', e => { L.DomEvent.stopPropagation(e); clique(t.nome, e.originalEvent, false, vaoPerto(vs, e.latlng)); });
-    l.bindTooltip(t.nome, {sticky: true, direction: 'top', offset: [0, -8]});
+    l.bindTooltip(esc(t.nome), {sticky: true, direction: 'top', offset: [0, -8]});
     l.on('mouseover', () => l.setStyle({weight: t.peso + 3}));
     l.on('mouseout', () => l.setStyle({weight: t.peso}));
     linhas[t.nome] = [l, vs];
@@ -691,12 +695,12 @@ if (typeof L === 'undefined') {
   fusMarcas = L.layerGroup().addTo(map);
   D.fusiveis.forEach(a => {
     L.circleMarker([a.lat, a.lon], {radius: 4, color: '#111', weight: 1.5, fillColor: a.t === 'SEC' || a.t === 'FTR' ? '#9ca3af' : '#fff', fillOpacity: 1})
-      .bindTooltip(`${a.nome} · ${TIPO[a.t] || a.t}${papel(a.nome) ? ' · ' + papel(a.nome) : ''}`, {direction: 'top'})
+      .bindTooltip(`${esc(a.nome)} · ${esc(TIPO[a.t] || a.t)}${papel(a.nome) ? ' · ' + esc(papel(a.nome)) : ''}`, {direction: 'top'})
       .on('click', e => { L.DomEvent.stopPropagation(e); if (a.trecho) clique(a.trecho, e.originalEvent, false); }).addTo(fusMarcas);
   });
   D.principais.forEach(a => {
     L.marker([a.lat, a.lon], {icon: L.divIcon({className: '', iconSize: null, html: `<div class="at"><b>${a.t === 'DJ' ? 'DJ' : '79'}</b><span>${esc(a.nome)}</span></div>`}), zIndexOffset: 500})
-      .bindTooltip(`${a.nome} · ${TIPO[a.t]} · poste ${a.poste}${papel(a.nome) ? ' · ' + papel(a.nome) : ''}`, {direction: 'top'}).addTo(map);
+      .bindTooltip(`${esc(a.nome)} · ${esc(TIPO[a.t])} · poste ${esc(a.poste)}${papel(a.nome) ? ' · ' + esc(papel(a.nome)) : ''}`, {direction: 'top'}).addTo(map);
   });
   D.trechos.forEach(t => { if (t.tipo !== 'fusivel') rotulo(t); });
   const todos = L.latLngBounds(D.vaos.flatMap(v => [[v[0], v[1]], [v[2], v[3]]]));

@@ -81,9 +81,9 @@
   }
   // letra de ~11,5 px na tela em qualquer largura do mapa
   const escala = () => {
-    const w = svg.getBoundingClientRect().width;
-    if (!w) return;
-    g.style.setProperty('--k', (VW / w).toFixed(3));
+    const r = svg.getBoundingClientRect();                 // o SVG pode ficar limitado pela altura (max-height)
+    if (!r.width || !r.height) return;
+    g.style.setProperty('--k', (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));
     desamontoa();
   };
   rotulos();

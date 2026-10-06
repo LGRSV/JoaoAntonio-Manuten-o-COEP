@@ -81,6 +81,9 @@ def test_pipeline():
 def ativos_gis_no_site(d):
     """Trafo do GIS (camada Transformadores) dá trecho à NAE que estava 'ativo fora do KML'."""
     site, y = d / 'site', lambda i: -7.2 + i * 0.0003
+    (d / 'gis0').mkdir()
+    assert ativos_gis.aplica(site, d / 'gis0')[0]['nae_localizadas'] == 0, 'site sem Crítica (nae vazio) não quebra'
+    assert ativos_gis.outros(site, pts={})['nae_hoje_em_outro'] == 0 and ativos_gis.posicoes(site, pts={})
     oc = dict(mes='2026-01', dia='02/01 10:00', col=True, abr='TR', ativo='5700001', prob='5700001', causa='Meio ambiente',
               sub='Árvore', prog=False, cons=3, dur=60, trecho=None, fora='fora do cadastro atual', regra='ativo fora do KML',
               dist_m=None)
@@ -105,6 +108,11 @@ def ativos_gis_no_site(d):
     assert [a[4] for a in c['ativos_kml']] == ['T2', None], 'trafo a ~1 km da rede não entra em trecho'
     assert ativos_gis.le_js(mf)[1]['nae']['oc'][0]['trecho'] == 'T2', 'página (dados.js) igual ao JSON'
     assert gera_trechos.main(['--saida', str(site), '--so-interface']) == 0
+    antes = (jf.read_text(encoding='utf-8'), mf.read_text(encoding='utf-8'))
+    ativos_gis.aplica(site, d / 'gis'); ativos_gis.outros(site, d / 'gis'); ativos_gis.posicoes(site, d / 'gis')
+    c2 = json.loads(jf.read_text(encoding='utf-8'))
+    assert c2['nae'] == json.loads(antes[0])['nae'] | {'oc': c2['nae']['oc']} and c2['nae']['oc'][0]['trecho'] == 'T2', 'rodar de novo não muda'
+    assert c2['nae']['oc'][0].get('lonlat') and 'hoje' not in c2['nae']['oc'][0]
     hit = json.loads((site / 'dados' / 'ativos' / (gera_trechos.fatia('5700001') + '.json')).read_text(encoding='utf-8'))['5700001']
     assert hit[0][:3] == ['ALTESTE', 'TR', 'T2'], 'busca de ativo acha o trafo no trecho'
 

@@ -68,7 +68,7 @@
     prazo: { rot: 'Limpeza no prazo', val: a => a.limp.prazo ?? -1 },
     ult: { rot: 'Última limpeza', val: a => a.limp.ult || '' },
   };
-  const cel = matchMedia('(max-width:760px)');             // o seletor de escopo muda de forma no celular
+  const cel = matchMedia('(max-width:900px)');             // o seletor de escopo muda de forma no celular
   const seta = c => `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23${c}' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`;
   const css = document.createElement('style');
   css.textContent = `
@@ -116,7 +116,7 @@
 .pl-seg button{min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);
   font:600 var(--t-sm)/1.2 var(--f-body);white-space:nowrap}
 .pl-seg button:hover{color:var(--fg)}
-.pl-seg button[aria-pressed=true]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
+.pl-seg button[aria-pressed=true]{background:var(--seg-on,var(--paper));color:var(--fg);box-shadow:var(--sh1)}
 .pl-seg small{font-size:var(--t-xs);font-weight:400;color:var(--muted);margin-left:2px;font-variant-numeric:tabular-nums}
 
 /* cabeçalho do escopo */
@@ -207,13 +207,13 @@
   #polos{gap:var(--s6)}
   .pl-cab h2{font-size:28px}
 }
-@media (min-width:761px) and (max-width:960px){   /* tablet: a tabela inteira cabe na largura (sem rolagem lateral da página) */
+@media (min-width:901px) and (max-width:960px){   /* tablet: a tabela inteira cabe na largura (sem rolagem lateral da página) */
   .pl-tab th{white-space:normal;padding:0 6px}
   .pl-tab td{padding:var(--s3) 6px}
   .pl-tab .al-cod{display:block;margin-left:0}
   .pl-bar{width:56px;min-width:56px}
 }
-@media (max-width:760px){
+@media (max-width:900px){
   .pl-esc{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s2);justify-items:stretch}
   .pl-topo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
   .pl-topo button{min-height:52px;padding:var(--s1) 2px;font-size:var(--t-md);white-space:normal}
@@ -249,8 +249,8 @@
   .pl-bar{flex:1 1 auto;width:auto;min-width:0}
   .pl-np{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none}
 }
-@media (max-width:760px) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pl-ord select{background-image:${seta('9aa4ab')}}}
-@media (max-width:760px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}`;
+@media (max-width:900px) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pl-ord select{background-image:${seta('9aa4ab')}}}
+@media (max-width:900px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}`;
   document.head.append(css);
 
   // endereço: #<polo|regional-x|eto>[/trechos][/T1|T2|T3]

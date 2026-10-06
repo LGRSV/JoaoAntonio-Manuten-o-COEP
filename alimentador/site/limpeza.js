@@ -109,7 +109,7 @@
 /* segmentado Por ano / Vencimento */
 .limp-seg{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
 .limp-seg button{flex:1;min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
-.limp-seg button[aria-pressed=true]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
+.limp-seg button[aria-pressed=true]{background:var(--seg-on,var(--paper));color:var(--fg);box-shadow:var(--sh1)}
 .limp-mais>div{display:grid;gap:var(--s3);padding-top:var(--s2)}
 /* anos: linhas com filete, sem caixa */
 .limp-anos{display:grid}
@@ -343,11 +343,12 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     [selL, realce].forEach(g => g && g.eachLayer(l => l.bringToFront()));
   }
   // trecho tocado no mapa ou na lista: contorno amarelo por cima da camada de limpeza
-  window.__onSel = nome => {
+  window.__onSel = nome => {                              // um trecho ou vários (Ctrl+clique)
     st.sel = nome;
     if (selL) { selL.remove(); selL = null; }
-    if (map && nome && st.ligado) {
-      const vs = vaosDoTrecho[nome] || [];
+    const nomes = Array.isArray(nome) ? nome : nome ? [nome] : [];
+    if (map && nomes.length && st.ligado) {
+      const vs = nomes.flatMap(n => vaosDoTrecho[n] || []);
       selL = L.layerGroup(linhaDupla(vs, '#fde047', 4, 1, { dashArray: '1 0' })).addTo(map);
       if (realce) realce.eachLayer(l => l.bringToFront());
     }
