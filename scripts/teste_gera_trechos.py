@@ -12,6 +12,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import gera_trechos  # noqa: E402
+import limpeza_faixa  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -61,7 +62,7 @@ def test_pipeline():
         for f in ('index.html', 'municipios/norte-teste/index.html', 'alimentadores/ALTESTE/index.html',
                   'alimentadores/ALTESTE/dados.js', 'alimentadores/ALTESTE/ALTESTE-trechos.kmz', 'relatorio.md',
                   'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js',
-                  'assets/busca-ativo.js'):
+                  'assets/busca-ativo.js', 'polos/index.html', 'assets/ranking-polos.js', 'assets/ranking-polos-dados.js'):
             assert (d / 'site' / f).exists(), f
         pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
         assert 'cdnjs' not in pag and 'const D' not in pag and len(pag) < 20000, 'página leve: dados e código em arquivos'
@@ -73,6 +74,14 @@ def test_pipeline():
         assert assinatura(d / 'site') == antes, 'só a interface: mesmo resultado'
 
 
+def test_equipes_limpeza():
+    assert limpeza_faixa.conta('EXECUTADA', 'ETO-RD-GU 004972/2022'), 'executada da equipe do polo conta'
+    assert not limpeza_faixa.conta('EXECUTADA', 'ETO-LD-PCM 000452/2025'), 'executada de outra equipe não conta'
+    assert limpeza_faixa.conta('CRIADA', 'ETO-LD-PCM 000452/2025'), 'pendente aparece, de qualquer equipe'
+
+
 if __name__ == '__main__':
     test_pipeline()
     print('ok test_pipeline')
+    test_equipes_limpeza()
+    print('ok test_equipes_limpeza')

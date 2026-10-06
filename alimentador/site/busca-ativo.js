@@ -4,6 +4,8 @@
   const form = document.getElementById('ativo');
   if (!form) return;
   const q = document.getElementById('ativo-q'), res = document.getElementById('ativo-res');
+  const mapa = document.querySelector('.mt-mapa');       // em cima do mapa do Tocantins (coluna do meio no computador)
+  if (mapa) { mapa.prepend(form); form.classList.add('no-mapa'); }
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const TIPO = { DJ: 'Disjuntor', '79': 'Religador', '03': 'Fusível 03', '33': 'Fusível 33', '02': 'Chave 02', '88': 'Chave faca 88',
     '40': 'Trip saver 40', '41': 'Trip saver 41', SEC: 'Fusível (seccionamento)', FTR: 'Fusível no tronco', poste: 'Poste' };
@@ -15,7 +17,8 @@
     '.ativo>div:first-of-type{display:flex;gap:8px;flex-wrap:wrap}.ativo .busca{flex:1 1 220px}' +
     '.ativo button{font:inherit;font-weight:600;padding:8px 16px;border:0;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}' +
     '.ativo button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}#ativo-res{display:grid;gap:8px}#ativo-res:empty{display:none}' +
-    '#ativo-res p{font-size:14px}';
+    '#ativo-res p{font-size:14px}.ativo.no-mapa{border:0;border-bottom:1px solid var(--line);border-radius:0;padding:4px 4px 12px;margin-bottom:8px}' +
+    '.ativo.no-mapa .grade{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}';
   document.head.append(css);
 
   const chave = s => { const k = String(s).toUpperCase().replace(/[^0-9A-Z]/g, ''); return /^\d+$/.test(k) ? (k.replace(/^0+/, '') || '0') : k; };

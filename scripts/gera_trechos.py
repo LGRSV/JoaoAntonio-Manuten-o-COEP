@@ -446,7 +446,8 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js'):
+    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js',
+              'ranking-polos.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     return modelo
 
@@ -494,6 +495,24 @@ def carregar_dados(saida):
     return [json.loads(p.read_text(encoding='utf-8')) for p in sorted((saida / 'dados' / 'alimentadores').glob('*.json'))]
 
 
+def le_js(caminho):
+    """window.X = {...}; → dict (None se o arquivo não existe ou é null)."""
+    if not caminho.exists():
+        return None
+    s = caminho.read_text(encoding='utf-8')
+    return json.loads(s[s.index('=') + 1:].strip().rstrip(';'))
+
+
+def ultima_limpeza(lp, al):
+    """Data da última OS executada no alimentador: localizada no mapa dele ou aberta para ele."""
+    if not lp:
+        return None
+    no_mapa = {k for ks in lp['vaos'].values() for k in ks}
+    ds = [o['data'] for k, o in enumerate(lp['os']) if o['sit'] == 'EXECUTADA' and o['data']
+          and (k in no_mapa or o['al_os'] == al)]
+    return max(ds) if ds else None
+
+
 def mapa_e_ranking(saida, dados, man):
     """assets/mapa-municipios-dados.js (window.MUN) e assets/ranking-nae.js (window.RANK).
 
@@ -526,13 +545,95 @@ def mapa_e_ranking(saida, dados, man):
             cons=sum(o.get('cons') or 0 for o in oc),
             chi=round(sum((o.get('cons') or 0) * (o.get('dur') or 0) for o in oc) / 60),
             km=round(c['resumo']['extensao_m'] / 1000, 1),
-            ult_limpeza=None,                 # vem da limpeza de faixa, que não entra aqui
+            ult_limpeza=ultima_limpeza(le_js(saida / 'alimentadores' / c['alimentador'] / 'limpeza.js'),
+                                       c['alimentador']),   # limpeza.js de scripts/limpeza_faixa.py (sem ele: None)
             muns=[m['cod'] for m in c['municipios'] if m['m'] >= MIN_M]))
     als.sort(key=lambda a: (-a['nae'], a['al']))
     (saida / 'assets' / 'ranking-nae.js').write_text(
         'window.RANK=' + json.dumps(dict(meses=[min(meses), max(meses)] if meses else [],
                                          als=als), ensure_ascii=False, separators=(',', ':')) + ';\n',
         encoding='utf-8')
+
+
+def ranking_polos(saida, dados, man):
+    """polos/index.html e assets/ranking-polos-dados.js (window.POLOS): os alimentadores de cada polo por NAE.
+
+    O polo vem do município (alimentador/site/polos.json, da planilha de cidades por polo DCMD). O alimentador entra
+    em cada polo onde tem rede (≥ MIN_M) ou NAE: km e NAE de cada trecho contam no polo do município onde o trecho tem
+    mais rede; NAE sem trecho conta no polo onde o alimentador tem mais rede. Limpeza: metros de cada classe pela data
+    da última limpeza executada de cada vão (a situação, em dia ou vencida, é calculada na página com a data do dia).
+    """
+    cfg = json.loads((PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
+    geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))['muns']
+    polo_de = {cod: p['id'] for p in cfg['polos'] for cod in p['municipios']}
+    slug_mun = {m['cod']: m['slug'] for m in man['municipios']}
+    linhas = {p['id']: [] for p in cfg['polos']}
+    meses, regra, equipes = set(), {'T1': 3, 'T2': 4, 'T3': 5}, None
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        al, ts = c['alimentador'], c['trechos']
+        mun_km, km = {}, {}
+        for t in ts:
+            for cod, m in (t.get('municipios') or {}).items():
+                mun_km[cod] = mun_km.get(cod, 0) + m
+        for cod, m in mun_km.items():
+            if cod in polo_de:
+                km[polo_de[cod]] = km.get(polo_de[cod], 0) + m
+        if not km:
+            continue
+        principal = max(km, key=km.get)
+        polo_t = {t['nome']: polo_de.get(max(t['municipios'], key=t['municipios'].get)) if t.get('municipios') else None
+                  for t in ts}
+        nae = {}                                        # polo → [NAE, consumidores, consumidor×min, NAE sem trecho]
+        for o in (c.get('nae') or {}).get('oc', []):
+            meses.add(o['mes'])
+            x = nae.setdefault(polo_t.get(o.get('trecho')) or principal, [0, 0, 0, 0])
+            x[0] += 1
+            x[1] += o.get('cons') or 0
+            x[2] += (o.get('cons') or 0) * (o.get('dur') or 0)
+            x[3] += 0 if o.get('trecho') else 1
+        limp = {}                                       # polo → classe → data da última limpeza ('' = sem) → metros
+        lp = le_js(saida / 'alimentadores' / al / 'limpeza.js')
+        mapa = le_js(saida / 'alimentadores' / al / 'dados.js') if lp else None
+        if lp and mapa and len(mapa['vaos']) == len(c['vaos']):     # mesma ordem de vãos nos dois arquivos
+            regra, equipes = lp.get('regra_anos') or regra, lp.get('equipes') or equipes
+            ult = {}
+            for vid, ks in lp['vaos'].items():
+                ds = [lp['os'][k]['data'] for k in ks if lp['os'][k]['sit'] == 'EXECUTADA' and lp['os'][k]['data']]
+                if ds:
+                    ult[vid] = max(ds)
+            for v, d in zip(c['vaos'], mapa['vaos']):
+                if polo_de.get(v[8]):
+                    q = limp.setdefault(polo_de[v[8]], {}).setdefault(classe(ts[v[4]]['nome']), {})
+                    dt = ult.get(str(d[5]), '')
+                    q[dt] = q.get(dt, 0) + v[5]
+        for p in sorted(set(km) | set(nae)):
+            if km.get(p, 0) < MIN_M and p not in nae:
+                continue
+            n = nae.get(p, [0, 0, 0, 0])
+            muns = sorted((cod for cod in mun_km if polo_de.get(cod) == p and mun_km[cod] >= MIN_M), key=lambda k: -mun_km[k])
+            linhas[p].append(dict(
+                al=al, se=c['se_nome'], km=round(km.get(p, 0)), km_total=round(c['resumo']['extensao_m']),
+                nae=n[0], cons=n[1], chi=round(n[2] / 60), sem=n[3], muns=muns,
+                m=next((slug_mun[k] for k in muns if k in slug_mun), None),
+                lp={cl: {d: round(m) for d, m in sorted(ds.items())} for cl, ds in sorted(limp.get(p, {}).items())}))
+    dados_js = dict(meses=[min(meses), max(meses)] if meses else [], regra=regra, equipes=equipes, fonte=cfg['fonte'],
+                    fora=cfg['fora'], muns={m['cod']: m['nome'] for m in geo},
+                    polos=[dict(id=p['id'], nome=p['nome'], regional=p['regional'], equipe=p['equipe'],
+                                n_muns=len(p['municipios']),
+                                als=sorted(linhas[p['id']], key=lambda a: (-a['nae'], -a['km'], a['al'])))
+                           for p in cfg['polos']])
+    (saida / 'assets' / 'ranking-polos-dados.js').write_text(
+        'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
+    corpo = ('<nav class="migalhas"><a href="../">Municípios</a> → <b>Ranking por polo</b></nav>\n'
+             '<header><h1>Alimentadores por polo</h1><p>Escolha o polo. Os alimentadores aparecem do que tem mais NAE '
+             '(árvore/eucalipto na rede) para o que tem menos; toque no título de uma coluna para ordenar por ela.</p>'
+             '</header>\n<div id="polos"></div>\n'
+             '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')
+    p = saida / 'polos' / 'index.html'
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(casca('Alimentadores por polo', corpo, '../'), encoding='utf-8')
 
 
 def manifesto(dados):
@@ -664,10 +765,12 @@ def interface(saida):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../'), encoding='utf-8')
     mapa_e_ranking(saida, dados, man)
+    ranking_polos(saida, dados, man)
     indice_ativos(saida, dados)
     corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
              'alimentador. T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… '
-             'depois de cada fusível.</p></header>\n'
+             'depois de cada fusível.</p><p><a href="polos/"><b>Ranking dos alimentadores por polo →</b></a></p>'
+             '</header>\n'
              '<form class="ativo" id="ativo" role="search"><label for="ativo-q"><b>Em que trecho está o ativo?</b> '
              'Código da chave (fusível, religador, faca…) ou número do poste</label><div><input class="busca" id="ativo-q" '
              'type="search" inputmode="search" autocomplete="off" placeholder="Ex.: 0300350016 ou 553218">'

@@ -46,6 +46,7 @@ dados/alimentadores/<AL>.json      fonte canônica do alimentador inteiro ([lon,
 dados/ativos/<fatia>.json          código de chave ou número de poste → alimentador e trecho (busca "Em que trecho
                                    está o ativo?" da página inicial; 256 pedaços, a página baixa só o do código)
 manifesto.json                     município ↔ polo, SE e alimentadores
+polos/index.html                   ranking dos alimentadores de cada polo DCMD (assets/ranking-polos-dados.js)
 relatorio.md / relatorio.html      por município e alimentador, totais e não processados
 assets/                            Leaflet 1.9.4, CSS e JS compartilhados (o JS do mapa sai do modelo da skill)
 ```
@@ -64,5 +65,13 @@ assets/                            Leaflet 1.9.4, CSS e JS compartilhados (o JS 
   da ordem [lon, lat], mais da metade fora da malha) tira o alimentador das páginas e vai para "Não processados".
   Avisos (pontos soltos, chave sem vão, vão duplicado, sem postes, vãos na divisa, trechos a revisar) aparecem na
   página e no relatório.
+
+- **Polos:** `alimentador/site/polos.json` (município → polo DCMD e regional) sai da planilha de cidades por polo com
+  `python scripts/polos_municipios.py Cidades_por_Polo_e_Regional_DCMD_MAIUSCULAS_SEM_ACENTO.xlsx`. No ranking, o
+  alimentador entra em cada polo onde tem rede: km e NAE do trecho contam no polo do município onde o trecho tem mais
+  rede; NAE sem trecho conta no polo onde o alimentador tem mais rede.
+- **Limpeza de faixa** (`scripts/limpeza_faixa.py`): OS executada só conta se for das equipes ETO-RD dos 8 polos
+  (prefixo do número da OS); pendentes aparecem de qualquer equipe. `--so-equipes <pasta do site>` aplica a regra
+  nos `limpeza.js` já gerados. Rodar `--so-interface` depois, para o ranking pegar a limpeza.
 
 Abrir as páginas localmente: `python -m http.server -d site` e `http://localhost:8000`.

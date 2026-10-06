@@ -197,7 +197,6 @@ def mapa(nos, res, nome, caminho, interrupcoes=None):
 
 
 COR_Z = {1: '3b82f6', 2: '22c55e', 3: 'facc15'}               # mesmas cores do mapa_trechos.html
-COR_R = ['2dd4bf', 'a3e635', '67e8f9', '86efac', '5eead4', 'bef264']
 TIPO_AT = {'DJ': 'disjuntor', '79': 'religador', '03': 'fusível 03', '33': 'fusível 33', '02': 'chave 02',
            '40': 'trip saver 40', '41': 'trip saver 41',
            'SEC': 'seccionamento', 'FTR': 'fusível no tronco'}
@@ -228,12 +227,7 @@ def kmz(nos, res, nome, caminho):
     """KMZ para Google Earth (e importável no Google My Maps): uma pasta por trecho, início e fim no balão."""
     ts = segmentar(nos, res)
     por_id = {v['id']: v for v in res['vaos']}
-    cor, nr = {}, 0
-    for t in ts:
-        if t['tipo'] == 'ramal':
-            cor[t['nome']], nr = COR_R[nr % len(COR_R)], nr + 1
-        else:
-            cor[t['nome']] = COR_Z.get(t['zona'], 'd946ef')
+    cor = {t['nome']: COR_Z.get(t['zona'], 'd946ef') for t in ts}      # cor pela classe: T2, T2-A… na mesma cor
     kml_cor = lambda h: 'ff' + h[4:6] + h[2:4] + h[0:2]
     largura = {'principal': 6, 'ramal': 5, 'fusivel': 3.5}
     km = lambda m: f'{m:.0f} m' if m < 1000 else f'{m / 1000:.2f} km'.replace('.', ',')
