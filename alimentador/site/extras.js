@@ -8,12 +8,8 @@
   const muns = M.municipios || [];
   const mun = muns.find(x => x.slug === new URLSearchParams(location.search).get('m'));
   const css = document.createElement('style');
+  // (o caminho .migalhas tem o CSS no alimentador.css: aparece já na 1ª pintura)
   css.textContent = '.ie.ativo{transform:translate(-50%,9px)}.ie.ativo em{background:#1d4ed8}' +
-    '.migalhas{display:flex;flex-wrap:wrap;align-items:center;gap:0 var(--s2);font-size:var(--t-sm);color:var(--muted)}' +
-    '.migalhas a{color:var(--muted);text-decoration:none}.migalhas a:hover{color:var(--fg);text-decoration:underline}' +
-    '.migalhas [aria-current]{color:var(--fg);font:600 var(--t-sm) var(--f-mono);font-variant-numeric:tabular-nums}' +
-    '.migalhas .mig-t{display:inline-flex;gap:var(--s2);font:600 var(--t-sm) var(--f-mono);color:var(--fg)}.migalhas .mig-t:empty{display:none}' +
-    '@media (pointer:coarse){.migalhas a{display:inline-flex;align-items:center;min-height:40px}}' +
     '.dados>*+*{margin-top:var(--s3)}.dados>summary+*{margin-top:var(--s2)}.dados>summary .selo{margin-left:var(--s1);font:400 var(--t-xs) var(--f-body);font-style:normal;color:var(--muted);' +
     'border:1px solid var(--line);border-radius:var(--rp);padding:1px var(--s2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}' +
     '.dados>summary .selo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--aviso)}' +
@@ -26,42 +22,64 @@
     '.origem{font-size:var(--t-xs);color:var(--muted);overflow-wrap:anywhere}.dados .foot{overflow-wrap:anywhere}';
   document.head.append(css);
 
-  // título: o código do alimentador; a SE fica no sobretítulo
+  // título: o código do alimentador; a SE fica no sobretítulo. O HTML da página já sai assim (script no cabeçalho do modelo);
+  // aqui só se completa o que faltar.
   const h1 = document.querySelector('h1'), eyebrow = document.querySelector('.eyebrow');
-  if (M.al && h1) {
+  if (M.al && h1 && h1.textContent !== M.al) {
     h1.textContent = M.al;
     if (eyebrow) eyebrow.textContent = eyebrow.textContent.replace(/\s*·\s*Alimentador\s+\S+\s*$/i, '');
-    h1.insertAdjacentHTML('afterend', '<p class="sub">Trechos por ativo</p>');
+    if (!h1.nextElementSibling?.classList.contains('sub')) h1.insertAdjacentHTML('afterend', '<p class="sub">Trechos por ativo</p>');
   }
 
-  // caminho e volta para o município
+  // caminho e volta para o município (o município só se sabe com os dados: entra no lugar reservado)
   const sep = '<span aria-hidden="true">›</span>';
-  const nav = document.createElement('nav');
-  nav.className = 'migalhas';
-  nav.setAttribute('aria-label', 'Caminho');
-  nav.innerHTML = `<a href="../../">Municípios</a>${sep}` +
-    (mun ? `<a href="../../municipios/${esc(mun.slug)}/">${esc(mun.nome)}</a>${sep}` : '') +
-    `<span aria-current="page">${esc(M.al)}</span><span class="mig-t" id="mig-trecho"></span>`;
-  document.querySelector('header').prepend(nav);
+  const linkMun = mun ? `<a href="../../municipios/${esc(mun.slug)}/">${esc(mun.nome)}</a>${sep}` : '';
+  let nav = document.querySelector('header .migalhas');
+  if (nav) { const lugar = nav.querySelector('.mig-mun'); if (lugar) lugar.innerHTML = linkMun; }
+  else {
+    nav = document.createElement('nav');
+    nav.className = 'migalhas';
+    nav.setAttribute('aria-label', 'Caminho');
+    nav.innerHTML = `<a href="../../">Municípios</a>${sep}${linkMun}` +
+      `<span aria-current="page">${esc(M.al)}</span><span class="mig-t" id="mig-trecho"></span>`;
+    document.querySelector('header').prepend(nav);
+  }
 
-  // filtros por classe e município (a lista é refeita a cada busca: o filtro é reaplicado)
+  // filtros por classe (segmentado curto) e município (select na largura toda); a lista é refeita a cada busca: o filtro é reaplicado
   const lista = document.getElementById('lista');
   const f = document.createElement('div');
   f.className = 'filtros';
-  f.innerHTML = '<label>Classe <select id="f-classe"><option value="">Todas</option><option>T1</option><option>T2</option><option>T3</option></select></label>' +
+  const COR = { T1: '#3b82f6', T2: '#22c55e', T3: '#facc15' };   // as cores das classes no mapa
+  let classe = '';
+  f.innerHTML = '<div class="f-classe" role="group" aria-label="Classe do trecho">' + ['', 'T1', 'T2', 'T3'].map(c =>
+    `<button type="button" data-c="${c}" aria-pressed="${c === classe}">${c ? `<i style="--c:${COR[c]}" aria-hidden="true"></i>${c}` : 'Todas'}</button>`).join('') + '</div>' +
     (muns.length > 1 ? `<label>Município <select id="f-mun"><option value="">Todos</option>${muns.map(x =>
       `<option value="${esc(x.cod)}"${mun && x.cod === mun.cod ? ' selected' : ''}>${esc(x.nome)} (${km(x.m)})</option>`).join('')}</select></label>` : '');
   const ferr = document.getElementById('ferramentas');
   ferr ? ferr.prepend(f) : document.getElementById('busca').after(f);
   const tm = M.trecho_mun || {};
   function aplica() {
-    const c = document.getElementById('f-classe').value, fm = (document.getElementById('f-mun') || {}).value || '';
-    lista.querySelectorAll('.row').forEach(r => {
+    const c = classe, fm = (document.getElementById('f-mun') || {}).value || '';
+    let grp = null, algum = false;                       // título de grupo sem nenhuma linha à vista some junto
+    const fechaGrp = () => { if (grp) grp.hidden = !algum; };
+    [...lista.children].forEach(r => {
+      if (r.classList.contains('grp')) { fechaGrp(); grp = r; algum = false; return; }
+      if (!r.classList.contains('row')) return;
       const t = r.dataset.t;
       r.hidden = !((!c || t.split('-')[0] === c) && (!fm || (tm[t] || []).includes(fm)));
+      algum = algum || !r.hidden;
     });
+    fechaGrp();
+    if (window.__tabLista) window.__tabLista();          // a parada do Tab na lista passa para uma linha à vista
   }
   f.addEventListener('change', aplica);
+  f.addEventListener('click', e => {
+    const b = e.target.closest('.f-classe button');
+    if (!b || b.dataset.c === classe) return;
+    classe = b.dataset.c;
+    f.querySelectorAll('.f-classe button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    aplica();
+  });
   new MutationObserver(ms => {
     if (ms.some(m => m.type === 'childList')) aplica();
     const s = [...lista.querySelectorAll('.row[aria-current="true"]')].map(b => b.dataset.t);

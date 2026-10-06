@@ -447,7 +447,7 @@ def ativos_interface(saida):
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
     for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js',
-              'ranking-polos.js'):
+              'ranking-polos.js', 'croqui.js', 'croqui-modelo.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     return modelo
 
@@ -472,7 +472,9 @@ def pagina_alimentador(modelo, c):
                '<script src="../../assets/extras.js"></script>\n'
                # limpeza de faixa: limpeza.js do alimentador vem de scripts/limpeza_faixa.py (sem ele, a camada não aparece)
                '<script src="limpeza.js"></script>\n<script src="../../assets/limpeza.js"></script>\n'
-               '<script src="../../assets/telacheia.js"></script>', h, count=1, flags=re.S)
+               '<script src="../../assets/telacheia.js"></script>\n'
+               # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
+               '<script src="../../assets/croqui.js"></script>', h, count=1, flags=re.S)
     assert '%%' not in h
     return h
 
@@ -546,6 +548,7 @@ def mapa_e_ranking(saida, dados, man):
     (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
         'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns), ensure_ascii=False,
                                    separators=(',', ':')) + ';\n', encoding='utf-8')
+    vb = f'-6 -6 {geo["w"] + 12} {geo["h"] + 12}'      # mesmo viewBox de assets/mapa-municipios.js
 
     als, meses = [], set()
     for c in dados:
@@ -567,6 +570,7 @@ def mapa_e_ranking(saida, dados, man):
         'window.RANK=' + json.dumps(dict(meses=[min(meses), max(meses)] if meses else [],
                                          als=als), ensure_ascii=False, separators=(',', ':')) + ';\n',
         encoding='utf-8')
+    return vb
 
 
 def ranking_polos(saida, dados, man):
@@ -796,12 +800,11 @@ def interface(saida):
         for a in m['alimentadores']:
             n = a['trechos']
             trechos = f'{n:,}'.replace(',', '.') + '&nbsp;trecho' + ('' if n == 1 else 's')
-            selo = '<em class="selo">com avisos</em>' if a['status'] == 'aviso' else ''
             linhas.append(f'<a class="card" data-busca="{a["cod"].lower()} {html.escape(slug(a["se_nome"]).replace("-", " "))}" '
                           f'href="../../alimentadores/{a["cod"]}/?m={m["slug"]}"><b class="cod">{a["cod"]}</b>'
                           f'<span>{html.escape(a["se"])} {html.escape(a["se_nome"])} · polo {html.escape(a["polo"])}</span>'
                           f'<span>{km(a["m_no_municipio"])}&nbsp;km no município de {km(a["m_total"])}&nbsp;km · '
-                          f'{trechos}</span>{selo}</a>')
+                          f'{trechos}</span></a>')   # avisos: só na página do alimentador ('Dados e procedência')
         corpo = (migalhas('../../', m['nome']) +
                  f'<header><h1>{html.escape(m["nome"])}</h1><p>Alimentadores com rede dentro do município.</p></header>\n' +
                  ('<input class="busca" id="busca" type="search" aria-label="Buscar alimentador ou SE" '
@@ -811,21 +814,28 @@ def interface(saida):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../',
                            rodape=f'<p>Malha do IBGE, amostra a cada {PASSO_M}&nbsp;m; mínimo de {MIN_M}&nbsp;m.</p>'), encoding='utf-8')
-    mapa_e_ranking(saida, dados, man)
+    vb = mapa_e_ranking(saida, dados, man)
     ranking_polos(saida, dados, man)
     indice_ativos(saida, dados)
     corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
              'alimentador.</p><a class="cab-link" href="polos/">Ranking dos alimentadores por polo →</a></header>\n'
-             # mesmos ids de antes: assets/busca-ativo.js leva o formulário para a barra em cima do mapa
+             # casca do mapa já no HTML (estilo em assets/site.css; o svg com viewBox reserva a altura do mapa):
+             # os scripts só preenchem, e a página não pula ao carregar. Mesmos ids de antes (busca-ativo.js e
+             # mapa-municipios.js); a busca de município (#busca) também filtra a lista 'Todos os municípios'.
+             '<div id="mapa-to" class="mapa-to"><div class="mt-barra">'
              '<form class="ativo" id="ativo" role="search"><label for="ativo-q" class="rot">Em que trecho está o ativo?</label>'
              '<div class="campo"><input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
              'placeholder="Ex.: 0300350016" aria-describedby="ativo-dica"><button type="submit">Buscar</button>'
              '<div id="ativo-res" aria-live="polite"></div></div><span id="ativo-dica" class="dica">Código da chave '
-             '(fusível, religador, faca…), do transformador ou número do poste</span></form>\n'
-             '<div id="mapa-to"></div>\n'
-             '<section class="bloco" aria-labelledby="todos"><h2 class="sec" id="todos">Todos os municípios</h2>\n'
+             '(fusível, religador, faca…), do transformador ou número do poste</span></form>'
+             '<div class="mt-bmun"><label for="busca" class="rot">Município</label>'
              '<input class="busca" id="busca" type="search" aria-label="Buscar município" '
-             'placeholder="Buscar município (ex.: Arraias)">\n'
+             'placeholder="Buscar município (ex.: Arraias)"></div></div>\n'
+             '<aside class="mt-rank" aria-label="Ranking de alimentadores por NAE"></aside>\n'
+             f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
+             '<div class="mt-dica" aria-hidden="true"></div></div>\n'
+             '<div class="mt-lado"><section class="mt-sel" aria-live="polite"></section></div></div>\n'
+             '<section class="bloco" aria-labelledby="todos"><h2 class="sec" id="todos">Todos os municípios</h2>\n'
              f'<div class="grade">{"".join(cards)}</div></section>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/ranking-nae.js"></script>\n'

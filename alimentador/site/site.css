@@ -37,7 +37,7 @@
   --dur:160ms; --dur-l:220ms; --ease:cubic-bezier(.2,.7,.2,1);
   /* layout */
   --wrap:1360px; --alvo:40px;
-  /* só página inicial (mapa SVG do TO) */
+  /* só página inicial (mapa SVG do TO; regras na seção 'Página inicial') */
   --mt-vazio:#e3e6e1; --mt-vazio-h:#d4d8d2; --mt-borda:#b4bab3; --mt-tem:#eeb99c;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -129,9 +129,6 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 .card b{font:600 var(--t-base)/1.3 var(--f-body)}
 .card b.cod{font:600 var(--t-lg)/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
 .card span{font-size:var(--t-sm);color:var(--muted)}
-.card em.selo{justify-self:start;margin-top:var(--s1);font-style:normal;font-size:var(--t-xs);color:var(--muted);border:1px solid var(--line);
-  border-radius:var(--rp);padding:1px var(--s2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.card em.selo::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--aviso)}
 @media (max-width:640px){
   .grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s3)}
   .grade.als{grid-template-columns:minmax(0,1fr)}   /* alimentador: código + duas linhas de texto pedem a largura toda */
@@ -139,6 +136,130 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
   .card b{font-size:var(--t-md)}
   .card span{font-size:var(--t-xs)}
 }
+
+/* ====== Página inicial ======
+   A casca (barra, ranking, mapa, painel) já vem no HTML, com estas regras e a altura do mapa reservada:
+   a página não pula quando assets/mapa-municipios.js e assets/busca-ativo.js terminam de montar. */
+.mapa-to{display:grid;grid-template-columns:340px minmax(0,1fr) 300px;grid-template-areas:'barra barra barra' 'rank mapa sel';
+  gap:var(--s5) var(--s6);align-items:start}
+.mt-barra{grid-area:barra}.mt-rank{grid-area:rank}.mt-mapa{grid-area:mapa}.mt-lado{grid-area:sel}
+@media (max-width:1180px){.mapa-to{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:'barra barra' 'mapa sel' 'rank sel'}}
+@media (max-width:860px){
+  .mapa-to{grid-template-columns:minmax(0,1fr);grid-template-areas:'barra' 'mapa' 'sel' 'rank'}
+  /* celular com busca de município: o resultado aparece logo abaixo do campo, não 600 px abaixo, depois do mapa */
+  .mapa-to.buscando{grid-template-areas:'barra' 'sel' 'mapa' 'rank'}
+}
+
+/* barra única: ativo + município (no computador, o município fica em cima do painel do município) */
+.mt-barra{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s4);align-items:start}
+.mt-barra .ativo{flex:2 1 420px}
+.mt-bmun{flex:1 1 240px;display:grid;gap:var(--s1);scroll-margin-top:var(--s3)}
+.mt-barra .busca{max-width:none}
+@media (min-width:861px){
+  .mt-barra{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:var(--s6)}
+  .mt-barra .ativo .campo{max-width:640px}
+}
+
+/* busca de ativo: o resultado abre numa lista suspensa presa ao campo (não empurra o mapa) */
+.ativo{display:grid;gap:var(--s1);min-width:0;margin:0;padding:0;border:0;background:none}
+.ativo .campo{position:relative;display:flex;gap:var(--s2)}
+.ativo .busca{flex:1;min-width:0;max-width:none}
+.ativo button{flex:none;min-height:44px;padding:0 var(--s5);border:0;border-radius:var(--r2);background:var(--accent);color:var(--on-accent);
+  font:600 var(--t-base) var(--f-body);cursor:pointer}
+@media (min-width:861px){.ativo button{min-height:40px}}
+.ativo button:hover{filter:brightness(1.08)}
+.ativo .dica{font-size:var(--t-xs);line-height:1.4;color:var(--muted)}
+#ativo-res{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;max-height:60vh;overflow:auto;overscroll-behavior:contain;
+  padding:var(--s1);border-radius:var(--r3);background:var(--paper);box-shadow:var(--sh2)}
+#ativo-res:empty{display:none}
+#ativo-res>p{max-width:none;padding:var(--s3);font-size:var(--t-md);color:var(--muted)}
+#ativo-res>p b{color:var(--fg);font-family:var(--f-mono);font-weight:600}
+#ativo-res ul{list-style:none;margin:0;padding:0;display:grid}
+#ativo-res li+li{border-top:1px solid var(--line)}
+#ativo-res a{display:grid;gap:2px;align-content:center;min-height:56px;padding:var(--s3);border-radius:var(--r1);color:var(--fg);text-decoration:none}
+#ativo-res a:hover{background:var(--hover)}
+#ativo-res a:focus-visible{outline-offset:-2px}
+#ativo-res a b{font:600 var(--t-base)/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
+#ativo-res a span{font-size:var(--t-sm);color:var(--muted)}
+#ativo-res a .ir{color:var(--accent);font-weight:600}
+
+/* ranking */
+.mt-rank{display:grid;gap:var(--s3);align-content:start;border:0;background:transparent;padding:0}
+.mt-rank h2{margin:0;font:700 var(--t-lg)/1.2 var(--f-display)}
+.mt-rank h2 small{display:block;margin-top:2px;font:400 var(--t-xs)/1.4 var(--f-body);color:var(--muted)}
+.mt-ord{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
+.mt-ord button{flex:1;min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);
+  font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
+.mt-ord button:hover{color:var(--fg)}
+.mt-ord button[aria-pressed=true]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
+.mt-rl{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.mt-ra{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:2px var(--s2);align-items:baseline;padding:var(--s3) var(--s1);
+  border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--fg);text-decoration:none}
+.mt-ra:hover{background:var(--hover)}
+.mt-ra:focus-visible{outline-offset:-2px}
+.mt-ra .p{grid-row:span 4;align-self:start;padding-top:3px;font:600 var(--t-xs) var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.mt-ra b{font:600 var(--t-md) var(--f-mono)}
+.mt-ra:hover b{color:var(--accent)}
+.mt-ra .v{font:600 var(--t-lg) var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.mt-ra .v small{font:500 var(--t-xs) var(--f-body);color:var(--muted);margin-left:3px}
+.mt-ra .se,.mt-ra .ex{grid-column:2/4;font-size:var(--t-xs);color:var(--muted)}
+.mt-ra .bar{grid-column:2/4;height:3px;margin:var(--s1) 0 2px;border-radius:2px;background:var(--line);overflow:hidden}
+.mt-ra .bar i{display:block;height:100%;background:var(--accent)}
+.mt-ra .ex .lp{white-space:nowrap}
+.mt-ra .ex em{font-style:normal;font-weight:600}
+.mt-ra .ex em.velha{color:var(--alerta)}
+.mt-ra.zero b,.mt-ra.zero .v{color:var(--muted)}
+.mt-mais{justify-self:center;min-height:var(--alvo);padding:0 var(--s4);border:0;border-radius:var(--rp);background:var(--hover);
+  color:var(--fg);font:600 var(--t-sm) var(--f-body);cursor:pointer}
+.mt-mais:hover{color:var(--accent)}
+/* computador: o ranking fica da altura do mapa e rola por dentro (antes a coluna passava de 39 mil px) */
+@media (min-width:1181px){
+  .mt-rank{align-self:stretch;height:0;min-height:100%;grid-template-rows:auto auto minmax(0,1fr);align-content:stretch}
+  .mt-rl{overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:var(--s5);
+    -webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent)}
+}
+
+/* mapa do TO: o viewBox vem no HTML, então o svg já tem a altura certa antes de receber os contornos */
+.mt-mapa{position:relative;border:0;background:transparent;padding:0}
+.mt-mapa svg{display:block;height:min(calc(100svh - 260px),780px);min-height:460px;width:auto;max-width:100%;margin:0 auto;overflow:visible}
+@media (max-width:860px){.mt-mapa svg{width:100%;height:auto;max-height:78svh;min-height:0}}
+.mun{fill:var(--mt-vazio);stroke:var(--mt-borda);stroke-opacity:.6;stroke-width:.6;vector-effect:non-scaling-stroke}
+.mun.tem{fill:var(--mt-tem);cursor:pointer}
+.mun.tem:hover,.mun.acende{fill:var(--accent)}
+.mun.sem:hover{fill:var(--mt-vazio-h)}
+.mun.achou{stroke:var(--fg);stroke-opacity:1;stroke-width:2}
+.mun.foco{fill:var(--accent);stroke:var(--fg);stroke-opacity:1;stroke-width:2}
+.mun:focus{outline:none}
+.mun:focus-visible{outline:none;fill:var(--accent);stroke:var(--fg);stroke-opacity:1;stroke-width:2.5}
+.mt-rot{font-family:var(--f-body);font-weight:500;font-size:calc(11.5px * var(--k,1));fill:var(--muted);paint-order:stroke;stroke:var(--bg);
+  stroke-width:calc(3px * var(--k,1));stroke-linejoin:round;pointer-events:none;text-anchor:middle;dominant-baseline:central}
+.mt-rot.foco,.mt-rot.achou{font-weight:600;fill:var(--fg)}
+.mt-rot.oculto{display:none}
+.mt-dica{position:absolute;z-index:2;display:none;pointer-events:none;transform:translate(-50%,calc(-100% - 12px));padding:6px 10px;
+  border-radius:var(--r1);background:var(--fg);color:var(--paper);box-shadow:var(--sh2);font:600 var(--t-sm)/1.3 var(--f-body);white-space:nowrap}
+.mt-dica small{font-size:var(--t-sm);font-weight:400;opacity:.8}
+
+/* painel do município */
+.mt-lado{display:grid;gap:var(--s3);align-content:start;position:static}
+@media (min-width:861px){.mt-lado{position:sticky;top:var(--s4)}}
+.mt-sel{display:grid;gap:var(--s2);align-content:start;border:0;background:transparent;padding:0}
+.mt-sel h2{margin:0;font:700 var(--t-2xl)/1.15 var(--f-display);letter-spacing:-.005em}
+.mt-sel p{font-size:var(--t-md)}
+.mt-sel p+.al{margin-top:var(--s2);border-top:1px solid var(--line)}
+.mt-sel .al{display:grid;gap:2px;width:100%;padding:var(--s3) var(--s1);border:0;border-bottom:1px solid var(--line);border-radius:0;
+  background:transparent;color:var(--fg);font:inherit;text-align:left;text-decoration:none;cursor:pointer}
+.mt-sel .al:hover{background:var(--hover)}
+.mt-sel .al:hover b{color:var(--accent)}
+.mt-sel .al:focus-visible{outline-offset:-2px}
+.mt-sel .al b{font:600 var(--t-base) var(--f-mono)}
+.mt-sel .al.nome b{font-family:var(--f-body)}
+.mt-sel .al span{font-size:var(--t-sm);color:var(--muted)}
+.mt-sel .abre{justify-self:start;display:inline-flex;align-items:center;min-height:var(--alvo);font-weight:600;text-decoration:none}
+.mt-sel .abre:hover{text-decoration:underline}
+.mt-sel .mt-nada{color:var(--fg)}
+.mt-leg{display:flex;align-items:center;gap:var(--s2);margin-top:var(--s1);font-size:var(--t-xs);color:var(--muted)}
+.mt-leg i{flex:none;width:18px;height:10px;border-radius:2px;background:var(--mt-vazio);box-shadow:inset 0 0 0 1px var(--mt-borda)}
+.card.acende{background:var(--sel);box-shadow:inset 3px 0 0 var(--accent)}
 
 /* ====== Rodapé ====== */
 .rodape{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s6);margin-top:var(--s2);display:grid;gap:var(--s2);font-size:var(--t-sm);color:var(--muted)}
@@ -149,7 +270,10 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 .relatorio{white-space:pre-wrap;font:var(--t-xs)/1.45 var(--f-mono);overflow-x:auto;margin:0}
 
 @media (prefers-reduced-motion:no-preference){
-  .card,.mt-ra,.mt-sel .al,.mt-ord button,.ativo button,.cab-link,.rodape a,.migalhas a{
+  .card,.mt-ra,.mt-sel .al,.mt-ord button,.mt-mais,.ativo button,#ativo-res a,.cab-link,.rodape a,.migalhas a{
     transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),
       box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+  .mun{transition:fill var(--dur) var(--ease)}
+  .mt-sel>*{animation:entra var(--dur-l) var(--ease) both}
+  #ativo-res:not(:empty){animation:entra var(--dur) var(--ease)}
 }

@@ -1,10 +1,11 @@
 // Mapa dos municípios do Tocantins na página inicial (usa window.MUN de mapa-municipios-dados.js).
 // Município com alimentador no site: colorido e clicável (mostra os alimentadores ao lado).
 // A busca (#busca) e os blocos (.card[data-busca]) da página ficam ligados ao mapa.
-// Os tokens de cor (--mt-*, --accent…) vêm de assets/site.css.
+// A casca (#mapa-to com barra, ranking, svg com viewBox e painel) vem pronta no HTML de scripts/gera_trechos.py
+// e todo o estilo está em assets/site.css: este script só preenche, nada muda de tamanho nem de lugar ao carregar.
 (function () {
   const M = window.MUN, alvo = document.getElementById('mapa-to');
-  if (!M || !alvo) return;
+  if (!M || !alvo || !alvo.querySelector('.mt-mapa svg')) return;
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
   const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -14,113 +15,8 @@
   const porBusca = Object.fromEntries(M.muns.map(m => [m.busca, m]));
   const calmo = matchMedia('(prefers-reduced-motion: reduce)');
 
-  const css = document.createElement('style');
-  css.textContent = `
-.mapa-to{display:grid;grid-template-columns:340px minmax(0,1fr) 300px;grid-template-areas:'barra barra barra' 'rank mapa sel';
-  gap:var(--s5) var(--s6);align-items:start}
-.mt-barra{grid-area:barra}.mt-rank{grid-area:rank}.mt-mapa{grid-area:mapa}.mt-lado{grid-area:sel}
-@media (max-width:1180px){.mapa-to{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:'barra barra' 'mapa sel' 'rank sel'}}
-@media (max-width:860px){.mapa-to{grid-template-columns:minmax(0,1fr);grid-template-areas:'barra' 'mapa' 'sel' 'rank'}}
-
-/* barra única: ativo + município (no computador, o município fica em cima do painel do município) */
-.mt-barra{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s4);align-items:start}
-.mt-barra .ativo{flex:2 1 420px}
-.mt-bmun{flex:1 1 240px;display:grid;gap:var(--s1)}
-.mt-barra .busca{max-width:none}
-@media (min-width:861px){
-  .mt-barra{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:var(--s6)}
-  .mt-barra .ativo .campo{max-width:640px}
-}
-
-/* ranking */
-.mt-rank{display:grid;gap:var(--s3);align-content:start;border:0;background:transparent;padding:0}
-.mt-rank h2{margin:0;font:700 var(--t-lg)/1.2 var(--f-display)}
-.mt-rank h2 small{display:block;margin-top:2px;font:400 var(--t-xs)/1.4 var(--f-body);color:var(--muted)}
-.mt-ord{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
-.mt-ord button{flex:1;min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);
-  font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
-.mt-ord button:hover{color:var(--fg)}
-.mt-ord button[aria-pressed=true]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
-.mt-rl{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.mt-ra{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:2px var(--s2);align-items:baseline;padding:var(--s3) var(--s1);
-  border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--fg);text-decoration:none}
-.mt-ra:hover{background:var(--hover)}
-.mt-ra:focus-visible{outline-offset:-2px}
-.mt-ra .p{grid-row:span 4;align-self:start;padding-top:3px;font:600 var(--t-xs) var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
-.mt-ra b{font:600 var(--t-md) var(--f-mono)}
-.mt-ra:hover b{color:var(--accent)}
-.mt-ra .v{font:600 var(--t-lg) var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
-.mt-ra .v small{font:500 var(--t-xs) var(--f-body);color:var(--muted);margin-left:3px}
-.mt-ra .se,.mt-ra .ex{grid-column:2/4;font-size:var(--t-xs);color:var(--muted)}
-.mt-ra .bar{grid-column:2/4;height:3px;margin:var(--s1) 0 2px;border-radius:2px;background:var(--line);overflow:hidden}
-.mt-ra .bar i{display:block;height:100%;background:var(--accent)}
-.mt-ra .ex .lp{white-space:nowrap}
-.mt-ra .ex em{font-style:normal;font-weight:600}
-.mt-ra .ex em.velha{color:var(--alerta)}
-.mt-ra.zero b,.mt-ra.zero .v{color:var(--muted)}
-.mt-mais{justify-self:center;min-height:var(--alvo);padding:0 var(--s4);border:0;border-radius:var(--rp);background:var(--hover);
-  color:var(--fg);font:600 var(--t-sm) var(--f-body);cursor:pointer}
-.mt-mais:hover{color:var(--accent)}
-/* computador: o ranking fica da altura do mapa e rola por dentro (antes a coluna passava de 39 mil px) */
-@media (min-width:1181px){
-  .mt-rank{align-self:stretch;height:0;min-height:100%;grid-template-rows:auto auto minmax(0,1fr);align-content:stretch}
-  .mt-rl{overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:var(--s5);
-    -webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent)}
-}
-
-/* mapa do TO */
-.mt-mapa{position:relative;border:0;background:transparent;padding:0}
-.mt-mapa svg{display:block;height:min(calc(100svh - 260px),780px);min-height:460px;width:auto;max-width:100%;margin:0 auto;overflow:visible}
-@media (max-width:860px){.mt-mapa svg{width:100%;height:auto;max-height:78svh;min-height:0}}
-.mun{fill:var(--mt-vazio);stroke:var(--mt-borda);stroke-opacity:.6;stroke-width:.6;vector-effect:non-scaling-stroke}
-.mun.tem{fill:var(--mt-tem);cursor:pointer}
-.mun.tem:hover,.mun.acende{fill:var(--accent)}
-.mun.sem:hover{fill:var(--mt-vazio-h)}
-.mun.achou{stroke:var(--fg);stroke-opacity:1;stroke-width:2}
-.mun.foco{fill:var(--accent);stroke:var(--fg);stroke-opacity:1;stroke-width:2}
-.mun:focus{outline:none}
-.mun:focus-visible{outline:none;fill:var(--accent);stroke:var(--fg);stroke-opacity:1;stroke-width:2.5}
-.mt-rot{font-family:var(--f-body);font-weight:500;font-size:calc(11.5px * var(--k,1));fill:var(--muted);paint-order:stroke;stroke:var(--bg);
-  stroke-width:calc(3px * var(--k,1));stroke-linejoin:round;pointer-events:none;text-anchor:middle;dominant-baseline:central}
-.mt-rot.foco,.mt-rot.achou{font-weight:600;fill:var(--fg)}
-.mt-rot.oculto{display:none}
-.mt-dica{position:absolute;z-index:2;display:none;pointer-events:none;transform:translate(-50%,calc(-100% - 12px));padding:6px 10px;
-  border-radius:var(--r1);background:var(--fg);color:var(--paper);box-shadow:var(--sh2);font:600 var(--t-sm)/1.3 var(--f-body);white-space:nowrap}
-.mt-dica small{font-size:var(--t-sm);font-weight:400;opacity:.8}
-
-/* painel do município */
-.mt-lado{display:grid;gap:var(--s3);align-content:start;position:static}
-@media (min-width:861px){.mt-lado{position:sticky;top:var(--s4)}}
-.mt-sel{display:grid;gap:var(--s2);align-content:start;border:0;background:transparent;padding:0}
-.mt-sel h2{margin:0;font:700 var(--t-2xl)/1.15 var(--f-display);letter-spacing:-.005em}
-.mt-sel p{font-size:var(--t-md)}
-.mt-sel p+.al{margin-top:var(--s2);border-top:1px solid var(--line)}
-.mt-sel .al{display:grid;gap:2px;width:100%;padding:var(--s3) var(--s1);border:0;border-bottom:1px solid var(--line);border-radius:0;
-  background:transparent;color:var(--fg);font:inherit;text-align:left;text-decoration:none;cursor:pointer}
-.mt-sel .al:hover{background:var(--hover)}
-.mt-sel .al:hover b{color:var(--accent)}
-.mt-sel .al:focus-visible{outline-offset:-2px}
-.mt-sel .al b{font:600 var(--t-base) var(--f-mono)}
-.mt-sel .al.nome b{font-family:var(--f-body)}
-.mt-sel .al span{font-size:var(--t-sm);color:var(--muted)}
-.mt-sel .abre{justify-self:start;display:inline-flex;align-items:center;min-height:var(--alvo);font-weight:600;text-decoration:none}
-.mt-sel .abre:hover{text-decoration:underline}
-.mt-sel .mt-nada{color:var(--fg)}
-.mt-leg{display:flex;align-items:center;gap:var(--s2);margin-top:var(--s1);font-size:var(--t-xs);color:var(--muted)}
-.mt-leg i{flex:none;width:18px;height:10px;border-radius:2px;background:var(--mt-vazio);box-shadow:inset 0 0 0 1px var(--mt-borda)}
-.card.acende{background:var(--sel);box-shadow:inset 3px 0 0 var(--accent)}
-@media (prefers-reduced-motion:no-preference){
-  .mun{transition:fill var(--dur) var(--ease)}
-  .mt-sel>*{animation:entra var(--dur-l) var(--ease) both}
-  .mt-mais{transition:color var(--dur) var(--ease),background-color var(--dur) var(--ease)}
-}`;
-  document.head.append(css);
-
-  alvo.className = 'mapa-to';
-  alvo.innerHTML = `<div class="mt-barra"></div><aside class="mt-rank" aria-label="Ranking de alimentadores por NAE"></aside>
-    <div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1"></svg><div class="mt-dica" aria-hidden="true"></div></div>
-    <div class="mt-lado"><section class="mt-sel" aria-live="polite"></section></div>`;
-  const svg = alvo.querySelector('svg'), dica = alvo.querySelector('.mt-dica'), sel = alvo.querySelector('.mt-sel'), caixa = svg.parentNode;
+  const svg = alvo.querySelector('.mt-mapa svg'), dica = alvo.querySelector('.mt-dica'), sel = alvo.querySelector('.mt-sel'), caixa = svg.parentNode;
+  const celular = matchMedia('(max-width:860px)');
   const VW = M.w + 12;
   svg.setAttribute('viewBox', `-6 -6 ${VW} ${M.h + 12}`);
   const NS = 'http://www.w3.org/2000/svg', el = {}, rot = {};
@@ -245,7 +141,7 @@
         m.als.map(a => `<a class="al" href="alimentadores/${esc(a.cod)}/?m=${esc(m.slug)}"><b>${esc(a.cod)}</b><span>${esc(a.se)} · ${km(a.m)} aqui</span></a>`).join('') +
         `<a class="abre" href="municipios/${esc(m.slug)}/">Abrir a página do município →</a>`
       : `<h2>${esc(m.nome)}</h2><p>Ainda sem alimentador processado no site.</p>${LEG}`);
-    if (rola && matchMedia('(max-width:860px)').matches) sel.scrollIntoView({ block: 'nearest', behavior: calmo.matches ? 'auto' : 'smooth' });
+    if (rola && celular.matches) sel.scrollIntoView({ block: 'nearest', behavior: calmo.matches ? 'auto' : 'smooth' });
   }
   svg.addEventListener('click', e => { const p = e.target.closest('.mun'); if (p) escolhe(p.dataset.cod, true); });
   sel.addEventListener('click', e => { const b = e.target.closest('button.al[data-cod]'); if (b) escolhe(b.dataset.cod, true); });
@@ -284,27 +180,33 @@
   });
   svg.addEventListener('focusout', () => { if (foco) traz(el[foco]); });
 
-  // busca da página: destaca no mapa (também os municípios sem dados); um resultado só = já escolhe
+  // busca da página (campo #busca, já na barra em cima do mapa): destaca no mapa (também os municípios sem dados);
+  // um resultado só = já escolhe
   const busca = document.getElementById('busca');
   if (busca) {
-    const bm = document.createElement('div');
-    bm.className = 'mt-bmun';
-    bm.innerHTML = '<label for="busca" class="rot">Município</label>';
-    bm.append(busca);
-    alvo.querySelector('.mt-barra').append(bm);           // barra em cima do mapa (a lista de municípios continua embaixo)
-    busca.placeholder = 'Buscar município (ex.: Arraias)';
-    busca.setAttribute('aria-label', 'Buscar município');
+    const bm = busca.closest('.mt-bmun') || busca;
+    // celular: com texto no campo, o painel sobe para logo abaixo da barra (.buscando, em site.css);
+    // se o teclado ainda cobrir o resultado, o campo vai para o alto da tela e o resultado aparece embaixo dele
+    const mostraSel = () => {
+      if (!celular.matches) return;
+      const vv = window.visualViewport, fundo = vv ? vv.offsetTop + vv.height : innerHeight;
+      if (sel.getBoundingClientRect().top > fundo - 120) bm.scrollIntoView({ block: 'start', behavior: calmo.matches ? 'auto' : 'smooth' });
+    };
     busca.addEventListener('input', () => {
       const txt = busca.value.trim(), q = semAcento(txt);
       achou.forEach(c => el[c].classList.remove('achou'));
       achou = new Set();
+      alvo.classList.toggle('buscando', !!q);
       if (!q) { tiraFoco(); rotulos(); resumo(); return; }
       const ms = M.muns.filter(m => m.busca.includes(q));
       ms.forEach(m => { el[m.cod].classList.add('achou'); achou.add(m.cod); });
-      if (ms.length === 1) { escolhe(ms[0].cod); return; }
-      tiraFoco();
-      rotulos();
-      if (ms.length >= 2 && ms.length <= 8) achados(ms); else resumo(ms.length ? '' : txt);
+      if (ms.length === 1) escolhe(ms[0].cod);
+      else {
+        tiraFoco();
+        rotulos();
+        if (ms.length >= 2 && ms.length <= 8) achados(ms); else resumo(ms.length ? '' : txt);
+      }
+      mostraSel();
     });
   }
   // blocos da página: passar o mouse acende o município no mapa

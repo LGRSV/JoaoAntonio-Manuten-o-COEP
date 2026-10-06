@@ -271,19 +271,24 @@
 
   // ---------- janela ----------
   const css = document.createElement('style');
-  css.textContent = `.croqui-btn{font:600 13px/1 var(--f-body,system-ui);padding:8px 12px;min-height:36px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--fg);cursor:pointer;display:inline-flex;gap:6px;align-items:center;margin:2px 0 8px}
-.croqui-btn:hover{border-color:var(--accent)}.croqui-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-dialog.croqui{border:0;border-radius:12px;padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 24px);background:var(--paper);color:var(--fg);box-shadow:0 20px 60px rgba(0,0,0,.35)}
-dialog.croqui::backdrop{background:rgba(10,14,17,.45)}
-.croqui form{display:grid;gap:12px;padding:18px 20px 16px}.croqui h2{margin:0;font-size:19px}.croqui p{margin:0;font-size:13px;color:var(--muted)}
-.croqui dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13.5px}.croqui dt{color:var(--muted)}.croqui dd{margin:0;font-variant-numeric:tabular-nums}
-.croqui .campos{display:grid;grid-template-columns:1fr 1fr;gap:10px}.croqui label{display:grid;gap:4px;font-size:12.5px;color:var(--muted)}
-.croqui label.inteiro{grid-column:1/-1}.croqui input,.croqui select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-height:38px;min-width:0}
+  css.textContent = `.croqui-btn{font:600 var(--t-sm,13px)/1 var(--f-body,system-ui);padding:0 var(--s3,12px);min-height:var(--alvo,40px);border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);background:var(--paper);color:var(--fg);cursor:pointer;display:inline-flex;gap:var(--s2,8px);align-items:center;margin:var(--s1,4px) 0 var(--s3,12px);transition:border-color var(--dur,160ms) var(--ease,ease),background var(--dur,160ms) var(--ease,ease)}
+.croqui-btn:hover{border-color:var(--accent);background:var(--hover,transparent)}.croqui-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+dialog.croqui{border:0;border-radius:var(--r3,14px);padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:var(--paper);color:var(--fg);box-shadow:var(--sh2,0 20px 60px rgba(0,0,0,.35))}
+dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
+@media (prefers-reduced-motion:no-preference){dialog.croqui[open]{animation:croqui-entra var(--dur-l,220ms) var(--ease,ease)}}
+@keyframes croqui-entra{from{opacity:0;transform:translateY(6px)}}
+.croqui form{display:grid;gap:var(--s4,16px);padding:var(--s5,24px)}.croqui h2{margin:0;font:600 var(--t-xl,20px)/1.2 var(--f-display,var(--f-body,system-ui))}
+.croqui p{margin:0;font-size:var(--t-sm,13px);color:var(--muted)}
+.croqui dl{display:grid;grid-template-columns:auto 1fr;gap:var(--s1,4px) var(--s3,12px);margin:0;font-size:var(--t-sm,13px)}.croqui dt{color:var(--muted)}
+.croqui dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.croqui .campos{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3,12px)}.croqui label{display:grid;gap:var(--s1,4px);font-size:var(--t-xs,12px);color:var(--muted)}
+.croqui input,.croqui select{font:var(--t-base,15px) var(--f-body,system-ui);color:var(--fg);background:var(--paper);border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);padding:0 var(--s3,12px);min-height:var(--alvo,40px);min-width:0;width:100%}
 .croqui input:focus-visible,.croqui select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.croqui .fig{width:100%;aspect-ratio:1100/996;border-radius:8px;background:var(--bg) center/cover no-repeat;border:1px solid var(--line)}
-.croqui .acoes{display:flex;gap:8px;justify-content:flex-end}.croqui .acoes button{font:600 14px var(--f-body,system-ui);padding:9px 16px;min-height:40px;border-radius:7px;cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--fg)}
-.croqui .acoes button[value=baixar]{background:var(--accent);border-color:var(--accent);color:#fff}.croqui .acoes button:disabled{opacity:.6;cursor:progress}
-@media (max-width:520px){.croqui .campos{grid-template-columns:1fr}}`;
+.croqui .fig{width:100%;aspect-ratio:1100/996;border-radius:var(--r2,10px);background:var(--bg) center/cover no-repeat}
+.croqui .acoes{display:flex;gap:var(--s2,8px);justify-content:flex-end;flex-wrap:wrap}
+.croqui .acoes button{font:600 var(--t-md,14px) var(--f-body,system-ui);padding:0 var(--s4,16px);min-height:var(--alvo,40px);border-radius:var(--r2,10px);cursor:pointer;border:1px solid var(--line-forte,var(--line));background:var(--paper);color:var(--fg)}
+.croqui .acoes button[value=baixar]{background:var(--accent);border-color:var(--accent);color:var(--on-accent,#fff)}.croqui .acoes button:disabled{opacity:.6;cursor:progress}
+@media (max-width:520px){.croqui .campos{grid-template-columns:1fr}.croqui form{padding:var(--s4,16px)}.croqui input,.croqui select{font-size:16px;min-height:44px}}`;
   document.head.append(css);
 
   async function abre() {

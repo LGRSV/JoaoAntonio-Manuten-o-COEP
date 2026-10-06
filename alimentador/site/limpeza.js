@@ -160,12 +160,16 @@
 .limp-sec h3{font:700 var(--t-base) var(--f-display);margin:0}
 .limp-selo{font:600 var(--t-xs)/18px var(--f-mono);padding:0 5px;border-radius:var(--r1);color:#111;background:var(--c);margin-left:auto;white-space:nowrap}
 .limp-selo.nada{background:transparent;color:var(--muted);font-weight:400}
+/* na lista: coluna do selo com largura fixa (cabe "sem limpeza"), para a NAE e o km ficarem alinhados de uma linha a outra */
+.row{grid-template-columns:10px minmax(0,1fr) auto 5.75rem auto}
+.row .limp-selo{justify-self:start}
 /* sobre o mapa: legenda dos anos e OS em foco, no vidro escuro */
 .limp-maplg{position:absolute;left:12px;bottom:12px;z-index:800;display:grid;gap:0;max-width:calc(100% - 24px);padding:var(--s1);
   background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro);font:var(--t-xs)/1.2 var(--f-body)}
 .limp-maplg button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:var(--s2);min-height:32px;padding:0 var(--s2);border-radius:var(--r1)}
 .limp-maplg button:hover{background:var(--vidro-hover)}
 .limp-maplg button:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:-2px}
+@media (pointer:coarse){.limp-maplg button{min-height:40px}}   /* toque: alvo de 40 px */
 .limp-maplg button[aria-pressed=false]{opacity:.6;text-decoration:line-through}
 .limp-maplg button[aria-pressed=false] i{background:transparent;box-shadow:inset 0 0 0 2px var(--c)}
 .limp-maplg span{display:flex;align-items:center;gap:var(--s2);min-height:28px;padding:0 var(--s2)}
@@ -195,6 +199,7 @@ body.limp-on #legenda{display:none}
 body.limp-on .classes button{box-shadow:inset 0 -3px 0 #9ca3af}
 body.limp-on .lb{border-left-color:#9ca3af}
 body.limp-on #map.longe .lb:not(.sel),body.limp-on #map.longe .at{display:none}
+body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility:hidden}   /* escondido também sai do Tab (sem foco invisível) */
 @media (min-width:701px){body.tela-cheia.tc-gaveta .limp-chip{right:calc(min(420px,92vw) + 12px)}}
 @media (prefers-reduced-motion:no-preference){
   .limp-sw,.limp-sw::after,.limp-seg button,.limp-ano-l .liga,.limp-ano-l .so,.limp-todos,.limp-os-b,.limp-maplg button,.limp-chip button{
@@ -207,6 +212,7 @@ body.limp-on #map.longe .lb:not(.sel),body.limp-on #map.longe .at{display:none}
   .limp-maplg::-webkit-scrollbar{display:none}
   .limp-maplg button,.limp-maplg span{flex:none;min-height:32px;padding:0 var(--s2);white-space:nowrap}
   .limp-chip{left:12px;right:12px;bottom:72px}
+  @media (pointer:coarse){.limp-maplg button{min-height:40px}.limp-chip{bottom:80px}}   /* toque: alvo de 40 px */
   .limp-chip span{flex:1}
 }`;
   document.head.append(css);
@@ -407,7 +413,8 @@ body.limp-on #map.longe .lb:not(.sel),body.limp-on #map.longe .at{display:none}
     chip.className = 'limp-chip';
     chip.hidden = true;
     mb.append(maplg, chip);
-    [maplg, chip].forEach(el => { L.DomEvent.disableClickPropagation(el); L.DomEvent.disableScrollPropagation(el); });
+    // os dois são refeitos a cada clique (pinta): o clique não pode seguir até o mapa, que o tomaria por clique fora da rede e desfaria o trecho escolhido
+    [maplg, chip].forEach(el => { L.DomEvent.disableClickPropagation(el); L.DomEvent.disableScrollPropagation(el); L.DomEvent.on(el, 'click', L.DomEvent.stopPropagation); });
     maplg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) alternaAno(b.dataset.a); });
     chip.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
@@ -422,7 +429,8 @@ body.limp-on #map.longe .lb:not(.sel),body.limp-on #map.longe .at{display:none}
   card.className = 'limp-card';
   card.setAttribute('aria-label', 'Limpeza de faixa');
   const legenda = $('legenda');
-  ($('lista') || legenda || document.querySelector('.panel').firstChild).before(card);   // logo antes da lista de trechos
+  if ($('det')) $('det').after(card);                  // logo depois do detalhe do trecho (a lista vem antes, com rolagem própria)
+  else (legenda || document.querySelector('.panel').firstChild).before(card);
 
   function focoHtml(k) {
     const o = LP.os[k];

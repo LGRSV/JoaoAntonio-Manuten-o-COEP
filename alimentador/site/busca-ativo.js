@@ -1,12 +1,14 @@
 // Página inicial: em que alimentador e trecho está uma chave ou um poste.
 // O índice fica em dados/ativos/<fatia>.json (gerado por scripts/gera_trechos.py); baixa só o pedaço do código buscado.
 // O resultado abre numa lista suspensa presa ao campo (não empurra o mapa); fecha com Esc ou clicando fora.
+// O formulário já vem no HTML dentro da barra em cima do mapa (.mt-barra) e o estilo está em assets/site.css:
+// nada muda de lugar nem de cara quando este script carrega.
 (function () {
   const form = document.getElementById('ativo');
   if (!form) return;
   const q = document.getElementById('ativo-q'), res = document.getElementById('ativo-res');
-  const barra = document.querySelector('.mt-barra');     // barra de ferramentas em cima do mapa do Tocantins
-  if (barra) barra.prepend(form);
+  const barra = document.querySelector('.mt-barra');     // página de versão antiga, com o formulário fora da barra
+  if (barra && !barra.contains(form)) barra.prepend(form);
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const TIPO = { DJ: 'Disjuntor', '79': 'Religador', '03': 'Fusível 03', '33': 'Fusível 33', '02': 'Chave 02', '88': 'Chave faca 88',
     '40': 'Trip saver 40', '41': 'Trip saver 41', SEC: 'Fusível (seccionamento)', FTR: 'Fusível no tronco', poste: 'Poste',
@@ -14,31 +16,6 @@
     Chave: 'Chave', ChaveNA: 'Chave NA' };
   const se = {};                                  // alimentador → subestação (dados do mapa da página inicial)
   ((window.MUN || {}).muns || []).forEach(m => (m.als || []).forEach(a => { se[a.cod] = a.se; }));
-  const css = document.createElement('style');
-  css.textContent = `
-.ativo{display:grid;gap:var(--s1);min-width:0;margin:0;padding:0;border:0;background:none}
-.ativo .campo{position:relative;display:flex;gap:var(--s2)}
-.ativo .busca{flex:1;min-width:0;max-width:none}
-.ativo button{flex:none;min-height:44px;padding:0 var(--s5);border:0;border-radius:var(--r2);background:var(--accent);color:var(--on-accent);
-  font:600 var(--t-base) var(--f-body);cursor:pointer}
-@media (min-width:861px){.ativo button{min-height:40px}}
-.ativo button:hover{filter:brightness(1.08)}
-.ativo .dica{font-size:var(--t-xs);line-height:1.4;color:var(--muted)}
-#ativo-res{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;max-height:60vh;overflow:auto;overscroll-behavior:contain;
-  padding:var(--s1);border-radius:var(--r3);background:var(--paper);box-shadow:var(--sh2)}
-#ativo-res:empty{display:none}
-#ativo-res>p{max-width:none;padding:var(--s3);font-size:var(--t-md);color:var(--muted)}
-#ativo-res>p b{color:var(--fg);font-family:var(--f-mono);font-weight:600}
-#ativo-res ul{list-style:none;margin:0;padding:0;display:grid}
-#ativo-res li+li{border-top:1px solid var(--line)}
-#ativo-res a{display:grid;gap:2px;align-content:center;min-height:56px;padding:var(--s3);border-radius:var(--r1);color:var(--fg);text-decoration:none}
-#ativo-res a:hover{background:var(--hover)}
-#ativo-res a:focus-visible{outline-offset:-2px}
-#ativo-res a b{font:600 var(--t-base)/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
-#ativo-res a span{font-size:var(--t-sm);color:var(--muted)}
-#ativo-res a .ir{color:var(--accent);font-weight:600}
-@media (prefers-reduced-motion:no-preference){#ativo-res:not(:empty){animation:entra var(--dur) var(--ease)}}`;
-  document.head.append(css);
 
   const chave = s => { const k = String(s).toUpperCase().replace(/[^0-9A-Z]/g, ''); return /^\d+$/.test(k) ? (k.replace(/^0+/, '') || '0') : k; };
   const fatia = k => { let h = 0; for (let i = 0; i < k.length; i++) h = (Math.imul(h, 31) + k.charCodeAt(i)) >>> 0; return (h % 256).toString(16).padStart(2, '0'); };

@@ -63,10 +63,12 @@ def test_pipeline():
         for f in ('index.html', 'municipios/norte-teste/index.html', 'alimentadores/ALTESTE/index.html',
                   'alimentadores/ALTESTE/dados.js', 'alimentadores/ALTESTE/ALTESTE-trechos.kmz', 'relatorio.md',
                   'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js',
-                  'assets/busca-ativo.js', 'polos/index.html', 'assets/ranking-polos.js', 'assets/ranking-polos-dados.js'):
+                  'assets/busca-ativo.js', 'polos/index.html', 'assets/ranking-polos.js', 'assets/ranking-polos-dados.js',
+                  'assets/croqui.js', 'assets/croqui-modelo.js'):
             assert (d / 'site' / f).exists(), f
         pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
         assert 'cdnjs' not in pag and 'const D' not in pag and len(pag) < 20000, 'página leve: dados e código em arquivos'
+        assert 'assets/croqui.js' in pag and 'croqui-modelo.js' not in pag, 'croqui na página; o modelo só carrega quando pedido'
         antes = assinatura(d / 'site')
         assert gera_trechos.main(args) == 0
         assert assinatura(d / 'site') == antes, 'segunda execução igual à primeira'

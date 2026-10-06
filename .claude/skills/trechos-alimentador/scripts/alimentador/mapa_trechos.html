@@ -94,6 +94,19 @@ details>summary::-webkit-details-marker{display:none}
 
 /* ====== Cabeçalho ====== */
 header{display:grid;gap:var(--s2);max-width:80ch}
+/* caminho Município › Alimentador › Trecho (site): já na 1ª pintura, com altura fixa (o trecho escolhido entra sem empurrar nada) */
+.migalhas{display:flex;flex-wrap:wrap;align-items:center;gap:0 var(--s2);min-height:20px;font-size:var(--t-sm);color:var(--muted)}
+.migalhas a{color:var(--muted);text-decoration:none}
+.migalhas a:hover{color:var(--fg);text-decoration:underline}
+.migalhas [aria-current]{color:var(--fg);font:600 var(--t-sm) var(--f-mono);font-variant-numeric:tabular-nums}
+.migalhas .mig-mun{display:contents}
+.migalhas .mig-t{display:inline-flex;gap:var(--s2);font:600 var(--t-sm) var(--f-mono);color:var(--fg)}
+.migalhas .mig-t:empty{display:none}
+@media (pointer:coarse){.migalhas a{display:inline-flex;align-items:center;min-height:40px}}
+.al-site .wrap>.foot{display:none}   /* site: a nota vai para "Dados e procedência" (extras.js); sem isso ela aparece e depois pula */
+/* site: o painel aparece de uma vez, já completo (filtros, lista, detalhe), quando todos os scripts rodaram — sem ir empurrando a lista */
+.al-site:not(.al-pronto) .panel>:not(.busca){visibility:hidden;opacity:0}
+@media (prefers-reduced-motion:no-preference){.al-site .panel>:not(.busca){transition:opacity var(--dur-l) var(--ease)}}
 .eyebrow{font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .sub{font-size:var(--t-md);color:var(--muted);margin-top:calc(-1 * var(--s1))}
@@ -133,12 +146,12 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .banner b{color:#fde68a}
 
 /* ====== Painel: uma superfície só, seções separadas por filete ====== */
-.panel{display:grid;gap:var(--s5);align-content:start;min-width:0}
+.panel{display:grid;grid-auto-rows:max-content;gap:var(--s5);align-content:start;min-width:0}   /* max-content: a lista (que rola) não encolhe quando o painel tem altura fixa (gaveta da tela cheia) */
 .panel>*{min-width:0}
 @media (min-width:981px){   /* computador: o painel rola por dentro, ao lado do mapa */
   .panel{position:sticky;top:8px;max-height:min(78vh,760px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:var(--s1) var(--s1) var(--s5)}
 }
-.panel>.lista,.panel>.dados{border-top:1px solid var(--line);padding-top:var(--s5)}
+.panel>.dados{border-top:1px solid var(--line);padding-top:var(--s5)}
 /* campo de busca */
 .busca{width:100%;min-height:40px;padding:0 var(--s3);border:1px solid var(--line-forte);border-radius:var(--r2);background:var(--paper);color:var(--fg);font:var(--t-base) var(--f-body)}
 .busca::placeholder{color:var(--muted);opacity:1}
@@ -146,14 +159,19 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .busca::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-left:var(--s2);cursor:pointer;
   background:var(--muted);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
-/* ferramentas: filtros (site) e NAE, cada rótulo acima do seu controle, em duas colunas */
-.ferramentas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2) var(--s3);margin-top:calc(var(--s3) - var(--s5))}
+/* ferramentas: filtros da lista (site) e NAE, uma coluna: cada select na largura toda (o nome do município e o km cabem) */
+.ferramentas{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s3);margin-top:calc(var(--s3) - var(--s5))}
 .ferramentas:not(:has(>:not([hidden]))){display:none}
 .filtros,.ctrl{display:contents}
 .ferramentas label{display:grid;gap:2px;align-content:start;min-width:0;font-size:var(--t-xs);color:var(--muted)}
-.ferramentas label[for="mes"]{grid-column:1/-1}
-.filtros>label:only-child{grid-column:1/-1}   /* só Classe (um município): linha inteira, como o mês */
-.ferramentas label[for="ind"]{grid-column:1/-1;justify-self:start;display:inline-flex;align-items:center;gap:var(--s2);min-height:var(--alvo);font-size:var(--t-sm);color:var(--fg);cursor:pointer}
+.ferramentas label[for="ind"]{justify-self:start;display:inline-flex;align-items:center;gap:var(--s2);min-height:var(--alvo);margin-top:calc(var(--s1) - var(--s3));font-size:var(--t-sm);color:var(--fg);cursor:pointer}
+/* Classe: segmentado curto (mesma receita de .limp-seg e do ranking por polo) */
+.f-classe{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
+.f-classe button{flex:1 1 0;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--alvo);padding:0 var(--s2);border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
+.f-classe button i{flex:none;width:8px;height:8px;border-radius:2px;background:var(--c)}
+.f-classe button:hover{color:var(--fg)}
+.f-classe button[aria-pressed="true"]{background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
+.f-classe button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 #ind{flex:none;width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
 .filtros select,#mes{-webkit-appearance:none;appearance:none;width:100%;min-width:0;min-height:40px;padding:0 32px 0 var(--s3);border:1px solid var(--line-forte);border-radius:var(--r2);
   background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238c948f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center/12px;
@@ -164,6 +182,8 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .det{display:grid;gap:var(--s3);position:relative;min-width:0;border:0;background:none;padding:0}
 .det>*{min-width:0}
 .det h2{margin:0;min-height:40px;padding-right:44px;font:700 var(--t-2xl)/1 var(--f-display);display:flex;align-items:center;flex-wrap:wrap;gap:var(--s1) 10px}
+.det h2:focus{outline:none}
+.det h2:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:var(--r1)}   /* foco que volta ao título depois de escolher pelo detalhe */
 .det h2 i{flex:none;width:12px;height:12px;border-radius:3px;background:var(--c)}
 .det h2 small{font:500 var(--t-sm) var(--f-body);color:var(--muted)}
 .det dl{margin:0;display:grid;grid-template-columns:minmax(0,6.5rem) minmax(0,1fr);gap:6px var(--s3);font-size:var(--t-md)}
@@ -198,28 +218,34 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .oc li.col{border-left-color:var(--alerta)}
 .oc .q{font:var(--t-xs) var(--f-mono);color:var(--muted)}
 .oc .ir{display:inline-block;padding:7px 0;margin:-7px 0;line-height:18px;font:600 var(--t-xs)/18px var(--f-body);border:0;background:none;color:var(--accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+@media (pointer:coarse){.oc .ir{padding:11px 0;margin:-11px 0}}   /* toque: alvo de 40 px sem mudar a linha */
 /* pílula de NAE na lista (strong: o dt/dd "nae" do detalhe não herda) */
 strong.nae{display:inline-grid;place-items:center;min-width:24px;height:20px;padding:0 6px;border:0;border-radius:var(--rp);background:transparent;color:var(--muted);font:600 var(--t-xs)/20px var(--f-mono);font-variant-numeric:tabular-nums}
 strong.nae.tem{background:var(--alerta-fundo);color:#fff}
 
-/* ====== Lista de trechos: linha em dois níveis ====== */
-.lista{display:grid;min-width:0}
-.grp{font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:var(--s3) var(--s2) var(--s1);background:var(--bg);z-index:1}
-.lista>.grp:first-child{padding-top:0}
-@media (min-width:981px){.grp{position:sticky;top:calc(-1 * var(--s1))}.lista>.grp:first-child{padding-top:var(--s1)}}   /* -s1: o padding do painel */
+/* ====== Lista de trechos: janela com rolagem própria, logo acima do detalhe ======
+   A lista longa (até ~2.000 trechos) rola por dentro: o detalhe e a soma do Ctrl + clique ficam logo abaixo, à vista,
+   e o que vem depois (limpeza, legenda, "Dados e procedência") continua ao alcance. Teclado: a lista é uma parada só do Tab; ↑ ↓ Home End PgUp PgDn andam nela. */
+.lista{position:relative;display:grid;align-content:start;min-width:0;max-height:clamp(220px,38svh,340px);overflow-y:auto;overflow-anchor:none;scrollbar-width:thin;scrollbar-gutter:stable;
+  border-block:1px solid var(--line);padding-bottom:var(--s2)}   /* relative: o texto escondido (.vh) das linhas fica preso dentro da lista; sem âncora de rolagem: a lista não anda sozinha quando o painel muda de largura (tela cheia) */
+@media (min-width:981px){.lista{max-height:clamp(200px,calc(min(78vh,760px) - 440px),360px)}}   /* o começo do detalhe aparece embaixo, no painel */
+.lista>.lede{padding:var(--s3) var(--s2)}
+.lista:empty{display:none}
+.grp{position:sticky;top:0;z-index:1;margin:0;font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:var(--s3) var(--s2) var(--s2);background:var(--bg)}
 .row{display:grid;grid-template-columns:10px minmax(0,1fr) auto auto auto;grid-template-areas:"sw nome nae selo km" ". rota rota rota rota";grid-auto-flow:row;column-gap:var(--s2);row-gap:2px;align-items:center;
   width:100%;min-height:48px;padding:var(--s2);text-align:left;border:0;border-radius:var(--r2);background:transparent;color:var(--fg);cursor:pointer;font:var(--t-sm)/1.3 var(--f-body)}
-.row{scroll-margin-top:30px}
+.row{scroll-margin-top:32px;scroll-margin-bottom:var(--s2)}   /* 32: o título do grupo, fixo no alto da lista */
 .row:hover{background:var(--hover)}
 .row[aria-current="true"]{background:var(--sel);box-shadow:inset 3px 0 0 var(--accent)}
 .row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .row i{grid-area:sw;width:10px;height:10px;border-radius:2px;background:var(--c)}
 .row b{grid-area:nome;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 var(--t-sm) var(--f-mono)}
 .row>span:not(.limp-selo){grid-area:rota;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:var(--t-xs)/1.4 var(--f-mono)}
-.row strong{grid-area:nae}
+.row strong{grid-area:nae;min-width:28px}   /* largura fixa até 2 dígitos: a coluna de NAE fica alinhada de uma linha a outra */
 .row .limp-selo{grid-area:selo;margin:0;color:#111}
 .row .limp-selo.nada{color:var(--muted)}
-.row em{grid-area:km;min-width:64px;text-align:right;font:var(--t-xs) var(--f-mono);font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums}
+.row em{grid-area:km;min-width:4.5rem;text-align:right;font:var(--t-xs) var(--f-mono);font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .legend{display:flex;flex-wrap:wrap;gap:6px 12px;font:500 var(--t-xs)/1 var(--f-body);color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{display:inline-block;width:22px;height:5px;border-radius:2px;background:var(--c)}
@@ -233,6 +259,7 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
 .lb.fus{font-size:11.5px;padding:3px 5px;border-left-width:3px}
 #map.longe .lb.fus{display:none}
 #map.longe .lb.fus.sel,#map.longe .lb.fus.oc{display:block}
+#map.longe .leaflet-marker-icon:has(>.lb.fus:not(.sel):not(.oc)){visibility:hidden}   /* escondido também sai do Tab (sem foco invisível) */
 .lb.sel{outline:2px solid #fde047}
 .lb .n{display:inline-block;margin-left:5px;padding:0 5px;border-radius:8px;background:#b91c1c;color:#fff;font:700 11px/16px var(--f-mono)}
 /* chaves de início e fim do trecho selecionado */
@@ -255,6 +282,24 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
     <h1>Trechos por ativo</h1>
     <details class="regra"><summary>Como os trechos são divididos</summary><p class="lede"><b>T1</b> vai do DJ ao 1º religador. <b>T2</b> vai do 1º ao 2º religador; cada religador seguinte abre um novo T2: <b>T2-A, T2-B…</b>, em ordem a partir do DJ. <b>T3-A, T3-B…</b> é cada fusível, em ordem a partir do DJ; fusível dentro de fusível também é T3 (não existe T4). Cada trecho vai de chave até chave: toque num trecho no mapa ou na lista para ver a chave de início e de fim.</p></details>
   </header>
+  <script>
+  // Página do site (CSS em assets/): o cabeçalho já sai pronto (caminho, código do alimentador e subtítulo), antes dos dados,
+  // que são pesados. Sem isso a página e o mapa desciam uns 60 px quando o extras.js montava o cabeçalho. extras.js só completa o município e o trecho.
+  (function () {
+    var ey = document.querySelector('header .eyebrow'), m = ey && /^(.*\S)\s*·\s*Alimentador\s+(\S+)\s*$/.exec(ey.textContent);
+    if (!m || !document.querySelector('link[href$="assets/alimentador.css"]')) return;
+    document.documentElement.classList.add('al-site');
+    var h1 = document.querySelector('header h1'), mk = function (tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; };
+    ey.textContent = m[1];
+    h1.textContent = m[2];
+    h1.after(mk('p', 'sub', 'Trechos por ativo'));
+    var nav = mk('nav', 'migalhas'), a = mk('a', '', 'Municípios'), sep = mk('span', '', '›'), al = mk('span', '', m[2]), t = mk('span', 'mig-t');
+    nav.setAttribute('aria-label', 'Caminho'); a.href = '../../'; sep.setAttribute('aria-hidden', 'true'); al.setAttribute('aria-current', 'page'); t.id = 'mig-trecho';
+    nav.append(a, sep, mk('span', 'mig-mun'), al, t);
+    document.querySelector('header').prepend(nav);
+    document.addEventListener('DOMContentLoaded', function () { document.documentElement.classList.add('al-pronto'); });   // depois de dados.js, alimentador.js, extras.js, limpeza.js
+  })();
+  </script>
 
   <div class="stage">
     <div class="mapbox">
@@ -271,8 +316,8 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
           <label for="ind"><input type="checkbox" id="ind" checked> Contar individuais</label>
         </div>
       </div>
+      <div class="lista" id="lista" role="region" aria-label="Lista de trechos"></div>
       <section class="det" id="det" aria-live="polite"></section>
-      <div class="lista" id="lista" role="list"></div>
       <div class="legend" id="legenda"></div>
     </aside>
   </div>
@@ -349,6 +394,8 @@ $('ind').addEventListener('change', atualizaNae);
 // lista
 const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'T2-A, T2-B… (um por religador)'], ['fusivel', 'Depois de fusível']];
 function fimTxt(t) { return t.fim.join(' / '); }
+let porNome = {}, marcadas = [];                         // linha de cada trecho; linhas escolhidas (aria-current)
+const linha = n => porNome[n] || null;
 function desenhaLista(filtro) {
   const q = (filtro || '').trim().toLowerCase();
   const casa = t => !q || [t.nome, t.inicio, t.inicio_poste, ...t.fim, ...t.passa].some(s => String(s).toLowerCase().includes(q));
@@ -356,34 +403,85 @@ function desenhaLista(filtro) {
   $('lista').innerHTML = GRUPOS.map(([g, titulo]) => {
     const ts = D.trechos.filter(t => t.tipo === g && casa(t));
     if (!ts.length) return '';
-    return `<div class="grp">${titulo} · ${mil(ts.length)}</div>` + ts.map(t =>
-      `<button class="row" role="listitem" data-t="${esc(t.nome)}" aria-current="${escolhido(t.nome)}"><i style="--c:${t.cor}"></i><b>${esc(t.nome)}</b>` +
-      `<span title="${esc(t.inicio + ' → ' + fimTxt(t))}">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</span>${cnt ? `<strong class="nae ${cnt[t.nome] ? 'tem' : ''}" title="NAE no período">${cnt[t.nome] || 0}</strong>` : ''}<em>${km(t.ext)}</em></button>`).join('');
+    return `<div class="grp" role="heading" aria-level="3">${titulo} · ${mil(ts.length)}</div>` + ts.map(t =>
+      `<button type="button" class="row" tabindex="-1" data-t="${esc(t.nome)}" aria-current="${escolhido(t.nome)}"><i style="--c:${t.cor}"></i><b>${esc(t.nome)}</b>` +
+      `<span title="${esc(t.inicio + ' → ' + fimTxt(t))}">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</span>${cnt ? `<strong class="nae ${cnt[t.nome] ? 'tem' : ''}" title="NAE no período">${cnt[t.nome] || 0}<span class="vh"> NAE</span></strong>` : ''}<em>${km(t.ext)}</em></button>`).join('');
   }).join('') || '<p class="lede">Nada encontrado.</p>';
+  porNome = {};
+  $('lista').querySelectorAll('.row').forEach(b => { porNome[b.dataset.t] = b; });
+  marcadas = [...$('lista').querySelectorAll('.row[aria-current="true"]')];
+  tabLista();
 }
+// escolher um trecho só troca o aria-current das linhas (não refaz as ~2.000 linhas): mais rápido e o foco do teclado fica onde está
+function marcaLista() {
+  marcadas.forEach(b => b.setAttribute('aria-current', 'false'));
+  marcadas = (multi.length ? multi : sel ? [sel] : []).map(linha).filter(Boolean);
+  marcadas.forEach(b => b.setAttribute('aria-current', 'true'));
+  if (!$('lista').contains(document.activeElement)) tabLista();
+}
+// teclado: a lista é uma parada só do Tab (a linha escolhida ou a 1ª à vista); as setas andam de linha em linha
+function tabLista(alvo) {
+  const l = $('lista'), atual = l.querySelector('.row[tabindex="0"]');
+  alvo = alvo || marcadas.find(b => !b.hidden) || (atual && !atual.hidden ? atual : null) || l.querySelector('.row:not([hidden])');
+  if (atual && atual !== alvo) atual.tabIndex = -1;
+  if (alvo) alvo.tabIndex = 0;
+}
+window.__tabLista = () => tabLista();                     // extras.js: depois de filtrar por classe ou município
+$('lista').addEventListener('focusin', e => { const b = e.target.closest('.row'); if (b && b.tabIndex !== 0) tabLista(b); });
+$('lista').addEventListener('keydown', e => {
+  const b = e.target.closest('.row'), passo = {ArrowDown: 1, ArrowUp: -1, PageDown: 10, PageUp: -10, Home: -Infinity, End: Infinity}[e.key];
+  if (!b || passo === undefined || e.altKey) return;
+  e.preventDefault();
+  const vs = [...$('lista').querySelectorAll('.row:not([hidden])')], i = vs.indexOf(b);
+  const n = vs[Math.max(0, Math.min(vs.length - 1, i + passo))] || vs[passo < 0 ? 0 : vs.length - 1];
+  if (!n || n === b) return;
+  tabLista(n);
+  n.focus({preventScroll: true});
+  n.scrollIntoView({block: 'nearest'});                  // rola só o necessário (o título fixo do grupo fica de fora: scroll-margin)
+});
 // quem rola: o painel (computador e gaveta da tela cheia rolam por dentro) ou, sem isso, a página
 function rolador() {
   const p = document.querySelector('.panel');
   return p && getComputedStyle(p).overflowY !== 'visible' && p.scrollHeight > p.clientHeight ? p : null;
 }
+// parte da tela onde o painel aparece: o próprio painel, ou a página abaixo do mapa fixo no alto (celular)
+function areaVisivel(r) {
+  if (r) { const q = r.getBoundingClientRect(); return {top: q.top, bottom: q.bottom}; }
+  const mb = document.querySelector('.mapbox'), alto = mb && matchMedia('(max-width:980px)').matches && !document.body.classList.contains('tela-cheia');
+  return {top: alto ? Math.max(0, mb.getBoundingClientRect().bottom) : 0, bottom: innerHeight};
+}
+const suave = () => matchMedia('(prefers-reduced-motion:no-preference)').matches ? 'smooth' : 'auto';
+function rolaPara(r, y) { (r || window).scrollTo({top: Math.max(0, y), behavior: suave()}); }
+let daLista = false;                                      // escolha feita na própria lista: nada se mexe
 $('lista').addEventListener('click', e => {
   const b = e.target.closest('.row');
   if (!b) return;
-  const y = b.getBoundingClientRect().top;               // a linha tocada fica no mesmo lugar da tela (o detalhe acima muda de altura)
-  clique(b.dataset.t, e, true);
-  requestAnimationFrame(() => {                          // depois dos acréscimos ao detalhe (limpeza, NAE), antes de pintar
-    const n = document.querySelector(`.row[data-t="${CSS.escape(b.dataset.t)}"]`);
-    if (!n) return;
-    const d = n.getBoundingClientRect().top - y, r = rolador();
-    r ? (r.scrollTop += d) : window.scrollBy(0, d);
+  const y = b.getBoundingClientRect().top;
+  daLista = true;
+  try { clique(b.dataset.t, e, true); } finally { daLista = false; }
+  requestAnimationFrame(() => {                          // depois dos acréscimos (limpeza, NAE, caminho no cabeçalho), antes de pintar
+    if (!b.isConnected) return;
+    const r = rolador(), rola = d => { if (d) r ? (r.scrollTop += d) : window.scrollBy(0, d); };
+    rola(b.getBoundingClientRect().top - y);             // a linha tocada fica no mesmo lugar da tela
+    // o detalhe vem logo abaixo da lista: se o começo dele não aparece, sobe o necessário, sem tirar a linha tocada da vista
+    const v = areaVisivel(r), falta = $('det').getBoundingClientRect().top + 120 - v.bottom, folga = b.getBoundingClientRect().top - v.top - 40;
+    if (falta > 0 && folga > 0) rola(Math.min(falta, folga));
   });
 });
-// trecho escolhido fora da lista (mapa, busca, link): o painel que rola por dentro vai até o detalhe; a página não se mexe
-function naLista() {
-  const p = rolador(), det = $('det');
-  if (!p || document.activeElement === $('busca')) return;   // digitando na busca: o campo fica onde está
-  const topo = det.getBoundingClientRect().top - p.getBoundingClientRect().top;
-  if (topo < 0 || topo > p.clientHeight / 2) p.scrollTop += topo - 8;   // só quando o detalhe não está à vista
+// trecho escolhido fora da lista (mapa, busca, link, detalhe): a lista rola por dentro até a linha e o detalhe aparece
+function naLista(nome) {
+  const b = linha(nome), l = $('lista'), p = rolador(), v = areaVisivel(p);
+  if (b && !b.hidden) {                                  // parte da lista que aparece (no celular, a de cima pode estar sob o mapa)
+    const r = b.getBoundingClientRect(), q = l.getBoundingClientRect(), c = {top: Math.max(q.top, v.top), bottom: Math.min(q.bottom, v.bottom)};
+    if (c.bottom - c.top < 100) Object.assign(c, {top: q.top, bottom: q.bottom});
+    const topo = (c.top === q.top ? 32 : 8);             // 32: título do grupo, fixo no alto da lista
+    if (r.top < c.top + topo) l.scrollTop -= c.top + topo - r.top;
+    else if (r.bottom > c.bottom - 8) l.scrollTop += r.bottom - c.bottom + 8;
+  }
+  if (document.activeElement === $('busca')) return;   // digitando na busca: o campo fica onde está
+  const det = $('det').getBoundingClientRect().top;
+  if (p) { if (det < v.top || det > v.top + (v.bottom - v.top) / 2) rolaPara(p, p.scrollTop + det - v.top - 8); }   // painel: o detalhe vai para o alto
+  else if (det < v.top) rolaPara(null, scrollY + det - v.top - 8);   // página (celular): só desce o detalhe que ficou escondido sob o mapa
 }
 
 // detalhe
@@ -392,7 +490,7 @@ function detalhe(t, vao) {
   const chips = l => l.length ? `<div class="chips">${l.slice(0, 8).map(chip).join('')}` +   // muitos: os 8 primeiros e o resto ao pedir
     (l.length > 8 ? `<details class="mais"><summary>mais ${l.length - 8}</summary><div class="chips">${l.slice(8).map(chip).join('')}</div></details>` : '') + '</div>' : '—';
   const tipoTxt = {principal: t.zona === 1 ? 'tronco T1' : 'tronco T2', ramal: t.tronco ? 'T2 · tronco' : 'T2 · ramal', fusivel: `depois de fusível · T${t.zona}`}[t.tipo];
-  $('det').innerHTML = `<h2><i style="--c:${t.cor}"></i>${esc(t.nome)} <small>${tipoTxt}</small></h2>${FECHA}<dl>
+  $('det').innerHTML = `<h2 tabindex="-1"><i style="--c:${t.cor}"></i>${esc(t.nome)} <small>${tipoTxt}</small></h2>${FECHA}<dl>
     <dt>Início</dt><dd><span class="mono">${esc(t.inicio)}</span> · ${TIPO[t.inicio_tipo] || t.inicio_tipo} · poste ${esc(t.inicio_poste)}</dd>
     ${t.passa.length ? `<dt>Passa por</dt><dd class="mono">${t.passa.map(esc).join(', ')}</dd>` : ''}
     <dt>Fim</dt><dd class="mono">${t.fim.map(esc).join('<br>')}</dd>
@@ -408,7 +506,7 @@ function detalhe(t, vao) {
 function detalheVarios(l) {
   const ts = l.map(n => TR[n]), ext = ts.reduce((s, t) => s + t.ext, 0), c = NAE ? contagem() : {};
   const nae = NAE ? blocoNae(null, l) : '';
-  $('det').innerHTML = `<h2>${l.length} trechos <small>${km(ext)} · ${nv(ts.reduce((s, t) => s + t.qtd, 0))}</small></h2>${FECHA}
+  $('det').innerHTML = `<h2 tabindex="-1">${l.length} trechos <small>${km(ext)} · ${nv(ts.reduce((s, t) => s + t.qtd, 0))}</small></h2>${FECHA}
     <div class="varios">${ts.map(t => `<div><button class="chip" data-t="${esc(t.nome)}">${esc(t.nome)}</button><span>${km(t.ext)}</span>` +
       `${NAE ? `<span><b>${c[t.nome] || 0}</b> NAE</span>` : ''}<small class="mono">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</small></div>`).join('')}</div><dl>
     <dt>Extensão</dt><dd>${km(ext)} somados</dd>
@@ -429,7 +527,7 @@ function resumo() {
   fus.forEach(t => { porZ[t.zona] = (porZ[t.zona] || 0) + 1; });
   const linha = t => `<dt>${esc(t.nome)}</dt><dd><span class="mono">${esc(t.inicio)} → ${esc(fimTxt(t))}</span> · ${km(t.ext)}</dd>`;
   const prin = D.trechos.filter(t => t.tipo !== 'fusivel');   // T1 e T2: início → fim de cada um, só quando pedir
-  $('det').innerHTML = `<h2>${mil(D.trechos.length)} trechos <small>${km(total)} de rede</small></h2><dl>
+  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trechos <small>${km(total)} de rede</small></h2><dl>
     <dt>Fusíveis</dt><dd>${mil(fus.length)} trechos (${Object.entries(porZ).map(([z, n]) => `T${z}: ${mil(n)}`).join(' · ')})</dd>
     ${NAE ? resumoNae() : ''}
   </dl>${prin.length ? `<details class="mais"><summary>T1 e T2 · início → fim</summary><dl>${prin.map(linha).join('')}</dl></details>` : ''}` +
@@ -437,8 +535,17 @@ function resumo() {
 }
 $('det').addEventListener('click', e => {
   const v = e.target.closest('[data-ll]');               // ocorrência da lista: vai até o ativo no mapa
-  if (v) { if (map) { map.setView(v.dataset.ll.split(',').map(Number), 18); document.getElementById('map').scrollIntoView({block: 'nearest'}); } return; }
-  const b = e.target.closest('.chip, #todos'); if (!b) return; b.id === 'todos' ? limpar() : clique(b.dataset.t, e, true);
+  if (v) {
+    if (!map) return;
+    map.setView(v.dataset.ll.split(',').map(Number), 18);
+    const r = $('map').getBoundingClientRect();          // o mapa fica fixo no alto: só rola se ele estiver fora da tela
+    if (r.bottom < 0 || r.top > innerHeight) $('map').scrollIntoView({block: 'nearest'});
+    return;
+  }
+  const b = e.target.closest('.chip, #todos'); if (!b) return;
+  const tinhaFoco = b.contains(document.activeElement);  // o detalhe é refeito: o foco do teclado volta ao título dele (não cai no body)
+  b.id === 'todos' ? limpar() : clique(b.dataset.t, e, true);
+  if (tinhaFoco && !$('det').contains(document.activeElement)) $('det').querySelector('h2')?.focus({preventScroll: true});
 });
 
 // mapa
@@ -465,17 +572,15 @@ function clique(nome, e, enquadrar, vao) {
 function selecionar(nome, enquadrar, vao) {
   sel = nome; multi = [];
   detalhe(TR[nome], vao);
-  desenhaLista($('busca').value);
-  const b = document.querySelector(`.row[data-t="${CSS.escape(nome)}"]`);
-  if (b) naLista(b);
+  marcaLista();
+  if (!daLista) naLista(nome);
   realca([nome], enquadrar);
 }
 function selecionarVarios(l, ultimo) {
   sel = null; multi = l;
   detalheVarios(l);
-  desenhaLista($('busca').value);
-  const b = document.querySelector(`.row[data-t="${CSS.escape(ultimo)}"]`);
-  if (b) naLista(b);
+  marcaLista();
+  if (!daLista) naLista(ultimo);
   realca(l, false);
 }
 // destaca no mapa os trechos escolhidos: os outros ficam apagados; pinos de início e fim (com vários, só o início de cada um)
@@ -513,7 +618,7 @@ function limpar() {
   sel = null; multi = [];
   marcaNae(null);
   resumo();
-  desenhaLista($('busca').value);
+  marcaLista();
   if (!map) return;
   Object.values(linhas).forEach(([l]) => l.setStyle({opacity: 1}));
   if (halo) { halo.remove(); halo = null; }
@@ -623,10 +728,20 @@ $('busca').addEventListener('input', e => {
   const v = D.vaos.find(v => String(v[6]).toLowerCase() === qq || String(v[7]).toLowerCase() === qq);
   if (v) { selecionar(D.trechos[v[4]].nome, false, v); if (map) map.setView([v[2], v[3]], Math.max(map.getZoom(), 17)); }
 });
+// até 980 px o mapa fica fixo no alto da tela: o foco do teclado que cai embaixo dele (Shift+Tab, setas) desce para a vista.
+// (scroll-padding no html faria o mesmo, mas aí focar um controle do próprio mapa rolava a página para cima.)
+document.addEventListener('focusin', () => requestAnimationFrame(() => {   // depois da rolagem que o próprio navegador faz ao focar
+  const el = document.activeElement, mb = document.querySelector('.mapbox');
+  if (!el || !mb || mb.contains(el) || !matchMedia('(max-width:980px)').matches || document.body.classList.contains('tela-cheia')) return;
+  if (!(mb.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) || !el.matches(':focus-visible')) return;
+  const fundo = mb.getBoundingClientRect().bottom + 8, r = el.getBoundingClientRect();
+  if (r.top < fundo) window.scrollBy(0, r.top - fundo);
+}));
 window.__sel = selecionar;
 window.__clique = clique;
+window.__selecao = () => multi.length ? multi.slice() : sel ? [sel] : [];   // trechos escolhidos (croqui da faixa)
 window.__limpar = limpar;
-limpar();
-if (NAE) atualizaNae();
+if (NAE) atualizaNae();                                   // desenha a lista e o resumo (com a NAE nos rótulos do mapa)
+else { desenhaLista($('busca').value); limpar(); }
 </script>
 </body></html>

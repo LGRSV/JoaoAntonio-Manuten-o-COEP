@@ -207,6 +207,12 @@
   #polos{gap:var(--s6)}
   .pl-cab h2{font-size:28px}
 }
+@media (min-width:761px) and (max-width:960px){   /* tablet: a tabela inteira cabe na largura (sem rolagem lateral da página) */
+  .pl-tab th{white-space:normal;padding:0 6px}
+  .pl-tab td{padding:var(--s3) 6px}
+  .pl-tab .al-cod{display:block;margin-left:0}
+  .pl-bar{width:56px;min-width:56px}
+}
 @media (max-width:760px){
   .pl-esc{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s2);justify-items:stretch}
   .pl-topo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
