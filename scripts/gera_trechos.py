@@ -477,11 +477,25 @@ def pagina_alimentador(modelo, c):
     return h
 
 
-def casca(titulo, corpo, raiz):
+FONTES = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
+          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600'
+          '&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">\n')
+
+
+def migalhas(inicio, atual):
+    """Caminho no topo das páginas: Municípios › página atual (inicio = link da página inicial)."""
+    return (f'<nav class="migalhas" aria-label="Caminho"><a href="{inicio}">Municípios</a><span aria-hidden="true">›</span>'
+            f'<span aria-current="page">{html.escape(atual)}</span></nav>\n')
+
+
+def casca(titulo, corpo, raiz, rodape=''):
     return (f'<!doctype html>\n<html lang="pt-BR"><head><meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
             f'<meta name="robots" content="noindex, nofollow">\n<title>{html.escape(titulo)}</title>\n'
-            f'<link rel="stylesheet" href="{raiz}assets/site.css"></head><body><div class="wrap">\n{corpo}\n</div>\n'
+            f'{FONTES}<link rel="stylesheet" href="{raiz}assets/site.css"></head><body><div class="wrap">\n{corpo}\n'
+            f'<footer class="rodape">{rodape}<p><a href="{raiz}relatorio.html">Relatório de validação</a> · '
+            f'<a href="{raiz}manifesto.json">manifesto.json</a></p></footer>\n</div>\n'
             '<script>const b=document.getElementById("busca");if(b)b.addEventListener("input",()=>{const q=b.value'
             '.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();document.querySelectorAll("[data-busca]")'
             '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});});</script>\n</body></html>\n')
@@ -526,7 +540,7 @@ def mapa_e_ranking(saida, dados, man):
     for g in geo['muns']:
         m = por_cod.get(g['cod'])
         if m:
-            g = dict(g, slug=m['slug'], als=[dict(cod=a['cod'], se=a['se_nome'], m=a['m_no_municipio'])
+            g = dict(g, nome=m['nome'], slug=m['slug'], als=[dict(cod=a['cod'], se=a['se_nome'], m=a['m_no_municipio'])
                                              for a in m['alimentadores']])
         muns.append(g)
     (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
@@ -567,6 +581,7 @@ def ranking_polos(saida, dados, man):
     geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))['muns']
     polo_de = {cod: p['id'] for p in cfg['polos'] for cod in p['municipios']}
     slug_mun = {m['cod']: m['slug'] for m in man['municipios']}
+    nome_de = {m['cod']: m['nome'] for m in man['municipios']}       # nome com acento (IBGE) quando há dados
     linhas = {p['id']: [] for p in cfg['polos']}
     trechos_p = {p['id']: [] for p in cfg['polos']}       # trechos com NAE, no polo do município de mais rede
     meses, regra, equipes = set(), {'T1': 3, 'T2': 4, 'T3': 5}, None
@@ -639,7 +654,7 @@ def ranking_polos(saida, dados, man):
                 m=next((slug_mun[k] for k in muns if k in slug_mun), None),
                 lp={cl: {d: round(m) for d, m in sorted(ds.items())} for cl, ds in sorted(limp.get(p, {}).items())}))
     dados_js = dict(meses=[min(meses), max(meses)] if meses else [], regra=regra, equipes=equipes, fonte=cfg['fonte'],
-                    fora=cfg['fora'], muns={m['cod']: m['nome'] for m in geo},
+                    fora=cfg['fora'], muns={g['cod']: nome_de.get(g['cod'], g['nome']) for g in geo},
                     polos=[dict(id=p['id'], nome=p['nome'], regional=p['regional'], equipe=p['equipe'],
                                 n_muns=len(p['municipios']),
                                 als=sorted(linhas[p['id']], key=lambda a: (-a['nae'], -a['km'], a['al'])),
@@ -647,11 +662,9 @@ def ranking_polos(saida, dados, man):
                            for p in cfg['polos']])
     (saida / 'assets' / 'ranking-polos-dados.js').write_text(
         'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
-    corpo = ('<nav class="migalhas"><a href="../">Municípios</a> → <b>Ranking por polo</b></nav>\n'
-             '<header><h1>Ranking por polo</h1><p>Escolha a ETO inteira, uma regional (Norte, Centro, Sul) ou um polo e veja os '
-             'alimentadores ou os trechos (todos ou só T1, T2 ou T3), do que tem mais NAE (árvore/eucalipto na rede) para o '
-             'que tem menos; toque no título de uma coluna para ordenar por ela.</p>'
-             '</header>\n<div id="polos"></div>\n'
+    corpo = (migalhas('../', 'Ranking por polo') +
+             '<header><h1>Ranking por polo</h1><p>Alimentadores e trechos com mais NAE (árvore/eucalipto na rede) na ETO, '
+             'em cada regional e em cada polo.</p></header>\n<div id="polos"></div>\n'
              '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')
     p = saida / 'polos' / 'index.html'
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -777,43 +790,50 @@ def interface(saida):
     for m in man['municipios']:
         tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
         cards.append(f'<a class="card" data-busca="{html.escape(slug(m["nome"]).replace("-", " "))}" '
-                     f'href="municipios/{m["slug"]}/"><b>{html.escape(m["nome"])}</b><span>{len(m["alimentadores"])} '
-                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)} km de rede</span></a>')
+                     f'href="municipios/{m["slug"]}/"><b>{html.escape(m["nome"])}</b><span>{len(m["alimentadores"])}&nbsp;'
+                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)}&nbsp;km de rede</span></a>')
         linhas = []
         for a in m['alimentadores']:
+            n = a['trechos']
+            trechos = f'{n:,}'.replace(',', '.') + '&nbsp;trecho' + ('' if n == 1 else 's')
+            selo = '<em class="selo">com avisos</em>' if a['status'] == 'aviso' else ''
             linhas.append(f'<a class="card" data-busca="{a["cod"].lower()} {html.escape(slug(a["se_nome"]).replace("-", " "))}" '
-                          f'href="../../alimentadores/{a["cod"]}/?m={m["slug"]}"><b>{a["cod"]}</b>'
+                          f'href="../../alimentadores/{a["cod"]}/?m={m["slug"]}"><b class="cod">{a["cod"]}</b>'
                           f'<span>{html.escape(a["se"])} {html.escape(a["se_nome"])} · polo {html.escape(a["polo"])}</span>'
-                          f'<span>{km(a["m_no_municipio"])} km no município de {km(a["m_total"])} km · {a["trechos"]} trechos'
-                          f'{" · <em>com avisos</em>" if a["status"] == "aviso" else ""}</span></a>')
-        corpo = (f'<nav class="migalhas"><a href="../../">Municípios</a> → <b>{html.escape(m["nome"])}</b></nav>\n'
-                 f'<header><h1>{html.escape(m["nome"])}</h1><p>Alimentadores com rede dentro do município (malha do '
-                 f'IBGE, amostra a cada {PASSO_M} m; mínimo de {MIN_M} m).</p></header>\n'
-                 '<input class="busca" id="busca" type="search" placeholder="Buscar alimentador ou SE">\n'
-                 f'<div class="grade">{"".join(linhas)}</div>')
+                          f'<span>{km(a["m_no_municipio"])}&nbsp;km no município de {km(a["m_total"])}&nbsp;km · '
+                          f'{trechos}</span>{selo}</a>')
+        corpo = (migalhas('../../', m['nome']) +
+                 f'<header><h1>{html.escape(m["nome"])}</h1><p>Alimentadores com rede dentro do município.</p></header>\n' +
+                 ('<input class="busca" id="busca" type="search" aria-label="Buscar alimentador ou SE" '
+                  'placeholder="Buscar alimentador ou SE">\n' if len(m['alimentadores']) >= 8 else '') +
+                 f'<div class="grade als">{"".join(linhas)}</div>')
         p = saida / 'municipios' / m['slug'] / 'index.html'
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../'), encoding='utf-8')
+        p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../',
+                           rodape=f'<p>Malha do IBGE, amostra a cada {PASSO_M} m; mínimo de {MIN_M} m.</p>'), encoding='utf-8')
     mapa_e_ranking(saida, dados, man)
     ranking_polos(saida, dados, man)
     indice_ativos(saida, dados)
-    corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
-             'alimentador. T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… '
-             'depois de cada fusível.</p><p><a href="polos/"><b>Ranking dos alimentadores por polo →</b></a></p>'
-             '</header>\n'
-             '<form class="ativo" id="ativo" role="search"><label for="ativo-q"><b>Em que trecho está o ativo?</b> '
-             'Código da chave (fusível, religador, faca…), do transformador ou número do poste</label><div><input class="busca" id="ativo-q" '
-             'type="search" inputmode="search" autocomplete="off" placeholder="Ex.: 0300350016">'
-             '<button type="submit">Buscar</button></div><div id="ativo-res" aria-live="polite"></div></form>\n'
+    corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
+             'alimentador.</p><a class="cab-link" href="polos/">Ranking dos alimentadores por polo →</a></header>\n'
+             # mesmos ids de antes: assets/busca-ativo.js leva o formulário para a barra em cima do mapa
+             '<form class="ativo" id="ativo" role="search"><label for="ativo-q" class="rot">Em que trecho está o ativo?</label>'
+             '<div class="campo"><input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
+             'placeholder="Ex.: 0300350016" aria-describedby="ativo-dica"><button type="submit">Buscar</button>'
+             '<div id="ativo-res" aria-live="polite"></div></div><span id="ativo-dica" class="dica">Código da chave '
+             '(fusível, religador, faca…), do transformador ou número do poste</span></form>\n'
              '<div id="mapa-to"></div>\n'
-             '<input class="busca" id="busca" type="search" placeholder="Buscar município">\n'
-             f'<div class="grade">{"".join(cards)}</div>\n<p class="nota"><a href="relatorio.html">Relatório de validação'
-             '</a> · <a href="manifesto.json">manifesto.json</a></p>\n'
+             '<section class="bloco" aria-labelledby="todos"><h2 class="sec" id="todos">Todos os municípios</h2>\n'
+             '<input class="busca" id="busca" type="search" aria-label="Buscar município" '
+             'placeholder="Buscar município (ex.: Arraias)">\n'
+             f'<div class="grade">{"".join(cards)}</div></section>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/ranking-nae.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')
-    (saida / 'index.html').write_text(casca('Trechos por município', corpo, ''), encoding='utf-8')
+    (saida / 'index.html').write_text(casca('Trechos por município', corpo, '', rodape=(
+        '<p>T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.</p>')),
+        encoding='utf-8')
     (saida / '.nojekyll').touch()
     relatorio(saida, dados, man)
     return dados, man
@@ -863,7 +883,7 @@ def relatorio(saida, dados, man, sem_kml=()):
     md += falhas + sem_mun + [f'- {al}: sem KML do Daimon na pasta informada' for al in sorted(sem_kml)] or ['- nenhum']
     texto = '\n'.join(md) + '\n'
     (saida / 'relatorio.md').write_text(texto, encoding='utf-8')
-    corpo = '<nav class="migalhas"><a href="./">Municípios</a> → <b>Relatório</b></nav>\n<pre class="relatorio">' + \
+    corpo = migalhas('./', 'Relatório') + '<pre class="relatorio">' + \
             html.escape(texto) + '</pre>'
     (saida / 'relatorio.html').write_text(casca('Relatório de validação', corpo, ''), encoding='utf-8')
 
