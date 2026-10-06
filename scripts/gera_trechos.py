@@ -791,7 +791,7 @@ def interface(saida):
         tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
         cards.append(f'<a class="card" data-busca="{html.escape(slug(m["nome"]).replace("-", " "))}" '
                      f'href="municipios/{m["slug"]}/"><b>{html.escape(m["nome"])}</b><span>{len(m["alimentadores"])}&nbsp;'
-                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)}&nbsp;km de rede</span></a>')
+                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)}&nbsp;km&nbsp;de&nbsp;rede</span></a>')
         linhas = []
         for a in m['alimentadores']:
             n = a['trechos']
@@ -810,7 +810,7 @@ def interface(saida):
         p = saida / 'municipios' / m['slug'] / 'index.html'
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../',
-                           rodape=f'<p>Malha do IBGE, amostra a cada {PASSO_M} m; mínimo de {MIN_M} m.</p>'), encoding='utf-8')
+                           rodape=f'<p>Malha do IBGE, amostra a cada {PASSO_M}&nbsp;m; mínimo de {MIN_M}&nbsp;m.</p>'), encoding='utf-8')
     mapa_e_ranking(saida, dados, man)
     ranking_polos(saida, dados, man)
     indice_ativos(saida, dados)

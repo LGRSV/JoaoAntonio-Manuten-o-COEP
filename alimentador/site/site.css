@@ -101,7 +101,7 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 .migalhas a{color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;min-height:var(--alvo)}
 .migalhas a:hover{color:var(--fg);text-decoration:underline}
 .migalhas [aria-current]{color:var(--fg);font-weight:600}
-@media (pointer:fine){.migalhas a{min-height:28px}}
+@media (pointer:fine) and (min-width:861px){.migalhas a{min-height:28px}}
 /* migalhas coladas no título: a página não abre com um degrau de 24–32 px entre elas */
 .migalhas+header{margin-top:calc(-1 * var(--s3))}
 
@@ -111,6 +111,11 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 @media (min-width:861px){.busca{min-height:40px;font-size:var(--t-base)}}
 .busca::placeholder{color:var(--muted);opacity:1}
 .busca:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+/* botão de limpar do campo de busca no tom da página (o do Chrome é azul) */
+.busca::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-left:var(--s2);cursor:pointer;
+  background:var(--muted);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23000' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.busca::-webkit-search-cancel-button:hover{background:var(--fg)}
 
 /* ====== Lista (municípios e alimentadores): linhas com filete, sem caixa ====== */
 .bloco{display:grid;gap:var(--s3)}

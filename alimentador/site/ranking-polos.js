@@ -160,7 +160,7 @@
 .pl-tab td.n{width:36px;font:600 var(--t-xs)/21px var(--f-mono);color:var(--muted)}
 .pl-tab td.al a{font:600 var(--t-base)/21px var(--f-mono);color:var(--fg);text-decoration:none;white-space:nowrap}
 .pl-tab td.al a::after{content:'';position:absolute;inset:0}
-.pl-tab td.al a:focus-visible{outline:none}
+#polos .pl-tab td.al a:focus-visible{outline:none}   /* o contorno vai na linha inteira */
 .pl-tab tbody tr:focus-within{outline:2px solid var(--accent);outline-offset:-2px}
 .pl-tab .al-cod{margin-left:var(--s2);font:var(--t-sm)/21px var(--f-mono);color:var(--muted);white-space:nowrap}
 .pl-tab .det{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:46ch;
@@ -237,7 +237,8 @@
   .pl-tab td[data-r=NAE] b{font:700 22px/1.1 var(--f-display);font-variant-numeric:tabular-nums}
   .pl-tab td.lim{order:9;grid-column:1/-1}
   .pl-tab td[data-r]::before{content:attr(data-r);display:block;font-size:var(--t-xs);line-height:1.5;color:var(--muted);text-transform:none;letter-spacing:0}
-  .pl-tab td.al a::before{content:attr(data-pos) 'º · ';font-weight:400;color:var(--muted)}
+  .pl-tab td.al a::before{content:attr(data-pos) 'º · ';font:400 var(--t-md) var(--f-body);color:var(--muted)}
+  .pl-tab td.lim::before{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)}   /* "45% no prazo" já diz */
   .pl-tab .det{display:block;max-width:none;overflow:visible}
   .pl-bar{flex:1 1 auto;width:auto;min-width:0}
   .pl-np{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none}
