@@ -700,6 +700,7 @@ def indice_ativos(saida, dados):
     """dados/ativos/<fatia>.json: código da chave ou do poste → [[alimentador, tipo, trecho, papel, lat, lon], ...].
 
     Chave: o trecho que ela abre (início), senão o que passa por ela, senão o trecho dos vãos do poste dela.
+    Pontos do KML do Daimon ('ativos_kml'): o trecho do vão mais próximo (scripts/ativos_daimon.py).
     Poste: os trechos dos vãos que chegam nele. Postes N123 (pontos sem número no cadastro) ficam de fora.
     """
     idx = {}
@@ -735,6 +736,13 @@ def indice_ativos(saida, dados):
             if alvo:
                 idx.setdefault(chave_ativo(n), []).append([al, ch['tipo'], alvo, ' · '.join(papel), ch['lonlat'][1],
                                                            ch['lonlat'][0]])
+        # pontos do KML do Daimon (transformador, particular, capacitor…; scripts/ativos_daimon.py)
+        ja = {ch['nome'] for ch in c['chaves']}
+        for nome, tipo, lon, lat, t, d, *_ in c.get('ativos_kml') or []:
+            if nome in ja or d is None:
+                continue
+            papel = (f'no {t}' + (f' (a {d:g} m da rede)' if d > 5 else '')) if t else f'fora da rede do site ({d:g} m)'
+            idx.setdefault(chave_ativo(nome), []).append([al, tipo, t or '', papel, lat, lon])
     pasta = saida / 'dados' / 'ativos'
     if pasta.exists():
         shutil.rmtree(pasta)

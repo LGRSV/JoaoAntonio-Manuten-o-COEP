@@ -52,6 +52,11 @@ def ativos_por_trecho(d):
         dele = [(i, mun) for i, t, mun in lst if t == alvo] or [(0, None)]
         ordem = -1 if inicio.get(n) == alvo else dele[0][0]
         ch.setdefault((alvo, dele[0][1]), []).append((ordem, n))
+    ja = {c['nome'] for c in d['chaves']}         # pontos do KML do Daimon (transformador, capacitor…) no trecho deles
+    for nome, tipo, lon, lat, t, dist, *resto in d.get('ativos_kml') or []:
+        i = resto[0] if resto else None
+        if t and nome not in ja:
+            ch.setdefault((t, d['vaos'][i][8] if i is not None else None), []).append((i if i is not None else 10 ** 9, nome))
     junta = lambda xs: (lambda s: s if len(s) <= LIM else s[:LIM].rsplit('; ', 1)[0] + f'; … (+{len(xs)} no total)')('; '.join(xs))
     return ({k: junta([n for _, n in sorted(v)]) for k, v in ch.items()},
             {k: junta([p for p, _ in sorted(v.items(), key=lambda x: x[1])]) for k, v in po.items()})
@@ -106,7 +111,7 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
            f"Arquivos da Crítica: {', '.join(crit) or '—'}", '',
            'Abas:',
            f'• Trechos — {len(tr):,} linhas, 1 por trecho × município. "Km no município" soma certo em qualquer dinâmica.'.replace(',', '.'),
-           '  "Ativos": chaves do trecho (DJ, religador, fusível, faca, trip saver…) separadas por "; ", na ordem a partir do DJ;'
+           '  "Ativos": chaves, transformadores, capacitores… do trecho, separados por "; ", na ordem a partir do DJ;'
            ' "Postes": postes numerados do trecho. Os dois por município (cada linha traz os que ficam nela).',
            f'• NAE — {len(oc):,} ocorrências, 1 por linha. Conte linhas para ter o NAE; some Consumidores/CHI.'.replace(',', '.'),
            '• Dinâmica km — extensão por município → alimentador × classe (T1/T2/T3).',
