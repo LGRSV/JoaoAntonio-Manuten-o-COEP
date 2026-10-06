@@ -446,7 +446,7 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js'):
+    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     return modelo
 
@@ -559,6 +559,72 @@ def manifesto(dados):
         dados=f'dados/alimentadores/{c["alimentador"]}.json') for c in dados})
 
 
+FATIAS = 256          # índice de ativos em pedaços: a busca da página inicial baixa só o pedaço do código
+
+
+def chave_ativo(s):
+    """Código como a busca compara: maiúsculas, só letras e números, sem zeros à esquerda se for só número."""
+    k = re.sub(r'[^0-9A-Z]', '', str(s).upper())
+    return (k.lstrip('0') or '0') if k.isdigit() else k
+
+
+def fatia(k):
+    h = 0                                         # mesma conta em assets/busca-ativo.js
+    for ch in k:
+        h = (h * 31 + ord(ch)) & 0xFFFFFFFF
+    return f'{h % FATIAS:02x}'
+
+
+def indice_ativos(saida, dados):
+    """dados/ativos/<fatia>.json: código da chave ou do poste → [[alimentador, tipo, trecho, papel, lat, lon], ...].
+
+    Chave: o trecho que ela abre (início), senão o que passa por ela, senão o trecho dos vãos do poste dela.
+    Poste: os trechos dos vãos que chegam nele. Postes N123 (pontos sem número no cadastro) ficam de fora.
+    """
+    idx = {}
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        al, ts = c['alimentador'], c['trechos']
+        do_poste, onde = {}, {}
+        for v in c['vaos']:
+            for p, lon, lat in ((v[6], v[0], v[1]), (v[7], v[2], v[3])):
+                if p:
+                    do_poste.setdefault(p, []).append(ts[v[4]]['nome'])
+                    onde.setdefault(p, (lat, lon))
+        ordem = {t['nome']: i for i, t in enumerate(ts)}
+        unicos = lambda ns: sorted(set(ns), key=ordem.get)
+        for p, ns in do_poste.items():
+            if re.fullmatch(r'N\d+', p):
+                continue
+            ns = unicos(ns)
+            idx.setdefault(chave_ativo(p), []).append([al, 'poste', ns[0], ', '.join(ns) if len(ns) > 1 else '', *onde[p]])
+        for ch in c['chaves']:
+            n = ch['nome']
+            papel = ([f'início do {t["nome"]}' for t in ts if t['inicio']['chave'] == n] +
+                     [f'fim do {t["nome"]}' for t in ts if n in (t.get('fim') or [])] +
+                     [f'no meio do {t["nome"]}' for t in ts if n in (t.get('passa') or [])])
+            alvo = next((t['nome'] for t in ts if t['inicio']['chave'] == n), None) or \
+                next((t['nome'] for t in ts if n in (t.get('passa') or [])), None)
+            if not alvo and do_poste.get(ch.get('poste')):
+                ns = unicos(do_poste[ch['poste']])
+                alvo, papel = ns[0], papel or [f'no {", ".join(ns)}']
+            if not alvo and papel:                     # só fim de trecho (ponta de linha)
+                alvo = next(t['nome'] for t in ts if n in (t.get('fim') or []))
+            if alvo:
+                idx.setdefault(chave_ativo(n), []).append([al, ch['tipo'], alvo, ' · '.join(papel), ch['lonlat'][1],
+                                                           ch['lonlat'][0]])
+    pasta = saida / 'dados' / 'ativos'
+    if pasta.exists():
+        shutil.rmtree(pasta)
+    por = {}
+    for k in sorted(idx):
+        por.setdefault(fatia(k), {})[k] = idx[k]
+    for f, d in por.items():
+        grava_json(pasta / f'{f}.json', d)
+    return len(idx)
+
+
 def nae_resumo(c):
     oc = (c.get('nae') or {}).get('oc', [])
     return sum(1 for o in oc if o['trecho']), sum(1 for o in oc if not o['trecho'])
@@ -598,15 +664,22 @@ def interface(saida):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(casca(f'{m["nome"]} · alimentadores', corpo, '../../'), encoding='utf-8')
     mapa_e_ranking(saida, dados, man)
+    indice_ativos(saida, dados)
     corpo = ('<header><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
              'alimentador. T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… '
-             'depois de cada fusível.</p></header>\n<div id="mapa-to"></div>\n'
+             'depois de cada fusível.</p></header>\n'
+             '<form class="ativo" id="ativo" role="search"><label for="ativo-q"><b>Em que trecho está o ativo?</b> '
+             'Código da chave (fusível, religador, faca…) ou número do poste</label><div><input class="busca" id="ativo-q" '
+             'type="search" inputmode="search" autocomplete="off" placeholder="Ex.: 0300350016 ou 553218">'
+             '<button type="submit">Buscar</button></div><div id="ativo-res" aria-live="polite"></div></form>\n'
+             '<div id="mapa-to"></div>\n'
              '<input class="busca" id="busca" type="search" placeholder="Buscar município">\n'
              f'<div class="grade">{"".join(cards)}</div>\n<p class="nota"><a href="relatorio.html">Relatório de validação'
              '</a> · <a href="manifesto.json">manifesto.json</a></p>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/ranking-nae.js"></script>\n'
-             '<script src="assets/mapa-municipios.js"></script>')
+             '<script src="assets/mapa-municipios.js"></script>\n'
+             '<script src="assets/busca-ativo.js"></script>')
     (saida / 'index.html').write_text(casca('Trechos por município', corpo, ''), encoding='utf-8')
     (saida / '.nojekyll').touch()
     relatorio(saida, dados, man)

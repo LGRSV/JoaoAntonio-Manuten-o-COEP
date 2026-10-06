@@ -54,9 +54,14 @@ def test_pipeline():
         assert all(-51 < v[0] < -45 and -14 < v[1] < -5 for v in c['vaos']), 'coordenadas [lon, lat]'
         man = json.loads((d / 'site' / 'manifesto.json').read_text(encoding='utf-8'))
         assert [m['slug'] for m in man['municipios']] == ['norte-teste', 'sul-teste']
+        ativos = d / 'site' / 'dados' / 'ativos'
+        hit = json.loads((ativos / (gera_trechos.fatia('7900001') + '.json')).read_text(encoding='utf-8'))['7900001']
+        assert hit[0][:4] == ['ALTESTE', '79', 'T2', 'início do T2 · fim do T1'], 'busca de ativo: o religador abre o T2'
+        assert gera_trechos.chave_ativo(' 0300-001 ') == '300001', 'busca ignora zeros à esquerda e pontuação'
         for f in ('index.html', 'municipios/norte-teste/index.html', 'alimentadores/ALTESTE/index.html',
                   'alimentadores/ALTESTE/dados.js', 'alimentadores/ALTESTE/ALTESTE-trechos.kmz', 'relatorio.md',
-                  'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js'):
+                  'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js',
+                  'assets/busca-ativo.js'):
             assert (d / 'site' / f).exists(), f
         pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
         assert 'cdnjs' not in pag and 'const D' not in pag and len(pag) < 20000, 'página leve: dados e código em arquivos'

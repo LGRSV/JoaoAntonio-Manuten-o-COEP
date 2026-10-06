@@ -43,6 +43,8 @@ alimentadores/<AL>/<AL>-trechos.kmz
 dados/alimentadores/<AL>.json      fonte canônica do alimentador inteiro ([lon, lat]): trechos, vãos, chaves,
                                    municípios, NAE, avisos e validação. O recorte por município é só um filtro na
                                    página; o arquivo canônico nunca é recortado.
+dados/ativos/<fatia>.json          código de chave ou número de poste → alimentador e trecho (busca "Em que trecho
+                                   está o ativo?" da página inicial; 256 pedaços, a página baixa só o do código)
 manifesto.json                     município ↔ polo, SE e alimentadores
 relatorio.md / relatorio.html      por município e alimentador, totais e não processados
 assets/                            Leaflet 1.9.4, CSS e JS compartilhados (o JS do mapa sai do modelo da skill)
