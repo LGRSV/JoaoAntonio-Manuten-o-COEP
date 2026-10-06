@@ -114,14 +114,16 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
     per = f"{MES[meses[0][5:]]}–{MES[meses[-1][5:]]}/{meses[-1][:4]}" if meses else '—'
     sem = sum(1 for r in oc if r[6] == '(sem trecho)')
     rep = sum(1 for r in oc if r[18] == 'Não')
+    mil = lambda n: f'{n:,}'.replace(',', '.')        # só o número: o texto tem vírgulas
     txt = [f'Trechos por alimentador — {n_al} alimentadores publicados',
            f'Fonte: JSON canônico do site (dados/alimentadores). NAE: Crítica {per}, só Meio Ambiente · Árvore/Eucalipto.',
            f"Arquivos da Crítica: {', '.join(crit) or '—'}", '',
            'Abas:',
-           f'• Trechos — {len(tr):,} linhas, 1 por trecho × município. "Km no município" soma certo em qualquer dinâmica.'.replace(',', '.'),
+           f'• Trechos — {mil(len(tr))} linhas, 1 por trecho × município. "Km no município" soma certo em qualquer dinâmica.',
            '  "Ativos": chaves, transformadores, capacitores… do trecho, separados por "; ", na ordem a partir do DJ;'
            ' "Postes": postes numerados do trecho. Os dois por município (cada linha traz os que ficam nela).',
-           f'• NAE — {len(oc):,} ocorrências, 1 por linha. Conte linhas para ter o NAE; some Consumidores/CHI.'.replace(',', '.'),
+           f'• NAE — {mil(len(oc))} ocorrências, 1 por linha. Conte linhas para ter o NAE (coluna "Conta no total do alimentador" = Sim'
+           ' para o total da Crítica); some Consumidores/CHI.',
            '• Dinâmica km — extensão por município → alimentador × classe (T1/T2/T3).',
            '• Dinâmica NAE — ocorrências por município → alimentador → classe × mês.',
            '• Ranking trechos — trechos com NAE, do que tem mais para o que tem menos (NAE, consumidores e CHI por fórmula da aba NAE).', '',
@@ -131,11 +133,11 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
            '• NAE do trecho vai para o município onde o trecho tem mais rede (a Crítica não traz coordenada da ocorrência).',
            '  Na aba Trechos, "NAE no trecho" fica só na linha desse município (nas outras = 0), para não contar duas vezes.',
            '• CHI = Consumidores × Duração (min) ÷ 60 (fórmula na aba NAE).',
-           f'• "(sem trecho)": {sem:,} ocorrências cujo ativo não foi achado na rede deste alimentador; entram no total do alimentador, sem classe.'.replace(',', '.'),
+           f'• "(sem trecho)": {mil(sem)} ocorrências cujo ativo não foi achado na rede deste alimentador; entram no total do alimentador, sem classe.',
            '• Transformadores: posição da camada Transformadores do GIS; a NAE do trafo vai para o trecho do vão mais próximo (até 50 m).',
            f'• Ativo hoje em outro alimentador (chave remanejada): a NAE conta nas duas pontas. Fica no alimentador da Crítica (sem trecho,'
-           f' "Conta no total do alimentador" = Sim) e aparece de novo no trecho onde o ativo está hoje ({rep:,} linhas com "Conta no total do'
-           f' alimentador" = Não). Para o total da Crítica, filtre essa coluna = Sim; a soma dos trechos usa todas.'.replace(',', '.'),
+           f' "Conta no total do alimentador" = Sim) e aparece de novo no trecho onde o ativo está hoje ({mil(rep)} linhas com "Conta no total do'
+           f' alimentador" = Não). Para o total da Crítica, filtre essa coluna = Sim; a soma dos trechos usa todas.',
            f"• Fora da planilha (bloqueados na validação do site): {', '.join(fora) or 'nenhum'}.", '',
            'Atualizar: Dados → Atualizar Tudo (as dinâmicas também se atualizam ao abrir).']
     for i, s in enumerate(txt, 1):
