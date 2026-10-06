@@ -12,8 +12,8 @@
   const nf = (n, d) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
 
   // ---------- UTM (SIRGAS 2000 ≈ GRS80; série de Krüger, erro < 1 mm) ----------
-  function utm(lat, lon) {
-    const fuso = Math.floor((lon + 180) / 6) + 1, a = 6378137, f = 1 / 298.257222101, k0 = 0.9996;
+  function utm(lat, lon, fusoFixo) {                      // fusoFixo: as duas pontas do croqui no mesmo fuso
+    const fuso = fusoFixo || Math.floor((lon + 180) / 6) + 1, a = 6378137, f = 1 / 298.257222101, k0 = 0.9996;
     const n = f / (2 - f), A = a / (1 + n) * (1 + n * n / 4 + n ** 4 / 64);
     const al = [0, n / 2 - 2 * n * n / 3 + 5 * n ** 3 / 16, 13 * n * n / 48 - 3 * n ** 3 / 5, 61 * n ** 3 / 240];
     const phi = lat * Math.PI / 180, dl = (lon - (-183 + 6 * fuso)) * Math.PI / 180, r = 2 * Math.sqrt(n) / (1 + n);
@@ -21,7 +21,7 @@
     const xi = Math.atan2(t, Math.cos(dl)), eta = Math.atanh(Math.sin(dl) / Math.sqrt(1 + t * t));
     let E = eta, N = xi;
     for (let j = 1; j <= 3; j++) { E += al[j] * Math.cos(2 * j * xi) * Math.sinh(2 * j * eta); N += al[j] * Math.sin(2 * j * xi) * Math.cosh(2 * j * eta); }
-    return { e: Math.round(500000 + k0 * A * E), n: Math.round((lat < 0 ? 10000000 : 0) + k0 * A * N), fuso: fuso + (lat < 0 ? 'S' : 'N') };
+    return { e: Math.round(500000 + k0 * A * E), n: Math.round((lat < 0 ? 10000000 : 0) + k0 * A * N), z: fuso, fuso: fuso + (lat < 0 ? 'S' : 'N') };
   }
   const dist = (a, b) => { const k = Math.cos(a[0] * Math.PI / 180); return Math.hypot(a[0] - b[0], (a[1] - b[1]) * k) * 111320; };
 
@@ -45,16 +45,41 @@
     const ini = inicios.slice().sort((a, b) => a.d - b.d)[0];
     fins.sort((a, b) => dist(b.ll, ini.ll) - dist(a.ll, ini.ll));                          // o mais longe do início primeiro
     const nomeMun = Object.fromEntries((M.municipios || []).map(m => [m.cod, m.nome]));
-    const muns = [...new Set(ts.flatMap(t => (M.trecho_mun || {})[t.nome] || []))].map(c => nomeMun[c] || c);
+    const ordem = Object.fromEntries((M.municipios || []).map((m, i) => [m.cod, -(m.m || 0)]));
+    const muns = [...new Set(ts.flatMap(t => (M.trecho_mun || {})[t.nome] || []))].sort((a, b) => (ordem[a] || 0) - (ordem[b] || 0)).map(c => nomeMun[c] || c);
     const ext = ts.reduce((s, t) => s + t.ext, 0);
     return { ts, inicios: inicios.sort((a, b) => a.d - b.d), fins, ext, muns };
+  }
+  // comprimento (m) do caminho pela rede, só nos vãos dos trechos escolhidos, da chave inicial até a final
+  function caminho(nomes, ini, fim) {
+    const idx = new Set(nomes.map(n => TR[n].i)), viz = new Map(), pts = new Map();
+    const chave = (la, lo) => la.toFixed(6) + ',' + lo.toFixed(6);
+    const liga = (a, b, m) => { if (!viz.has(a)) viz.set(a, []); viz.get(a).push([b, m]); };
+    D.vaos.forEach(v => {
+      if (!idx.has(v[4])) return;
+      const a = chave(v[0], v[1]), b = chave(v[2], v[3]);
+      pts.set(a, [v[0], v[1]]); pts.set(b, [v[2], v[3]]); liga(a, b, v[8]); liga(b, a, v[8]);
+    });
+    const perto = ll => { let melhor = null, dm = Infinity; pts.forEach((p, k) => { const x = dist(p, ll); if (x < dm) { dm = x; melhor = k; } }); return dm < 60 ? melhor : null; };
+    const s = perto(ini.ll), t = perto(fim.ll);
+    if (!s || !t) return null;
+    const dd = new Map([[s, 0]]), feito = new Set();
+    for (;;) {
+      let u = null, du = Infinity;
+      dd.forEach((v, k) => { if (!feito.has(k) && v < du) { du = v; u = k; } });
+      if (u === null) return null;
+      if (u === t) return du;
+      feito.add(u);
+      (viz.get(u) || []).forEach(([w, m]) => { if (du + m < (dd.get(w) ?? Infinity)) dd.set(w, du + m); });
+    }
   }
   const textoFim = c => {                                   // 'fim de linha · poste 123' → 'FIM DE LINHA (POSTE 123)'; poste N… é sem número
     if (!/^fim de linha/i.test(c)) return c;
     const p = (c.match(/poste\s+(\S+)/i) || [])[1];
     return 'FIM DE LINHA' + (p && !/^N\d+$/i.test(p) ? ` (POSTE ${p})` : '');
   };
-  const listaMun = l => l.length < 2 ? (l[0] || '') : l.slice(0, -1).join(', ') + ' E ' + l[l.length - 1];
+  const listaMun = l => l.length < 2 ? (l[0] || '') : l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1];
+  const munCroqui = l => l.length <= 2 ? listaMun(l).replace(' e ', ' E ') : `${l[0]}, ${l[1]} E OUTROS`;   // a descrição tem espaço para pouco
 
   // ---------- figuras do trecho (canvas) ----------
   const TILE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/';
@@ -110,7 +135,7 @@
     const mpp = 156543.03392 * Math.cos(lat * Math.PI / 180) / q.k;
     const alvo = mpp * W * 0.22, ordem = 10 ** Math.floor(Math.log10(alvo));
     const m = [1, 2, 5, 10].map(x => x * ordem).filter(x => x <= alvo).pop(), px = m / mpp;
-    const cor = fundoEscuro ? '#fff' : '#fff', sombra = 'rgba(0,0,0,.8)';
+    const cor = fundoEscuro ? '#fff' : '#1b2024', sombra = fundoEscuro ? 'rgba(0,0,0,.8)' : 'rgba(255,255,255,.9)';
     ctx.save(); ctx.font = '600 18px Arial, sans-serif'; ctx.lineWidth = 4;
     const x0 = 24, y0 = H - 28;
     ctx.strokeStyle = sombra; ctx.strokeRect(x0, y0, px, 8); ctx.fillStyle = cor; ctx.fillRect(x0, y0, px, 8);
@@ -184,6 +209,8 @@
       U11: c.km, U12: c.desloc === null ? null : c.desloc, U13: c.tipo };
     const cod = v => /^[1-9]\d{0,14}$/.test(String(v)) ? +v : String(v);   // 0300… fica texto para não perder o zero
     val.U3 = cod(c.ini); val.U6 = cod(c.fim);
+    const fz = ` (UTM ${c.iniU.fuso} SIRGAS 2000)`;           // o modelo diz Longitude/Latitude, mas os valores são E/N em UTM
+    Object.assign(val, { T4: 'Longitude Ativo Inicial' + fz, T5: 'Latitude Ativo Inicial' + fz, T7: 'Longitude Ativo Final' + fz, T8: 'Latitude Ativo Final' + fz });
     Object.entries(val).forEach(([r, v]) => { sheet = celula(sheet, r, typeof v === 'number' || v === null ? v : String(v)); });
     const t = x => x === null || x === undefined ? '' : String(x);
     sheet = cache(sheet, 'Y2', `ATIVO INICIAL: ${c.ini}\nLONGITUDE:  ${c.iniU.e}\nLATITUDE: ${c.iniU.n}`);
@@ -201,26 +228,53 @@
     sheet = cache(sheet, 'R43', r43); sheet = cache(sheet, 'R44', r44); sheet = cache(sheet, 'R45', r43 + r44);
     return sheet;
   }
+  // posição na planilha (EMU) a partir das âncoras de célula — é assim que o Excel e o LibreOffice posicionam
+  function grade(sheet) {
+    const mdw = 7, px = w => Math.trunc(((256 * w + Math.trunc(128 / mdw)) / 256) * mdw);   // Calibri 11: dígito de 7 px
+    const larguraPadrao = +((sheet.match(/<sheetFormatPr[^>]*defaultColWidth="([\d.]+)"/) || [])[1] || 8.43);
+    const alturaPadrao = +((sheet.match(/<sheetFormatPr[^>]*defaultRowHeight="([\d.]+)"/) || [])[1] || 15);
+    const cols = [...sheet.matchAll(/<col min="(\d+)" max="(\d+)" width="([\d.]+)"/g)].map(m => [+m[1], +m[2], +m[3]]);
+    const alturas = {};
+    for (const m of sheet.matchAll(/<row r="(\d+)"[^>]*?\sht="([\d.]+)"/g)) alturas[+m[1] - 1] = +m[2];
+    const larg = c => { const k = cols.find(([a, b]) => c + 1 >= a && c + 1 <= b); return px(k ? k[2] : larguraPadrao) * 9525; };
+    const alt = r => (alturas[r] ?? alturaPadrao) * 12700;
+    const soma = (n, f) => { let t = 0; for (let i = 0; i < n; i++) t += f(i); return t; };
+    return (a) => {                                         // âncora (twoCellAnchor) → [x, y, largura, altura]
+      const p = tag => (a.match(new RegExp(`<xdr:${tag}><xdr:col>(\\d+)</xdr:col><xdr:colOff>(-?\\d+)</xdr:colOff><xdr:row>(\\d+)</xdr:row><xdr:rowOff>(-?\\d+)</xdr:rowOff></xdr:${tag}>`)) || []).slice(1).map(Number);
+      const f = p('from'), t = p('to');
+      if (f.length < 4 || t.length < 4) return null;
+      const x0 = soma(f[0], larg) + f[1], y0 = soma(f[2], alt) + f[3];
+      return [x0, y0, soma(t[0], larg) + t[1] - x0, soma(t[2], alt) + t[3] - y0];
+    };
+  }
   // etiquetas ATIVO INICIAL / FINAL (ligadas a Y2 e Y3): texto novo e a linha apontando para o pino da figura
-  function desenho(dr, c, fig) {
-    const bloco = (dr.match(/<xdr:pic>[\s\S]*?<\/xdr:pic>/g) || []).find(b => /r:embed="rId1"/.test(b)) || '';
-    const pic = (bloco.match(/<a:off x="(\d+)" y="(\d+)"\/><a:ext cx="(\d+)" cy="(\d+)"/) || []).slice(1).map(Number);
-    const ponto = p => pic.length ? [pic[0] + p[0] / fig.W * pic[2], pic[1] + p[1] / fig.H * pic[3]] : null;
-    [['$Y$2', `ATIVO INICIAL: ${c.ini}\nLONGITUDE:  ${c.iniU.e}\nLATITUDE: ${c.iniU.n}`, ponto(fig.pi)],
-     ['$Y$3', `ATIVO FINAL: ${c.fim}\nLONGITUDE:  ${c.fimU.e}\nLATITUDE: ${c.fimU.n}`, ponto(fig.pf)]].forEach(([lig, txt, alvo]) => {
-      dr = dr.replace(new RegExp(`<xdr:sp [^>]*textlink="${lig.replace(/\$/g, '\\$')}"[\\s\\S]*?</xdr:sp>`), sp => {
-        sp = sp.replace(/<a:t>[\s\S]*?<\/a:t>/, `<a:t>${xml(txt)}</a:t>`);
-        const box = (sp.match(/<a:off x="(\d+)" y="(\d+)"\/><a:ext cx="(\d+)" cy="(\d+)"/) || []).slice(1).map(Number);
-        if (alvo && box.length) {                          // borderCallout1: adj1/adj2 = ponta (y, x); adj3/adj4 = onde a linha sai da caixa
-          const y = Math.round((alvo[1] - box[1]) / box[3] * 100000), x = Math.round((alvo[0] - box[0]) / box[2] * 100000);
-          const dx = x < 0 ? -x : x > 100000 ? x - 100000 : 0, dy = y < 0 ? -y : y > 100000 ? y - 100000 : 0;
-          const [sy, sx] = dx * box[2] >= dy * box[3] ? [50000, x < 50000 ? 0 : 100000] : [y < 50000 ? 0 : 100000, 50000];
-          [[1, y], [2, x], [3, sy], [4, sx]].forEach(([k, v]) => { sp = sp.replace(new RegExp(`(<a:gd name="adj${k}" fmla="val )-?\\d+`), `$1${v}`); });
-        }
-        return sp;
-      });
-    });
-    return dr;
+  function desenho(dr, c, fig, sheet) {
+    const caixa = grade(sheet);
+    const ancoras = (dr.match(/<xdr:twoCellAnchor[^>]*>[\s\S]*?<\/xdr:twoCellAnchor>/g) || []);
+    const aPic = ancoras.find(a => /r:embed="rId1"/.test(a));
+    let aIni = ancoras.find(a => /textlink="\$Y\$2"/.test(a)), aFim = ancoras.find(a => /textlink="\$Y\$3"/.test(a));
+    if (!aPic || !aIni || !aFim) throw new Error('modelo sem as etiquetas ATIVO INICIAL/FINAL');
+    const velhoIni = aIni, velhoFim = aFim;
+    if (fig.pi[1] > fig.pf[1]) {                             // início embaixo: troca as caixas de lugar (as linhas não se cruzam)
+      const pos = a => a.match(/<xdr:from>[\s\S]*?<\/xdr:to>/)[0], xf = a => a.match(/<a:off [^>]*\/><a:ext [^>]*\/>/)[0];
+      [aIni, aFim] = [aIni.replace(pos(aIni), () => pos(velhoFim)).replace(xf(aIni), () => xf(velhoFim)),
+                      aFim.replace(pos(aFim), () => pos(velhoIni)).replace(xf(aFim), () => xf(velhoIni))];
+    }
+    const R = caixa(aPic);
+    const ponto = p => [R[0] + p[0] / fig.W * R[2], R[1] + p[1] / fig.H * R[3]];
+    const ajusta = (a, txt, alvo) => {
+      a = a.replace(/<a:t>[\s\S]*?<\/a:t>/, () => `<a:t>${xml(txt)}</a:t>`);
+      const box = caixa(a);
+      if (!box) return a;                                    // borderCallout1: adj1/adj2 = ponta (y, x); adj3/adj4 = onde a linha sai da caixa
+      const y = Math.round((alvo[1] - box[1]) / box[3] * 100000), x = Math.round((alvo[0] - box[0]) / box[2] * 100000);
+      const dx = x < 0 ? -x : x > 100000 ? x - 100000 : 0, dy = y < 0 ? -y : y > 100000 ? y - 100000 : 0;
+      const [sy, sx] = dx * box[2] >= dy * box[3] ? [50000, x < 50000 ? 0 : 100000] : [y < 50000 ? 0 : 100000, 50000];
+      [[1, y], [2, x], [3, sy], [4, sx]].forEach(([k, v]) => { a = a.replace(new RegExp(`(<a:gd name="adj${k}" fmla="val )-?\\d+`), `$1${v}`); });
+      return a;
+    };
+    aIni = ajusta(aIni, `ATIVO INICIAL: ${c.ini}\nLONGITUDE:  ${c.iniU.e}\nLATITUDE: ${c.iniU.n}`, ponto(fig.pi));
+    aFim = ajusta(aFim, `ATIVO FINAL: ${c.fim}\nLONGITUDE:  ${c.fimU.e}\nLATITUDE: ${c.fimU.n}`, ponto(fig.pf));
+    return dr.replace(velhoIni, () => aIni).replace(velhoFim, () => aFim);
   }
   // zip sem compressão (o Excel abre normalmente)
   const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
@@ -248,10 +302,11 @@
   }
   async function excel(c, figSat, figGis) {
     const enc = new TextEncoder(), arqs = [];
+    const sheetModelo = window.CROQUI_MODELO.partes.find(p => p[0] === 'xl/worksheets/sheet1.xml')[2];
     for (const [nome, tipo, conteudo] of window.CROQUI_MODELO.partes) {
       let dado;
       if (nome === 'xl/worksheets/sheet1.xml') dado = enc.encode(planilha(conteudo, c));
-      else if (nome === 'xl/drawings/drawing1.xml') dado = enc.encode(desenho(conteudo, c, figSat));
+      else if (nome === 'xl/drawings/drawing1.xml') dado = enc.encode(desenho(conteudo, c, figSat, sheetModelo));
       else if (nome === 'xl/workbook.xml') dado = enc.encode(conteudo.replace(/<calcPr([^>]*?)\/>/, (m, a) => `<calcPr${a.replace(/\sfullCalcOnLoad="[^"]*"/, '')} fullCalcOnLoad="1"/>`));
       else if (nome === 'xl/media/image1.png') dado = new Uint8Array(await figSat.blob.arrayBuffer());
       else if (nome === 'xl/media/image4.png') dado = new Uint8Array(await figGis.blob.arrayBuffer());
@@ -303,12 +358,13 @@ dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
       <div class="fig" role="img" aria-label="Figura do trecho no croqui"></div>
       <dl><dt>Alimentador</dt><dd>${esc(M.al)} · ${esc(M.se_nome || M.se || '')}</dd>
         <dt>Trecho${nomes.length > 1 ? 's' : ''}</dt><dd>${esc(nomes.join(', '))}</dd>
-        <dt>Extensão</dt><dd>${nf(d.ext / 1000, 2)} km</dd>
+        <dt>Extensão</dt><dd class="u-ext">${nf(d.ext / 1000, 2)} km</dd>
         <dt>Município</dt><dd>${esc(listaMun(d.muns)) || '—'}</dd>
         <dt>Início</dt><dd class="u-ini"></dd><dt>Fim</dt><dd class="u-fim"></dd></dl>
       <div class="campos">
         <label>Chave inicial<select name="ini">${opt(d.inicios, x => x.cod + (nomes.length > 1 ? ' · ' + x.t : ''))}</select></label>
         <label>Chave final<select name="fim">${opt(d.fins, x => textoFim(x.cod) + (nomes.length > 1 ? ' · ' + x.t : ''))}</select></label>
+        <label>Faixa a limpar<select name="base"><option value="total">Trecho inteiro</option><option value="caminho">Só entre as chaves</option></select></label>
         <label>Tamanho da faixa (km)<input name="km" type="number" step="0.01" min="0" value="${(Math.round(d.ext / 10) / 100).toFixed(2)}"></label>
         <label>Tipo<select name="tipo"><option>Convencional</option><option>Expedita</option></select></label>
         <label>OS<input name="os" autocomplete="off" placeholder="ETO-RD-.. 00000/2026"></label>
@@ -321,7 +377,7 @@ dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
     const f = dlg.querySelector('form'), fig = dlg.querySelector('.fig');
     const escolha = () => ({ ini: d.inicios[+f.ini.value], fim: d.fins[+f.fim.value] });
     const coords = () => {
-      const { ini, fim } = escolha(), a = utm(ini.ll[0], ini.ll[1]), b = utm(fim.ll[0], fim.ll[1]);
+      const { ini, fim } = escolha(), a = utm(ini.ll[0], ini.ll[1]), b = utm(fim.ll[0], fim.ll[1], a.z);
       dlg.querySelector('.u-ini').textContent = `${ini.cod} · E ${a.e} · N ${a.n} (UTM ${a.fuso})`;
       dlg.querySelector('.u-fim').textContent = `${textoFim(fim.cod)} · E ${b.e} · N ${b.n} (UTM ${b.fuso})`;
       return { a, b };
@@ -335,9 +391,23 @@ dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
       });
       return gerando;
     };
-    coords(); desenha();
-    f.ini.addEventListener('change', () => { coords(); desenha(); });
-    f.fim.addEventListener('change', () => { coords(); desenha(); });
+    // tamanho da faixa: trecho inteiro (com os ramais curtos dentro dele) ou só o caminho de uma chave à outra
+    const km2 = m => (Math.round(m / 10) / 100).toFixed(2);
+    let entre = null;
+    const tamanho = () => {
+      const { ini, fim } = escolha();
+      entre = caminho(nomes, ini, fim);
+      f.base.options[0].textContent = `Trecho inteiro (${nf(d.ext / 1000, 2)} km)`;
+      f.base.options[1].textContent = entre === null ? 'Só entre as chaves (sem ligação)' : `Só entre as chaves (${nf(entre / 1000, 2)} km)`;
+      f.base.options[1].disabled = entre === null;
+      if (entre === null && f.base.value === 'caminho') f.base.value = 'total';
+      f.km.value = km2(f.base.value === 'caminho' ? entre : d.ext);
+      dlg.querySelector('.u-ext').textContent = `${nf(d.ext / 1000, 2)} km` + (entre !== null ? ` · entre as chaves ${nf(entre / 1000, 2)} km` : '');
+    };
+    coords(); tamanho(); desenha();
+    f.ini.addEventListener('change', () => { coords(); tamanho(); desenha(); });
+    f.fim.addEventListener('change', () => { coords(); tamanho(); desenha(); });
+    f.base.addEventListener('change', tamanho);
     dlg.addEventListener('close', () => dlg.remove());
     f.addEventListener('submit', async e => {
       if (e.submitter && e.submitter.value === 'cancelar') return;
@@ -349,7 +419,7 @@ dialog.croqui::backdrop{background:rgb(10 14 17 / .5)}
         const { ini, fim } = escolha(), { a, b } = coords();
         const km = Math.max(0, +f.km.value || 0), desloc = f.desloc.value === '' ? null : Math.max(0, +f.desloc.value);
         const c = { ini: ini.cod, fim: textoFim(fim.cod), iniU: a, fimU: b, al: M.al, km, desloc, tipo: f.tipo.value,
-          os: f.os.value.trim(), obra: f.obra.value.trim(), mun: listaMun(d.muns) };
+          os: f.os.value.trim(), obra: f.obra.value.trim(), mun: munCroqui(d.muns) };
         const blob = await excel(c, sat, gis);
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob); link.download = `CROQUI_CH_${String(ini.cod).replace(/[^\w.-]+/g, '_')}.xlsx`;
