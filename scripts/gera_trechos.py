@@ -568,6 +568,7 @@ def ranking_polos(saida, dados, man):
     polo_de = {cod: p['id'] for p in cfg['polos'] for cod in p['municipios']}
     slug_mun = {m['cod']: m['slug'] for m in man['municipios']}
     linhas = {p['id']: [] for p in cfg['polos']}
+    trechos_p = {p['id']: [] for p in cfg['polos']}       # trechos com NAE, no polo do município de mais rede
     meses, regra, equipes = set(), {'T1': 3, 'T2': 4, 'T3': 5}, None
     for c in dados:
         if c['validacao']['status'] == 'falha':
@@ -594,6 +595,7 @@ def ranking_polos(saida, dados, man):
             x[2] += (o.get('cons') or 0) * (o.get('dur') or 0)
             x[3] += 0 if o.get('trecho') else 1
         limp = {}                                       # polo → classe → data da última limpeza ('' = sem) → metros
+        limp_t = {}                                     # trecho → data da última limpeza ('' = sem) → metros
         lp = le_js(saida / 'alimentadores' / al / 'limpeza.js')
         mapa = le_js(saida / 'alimentadores' / al / 'dados.js') if lp else None
         if lp and mapa and len(mapa['vaos']) == len(c['vaos']):     # mesma ordem de vãos nos dois arquivos
@@ -604,10 +606,27 @@ def ranking_polos(saida, dados, man):
                 if ds:
                     ult[vid] = max(ds)
             for v, d in zip(c['vaos'], mapa['vaos']):
+                dt = ult.get(str(d[5]), '')
+                q = limp_t.setdefault(ts[v[4]]['nome'], {})
+                q[dt] = q.get(dt, 0) + v[5]
                 if polo_de.get(v[8]):
                     q = limp.setdefault(polo_de[v[8]], {}).setdefault(classe(ts[v[4]]['nome']), {})
-                    dt = ult.get(str(d[5]), '')
                     q[dt] = q.get(dt, 0) + v[5]
+        por_t = {}                                      # trecho → [NAE, consumidores, consumidor×min]
+        for o in (c.get('nae') or {}).get('oc', []):
+            if o.get('trecho'):
+                x = por_t.setdefault(o['trecho'], [0, 0, 0])
+                x[0] += 1
+                x[1] += o.get('cons') or 0
+                x[2] += (o.get('cons') or 0) * (o.get('dur') or 0)
+        for t in ts:
+            if t['nome'] in por_t:
+                n, mm = por_t[t['nome']], t.get('municipios') or {}
+                mun = max(mm, key=mm.get) if mm else None
+                trechos_p[polo_t.get(t['nome']) or principal].append(dict(
+                    al=al, t=t['nome'], se=c['se_nome'], mun=mun, m=slug_mun.get(mun), km=round(t['ext_m']), nae=n[0],
+                    cons=n[1], chi=round(n[2] / 60),
+                    lp={classe(t['nome']): {d: round(m) for d, m in sorted(limp_t.get(t['nome'], {}).items())}} if limp_t else {}))
         for p in sorted(set(km) | set(nae)):
             if km.get(p, 0) < MIN_M and p not in nae:
                 continue
@@ -622,12 +641,13 @@ def ranking_polos(saida, dados, man):
                     fora=cfg['fora'], muns={m['cod']: m['nome'] for m in geo},
                     polos=[dict(id=p['id'], nome=p['nome'], regional=p['regional'], equipe=p['equipe'],
                                 n_muns=len(p['municipios']),
-                                als=sorted(linhas[p['id']], key=lambda a: (-a['nae'], -a['km'], a['al'])))
+                                als=sorted(linhas[p['id']], key=lambda a: (-a['nae'], -a['km'], a['al'])),
+                                trs=sorted(trechos_p[p['id']], key=lambda a: (-a['nae'], -a['chi'], a['al'], a['t'])))
                            for p in cfg['polos']])
     (saida / 'assets' / 'ranking-polos-dados.js').write_text(
         'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
     corpo = ('<nav class="migalhas"><a href="../">Municípios</a> → <b>Ranking por polo</b></nav>\n'
-             '<header><h1>Alimentadores por polo</h1><p>Escolha o polo. Os alimentadores aparecem do que tem mais NAE '
+             '<header><h1>Ranking por polo</h1><p>Escolha o polo e veja os alimentadores ou os trechos, do que tem mais NAE '
              '(árvore/eucalipto na rede) para o que tem menos; toque no título de uma coluna para ordenar por ela.</p>'
              '</header>\n<div id="polos"></div>\n'
              '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')
