@@ -58,6 +58,8 @@ p{margin:0}
 .det dd{margin:0;min-width:0;overflow-wrap:anywhere}
 .mono{font-family:var(--f-mono)}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
+.nae-at{transform:translate(-50%,-50%);min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--alerta,#b91c1c);color:#fff;font:700 11px/16px var(--f-mono);text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.6);cursor:pointer}
+.oc .ir{font:inherit;font-size:12px;padding:0;border:0;background:none;color:var(--accent,#1d4ed8);text-decoration:underline;cursor:pointer}
 .varios{display:grid;gap:6px;margin:4px 0 10px}.varios>div{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;font-size:13px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .varios>div>span:first-of-type{text-align:right}.varios small{grid-column:1/-1;font-size:12px;opacity:.75;overflow-wrap:anywhere}
 .chip{border:1px solid var(--line);background:var(--paper);color:var(--fg);border-radius:5px;padding:4px 7px;font:600 12px/1 var(--f-mono);cursor:pointer}
@@ -166,20 +168,29 @@ if (NAE && NAE.meses.length) {
   $('mes').innerHTML = (NAE.meses.length > 1 ? `<option value="todos" selected>Todos (${rotMes('todos')})</option>` : '') +
     NAE.meses.map(m => `<option value="${m}">${rotMes(m)}</option>`).join('');
 }
-const doMes = () => NAE ? NAE.oc.filter(o => ($('mes').value === 'todos' || o.mes === $('mes').value) && (o.col || $('ind').checked)) : [];
-function contagem() { const c = {}; doMes().forEach(o => { if (o.trecho) c[o.trecho] = (c[o.trecho] || 0) + 1; }); return c; }
+const filtra = l => (l || []).filter(o => ($('mes').value === 'todos' || o.mes === $('mes').value) && (o.col || $('ind').checked));
+const doMes = () => NAE ? filtra(NAE.oc) : [];            // NAE deste alimentador (Crítica): o total do alimentador
+const doExt = () => NAE ? filtra(NAE.ext) : [];           // NAE de outro alimentador cujo ativo hoje está num trecho daqui
+const doTrecho = () => [...doMes(), ...doExt()];          // bloco do trecho: soma a NAE de todos os ativos do trecho
+function contagem() { const c = {}; doTrecho().forEach(o => { if (o.trecho) c[o.trecho] = (c[o.trecho] || 0) + 1; }); return c; }
+const raizAl = location.pathname.includes('/alimentadores/') ? '../' : null;   // no site: link para o outro alimentador
 function listaOc(os, comTrecho) {
   return `<ul class="oc">${os.map(o => `<li class="${o.col ? 'col' : ''}"><span class="q">${comTrecho ? `<b>${esc(o.trecho)}</b> · ` : ''}${esc(o.dia)} · ${!o.col ? '1 consumidor · trafo ' + esc(o.ativo) : esc(ABR[o.abr] || o.abr) + ' ' + esc(o.prob || o.ativo) + (o.prob && o.prob !== o.ativo ? ' · trafo ' + esc(o.ativo) : '')}</span><br>` +
-    `${esc(o.sub || o.causa)}${o.prog ? ' · <b>programada</b>' : ''} · ${o.cons} cons. · ${o.dur} min</li>`).join('')}</ul>`;
+    `${esc(o.sub || o.causa)}${o.prog ? ' · <b>programada</b>' : ''} · ${o.cons} cons. · ${o.dur} min` +
+    (o.lonlat && map ? ` · <button type="button" class="ir" data-ll="${o.lonlat[1]},${o.lonlat[0]}">ver no mapa</button>` : '') +
+    (o.de ? `<br><b>registrada no ${esc(o.de)}</b> (a Crítica conta lá; o ativo hoje fica aqui)` : '') +
+    (o.hoje ? `<br>ativo hoje no ${raizAl && o.hoje[1] ? `<a href="${raizAl}${encodeURIComponent(o.hoje[0])}/?t=${encodeURIComponent(o.hoje[1])}">${esc(o.hoje[0])} · ${esc(o.hoje[1])}</a>` : esc(o.hoje[0]) + (o.hoje[1] ? ' · ' + esc(o.hoje[1]) : '')}${o.hoje[1] ? ' (conta também lá)' : ''}` : '') +
+    `</li>`).join('')}</ul>`;
 }
-function blocoNae(nome) {
-  const os = doMes().filter(o => o.trecho === nome), col = os.filter(o => o.col).length;
+function blocoNae(nome, l) {
+  const os = doTrecho().filter(o => (l || [nome]).includes(o.trecho)), col = os.filter(o => o.col).length, ext = os.filter(o => o.de).length;
   const ind = $('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : '';
-  return `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind})${os.length ? listaOc(os) : ''}</dd>`;
+  return `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
 }
 function atualizaNae() {
   desenhaLista($('busca').value);
   multi.length ? detalheVarios(multi) : sel ? detalhe(TR[sel]) : resumo();
+  marcaNae(multi.length ? multi : sel ? [sel] : null);
   const c = contagem();
   Object.entries(rotulos).forEach(([n, m]) => { const el = m.getElement(); if (el) { el.firstChild.innerHTML = esc(n) + (c[n] ? `<span class="n">${c[n]}</span>` : ''); el.firstChild.classList.toggle('oc', !!c[n]); } });
   rotulosT3();
@@ -238,11 +249,7 @@ function detalhe(t, vao) {
 // vários trechos (Ctrl ou ⌘ + clique): soma de extensão e NAE, e cada trecho com o seu
 function detalheVarios(l) {
   const ts = l.map(n => TR[n]), ext = ts.reduce((s, t) => s + t.ext, 0), c = NAE ? contagem() : {};
-  let nae = '';
-  if (NAE) {
-    const os = doMes().filter(o => l.includes(o.trecho)), col = os.filter(o => o.col).length;
-    nae = `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${$('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : ''})${os.length ? listaOc(os, true) : ''}</dd>`;
-  }
+  const nae = NAE ? blocoNae(null, l) : '';
   $('det').innerHTML = `<h2>${l.length} trechos <small>${km(ext)} · ${nv(ts.reduce((s, t) => s + t.qtd, 0))}</small></h2>
     <div class="varios">${ts.map(t => `<div><button class="chip" data-t="${esc(t.nome)}">${esc(t.nome)}</button><span>${km(t.ext)}</span>` +
       `${NAE ? `<span><b>${c[t.nome] || 0}</b> NAE</span>` : ''}<small class="mono">${esc(t.inicio)} → ${esc(fimTxt(t).replace('fim de linha · poste ', 'fim '))}</small></div>`).join('')}</div><dl>
@@ -251,10 +258,11 @@ function detalheVarios(l) {
   </dl><p class="lede">Ctrl (⌘ no Mac) + clique põe ou tira um trecho. Clique sem Ctrl volta a um trecho só.</p><div><button class="chip" id="todos">Ver todos</button></div>`;
 }
 function resumoNae() {
-  const os = doMes(), col = os.filter(o => o.col).length, fora = os.filter(o => !o.trecho), mot = {};
-  fora.forEach(o => { mot[o.fora] = (mot[o.fora] || 0) + 1; });
+  const os = doMes(), col = os.filter(o => o.col).length, fora = os.filter(o => !o.trecho), mot = {}, ext = doExt();
+  fora.forEach(o => { const m = (o.fora || '').startsWith('hoje no ') ? 'com o ativo hoje em outro alimentador' : o.fora; mot[m] = (mot[m] || 0) + 1; });
   return `<dt>NAE ${rotMes($('mes').value)}</dt><dd><b>${os.length}</b> no alimentador (${col} coletivas${$('ind').checked ? ` · ${os.length - col} individuais` : ''})` +
-    `${fora.length ? `<br>Fora dos trechos atuais: ${Object.entries(mot).map(([m, n]) => `${n} ${esc(m)}`).join(' · ')}${listaOc(fora)}` : ''}</dd>`;
+    `${fora.length ? `<br>Sem trecho aqui: ${Object.entries(mot).map(([m, n]) => `${n} ${esc(m)}`).join(' · ')}${listaOc(fora)}` : ''}` +
+    `${ext.length ? `<br>Mais ${ext.length} de outros alimentadores com o ativo hoje num trecho daqui: contam no trecho, não no total acima.` : ''}</dd>`;
 }
 function resumo() {
   const total = D.trechos.reduce((s, t) => s + t.ext, 0);
@@ -268,7 +276,11 @@ function resumo() {
     ${NAE ? resumoNae() : ''}
   </dl><p class="lede">Toque num trecho no mapa ou na lista para ver início, fim e derivações. Para somar vários, segure Ctrl (⌘ no Mac) e clique em cada um.</p>`;
 }
-$('det').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; b.id === 'todos' ? limpar() : clique(b.dataset.t, e, true); });
+$('det').addEventListener('click', e => {
+  const v = e.target.closest('[data-ll]');               // ocorrência da lista: vai até o ativo no mapa
+  if (v) { if (map) { map.setView(v.dataset.ll.split(',').map(Number), 18); document.getElementById('map').scrollIntoView({block: 'nearest'}); } return; }
+  const b = e.target.closest('.chip'); if (!b) return; b.id === 'todos' ? limpar() : clique(b.dataset.t, e, true);
+});
 
 // mapa
 let map = null, sel = null, multi = [];                // multi: trechos escolhidos com Ctrl (ou ⌘) + clique
@@ -323,10 +335,24 @@ function realca(nomes, enquadrar) {
     : [pino([t.inicio_lat, t.inicio_lon], 'ini', 'INÍCIO', t.inicio),
       ...t.fim.map((f, i) => pino(t.fim_pts[i], 'fim', 'FIM', f.replace('fim de linha · poste ', 'poste ') + (f.startsWith('fim de linha') ? ' (fim de linha)' : '')))]).addTo(map);
   if (enquadrar) map.fitBounds(L.latLngBounds(nomes.flatMap(n => meus(n).flat())).pad(0.25), {maxZoom: 17});
+  marcaNae(nomes);
   rotulosT3();
+}
+// ativos com NAE nos trechos escolhidos: um marcador vermelho por ativo, com quantas NAE teve (mês e filtro da tela)
+let naeMarcas = null;
+function marcaNae(nomes) {
+  if (naeMarcas) { naeMarcas.remove(); naeMarcas = null; }
+  if (!map || !NAE || !nomes) return;
+  const g = {};
+  doTrecho().forEach(o => { if (o.lonlat && nomes.includes(o.trecho)) { const k = o.ativo + '|' + o.trecho; (g[k] = g[k] || {o, n: 0, de: new Set()}).n++; if (o.de) g[k].de.add(o.de); } });
+  naeMarcas = L.layerGroup(Object.values(g).map(({o, n, de}) => L.marker([o.lonlat[1], o.lonlat[0]], {zIndexOffset: 950, keyboard: false,
+    icon: L.divIcon({className: '', iconSize: null, html: `<div class="nae-at">${n}</div>`})})
+    .bindTooltip(`${esc(ABR[o.abr] || o.abr)} ${esc(o.ativo)} · ${n} NAE · ${esc(o.trecho)}${de.size ? ' · registrada no ' + esc([...de].join(', ')) : ''}`, {direction: 'top'})
+    .on('click', e => { L.DomEvent.stopPropagation(e); map.setView(e.latlng, Math.max(map.getZoom(), 17)); }))).addTo(map);
 }
 function limpar() {
   sel = null; multi = [];
+  marcaNae(null);
   resumo();
   desenhaLista($('busca').value);
   if (!map) return;

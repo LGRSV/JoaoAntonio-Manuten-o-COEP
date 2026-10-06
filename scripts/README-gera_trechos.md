@@ -43,7 +43,7 @@ alimentadores/<AL>/<AL>-trechos.kmz
 dados/alimentadores/<AL>.json      fonte canônica do alimentador inteiro ([lon, lat]): trechos, vãos, chaves,
                                    municípios, NAE, avisos e validação. O recorte por município é só um filtro na
                                    página; o arquivo canônico nunca é recortado.
-dados/ativos/<fatia>.json          código de chave ou número de poste → alimentador e trecho (busca "Em que trecho
+dados/ativos/<fatia>.json          código de chave, transformador ou número de poste → alimentador e trecho (busca "Em que trecho
                                    está o ativo?" da página inicial; 256 pedaços, a página baixa só o do código)
 manifesto.json                     município ↔ polo, SE e alimentadores
 polos/index.html                   ranking dos alimentadores de cada polo DCMD (assets/ranking-polos-dados.js)
@@ -61,6 +61,12 @@ assets/                            Leaflet 1.9.4, CSS e JS compartilhados (o JS 
   fora e aparecem nos avisos; `continuidades_estimadas` fica vazio.
 - **NAE:** cada ocorrência leva a regra usada (`abrangência DJ`, `abrangência SE`, `chave de início do trecho`,
   `vão mais próximo do ativo` com a distância em m, `ativo fora do KML`).
+- **Transformadores** (`scripts/ativos_gis.py <pasta do site> <pasta com os Transformadores.kmz do acervo GIS>`): a
+  conversão do GIS não traz transformador, então NAE de trafo ficava `ativo fora do KML`. O script lê a camada
+  Transformadores do próprio GIS (um `Transformadores.kmz` por alimentador no acervo), põe cada trafo no vão mais
+  próximo da rede do site (até 50 m) e dá trecho às NAE dele (`vão mais próximo do ativo (GIS)`), no JSON canônico
+  e no `dados.js`. A rede do site não muda; o total de NAE do alimentador também não (só o trecho). Trafo que o GIS
+  põe em outro alimentador e longe desta rede fica `hoje no X`. Rodar `--so-interface` e a planilha depois.
 - **Validação:** falha crítica (sem DJ, nome repetido, vão sem trecho, soma ≠ total, coordenada fora do TO ou fora
   da ordem [lon, lat], mais da metade fora da malha) tira o alimentador das páginas e vai para "Não processados".
   Avisos (pontos soltos, chave sem vão, vão duplicado, sem postes, vãos na divisa, trechos a revisar) aparecem na

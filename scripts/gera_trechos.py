@@ -613,7 +613,8 @@ def ranking_polos(saida, dados, man):
                     q = limp.setdefault(polo_de[v[8]], {}).setdefault(classe(ts[v[4]]['nome']), {})
                     q[dt] = q.get(dt, 0) + v[5]
         por_t = {}                                      # trecho → [NAE, consumidores, consumidor×min]
-        for o in (c.get('nae') or {}).get('oc', []):
+        # NAE de todos os ativos do trecho: as deste alimentador e as de outro cujo ativo hoje está aqui ('ext')
+        for o in (c.get('nae') or {}).get('oc', []) + (c.get('nae') or {}).get('ext', []):
             if o.get('trecho'):
                 x = por_t.setdefault(o['trecho'], [0, 0, 0])
                 x[0] += 1
@@ -701,7 +702,7 @@ def indice_ativos(saida, dados):
     """dados/ativos/<fatia>.json: código da chave ou do poste → [[alimentador, tipo, trecho, papel, lat, lon], ...].
 
     Chave: o trecho que ela abre (início), senão o que passa por ela, senão o trecho dos vãos do poste dela.
-    Pontos do KML do Daimon ('ativos_kml'): o trecho do vão mais próximo (scripts/ativos_daimon.py).
+    Transformadores do GIS ('ativos_kml'): o trecho do vão mais próximo (scripts/ativos_gis.py).
     Poste: os trechos dos vãos que chegam nele. Postes N123 (pontos sem número no cadastro) ficam de fora.
     """
     idx = {}
@@ -737,7 +738,7 @@ def indice_ativos(saida, dados):
             if alvo:
                 idx.setdefault(chave_ativo(n), []).append([al, ch['tipo'], alvo, ' · '.join(papel), ch['lonlat'][1],
                                                            ch['lonlat'][0]])
-        # pontos do KML do Daimon (transformador, particular, capacitor…; scripts/ativos_daimon.py)
+        # transformadores do GIS (camada Transformadores do acervo; scripts/ativos_gis.py)
         ja = {ch['nome'] for ch in c['chaves']}
         for nome, tipo, lon, lat, t, d, *_ in c.get('ativos_kml') or []:
             if nome in ja or d is None:

@@ -172,7 +172,7 @@
       ${als.length > mostra ? `<button type="button" class="pl-mais" data-m="1">Mostrar mais ${nf(Math.min(POR_VEZ, als.length - mostra))} (de ${nf(als.length - mostra)} restantes)</button>` : ''}
       <div class="pl-leg" aria-label="Cores da limpeza">${Object.values(SIT).map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join('')}</div>
       <div class="pl-nota"><p><b>Como conta:</b> alimentador que passa por mais de um polo aparece em cada um, com a rede e a NAE dos trechos que estão no polo (o trecho conta no município onde tem mais rede). NAE sem trecho localizado conta no polo onde o alimentador tem mais rede.${varios ? ' Na regional e na ETO, o alimentador aparece uma vez só, somando os polos.' : ''}</p>
-        ${tr ? '<p><b>Trechos:</b> só os que tiveram NAE no período; o trecho conta no polo do município onde tem mais rede. Tocar no trecho abre o mapa com ele selecionado.</p>' : ''}
+        ${tr ? '<p><b>Trechos:</b> só os que tiveram NAE no período; o trecho conta no polo do município onde tem mais rede. A NAE do trecho soma todos os ativos dele (chaves e transformadores), inclusive NAE registrada em outro alimentador cujo ativo hoje está no trecho. Tocar no trecho abre o mapa com ele selecionado.</p>' : ''}
         <p><b>Limpeza:</b> só OS executadas${P.equipes ? ' pelas equipes ' + esc(P.equipes.join(', ')) : ''}, pela data de execução; T1 a cada ${P.regra.T1} anos, T2 a cada ${P.regra.T2}, T3 a cada ${P.regra.T3}, contando da última limpeza de cada vão (situação de hoje).</p>
         <p>Polo de cada município: ${esc(P.fonte)}.${P.fora.length ? ' ' + esc(P.fora.join('; ')) + '.' : ''}</p></div>`;
   }

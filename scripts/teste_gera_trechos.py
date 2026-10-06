@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import gera_trechos  # noqa: E402
 import limpeza_faixa  # noqa: E402
+import ativos_gis  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -72,6 +73,38 @@ def test_pipeline():
         assert gera_trechos.main(['--saida', str(d / 'site'), '--validar']) == 0
         assert gera_trechos.main(['--saida', str(d / 'site'), '--so-interface']) == 0
         assert assinatura(d / 'site') == antes, 'só a interface: mesmo resultado'
+        ativos_gis_no_site(d)
+
+
+def ativos_gis_no_site(d):
+    """Trafo do GIS (camada Transformadores) dá trecho à NAE que estava 'ativo fora do KML'."""
+    site, y = d / 'site', lambda i: -7.2 + i * 0.0003
+    oc = dict(mes='2026-01', dia='02/01 10:00', col=True, abr='TR', ativo='5700001', prob='5700001', causa='Meio ambiente',
+              sub='Árvore', prog=False, cons=3, dur=60, trecho=None, fora='fora do cadastro atual', regra='ativo fora do KML',
+              dist_m=None)
+    jf, mf = site / 'dados' / 'alimentadores' / 'ALTESTE.json', site / 'alimentadores' / 'ALTESTE' / 'dados.js'
+    c = json.loads(jf.read_text(encoding='utf-8'))
+    c['nae'] = dict(meses=['2026-01'], oc=[dict(oc), dict(oc, ativo='5799999', prob='5799999')])
+    jf.write_text(json.dumps(c), encoding='utf-8')
+    cab, D = ativos_gis.le_js(mf)
+    D['nae'] = json.loads(json.dumps(c['nae']))
+    mf.write_text(cab + json.dumps(D) + ';\n', encoding='utf-8')
+    pm = lambda n, lat, lon: (f'<Placemark><name>{n}</name><ExtendedData><Data name="Alimentador"><value>ALTESTE</value></Data>'
+                              f'</ExtendedData><Point><coordinates>{lon},{lat},0</coordinates></Point></Placemark>')
+    (d / 'gis').mkdir()
+    (d / 'gis' / 'Transformadores.kml').write_text('<kml><Document><name>Transformadores</name>' + pm('5700001', y(4.5), -48.20001)
+                                                   + pm('5700002', y(4.5), -48.21) + '</Document></kml>', encoding='utf-8')
+    tot, _ = ativos_gis.aplica(site, d / 'gis')
+    assert tot['nae_localizadas'] == 1 and tot['nae_sem_ponto'] == 1, tot
+    c = json.loads(jf.read_text(encoding='utf-8'))
+    o = c['nae']['oc'][0]
+    assert (o['trecho'], o['regra']) == ('T2', ativos_gis.REGRA) and o['dist_m'] < 2, 'trafo a 1 m do vão t4 (T2)'
+    assert c['nae']['oc'][1]['trecho'] is None, 'trafo que não está no GIS continua sem trecho'
+    assert [a[4] for a in c['ativos_kml']] == ['T2', None], 'trafo a ~1 km da rede não entra em trecho'
+    assert ativos_gis.le_js(mf)[1]['nae']['oc'][0]['trecho'] == 'T2', 'página (dados.js) igual ao JSON'
+    assert gera_trechos.main(['--saida', str(site), '--so-interface']) == 0
+    hit = json.loads((site / 'dados' / 'ativos' / (gera_trechos.fatia('5700001') + '.json')).read_text(encoding='utf-8'))['5700001']
+    assert hit[0][:3] == ['ALTESTE', 'TR', 'T2'], 'busca de ativo acha o trafo no trecho'
 
 
 def test_equipes_limpeza():

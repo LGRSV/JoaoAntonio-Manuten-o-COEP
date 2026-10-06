@@ -52,7 +52,7 @@ def ativos_por_trecho(d):
         dele = [(i, mun) for i, t, mun in lst if t == alvo] or [(0, None)]
         ordem = -1 if inicio.get(n) == alvo else dele[0][0]
         ch.setdefault((alvo, dele[0][1]), []).append((ordem, n))
-    ja = {c['nome'] for c in d['chaves']}         # pontos do KML do Daimon (transformador, capacitor…) no trecho deles
+    ja = {c['nome'] for c in d['chaves']}         # transformadores do GIS (scripts/ativos_gis.py) no trecho deles
     for nome, tipo, lon, lat, t, dist, *resto in d.get('ativos_kml') or []:
         i = resto[0] if resto else None
         if t and nome not in ja:
@@ -61,7 +61,8 @@ def ativos_por_trecho(d):
     return ({k: junta([n for _, n in sorted(v)]) for k, v in ch.items()},
             {k: junta([p for p, _ in sorted(v.items(), key=lambda x: x[1])]) for k, v in po.items()})
 CAB_N = ['Mês', 'Data/hora', 'Polo', 'SE', 'Município (do trecho)', 'Alimentador', 'Trecho', 'Classe', 'Ativo', 'Abrangência',
-         'Causa', 'Subcausa', 'Programada', 'Consumidores', 'Duração (min)', 'CHI (h)', 'Regra de associação', 'Distância (m)']
+         'Causa', 'Subcausa', 'Programada', 'Consumidores', 'Duração (min)', 'CHI (h)', 'Regra de associação', 'Distância (m)',
+         'Conta no total do alimentador', 'Observação']
 
 
 def linhas(pasta, nomes):
@@ -77,7 +78,8 @@ def linhas(pasta, nomes):
             mm = t.get('municipios') or {}
             principal[t['nome']] = max(mm, key=mm.get) if mm else None
             classe[t['nome']] = t['classe']
-        for o in d['nae']['oc']:
+        ext = d['nae'].get('ext') or []                # NAE de outro alimentador cujo ativo hoje está num trecho daqui
+        for o in d['nae']['oc'] + ext:
             if o.get('trecho'): nae[o['trecho']] = nae.get(o['trecho'], 0) + 1
         ats, pos = ativos_por_trecho(d)
         for t in d['trechos']:
@@ -91,13 +93,18 @@ def linhas(pasta, nomes):
                            ', '.join(t.get('fim') or []) or 'fim de linha', t.get('fase') or '', round(m / 1000, 3),
                            round(t['ext_m'] / 1000, 3), nae.get(t['nome'], 0) if cod == principal[t['nome']] else 0,
                            pos.get((t['nome'], cod), '')])
-        for o in d['nae']['oc']:
+        for o in d['nae']['oc'] + ext:
             tn = o.get('trecho')
             y, mo = o['mes'].split('-')
+            h = o.get('hoje') or []
+            obs = (f"registrada no {o['de']}; o ativo hoje fica neste trecho" if o.get('de') else
+                   f"ativo hoje no {h[0]}{' · ' + h[1] if len(h) > 1 and h[1] else ''}" + (' (linha repetida lá, no trecho)' if len(h) > 1 and h[1] else '')
+                   if h else (o.get('fora') or '') if not tn else '')
             oc.append([f'{mo}-{MES[mo]}/{y}', o.get('dia'), polo, se,
                        nomes.get(principal.get(tn), '(sem trecho)') if tn else '(sem trecho)', al, tn or '(sem trecho)',
                        classe.get(tn, '(sem trecho)'), o.get('ativo'), o.get('abr'), o.get('causa'), o.get('sub'),
-                       'Sim' if o.get('prog') else 'Não', o.get('cons') or 0, o.get('dur') or 0, None, o.get('regra'), o.get('dist_m')])
+                       'Sim' if o.get('prog') else 'Não', o.get('cons') or 0, o.get('dur') or 0, None, o.get('regra'), o.get('dist_m'),
+                       'Não' if o.get('de') else 'Sim', obs])
     return tr, oc, fora, sorted(meses), sorted(crit)
 
 
@@ -106,6 +113,7 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
     wb = Workbook(); ws = wb.active; ws.title = 'Leia-me'
     per = f"{MES[meses[0][5:]]}–{MES[meses[-1][5:]]}/{meses[-1][:4]}" if meses else '—'
     sem = sum(1 for r in oc if r[6] == '(sem trecho)')
+    rep = sum(1 for r in oc if r[18] == 'Não')
     txt = [f'Trechos por alimentador — {n_al} alimentadores publicados',
            f'Fonte: JSON canônico do site (dados/alimentadores). NAE: Crítica {per}, só Meio Ambiente · Árvore/Eucalipto.',
            f"Arquivos da Crítica: {', '.join(crit) or '—'}", '',
@@ -123,7 +131,11 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
            '• NAE do trecho vai para o município onde o trecho tem mais rede (a Crítica não traz coordenada da ocorrência).',
            '  Na aba Trechos, "NAE no trecho" fica só na linha desse município (nas outras = 0), para não contar duas vezes.',
            '• CHI = Consumidores × Duração (min) ÷ 60 (fórmula na aba NAE).',
-           f'• "(sem trecho)": {sem:,} ocorrências cujo ativo não foi achado na rede; entram no total do alimentador, sem classe.'.replace(',', '.'),
+           f'• "(sem trecho)": {sem:,} ocorrências cujo ativo não foi achado na rede deste alimentador; entram no total do alimentador, sem classe.'.replace(',', '.'),
+           '• Transformadores: posição da camada Transformadores do GIS; a NAE do trafo vai para o trecho do vão mais próximo (até 50 m).',
+           f'• Ativo hoje em outro alimentador (chave remanejada): a NAE conta nas duas pontas. Fica no alimentador da Crítica (sem trecho,'
+           f' "Conta no total do alimentador" = Sim) e aparece de novo no trecho onde o ativo está hoje ({rep:,} linhas com "Conta no total do'
+           f' alimentador" = Não). Para o total da Crítica, filtre essa coluna = Sim; a soma dos trechos usa todas.'.replace(',', '.'),
            f"• Fora da planilha (bloqueados na validação do site): {', '.join(fora) or 'nenhum'}.", '',
            'Atualizar: Dados → Atualizar Tudo (as dinâmicas também se atualizam ao abrir).']
     for i, s in enumerate(txt, 1):
@@ -148,6 +160,7 @@ def base(saida, tr, oc, fora, meses, crit, n_al):
     tabela('Trechos', CAB_T, tr, [8, 10, 22, 18, 13, 9, 7, 10, 40, 30, 14, 9, 22, 11, 12, 12, 10, 40], {'O': '#,##0.000', 'P': '#,##0.000'})
     w, n = tabela('NAE', CAB_N, oc, [11, 12, 8, 10, 18, 13, 12, 11, 13, 10, 14, 40, 10, 12, 11, 10, 24, 10],
                   {'N': '#,##0', 'O': '#,##0', 'P': '#,##0.0'})
+    w.column_dimensions['S'].width = 12; w.column_dimensions['T'].width = 40
     for r in range(2, n + 1): w[f'P{r}'] = f'=N{r}*O{r}/60'
     # ranking por trecho: ordem calculada aqui; os números vêm por fórmula da aba NAE
     info = {}
@@ -213,7 +226,8 @@ def dinamicas(entrada, saida):
             a = CellAddress(); a.Sheet = nomes.index(dst); a.Column = 0; a.Row = len(pages) + 2
             tabs.insertNewByName(nome, a, desc)
         piv('Dinâmica km', 'Trechos', 'dinKm', ['Município', 'Alimentador'], ['Classe'], ('Km no município', SUM), ['Polo', 'Subestação', 'Fase'])
-        piv('Dinâmica NAE', 'NAE', 'dinNae', ['Município (do trecho)', 'Alimentador', 'Classe'], ['Mês'], ('Ativo', COUNT), ['Polo', 'SE', 'Programada'])
+        piv('Dinâmica NAE', 'NAE', 'dinNae', ['Município (do trecho)', 'Alimentador', 'Classe'], ['Mês'], ('Ativo', COUNT),
+            ['Polo', 'SE', 'Programada', 'Conta no total do alimentador'])
         doc.storeToURL(uno.systemPathToFileUrl(os.path.abspath(saida)), (P('FilterName', 'Calc MS Excel 2007 XML'),))
         doc.close(True)
     finally:

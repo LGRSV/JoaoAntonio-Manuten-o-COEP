@@ -9,7 +9,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const TIPO = { DJ: 'Disjuntor', '79': 'Religador', '03': 'Fusível 03', '33': 'Fusível 33', '02': 'Chave 02', '88': 'Chave faca 88',
     '40': 'Trip saver 40', '41': 'Trip saver 41', SEC: 'Fusível (seccionamento)', FTR: 'Fusível no tronco', poste: 'Poste',
-    ET: 'Transformador', EP: 'Transformador particular', Capacitor: 'Banco de capacitor', Regulador: 'Regulador de tensão',
+    TR: 'Transformador', ET: 'Transformador', EP: 'Transformador particular', Capacitor: 'Banco de capacitor', Regulador: 'Regulador de tensão',
     Chave: 'Chave', ChaveNA: 'Chave NA' };
   const se = {};                                  // alimentador → subestação (dados do mapa da página inicial)
   ((window.MUN || {}).muns || []).forEach(m => (m.als || []).forEach(a => { se[a.cod] = a.se; }));
@@ -39,8 +39,8 @@
     if (d === null) { res.innerHTML = '<p>Não foi possível carregar o índice. Confira a internet e tente de novo.</p>'; return; }
     const hits = d[k] || [];
     if (!hits.length) {
-      res.innerHTML = `<p><b>${esc(txt)}</b> não foi encontrado. Confira o código: a busca é pelo código completo da chave ou pelo ` +
-        'número do poste. Postes sem número no cadastro não entram.</p>';
+      res.innerHTML = `<p><b>${esc(txt)}</b> não foi encontrado. Confira o código: a busca é pelo código completo da chave, do transformador ` +
+        'ou pelo número do poste. Postes sem número no cadastro não entram.</p>';
       return;
     }
     res.innerHTML = `<p>${hits.length === 1 ? '1 resultado' : hits.length + ' resultados'} para <b>${esc(txt)}</b>:</p><div class="grade">` +
