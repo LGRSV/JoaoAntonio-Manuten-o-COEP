@@ -115,8 +115,8 @@ def aplica(site, pasta_kmz):
         al = jf.stem
         mf = site / 'alimentadores' / al / 'dados.js'
         c = json.loads(jf.read_text(encoding='utf-8'))
-        if c['validacao']['status'] == 'falha' or not mf.exists() or not (c.get('nae') or {}).get('oc'):
-            continue                                             # sem NAE (site gerado sem a Crítica): nada a localizar
+        if c['validacao']['status'] == 'falha' or not mf.exists():
+            continue
         vaos, ts = c['vaos'], c['trechos']
         grade = grade_de(vaos)
         cache = {}
@@ -158,10 +158,11 @@ def aplica(site, pasta_kmz):
             return n
 
         cab, D = le_js(mf)
-        n = localiza(c['nae']['oc'], True)
-        if localiza(D['nae']['oc'], False) != n:                # confere antes de gravar: os dois arquivos andam juntos
+        oc_c, oc_d = (c.get('nae') or {}).get('oc') or [], (D.get('nae') or {}).get('oc') or []   # sem Crítica: sem NAE
+        n = localiza(oc_c, True)
+        if localiza(oc_d, False) != n:                          # confere antes de gravar: os dois arquivos andam juntos
             raise SystemExit(f'{al}: NAE do JSON e do dados.js não batem')
-        usados = {o['ativo'] for o in c['nae']['oc'] if o.get('regra') == REGRA}
+        usados = {o['ativo'] for o in oc_c if o.get('regra') == REGRA}
         meus = sorted({k for k, p in pts.items() if p[2] == al} | usados)
         c['ativos_kml'] = [[k, 'TR', pts[k][0], pts[k][1], *onde(k)] for k in meus]
         jf.write_text(json.dumps(c, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
