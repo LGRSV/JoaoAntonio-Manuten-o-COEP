@@ -41,8 +41,8 @@
   f.addEventListener('change', aplica);
   new MutationObserver(ms => {
     if (ms.some(m => m.type === 'childList')) aplica();
-    const s = lista.querySelector('.row[aria-current="true"]');
-    document.getElementById('mig-trecho').textContent = s ? ' → ' + s.dataset.t : '';
+    const s = [...lista.querySelectorAll('.row[aria-current="true"]')].map(b => b.dataset.t);
+    document.getElementById('mig-trecho').textContent = s.length ? ' → ' + s.join(' + ') : '';
   }).observe(lista, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current'] });
   aplica();
 

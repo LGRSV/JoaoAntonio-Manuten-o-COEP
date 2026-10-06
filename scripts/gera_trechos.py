@@ -647,8 +647,9 @@ def ranking_polos(saida, dados, man):
     (saida / 'assets' / 'ranking-polos-dados.js').write_text(
         'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
     corpo = ('<nav class="migalhas"><a href="../">Municípios</a> → <b>Ranking por polo</b></nav>\n'
-             '<header><h1>Ranking por polo</h1><p>Escolha o polo e veja os alimentadores ou os trechos, do que tem mais NAE '
-             '(árvore/eucalipto na rede) para o que tem menos; toque no título de uma coluna para ordenar por ela.</p>'
+             '<header><h1>Ranking por polo</h1><p>Escolha a ETO inteira, uma regional (Norte, Centro, Sul) ou um polo e veja os '
+             'alimentadores ou os trechos (todos ou só T1, T2 ou T3), do que tem mais NAE (árvore/eucalipto na rede) para o '
+             'que tem menos; toque no título de uma coluna para ordenar por ela.</p>'
              '</header>\n<div id="polos"></div>\n'
              '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')
     p = saida / 'polos' / 'index.html'
