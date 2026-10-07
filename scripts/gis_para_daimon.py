@@ -43,8 +43,50 @@ def utm(s):
     return [(round(float(x), 2), round(float(y), 2)) for x, y in PAR.findall(s or '')]
 
 
-def converter(pasta_al, sigla, se_ll):
-    """Devolve (kml, resumo) de um alimentador."""
+def encaixa(p, segs, ll, grau, nome, lim=1.0):
+    """Chave sem segmento próprio (o UTM_ROTA não casa com nenhum segmento da rede: a linha passa direto pelo ponto
+    dela): corta o segmento mais perto do ponto da chave (até lim m) e põe ali um suporte de 1 m, como o conector do
+    GIS. Devolve a chave (a, b) do suporte, ou None se a chave não está em cima da rede."""
+    melhor = None
+    for (a, b), sg in segs.items():
+        if sg['nome'].startswith('Suporte Chave '):
+            continue
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        l2 = dx * dx + dy * dy
+        t = max(0.0, min(1.0, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)) if l2 else 0.0
+        d = math.hypot(a[0] + t * dx - p[0], a[1] + t * dy - p[1])
+        if d <= lim and (melhor is None or d < melhor[0]):
+            melhor = (d, a, b, t)
+    if melhor is None:
+        return None
+    _, a, b, t = melhor
+    comp = math.hypot(b[0] - a[0], b[1] - a[1])
+    if comp <= 1.0:                                    # segmento curto: ele mesmo vira o suporte
+        segs[(a, b)]['nome'] = f'Suporte Chave {nome}'
+        return (a, b)
+    h = 0.5 / comp
+    t1, t2 = max(0.0, t - h), min(1.0, t + h)
+    sg = segs.pop((a, b))
+    em = lambda u: (round(a[0] + u * (b[0] - a[0]), 2), round(a[1] + u * (b[1] - a[1]), 2))
+    ll_em = lambda u: (ll[a][0] + u * (ll[b][0] - ll[a][0]), ll[a][1] + u * (ll[b][1] - ll[a][1]))
+    p1, p2 = (a if t1 == 0.0 else em(t1)), (b if t2 == 1.0 else em(t2))
+    for q, u in ((p1, t1), (p2, t2)):
+        if q not in (a, b):
+            ll.setdefault(q, ll_em(u))
+            grau[q] = grau.get(q, 0) + 2
+    ordena = lambda x, y: (x, y) if x < y else (y, x)
+    if p1 != a:
+        segs[ordena(a, p1)] = dict(nome=sg['nome'], fase=sg['fase'])
+    if p2 != b:
+        segs[ordena(p2, b)] = dict(nome=sg['nome'], fase=sg['fase'])
+    k = ordena(p1, p2)
+    segs[k] = dict(nome=f'Suporte Chave {nome}', fase=sg['fase'])
+    return k
+
+
+def converter(pasta_al, sigla, se_ll, encaixar=False):
+    """Devolve (kml, resumo) de um alimentador. encaixar: chave sem segmento próprio é posta no vão onde está o ponto
+    dela (ver encaixa); sem isso ela fica de fora, contada em sem_segmento."""
     al = pasta_al.name
     vaos = placemarks(pasta_al / 'Vaos_e_condutores' / 'Vaos_MT.kmz')
     jump = placemarks(pasta_al / 'Vaos_e_condutores' / 'Jumpers_MT.kmz')
@@ -83,7 +125,7 @@ def converter(pasta_al, sigla, se_ll):
                 bloco_al.update((a, b))
 
     # chaves: o segmento do UTM_ROTA vira "Suporte Chave"
-    pontos, sem_seg = [], []
+    pontos, sem_seg, encaixadas = [], [], []
     for c, aberta in chaves:
         nome = (c.get('Name') or '').strip()
         r = utm(c.get('UTM_ROTA'))
@@ -91,7 +133,12 @@ def converter(pasta_al, sigla, se_ll):
         if len(r) >= 2:
             a, b = r[0], r[-1]
             k = (a, b) if a < b else (b, a)
-        if not nome or k not in segs or segs[k]['nome'].startswith('Suporte Chave '):
+        if encaixar and nome and (k not in segs or segs[k]['nome'].startswith('Suporte Chave ')):
+            p = utm(c.get('UTM'))
+            k = encaixa(p[0], segs, ll, grau, nome) if p else None
+            if k is not None:
+                encaixadas.append(nome)
+        if not nome or k not in segs or (segs[k]['nome'].startswith('Suporte Chave ') and nome not in encaixadas):
             sem_seg.append(nome or c.get('Id'))
             continue
         segs[k]['nome'] = f'Suporte Chave {nome}'
@@ -129,7 +176,7 @@ def converter(pasta_al, sigla, se_ll):
            '<Folder><name>Chave</name>' + pm_ponto(dj, 'mapDaimonChave', ((lon + fict[0]) / 2, (lat + fict[1]) / 2))
            + ''.join(pm_ponto(n, 'mapDaimonChaveNA' if na else 'mapDaimonChave', p) for n, na, p in pontos)
            + '</Folder><Folder><name>Trecho</name>' + ''.join(linhas) + '</Folder></Document></kml>\n')
-    return kml, dict(al=al, vaos=len(segs), chaves=len(pontos), sem_segmento=sem_seg,
+    return kml, dict(al=al, vaos=len(segs), chaves=len(pontos), sem_segmento=sem_seg, encaixadas=encaixadas,
                      dj_dist_se_m=round(dist_se(raiz)) if se_ll else None)
 
 
@@ -147,6 +194,8 @@ def main(argv=None):
     ap.add_argument('--gis', required=True, help='pasta dados/ da exportação (uma pasta por SE)')
     ap.add_argument('--saida', required=True)
     ap.add_argument('--alimentador', action='append')
+    ap.add_argument('--encaixar', action='store_true',
+                    help='chave cujo UTM_ROTA não casa com a rede entra no vão onde está o ponto dela (até 1 m)')
     a = ap.parse_args(argv)
     gis, saida = Path(a.gis), Path(a.saida)
     quero = set(a.alimentador or [])
@@ -158,7 +207,7 @@ def main(argv=None):
         sigla, se_ll = centro_se(pasta_se)
         for pasta_al in als:
             try:
-                kml, r = converter(pasta_al, sigla or pasta_se.name, se_ll)
+                kml, r = converter(pasta_al, sigla or pasta_se.name, se_ll, a.encaixar)
             except Exception as e:  # noqa: BLE001 — um alimentador ruim não derruba o lote
                 print(f'{pasta_al.name}: FALHA {e}')
                 falha += 1
@@ -168,6 +217,7 @@ def main(argv=None):
             destino.write_text(kml, encoding='utf-8')
             ok += 1
             extra = f' · {len(r["sem_segmento"])} chave(s) sem segmento' if r['sem_segmento'] else ''
+            extra += f' · {len(r["encaixadas"])} chave(s) encaixada(s) pelo ponto' if r['encaixadas'] else ''
             print(f'{r["al"]}: {r["vaos"]} segmentos, {r["chaves"]} chaves, DJ a {r["dj_dist_se_m"]} m da SE{extra}')
     print(f'convertidos {ok}, falhas {falha}')
     return 0 if ok else 1

@@ -5,6 +5,7 @@ município (amostra de 20 m), os arquivos gerados, os links, a validação e que
 """
 import hashlib
 import json
+import math
 import sys
 import tempfile
 from pathlib import Path
@@ -159,6 +160,17 @@ def ativos_gis_no_site(d):
     assert hit[0][:3] == ['ALTESTE', 'TR', 'T2'], 'busca de ativo acha o trafo no trecho'
 
 
+def test_chave_sem_segmento():
+    """GIS com a linha passando direto pela chave (sem o conector): a chave entra no vão onde está o ponto dela."""
+    import gis_para_daimon as g
+    segs = {((0.0, 0.0), (100.0, 0.0)): dict(nome='v1', fase='ABC')}
+    ll, grau = {(0.0, 0.0): (-48.0, -10.0), (100.0, 0.0): (-47.9991, -10.0)}, {(0.0, 0.0): 1, (100.0, 0.0): 1}
+    k = g.encaixa((50.3, 0.2), segs, ll, grau, '0300001')
+    assert k == ((49.8, 0.0), (50.8, 0.0)) and segs[k]['nome'] == 'Suporte Chave 0300001' and len(segs) == 3
+    assert abs(sum(math.dist(a, b) for a, b in segs) - 100) < 1e-6, 'a rede não muda de tamanho'
+    assert g.encaixa((50.0, 5.0), {((0.0, 0.0), (100.0, 0.0)): dict(nome='v', fase='')}, dict(ll), dict(grau), 'X') is None
+
+
 def test_equipes_limpeza():
     assert limpeza_faixa.conta('EXECUTADA', 'ETO-RD-GU 004972/2022'), 'executada da equipe do polo conta'
     assert not limpeza_faixa.conta('EXECUTADA', 'ETO-LD-PCM 000452/2025'), 'executada de outra equipe não conta'
@@ -170,3 +182,5 @@ if __name__ == '__main__':
     print('ok test_pipeline')
     test_equipes_limpeza()
     print('ok test_equipes_limpeza')
+    test_chave_sem_segmento()
+    print('ok test_chave_sem_segmento')
