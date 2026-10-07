@@ -371,7 +371,7 @@ function listaOc(os, comTrecho) {
   return `<ul class="oc">${os.map(o => `<li class="${o.col ? 'col' : ''}"><span class="q">${comTrecho ? `<b>${esc(o.trecho)}</b> · ` : ''}${esc(o.dia)} · ${!o.col ? '1 consumidor · trafo ' + esc(o.ativo) : esc(ABR[o.abr] || o.abr) + ' ' + esc(o.prob || o.ativo) + (o.prob && o.prob !== o.ativo ? ' · trafo ' + esc(o.ativo) : '')}</span><br>` +
     `${esc(o.sub || o.causa)}${o.prog ? ' · <b>programada</b>' : ''} · ${o.cons} cons. · ${o.dur} min` +
     (o.lonlat && map ? ` · <button type="button" class="ir" data-ll="${o.lonlat[1]},${o.lonlat[0]}">ver no mapa</button>` : '') +
-    (o.de ? `<br><b>registrada no ${esc(o.de)}</b> (a Crítica conta lá; o ativo hoje fica aqui)` : '') +
+    (o.de ? `<br><b>registrada no ${raizAl ? `<a href="${raizAl}${encodeURIComponent(o.de)}/">${esc(o.de)}</a>` : esc(o.de)}</b> (a Crítica conta lá; o ativo hoje fica aqui)` : '') +
     (o.hoje ? `<br>ativo hoje no ${raizAl && o.hoje[1] ? `<a href="${raizAl}${encodeURIComponent(o.hoje[0])}/?t=${encodeURIComponent(o.hoje[1])}">${esc(o.hoje[0])} · ${esc(o.hoje[1])}</a>` : esc(o.hoje[0]) + (o.hoje[1] ? ' · ' + esc(o.hoje[1]) : '')}${o.hoje[1] ? ' (conta também lá)' : ''}` : '') +
     `</li>`).join('')}</ul>`;
 }
@@ -396,9 +396,12 @@ const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'T2-A, T2-B… (um por relig
 function fimTxt(t) { return t.fim.join(' / '); }
 let porNome = {}, marcadas = [];                         // linha de cada trecho; linhas escolhidas (aria-current)
 const linha = n => porNome[n] || null;
+let porPoste = null;                                       // poste → trechos dos vãos que chegam nele (busca na lista)
+const doPoste = () => porPoste || (porPoste = D.vaos.reduce((m, v) => { [v[6], v[7]].forEach(p => { if (p) (m[String(p).toLowerCase()] = m[String(p).toLowerCase()] || new Set()).add(D.trechos[v[4]].nome); }); return m; }, {}));
 function desenhaLista(filtro) {
   const q = (filtro || '').trim().toLowerCase();
-  const casa = t => !q || [t.nome, t.inicio, t.inicio_poste, ...t.fim, ...t.passa].some(s => String(s).toLowerCase().includes(q));
+  const casa = t => !q || [t.nome, t.inicio, t.inicio_poste, ...t.fim, ...t.passa].some(s => String(s).toLowerCase().includes(q))
+    || (q.length >= 3 && (doPoste()[q] || new Set()).has(t.nome));
   const cnt = NAE ? contagem() : null;
   $('lista').innerHTML = GRUPOS.map(([g, titulo]) => {
     const ts = D.trechos.filter(t => t.tipo === g && casa(t));
@@ -516,19 +519,20 @@ function detalheVarios(l) {
 function resumoNae() {
   const os = doMes(), col = os.filter(o => o.col).length, fora = os.filter(o => !o.trecho), mot = {}, ext = doExt();
   fora.forEach(o => { const m = (o.fora || '').startsWith('hoje no ') ? 'com o ativo hoje em outro alimentador' : o.fora; mot[m] = (mot[m] || 0) + 1; });
-  return `<dt class="nae">NAE ${rotMes($('mes').value)}</dt><dd class="nae"><b>${os.length}</b> no alimentador (${col} coletivas${$('ind').checked ? ` · ${os.length - col} individuais` : ''})` +
+  const pl = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+  return `<dt class="nae">NAE ${rotMes($('mes').value)}</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})` +
     `${fora.length ? `<br>Sem trecho aqui: ${Object.entries(mot).map(([m, n]) => `${n} ${esc(m)}`).join(' · ')}${listaOc(fora)}` : ''}` +
     `${ext.length ? `<br>Mais ${ext.length} de outros alimentadores com o ativo hoje num trecho daqui: contam no trecho, não no total acima.` : ''}</dd>`;
 }
 function resumo() {
-  const total = D.trechos.reduce((s, t) => s + t.ext, 0);
+  const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);   // o mesmo total de 'Dados e procedência'
   const fus = D.trechos.filter(t => t.tipo === 'fusivel');
   const porZ = {};
   fus.forEach(t => { porZ[t.zona] = (porZ[t.zona] || 0) + 1; });
   const linha = t => `<dt>${esc(t.nome)}</dt><dd><span class="mono">${esc(t.inicio)} → ${esc(fimTxt(t))}</span> · ${km(t.ext)}</dd>`;
   const prin = D.trechos.filter(t => t.tipo !== 'fusivel');   // T1 e T2: início → fim de cada um, só quando pedir
-  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trechos <small>${km(total)} de rede</small></h2><dl>
-    <dt>Fusíveis</dt><dd>${mil(fus.length)} trechos (${Object.entries(porZ).map(([z, n]) => `T${z}: ${mil(n)}`).join(' · ')})</dd>
+  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trecho${D.trechos.length === 1 ? '' : 's'} <small>${km(total)} de rede</small></h2><dl>
+    <dt>Fusíveis</dt><dd>${fus.length ? `${mil(fus.length)} trecho${fus.length === 1 ? '' : 's'} (${Object.entries(porZ).map(([z, n]) => `T${z}: ${mil(n)}`).join(' · ')})` : 'nenhum trecho depois de fusível'}</dd>
     ${NAE ? resumoNae() : ''}
   </dl>${prin.length ? `<details class="mais"><summary>T1 e T2 · início → fim</summary><dl>${prin.map(linha).join('')}</dl></details>` : ''}` +
   `<p class="lede">Toque num trecho no mapa ou na lista para ver início, fim e derivações. <span class="so-mouse">Para somar vários, segure Ctrl (⌘ no Mac) e clique em cada um.</span></p>`;
@@ -657,6 +661,11 @@ function mostraClasses() {
     if (v && !rotulos[t.nome]) rotulo(t, contagem()); else if (!v && rotulos[t.nome]) { rotulos[t.nome].remove(); delete rotulos[t.nome]; } });
   if (visivel.T3 && !map.hasLayer(fusMarcas)) fusMarcas.addTo(map); else if (!visivel.T3) fusMarcas.remove();
   rotulosT3();
+  const esc_ = (multi.length ? multi : sel ? [sel] : []), vis = esc_.filter(n => visivel[classeDe(n)]);
+  if (esc_.length) {                                        // seleção com classe escondida: some do mapa (a seleção fica)
+    if (vis.length) realca(vis, false);
+    else { if (halo) { halo.remove(); halo = null; } if (marcas) { marcas.remove(); marcas = null; } marcaNae(null); }
+  }
   if (window.__onClasses) window.__onClasses();
 }
 function rotulosT3() {

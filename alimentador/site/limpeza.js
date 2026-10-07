@@ -182,7 +182,7 @@
 .limp-chip button{all:unset;cursor:pointer;display:grid;place-items:center;min-width:40px;min-height:40px;border-radius:var(--r1);font-size:var(--t-lg)}
 .limp-chip button:hover{background:var(--vidro-hover)}
 .limp-chip button:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:-2px}
-.limp-tag{display:inline-flex;align-items:baseline;gap:6px;transform:translate(-50%,-140%);white-space:nowrap;cursor:pointer;
+.limp-tag{display:inline-flex;align-items:baseline;gap:6px;transform:translate(-50%,-140%);white-space:nowrap;pointer-events:none;
   font:700 12.5px/1 var(--f-mono);color:#111;background:var(--c);padding:5px 8px;border-radius:6px;border:2px solid #0b0f14;box-shadow:0 2px 6px #0008}
 .limp-tag::after{content:'';position:absolute;left:50%;bottom:-8px;margin-left:-6px;border:6px solid transparent;border-top-color:#0b0f14;border-bottom:0}
 .limp-tag small{font:600 11px var(--f-body);opacity:.8}
@@ -308,7 +308,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       const tronco = nomes.filter(n => classeDe(n) !== 'T3');
       const tr = (tronco.length ? tronco.slice(0, 2) : nomes.slice(0, 1)).join(' / ');
       return L.marker([(v[0] + v[2]) / 2, (v[1] + v[3]) / 2], {
-        zIndexOffset: 1000,
+        zIndexOffset: 1000, interactive: false, keyboard: false,     // não cobre o clique na rede (o balão da linha mostra a OS)
         icon: L.divIcon({ className: '', iconSize: null, html: `<div class="limp-tag" data-d="${esc(o.data)}" style="--c:${corAno(anoDe(o))}"><em>${esc(tr)}</em>${txt}<small>${ks.length > 1 ? ks.length + ' OS' : km(o.m)}</small></div>` }),
       }).on('click', e => { L.DomEvent.stopPropagation(e); focar(ks[0], true); });
     });

@@ -500,7 +500,10 @@ def casca(titulo, corpo, raiz, rodape=''):
             f'<a href="{raiz}manifesto.json">manifesto.json</a></p></footer>\n</div>\n'
             '<script>const b=document.getElementById("busca");if(b)b.addEventListener("input",()=>{const q=b.value'
             '.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();document.querySelectorAll("[data-busca]")'
-            '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});});</script>\n</body></html>\n')
+            '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});document.querySelectorAll(".grade").forEach(g=>{let v=g.nextElementSibling;'
+            'if(!v||!v.classList.contains("sem-res")){v=document.createElement("p");v.className="sem-res";v.setAttribute("role","status");'
+            'g.after(v)}v.textContent=!q||g.querySelector("[data-busca]:not([hidden])")?"":"Nada encontrado para “"+b.value.trim()+"”."})});'
+            '</script>\n</body></html>\n')
 
 
 def km(m):
@@ -557,11 +560,11 @@ def mapa_e_ranking(saida, dados, man):
         oc = (c.get('nae') or {}).get('oc', [])
         meses |= {o['mes'] for o in oc}
         als.append(dict(
-            al=c['alimentador'], se=c['se_nome'],
+            al=c['alimentador'], se=c['se_nome'] or c.get('se') or '',
             nae=len(oc), col=sum(1 for o in oc if o.get('col')),
             cons=sum(o.get('cons') or 0 for o in oc),
             chi=round(sum((o.get('cons') or 0) * (o.get('dur') or 0) for o in oc) / 60),
-            km=round(c['resumo']['extensao_m'] / 1000, 1),
+            km=round(c['resumo']['extensao_m'] / 1000, 4),      # NAE/100 km com a extensão inteira (a tela arredonda)
             ult_limpeza=ultima_limpeza(le_js(saida / 'alimentadores' / c['alimentador'] / 'limpeza.js'),
                                        c['alimentador']),   # limpeza.js de scripts/limpeza_faixa.py (sem ele: None)
             muns=[m['cod'] for m in c['municipios'] if m['m'] >= MIN_M]))
@@ -603,8 +606,8 @@ def ranking_polos(saida, dados, man):
         if not km:
             continue
         principal = max(km, key=km.get)
-        polo_t = {t['nome']: polo_de.get(max(t['municipios'], key=t['municipios'].get)) if t.get('municipios') else None
-                  for t in ts}
+        mun_t = {t['nome']: {k: m for k, m in (t.get('municipios') or {}).items() if k != 'None'} for t in ts}   # 'None': fora do TO
+        polo_t = {n: polo_de.get(max(mm, key=mm.get)) if mm else None for n, mm in mun_t.items()}
         nae = {}                                        # polo → [NAE, consumidores, consumidor×min, NAE sem trecho]
         for o in (c.get('nae') or {}).get('oc', []):
             meses.add(o['mes'])
@@ -641,10 +644,10 @@ def ranking_polos(saida, dados, man):
                 x[2] += (o.get('cons') or 0) * (o.get('dur') or 0)
         for t in ts:
             if t['nome'] in por_t:
-                n, mm = por_t[t['nome']], t.get('municipios') or {}
+                n, mm = por_t[t['nome']], mun_t[t['nome']]
                 mun = max(mm, key=mm.get) if mm else None
                 trechos_p[polo_t.get(t['nome']) or principal].append(dict(
-                    al=al, t=t['nome'], se=c['se_nome'], mun=mun, m=slug_mun.get(mun), km=round(t['ext_m']), nae=n[0],
+                    al=al, t=t['nome'], se=c['se_nome'] or c.get('se') or '', mun=mun, m=slug_mun.get(mun), km=round(t['ext_m'], 1), nae=n[0],
                     cons=n[1], chi=round(n[2] / 60),
                     lp={classe(t['nome']): {d: round(m) for d, m in sorted(limp_t.get(t['nome'], {}).items())}} if limp_t else {}))
         for p in sorted(set(km) | set(nae)):
@@ -653,7 +656,7 @@ def ranking_polos(saida, dados, man):
             n = nae.get(p, [0, 0, 0, 0])
             muns = sorted((cod for cod in mun_km if polo_de.get(cod) == p and mun_km[cod] >= MIN_M), key=lambda k: -mun_km[k])
             linhas[p].append(dict(
-                al=al, se=c['se_nome'], km=round(km.get(p, 0)), km_total=round(c['resumo']['extensao_m']),
+                al=al, se=c['se_nome'] or c.get('se') or '', km=round(km.get(p, 0), 1), km_total=round(c['resumo']['extensao_m'], 1),
                 nae=n[0], cons=n[1], chi=round(n[2] / 60), sem=n[3], muns=muns,
                 m=next((slug_mun[k] for k in muns if k in slug_mun), None),
                 lp={cl: {d: round(m) for d, m in sorted(ds.items())} for cl, ds in sorted(limp.get(p, {}).items())}))

@@ -121,6 +121,7 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 .bloco{display:grid;gap:var(--s3)}
 .grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 var(--s5)}
 .grade.als{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.sem-res{color:var(--muted);margin:var(--s3) 0}.sem-res:empty{display:none}
 .card{display:grid;gap:2px;align-content:start;padding:var(--s3) var(--s1);border:0;border-bottom:1px solid var(--line);border-radius:0;
   background:none;color:var(--fg);text-decoration:none}
 .card:hover{background:var(--hover)}

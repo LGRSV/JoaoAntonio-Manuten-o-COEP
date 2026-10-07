@@ -207,7 +207,7 @@
   #polos{gap:var(--s6)}
   .pl-cab h2{font-size:28px}
 }
-@media (min-width:901px) and (max-width:960px){   /* tablet: a tabela inteira cabe na largura (sem rolagem lateral da página) */
+@media (min-width:901px) and (max-width:1000px){   /* tablet: a tabela inteira cabe na largura (sem rolagem lateral da página) */
   .pl-tab th{white-space:normal;padding:0 6px}
   .pl-tab td{padding:var(--s3) 6px}
   .pl-tab .al-cod{display:block;margin-left:0}
