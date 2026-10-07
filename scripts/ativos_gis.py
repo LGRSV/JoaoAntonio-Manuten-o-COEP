@@ -227,6 +227,8 @@ def outros(site, pasta_kmz=None, pts=None):
             vaos, ts = c['vaos'], c['trechos']
             grade, inicio = grade_de(vaos), {(t['inicio'] or {}).get('chave'): t['nome'] for t in ts}
             chave = {ch['nome']: ch['lonlat'] for ch in c['chaves']}
+            # chave do KML fora da topologia (tipo não reconhecido): trecho já guardado (gera_trechos/atualiza_critica)
+            fora_topo = {q[0]: q for q in c.get('chaves_sem_topologia') or [] if q[3] and (q[4] or 0) <= LIM_M}
             cache = {}
             for y, i in pedidos[x]:
                 if y not in cache:
@@ -242,6 +244,8 @@ def outros(site, pasta_kmz=None, pts=None):
                         j, dd = vao_mais_perto(vaos, ll[0], ll[1], grade)
                         if j is not None and dd <= LIM_M:
                             t, d, regra = ts[vaos[j][4]]['nome'], round(dd, 1), 'vão mais próximo do ativo'
+                    if not t and cod in fora_topo:
+                        t, d, regra = fora_topo[cod][3], fora_topo[cod][4], 'vão mais próximo do ativo'
                 achado[(y, i)] = (x, t)
                 if t:
                     e = {k: v for k, v in o.items() if k not in ('hoje', 'lonlat')}    # de uma rodada anterior: não vale aqui
