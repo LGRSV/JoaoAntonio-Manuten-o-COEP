@@ -78,6 +78,15 @@ def test_tronco_sem_segundo_religador():
     assert not any(v['tronco'] for v in res['vaos']) and {v['zona'] for v in res['vaos']} == {1, 3}, 'DJ direto num 03: sem religador antes, abre T3'
 
 
+def test_fusivel_no_tronco_300m():
+    """1º fusível depois do religador na linha principal: a menos de 300 m dele não abre T3; a 300 m ou mais, abre."""
+    perto = regras.analisar(*rede_linha(['P', '79', 'P', 'P', '03', 'P', 'P']), 'DJ')            # 03 a ~120 m do 79
+    assert next(a['tipo'] for a in perto['ativos'] if a['nome'] == '03-5') == 'FTR' and zona_apos(perto, '03-5') == 2
+    longe = regras.analisar(*rede_linha(['P', '79'] + ['P'] * 8 + ['03', 'P', 'P']), 'DJ')         # 03 a ~365 m
+    assert next(a['tipo'] for a in longe['ativos'] if a['nome'] == '03-11') == '03' and zona_apos(longe, '03-11') == 3
+    assert not any('1ª(s) chave(s) fusível(is)' in a for a in longe['avisos'])
+
+
 def test_rede_invalida():
     nos, vaos = rede_linha(['P', 'P'])
     for ruim, msg in ((vaos + [('DJ', 'n2')], 'dois vãos'),

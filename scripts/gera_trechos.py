@@ -205,10 +205,10 @@ class Fontes:
 
 # ---------------------------------------------------------------- processamento de um alimentador
 
-def kmz_fixo(nos, res, al, destino):
+def kmz_fixo(nos, res, al, destino, nomes_fixos=None):
     """KMZ dos trechos (da skill) regravado com data fixa no zip, para sair igual a cada execução."""
     with tempfile.TemporaryDirectory() as d:
-        trechos.kmz(nos, res, al, Path(d) / 'x.kmz')
+        trechos.kmz(nos, res, al, Path(d) / 'x.kmz', nomes_fixos)
         doc = zipfile.ZipFile(Path(d) / 'x.kmz').read('doc.kml')
     destino.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(destino, 'w', zipfile.ZIP_DEFLATED) as z:

@@ -15,8 +15,9 @@ Regras (confirmadas com o usuário; as marcadas "a confirmar" seguem o exemplo a
       Se houver mais de um candidato a 2º 79, fica o que tem mais rede depois dele (a confirmar).
       Fusível no tronco (FTR): na linha principal (do 2º 79, ou do DJ sem 2º 79, até o fim, pelo lado que ainda tem
       religador com pelo menos RL_MIN_M de rede depois e, entre esses, pelo ramo que chega mais longe do DJ), só a
-      1ª chave fusível depois do religador não abre T3 nem muda a zona: o tronco segue como T2 até a próxima chave
-      (decisão do usuário, AL01086016). A chave seguinte na linha principal já abre T3.
+      1ª chave fusível depois do religador, se estiver a menos de FTR_MAX_M (300 m, pela rede) dele, não abre T3 nem
+      muda a zona: o tronco segue como T2 até a próxima chave (decisão do usuário, AL01086016; limite de 300 m em
+      out/2026, LD01020023). A 300 m ou mais, ou a chave seguinte na linha principal, já abre T3.
     - Ramal: todo o resto. Leva o nome do poste onde sai do tronco; depois do 2º 79 é "Ramal após <2º 79>".
     - Ativo de referência de um vão: o último DJ/79/03 antes dele, vindo do DJ. Ele engloba o vão e tudo depois.
     - Bloco: vãos com o mesmo ativo de referência e o mesmo ramal. Chaves 88 (e outras que não são DJ/79/fusível)
@@ -31,7 +32,7 @@ FUSIVEIS = ('03', '33', '02', '40', '41')   # 40/41 = trip saver (dispositivo de
 SECCIONAMENTO = 'SEC'   # 03/33/02 com religador depois
 FUSIVEL_TRONCO = 'FTR'  # 03/33/02 na linha principal do tronco
 RL_MIN_M = 100          # religador com menos de ~2 vãos de rede depois dele (toco) não puxa a linha principal
-FTR_MAX_M = None        # fusível no tronco só até esta distância (m, pela rede) do religador; None: sem limite
+FTR_MAX_M = 300         # fusível no tronco só a menos desta distância (m, pela rede) do religador; None: sem limite
 PROTECAO = ('DJ', '79') + FUSIVEIS
 RAIO_TERRA = 6371000.0
 

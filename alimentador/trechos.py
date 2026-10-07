@@ -35,7 +35,7 @@ def letras(i):
     return s
 
 
-def segmentar(nos, res):
+def segmentar(nos, res, nomes_fixos=None):
     vaos = res['vaos']
     tipo_at = {a['nome']: a['tipo'] for a in res['ativos']}
     filhos = defaultdict(list)
@@ -80,6 +80,25 @@ def segmentar(nos, res):
     for z, ks in por_zona.items():
         ks.sort(key=lambda k: dist_no(k[1]))
         nome_de.update({k: f'T{z}-{letras(i)}' for i, k in enumerate(ks)})
+    if nomes_fixos:
+        # trecho que já existia (mesma chave de início) fica com o nome de antes; trecho novo recebe a próxima letra
+        # livre da sua classe (T2-…, T3-…), sem mudar o nome de nenhum outro
+        ini = {k: nos[min(ns, key=dist_no)]['nome'] for k, ns in inicio_no.items()}
+        novo = {k: nomes_fixos[ini[k]] for k in inicio_no if ini[k] in nomes_fixos}
+        usados = set(novo.values())
+        for k in sorted(inicio_no, key=lambda k: dist_no(min(inicio_no[k], key=dist_no))):
+            if k in novo:
+                continue
+            if '-' not in nome_de[k]:                  # T1/T2: o nome é a posição
+                nm = nome_de[k]
+            else:
+                pre, i = nome_de[k].partition('-')[0], 0
+                while f'{pre}-{letras(i)}' in usados:
+                    i += 1
+                nm = f'{pre}-{letras(i)}'
+            novo[k] = nm
+            usados.add(nm)
+        nome_de = novo
 
     # monta os trechos
     tr = {}
@@ -160,12 +179,12 @@ def _ponto_rotulo(t, vaos, chave_vao, chegada, k):
     return [round(cam[-1]['b'][0], 7), round(cam[-1]['b'][1], 7)]
 
 
-def dados_mapa(nos, res, interrupcoes=None):
+def dados_mapa(nos, res, interrupcoes=None, nomes_fixos=None):
     """Trechos e o objeto de dados do mapa (o `D` de mapa_trechos.html; coordenadas [lat, lon]).
 
     interrupcoes: ocorrências de critica.por_trecho(); viram o NAE por trecho e mês na lista lateral.
     """
-    ts = segmentar(nos, res)
+    ts = segmentar(nos, res, nomes_fixos)
     idx = {t['nome']: i for i, t in enumerate(ts)}
     inicio_de = {t['inicio']: t['nome'] for t in ts if t['tipo'] == 'fusivel'}
     r7 = lambda x: round(x, 7)
@@ -223,9 +242,9 @@ def _cadeias(t, por_id):
     return linhas
 
 
-def kmz(nos, res, nome, caminho):
+def kmz(nos, res, nome, caminho, nomes_fixos=None):
     """KMZ para Google Earth (e importável no Google My Maps): uma pasta por trecho, início e fim no balão."""
-    ts = segmentar(nos, res)
+    ts = segmentar(nos, res, nomes_fixos)
     por_id = {v['id']: v for v in res['vaos']}
     cor = {t['nome']: COR_Z.get(t['zona'], 'd946ef') for t in ts}      # cor pela classe: T2, T2-A… na mesma cor
     kml_cor = lambda h: 'ff' + h[4:6] + h[2:4] + h[0:2]
