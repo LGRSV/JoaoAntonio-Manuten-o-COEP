@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import gera_trechos  # noqa: E402
 import limpeza_faixa  # noqa: E402
 import ativos_gis  # noqa: E402
+import atualiza_critica  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -21,7 +22,8 @@ def rede(d):
     y = lambda i: -7.2 + i * 0.0003                   # linha norte-sul, ~33 m por vão
     P = {i: (y(i), -48.2) for i in range(8)}
     meio = lambda i: ((y(i) + y(i + 1)) / 2, -48.2)
-    chaves = [('DJ_ALTESTE_FICT', *meio(-1), False), ('7900001', *meio(2), False), ('0300001', *meio(5), False)]
+    chaves = [('DJ_ALTESTE_FICT', *meio(-1), False), ('7900001', *meio(2), False), ('0300001', *meio(5), False),
+              ('3100001', *meio(4), False)]             # 3100001: ponto sem suporte (fora da topologia), no vão t4
     tr = [('Suporte Chave DJ_ALTESTE_FICT', (y(-1), -48.2), P[0]), ('t1', P[0], P[1]), ('t2', P[1], P[2]),
           ('Suporte Chave 7900001', P[2], P[3]), ('t3', P[3], P[4]), ('t4', P[4], P[5]),
           ('Suporte Chave 0300001', P[5], P[6]), ('t5', P[6], P[7])]
@@ -53,6 +55,8 @@ def test_pipeline():
         assert len(c['limitrofes']) == 1 and c['limitrofes'][0]['trecho'] == 'T2', 'vão da divisa medido por amostra'
         assert set(c['trechos'][1]['municipios']) == {'1', '2'} and c['trechos'][0]['caminho'] == ['T1']
         assert c['trechos'][1]['caminho'] == ['T1', 'T2']
+        fora = {p[0]: p for p in c['chaves_sem_topologia']}
+        assert fora['3100001'][3:] == ['T2', 16.7], 'chave fora da topologia: trecho e distância da ponta de vão mais perto'
         assert all(-51 < v[0] < -45 and -14 < v[1] < -5 for v in c['vaos']), 'coordenadas [lon, lat]'
         man = json.loads((d / 'site' / 'manifesto.json').read_text(encoding='utf-8'))
         assert [m['slug'] for m in man['municipios']] == ['norte-teste', 'sul-teste']
@@ -76,6 +80,44 @@ def test_pipeline():
         assert gera_trechos.main(['--saida', str(d / 'site'), '--so-interface']) == 0
         assert assinatura(d / 'site') == antes, 'só a interface: mesmo resultado'
         ativos_gis_no_site(d)
+        critica_sem_kml(d)
+
+
+CRITICA_CAB = ('DTA_CMPT_HDE;TIPO_INTER_KTI;COD_ELE_REDE_PROBLEMA;COD_ELE_PROBLEMA;ABRANGÊNCIA;NUM_SEQ_OPER_INIC_HDE;'
+               'DTA_ABERT;NUM_PASSO_INIC_HDE;COD_ELE_REDE_INTERROMPIDO;COD_ELE_INTERROMPIDO;NUM_PASSO_FIM_HDE;DTA_FECH;'
+               'COD_ELE_FECHADO;QTD_CONS_INTER_FAT;DURACAO;DES_CAUSA_INTER_CAU;DES_SUB_CAUSA_INTER_SCR;QTD_IFEC_ALIM;'
+               'QTD_IDEC_ALIM;COD_ALIMENTADOR')
+
+
+def critica_sem_kml(d):
+    """Crítica nova só com os dados do site: chave de início, chave fora da topologia, trafo do GIS e ativo desconhecido."""
+    site = d / 'site'
+    ativos_gis.grava_trafos(site, ativos_gis.transformadores(d / 'gis')[0])
+    linha = lambda n, abr, tipo, prob, inter, dia: ';'.join((
+        '01/01/26', 'COLETIVA' if tipo != 'UC' else 'INDIVIDUAL', tipo, prob, abr, str(n), f'{dia}/01/2026 10:00', '1',
+        'TR' if tipo == 'UC' else tipo, inter, '2', f'{dia}/01/2026 11:00', inter, '3', '60', 'MEIO AMBIENTE',
+        'ARVORE DE GRANDE PORTE NA REDE', '0', '0', 'ALTESTE'))
+    arq = d / 'Critica-CHEIO_01-2026.txt'
+    arq.write_text('\n'.join([CRITICA_CAB, linha(1, 'DJ', 'DJ', 'DJ_ALTESTE_FICT', 'DJ_ALTESTE_FICT', '02'),
+                              linha(2, 'RL', 'RL', '7900001', '7900001', '03'),
+                              linha(3, 'CH FUS', 'CH FUS', '3100001', '3100001', '04'),
+                              linha(4, 'TR', 'UC', '123456', '5700001', '05'),
+                              linha(5, 'CH FUS', 'CH FUS', '9999999', '9999999', '06')]) + '\n', encoding='latin-1')
+    xlsx = d / 'NAE.xlsx'
+    assert atualiza_critica.main(['--site', str(site), '--critica', str(arq), '--planilha', str(xlsx)]) == 0 and xlsx.exists()
+    c = json.loads((site / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
+    got = [(o['ativo'], o['trecho'], o['regra'], o['fora']) for o in c['nae']['oc']]
+    assert got == [('DJ_ALTESTE_FICT', 'T1', 'abrangência DJ', None),
+                   ('7900001', 'T2', 'chave de início do trecho', None),
+                   ('3100001', 'T2', 'vão mais próximo do ativo', None),
+                   ('5700001', 'T2', ativos_gis.REGRA, None),
+                   ('9999999', None, 'ativo fora do KML', 'fora do cadastro atual')], got
+    assert c['nae']['meses'] == ['2026-01'] and c['origem']['critica'] == ['Critica-CHEIO_01-2026.txt']
+    assert ativos_gis.le_js(site / 'alimentadores' / 'ALTESTE' / 'dados.js')[1]['nae'] == c['nae'], 'página igual ao JSON'
+    assert atualiza_critica.main(['--site', str(site), '--conferir']) == 0, 'refazer a associação dá o mesmo'
+    antes = assinatura(site)
+    assert atualiza_critica.main(['--site', str(site), '--critica', str(arq)]) == 0
+    assert assinatura(site) == antes, 'rodar a mesma Crítica de novo não muda nada'
 
 
 def ativos_gis_no_site(d):

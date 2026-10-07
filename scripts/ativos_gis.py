@@ -18,6 +18,8 @@ Depois, NAE cujo ativo hoje está em outro alimentador (fora = 'hoje no X': chav
 no X): conta nas duas pontas. Fica no total do alimentador da Crítica (Y), sem trecho, com 'hoje': [X, trecho]; e
 entra em 'nae.ext' do X, no trecho onde o ativo está hoje, com 'de': Y. Assim o bloco de NAE do trecho soma a NAE de
 todos os ativos dele (a soma dos trechos pode passar do total do alimentador). 'nae.ext' é refeito a cada execução.
+Grava também dados/trafos_gis.json (todos os transformadores do acervo com o alimentador do GIS): é o que a Crítica
+nova usa para achar o trecho do trafo sem o acervo (scripts/atualiza_critica.py).
 Depois rodar gera_trechos.py --so-interface (ranking, polos, busca de ativo) e planilha_trechos.py.
 """
 import json
@@ -106,8 +108,58 @@ def vao_mais_perto(vaos, lon, lat, grade):
     return melhor
 
 
-def aplica(site, pasta_kmz):
-    pts, rep = transformadores(pasta_kmz)
+def grava_trafos(site, pts):
+    """dados/trafos_gis.json: {código: [lon, lat, alimentador no GIS]} de todos os transformadores do acervo. Com ele a
+    Crítica nova acha o trecho do trafo sem o acervo (scripts/atualiza_critica.py)."""
+    arq = site / 'dados' / 'trafos_gis.json'
+    arq.write_text(json.dumps({k: list(v) for k, v in sorted(pts.items())}, ensure_ascii=False, separators=(',', ':')),
+                   encoding='utf-8')
+    return arq
+
+
+def le_trafos(site):
+    arq = site / 'dados' / 'trafos_gis.json'
+    return {k: tuple(v) for k, v in json.loads(arq.read_text(encoding='utf-8')).items()} if arq.exists() else None
+
+
+def onde_no(c, pts):
+    """onde(código) → (trecho até LIM_M ou None, distância em m, vão) do trafo na rede do alimentador c (com cache)."""
+    vaos, ts, grade, cache = c['vaos'], c['trechos'], grade_de(c['vaos']), {}
+
+    def onde(cod):
+        if cod not in cache:
+            lon, lat = pts[cod][0], pts[cod][1]
+            i, d = vao_mais_perto(vaos, lon, lat, grade)
+            cache[cod] = (ts[vaos[i][4]]['nome'] if i is not None and d <= LIM_M else None,
+                          round(d, 1) if i is not None else None, i if i is not None and d <= LIM_M else None)
+        return cache[cod]
+    return onde
+
+
+def no_gis(o, al, pts, onde):
+    """NAE 'ativo fora do KML' de transformador: trecho pelo ponto do GIS. Devolve o que houve (None: não é o caso)."""
+    if o.get('trecho') or o.get('regra') != 'ativo fora do KML' or not E_TRAFO(o):
+        return None
+    cod = next((x for x in (o.get('ativo'), o.get('prob')) if x in pts), None)
+    if not cod:
+        return 'sem_ponto'
+    t, d, _ = onde(cod)
+    if t:
+        o['trecho'], o['dist_m'] = t, d
+        o['ativo'], o['fora'], o['regra'] = cod, None, REGRA
+        return 'localizada'
+    if pts[cod][2] and pts[cod][2] != al:
+        o['fora'] = f'hoje no {pts[cod][2]}'
+        return 'hoje'
+    o['fora'], o['dist_m'] = 'longe da rede do site', d
+    return 'longe'
+
+
+def aplica(site, pasta_kmz=None, pts=None):
+    if pts is None:
+        pts, rep = transformadores(pasta_kmz)
+    else:
+        rep = 0
     tot = dict(transformadores_gis=len(pts), repetidos=rep, alimentadores=0, ativos_kml=0, no_trecho=0,
                nae_sem_trecho_tr=0, nae_localizadas=0, nae_longe=0, nae_hoje_em_outro=0, nae_sem_ponto=0)
     longe = []
@@ -117,44 +169,22 @@ def aplica(site, pasta_kmz):
         c = json.loads(jf.read_text(encoding='utf-8'))
         if c['validacao']['status'] == 'falha' or not mf.exists():
             continue
-        vaos, ts = c['vaos'], c['trechos']
-        grade = grade_de(vaos)
-        cache = {}
-
-        def onde(cod):
-            if cod not in cache:
-                lon, lat, _ = pts[cod]
-                i, d = vao_mais_perto(vaos, lon, lat, grade)
-                cache[cod] = (ts[vaos[i][4]]['nome'] if i is not None and d <= LIM_M else None,
-                              round(d, 1) if i is not None else None, i if i is not None and d <= LIM_M else None)
-            return cache[cod]
+        onde = onde_no(c, pts)
+        conta_de = dict(sem_ponto='nae_sem_ponto', hoje='nae_hoje_em_outro', longe='nae_longe')
 
         def localiza(oc, conta):
             n = 0
             for o in oc:
-                if o.get('trecho') or o.get('regra') != 'ativo fora do KML' or not E_TRAFO(o):
+                r = no_gis(o, al, pts, onde)
+                if r is None:
                     continue
+                n += r == 'localizada'
                 if conta:
                     tot['nae_sem_trecho_tr'] += 1
-                cod = next((x for x in (o.get('ativo'), o.get('prob')) if x in pts), None)
-                if not cod:
-                    if conta:
-                        tot['nae_sem_ponto'] += 1
-                    continue
-                t, d, _ = onde(cod)
-                if t:
-                    o['trecho'], o['dist_m'] = t, d
-                    o['ativo'], o['fora'], o['regra'] = cod, None, REGRA
-                    n += 1
-                elif pts[cod][2] and pts[cod][2] != al:
-                    o['fora'] = f'hoje no {pts[cod][2]}'
-                    if conta:
-                        tot['nae_hoje_em_outro'] += 1
-                else:
-                    o['fora'], o['dist_m'] = 'longe da rede do site', d
-                    if conta:
-                        tot['nae_longe'] += 1
-                        longe.append((al, cod, d))
+                    if r in conta_de:
+                        tot[conta_de[r]] += 1
+                    if r == 'longe':
+                        longe.append((al, o.get('ativo') if o.get('ativo') in pts else o.get('prob'), o['dist_m']))
             return n
 
         cab, D = le_js(mf)
@@ -286,6 +316,7 @@ def grava(site, al, muda):
 
 if __name__ == '__main__':
     tot, longe = aplica(Path(sys.argv[1]), sys.argv[2])
+    grava_trafos(Path(sys.argv[1]), transformadores(sys.argv[2])[0])
     tot.update(outros(Path(sys.argv[1]), sys.argv[2]))
     tot.update(posicoes(Path(sys.argv[1]), sys.argv[2]))
     print(json.dumps(tot, ensure_ascii=False))

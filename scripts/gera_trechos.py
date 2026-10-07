@@ -215,6 +215,36 @@ def kmz_fixo(nos, res, al, destino):
         z.writestr(zipfile.ZipInfo('doc.kml', (1980, 1, 1, 0, 0, 0)), doc, zipfile.ZIP_DEFLATED)
 
 
+def sem_topologia(pontos, res, cel=0.002):
+    """Pontos do KML que a topologia não usa (chave de tipo não reconhecido, sem suporte ou fora da árvore):
+    [código, lon, lat, trecho do vão com a ponta mais perto, distância em m]. É a conta de critica.por_trecho (todas as
+    pontas, sem limite); guardada no JSON, a Crítica nova acha o trecho deles sem o KML (scripts/atualiza_critica.py)."""
+    usados, vs = {a['nome'] for a in res['ativos']}, res['vaos']
+    grade = {}
+    for i, v in enumerate(vs):
+        for q in (v['a'], v['b']):
+            grade.setdefault((int(q[0] // cel), int(q[1] // cel)), set()).add(i)
+    out = []
+    for nome, p in sorted(pontos.items()):
+        if nome in usados or not vs:
+            continue
+        gy, gx, cand, r, melhor = int(p[0] // cel), int(p[1] // cel), set(), 0, None
+        lim = cel * 111195 * math.cos(math.radians(abs(p[0]) + 1)) * 0.999      # metros de uma célula, por baixo
+        while True:
+            cand |= {i for dy in range(-r, r + 1) for dx in range(-r, r + 1) if max(abs(dy), abs(dx)) == r
+                     for i in grade.get((gy + dy, gx + dx), ())}
+            if cand:
+                melhor = min((min(regras.haversine(p, vs[i]['a']), regras.haversine(p, vs[i]['b'])), i) for i in cand)
+                if melhor[0] <= r * lim:                 # fora dos anéis 0..r, tudo está a mais de r células
+                    break
+            r += 1
+            if r > 3000:                                 # ponto muito longe da rede: todas as pontas
+                melhor = min((min(regras.haversine(p, v['a']), regras.haversine(p, v['b'])), i) for i, v in enumerate(vs))
+                break
+        out.append([nome, round(p[1], 7), round(p[0], 7), vs[melhor[1]]['trecho'], round(melhor[0], 1)])
+    return out
+
+
 def processar(al, fontes, malha, saida, data_ref):
     kml = fontes.kmls[al]
     se, _ = nomes_kml(kml)
@@ -235,7 +265,9 @@ def processar(al, fontes, malha, saida, data_ref):
         ts = trechos.segmentar(nos, res)
         base['origem']['observacao'] = info.get('observacao') or None
     except (ValueError, regras.RedeInvalida) as e:
-        c = dict(base, erro=str(e), validacao=dict(status='falha', criticas=[f'não processado: {e}'], avisos=[]))
+        c = dict(base, erro=str(e), validacao=dict(status='falha', criticas=[f'não processado: {e}'], avisos=[]),
+                 chaves_sem_topologia=[[n, round(p[1], 7), round(p[0], 7), None, None]      # 'hoje no X' da Crítica
+                                       for n, p in sorted(fontes.pontos(al).items())])
         grava_json(saida / 'dados' / 'alimentadores' / f'{al}.json', c)
         return c
     oc = None
@@ -332,6 +364,7 @@ def processar(al, fontes, malha, saida, data_ref):
                     mun_vao[i]] for i, v in enumerate(res['vaos'])],
              chaves=[dict(nome=a['nome'], tipo=a['tipo'], lonlat=[a['lon'], a['lat']], poste=a['poste'])
                      for a in res['ativos']],
+             chaves_sem_topologia=sem_topologia(fontes.pontos(al), res),
              nae=D.get('nae'), limitrofes=limitrofes, continuidades_estimadas=[],
              topologia=dict(pontos_sem_ligacao=soltos, vaos_fora_da_arvore=info['fora_da_arvore'],
                             chaves_abertas=info['abertas'], chaves_sem_correspondencia=sem_corresp,

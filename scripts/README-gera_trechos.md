@@ -32,6 +32,25 @@ python scripts/gera_trechos.py --saida site --comparar ../vera-vegeta-o-back   #
 `--data AAAA-MM-DD` fixa a data de referência mostrada na página (padrão: data do arquivo KML). Mesmas entradas,
 mesma saída (o teste `python scripts/teste_gera_trechos.py` confere).
 
+## Crítica nova (todo mês)
+
+Não precisa dos KMLs nem do acervo do GIS: o site já guarda tudo o que a associação usa (trechos com a chave de
+início, vãos, chaves, chaves fora da topologia e `dados/trafos_gis.json`).
+
+```bash
+python scripts/atualiza_critica.py --site site --critica 'crit/Critica-CHEIO_09-2026.txt' --planilha NAE.xlsx
+python scripts/atualiza_critica.py --site site --conferir     # refaz a associação das NAE do site e compara
+```
+
+- O mês do arquivo (`MM-AAAA` no nome) é trocado inteiro; os outros meses do site ficam. Arquivo reemitido de um mês
+  já carregado troca só aquele mês. Passar todos os arquivos refaz tudo.
+- Mesmas regras da geração completa (abrangência DJ, chave de início, vão mais próximo do ponto do ativo, trafo do GIS
+  até 50 m, `hoje no X` nas duas pontas). Conferido contra a geração completa: as 5.748 NAE de jan–ago/2026 saem
+  iguais (trecho, regra, motivo, NAE de outro alimentador, rankings e polos); só a distância pode variar 0,1 m
+  (coordenada da chave guardada arredondada).
+- Ativo que não está em nenhum cadastro (chave nova, código digitado errado) fica `fora do cadastro atual`. Rede ou
+  GIS novos: rodar a geração completa (`gera_trechos.py`) e `ativos_gis.py` antes.
+
 ## Saída
 
 ```
@@ -43,8 +62,11 @@ alimentadores/<AL>/<AL>-trechos.kmz
 dados/alimentadores/<AL>.json      fonte canônica do alimentador inteiro ([lon, lat]): trechos, vãos, chaves,
                                    municípios, NAE, avisos e validação. O recorte por município é só um filtro na
                                    página; o arquivo canônico nunca é recortado.
+                                   'chaves_sem_topologia': pontos do KML que a topologia não usa (tipo de chave não
+                                   reconhecido, sem suporte), com o trecho do vão mais próximo (Crítica nova sem KML)
 dados/ativos/<fatia>.json          código de chave, transformador ou número de poste → alimentador e trecho (busca "Em que trecho
                                    está o ativo?" da página inicial; 256 pedaços, a página baixa só o do código)
+dados/trafos_gis.json              transformadores do acervo do GIS → [lon, lat, alimentador do GIS] (scripts/ativos_gis.py)
 manifesto.json                     município ↔ polo, SE e alimentadores
 polos/index.html                   ranking dos alimentadores de cada polo DCMD (assets/ranking-polos-dados.js)
 relatorio.md / relatorio.html      por município e alimentador, totais e não processados
