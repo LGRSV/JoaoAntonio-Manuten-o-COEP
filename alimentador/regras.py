@@ -31,6 +31,7 @@ FUSIVEIS = ('03', '33', '02', '40', '41')   # 40/41 = trip saver (dispositivo de
 SECCIONAMENTO = 'SEC'   # 03/33/02 com religador depois
 FUSIVEL_TRONCO = 'FTR'  # 03/33/02 na linha principal do tronco
 RL_MIN_M = 100          # religador com menos de ~2 vãos de rede depois dele (toco) não puxa a linha principal
+FTR_MAX_M = None        # fusível no tronco só até esta distância (m, pela rede) do religador; None: sem limite
 PROTECAO = ('DJ', '79') + FUSIVEIS
 RAIO_TERRA = 6371000.0
 
@@ -125,12 +126,13 @@ def analisar(nos, vaos, raiz):
         c = max(filhos[n], key=lambda k: ((tipo_cad(k) == '79' and abaixo[k] >= RL_MIN_M) or rl_rel[k], comp[(n, k)] + alcance[k]))
         principal.append((n, c))
         n = c
-    ftr, depois_rl = set(), False
-    for _, c in principal:                          # só a 1ª chave fusível depois de cada religador
+    ftr, depois_rl, desde_rl = set(), False, 0.0
+    for p, c in principal:                          # só a 1ª chave fusível depois de cada religador
+        desde_rl += comp[(p, c)]
         if tipo_cad(c) == '79':
-            depois_rl = True
+            depois_rl, desde_rl = True, 0.0
         elif tipo_cad(c) in FUSIVEIS and c not in secc:
-            if depois_rl:
+            if depois_rl and (FTR_MAX_M is None or desde_rl < FTR_MAX_M):
                 ftr.add(c)
             depois_rl = False
     tipo = lambda n: SECCIONAMENTO if n in secc else FUSIVEL_TRONCO if n in ftr else tipo_cad(n)

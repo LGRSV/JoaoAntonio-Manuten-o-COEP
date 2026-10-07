@@ -170,6 +170,7 @@ def main(argv=None):
     if a.critica and not arquivos_critica:
         raise SystemExit(f'nenhum arquivo da Crítica encontrado em {a.critica}')
     se_nomes = dict(s.split('=', 1) for s in a.se_nome)
+    a.kml = [f for p in a.kml for f in (sorted(glob.glob(p)) or [p])]      # padrão (pasta/*.kml) também no Windows
     for kml in a.kml:
         se, al, pasta = processar(kml, a.saida, achar_postes(a.postes, nomes(kml)[1]), arquivos_critica,
                                   a.outros + [k for k in a.kml if k != kml], a.mes)

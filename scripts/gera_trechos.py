@@ -480,9 +480,50 @@ def ativos_interface(saida):
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
     for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js',
-              'ranking-polos.js', 'croqui.js', 'croqui-modelo.js'):
+              'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
+    pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
     return modelo
+
+
+LEIA_ME = '''Trechos a partir do KML (T1, T2, T2-A..., T3-A...)
+
+Precisa só do Python 3.9 ou mais novo (nenhuma biblioteca extra).
+
+1. Descompacte este arquivo: fica a pasta "alimentador".
+2. Na pasta onde está "alimentador", rode:
+       python -m alimentador.gerar_trechos SE-XXXX_Circ-AL01005098.kml --saida saida
+   Vários de uma vez:
+       python -m alimentador.gerar_trechos "kmls/*.kml" --saida saida
+3. Em saida/<alimentador>/ ficam:
+       mapa-trechos.html          mapa com satélite e a lista de trechos (abre no navegador)
+       <alimentador>-trechos.kmz  os mesmos trechos para o Google Earth
+
+Opcional:
+   --postes <pasta ou JSON>        número dos postes (ex.: vera-vegetacao/dados)
+   --critica "Critica-*.txt"       NAE por trecho e mês, da Crítica
+   --mes 2026-01                   mostra no terminal o NAE por trecho daquele mês
+
+O KML é o do alimentador no formato do Daimon (nome SE-XXXX_Circ-<alimentador>.kml).
+As regras de divisão estão no começo de alimentador/regras.py.
+'''
+
+
+def pacote_trechos(destino):
+    """Zip do script que divide o KML do alimentador em trechos (menu do site): o pacote alimentador da skill, do jeito
+    que está agora (mesmas regras do site), com data fixa para sair igual a cada execução."""
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    arqs = [f'{n}.py' for n in ('__init__', 'critica', 'daimon', 'gerar_trechos', 'regras', 'trechos')] + \
+        ['mapa_trechos.html', 'site_indice.html', 'leaflet/leaflet.css', 'leaflet/leaflet.js', 'leaflet/LICENSE']
+    def item(nome):
+        zi = zipfile.ZipInfo(nome, (2026, 1, 1, 0, 0, 0))
+        zi.external_attr, zi.compress_type = 0o644 << 16, zipfile.ZIP_DEFLATED
+        return zi
+    with zipfile.ZipFile(destino, 'w') as z:
+        z.writestr(item('LEIA-ME.txt'), LEIA_ME.replace('\n', '\r\n'))
+        for f in arqs:
+            z.writestr(item(f'alimentador/{f}'), (PKG / f).read_bytes())
+    return destino
 
 
 def pagina_alimentador(modelo, c):
@@ -507,7 +548,7 @@ def pagina_alimentador(modelo, c):
                '<script src="limpeza.js"></script>\n<script src="../../assets/limpeza.js"></script>\n'
                '<script src="../../assets/telacheia.js"></script>\n'
                # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
-               '<script src="../../assets/croqui.js"></script>', h, count=1, flags=re.S)
+               '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>', h, count=1, flags=re.S)
     assert '%%' not in h
     return h
 
@@ -536,7 +577,7 @@ def casca(titulo, corpo, raiz, rodape=''):
             '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});document.querySelectorAll(".grade").forEach(g=>{let v=g.nextElementSibling;'
             'if(!v||!v.classList.contains("sem-res")){v=document.createElement("p");v.className="sem-res";v.setAttribute("role","status");'
             'g.after(v)}v.textContent=!q||g.querySelector("[data-busca]:not([hidden])")?"":"Nada encontrado para “"+b.value.trim()+"”."})});'
-            '</script>\n</body></html>\n')
+            f'</script>\n<script src="{raiz}assets/menu.js"></script>\n</body></html>\n')
 
 
 def km(m):
