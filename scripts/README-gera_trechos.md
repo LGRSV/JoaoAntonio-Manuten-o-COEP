@@ -51,6 +51,20 @@ python scripts/atualiza_critica.py --site site --conferir     # refaz a associa�
 - Ativo que não está em nenhum cadastro (chave nova, código digitado errado) fica `fora do cadastro atual`. Rede ou
   GIS novos: rodar a geração completa (`gera_trechos.py`) e `ativos_gis.py` antes.
 
+## Publicar no `/teste/` do gh-pages
+
+Depois de copiar o site para `teste/` do `vera-vegeta-o-back`, rodar na raiz do gh-pages, antes do commit:
+
+```bash
+python3 teste/ferramentas/nae_rede.py teste
+```
+
+Grava `nae_rede` em `assets/ranking-nae.js` e `assets/ranking-polos-dados.js`: o NAE/100 km usa a NAE no
+alimentador onde o ativo está hoje no GIS (a coluna NAE segue a Crítica). Toda geração (`--so-interface`,
+`atualiza_critica.py`, `refaz_trechos.py`) reescreve esses dois arquivos sem o campo; sem rodar a ferramenta o
+NAE/100 km volta a dividir a NAE da Crítica pela rede do GIS. Ela usa o `teste-acervo/` ao lado de `teste/`, para
+na hora se a NAE por polo não bater com os `dados.js` e rodar de novo dá o mesmo resultado.
+
 ## Saída
 
 ```
