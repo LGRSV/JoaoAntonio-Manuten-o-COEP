@@ -28,8 +28,7 @@
     const tot = s.dia + s.vence + s.vencida + s.sem;
     return { s, tot, ult, prazo: tot ? (s.dia + s.vence) / tot : null };
   }
-  // NAE/100 km do alimentador só com 1 km de rede ou mais (com poucos metros a conta explode e não diz nada): senão '—'
-  const prepara = a => { a.limp = limpeza(a.lp); a.n100 = a.t ? (a.km ? a.nae / a.km * 100000 : 0) : a.km >= 1000 ? a.nae / a.km * 100000 : null; return a; };
+  const prepara = a => { a.limp = limpeza(a.lp); a.n100 = a.km ? a.nae / a.km * 100000 : 0; return a; };
   P.polos.forEach(p => { p.als.forEach(prepara); (p.trs || []).forEach(t => { t.polo = p.nome; prepara(t); }); });
 
   // regional e ETO: alimentador que passa por mais de um polo vira uma linha só (soma a rede, a NAE e a limpeza de cada polo)
@@ -266,8 +265,7 @@
     const col = COLS[ord];
     const tr = vista === 'tr', varios = sel.tipo !== 'polo', polo = sel.polos[0];
     const base = tr ? sel.trs.filter(a => !classe || a.t.split('-')[0] === classe) : sel.als;
-    const vazio = x => col.val(x) == null;                 // sem valor ('—') fica no fim, nas duas ordens
-    const als = base.slice().sort((a, b) => (vazio(a) - vazio(b)) || (desc ? -1 : 1) * (col.val(a) > col.val(b) ? 1 : col.val(a) < col.val(b) ? -1 : 0) || b.nae - a.nae
+    const als = base.slice().sort((a, b) => (desc ? -1 : 1) * (col.val(a) > col.val(b) ? 1 : col.val(a) < col.val(b) ? -1 : 0) || b.nae - a.nae
       || (a.al + (a.t || '') > b.al + (b.t || '') ? 1 : -1));
     const rotKm = tr ? 'Km do trecho' : COLS.km.rot;
     const kmPolo = sel.polos.reduce((s, p) => s + p.als.reduce((t, a) => t + a.km, 0), 0), nae = naeEsc(sel);
@@ -313,7 +311,7 @@
             <td data-r="Consumidores">${nf(a.cons)}</td>
             <td data-r="CHI (h)">${nf(a.chi)}</td>
             <td data-r="${rotKm}">${km(a.km)}${a.km_total > a.km + 50 ? `<small>de ${km(a.km_total)} km</small>` : ''}</td>
-            <td data-r="NAE / 100 km">${a.n100 == null ? '<span title="menos de 1 km de rede">—</span>' : nf(a.n100, 1)}</td>
+            <td data-r="NAE / 100 km">${nf(a.n100, 1)}</td>
             <td class="t lim" data-r="Limpeza no prazo">${L.tot ? `<div class="pl-limw"><span class="pl-bar" title="${Object.entries(SIT).map(([k, [n]]) => `${n}: ${km(L.s[k])} km`).join(' · ')}">${
               Object.entries(SIT).map(([k, [, c]]) => L.s[k] ? `<i style="width:${100 * L.s[k] / L.tot}%;background:${c}"></i>` : '').join('')}</span><span class="pl-pc">${nf(100 * L.prazo)}%<span class="pl-np"> no prazo</span></span></div>`
               : '<span class="pl-vazio">sem dados de limpeza</span>'}</td>
