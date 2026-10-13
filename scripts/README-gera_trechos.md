@@ -79,7 +79,7 @@ python scripts/gera_trechos.py --saida site --so-interface
   alimentador da OS): 86% têm o poste no mapa; o poste fica a 2 km (mediana) da inspeção que gerou a OS, contra 24 km
   de um poste qualquer, então o casamento é real. Sem o poste no mapa, a OS fica na lista e o toque mostra o bloco da
   inspeção de origem.
-- Na página: card **Manutenção** (fica por cima do que estiver ligado): um losango por poste, na cor da pior situação
+- Na página: card **Insp→manut** (fica por cima do que estiver ligado): um losango por poste, na cor da pior situação
   — vencida (não executada e prazo passado, pela data do dia), no prazo, executada — com o número de OS do poste;
   legenda com filtro no canto de cima; painel com totais, tipos e OS; balão com a inspeção de origem (o link liga a
   Inspeção e foca nela); OS do trecho no detalhe dele.
