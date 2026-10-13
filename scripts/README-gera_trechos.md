@@ -51,6 +51,21 @@ python scripts/atualiza_critica.py --site site --conferir     # refaz a associa�
 - Ativo que não está em nenhum cadastro (chave nova, código digitado errado) fica `fora do cadastro atual`. Rede ou
   GIS novos: rodar a geração completa (`gera_trechos.py`) e `ativos_gis.py` antes.
 
+## Inspeção visual (base de inspeção)
+
+```bash
+python scripts/inspecao.py "BASE INSPEÇÃO.xlsx" site     # grava alimentadores/<AL>/inspecao.js
+python scripts/gera_trechos.py --saida site --so-interface
+```
+
+- Só OS **EXECUTADA** (aba `Dados`). A inspeção cobre a rede do `ELEMENTO` subindo até a `ABRANGENCIA` (conferido na
+  base de 13/10/2026: a ABRANGÊNCIA está sempre a montante do ELEMENTO). Data: `FIM_EXEC` (ou `INICIO_EXEC` se o fim
+  vier mais de 60 dias depois).
+- Os dois ativos no mapa do alimentador: o caminho entre eles. Só um: só o ponto dele. Nenhum: sem posição (fica na
+  lista). Os `90…` (bloco de chave faca) não têm ponto no cadastro do site.
+- Na página: card **Inspeção** no mapa, ao lado do **Faixa** (ligar um desliga o outro), anos e inspeções no painel e
+  as inspeções de cada trecho no detalhe dele.
+
 ## Publicar no `/teste/` do gh-pages
 
 Depois de copiar o site para `teste/` do `vera-vegeta-o-back`, rodar na raiz do gh-pages, antes do commit:

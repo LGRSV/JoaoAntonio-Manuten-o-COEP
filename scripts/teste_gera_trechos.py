@@ -16,6 +16,7 @@ import gera_trechos  # noqa: E402
 import limpeza_faixa  # noqa: E402
 import ativos_gis  # noqa: E402
 import atualiza_critica  # noqa: E402
+import inspecao  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -69,11 +70,12 @@ def test_pipeline():
                   'alimentadores/ALTESTE/dados.js', 'alimentadores/ALTESTE/ALTESTE-trechos.kmz', 'relatorio.md',
                   'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js',
                   'assets/busca-ativo.js', 'polos/index.html', 'assets/ranking-polos.js', 'assets/ranking-polos-dados.js',
-                  'assets/croqui.js', 'assets/croqui-modelo.js'):
+                  'assets/croqui.js', 'assets/croqui-modelo.js', 'assets/inspecao.js'):
             assert (d / 'site' / f).exists(), f
         pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
         assert 'cdnjs' not in pag and 'const D' not in pag and len(pag) < 20000, 'página leve: dados e código em arquivos'
         assert 'assets/croqui.js' in pag and 'croqui-modelo.js' not in pag, 'croqui na página; o modelo só carrega quando pedido'
+        assert '<script src="inspecao.js"></script>' in pag and 'assets/inspecao.js' in pag, 'inspeção na página'
         antes = assinatura(d / 'site')
         assert gera_trechos.main(args) == 0
         assert assinatura(d / 'site') == antes, 'segunda execução igual à primeira'
@@ -82,6 +84,56 @@ def test_pipeline():
         assert assinatura(d / 'site') == antes, 'só a interface: mesmo resultado'
         ativos_gis_no_site(d)
         critica_sem_kml(d)
+        inspecao_no_site(d)
+
+
+def inspecao_no_site(d):
+    """Base de inspeção: só EXECUTADA; caminho do ELEMENTO subindo até a ABRANGÊNCIA; só o ponto; sem posição."""
+    import datetime as dt
+    import openpyxl
+    cab = ['NUMERO_OS', 'ALIMENTADOR', 'SITUACAO', 'CODEQUIPE', 'CRITICIDADE', 'INICIO_EXEC', 'FIM_EXEC',
+           'ELEMENTO', 'ABRANGENCIA', 'MONT_ABRANGENCIA', 'DESCRICAO_OS']
+    h = lambda *a: dt.datetime(*a)
+    linhas = [
+        ['ETO-INPA01  000001/2026', 'ALTESTE', 'EXECUTADA', 'ETO-INPA01', 'ALTA', h(2026, 1, 10, 8), h(2026, 1, 10, 10),
+         '0300001', '7900001', 'DJ_ALTESTE_FICT', 'OS despachada automaticamente pelo Scheduler/SOMA'],
+        ['ETO-INPA01  000002/2026', 'ALTESTE', 'EXECUTADA', 'ETO-INPA01', 'BAIXA', h(2026, 1, 1, 8), h(2026, 4, 1, 8),
+         '7900001', '9000001', 'DJ_ALTESTE_FICT', 'BLOCO CHAVE FACA - 9000001'],
+        ['ETO-INPA01  000003/2026', 'ALTESTE', 'EXECUTADA', 'ETO-INPA01', 'BAIXA', h(2026, 2, 1, 8), h(2026, 2, 1, 9),
+         '9000002', '9000003', '', ''],
+        ['ETO-INPA01  000004/2026', 'ALTESTE', 'CRIADA', 'ETO-INPA01', 'BAIXA', None, None, '0300001', '7900001', '', ''],
+        ['ETO-INPA01  000005/2026', 'ALOUTRO', 'EXECUTADA', 'ETO-INPA01', 'BAIXA', h(2026, 3, 1, 8), h(2026, 3, 1, 9),
+         '1', '2', '', ''],
+    ]
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Dados'
+    for r in [cab] + linhas:
+        ws.append(r)
+    wb.save(d / 'insp.xlsx')
+    r = inspecao.main(d / 'insp.xlsx', d / 'site')
+    assert r['executadas'] == 4 and r['sem_pagina'] == {'ALOUTRO': 1}, 'só EXECUTADA; alimentador fora do site à parte'
+    assert r['situacao'] == {'no mapa (vãos)': 1, 'só o ponto': 1, 'sem posição': 1}, r['situacao']
+    arq = d / 'site' / 'alimentadores' / 'ALTESTE' / 'inspecao.js'
+    ins = inspecao.le_js(arq)
+    os_ = {o['os']: o for o in ins['os']}
+    c = json.loads((d / 'site' / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
+    poste = {ch['nome']: ch['poste'] for ch in c['chaves']}
+    o1 = os_['000001/2026']
+    k1 = ins['os'].index(o1)
+    vaos = {v for v, ks in ins['vaos'].items() if k1 in ks}
+    assert (poste['0300001'], poste['7900001']) == ('N6', 'N3') and sorted(vaos) == ['TR-004', 'TR-005', 'TR-006'], vaos
+    assert o1['metodo'] == 'entre o ELEMENTO e a ABRANGÊNCIA' and o1['m'] == 100.2 and o1['data'] == '2026-01-10', o1
+    assert o1['desc'] == '' and o1['pt'] is None, 'caminho do fusível subindo até o religador; descrição automática fora'
+    o2 = os_['000002/2026']
+    assert o2['metodo'].startswith('só o ponto do ELEMENTO') and o2['pt'] and o2['m'] == 0, o2
+    assert o2['data'] == '2026-01-01', 'FIM mais de 60 dias depois do INICIO: vale o INICIO'
+    o3 = os_['000003/2026']
+    assert o3['metodo'].startswith('sem posição') and o3['pt'] is None and ins['base_ate'] == '2026-03-01'
+    antes = arq.read_bytes()
+    inspecao.main(d / 'insp.xlsx', d / 'site')
+    assert arq.read_bytes() == antes, 'inspeção: segunda execução igual'
+    print('ok inspecao_no_site')
 
 
 CRITICA_CAB = ('DTA_CMPT_HDE;TIPO_INTER_KTI;COD_ELE_REDE_PROBLEMA;COD_ELE_PROBLEMA;ABRANGÊNCIA;NUM_SEQ_OPER_INIC_HDE;'

@@ -479,7 +479,7 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'telacheia.js', 'busca-ativo.js',
+    for f in ('extras.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'telacheia.js', 'busca-ativo.js',
               'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
@@ -546,6 +546,8 @@ def pagina_alimentador(modelo, c):
                '<script src="../../assets/extras.js"></script>\n'
                # limpeza de faixa: limpeza.js do alimentador vem de scripts/limpeza_faixa.py (sem ele, a camada não aparece)
                '<script src="limpeza.js"></script>\n<script src="../../assets/limpeza.js"></script>\n'
+               # inspeção visual de MT: inspecao.js do alimentador vem de scripts/inspecao.py (sem ele, o card não aparece)
+               '<script src="inspecao.js"></script>\n<script src="../../assets/inspecao.js"></script>\n'
                '<script src="../../assets/telacheia.js"></script>\n'
                # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
                '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>', h, count=1, flags=re.S)
@@ -867,6 +869,9 @@ def interface(saida):
             limpeza = saida / 'alimentadores' / c['alimentador'] / 'limpeza.js'
             if not limpeza.exists():                   # até rodar scripts/limpeza_faixa.py: página sem a camada
                 limpeza.write_text('window.LIMPEZA = null;\n', encoding='utf-8')
+            insp = saida / 'alimentadores' / c['alimentador'] / 'inspecao.js'
+            if not insp.exists():                      # até rodar scripts/inspecao.py: página sem o card de inspeção
+                insp.write_text('window.INSPECAO = null;\n', encoding='utf-8')
     cards = []
     for m in man['municipios']:
         tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
