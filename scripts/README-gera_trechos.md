@@ -66,6 +66,23 @@ python scripts/gera_trechos.py --saida site --so-interface
 - Na página: card **Inspeção** no mapa, ao lado do **Faixa** (ligar um desliga o outro), anos e inspeções no painel e
   as inspeções de cada trecho no detalhe dele.
 
+## Atualizar bases pelo menu (automático)
+
+No site publicado, o menu ☰ tem **Atualizar bases**: cada base abre a página de envio do GitHub na pasta dela
+(`bases/critica`, `bases/limpeza`, `bases/inspecao` no gh-pages). Quando chega arquivo, a automação
+`.github/workflows/atualiza-bases.yml` (no gh-pages) roda `ferramentas/scripts/atualiza_bases.py --site teste` com os
+arquivos novos e publica em `teste/` (uns 5 minutos). Se der erro, não publica nada (motivo na aba Actions).
+
+- Crítica: `Critica-…_MM-AAAA.txt` (ou .zip com eles); o mês do arquivo é trocado inteiro (`atualiza_critica.py`).
+- Limpeza: a planilha de OS inteira (aba Dados). Sem o acervo de KMZ: OS que já está no site mantém a posição (só
+  troca situação, datas e descrição); OS nova é localizada pelas chaves do mapa e pelo índice de ativos do site; OS
+  que não vem na planilha sai. Conferido: a planilha montada a partir do site publicado refaz os 322 `limpeza.js` iguais.
+- Inspeção: a base inteira (aba Dados), só as executadas (`inspecao.py`).
+- Depois: interface, `nae_rede.py`, validação e `dados/bases.json` (o que o menu mostra de cada base).
+- O repositório do site é público: o arquivo enviado fica visível.
+- `ferramentas/` no gh-pages é a cópia dos scripts que a automação usa: refazer a cada mudança neles com
+  `python scripts/atualiza_bases.py --copia-ferramentas <gh-pages>/ferramentas`.
+
 ## Publicar no `/teste/` do gh-pages
 
 Depois de copiar o site para `teste/` do `vera-vegeta-o-back`, rodar na raiz do gh-pages, antes do commit:

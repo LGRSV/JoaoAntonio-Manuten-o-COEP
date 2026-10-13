@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import sys
+import shutil
 import tempfile
 from pathlib import Path
 
@@ -17,6 +18,7 @@ import limpeza_faixa  # noqa: E402
 import ativos_gis  # noqa: E402
 import atualiza_critica  # noqa: E402
 import inspecao  # noqa: E402
+import atualiza_bases  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -85,6 +87,80 @@ def test_pipeline():
         ativos_gis_no_site(d)
         critica_sem_kml(d)
         inspecao_no_site(d)
+        limpeza_reaproveita(d)
+        bases_pelo_menu(d)
+
+
+def limpeza_reaproveita(d):
+    """Limpeza sem KMZ: OS já publicada mantém a posição e troca situação/data; OS nova pela chave do mapa; OS que saiu
+    da planilha sai do site; executada de equipe de fora não entra."""
+    import datetime as dt
+    import openpyxl
+    site = d / 'site'
+    dados = inspecao.le_js(site / 'alimentadores' / 'ALTESTE' / 'dados.js')
+    ids = [v[5] for v in dados['vaos']][:2]
+    velha = dict(os='000001/2025', os_completa='ETO-RD-PA 000001/2025', sit='CRIADA', data=None, criada='2025-01-02',
+                 al_os='ALTESTE', desc='antiga', ativos=['X (chave no mapa)'], metodo='entre ativos', km_desc=None, m=1.0)
+    some = dict(velha, os='000002/2025', os_completa='ETO-RD-PA 000002/2025')
+    lp = dict(regra_anos={'T1': 3, 'T2': 4, 'T3': 5}, fonte='velha.xlsx', gerado='2026-01-01', equipes=[],
+              os=[velha, some], vaos={ids[0]: [0], ids[1]: [0, 1]}, sem_local=[])
+    (site / 'alimentadores' / 'ALTESTE' / 'limpeza.js').write_text('window.LIMPEZA = ' + json.dumps(lp) + ';\n', encoding='utf-8')
+    cab = ['NUMERO_OS', 'SITUACAO', 'DESCRICAO_OS', 'ALIMENTADOR', 'DATA_CRIACAO', 'INICIO_EXEC', 'FIM_EXEC', 'ESTRUTURA',
+           'ELEMENTO', 'ABRANGENCIA', 'MONT_ABRANGENCIA']
+    h = lambda *a: dt.datetime(*a)
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Dados'
+    for r in [cab, ['ETO-RD-PA 000001/2025', 'EXECUTADA', 'nova descrição', 'ALTESTE', h(2025, 1, 2), h(2026, 2, 1), h(2026, 2, 1)] + [None] * 4,
+              ['ETO-RD-PA 000003/2026', 'EXECUTADA', 'limpeza a partir da chave', 'ALTESTE', h(2026, 1, 5), h(2026, 3, 1), h(2026, 3, 1),
+               None, '7900001', None, None],
+              ['ETO-LD-PCM 000004/2026', 'EXECUTADA', 'chave', 'ALTESTE', h(2026, 1, 5), h(2026, 3, 1), h(2026, 3, 1), None, '7900001', None, None]]:
+        ws.append(r)
+    (d / 'bases' / 'limpeza').mkdir(parents=True)
+    wb.save(d / 'bases' / 'limpeza' / 'OS teste.xlsx')
+    limpeza_faixa.usa_site(site)
+    limpeza_faixa.main(str(d / 'bases' / 'limpeza' / 'OS teste.xlsx'))
+    out = inspecao.le_js(site / 'alimentadores' / 'ALTESTE' / 'limpeza.js')
+    por = {o['os_completa']: k for k, o in enumerate(out['os'])}
+    assert set(por) == {'ETO-RD-PA 000001/2025', 'ETO-RD-PA 000003/2026'}, por
+    o1 = out['os'][por['ETO-RD-PA 000001/2025']]
+    assert o1['sit'] == 'EXECUTADA' and o1['data'] == '2026-02-01' and o1['desc'] == 'nova descrição', o1
+    assert o1['metodo'] == 'entre ativos' and o1['ativos'] == ['X (chave no mapa)'], 'posição publicada mantida'
+    assert sorted(v for v, ks in out['vaos'].items() if por['ETO-RD-PA 000001/2025'] in ks) == sorted(ids), 'mesmos vãos'
+    o3 = out['os'][por['ETO-RD-PA 000003/2026']]
+    assert o3['ativos'] == ['7900001 (chave no mapa)'] and o3['metodo'] == 'resto do trecho a partir do ativo', o3
+    print('ok limpeza_reaproveita')
+
+
+def bases_pelo_menu(d):
+    """atualiza_bases: tipo pela pasta, Crítica sem mês recusada, inspeção processada e dados/bases.json."""
+    assert atualiza_bases.tipo_de('bases/inspecao/BASE INSPEÇÃO.xlsx') == 'inspecao'
+    assert atualiza_bases.tipo_de('outra/inspecao/x.xlsx') is None and atualiza_bases.tipo_de('bases/LEIA-ME.md') is None
+    import zipfile
+    with tempfile.TemporaryDirectory() as tmp:
+        z = Path(tmp) / 'crit.zip'
+        with zipfile.ZipFile(z, 'w') as zz:
+            zz.writestr('pasta/../Critica-CHEIO_09-2026.txt', 'x')
+            zz.writestr('outro.txt', 'y')
+        txt = atualiza_bases.arquivos_critica([z], tmp)
+        assert [t.name for t in txt] == ['Critica-CHEIO_09-2026.txt'] and txt[0].parent == Path(tmp), 'zip: só Critica*.txt, sem caminho'
+        sem = Path(tmp) / 'Critica-sem-mes.txt'
+        sem.write_text('x')
+        try:
+            atualiza_bases.arquivos_critica([sem], tmp)
+            assert False, 'Crítica sem MM-AAAA no nome tem que parar'
+        except SystemExit as e:
+            assert 'MM-AAAA' in str(e)
+    (d / 'bases' / 'inspecao').mkdir(parents=True)
+    shutil.copyfile(d / 'insp.xlsx', d / 'bases' / 'inspecao' / 'insp.xlsx')
+    feitos = atualiza_bases.atualiza(d / 'site', [d / 'bases' / 'inspecao' / 'insp.xlsx', d / 'bases' / 'inspecao' / 'LEIA-ME.md'],
+                                     hoje='2026-10-13')
+    assert list(feitos) == ['inspecao']
+    est = json.loads((d / 'site' / 'dados' / 'bases.json').read_text(encoding='utf-8'))
+    assert est['inspecao']['arquivo'] == 'insp.xlsx' and est['inspecao']['enviado'] == '2026-10-13' and est['inspecao']['os'] == 3, est
+    assert est['limpeza']['os'] == 2 and est['critica']['nome'] == 'Crítica (NAE)', est
+    assert not list((d / 'site').rglob('__pycache__')), 'nada de __pycache__ no site'
+    print('ok bases_pelo_menu')
 
 
 def inspecao_no_site(d):
