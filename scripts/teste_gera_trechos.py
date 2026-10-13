@@ -19,6 +19,7 @@ import ativos_gis  # noqa: E402
 import atualiza_critica  # noqa: E402
 import inspecao  # noqa: E402
 import atualiza_bases  # noqa: E402
+import manutencao  # noqa: E402
 from alimentador.testes import _kml_daimon  # noqa: E402
 
 
@@ -89,6 +90,7 @@ def test_pipeline():
         inspecao_no_site(d)
         limpeza_reaproveita(d)
         bases_pelo_menu(d)
+        manutencao_no_site(d)
 
 
 def limpeza_reaproveita(d):
@@ -163,6 +165,52 @@ def bases_pelo_menu(d):
     print('ok bases_pelo_menu')
 
 
+def manutencao_no_site(d):
+    """OS de manutenção da inspeção: canceladas fora; poste pela ESTRUTURA; sem poste no mapa fica sem posição; pela
+    automação (bases/manutencao) entra no bases.json."""
+    import datetime as dt
+    import openpyxl
+    cab = ['INSP_NUMERO_OS', 'INSP_FIM_EXEC', 'NUMERO_OS', 'DESCRICAO_OS', 'ALIMENTADOR', 'CRITICIDADE', 'CODEQUIPE',
+           'DATA_CRIACAO', 'FIM_EXEC', 'DESCESQUEMA', 'SITUACAO', 'ESTRUTURA', 'DATA_LIMITE', 'EQUIPE_EXECUTORA']
+    h = lambda *a: dt.datetime(*a)
+    linhas = [
+        ['ETO-INPA01  000002/2026', h(2026, 1, 1), 'ETO-RD-PA  000010/2026', 'CRUZETA > RACHADA', 'ALTESTE', 'ALTA', 'ETO-RD-PA',
+         h(2026, 2, 1), None, 'MC - CRUZETA', 'CRIADA', '190-N4', h(2026, 3, 1), None],
+        ['ETO-INPA01  000002/2026', h(2026, 1, 1), 'ETO-RD-PA  000011/2026', 'ISOLADOR > QUEBRADO', 'ALTESTE', 'BAIXA', 'ETO-RD-PA',
+         h(2026, 2, 1), h(2026, 2, 20), 'MC - ISOLADOR', 'EXECUTADA', '190-N4', h(2026, 8, 1), 'DEOP'],
+        ['ETO-INPA01  000002/2026', h(2026, 1, 1), 'ETO-RD-PA  000012/2026', 'POSTE > INCLINADO', 'ALTESTE', 'BAIXA', 'ETO-RD-PA',
+         h(2026, 2, 2), None, 'MC - POSTES', 'CRIADA', '190-999999', h(2027, 1, 1), None],
+        ['ETO-INPA01  000002/2026', h(2026, 1, 1), 'ETO-RD-PA  000013/2026', 'CRUZETA > RACHADA', 'ALTESTE', 'BAIXA', 'ETO-RD-PA',
+         h(2026, 2, 3), None, 'MC - CRUZETA', 'CANCELADA', '190-N4', h(2026, 3, 1), None],
+        ['ETO-INPA01  000005/2026', h(2026, 1, 1), 'ETO-RD-PA  000014/2026', 'CRUZETA', 'ALOUTRO', 'BAIXA', 'ETO-RD-PA',
+         h(2026, 2, 4), None, 'MC - CRUZETA', 'CRIADA', '190-1', h(2026, 3, 1), None],
+    ]
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    for r in [cab] + linhas:
+        ws.append(r)
+    (d / 'bases' / 'manutencao').mkdir(parents=True)
+    xlsx = d / 'bases' / 'manutencao' / 'OS geradas.xlsx'
+    wb.save(xlsx)
+    feitos = atualiza_bases.atualiza(d / 'site', [xlsx], hoje='2026-10-13')
+    assert list(feitos) == ['manutencao']
+    m = inspecao.le_js(d / 'site' / 'alimentadores' / 'ALTESTE' / 'manutencao.js')
+    por = {o['os']: o for o in m['os']}
+    assert set(por) == {'000010/2026', '000011/2026', '000012/2026'}, 'cancelada e alimentador sem página ficam de fora'
+    dados = inspecao.le_js(d / 'site' / 'alimentadores' / 'ALTESTE' / 'dados.js')
+    n4 = next([v[0], v[1]] if v[6] == 'N4' else [v[2], v[3]] for v in dados['vaos'] if 'N4' in (v[6], v[7]))
+    o = por['000010/2026']
+    assert o['ll'] == n4 and o['poste'] == 'N4' and o['tipo'] == 'CRUZETA' and o['limite'] == '2026-03-01', o
+    assert o['insp'] == 'ETO-INPA01 000002/2026' and o['exec'] is None, o
+    assert por['000011/2026']['exec'] == '2026-02-20' and por['000011/2026']['executora'] == 'DEOP'
+    assert por['000012/2026']['ll'] is None, 'poste que não está no mapa: sem posição'
+    est = json.loads((d / 'site' / 'dados' / 'bases.json').read_text(encoding='utf-8'))
+    assert est['manutencao']['os'] == 3 and est['manutencao']['arquivo'] == 'OS geradas.xlsx', est['manutencao']
+    pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
+    assert '<script src="manutencao.js"></script>' in pag and (d / 'site' / 'assets' / 'manutencao.js').exists()
+    print('ok manutencao_no_site')
+
+
 def inspecao_no_site(d):
     """Base de inspeção: só EXECUTADA; caminho do ELEMENTO subindo até a ABRANGÊNCIA; só o ponto; sem posição."""
     import datetime as dt
@@ -189,20 +237,22 @@ def inspecao_no_site(d):
     wb.save(d / 'insp.xlsx')
     r = inspecao.main(d / 'insp.xlsx', d / 'site')
     assert r['executadas'] == 4 and r['sem_pagina'] == {'ALOUTRO': 1}, 'só EXECUTADA; alimentador fora do site à parte'
-    assert r['situacao'] == {'no mapa (vãos)': 1, 'só o ponto': 1, 'sem posição': 1}, r['situacao']
+    assert r['situacao'] == {'no mapa (bloco)': 2, 'sem posição': 1}, r['situacao']
     arq = d / 'site' / 'alimentadores' / 'ALTESTE' / 'inspecao.js'
     ins = inspecao.le_js(arq)
     os_ = {o['os']: o for o in ins['os']}
     c = json.loads((d / 'site' / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
     poste = {ch['nome']: ch['poste'] for ch in c['chaves']}
-    o1 = os_['000001/2026']
-    k1 = ins['os'].index(o1)
-    vaos = {v for v, ks in ins['vaos'].items() if k1 in ks}
-    assert (poste['0300001'], poste['7900001']) == ('N6', 'N3') and sorted(vaos) == ['TR-004', 'TR-005', 'TR-006'], vaos
-    assert o1['metodo'] == 'entre o ELEMENTO e a ABRANGÊNCIA' and o1['m'] == 100.2 and o1['data'] == '2026-01-10', o1
-    assert o1['desc'] == '' and o1['pt'] is None, 'caminho do fusível subindo até o religador; descrição automática fora'
-    o2 = os_['000002/2026']
-    assert o2['metodo'].startswith('só o ponto do ELEMENTO') and o2['pt'] and o2['m'] == 0, o2
+    assert (poste['0300001'], poste['7900001']) == ('N6', 'N3'), poste
+    vaos_de = lambda o: sorted(v for v, ks in ins['vaos'].items() if ins['os'].index(o) in ks)
+    dados = inspecao.le_js(d / 'site' / 'alimentadores' / 'ALTESTE' / 'dados.js')
+    abaixo_n6 = sorted(v[5] for v in dados['vaos'] if v[6] in ('N6', 'N7') and v[7] in ('N6', 'N7'))
+    o1 = os_['000001/2026']                           # ELEMENTO: o fusível (N6); bloco abaixo dele, sem chave depois
+    assert o1['metodo'].startswith('bloco abaixo do ELEMENTO') and vaos_de(o1) == abaixo_n6 and o1['fins'] == [], (o1, abaixo_n6)
+    assert o1['data'] == '2026-01-10' and o1['desc'] == '' and o1['pa'] and o1['pe'], o1
+    o2 = os_['000002/2026']                           # ELEMENTO: o religador (N3); bloco até o fusível, que fecha o bloco
+    assert vaos_de(o2) == ['TR-004', 'TR-005', 'TR-006'] and o2['m'] == 100.2, (vaos_de(o2), o2)
+    assert [f[2] for f in o2['fins']] == ['0300001'] and o2['pa'] is None, o2
     assert o2['data'] == '2026-01-01', 'FIM mais de 60 dias depois do INICIO: vale o INICIO'
     o3 = os_['000003/2026']
     assert o3['metodo'].startswith('sem posição') and o3['pt'] is None and ins['base_ate'] == '2026-03-01'

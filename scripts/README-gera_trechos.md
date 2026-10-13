@@ -58,13 +58,31 @@ python scripts/inspecao.py "BASE INSPEÇÃO.xlsx" site     # grava alimentadores
 python scripts/gera_trechos.py --saida site --so-interface
 ```
 
-- Só OS **EXECUTADA** (aba `Dados`). A inspeção cobre a rede do `ELEMENTO` subindo até a `ABRANGENCIA` (conferido na
-  base de 13/10/2026: a ABRANGÊNCIA está sempre a montante do ELEMENTO). Data: `FIM_EXEC` (ou `INICIO_EXEC` se o fim
-  vier mais de 60 dias depois).
-- Os dois ativos no mapa do alimentador: o caminho entre eles. Só um: só o ponto dele. Nenhum: sem posição (fica na
-  lista). Os `90…` (bloco de chave faca) não têm ponto no cadastro do site.
-- Na página: card **Inspeção** no mapa, ao lado do **Faixa** (ligar um desliga o outro), anos e inspeções no painel e
-  as inspeções de cada trecho no detalhe dele.
+- Só OS **EXECUTADA** (aba `Dados`). A inspeção cobre o **bloco do `ELEMENTO`**: da chave dele descendo pela rede até
+  as próximas chaves (cada uma é um fim do bloco); a `ABRANGENCIA` é a chave a montante. Conferido com as OS de
+  manutenção geradas pelas inspeções: 92% dos defeitos com poste no mapa caem no bloco da inspeção que os gerou (o
+  caminho ELEMENTO → ABRANGÊNCIA, a 1ª leitura, tinha 2%). Data: `FIM_EXEC` (ou `INICIO_EXEC` se o fim vier mais de
+  60 dias depois).
+- ELEMENTO no mapa: o bloco. Só a ABRANGÊNCIA: o bloco fica sem posição (o ELEMENTO, em geral um `90…` de bloco de
+  chave faca, não tem ponto no GIS nem no KML) e a ABRANGÊNCIA fica de referência. Nenhum: sem posição (na lista).
+- Na página: card **Inspeção** no mapa, ao lado do **Faixa** (ligar um desliga o outro), anos e inspeções no painel,
+  pontos vermelhos no início do bloco e nas chaves onde ele termina, e as inspeções de cada trecho no detalhe dele.
+
+## OS de manutenção geradas pela inspeção
+
+```bash
+python scripts/manutencao.py "OS GERADAS PELA INSPECAO.xlsx" site     # grava alimentadores/<AL>/manutencao.js
+python scripts/gera_trechos.py --saida site --so-interface
+```
+
+- As **CANCELADAS** ficam de fora. Cada OS vai para o poste da `ESTRUTURA` (`190-426869` → poste 426869 do mapa do
+  alimentador da OS): 86% têm o poste no mapa; o poste fica a 2 km (mediana) da inspeção que gerou a OS, contra 24 km
+  de um poste qualquer, então o casamento é real. Sem o poste no mapa, a OS fica na lista e o toque mostra o bloco da
+  inspeção de origem.
+- Na página: card **Manutenção** (fica por cima do que estiver ligado): um losango por poste, na cor da pior situação
+  — vencida (não executada e prazo passado, pela data do dia), no prazo, executada — com o número de OS do poste;
+  legenda com filtro no canto de cima; painel com totais, tipos e OS; balão com a inspeção de origem (o link liga a
+  Inspeção e foca nela); OS do trecho no detalhe dele.
 
 ## Atualizar bases pelo menu (automático)
 
@@ -78,6 +96,7 @@ arquivos novos e publica em `teste/` (uns 5 minutos). Se der erro, não publica 
   troca situação, datas e descrição); OS nova é localizada pelas chaves do mapa e pelo índice de ativos do site; OS
   que não vem na planilha sai. Conferido: a planilha montada a partir do site publicado refaz os 322 `limpeza.js` iguais.
 - Inspeção: a base inteira (aba Dados), só as executadas (`inspecao.py`).
+- Manutenção da inspeção: a base de OS geradas pela inspeção (1ª aba), sem as canceladas (`manutencao.py`).
 - Depois: interface, `nae_rede.py`, validação e `dados/bases.json` (o que o menu mostra de cada base).
 - O repositório do site é público: o arquivo enviado fica visível.
 - `ferramentas/` no gh-pages é a cópia dos scripts que a automação usa: refazer a cada mudança neles com
