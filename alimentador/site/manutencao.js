@@ -4,7 +4,7 @@
 // Manutenção, de executadas.js, também ligada, o losango dela no mesmo poste fica um pouco deslocado: os dois aparecem).
 // Situação pela data do dia: vencida (não executada e o prazo já passou), no prazo, executada.
 // Posição: o poste da ESTRUTURA da OS. Sem o poste no mapa, tocar na OS mostra o bloco da inspeção que a gerou.
-// No painel: totais, tipos e as OS por situação. Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
+// No painel: tipos e uma linha por situação (liga/desliga no mapa; abre as OS dela embaixo). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
 (function () {
   const MN = window.MANUTENCAO;
   if (!MN || !window.D) return;
@@ -40,9 +40,7 @@
     ligado: guarda('mnt-ligado') === '1',
     sits: new Set(ORDEM),
     foco: null,
-    mais: guarda('mnt-mais') !== '0',
-    lista: false,
-    grupos: new Set(),
+    grupos: new Set(),       // situações abertas, com as OS embaixo
   };
 
   const css = document.createElement('style');
@@ -137,12 +135,11 @@
     map.invalidateSize();
     map.setView(ll, Math.max(map.getZoom(), 17));
   }
-  function focar(k, enquadrar) {
+  function focar(k, enquadrar, doPainel) {
     st.foco = st.foco === k ? null : k;
     if (st.foco !== null) {
       const o = MN.os[k];
-      st.grupos.add(sitDe(o));
-      st.mais = true; st.lista = true;
+      st.grupos.add(sitDe(o));                          // abre a linha da situação da OS
       if (o.ll) {
         if (!st.ligado) liga(true);
         st.sits.add(sitDe(o));
@@ -150,6 +147,7 @@
       } else if (o.insp) vaiInspecao(o.insp);     // sem o poste no mapa: o bloco da inspeção que a gerou
     }
     desenha(); pinta();
+    if (!doPainel && window.__rolaPainel) window.__rolaPainel(card, st.foco);
   }
   function liga(on) {
     st.ligado = on; guarda('mnt-ligado', on ? '1' : '0');
@@ -211,23 +209,28 @@
       `<span class="q">${esc(o.tipo)} · ${quando(o)} · OS ${esc(o.os)}</span><span class="s">${esc(o.defeito.slice(0, 110))}${o.defeito.length > 110 ? '…' : ''}${o.ll ? '' : ' · sem o poste no mapa'}</span></button>` +
       (comFoco && st.foco === k ? focoHtml(k) : '');
   };
-  const grupo = (g, titulo, cor, info, ks) =>
-    `<details class="limp-grupo" data-g="${g}"${st.grupos.has(g) ? ' open' : ''}><summary style="--c:${cor}"><i></i>${titulo} <span>${info}</span></summary><div>${ks.map(k => osBtn(k, true)).join('')}</div></details>`;
+  // linha de uma situação (o mesmo visual da Faixa): a cor liga/desliga no mapa, o resto abre as OS logo abaixo
+  // (montadas só com a linha aberta)
+  function linha(s) {
+    const ks = POR_SIT[s], aberto = st.grupos.has(s) && ks.length > 0, id = 'mnt-g-' + s, on = st.sits.has(s);
+    const i = `<i style="--c:${SIT[s][1]}"></i>`;
+    return `<div class="limp-ano-l${st.ligado && !on ? ' off' : ''}">` +
+      (st.ligado ? `<button type="button" class="liga" data-a="${s}" data-foco="a${s}" aria-pressed="${on}" aria-label="${SIT[s][0]} no mapa" title="Mostrar/esconder no mapa">${i}</button>`
+        : `<span class="cor" aria-hidden="true">${i}</span>`) +
+      `<button type="button" class="abre" data-g="${s}" data-foco="g${s}" aria-expanded="${aberto}" aria-controls="${id}"${ks.length ? '' : ' disabled'}><span>${SIT[s][0]}</span><em>${nf(ks.length)} OS</em></button>` +
+      `</div><div class="limp-oss" id="${id}" role="group" aria-label="OS ${SIT[s][0].toLowerCase()}"${aberto ? '' : ' hidden'}>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div>`;
+  }
 
   function pinta() {
     const f = document.activeElement;
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
     const n = MN.os.length;
     const sub = n ? `${nf(n)} OS · ${ORDEM.map(s => `${nf(POR_SIT[s].length)} ${SIT[s][0].toLowerCase()}`).join(' · ')}` : 'Nenhuma OS gerada pela inspeção';
-    const corpo = st.ligado && n ? `<div class="limp-anos">${ORDEM.map(s => `<div class="limp-ano-l">
-        <button type="button" class="liga" data-s="${s}" data-foco="s${s}" aria-pressed="${st.sits.has(s)}" title="Mostrar/esconder no mapa"><i style="--c:${SIT[s][1]}"></i><span>${SIT[s][0]}</span><em>${nf(POR_SIT[s].length)} OS</em></button></div>`).join('')}</div>` : '';
     const tipos = n ? `<p class="mnt-tipos">${TIPOS.map(([t, c]) => `<b>${esc(t.charAt(0) + t.slice(1).toLowerCase())}</b> ${nf(c)}`).join(' · ')}</p>` : '';
-    const lista = n ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nf(n)} OS por situação</summary><div>
-        ${ORDEM.filter(s => POR_SIT[s].length).map(s => grupo(s, SIT[s][0], SIT[s][1], `${nf(POR_SIT[s].length)} OS`, POR_SIT[s])).join('')}</div></details>` : '';
-    const resto = corpo + tipos + lista;
+    const resto = n ? tipos + `<div class="limp-anos">${ORDEM.map(linha).join('')}</div>` : '';
     card.hidden = !st.ligado && !!btn;                    // bloco do Insp→manut só com ele ligado no mapa
     card.innerHTML = `<div class="limp-top"><h2>Insp→manut<small>${sub}</small></h2></div>
-      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Situação, tipos e OS</summary><div>${resto}</div></details>` : ''}`;
+      ${resto}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (lg) {
@@ -236,19 +239,14 @@
     }
     if (det) det.querySelectorAll('.mnt-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
   }
-  card.addEventListener('toggle', e => {
-    const d = e.target;
-    if (d.classList.contains('limp-mais')) { st.mais = d.open; guarda('mnt-mais', d.open ? '1' : '0'); }
-    else if (d.classList.contains('limp-lista')) st.lista = d.open;
-    else if (d.dataset.g) d.open ? st.grupos.add(d.dataset.g) : st.grupos.delete(d.dataset.g);
-  }, true);
   card.addEventListener('click', e => {
     const a = e.target.closest('a[data-i]');
     if (a) { e.preventDefault(); vaiInspecao(a.dataset.i); return; }
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true);
-    if (b.classList.contains('liga') && b.dataset.s) return alternaSit(b.dataset.s);
+    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
+    if (b.classList.contains('abre')) { const g = b.dataset.g; st.grupos.has(g) ? st.grupos.delete(g) : st.grupos.add(g); return pinta(); }
+    if (b.classList.contains('liga') && b.dataset.a) return alternaSit(b.dataset.a);
   });
 
   // ---------- detalhe do trecho: OS nos postes dele ----------

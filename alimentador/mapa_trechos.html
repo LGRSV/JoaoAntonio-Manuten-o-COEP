@@ -88,9 +88,9 @@ p{margin:0}
 details>summary{cursor:pointer;list-style:none}
 details>summary::-webkit-details-marker{display:none}
 /* summary dos textos que só abrem quando alguém pede: ▸ fechado, ▾ aberto */
-:is(.mais,.dados,.limp-mais)>summary{display:flex;align-items:center;gap:6px;min-height:var(--alvo);font:600 var(--t-md)/1.3 var(--f-body);color:var(--fg);border-radius:var(--r1)}
-:is(.regra,.mais,.dados,.limp-mais)>summary::before{content:'▸';flex:none;width:10px;color:var(--muted);font-size:var(--t-sm)}
-:is(.regra,.mais,.dados,.limp-mais)[open]>summary::before{content:'▾'}
+:is(.mais,.dados)>summary{display:flex;align-items:center;gap:6px;min-height:var(--alvo);font:600 var(--t-md)/1.3 var(--f-body);color:var(--fg);border-radius:var(--r1)}
+:is(.regra,.mais,.dados)>summary::before{content:'▸';flex:none;width:10px;color:var(--muted);font-size:var(--t-sm)}
+:is(.regra,.mais,.dados)[open]>summary::before{content:'▾'}
 
 /* ====== Cabeçalho ====== */
 header{display:grid;gap:var(--s2);max-width:80ch}

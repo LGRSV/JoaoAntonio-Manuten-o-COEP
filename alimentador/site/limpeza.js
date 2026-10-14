@@ -2,7 +2,7 @@
 // Duas vistas no mapa:
 //   Por ano  — cada ano de limpeza executada com uma cor; liga/desliga por ano; a rede sem limpeza fica cinza-claro.
 //   Situação — pela regra T1 a cada 3 anos, T2 a cada 4, T3 a cada 5 (em dia / vence em 12 meses / vencida).
-// No painel: anos e OS por ano; tocar numa OS mostra e enquadra no mapa onde ela foi (com ‹ › no mapa para a próxima).
+// No painel: uma linha por ano (a cor liga/desliga no mapa; a linha abre as OS do ano embaixo dela); tocar numa OS mostra e enquadra no mapa onde ela foi (com ‹ › no mapa para a próxima).
 // OS não executadas em dois grupos, cada um com liga/desliga e traço próprio no mapa: Criadas (CRIADA, tracejado) e
 // Pendentes (A REPROGRAMAR / REPROGRAMADA, pontilhado).
 // A posição vem das chaves/ativos citados na OS e dos km da descrição: é aproximada.
@@ -24,6 +24,20 @@
   const guarda = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { /* sem armazenamento */ } return null; };
   const celular = () => matchMedia('(max-width:980px)').matches;
   const telaCheia = () => document.body.classList.contains('tela-cheia');
+  // OS focada no mapa ou no detalhe do trecho: rola o painel (computador, gaveta da tela cheia) até ela, sem mexer na
+  // página; no celular o painel não rola por dentro (o mapa fica à vista). As outras camadas usam o mesmo.
+  const rolaPainel = window.__rolaPainel = (bloco, k, conferindo) => {
+    const p = document.querySelector('.panel'), b = k === null ? null : bloco.querySelector(`.limp-oss [data-k="${k}"]`);
+    if (!p || !b || getComputedStyle(p).overflowY === 'visible' || p.scrollHeight <= p.clientHeight) return;
+    const fo = b.nextElementSibling && b.nextElementSibling.classList.contains('limp-foco') ? b.nextElementSibling : b;
+    const r = b.getBoundingClientRect(), rp = p.getBoundingClientRect(), fim = fo.getBoundingClientRect().bottom;
+    const alto = Math.max(rp.top, 0), baixo = Math.min(rp.bottom, innerHeight);   // a parte do painel que está na tela
+    if (r.top < alto + 8) p.scrollTop += r.top - alto - 8;
+    else if (fim > baixo - 8) p.scrollTop += Math.min(fim - baixo + 8, r.top - alto - 8);
+    // a "âncora de rolagem" do navegador (que segura no lugar o botão com o foco do teclado, se ele estiver mais embaixo
+    // no painel) pode desfazer a rolagem no quadro seguinte: confere de novo
+    if (!conferindo) requestAnimationFrame(() => requestAnimationFrame(() => rolaPainel(bloco, k, true)));
+  };
 
   // cores fixas por ano (iguais em todos os alimentadores), de frio (antigo) a quente (recente)
   const COR_ANO = { 2021: '#a78bfa', 2022: '#60a5fa', 2023: '#22d3ee', 2024: '#4ade80', 2025: '#facc15', 2026: '#fb923c', 2027: '#f87171', 2028: '#f472b6' };
@@ -98,9 +112,7 @@
     anos: new Set(ANOS),
     nexe: new Set(),         // grupos de OS não executadas ligados no mapa ('cri', 'pend')
     foco: null,
-    mais: guarda('limp-mais') !== '0',   // "Anos e ordens de serviço" aberto (o bloco só aparece com a Faixa ligada)
-    lista: false,            // lista de OS aberta
-    grupos: new Set(),       // grupos (anos) abertos na lista
+    grupos: new Set(),       // linhas (anos, 'cri', 'pend') abertas, com as OS embaixo
     sel: null,               // trecho selecionado no mapa
   };
 
@@ -111,7 +123,7 @@
 .limp-top h2{margin:0;font:700 var(--t-xl)/1.1 var(--f-display);flex:1 1 auto;min-width:0;white-space:nowrap}
 .limp-top h2 small{display:block;margin-top:var(--s1);font:500 var(--t-xs)/1.4 var(--f-body);color:var(--muted);white-space:normal}
 .limp-card button,.limp-sec button,.limp-maplg button,.limp-chip button{font-family:var(--f-body)}
-.limp-card button:focus-visible,.limp-sec button:focus-visible,.limp-card summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.limp-card button:focus-visible,.limp-sec button:focus-visible,.limp-card summary:focus-visible,.limp-card select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 /* botão "Faixa" no menu Camadas do mapa, no jeito dos T1 T2 T3: ligado tem o filete com as cores dos anos; desligado fica apagado */
 .ctl-card .ctl-faixa{background-image:linear-gradient(90deg,#60a5fa,#22d3ee,#4ade80,#facc15,#fb923c);background-repeat:no-repeat;background-size:100% 3px;background-position:0 100%}
 .ctl-card .ctl-faixa[aria-pressed=false]{opacity:.6;text-decoration:line-through;background-image:none;box-shadow:inset 0 -3px 0 #5a636a}
@@ -119,45 +131,37 @@
 .limp-seg{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
 .limp-seg button{flex:1;min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
 .limp-seg button[aria-pressed=true]{background:var(--seg-on,var(--paper));color:var(--fg);box-shadow:var(--sh1)}
-.limp-mais>div{display:grid;gap:var(--s3);padding-top:var(--s2)}
-/* anos: linhas com filete, sem caixa */
+/* anos (ou situações): uma lista só. Cada linha: cor (liga/desliga no mapa) · nome, OS e km (abre as OS logo abaixo) · "só" */
 .limp-anos{display:grid}
-.limp-ano-l{display:flex;align-items:stretch;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}
+.limp-ano-l{display:flex;align-items:stretch;min-height:var(--alvo);border-bottom:1px solid var(--line)}
 .limp-ano-l>button{all:unset;box-sizing:border-box;cursor:pointer;color:var(--fg)}
-.limp-ano-l .liga{flex:1;display:grid;grid-template-columns:auto 1fr auto;gap:var(--s3);align-items:center;padding:0 var(--s2);min-height:var(--alvo);font-size:var(--t-sm)}
-.limp-ano-l .liga:focus-visible,.limp-ano-l .so:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.limp-ano-l .liga i{width:24px;height:8px;border-radius:4px;background:var(--c);box-shadow:0 0 0 1px #0005}
-.limp-ano-l .liga b{font:600 var(--t-md) var(--f-mono);font-variant-numeric:tabular-nums}
-.limp-ano-l .liga em{font:var(--t-xs) var(--f-mono);font-style:normal;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
-.limp-ano-l .liga[aria-pressed=false]{color:var(--muted)}
+.limp-ano-l>button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.limp-ano-l>button:hover{background:var(--hover)}
+.limp-ano-l .liga,.limp-ano-l .cor{flex:none;display:grid;place-items:center;width:var(--alvo)}
+.limp-ano-l i{width:22px;height:8px;border-radius:4px;background:var(--c);box-shadow:0 0 0 1px #0005}
 .limp-ano-l .liga[aria-pressed=false] i{background:transparent;box-shadow:inset 0 0 0 2px var(--c)}
-.limp-ano-l .liga[aria-pressed=false] b{text-decoration:line-through}
-.limp-ano-l .so{display:grid;place-items:center;padding:0 var(--s3);font:600 var(--t-xs) var(--f-body);color:var(--accent)}
-.limp-ano-l .so:hover,.limp-ano-l .liga:hover{background:var(--hover)}
-.limp-ano-l .so:hover{text-decoration:underline;text-underline-offset:2px}
+.limp-ano-l .abre,.limp-ano-l .rot{flex:1;min-width:0;display:flex;align-items:center;gap:var(--s2);padding:0 var(--s2) 0 var(--s1);font-size:var(--t-sm)}
+.limp-ano-l .abre>span,.limp-ano-l .rot>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.limp-ano-l b{font:600 var(--t-md) var(--f-mono);font-variant-numeric:tabular-nums}
+.limp-ano-l em{font:var(--t-xs) var(--f-mono);font-style:normal;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.limp-ano-l .abre::after{content:'';flex:none;width:6px;height:6px;margin:0 3px 3px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.limp-ano-l .abre[aria-expanded=true]::after{margin:3px 3px 0;transform:rotate(-135deg)}
+.limp-ano-l .abre:disabled{cursor:default;background:none}
+.limp-ano-l .abre:disabled::after{visibility:hidden}
+.limp-ano-l.off .abre{color:var(--muted)}
+.limp-ano-l.off b{text-decoration:line-through}
+.limp-ano-l .so{display:grid;place-items:center;width:36px;font:600 var(--t-xs) var(--f-body);color:var(--accent)}
+.limp-anos:has(.so) .limp-ano-l:not(:has(.so)) .abre{margin-right:36px}   /* sem "só" (criadas, pendentes): a seta fica na coluna das outras */
+.limp-oss{display:grid;gap:var(--s1);padding:var(--s1) 0 var(--s2) var(--s3);border-bottom:1px solid var(--line)}
 /* OS não executadas: tracejado (criadas) e pontilhado (pendentes), igual ao traço no mapa */
 .limp-card i.trac,.limp-maplg i.trac{background:repeating-linear-gradient(90deg,var(--c) 0 5px,transparent 5px 9px)!important;box-shadow:none!important}
 .limp-card i.pont,.limp-maplg i.pont{background:radial-gradient(circle,var(--c) 2.5px,transparent 3px) 0 50%/7px 100% repeat-x!important;box-shadow:none!important}
-.limp-ano-l.fixo .liga{cursor:default}
-.limp-ano-l.fixo .liga:hover{background:none}
 .limp-todos{justify-self:start;min-height:32px;padding:0 var(--s2);border:0;border-radius:var(--r1);background:none;color:var(--accent);font:600 var(--t-xs) var(--f-body);cursor:pointer}
 .limp-todos:hover{background:var(--hover)}
 .limp-bar{display:flex;height:8px;border-radius:var(--rp);overflow:hidden;background:var(--sem)}
 .limp-bar span{display:block;height:100%}
 .limp-nota{font-size:var(--t-xs);color:var(--muted);margin:0}
 .limp-card[hidden]{display:none}
-/* OS por ano */
-.limp-lista>summary,.limp-grupo>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:var(--s2);min-height:var(--alvo);border-radius:var(--r1)}
-.limp-lista>summary::-webkit-details-marker,.limp-grupo>summary::-webkit-details-marker{display:none}
-.limp-lista>summary{font:600 var(--t-sm) var(--f-body)}
-.limp-lista>summary::before,.limp-grupo>summary::before{content:'▸';color:var(--muted);width:10px;flex:none;font-size:var(--t-sm)}
-.limp-lista[open]>summary::before,.limp-grupo[open]>summary::before{content:'▾'}
-.limp-lista>div{display:grid;gap:2px}
-.limp-grupo{display:grid;gap:var(--s1)}
-.limp-grupo>summary{font:600 var(--t-md) var(--f-mono)}
-.limp-grupo>summary i{width:14px;height:8px;border-radius:4px;background:var(--c)}
-.limp-grupo>summary span{font:500 var(--t-xs) var(--f-body);color:var(--muted)}
-.limp-grupo>div{display:grid;gap:var(--s1);padding:0 0 var(--s2) 18px}
 .limp-os-b{display:grid;gap:2px;text-align:left;width:100%;min-height:var(--alvo);padding:var(--s2) var(--s3);border:0;border-left:3px solid var(--c);border-radius:0 var(--r1) var(--r1) 0;
   background:color-mix(in srgb,var(--fg) 4%,transparent);color:var(--fg);cursor:pointer;font-size:var(--t-sm)}
 .limp-os-b:hover{background:color-mix(in srgb,var(--fg) 8%,transparent)}
@@ -218,7 +222,7 @@ body.limp-on #map.longe .lb:not(.sel),body.limp-on #map.longe .at{display:none}
 body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility:hidden}   /* escondido também sai do Tab (sem foco invisível) */
 @media (min-width:701px){body.tela-cheia.tc-gaveta .limp-chip{right:calc(min(420px,92vw) + 12px)}}
 @media (prefers-reduced-motion:no-preference){
-  .limp-seg button,.limp-ano-l .liga,.limp-ano-l .so,.limp-todos,.limp-os-b,.limp-maplg button,.limp-chip button{
+  .limp-seg button,.limp-ano-l>button,.limp-todos,.limp-os-b,.limp-maplg button,.limp-chip button{
     transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
 }
 @media (max-width:640px){.limp-chip{left:12px}.limp-chip span{flex:1}}   /* celular: o chip vai da esquerda até o card Tela cheia */`;
@@ -395,7 +399,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     map.invalidateSize();
     map.fitBounds(L.latLngBounds(vs.flatMap(seg)).pad(0.15), { maxZoom: 16 });
   }
-  function focar(k, enquadrar) {
+  function focar(k, enquadrar, doPainel) {
     st.foco = st.foco === k ? null : k;
     if (realce) { realce.remove(); realce = null; }
     if (st.foco !== null && map) {
@@ -405,12 +409,12 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
         L.polyline(vs.map(seg), { color: '#fff', weight: 14, opacity: 1, interactive: false, lineCap: 'round' }),
         L.polyline(vs.map(seg), { color: cor, weight: 8, opacity: 1, interactive: false, lineCap: 'round', dashArray: o.data ? null : grupoDe(o) === 'cri' ? '8 6' : '1 13' }),
       ]).addTo(map);
-      st.grupos.add(o.data ? String(anoDe(o)) : grupoDe(o));
-      st.mais = true; st.lista = true;                  // abre "Anos e ordens de serviço" antes do grupo e da OS
+      st.grupos.add(o.data ? String(anoDe(o)) : grupoDe(o));   // abre a linha do ano (ou do grupo) da OS
       if (enquadrar) enquadra(vs);
     }
     desenha();
     pinta();
+    if (!doPainel) rolaPainel(card, st.foco);
   }
   function soAno(a) {
     st.anos = new Set([a]);
@@ -490,11 +494,19 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       `<span class="s">${esc(o.desc.slice(0, 110))}${o.desc.length > 110 ? '…' : ''}</span></button>` +
       (comFoco && st.foco === k ? focoHtml(k) : '');
   };
-  const grupo = (g, titulo, cor, info, ks, cls) =>
-    `<details class="limp-grupo" data-g="${g}"${st.grupos.has(g) ? ' open' : ''}><summary style="--c:${cor}"><i${cls ? ` class="${cls}"` : ''}></i>${titulo} <span>${info}</span></summary><div>${ks.map(k => osBtn(k, true)).join('')}</div></details>`;
   const plural = (n, um) => `${n} ${um}${n === 1 ? '' : 's'}`;
-  // linha liga/desliga de cada grupo de OS não executadas (painel)
-  const linhaNexe = ([g, x]) => `<div class="limp-ano-l"><button type="button" class="liga" data-a="${g}" data-foco="${g}" aria-pressed="${st.nexe.has(g)}" title="Mostrar/esconder no mapa as OS ${x.rot.toLowerCase()}${x.nota ? ' (' + x.nota + ')' : ''}"><i class="${x.cls}" style="--c:${CINZA}"></i><span>${x.rot} · ${x.ks.length} OS</span><em>${km(x.km)}</em></button></div>`;
+  // linha de um grupo (ano, criadas, pendentes): a cor liga/desliga no mapa (só na vista por ano); o resto abre as OS
+  // logo abaixo (montadas só com o grupo aberto); "só" deixa só aquele ano no mapa
+  function linha(g, rot, info, cor, ks, opc) {
+    const aberto = st.grupos.has(g) && ks.length > 0, id = 'limp-g-' + g;
+    const i = `<i${opc.cls ? ` class="${opc.cls}"` : ''} style="--c:${cor}"></i>`;
+    return `<div class="limp-ano-l${opc.liga && !opc.on ? ' off' : ''}">` +
+      (opc.liga ? `<button type="button" class="liga" data-a="${g}" data-foco="a${g}" aria-pressed="${!!opc.on}" aria-label="${opc.nome} no mapa" title="${opc.liga}">${i}</button>`
+        : `<span class="cor" aria-hidden="true">${i}</span>`) +
+      `<button type="button" class="abre" data-g="${g}" data-foco="g${g}" aria-expanded="${aberto}" aria-controls="${id}"${ks.length ? '' : ' disabled'}><span>${rot}</span><em>${info}</em></button>` +
+      (opc.so ? `<button type="button" class="so" data-so="${g}" data-foco="s${g}" title="Mostrar só ${g} e enquadrar no mapa">só</button>` : '') +
+      `</div><div class="limp-oss" id="${id}" role="group" aria-label="OS: ${opc.nome}"${aberto ? '' : ' hidden'}>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div>`;
+  }
 
   function pinta() {
     // guarda quem tinha o foco do teclado para devolver depois de refazer o cartão
@@ -504,28 +516,25 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     const exec = LP.os.filter(o => o.sit === 'EXECUTADA').length;
     const sub = `${exec} OS executada${exec === 1 ? '' : 's'} · ${km(KM_LIMPO)} de ${km(KM_REDE)}` +
       GRUPOS_NEXE.map(([, x]) => ' · ' + plural(x.ks.length, x.um)).join('');
+    const porAno = st.ligado && st.vista === 'ano';
+    const linhas = ANOS.map(a => linha(String(a), `<b>${a}</b> · ${OS_ANO[a].length} OS`, km(KM_ANO[a]), corAno(a), OS_ANO[a],
+      porAno ? { liga: `Mostrar/esconder ${a} no mapa`, on: st.anos.has(a), nome: String(a), so: true } : { nome: String(a) })).join('') +
+      GRUPOS_NEXE.map(([g, x]) => linha(g, `${x.rot} · ${x.ks.length} OS`, km(x.km), CINZA, x.ks,
+        porAno ? { liga: `Mostrar/esconder no mapa as OS ${x.rot.toLowerCase()}${x.nota ? ' (' + x.nota + ')' : ''}`, on: st.nexe.has(g), nome: x.rot, cls: x.cls }
+          : { nome: x.rot, cls: x.cls })).join('');
     let corpo = '';
-    if (st.ligado && st.vista === 'ano') {
-      corpo = ANOS.length ? `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
-          <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a} no mapa"><i style="--c:${corAno(a)}"></i><span><b>${a}</b> · ${OS_ANO[a].length} OS</span><em>${km(KM_ANO[a])}</em></button>
-          <button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">Ver só</button></div>`).join('')}
-        ${GRUPOS_NEXE.map(linhaNexe).join('')}</div>
-        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}`
-        : `<p class="limp-nota">Nenhuma OS executada${EQ} caiu neste alimentador.</p>` +
-          (GRUPOS_NEXE.length ? `<div class="limp-anos">${GRUPOS_NEXE.map(linhaNexe).join('')}</div>` : '');
-    } else if (st.ligado) {
+    if (porAno && !ANOS.length) corpo = `<p class="limp-nota">Nenhuma OS executada${EQ} caiu neste alimentador.</p>`;
+    else if (st.ligado && st.vista === 'sit') {      // vencimento: as situações só informam; os anos seguem embaixo, sem liga/desliga
       corpo = `<div class="limp-bar">${['dia', 'vence', 'vencida', 'sem'].map(k => TOT_SIT[k] ? `<span style="width:${100 * TOT_SIT[k] / KM_REDE}%;background:${SIT[k][1]}"></span>` : '').join('')}</div>
-        <div class="limp-anos">${Object.entries(SIT).map(([k, [n, c]]) => `<div class="limp-ano-l fixo"><button type="button" class="liga" tabindex="-1" aria-disabled="true"><i style="--c:${c}"></i><span>${n}</span><em>${km(TOT_SIT[k])}</em></button></div>`).join('')}</div>`;
+        <div class="limp-anos">${Object.entries(SIT).map(([k, [n, c]]) => `<div class="limp-ano-l fixo"><span class="cor" aria-hidden="true"><i style="--c:${c}"></i></span><span class="rot"><span>${n}</span><em>${km(TOT_SIT[k])}</em></span></div>`).join('')}</div>`;
     }
-    const nOs = LP.os.length;
-    const lista = nOs ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nOs} OS por ano</summary><div>
-        ${ANOS.map(a => grupo(String(a), a, corAno(a), `${OS_ANO[a].length} OS · ${km(KM_ANO[a])}`, OS_ANO[a])).join('')}
-        ${GRUPOS_NEXE.map(([g, x]) => grupo(g, x.rot, CINZA, `${x.ks.length} OS · ${km(x.km)}${x.nota ? ' · ' + x.nota : ''}`, x.ks, x.cls)).join('')}</div></details>` : '';
+    if (linhas) corpo += `<div class="limp-anos">${linhas}</div>` +
+      (porAno && st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : '');
     const seg = st.ligado ? `<div class="limp-seg" role="group" aria-label="Pintar o mapa por"><button type="button" data-acao="ano" data-foco="ano" aria-pressed="${st.vista === 'ano'}">Por ano</button><button type="button" data-acao="sit" data-foco="sit" aria-pressed="${st.vista === 'sit'}">Vencimento</button></div>` : '';
-    const resto = seg + corpo + lista;                   // anos e OS só quando alguém pede
+    const resto = seg + corpo;
     card.hidden = !st.ligado && !!btnFaixa;               // bloco da Faixa só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Limpeza de faixa<small>${sub}</small></h2></div>
-      ${resto ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos e ordens de serviço</summary><div>${resto}</div></details>` : ''}`;
+      ${resto}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
 
     if (btnFaixa) btnFaixa.setAttribute('aria-pressed', String(st.ligado));
@@ -551,17 +560,11 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     det.querySelectorAll('.limp-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
     if (vistaSelos !== st.vista) { vistaSelos = st.vista; poeSelos(true); }
   }
-  // <details> abertos/fechados pelo usuário ficam guardados (pinta() refaz o cartão)
-  card.addEventListener('toggle', e => {
-    const d = e.target;
-    if (d.classList.contains('limp-mais')) { st.mais = d.open; guarda('limp-mais', d.open ? '1' : '0'); }
-    else if (d.classList.contains('limp-lista')) st.lista = d.open;
-    else if (d.dataset.g) d.open ? st.grupos.add(d.dataset.g) : st.grupos.delete(d.dataset.g);
-  }, true);
   card.addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true);
+    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
+    if (b.classList.contains('abre')) { const g = b.dataset.g; st.grupos.has(g) ? st.grupos.delete(g) : st.grupos.add(g); return pinta(); }
     if (b.dataset.so) return soAno(+b.dataset.so);
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(b.dataset.a);
     const ac = b.dataset.acao;

@@ -44,14 +44,19 @@
   const st = {
     ligado: guarda('exe-ligado') === '1',
     anos: new Set(ANOS),
-    tipo: -1,                                         // -1: todos os tipos de serviço
+    tipos: new Set(),        // tipos de serviço escolhidos (índices em EX.tipos); vazio: todos
+    tiposAberto: false,      // lista de marcar dos tipos aberta
     foco: null,
-    mais: guarda('exe-mais') !== '0',
-    lista: false,
-    grupos: new Set(),
+    grupos: new Set(),       // anos abertos, com as OS embaixo
   };
-  const passa = k => st.anos.has(anoDe(k)) && (st.tipo < 0 || OS[k][1] === st.tipo);
-  const contaAno = a => OS.reduce((n, o, k) => n + (anoDe(k) === a && (st.tipo < 0 || o[1] === st.tipo)), 0);
+  const doTipo = k => !st.tipos.size || st.tipos.has(OS[k][1]);
+  const passa = k => st.anos.has(anoDe(k)) && doTipo(k);
+  const contaAno = a => OS.reduce((n, o, k) => n + (anoDe(k) === a && doTipo(k)), 0);
+  const N_TIPO = EX.tipos.map(() => 0);
+  OS.forEach(o => { N_TIPO[o[1]]++; });
+  const TIPOS_ORD = EX.tipos.map((t, i) => i).sort((a, b) => N_TIPO[b] - N_TIPO[a]);   // mais OS primeiro
+  // texto curto do botão: "Todos os tipos", o tipo escolhido ou "3 tipos"
+  const rotTipos = () => !st.tipos.size ? 'Todos os tipos' : st.tipos.size === 1 ? TIPO_TXT[[...st.tipos][0]] : `${st.tipos.size} tipos`;
 
   const css = document.createElement('style');
   css.textContent = `
@@ -86,11 +91,20 @@
 .exe-os-b:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .exe-os-b .q{font:600 var(--t-xs) var(--f-mono);font-variant-numeric:tabular-nums}
 .exe-os-b .s{color:var(--muted);font-size:var(--t-xs)}
-.exe-tipo{display:grid;gap:var(--s1);font:600 var(--t-xs) var(--f-body);color:var(--muted)}
-.exe-tipo select{font:var(--t-sm) var(--f-body);color:var(--fg);background:var(--paper,transparent);border:1px solid var(--line);border-radius:var(--r1);min-height:var(--alvo);padding:0 var(--s2);width:100%}   /* width: o nome longo do tipo não alarga o card (sem rolagem lateral no celular) */
-.exe-tipo select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.exe-baixa{font:600 var(--t-sm,13px)/1.2 var(--f-body,system-ui);padding:var(--s1,4px) var(--s3,12px);min-height:var(--alvo,40px);max-width:100%;border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);
-  background:var(--paper);color:var(--fg);cursor:pointer;display:inline-flex;gap:var(--s2,8px);align-items:center;text-align:left;margin:0 0 var(--s2,8px)}   /* o visual do "Croqui da faixa" */
+/* tipo de serviço e planilha numa linha só, em cima dos anos */
+.exe-ferr{display:flex;gap:var(--s2);align-items:stretch}
+.exe-tipos{position:relative;flex:1;min-width:0}   /* min-width:0: o nome longo do tipo não alarga o card (sem rolagem lateral no celular) */
+.exe-tipos-b{display:block;width:100%;min-height:var(--alvo);padding:0 32px 0 var(--s3);border:1px solid var(--line-forte,var(--line));border-radius:var(--r1);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238c948f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center/12px;
+  color:var(--fg);font:var(--t-sm) var(--f-body);cursor:pointer}   /* o visual do botão de meses do NAE */
+.exe-tipos-b[aria-expanded=true]{border-color:var(--accent)}
+.exe-tipos-b:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.mes-lista.exe-tipos-l{left:0;right:auto;width:max-content;min-width:100%;max-width:min(360px,calc(100vw - 32px))}
+.exe-tipos-l label{white-space:normal;font-size:var(--t-sm);line-height:1.25;padding-block:4px}
+.exe-tipos-l label span{flex:1;min-width:0}
+.exe-tipos-l small{font-family:var(--f-mono);white-space:nowrap}
+.exe-baixa{flex:none;display:grid;place-items:center;width:var(--alvo);min-height:var(--alvo);padding:0;border:1px solid var(--line-forte,var(--line));border-radius:var(--r1);
+  background:var(--paper);color:var(--fg);cursor:pointer}
 .exe-baixa:hover{border-color:var(--accent);background:var(--hover,transparent)}
 .exe-baixa:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .exe-baixa:disabled{opacity:.55;cursor:not-allowed}
@@ -162,20 +176,20 @@
     map.invalidateSize();
     map.setView(ll, Math.max(map.getZoom(), 17));
   }
-  function focar(k, enquadrar) {
+  function focar(k, enquadrar, doPainel) {
     st.foco = st.foco === k ? null : k;
     if (st.foco !== null) {
       const o = OS[k];
-      st.grupos.add(anoDe(k));
-      st.mais = true; st.lista = true;
+      st.grupos.add(anoDe(k));                          // abre a linha do ano da OS
       if (o[4] >= 0) {
         if (!st.ligado) liga(true);
         st.anos.add(anoDe(k));
-        if (st.tipo >= 0 && st.tipo !== o[1]) st.tipo = -1;   // o filtro de tipo escondia a OS
+        if (!doTipo(k)) st.tipos.add(o[1]);             // o filtro de tipo escondia a OS: o tipo dela volta
         if (enquadrar) enquadra([AT[o[4]][3], AT[o[4]][4]]);
       }
     }
     desenha(); pinta();
+    if (!doPainel && window.__rolaPainel) window.__rolaPainel(card, st.foco);
   }
   function liga(on) {
     st.ligado = on; guarda('exe-ligado', on ? '1' : '0');
@@ -239,14 +253,18 @@
       `${o[4] >= 0 ? (o[5] ? ' · ' : '') + esc(nomeAtivo(AT[o[4]])) : (o[5] ? ' · ' : '') + 'sem posição no mapa'}</span></button>` +
       (comFoco && st.foco === k ? focoHtml(k) : '');
   };
-  // grupos da lista por ano: o conteúdo só é montado com o grupo aberto (há alimentador com milhares de OS)
-  const grupo = a => {
-    const ks = OS.map((o, k) => k).filter(k => anoDe(k) === a && (st.tipo < 0 || OS[k][1] === st.tipo));
-    if (!ks.length) return '';
-    const aberto = st.grupos.has(a);
-    return `<details class="limp-grupo" data-g="${a}"${aberto ? ' open' : ''}><summary style="--c:${corAno(a)}"><i></i>${rotAno(a)} <span>${nf(ks.length)} OS</span></summary>` +
-      `<div>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div></details>`;
-  };
+  // linha de um ano (o mesmo visual da Faixa): a cor liga/desliga no mapa, o resto abre as OS do ano (com o filtro de
+  // tipo) logo abaixo; elas só são montadas com a linha aberta (há alimentador com milhares de OS)
+  function linha(a) {
+    const n = contaAno(a), aberto = st.grupos.has(a) && n > 0, id = 'exe-g-' + a, on = st.anos.has(a);
+    const i = `<i style="--c:${corAno(a)}"></i>`;
+    const ks = aberto ? OS.map((o, k) => k).filter(k => anoDe(k) === a && doTipo(k)) : [];
+    return `<div class="limp-ano-l${st.ligado && !on ? ' off' : ''}">` +
+      (st.ligado ? `<button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${on}" aria-label="${rotAno(a)} no mapa" title="Mostrar/esconder no mapa">${i}</button>`
+        : `<span class="cor" aria-hidden="true">${i}</span>`) +
+      `<button type="button" class="abre" data-g="${a}" data-foco="g${a}" aria-expanded="${aberto}" aria-controls="${id}"${n ? '' : ' disabled'}><span><b>${rotAno(a)}</b></span><em>${nf(n)} OS</em></button>` +
+      `</div><div class="limp-oss" id="${id}" role="group" aria-label="OS de ${rotAno(a)}"${aberto ? '' : ' hidden'}>${ks.map(k => osBtn(k, true)).join('')}</div>`;
+  }
   // ---------- planilha das OS (CSV que o Excel em pt-BR abre direto: BOM, ';', CRLF, data dd/mm/aaaa) ----------
   const ONDE_CSV = { p: 'poste da ESTRUTURA', e: 'ativo da ESTRUTURA', l: 'ELEMENTO' };
   const COLS = ['Alimentador', 'OS', 'Tipo de serviço', 'Classe', 'Execução', 'Equipe', 'Criticidade', 'Ativo', 'Trecho',
@@ -278,13 +296,20 @@
     setTimeout(() => URL.revokeObjectURL(link.href), 30000);
   }
 
-  const opcoesTipo = () => {
-    const n = EX.tipos.map(() => 0);
-    OS.forEach(o => { n[o[1]]++; });
-    return `<option value="-1"${st.tipo < 0 ? ' selected' : ''}>Todos (${nf(OS.length)} OS)</option>` +
-      EX.tipos.map((t, i) => [i, n[i]]).sort((a, b) => b[1] - a[1])
-        .map(([i, c]) => `<option value="${i}"${st.tipo === i ? ' selected' : ''}>${esc(TIPO_TXT[i])} · ${nf(c)}</option>`).join('');
-  };
+  // tipos de serviço: botão com a lista de marcar (um, vários ou todos), no jeito do NAE dos meses (mapa_trechos.html)
+  const listaTipos = () => `<div class="exe-tipos"><button type="button" class="exe-tipos-b" data-foco="tipos" aria-expanded="${st.tiposAberto}" aria-controls="exe-tipos-l" aria-label="Tipo de serviço: ${esc(rotTipos())}">${esc(rotTipos())}</button>` +
+    `<div class="mes-lista exe-tipos-l" id="exe-tipos-l" role="group" aria-label="Tipos de serviço"${st.tiposAberto ? '' : ' hidden'}>` +
+    `<label class="mes-tds"><input type="checkbox" value=""${st.tipos.size ? '' : ' checked'} data-foco="tt"> Todos <small>${nf(OS.length)} OS</small></label>` +
+    TIPOS_ORD.map(i => `<label><input type="checkbox" value="${i}"${st.tipos.has(i) ? ' checked' : ''} data-foco="t${i}"> <span>${esc(TIPO_TXT[i])}</span> <small>${nf(N_TIPO[i])}</small></label>`).join('') +
+    '</div></div>';
+  function abreTipos(sim, foco) {
+    st.tiposAberto = sim;
+    const l = card.querySelector('.exe-tipos-l'), b = card.querySelector('.exe-tipos-b');
+    if (!l) return;
+    l.hidden = !sim;
+    b.setAttribute('aria-expanded', String(sim));
+    if (sim && foco) (l.querySelector('input:checked') || l.querySelector('input')).focus();
+  }
 
   function pinta() {
     const f = document.activeElement;
@@ -292,44 +317,56 @@
     const n = OS.length;
     const noMapa = AT.length;
     const sub = n ? `${nf(n)} OS executadas · ${nf(noMapa)} ativos` : 'Nenhuma OS de manutenção executada';
-    const anos = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
-        <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder no mapa"><i style="--c:${corAno(a)}"></i><b>${rotAno(a)}</b><em>${nf(contaAno(a))} OS</em></button></div>`).join('')}</div>`;
     const nv = OS.reduce((c, o, k) => c + passa(k), 0);
-    const baixa = `<button type="button" class="exe-baixa" data-foco="baixar"${nv ? '' : ' disabled'} title="Planilha (CSV para o Excel) com as OS que os filtros de ano e tipo de serviço mostram">` +
-      `<span aria-hidden="true">⬇</span> Baixar ${nf(nv)} OS (Excel)</button>`;
-    const tipo = `<label class="exe-tipo">Tipo de serviço<select data-foco="tipo">${opcoesTipo()}</select></label>`;
-    const lista = `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as OS por ano</summary><div>${st.lista ? ANOS.map(grupo).join('') : ''}</div></details>`;
+    const baixa = `<button type="button" class="exe-baixa" data-foco="baixar"${nv ? '' : ' disabled'} aria-label="Baixar ${nf(nv)} OS (Excel)" title="Baixar ${nf(nv)} OS: planilha (CSV para o Excel) com as OS que os filtros de ano e tipo de serviço mostram">` +
+      '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 11v2.5h11V11"/></svg></button>';
+    const ferr = `<div class="exe-ferr">${listaTipos()}${baixa}</div>`;
     card.hidden = !st.ligado && !!btn;                    // bloco da Manutenção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Manutenção<small>${sub}</small></h2></div>
-      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos, tipos e OS</summary><div>${baixa}${anos}${tipo}${lista}</div></details>` : ''}`;
+      ${n ? `${ferr}<div class="limp-anos">${ANOS.map(linha).join('')}</div>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (lg) {
       lg.hidden = !st.ligado || !n;
-      lg.innerHTML = `<span>Manutenção${st.tipo >= 0 ? `<small title="${esc(TIPO_TXT[st.tipo])}">${esc(nomeTipo(EX.tipos[st.tipo]))}</small>` : ''}</span>` +
+      const t1 = st.tipos.size === 1 ? [...st.tipos][0] : -1;
+      lg.innerHTML = `<span>Manutenção${st.tipos.size ? `<small title="${esc([...st.tipos].map(i => TIPO_TXT[i]).join(', '))}">${t1 >= 0 ? esc(nomeTipo(EX.tipos[t1])) : st.tipos.size + ' tipos'}</small>` : ''}</span>` +
         ANOS.map(a => `<button type="button" data-a="${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${rotAno(a)}"><i style="--c:${corAno(a)}"></i><span class="nm">${rotAno(a)}</span><em>${nf(contaAno(a))}</em></button>`).join('');
     }
     if (det) det.querySelectorAll('.exe-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
   }
-  card.addEventListener('toggle', e => {
-    const d = e.target;
-    if (d.classList.contains('limp-mais')) { st.mais = d.open; guarda('exe-mais', d.open ? '1' : '0'); }
-    else if (d.classList.contains('limp-lista')) { if (st.lista !== d.open) { st.lista = d.open; if (d.open) pinta(); } }
-    else if (d.dataset.g) {
-      const a = +d.dataset.g;
-      if (d.open === st.grupos.has(a)) return;
-      d.open ? st.grupos.add(a) : st.grupos.delete(a);
-      if (d.open) pinta();                            // monta as OS do ano aberto
-    }
-  }, true);
+  // lista dos tipos: marcar "Todos" volta a todos; marcar um tipo a partir de todos fica só ele; todos marcados um a um = todos
   card.addEventListener('change', e => {
-    if (e.target.matches('.exe-tipo select')) { st.tipo = +e.target.value; st.foco = null; desenha(); pinta(); }
+    if (!e.target.closest('.exe-tipos-l')) return;
+    const v = e.target.value;
+    if (!v) st.tipos.clear(); else if (e.target.checked) st.tipos.add(+v); else st.tipos.delete(+v);
+    if (st.tipos.size === EX.tipos.length) st.tipos.clear();
+    st.foco = null; desenha(); pinta();
   });
+  // abre e fecha: botão, Esc (só a lista, antes do Esc da tela cheia), clique fora ou Tab para fora; ↑ ↓ Home End andam na lista
+  card.addEventListener('keydown', e => {
+    if (e.target.matches('.exe-tipos-b') && e.key === 'ArrowDown' && !st.tiposAberto) { e.preventDefault(); return abreTipos(true, true); }
+    const is = e.target.closest('.exe-tipos-l') ? [...card.querySelectorAll('.exe-tipos-l input')] : [], i = is.indexOf(e.target);
+    const passo = { ArrowDown: 1, ArrowUp: -1, Home: -Infinity, End: Infinity }[e.key];
+    if (i < 0 || passo === undefined) return;
+    e.preventDefault();
+    is[Math.max(0, Math.min(is.length - 1, i + passo))].focus();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !st.tiposAberto) return;
+    e.stopPropagation();
+    const volta = card.querySelector('.exe-tipos-l')?.contains(document.activeElement);
+    abreTipos(false);
+    if (volta) card.querySelector('.exe-tipos-b').focus();
+  }, true);
+  document.addEventListener('pointerdown', e => { if (st.tiposAberto && !e.target.closest('.exe-tipos')) abreTipos(false); }, true);
+  card.addEventListener('focusout', e => { if (st.tiposAberto && e.target.closest('.exe-tipos') && e.relatedTarget && !e.relatedTarget.closest('.exe-tipos')) abreTipos(false); });
   card.addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
+    if (b.classList.contains('exe-tipos-b')) return abreTipos(!st.tiposAberto, true);
     if (b.classList.contains('exe-baixa')) { e.stopPropagation(); return baixaOs(); }
-    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true);
+    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
+    if (b.classList.contains('abre')) { const a = +b.dataset.g; st.grupos.has(a) ? st.grupos.delete(a) : st.grupos.add(a); return pinta(); }   // monta as OS do ano aberto
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(+b.dataset.a);
   });
 

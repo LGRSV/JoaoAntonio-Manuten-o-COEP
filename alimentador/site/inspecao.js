@@ -2,7 +2,7 @@
 // "Inspeção" no menu Camadas do mapa, com a "Faixa": pinta a rede inspecionada com a cor do ano da execução; o resto fica
 // cinza-claro. Com a Faixa também ligada, a inspeção vira uma borda larga na cor do ano em volta da linha da Faixa (o
 // cinza e o toque na rede ficam com a Faixa, cujo balão mostra também as inspeções do vão) e a legenda fica ao lado da dela.
-// No painel: anos (liga/desliga) e as inspeções por ano; tocar numa inspeção enquadra no mapa o bloco dela.
+// No painel: uma linha por ano (liga/desliga no mapa; abre as inspeções do ano embaixo dela); tocar numa inspeção enquadra no mapa o bloco dela.
 // Posição: o BLOCO do ELEMENTO da OS, da chave dele descendo pela rede até as próximas chaves (scripts/inspecao.py).
 // Pontos vermelhos: o início do bloco (ELEMENTO) e as chaves onde ele termina, um ponto por lugar (a chave que fecha um
 // bloco costuma abrir o seguinte); tocar mostra as inspeções que começam e terminam nele.
@@ -72,9 +72,7 @@
     ligado: guarda('insp-ligado') === '1',
     anos: new Set(ANOS),
     foco: null,
-    mais: guarda('insp-mais') !== '0',
-    lista: false,
-    grupos: new Set(),
+    grupos: new Set(),       // anos abertos, com as inspeções embaixo
     sel: null,
   };
 
@@ -246,7 +244,7 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     if (zoomPonto) map.setView(lls[0], Math.max(map.getZoom(), 16));
     else map.fitBounds(L.latLngBounds(lls).pad(0.15), { maxZoom: 16 });
   }
-  function focar(k, enquadrar) {
+  function focar(k, enquadrar, doPainel) {
     st.foco = st.foco === k ? null : k;
     if (realce) { realce.remove(); realce = null; }
     if (st.foco !== null) {
@@ -271,10 +269,10 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
         if (enquadrar) enquadra([o.pe || o.pt || o.pa], true);
       }
       st.grupos.add(String(anoDe(o)));
-      st.mais = true; st.lista = true;                  // abre "Anos e inspeções" e o grupo da OS
     }
     desenha();
     pinta();
+    if (!doPainel && window.__rolaPainel) window.__rolaPainel(card, st.foco);
   }
   function liga(on) {
     st.ligado = on; guarda('insp-ligado', on ? '1' : '0');
@@ -342,27 +340,29 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       `<span class="q">${br(o.data)} · OS ${esc(o.os)} · ${onde(k)}</span><span class="s">${esc(o.eq)} · bloco do ${esc(o.elem || '—')}</span></button>` +
       (comFoco && st.foco === k ? focoHtml(k) : '');
   };
-  const grupo = (g, titulo, cor, info, ks) =>
-    `<details class="limp-grupo" data-g="${g}"${st.grupos.has(g) ? ' open' : ''}><summary style="--c:${cor}"><i></i>${titulo} <span>${info}</span></summary><div>${ks.map(k => osBtn(k, true)).join('')}</div></details>`;
+  // linha de um ano (o mesmo visual da Faixa): a cor liga/desliga no mapa, o resto abre as inspeções logo abaixo
+  // (montadas só com o ano aberto), "só" deixa só aquele ano no mapa
+  function linha(a) {
+    const g = String(a), ks = OS_ANO[a], aberto = st.grupos.has(g), id = 'insp-g-' + g, on = st.anos.has(a);
+    const i = `<i style="--c:${corAno(a)}"></i>`;
+    return `<div class="limp-ano-l${st.ligado && !on ? ' off' : ''}">` +
+      (st.ligado ? `<button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${on}" aria-label="${a} no mapa" title="Mostrar/esconder ${a} no mapa">${i}</button>`
+        : `<span class="cor" aria-hidden="true">${i}</span>`) +
+      `<button type="button" class="abre" data-g="${g}" data-foco="g${g}" aria-expanded="${aberto}" aria-controls="${id}"><span><b>${a}</b> · ${ks.length} OS</span><em>${ext(KM_ANO[a])}</em></button>` +
+      (st.ligado ? `<button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">só</button>` : '') +
+      `</div><div class="limp-oss" id="${id}" role="group" aria-label="Inspeções de ${a}"${aberto ? '' : ' hidden'}>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div>`;
+  }
 
   function pinta() {
     const f = document.activeElement;
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
     const n = IN.os.length;
     const sub = n ? `${nf(n)} inspeç${n === 1 ? 'ão executada' : 'ões executadas'} · ${ext(KM_INSP)} de ${km(KM_REDE)}` : 'Nenhuma inspeção executada';
-    let corpo = '';
-    if (st.ligado && ANOS.length) {
-      corpo = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
-          <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a} no mapa"><i style="--c:${corAno(a)}"></i><span><b>${a}</b> · ${OS_ANO[a].length} OS</span><em>${ext(KM_ANO[a])}</em></button>
-          <button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">Ver só</button></div>`).join('')}</div>
-        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}`;
-    }
-    const lista = n ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nf(n)} inspeções por ano</summary><div>
-        ${ANOS.map(a => grupo(String(a), a, corAno(a), `${OS_ANO[a].length} OS · ${ext(KM_ANO[a])}`, OS_ANO[a])).join('')}</div></details>` : '';
-    const resto = corpo + lista;
+    const resto = ANOS.length ? `<div class="limp-anos">${ANOS.map(linha).join('')}</div>` +
+      (st.ligado && st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : '') : '';
     card.hidden = !st.ligado && !!btn;                    // bloco da Inspeção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Inspeção visual<small>${sub}</small></h2></div>
-      ${resto ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos e inspeções</summary><div>${resto}</div></details>` : ''}`;
+      ${resto}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (maplg) {
@@ -374,16 +374,11 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     }
     if (det) det.querySelectorAll('.insp-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
   }
-  card.addEventListener('toggle', e => {
-    const d = e.target;
-    if (d.classList.contains('limp-mais')) { st.mais = d.open; guarda('insp-mais', d.open ? '1' : '0'); }
-    else if (d.classList.contains('limp-lista')) st.lista = d.open;
-    else if (d.dataset.g) d.open ? st.grupos.add(d.dataset.g) : st.grupos.delete(d.dataset.g);
-  }, true);
   card.addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true);
+    if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
+    if (b.classList.contains('abre')) { const g = b.dataset.g; st.grupos.has(g) ? st.grupos.delete(g) : st.grupos.add(g); return pinta(); }
     if (b.dataset.so) return soAno(+b.dataset.so);
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(+b.dataset.a);
     if (b.dataset.acao === 'todos') { st.anos = new Set(ANOS); desenha(); pinta(); }
