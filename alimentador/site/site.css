@@ -40,7 +40,7 @@
   /* só página inicial (mapa SVG do TO; regras na seção 'Página inicial') */
   --mt-vazio:#e3e6e1; --mt-vazio-h:#d4d8d2; --mt-borda:#b4bab3; --mt-tem:#eeb99c;
   /* NAE por município no mapa da página inicial (0, 1–10, 11–30, 31–100, 101–200, 201+) */
-  --nae0:#f4f1ec; --nae1:#fde3c8; --nae2:#fbbf8f; --nae3:#f28f55; --nae4:#d65a28; --nae5:#9e3510;
+  --nae0:#f4f1ec; --nae1:#fde3c8; --nae2:#fbbf8f; --nae3:#f28f55; --nae4:#d65a28; --nae5:#9e3510; --mt-lim:#b8431f;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark;
@@ -53,7 +53,8 @@
   --sh1:0 1px 2px rgb(0 0 0 / .45);
   --sh2:0 1px 2px rgb(0 0 0 / .3),0 12px 32px -12px rgb(0 0 0 / .7);
   --mt-vazio:#252c31; --mt-vazio-h:#2f383e; --mt-borda:#46525a; --mt-tem:#6e3a24;
-  --nae0:#23292d; --nae1:#3d3028; --nae2:#64402a; --nae3:#94532c; --nae4:#c86a34; --nae5:#f09a5e;
+  /* no escuro, o mapa fica igual ao do claro (o tom avermelhado sobre o fundo escuro) */
+  --nae0:#f4f1ec; --nae1:#fde3c8; --nae2:#fbbf8f; --nae3:#f28f55; --nae4:#d65a28; --nae5:#9e3510; --mt-lim:#b8431f;
 }}
 :root[data-theme="dark"]{
   color-scheme:dark;
@@ -66,7 +67,8 @@
   --sh1:0 1px 2px rgb(0 0 0 / .45);
   --sh2:0 1px 2px rgb(0 0 0 / .3),0 12px 32px -12px rgb(0 0 0 / .7);
   --mt-vazio:#252c31; --mt-vazio-h:#2f383e; --mt-borda:#46525a; --mt-tem:#6e3a24;
-  --nae0:#23292d; --nae1:#3d3028; --nae2:#64402a; --nae3:#94532c; --nae4:#c86a34; --nae5:#f09a5e;
+  /* no escuro, o mapa fica igual ao do claro (o tom avermelhado sobre o fundo escuro) */
+  --nae0:#f4f1ec; --nae1:#fde3c8; --nae2:#fbbf8f; --nae3:#f28f55; --nae4:#d65a28; --nae5:#9e3510; --mt-lim:#b8431f;
 }
 
 /* ====== Base ====== */
@@ -202,8 +204,8 @@ header.cab>.cab-link{justify-self:center}
 .mun.tem{fill:var(--mt-tem);cursor:pointer}
 /* cor pela NAE do município (classe nae-<faixa> do mapa-municipios.js); passar o mouse e o escolhido ganham contorno */
 .mun.nae-0{fill:var(--nae0)}.mun.nae-1{fill:var(--nae1)}.mun.nae-2{fill:var(--nae2)}.mun.nae-3{fill:var(--nae3)}.mun.nae-4{fill:var(--nae4)}.mun.nae-5{fill:var(--nae5)}
-/* limite das regionais (Norte, Centro, Sul) por cima dos municípios, no vermelho do site */
-.mt-regc path{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none}
+/* limite das regionais (Norte, Centro, Sul) por cima dos municípios, no vermelho do site (o mesmo nos dois temas) */
+.mt-regc path{fill:none;stroke:var(--mt-lim);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none}
 .mun.tem:hover,.mun.acende{stroke:var(--fg);stroke-opacity:1;stroke-width:2.5}
 .mun.sem:hover{fill:var(--mt-vazio-h)}
 .mun.achou{stroke:var(--fg);stroke-opacity:1;stroke-width:2}
@@ -225,7 +227,7 @@ header.cab>.cab-link{justify-self:center}
 .mt-regs i{flex:none;width:18px;height:12px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--mt-borda)}
 .mt-regs b{font:700 var(--t-sm) var(--f-body)}.mt-regs small{display:block;margin:-2px 0 var(--s1);font-size:var(--t-xs);color:var(--muted)}
 .mt-regs .nae-0{background:var(--nae0)}.mt-regs .nae-1{background:var(--nae1)}.mt-regs .nae-2{background:var(--nae2)}.mt-regs .nae-3{background:var(--nae3)}.mt-regs .nae-4{background:var(--nae4)}.mt-regs .nae-5{background:var(--nae5)}
-.mt-regs i.lim{height:0;border-top:3px solid var(--accent);border-radius:0;box-shadow:none}
+.mt-regs i.lim{height:0;border-top:3px solid var(--mt-lim);border-radius:0;box-shadow:none}
 @media (max-width:860px){.mt-regs{position:static;display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-top:var(--s3)}.mt-regs b,.mt-regs small{flex:1 1 100%}}
 .mun-cx{position:relative}
 .mun-lista{position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;display:grid;gap:0;max-height:min(60vh,420px);overflow-y:auto;
