@@ -70,13 +70,6 @@
 .mnt-lg em{font:600 var(--t-xs) var(--f-mono);font-style:normal;margin-left:auto;padding-left:var(--s2);opacity:.85}
 @media (pointer:coarse){.mnt-lg button{min-height:40px}}
 @media (max-width:640px){.mnt-lg>span,.mnt-lg button .nm{display:none}.mnt-lg button{gap:6px;padding:0 8px}.mnt-lg em{padding-left:0}}   /* celular: só o losango e o número */
-/* celular com a Manutenção também ligada: as duas legendas lado a lado (uma embaixo da outra chegava nas legendas de baixo);
-   o botão Painel da tela cheia fica numa linha só dele */
-@media (max-width:640px){
-  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden])){display:flex;flex-wrap:wrap;align-items:flex-start}
-  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden]))>.tc-ctl{flex-basis:100%;align-items:flex-start;pointer-events:none}
-  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden]))>.tc-ctl button{pointer-events:auto}
-}
 .mnt-os-b{display:grid;gap:2px;text-align:left;width:100%;min-height:var(--alvo);padding:var(--s2) var(--s3);border:0;border-left:3px solid var(--c);border-radius:0 var(--r1) var(--r1) 0;
   background:color-mix(in srgb,var(--fg) 4%,transparent);color:var(--fg);cursor:pointer;font:var(--t-sm) var(--f-body)}
 .mnt-os-b:hover{background:color-mix(in srgb,var(--fg) 8%,transparent)}
@@ -165,7 +158,8 @@
   }
   function alternaSit(s) { st.sits.has(s) ? st.sits.delete(s) : st.sits.add(s); desenha(); pinta(); }
 
-  // legenda (filtro por situação) no canto de cima, embaixo do + e −; criada depois dos outros controles da página
+  // legenda (filtro por situação), criada depois dos outros controles da página; extras.js a põe na coluna da direita,
+  // embaixo do menu Camadas
   let lg = null;
   const poeLegenda = () => {
     if (!map || lg) return;
@@ -224,8 +218,7 @@
     const f = document.activeElement;
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
     const n = MN.os.length;
-    const sub = n ? `${nf(n)} OS geradas pelas inspeções (sem as canceladas) · ${ORDEM.map(s => `${nf(POR_SIT[s].length)} ${SIT[s][0].toLowerCase()}`).join(' · ')}` +
-      (MN.base_ate ? ` · base até ${br(MN.base_ate)}` : '') : 'Nenhuma OS de manutenção gerada pela inspeção neste alimentador';
+    const sub = n ? `${nf(n)} OS · ${ORDEM.map(s => `${nf(POR_SIT[s].length)} ${SIT[s][0].toLowerCase()}`).join(' · ')}` : 'Nenhuma OS gerada pela inspeção';
     const corpo = st.ligado && n ? `<div class="limp-anos">${ORDEM.map(s => `<div class="limp-ano-l">
         <button type="button" class="liga" data-s="${s}" data-foco="s${s}" aria-pressed="${st.sits.has(s)}" title="Mostrar/esconder no mapa"><i style="--c:${SIT[s][1]}"></i><span>${SIT[s][0]}</span><em>${nf(POR_SIT[s].length)} OS</em></button></div>`).join('')}</div>` : '';
     const tipos = n ? `<p class="mnt-tipos">${TIPOS.map(([t, c]) => `<b>${esc(t.charAt(0) + t.slice(1).toLowerCase())}</b> ${nf(c)}`).join(' · ')}</p>` : '';

@@ -222,9 +222,10 @@
   // sem os botões + e − do mapa (pedido do painel): o zoom fica no gesto de pinça, na roda do mouse e no duplo clique
   if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
-  // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, o menu "Camadas ▾" com Faixa (limpeza.js), Inspeção
-  // (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). Devolve a lista do menu (criada na 1ª chamada),
-  // onde cada camada põe o seu card; sem o card das classes (mapa não carregou), devolve null.
+  // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, o "Menu" das camadas (três barras) com Faixa
+  // (limpeza.js), Inspeção (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js); embaixo do menu, as legendas
+  // das camadas ligadas (.ctl-lgs, no fim deste arquivo). Devolve a lista do menu (criada na 1ª chamada), onde cada camada
+  // põe o seu card; sem o card das classes (mapa não carregou), devolve null.
   // O Tela cheia fica no canto inferior direito (telacheia.js), com o mesmo card (.ctl-card).
   window.__ctlMapa = function () {
     const cls = document.getElementById('classes');
@@ -238,8 +239,8 @@
       cam.className = 'ctl-cam';
       cam.hidden = true;                                   // aparece com a 1ª camada
       cam.innerHTML = '<div class="ctl-card"><button type="button" class="ctl-cam-b" aria-expanded="false" aria-controls="ctl-camadas" ' +
-        'title="Ligar ou desligar as camadas do mapa">Camadas<span class="ctl-cam-n"></span><span class="ctl-cam-cores" aria-hidden="true"></span>' +
-        '<svg class="ctl-cam-v" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></button></div>' +
+        'title="Menu" aria-label="Menu do mapa: 0 camadas ligadas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+        '<path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></div>' +
         '<div class="ctl-l ctl-l2" id="ctl-camadas" role="group" aria-label="Camadas do mapa" hidden></div>';
       const l = cam.querySelector('.ctl-l2'), b = cam.querySelector('.ctl-cam-b');
       if (window.L) L.DomEvent.disableClickPropagation(cam);
@@ -255,15 +256,11 @@
       }, true);
       document.addEventListener('pointerdown', e => { if (!l.hidden && !cam.contains(e.target)) abre(false); }, true);
       cam.addEventListener('focusout', e => { if (e.relatedTarget && !cam.contains(e.relatedTarget)) abre(false); });
-      // o botão mostra quantas camadas estão ligadas e as cores delas (o traço colorido de cada botão)
+      // o botão mostra só o ícone e "Menu": quantas camadas estão ligadas fica no nome dele (leitor de tela)
       const conta = () => {
-        const on = [...l.querySelectorAll('button[aria-pressed="true"]')];
+        const n = l.querySelectorAll('button[aria-pressed="true"]').length;
         cam.hidden = !l.children.length;
-        b.querySelector('.ctl-cam-n').textContent = on.length ? ' · ' + on.length : '';
-        b.querySelector('.ctl-cam-cores').innerHTML = on.map(x => {
-          const g = getComputedStyle(x).backgroundImage;
-          return g && g !== 'none' ? `<i style="background-image:${g.replace(/"/g, "'")}"></i>` : '';
-        }).join('');
+        b.setAttribute('aria-label', `Menu do mapa: ${n} camada${n === 1 ? '' : 's'} ligada${n === 1 ? '' : 's'}`);
       };
       new MutationObserver(conta).observe(l, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
       dir.append(cls, cam);
@@ -271,30 +268,33 @@
     return dir.querySelector('.ctl-l2');
   };
   // balão do mapa: o Leaflet desenha os balões por baixo dos cards do canto (que ficam fora do mapa), então o balão
-  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = altura dos cards; com o menu aberto, até o fim dele)
+  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = fim do card T1 T2 T3 e do Menu; com ele
+  // aberto, até o fim dele). A coluna das legendas não entra: alta, ela jogaria o balão para o pé do mapa
   window.__folgaBalao = () => {
     const dir = document.querySelector('.ctl-dir'), m = document.getElementById('map');
     if (!dir || !m) return [20, 20];
-    const l = dir.querySelector('.ctl-l2'), fim = Math.max(dir.getBoundingClientRect().bottom, l && !l.hidden ? l.getBoundingClientRect().bottom : 0);
+    const l = dir.querySelector('.ctl-l2'), fim = Math.max(...[dir.querySelector('.classes'), dir.querySelector('.ctl-cam'), l]
+      .map(x => x && !x.hidden ? x.getBoundingClientRect().bottom : 0));
     return [20, Math.max(20, Math.round(fim - m.getBoundingClientRect().top) + 12)];
   };
   // as camadas se combinam livremente (Faixa, Inspeção, Insp→manut e Manutenção, quantas quiser ao mesmo tempo)
   {
     const s = document.createElement('style');
-    s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px)}' +
-      '.ctl-dir>.classes{position:static}' +
+    // a coluna toda cabe no mapa: para em cima do card Tela cheia e do chip da OS (28 px do pé + 50 do card + folga);
+    // o que não couber rola dentro das legendas
+    s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px);' +
+      'max-height:calc(100% - 12px - 88px);pointer-events:none}.ctl-dir>*{pointer-events:auto}' +   // fora dos cards, o clique é do mapa
+      '.ctl-dir>.classes{position:static}.ctl-dir>.classes,.ctl-dir>.ctl-cam{flex:none}' +
       '.ctl-l{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--s2)}.ctl-l:empty{display:none}' +
       '.ctl-card{display:flex;padding:var(--s1);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
       '.ctl-card button{display:inline-flex;align-items:center;gap:6px;font:600 var(--t-sm)/1 var(--f-mono);padding:0 var(--s3);border:0;border-radius:var(--r1);background-color:transparent;' +
       'color:var(--vidro-fg);cursor:pointer;min-width:40px;min-height:40px;white-space:nowrap}' +
       '.ctl-card button:hover{background-color:var(--vidro-hover)}.ctl-card button:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:1px}' +
       '@media (prefers-reduced-motion:no-preference){.ctl-card button{transition:background-color var(--dur) var(--ease),opacity var(--dur) var(--ease)}}' +
-      // menu Camadas: o botão (com o número e as cores das ligadas) e, embaixo, a lista solta sobre o mapa
-      '.ctl-cam{position:relative;display:flex;flex-direction:column;align-items:flex-end}' +
-      '.ctl-cam-n{font-variant-numeric:tabular-nums}.ctl-cam-cores{display:inline-flex;gap:2px}.ctl-cam-cores:empty{display:none}' +
-      '.ctl-cam-cores i{width:12px;height:4px;border-radius:2px;box-shadow:0 0 0 1px #0006}' +
-      '@media (max-width:640px){.ctl-cam-cores{display:none}}' +   // celular: só o número (o card estreito deixa lugar às legendas)
-      '.ctl-cam-v{flex:none;width:10px;height:6px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.85}.ctl-cam-b[aria-expanded=true]{background-color:var(--vidro-hover)}.ctl-cam-b[aria-expanded=true] .ctl-cam-v{transform:rotate(180deg)}' +
+      // Menu das camadas: o botão (três barras e "Menu") e, embaixo, a lista solta sobre o mapa (por cima das legendas: z-index)
+      '.ctl-cam{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-end}' +
+      '.ctl-card .ctl-cam-b{gap:var(--s2);padding:0 var(--s3) 0 var(--s2)}.ctl-cam-b[aria-expanded=true]{background-color:var(--vidro-hover)}' +
+      '.ctl-cam-b svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}' +
       '.ctl-l2{position:absolute;top:calc(100% + var(--s1));right:0;flex-direction:column;flex-wrap:nowrap;gap:2px;min-width:200px;max-width:calc(100vw - 24px);padding:var(--s1);' +
       'background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
       '.ctl-l2>.ctl-card{display:block;padding:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;border-radius:0;box-shadow:none}' +
@@ -304,7 +304,13 @@
       '.ctl-l2 .ctl-card button::before{content:"";flex:none;display:grid;place-items:center;width:16px;height:16px;box-sizing:border-box;border:1.5px solid currentColor;border-radius:4px;' +
       'font:700 12px/1 var(--f-body);color:inherit}' +
       '.ctl-l2 .ctl-card button[aria-pressed=true]::before{content:"✓";background:var(--vidro-fg);border-color:var(--vidro-fg);color:#0b0f14}' +
-      '@media (prefers-reduced-motion:no-preference){.ctl-cam-v{transition:transform var(--dur) var(--ease)}}';
+      // legendas embaixo do menu, uma sobre a outra, na largura da maior; cada uma no seu vidro (o das próprias camadas)
+      '.ctl-lgs{position:relative;z-index:1;flex:0 1 auto;min-height:0;display:flex;flex-direction:column;gap:var(--s1);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}' +
+      '.ctl-lgs:not(:has(>:not([hidden]))){display:none}' +
+      '.ctl-lgs.sob-balao{visibility:hidden;opacity:0}' +
+      '@media (prefers-reduced-motion:no-preference){.ctl-lgs{transition:opacity var(--dur) var(--ease),visibility 0s}.ctl-lgs.sob-balao{transition:opacity var(--dur) var(--ease),visibility 0s var(--dur)}}' +
+      '.ctl-dir>.ctl-lgs>*{position:static;inset:auto;z-index:auto;flex:none;margin:0;max-width:none;float:none;clear:none}' +   // sem o canto antigo de cada uma
+      '@media (max-width:640px){.ctl-dir>.ctl-lgs>.limp-maplg>:is(.lg-cab,.lg-info){display:none}}';   // celular: só o traço e o ano
     document.head.append(s);
   }
 
@@ -334,4 +340,32 @@
     poe(lista);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ordena); else ordena();
+
+  // legendas das camadas no mapa: saem dos cantos de cada uma (Faixa e Inspeção no pé do mapa, limpeza.js e inspecao.js;
+  // Insp→manut e Manutenção, controles do Leaflet que manutencao.js e executadas.js criam no DOMContentLoaded) e vão para a
+  // coluna da direita, embaixo do Menu das camadas, nesta ordem. O ouvinte fica na window: roda depois dos do document
+  // (o evento sobe do document à window), com as quatro já criadas, e antes da 1ª pintura
+  const legendas = () => {
+    const dir = document.querySelector('.ctl-dir'), mb = document.querySelector('.mapbox');
+    if (!dir || !mb) return;
+    const box = dir.querySelector('.ctl-lgs') || dir.appendChild(Object.assign(document.createElement('div'), { className: 'ctl-lgs' }));
+    ['.limp-maplg:not(.insp-lg)', '.insp-lg', '.mnt-lg', '.exe-lg'].forEach(q => { const el = mb.querySelector(q); if (el) box.append(el); });
+    // o balão do mapa fica por baixo dos cards (ver __folgaBalao): enquanto um balão aberto cruza a coluna (no celular, quase
+    // sempre: o balão é quase da largura do mapa), as legendas saem da frente e voltam quando ele fecha
+    const map = window.__map;
+    if (!map || box.dataset.balao) return;
+    box.dataset.balao = '1';
+    const confere = () => {
+      const pop = map.getContainer().querySelector('.leaflet-popup');
+      let cruza = false;
+      if (pop) {
+        const a = pop.getBoundingClientRect(), b = box.getBoundingClientRect();
+        cruza = a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+      }
+      box.classList.toggle('sob-balao', cruza);
+    };
+    map.on('popupopen moveend zoomend', confere);
+    map.on('popupclose', () => box.classList.remove('sob-balao'));
+  };
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', legendas); else legendas();
 })();

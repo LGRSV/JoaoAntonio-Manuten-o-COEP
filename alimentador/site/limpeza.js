@@ -176,7 +176,7 @@
 /* na lista: coluna do selo com largura fixa (cabe "sem limpeza"), para a NAE e o km ficarem alinhados de uma linha a outra */
 .row{grid-template-columns:10px minmax(0,1fr) auto 5.75rem auto}
 .row .limp-selo{justify-self:start}
-/* sobre o mapa: legenda dos anos e OS em foco, no vidro escuro */
+/* sobre o mapa: legenda dos anos (vai para a coluna da direita, embaixo do menu Camadas: extras.js) e OS em foco, no vidro escuro */
 .limp-maplg{position:absolute;left:12px;bottom:12px;z-index:800;display:grid;gap:0;max-width:calc(100% - 24px);padding:var(--s1);
   background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro);font:var(--t-xs)/1.2 var(--f-body)}
 .limp-maplg button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:var(--s2);min-height:32px;padding:0 var(--s2);border-radius:var(--r1)}
@@ -188,6 +188,7 @@
 .limp-maplg span{display:flex;align-items:center;gap:var(--s2);min-height:28px;padding:0 var(--s2)}
 .limp-maplg i{width:20px;height:6px;border-radius:3px;background:var(--c);flex:none}
 .limp-maplg b{font-family:var(--f-mono);font-weight:600}
+.limp-maplg .lg-cab{min-height:0;padding:4px var(--s2) 2px}.limp-maplg .lg-cab b{font:700 var(--t-xs) var(--f-body)}   /* título: o mesmo da Insp→manut e da Manutenção */
 .limp-chip{position:absolute;right:12px;bottom:28px;z-index:805;display:flex;align-items:center;gap:2px;max-width:calc(100% - 24px);padding:var(--s1) var(--s1) var(--s1) var(--s2);
   background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);border:1px solid var(--vidro-borda);border-radius:var(--r2);
   box-shadow:inset 4px 0 0 var(--c),var(--sh-vidro);font:600 var(--t-sm) var(--f-mono)}
@@ -220,15 +221,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
   .limp-seg button,.limp-ano-l .liga,.limp-ano-l .so,.limp-todos,.limp-os-b,.limp-maplg button,.limp-chip button{
     transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
 }
-@media (max-width:640px){
-  .limp-maplg{top:auto;bottom:28px;left:12px;right:12px;display:flex;flex-wrap:nowrap;gap:2px;max-width:none;padding:var(--s1) var(--s3);overflow-x:auto;scrollbar-width:none;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 16px,#000 calc(100% - 16px),transparent);mask-image:linear-gradient(90deg,transparent,#000 16px,#000 calc(100% - 16px),transparent)}
-  .limp-maplg::-webkit-scrollbar{display:none}
-  .limp-maplg button,.limp-maplg span{flex:none;min-height:32px;padding:0 var(--s2);white-space:nowrap}
-  .limp-chip{left:12px;right:12px;bottom:72px}
-  @media (pointer:coarse){.limp-maplg button{min-height:40px}.limp-chip{bottom:80px}}   /* toque: alvo de 40 px */
-  .limp-chip span{flex:1}
-}`;
+@media (max-width:640px){.limp-chip{left:12px}.limp-chip span{flex:1}}   /* celular: o chip vai da esquerda até o card Tela cheia */`;
   document.head.append(css);
 
   // ---------- mapa ----------
@@ -509,7 +502,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
 
     const exec = LP.os.filter(o => o.sit === 'EXECUTADA').length;
-    const sub = `${exec} OS executada${exec === 1 ? '' : 's'} · ${km(KM_LIMPO)} de ${km(KM_REDE)} com registro` +
+    const sub = `${exec} OS executada${exec === 1 ? '' : 's'} · ${km(KM_LIMPO)} de ${km(KM_REDE)}` +
       GRUPOS_NEXE.map(([, x]) => ' · ' + plural(x.ks.length, x.um)).join('');
     let corpo = '';
     if (st.ligado && st.vista === 'ano') {
@@ -538,11 +531,11 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     if (btnFaixa) btnFaixa.setAttribute('aria-pressed', String(st.ligado));
     if (maplg) {
       maplg.hidden = !st.ligado;
-      maplg.innerHTML = st.vista === 'ano'
+      maplg.innerHTML = '<span class="lg-cab"><b>Faixa</b></span>' + (st.vista === 'ano'
         ? ANOS.map(a => `<button type="button" data-a="${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a}"><i style="--c:${corAno(a)}"></i><b>${a}</b></button>`).join('') +
           GRUPOS_NEXE.map(([g, x]) => `<button type="button" data-a="${g}" aria-pressed="${st.nexe.has(g)}" title="Mostrar/esconder as OS ${x.rot.toLowerCase()}${x.nota ? ' (' + x.nota + ')' : ''}"><i class="${x.cls}" style="--c:#fff"></i>${x.rot}</button>`).join('') +
-          `<span><i style="--c:${SEMCOR};box-shadow:0 0 0 1px #000"></i>sem registro</span>`
-        : Object.values(SIT).map(([n, c]) => `<span><i style="--c:${c}"></i>${n}</span>`).join('');
+          `<span class="lg-info"><i style="--c:${SEMCOR};box-shadow:0 0 0 1px #000"></i>sem registro</span>`
+        : Object.values(SIT).map(([n, c]) => `<span><i style="--c:${c}"></i>${n}</span>`).join(''));
     }
     if (chip) {
       chip.hidden = st.foco === null;

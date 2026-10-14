@@ -3,7 +3,7 @@
 // Em tela cheia, o botão "Painel" abre o painel lateral (limpeza, busca, detalhe) como gaveta sobre o mapa; a barra de busca e
 // município (acima do mapa, de extras.js) entra no alto da gaveta e volta para cima do mapa ao sair.
 // O botão "Tela cheia" fica num card no canto inferior direito do mapa (o card .ctl-card de extras.js); o chip da OS em
-// foco e, no celular, a legenda dos anos andam para não ficar embaixo dele (--tc-w: largura do card).
+// foco anda para não ficar embaixo dele (--tc-w: largura do card).
 // Sem extras.js (sem o card), volta ao ícone no canto esquerdo.
 (function () {
   const map = window.__map;
@@ -34,12 +34,10 @@ body.tela-cheia .panel{position:fixed;top:0;right:0;bottom:0;z-index:1100;width:
 body.tela-cheia.tc-gaveta .panel{transform:none;visibility:visible;transition-delay:0s}
 body.tela-cheia .grp{background:var(--paper)}
 @media (min-width:701px){body.tela-cheia.tc-gaveta .classes,body.tela-cheia.tc-gaveta .ctl-dir,body.tela-cheia.tc-gaveta .tc-canto{right:calc(min(420px,92vw) + 12px)}}
-/* canto inferior direito, acima do crédito do mapa; o chip da OS em foco fica à esquerda dele e, no celular, a legenda
-   dos anos termina antes dele e o chip sobe */
+/* canto inferior direito, acima do crédito do mapa; o chip da OS em foco fica à esquerda dele */
 .tc-canto{position:absolute;right:12px;bottom:28px;z-index:810}
 .mapbox .limp-chip{right:calc(20px + var(--tc-w,0px))}
 @media (min-width:701px){body.tela-cheia.tc-gaveta .mapbox .limp-chip{right:calc(min(420px,92vw) + 20px + var(--tc-w,0px))}}
-@media (max-width:640px){.mapbox .limp-maplg{right:calc(20px + var(--tc-w,0px))}.mapbox .limp-chip{right:12px;bottom:86px}}
 .tc-fecha-gaveta{display:none;position:sticky;top:0;z-index:2;justify-self:end;width:40px;height:40px;place-items:center;padding:0;border:0;border-radius:var(--r2);
   background:var(--paper);color:var(--fg);font:400 var(--t-lg)/1 var(--f-body);cursor:pointer}
 .tc-fecha-gaveta:hover{background:color-mix(in srgb,var(--fg) 6%,var(--paper))}

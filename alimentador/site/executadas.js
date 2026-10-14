@@ -184,7 +184,8 @@
   }
   function alternaAno(a) { st.anos.has(a) ? st.anos.delete(a) : st.anos.add(a); desenha(); pinta(); }
 
-  // legenda (filtro por ano) no canto de cima, embaixo do + e −; criada depois dos outros controles da página
+  // legenda (filtro por ano), criada depois dos outros controles da página; extras.js a põe na coluna da direita,
+  // embaixo do menu Camadas
   let lg = null;
   const poeLegenda = () => {
     if (!map || lg) return;
@@ -290,8 +291,7 @@
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
     const n = OS.length;
     const noMapa = AT.length;
-    const sub = n ? `${nf(n)} OS de manutenção executadas (corretivas e preventivas) em ${nf(noMapa)} ativos no mapa` +
-      (EX.de ? ` · execução de ${br(EX.de)} a ${br(EX.ate)}` : '') : 'Nenhuma OS de manutenção executada neste alimentador';
+    const sub = n ? `${nf(n)} OS executadas · ${nf(noMapa)} ativos` : 'Nenhuma OS de manutenção executada';
     const anos = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
         <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder no mapa"><i style="--c:${corAno(a)}"></i><b>${rotAno(a)}</b><em>${nf(contaAno(a))} OS</em></button></div>`).join('')}</div>`;
     const nv = OS.reduce((c, o, k) => c + passa(k), 0);

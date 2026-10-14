@@ -103,12 +103,6 @@
 .insp-pt.ref{background:#9ca3af}
 .insp-junto{margin-top:8px;padding-top:6px;border-top:1px solid #0002}
 .insp-junto .t{font-size:13.5px}
-/* Faixa também ligada: a legenda da Inspeção fica ao lado da dela (no celular, em cima; --lg-w/--lg-h: tamanho da legenda da Faixa) */
-.mapbox .limp-maplg:not(.insp-lg):not([hidden])~.insp-lg{left:calc(12px + var(--lg-w,0px) + var(--s2))}
-@media (max-width:640px){
-  .mapbox .limp-maplg:not(.insp-lg):not([hidden])~.insp-lg{left:12px;bottom:calc(28px + var(--lg-h,0px) + var(--s1))}
-  body.limp-on.insp-on .mapbox .limp-chip{transform:translateY(calc(-1 * var(--lg-h,0px) - var(--s1)))}   /* chip da OS sobe junto */
-}
 .limp-maplg i.insp-dot{width:10px;height:10px;border-radius:50%;background:${VERMELHO};box-shadow:0 0 0 2px #fff}
 body.insp-on #legenda{display:none}
 body.insp-on .classes button{box-shadow:inset 0 -3px 0 #9ca3af}
@@ -299,7 +293,7 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     return true;
   };
 
-  // legenda dos anos sobre o mapa (o mesmo vidro da legenda da limpeza)
+  // legenda dos anos sobre o mapa (o mesmo vidro da legenda da limpeza; extras.js a põe na coluna embaixo do menu Camadas)
   let maplg = null;
   if (map && window.L) {
     maplg = document.createElement('div');
@@ -309,12 +303,6 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     document.querySelector('.mapbox').append(maplg);
     L.DomEvent.disableClickPropagation(maplg); L.DomEvent.disableScrollPropagation(maplg); L.DomEvent.on(maplg, 'click', L.DomEvent.stopPropagation);
     maplg.addEventListener('click', e => { const b = e.target.closest('button[data-a]'); if (b) alternaAno(+b.dataset.a); });
-    // tamanho da legenda da Faixa (a da Inspeção vai para o lado ou para cima dela quando as duas aparecem)
-    const lgF = document.querySelector('.mapbox .limp-maplg:not(.insp-lg)'), mb = document.querySelector('.mapbox');
-    if (lgF && window.ResizeObserver) new ResizeObserver(() => {
-      mb.style.setProperty('--lg-w', lgF.offsetWidth + 'px');
-      mb.style.setProperty('--lg-h', lgF.offsetHeight + 'px');
-    }).observe(lgF);
   }
   function alternaAno(a) { st.anos.has(a) ? st.anos.delete(a) : st.anos.add(a); desenha(); pinta(); }
   function soAno(a) { st.anos = new Set([a]); desenha(); pinta(); enquadra(VAOS_ANO[a].flatMap(seg)); }
@@ -361,8 +349,7 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     const f = document.activeElement;
     const chave = card.contains(f) ? (f.dataset.k !== undefined ? `[data-k="${f.dataset.k}"]` : f.dataset.foco ? `[data-foco="${f.dataset.foco}"]` : null) : null;
     const n = IN.os.length;
-    const sub = n ? `${nf(n)} inspeç${n === 1 ? 'ão executada' : 'ões executadas'} · ${ext(KM_INSP)} de ${km(KM_REDE)} inspecionados` +
-      (IN.base_ate ? ` · base até ${br(IN.base_ate)}` : '') : `Nenhuma inspeção executada na base${IN.base_ate ? ' (até ' + br(IN.base_ate) + ')' : ''}`;
+    const sub = n ? `${nf(n)} inspeç${n === 1 ? 'ão executada' : 'ões executadas'} · ${ext(KM_INSP)} de ${km(KM_REDE)}` : 'Nenhuma inspeção executada';
     let corpo = '';
     if (st.ligado && ANOS.length) {
       corpo = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
@@ -380,10 +367,10 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (maplg) {
       maplg.hidden = !st.ligado;
-      maplg.innerHTML = `<span><b>Inspeção</b></span>` +
+      maplg.innerHTML = `<span class="lg-cab"><b>Inspeção</b></span>` +
         ANOS.map(a => `<button type="button" data-a="${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a}"><i style="--c:${corAno(a)}"></i><b>${a}</b></button>`).join('') +
-        (PONTOS.length ? '<span><i class="insp-dot"></i>início / fim</span>' : '') +
-        `<span><i style="--c:${SEMCOR};box-shadow:0 0 0 1px #000"></i>sem inspeção</span>`;
+        (PONTOS.length ? '<span class="lg-info"><i class="insp-dot"></i>início / fim</span>' : '') +
+        `<span class="lg-info"><i style="--c:${SEMCOR};box-shadow:0 0 0 1px #000"></i>sem inspeção</span>`;
     }
     if (det) det.querySelectorAll('.insp-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
   }
