@@ -210,7 +210,7 @@
   // sem os botões + e − do mapa (pedido do painel): o zoom fica no gesto de pinça, na roda do mouse e no duplo clique
   if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
-  // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, o "Menu" das camadas (três barras) com Faixa
+  // canto superior direito do mapa: o card T1 T2 T3 e, à direita dele, o "Menu" das camadas (três barras) com Faixa
   // (limpeza.js), Inspeção (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js); embaixo do menu, as legendas
   // das camadas ligadas (.ctl-lgs, no fim deste arquivo). Devolve a lista do menu (criada na 1ª chamada), onde cada camada
   // põe o seu card; sem o card das classes (mapa não carregou), devolve null.
@@ -251,12 +251,15 @@
         b.setAttribute('aria-label', `Menu do mapa: ${n} camada${n === 1 ? '' : 's'} ligada${n === 1 ? '' : 's'}`);
       };
       new MutationObserver(conta).observe(l, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
-      dir.append(cls, cam);
+      const topo = document.createElement('div');        // T1 T2 T3 e o Menu numa linha só
+      topo.className = 'ctl-topo';
+      topo.append(cls, cam);
+      dir.append(topo);
     }
     return dir.querySelector('.ctl-l2');
   };
   // balão do mapa: o Leaflet desenha os balões por baixo dos cards do canto (que ficam fora do mapa), então o balão
-  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = fim do card T1 T2 T3 e do Menu; com ele
+  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = fim da linha do T1 T2 T3 e do Menu; com ele
   // aberto, até o fim dele). A coluna das legendas não entra: alta, ela jogaria o balão para o pé do mapa
   window.__folgaBalao = () => {
     const dir = document.querySelector('.ctl-dir'), m = document.getElementById('map');
@@ -272,7 +275,8 @@
     // o que não couber rola dentro das legendas
     s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px);' +
       'max-height:calc(100% - 12px - 88px);pointer-events:none}.ctl-dir>*{pointer-events:auto}' +   // fora dos cards, o clique é do mapa
-      '.ctl-dir>.classes{position:static}.ctl-dir>.classes,.ctl-dir>.ctl-cam{flex:none}' +
+      '.ctl-dir>.ctl-topo{display:flex;align-items:flex-start;gap:var(--s1);flex:none;pointer-events:none}.ctl-topo>*{pointer-events:auto}' +
+      '.ctl-topo>.classes{position:static}.ctl-topo>.classes,.ctl-topo>.ctl-cam{flex:none}' +
       '.ctl-l{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--s2)}.ctl-l:empty{display:none}' +
       '.ctl-card{display:flex;padding:var(--s1);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
       '.ctl-card button{display:inline-flex;align-items:center;gap:6px;font:600 var(--t-sm)/1 var(--f-mono);padding:0 var(--s3);border:0;border-radius:var(--r1);background-color:transparent;' +
