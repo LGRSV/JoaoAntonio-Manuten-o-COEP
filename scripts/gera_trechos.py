@@ -803,19 +803,32 @@ def ultima_limpeza(lp, al):
     return max(ds) if ds else None
 
 
+REGIONAIS = ('Norte', 'Centro', 'Sul')            # ordem da legenda do mapa da página inicial (norte → sul)
+
+
+def legenda_regionais():
+    """Legenda do mapa da página inicial: uma cor por regional (classes reg-<nome> em assets/site.css)."""
+    return ''.join(f'<span><i class="reg-{slug(r)}" aria-hidden="true"></i>{r}</span>' for r in REGIONAIS)
+
+
 def mapa_e_ranking(saida, dados, man):
     """assets/mapa-municipios-dados.js (window.MUN) e assets/ranking-nae.js (window.RANK).
 
     A geometria dos 139 municípios é estática (contornos já projetados, em
     alimentador/site/mapa-municipios-geo.json); o que a rodada preenche é
-    quais municípios têm alimentador (`slug`, `als`) e o ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
+    quais municípios têm alimentador (`slug`, `als`), a regional e o polo de cada um (`reg`, `polo`, de polos.json:
+    o mapa pinta por regional) e o ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
     a página inicial não mostra mais o ranking, que fica na página dos polos, visão ETO).
     """
     geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))
     por_cod = {m['cod']: m for m in man['municipios']}
+    cfg = json.loads((PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
+    polo_de = {cod: p for p in cfg['polos'] for cod in p['municipios']}
     muns = []
     for g in geo['muns']:
         m = por_cod.get(g['cod'])
+        if g['cod'] in polo_de:
+            g = dict(g, reg=polo_de[g['cod']]['regional'], polo=polo_de[g['cod']]['nome'])
         if m:
             g = dict(g, nome=m['nome'], slug=m['slug'], als=[dict(cod=a['cod'], se=a['se_nome'], m=a['m_no_municipio'])
                                              for a in m['alimentadores']])
@@ -1181,7 +1194,8 @@ def interface(saida, malha=None):
              'aria-expanded="false" aria-controls="mun-lista" autocomplete="off" placeholder="Buscar município">'
              '<div class="mun-lista" id="mun-lista" role="listbox" aria-label="Municípios" hidden></div></div></div></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
-             '<div class="mt-dica" aria-hidden="true"></div></div></div>\n'
+             '<div class="mt-dica" aria-hidden="true"></div>'
+             f'<p class="mt-regs" aria-label="Cores das regionais">{legenda_regionais()}</p></div></div>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')

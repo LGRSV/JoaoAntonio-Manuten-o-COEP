@@ -39,6 +39,7 @@
   --wrap:1360px; --alvo:40px;
   /* só página inicial (mapa SVG do TO; regras na seção 'Página inicial') */
   --mt-vazio:#e3e6e1; --mt-vazio-h:#d4d8d2; --mt-borda:#b4bab3; --mt-tem:#eeb99c;
+  --mt-norte:#9fc3e6; --mt-centro:#a9d6a4; --mt-sul:#d4bce8;   /* regionais no mapa da página inicial */
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark;
@@ -51,6 +52,7 @@
   --sh1:0 1px 2px rgb(0 0 0 / .45);
   --sh2:0 1px 2px rgb(0 0 0 / .3),0 12px 32px -12px rgb(0 0 0 / .7);
   --mt-vazio:#252c31; --mt-vazio-h:#2f383e; --mt-borda:#46525a; --mt-tem:#6e3a24;
+  --mt-norte:#2b4a69; --mt-centro:#2e5634; --mt-sul:#4d3a66;
 }}
 :root[data-theme="dark"]{
   color-scheme:dark;
@@ -63,6 +65,7 @@
   --sh1:0 1px 2px rgb(0 0 0 / .45);
   --sh2:0 1px 2px rgb(0 0 0 / .3),0 12px 32px -12px rgb(0 0 0 / .7);
   --mt-vazio:#252c31; --mt-vazio-h:#2f383e; --mt-borda:#46525a; --mt-tem:#6e3a24;
+  --mt-norte:#2b4a69; --mt-centro:#2e5634; --mt-sul:#4d3a66;
 }
 
 /* ====== Base ====== */
@@ -184,6 +187,8 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 @media (max-width:860px){.mt-mapa svg{width:100%;height:auto;max-height:78svh;min-height:0}}
 .mun{fill:var(--mt-vazio);stroke:var(--mt-borda);stroke-opacity:1;stroke-width:.6;vector-effect:non-scaling-stroke}
 .mun.tem{fill:var(--mt-tem);cursor:pointer}
+/* uma cor por regional (classe reg-<nome> do mapa-municipios.js, de polos.json); passar o mouse e o escolhido ganham do tom */
+.mun.reg-norte{fill:var(--mt-norte)}.mun.reg-centro{fill:var(--mt-centro)}.mun.reg-sul{fill:var(--mt-sul)}
 .mun.tem:hover,.mun.acende{fill:var(--accent)}
 .mun.sem:hover{fill:var(--mt-vazio-h)}
 .mun.achou{stroke:var(--fg);stroke-opacity:1;stroke-width:2}
@@ -199,6 +204,12 @@ a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
 .mt-dica small{font-size:var(--t-sm);font-weight:400;opacity:.8}
 
 /* município: busca com a lista suspensa de todos os municípios (mapa-municipios.js) */
+/* legenda das regionais: no canto do mapa (computador) ou embaixo dele (celular) */
+.mt-regs{position:absolute;left:0;top:0;display:grid;gap:var(--s1);margin:0;font-size:var(--t-sm);color:var(--fg)}
+.mt-regs span{display:inline-flex;align-items:center;gap:var(--s2)}
+.mt-regs i{flex:none;width:18px;height:12px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--mt-borda)}
+.mt-regs .reg-norte{background:var(--mt-norte)}.mt-regs .reg-centro{background:var(--mt-centro)}.mt-regs .reg-sul{background:var(--mt-sul)}
+@media (max-width:860px){.mt-regs{position:static;display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-top:var(--s3)}}
 .mun-cx{position:relative}
 .mun-lista{position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;display:grid;gap:0;max-height:min(60vh,420px);overflow-y:auto;
   overscroll-behavior:contain;scrollbar-width:thin;padding:var(--s1);background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);box-shadow:var(--sh2)}

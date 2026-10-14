@@ -21,7 +21,7 @@
   M.muns.forEach(m => {
     const p = document.createElementNS(NS, 'path');
     p.setAttribute('d', m.d);
-    p.setAttribute('class', 'mun ' + (m.slug ? 'tem' : 'sem'));
+    p.setAttribute('class', 'mun ' + (m.slug ? 'tem' : 'sem') + (m.reg ? ' reg-' + semAcento(m.reg) : ''));   // cor da regional
     if (m.slug) { p.setAttribute('tabindex', '-1'); p.setAttribute('role', 'button'); p.setAttribute('aria-label', m.nome); }
     p.dataset.cod = m.cod;
     svg.append(p);
@@ -98,7 +98,7 @@
     const p = e.target.closest('.mun');
     if (!p) { dica.style.display = 'none'; return; }
     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
-    dica.innerHTML = `${esc(m.nome)} <small>${m.slug ? `· ${nAls(m)} · ${km(kmTot(m))}` : '· sem dados ainda'}</small>`;
+    dica.innerHTML = `${esc(m.nome)} <small>${m.reg ? `· Regional ${esc(m.reg)} · polo ${esc(m.polo)} ` : ''}${m.slug ? `· ${nAls(m)} · ${km(kmTot(m))}` : '· sem dados ainda'}</small>`;
     dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
   });
   svg.addEventListener('mouseleave', () => { dica.style.display = 'none'; });
