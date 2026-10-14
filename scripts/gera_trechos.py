@@ -664,7 +664,7 @@ def ativos_interface(saida):
         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-    for f in ('extras.js', 'municipios.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
+    for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
               'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
@@ -722,7 +722,8 @@ def pagina_alimentador(modelo, c):
              '<meta name="robots" content="noindex, nofollow">'),
             (f'<link rel="stylesheet" href="{cdn}leaflet.css">', '<link rel="stylesheet" href="../../assets/leaflet/leaflet.css">'),
             (f'<script src="{cdn}leaflet.js"></script>', '<script src="../../assets/leaflet/leaflet.js"></script>'),
-            ('%%ROTULO%%', html.escape(f'{c["se"]} {c["se_nome"]} · Alimentador {al}'))]:
+            ('%%ROTULO%%', html.escape(f'{c["se"]} {c["se_nome"]} · Alimentador {al}')),
+            ('Chaves 88 não aparecem.', 'Chaves que não dividem trecho (88, faca e outras) só aparecem com o mapa de perto.')]:
         assert h.count(x) == 1, x[:50]
         h = h.replace(x, y)
     h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">', h, count=1, flags=re.S)
@@ -731,6 +732,8 @@ def pagina_alimentador(modelo, c):
                '<script src="../../assets/extras.js"></script>\n'
                # divisas dos municípios em tracejado: municipios.js do alimentador sai da interface, com a malha
                '<script src="municipios.js"></script>\n<script src="../../assets/municipios.js"></script>\n'
+               # chaves que não dividem trecho (88, faca…): chaves.js do alimentador sai da interface, dos dados do site
+               '<script src="chaves.js"></script>\n<script src="../../assets/chaves.js"></script>\n'
                # limpeza de faixa: limpeza.js do alimentador vem de scripts/limpeza_faixa.py (sem ele, a camada não aparece)
                '<script src="limpeza.js"></script>\n<script src="../../assets/limpeza.js"></script>\n'
                # inspeção visual de MT: inspecao.js do alimentador vem de scripts/inspecao.py (sem ele, o card não aparece)
@@ -1048,6 +1051,17 @@ def nae_resumo(c):
     return sum(1 for o in oc if o['trecho']), sum(1 for o in oc if not o['trecho'])
 
 
+DIVIDEM = set(regras.PROTECAO) | {'SEC', 'FTR'}   # chaves que abrem ou fecham trecho (já desenhadas pelo alimentador.js)
+
+
+def chaves_js(c):
+    """chaves.js do alimentador: window.CHAVES = [[nome, tipo, lat, lon], ...] das chaves que não dividem trecho (88, faca 80,
+    passagem…), para o destaque no mapa de perto (assets/chaves.js). Sai dos dados do site (dados/alimentadores/<AL>.json)."""
+    cs = [[ch['nome'], ch['tipo'], round(ch['lonlat'][1], 7), round(ch['lonlat'][0], 7)]
+          for ch in c['chaves'] if ch['tipo'] not in DIVIDEM]
+    return 'window.CHAVES = ' + json.dumps(cs, ensure_ascii=False, separators=(',', ':')) + ';\n'
+
+
 def grava_divisas(arq, c, malha):
     """municipios.js do alimentador (divisas no mapa). Só com a mesma malha que mediu os municípios dele; sem ela, fica o
     arquivo que já existe (ou null: a página fica sem as divisas)."""
@@ -1079,6 +1093,7 @@ def interface(saida, malha=None):
             if not exe.exists():                       # até rodar scripts/executadas.py: página sem o card Manutenção
                 exe.write_text('window.EXECUTADAS = null;\n', encoding='utf-8')
             grava_divisas(saida / 'alimentadores' / c['alimentador'] / 'municipios.js', c, malha)
+            (saida / 'alimentadores' / c['alimentador'] / 'chaves.js').write_text(chaves_js(c), encoding='utf-8')
     cards = []
     for m in man['municipios']:
         tot = sum(a['m_no_municipio'] for a in m['alimentadores'])

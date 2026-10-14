@@ -470,6 +470,17 @@ def test_equipes_limpeza():
     assert limpeza_faixa.conta('CRIADA', 'ETO-LD-PCM 000452/2025'), 'pendente aparece, de qualquer equipe'
 
 
+
+def test_chaves_js():
+    c = dict(chaves=[dict(nome='DJ X', tipo='DJ', lonlat=[-48.1, -10.1]), dict(nome='7900000001', tipo='79', lonlat=[-48.2, -10.2]),
+                     dict(nome='0300000001', tipo='03', lonlat=[-48.3, -10.3]), dict(nome='8800000001', tipo='88', lonlat=[-48.4, -10.4]),
+                     dict(nome='8000000001', tipo='80', lonlat=[-48.5, -10.5]), dict(nome='0300000002', tipo='SEC', lonlat=[-48.6, -10.6])])
+    js = gera_trechos.chaves_js(c)
+    assert js.startswith('window.CHAVES = ') and js.endswith(';\n')
+    cs = json.loads(js[len('window.CHAVES = '):-2])
+    assert cs == [['8800000001', '88', -10.4, -48.4], ['8000000001', '80', -10.5, -48.5]], 'só as que não dividem, em [lat, lon]'
+
+
 if __name__ == '__main__':
     test_pipeline()
     print('ok test_pipeline')
@@ -477,3 +488,5 @@ if __name__ == '__main__':
     print('ok test_equipes_limpeza')
     test_chave_sem_segmento()
     print('ok test_chave_sem_segmento')
+    test_chaves_js()
+    print('ok test_chaves_js')
