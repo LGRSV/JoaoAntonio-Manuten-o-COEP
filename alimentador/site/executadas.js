@@ -5,6 +5,7 @@
 // Filtros: ano (legenda do mapa e painel) e tipo de serviço (painel). Ligar a Manutenção desliga o Insp→manut e
 // vice-versa (os dois são losangos). Posição: o poste da ESTRUTURA da OS; sem ele no mapa, o ativo da ESTRUTURA ou o
 // ELEMENTO (o trafo ou a chave que atende o local). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
+// No bloco, "Baixar OS (Excel)": CSV com as OS que os filtros de ano e tipo mostram.
 (function () {
   const EX = window.EXECUTADAS;
   if (!EX || !window.D) return;
@@ -87,13 +88,18 @@
 .exe-tipo{display:grid;gap:var(--s1);font:600 var(--t-xs) var(--f-body);color:var(--muted)}
 .exe-tipo select{font:var(--t-sm) var(--f-body);color:var(--fg);background:var(--paper,transparent);border:1px solid var(--line);border-radius:var(--r1);min-height:var(--alvo);padding:0 var(--s2);width:100%}   /* width: o nome longo do tipo não alarga o card (sem rolagem lateral no celular) */
 .exe-tipo select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.exe-baixa{font:600 var(--t-sm,13px)/1.2 var(--f-body,system-ui);padding:var(--s1,4px) var(--s3,12px);min-height:var(--alvo,40px);max-width:100%;border:1px solid var(--line-forte,var(--line));border-radius:var(--r2,10px);
+  background:var(--paper);color:var(--fg);cursor:pointer;display:inline-flex;gap:var(--s2,8px);align-items:center;text-align:left;margin:0 0 var(--s2,8px)}   /* o visual do "Croqui da faixa" */
+.exe-baixa:hover{border-color:var(--accent);background:var(--hover,transparent)}
+.exe-baixa:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.exe-baixa:disabled{opacity:.55;cursor:not-allowed}
 .exe-pop .t{font:700 15px var(--f-display);margin-bottom:2px}
 .exe-pop .t small{font:500 12px var(--f-body);color:#5a636a;margin-left:4px}
 .exe-pop .onde{font-size:12px;color:#5a636a;margin-bottom:4px}
 .exe-pop .lb-l{border-left:5px solid var(--c);padding:3px 0 3px 7px;margin:4px 0;font-size:12.5px;line-height:1.35}
 .exe-pop .lb-l b{font-family:var(--f-mono);font-size:12.5px}
 .exe-pop .lb-l small{display:block;color:#5a636a}
-@media (prefers-reduced-motion:no-preference){.exe-os-b,.exe-lg button{transition:background-color var(--dur) var(--ease)}}`;
+@media (prefers-reduced-motion:no-preference){.exe-os-b,.exe-lg button,.exe-baixa{transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease)}}`;
   document.head.append(css);
 
   // ---------- mapa ----------
@@ -241,6 +247,37 @@
     return `<details class="limp-grupo" data-g="${a}"${aberto ? ' open' : ''}><summary style="--c:${corAno(a)}"><i></i>${rotAno(a)} <span>${nf(ks.length)} OS</span></summary>` +
       `<div>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div></details>`;
   };
+  // ---------- planilha das OS (CSV que o Excel em pt-BR abre direto: BOM, ';', CRLF, data dd/mm/aaaa) ----------
+  const ONDE_CSV = { p: 'poste da ESTRUTURA', e: 'ativo da ESTRUTURA', l: 'ELEMENTO' };
+  const COLS = ['Alimentador', 'OS', 'Tipo de serviço', 'Classe', 'Execução', 'Equipe', 'Criticidade', 'Ativo', 'Trecho',
+    'Latitude', 'Longitude', 'Posição', 'Alimentador da OS', 'Descrição'];
+  const AL = String((D.meta && D.meta.al) || 'alimentador');
+  // OS visíveis pelos filtros (anos e tipo), da mais recente para a mais antiga
+  const osVisiveis = () => OS.map((o, k) => k).filter(passa).sort((a, b) => (OS[b][2] || '').localeCompare(OS[a][2] || ''));
+  const celCsv = v => {
+    let s = String(v ?? '');
+    if (/^[=+@\t\r]/.test(s) || /^-[^\d]/.test(s)) s = "'" + s;   // texto que o Excel leria como fórmula
+    return /[";\r\n]/.test(s) || s !== s.trim() ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const numBr = x => typeof x === 'number' ? String(x).replace('.', ',') : '';
+  function baixaOs() {
+    const ks = osVisiveis();
+    if (!ks.length) return;
+    const linhas = ks.map(k => {
+      const o = OS[k], t = EX.tipos[o[1]], a = o[4] >= 0 ? AT[o[4]] : null;
+      return [AL, o[0], nomeTipo(t), classe(t), o[2] ? br(o[2]) : '', o[3], o[6], a ? nomeAtivo(a) : '', a ? a[2] : '',
+        a ? numBr(a[3]) : '', a ? numBr(a[4]) : '', a ? ONDE_CSV[a[5]] || '' : 'sem posição', o[7] && o[7] !== AL ? o[7] : '', o[5]];
+    });
+    const csv = '\ufeff' + [COLS, ...linhas].map(l => l.map(celCsv).join(';')).join('\r\n') + '\r\n';
+    const datas = ks.map(k => OS[k][2]).filter(Boolean), hoje = new Date().toISOString().slice(0, 10);
+    const de = datas.length ? datas[datas.length - 1] : hoje, ate = datas.length ? datas[0] : hoje;
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    link.download = `OS_manutencao_${AL.replace(/[^\w.-]+/g, '_')}_${de}_a_${ate}.csv`;
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(link.href), 30000);
+  }
+
   const opcoesTipo = () => {
     const n = EX.tipos.map(() => 0);
     OS.forEach(o => { n[o[1]]++; });
@@ -258,11 +295,14 @@
       (EX.de ? ` · execução de ${br(EX.de)} a ${br(EX.ate)}` : '') : 'Nenhuma OS de manutenção executada neste alimentador';
     const anos = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
         <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder no mapa"><i style="--c:${corAno(a)}"></i><b>${rotAno(a)}</b><em>${nf(contaAno(a))} OS</em></button></div>`).join('')}</div>`;
+    const nv = OS.reduce((c, o, k) => c + passa(k), 0);
+    const baixa = `<button type="button" class="exe-baixa" data-foco="baixar"${nv ? '' : ' disabled'} title="Planilha (CSV para o Excel) com as OS que os filtros de ano e tipo de serviço mostram">` +
+      `<span aria-hidden="true">⬇</span> Baixar ${nf(nv)} OS (Excel)</button>`;
     const tipo = `<label class="exe-tipo">Tipo de serviço<select data-foco="tipo">${opcoesTipo()}</select></label>`;
     const lista = `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as OS por ano</summary><div>${st.lista ? ANOS.map(grupo).join('') : ''}</div></details>`;
     card.hidden = !st.ligado && !!btn;                    // bloco da Manutenção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Manutenção<small>${sub}</small></h2></div>
-      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos, tipos e OS</summary><div>${anos}${tipo}${lista}</div></details>` : ''}`;
+      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos, tipos e OS</summary><div>${baixa}${anos}${tipo}${lista}</div></details>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (lg) {
@@ -289,6 +329,7 @@
   card.addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
+    if (b.classList.contains('exe-baixa')) { e.stopPropagation(); return baixaOs(); }
     if (b.dataset.k !== undefined) return focar(+b.dataset.k, true);
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(+b.dataset.a);
   });
