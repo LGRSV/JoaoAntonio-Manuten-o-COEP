@@ -616,6 +616,23 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
   }
   new MutationObserver(() => poeSelos(false)).observe(lista, { childList: true });
 
+  // ---------- Downloads (em "Dados", extras.js): todas as OS de faixa do alimentador, executadas, criadas e pendentes ----------
+  if (window.__baixar && window.__csv && LP.os.length) {
+    const C = window.__csv;
+    window.__baixar.botao('faixa', 'OS de faixa (Excel)', () => {
+      const ks = LP.os.map((o, k) => k).sort((a, b) => (LP.os[b].data || LP.os[b].criada || '').localeCompare(LP.os[a].data || LP.os[a].criada || ''));
+      C(`OS_faixa_${C.al}.csv`,
+        ['Alimentador', 'OS', 'Situação', 'Execução', 'Criada', 'Equipe', 'Trechos', 'Extensão no mapa (km)', 'Km na descrição',
+          'Ativos citados', 'Posição no mapa', 'Alimentador da OS', 'Descrição'],
+        ks.map(k => {
+          const o = LP.os[k], eq = (o.os_completa || '').replace(o.os, '').trim();
+          return [D.meta.al, o.os_completa || o.os, o.sit, C.data(o.data), C.data(o.criada), eq, C.trechos(vaosDaOs[k].map(v => v[5])),
+            vaosDaOs[k].length ? C.num(o.m / 1000, 2) : '', C.num(o.km_desc), (o.ativos || []).join(' · '), o.metodo,
+            o.al_os && o.al_os !== D.meta.al ? o.al_os : '', o.desc];
+        }));
+    }, `Planilha (CSV para o Excel) com as ${LP.os.length} OS de limpeza de faixa`);
+  }
+
   poeDetalhe();
   desenha();
   pinta();

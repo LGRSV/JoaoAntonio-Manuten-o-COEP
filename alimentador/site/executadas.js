@@ -2,11 +2,12 @@
 // de scripts/executadas.py: corretivas MC e preventivas MP; inspeção, manobra e construção ficaram de fora).
 // "Manutenção" no menu Camadas do mapa, com o "Insp→manut": um losango por ativo manutencionado (poste, transformador ou
 // chave), na cor do ano da execução mais recente (as mesmas cores de ano da Faixa); o número é a quantidade de OS.
-// Filtros: ano (legenda do mapa e painel) e tipo de serviço (painel). Liga junto com o Insp→manut (no mesmo poste,
-// o losango da Manutenção fica um pouco deslocado; manutencao.js).
+// Filtro do mapa: ano (legenda do mapa e painel); o mapa mostra todos os tipos de serviço. Liga junto com o Insp→manut
+// (no mesmo poste, o losango da Manutenção fica um pouco deslocado; manutencao.js).
 // Posição: o poste da ESTRUTURA da OS; sem ele no mapa, o ativo da ESTRUTURA ou o
 // ELEMENTO (o trafo ou a chave que atende o local). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
-// No bloco, "Baixar OS (Excel)": CSV com as OS que os filtros de ano e tipo mostram.
+// Em "Dados" (Downloads, extras.js): a lista de tipos de serviço (vale só para o download) e "Baixar N OS (Excel)", o CSV
+// das OS dos tipos marcados (todos os anos).
 (function () {
   const EX = window.EXECUTADAS;
   if (!EX || !window.D) return;
@@ -44,14 +45,14 @@
   const st = {
     ligado: guarda('exe-ligado') === '1',
     anos: new Set(ANOS),
-    tipos: new Set(),        // tipos de serviço escolhidos (índices em EX.tipos); vazio: todos
-    tiposAberto: false,      // lista de marcar dos tipos aberta
+    tipos: new Set(),        // tipos de serviço do download (índices em EX.tipos); vazio: todos
+    tiposAberto: false,      // lista de marcar dos tipos aberta (em "Dados")
     foco: null,
     grupos: new Set(),       // anos abertos, com as OS embaixo
   };
-  const doTipo = k => !st.tipos.size || st.tipos.has(OS[k][1]);
-  const passa = k => st.anos.has(anoDe(k)) && doTipo(k);
-  const contaAno = a => OS.reduce((n, o, k) => n + (anoDe(k) === a && doTipo(k)), 0);
+  const doTipo = k => !st.tipos.size || st.tipos.has(OS[k][1]);   // só o download
+  const passa = k => st.anos.has(anoDe(k));
+  const contaAno = a => OS.reduce((n, o, k) => n + (anoDe(k) === a), 0);
   const N_TIPO = EX.tipos.map(() => 0);
   OS.forEach(o => { N_TIPO[o[1]]++; });
   const TIPOS_ORD = EX.tipos.map((t, i) => i).sort((a, b) => N_TIPO[b] - N_TIPO[a]);   // mais OS primeiro
@@ -91,30 +92,24 @@
 .exe-os-b:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .exe-os-b .q{font:600 var(--t-xs) var(--f-mono);font-variant-numeric:tabular-nums}
 .exe-os-b .s{color:var(--muted);font-size:var(--t-xs)}
-/* tipo de serviço e planilha numa linha só, em cima dos anos */
-.exe-ferr{display:flex;gap:var(--s2);align-items:stretch}
-.exe-tipos{position:relative;flex:1;min-width:0}   /* min-width:0: o nome longo do tipo não alarga o card (sem rolagem lateral no celular) */
-.exe-tipos-b{display:block;width:100%;min-height:var(--alvo);padding:0 32px 0 var(--s3);border:1px solid var(--line-forte,var(--line));border-radius:var(--r1);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+/* tipos de serviço do download, em "Dados": o botão no visual do botão de meses do NAE; a lista abre embaixo dele, no painel */
+.exe-tipos{flex:1 1 100%;min-width:0}   /* min-width:0: o nome longo do tipo não alarga o painel (sem rolagem lateral no celular) */
+.exe-tipos-b{display:block;width:100%;min-height:var(--alvo);padding:0 32px 0 var(--s3);border:1px solid var(--line-forte,var(--line));border-radius:var(--r2);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238c948f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center/12px;
-  color:var(--fg);font:var(--t-sm) var(--f-body);cursor:pointer}   /* o visual do botão de meses do NAE */
+  color:var(--fg);font:var(--t-sm) var(--f-body);cursor:pointer}
 .exe-tipos-b[aria-expanded=true]{border-color:var(--accent)}
 .exe-tipos-b:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.mes-lista.exe-tipos-l{left:0;right:auto;width:max-content;min-width:100%;max-width:min(360px,calc(100vw - 32px))}
+.mes-lista.exe-tipos-l{position:static;width:auto;min-width:0;max-width:none;margin-top:var(--s1);box-shadow:none}
 .exe-tipos-l label{white-space:normal;font-size:var(--t-sm);line-height:1.25;padding-block:4px}
 .exe-tipos-l label span{flex:1;min-width:0}
 .exe-tipos-l small{font-family:var(--f-mono);white-space:nowrap}
-.exe-baixa{flex:none;display:grid;place-items:center;width:var(--alvo);min-height:var(--alvo);padding:0;border:1px solid var(--line-forte,var(--line));border-radius:var(--r1);
-  background:var(--paper);color:var(--fg);cursor:pointer}
-.exe-baixa:hover{border-color:var(--accent);background:var(--hover,transparent)}
-.exe-baixa:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.exe-baixa:disabled{opacity:.55;cursor:not-allowed}
 .exe-pop .t{font:700 15px var(--f-display);margin-bottom:2px}
 .exe-pop .t small{font:500 12px var(--f-body);color:#5a636a;margin-left:4px}
 .exe-pop .onde{font-size:12px;color:#5a636a;margin-bottom:4px}
 .exe-pop .lb-l{border-left:5px solid var(--c);padding:3px 0 3px 7px;margin:4px 0;font-size:12.5px;line-height:1.35}
 .exe-pop .lb-l b{font-family:var(--f-mono);font-size:12.5px}
 .exe-pop .lb-l small{display:block;color:#5a636a}
-@media (prefers-reduced-motion:no-preference){.exe-os-b,.exe-lg button,.exe-baixa{transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease)}}`;
+@media (prefers-reduced-motion:no-preference){.exe-os-b,.exe-lg button{transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease)}}`;
   document.head.append(css);
 
   // ---------- mapa ----------
@@ -184,7 +179,6 @@
       if (o[4] >= 0) {
         if (!st.ligado) liga(true);
         st.anos.add(anoDe(k));
-        if (!doTipo(k)) st.tipos.add(o[1]);             // o filtro de tipo escondia a OS: o tipo dela volta
         if (enquadrar) enquadra([AT[o[4]][3], AT[o[4]][4]]);
       }
     }
@@ -253,62 +247,102 @@
       `${o[4] >= 0 ? (o[5] ? ' · ' : '') + esc(nomeAtivo(AT[o[4]])) : (o[5] ? ' · ' : '') + 'sem posição no mapa'}</span></button>` +
       (comFoco && st.foco === k ? focoHtml(k) : '');
   };
-  // linha de um ano (o mesmo visual da Faixa): a cor liga/desliga no mapa, o resto abre as OS do ano (com o filtro de
-  // tipo) logo abaixo; elas só são montadas com a linha aberta (há alimentador com milhares de OS)
+  // linha de um ano (o mesmo visual da Faixa): a cor liga/desliga no mapa, o resto abre as OS do ano logo abaixo; elas
+  // só são montadas com a linha aberta (há alimentador com milhares de OS)
   function linha(a) {
     const n = contaAno(a), aberto = st.grupos.has(a) && n > 0, id = 'exe-g-' + a, on = st.anos.has(a);
     const i = `<i style="--c:${corAno(a)}"></i>`;
-    const ks = aberto ? OS.map((o, k) => k).filter(k => anoDe(k) === a && doTipo(k)) : [];
+    const ks = aberto ? OS.map((o, k) => k).filter(k => anoDe(k) === a) : [];
     return `<div class="limp-ano-l${st.ligado && !on ? ' off' : ''}">` +
       (st.ligado ? `<button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${on}" aria-label="${rotAno(a)} no mapa" title="Mostrar/esconder no mapa">${i}</button>`
         : `<span class="cor" aria-hidden="true">${i}</span>`) +
       `<button type="button" class="abre" data-g="${a}" data-foco="g${a}" aria-expanded="${aberto}" aria-controls="${id}"${n ? '' : ' disabled'}><span><b>${rotAno(a)}</b></span><em>${nf(n)} OS</em></button>` +
       `</div><div class="limp-oss" id="${id}" role="group" aria-label="OS de ${rotAno(a)}"${aberto ? '' : ' hidden'}>${ks.map(k => osBtn(k, true)).join('')}</div>`;
   }
-  // ---------- planilha das OS (CSV que o Excel em pt-BR abre direto: BOM, ';', CRLF, data dd/mm/aaaa) ----------
+  // ---------- Downloads (em "Dados", extras.js): tipos de serviço para marcar e a planilha das OS desses tipos ----------
+  // CSV pelo window.__csv (BOM, ';', CRLF, dd/mm/aaaa, vírgula decimal, proteção contra fórmula); todos os anos
   const ONDE_CSV = { p: 'poste da ESTRUTURA', e: 'ativo da ESTRUTURA', l: 'ELEMENTO' };
   const COLS = ['Alimentador', 'OS', 'Tipo de serviço', 'Classe', 'Execução', 'Equipe', 'Criticidade', 'Ativo', 'Trecho',
     'Latitude', 'Longitude', 'Posição', 'Alimentador da OS', 'Descrição'];
   const AL = String((D.meta && D.meta.al) || 'alimentador');
-  // OS visíveis pelos filtros (anos e tipo), da mais recente para a mais antiga
-  const osVisiveis = () => OS.map((o, k) => k).filter(passa).sort((a, b) => (OS[b][2] || '').localeCompare(OS[a][2] || ''));
-  const celCsv = v => {
-    let s = String(v ?? '');
-    if (/^[=+@\t\r]/.test(s) || /^-[^\d]/.test(s)) s = "'" + s;   // texto que o Excel leria como fórmula
-    return /[";\r\n]/.test(s) || s !== s.trim() ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  const numBr = x => typeof x === 'number' ? String(x).replace('.', ',') : '';
+  // OS dos tipos marcados, da mais recente para a mais antiga
+  const osDoDownload = () => OS.map((o, k) => k).filter(doTipo).sort((a, b) => (OS[b][2] || '').localeCompare(OS[a][2] || ''));
   function baixaOs() {
-    const ks = osVisiveis();
-    if (!ks.length) return;
+    const C = window.__csv, ks = osDoDownload();
+    if (!C || !ks.length) return;
     const linhas = ks.map(k => {
       const o = OS[k], t = EX.tipos[o[1]], a = o[4] >= 0 ? AT[o[4]] : null;
-      return [AL, o[0], nomeTipo(t), classe(t), o[2] ? br(o[2]) : '', o[3], o[6], a ? nomeAtivo(a) : '', a ? a[2] : '',
-        a ? numBr(a[3]) : '', a ? numBr(a[4]) : '', a ? ONDE_CSV[a[5]] || '' : 'sem posição', o[7] && o[7] !== AL ? o[7] : '', o[5]];
+      return [AL, o[0], nomeTipo(t), classe(t), C.data(o[2]), o[3], o[6], a ? nomeAtivo(a) : '', a ? a[2] : '',
+        a ? C.num(a[3]) : '', a ? C.num(a[4]) : '', a ? ONDE_CSV[a[5]] || '' : 'sem posição', o[7] && o[7] !== AL ? o[7] : '', o[5]];
     });
-    const csv = '\ufeff' + [COLS, ...linhas].map(l => l.map(celCsv).join(';')).join('\r\n') + '\r\n';
     const datas = ks.map(k => OS[k][2]).filter(Boolean), hoje = new Date().toISOString().slice(0, 10);
     const de = datas.length ? datas[datas.length - 1] : hoje, ate = datas.length ? datas[0] : hoje;
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-    link.download = `OS_manutencao_${AL.replace(/[^\w.-]+/g, '_')}_${de}_a_${ate}.csv`;
-    document.body.append(link); link.click(); link.remove();
-    setTimeout(() => URL.revokeObjectURL(link.href), 30000);
+    C(`OS_manutencao_${C.arq(AL)}_${de}_a_${ate}.csv`, COLS, linhas);
   }
 
-  // tipos de serviço: botão com a lista de marcar (um, vários ou todos), no jeito do NAE dos meses (mapa_trechos.html)
-  const listaTipos = () => `<div class="exe-tipos"><button type="button" class="exe-tipos-b" data-foco="tipos" aria-expanded="${st.tiposAberto}" aria-controls="exe-tipos-l" aria-label="Tipo de serviço: ${esc(rotTipos())}">${esc(rotTipos())}</button>` +
-    `<div class="mes-lista exe-tipos-l" id="exe-tipos-l" role="group" aria-label="Tipos de serviço"${st.tiposAberto ? '' : ' hidden'}>` +
-    `<label class="mes-tds"><input type="checkbox" value=""${st.tipos.size ? '' : ' checked'} data-foco="tt"> Todos <small>${nf(OS.length)} OS</small></label>` +
-    TIPOS_ORD.map(i => `<label><input type="checkbox" value="${i}"${st.tipos.has(i) ? ' checked' : ''} data-foco="t${i}"> <span>${esc(TIPO_TXT[i])}</span> <small>${nf(N_TIPO[i])}</small></label>`).join('') +
-    '</div></div>';
+  // tipos de serviço: botão com a lista de marcar (um, vários ou todos), no jeito do NAE dos meses (mapa_trechos.html);
+  // a lista abre embaixo do botão, dentro de "Dados"
+  let dlx = null, dlBtn = null;
+  if (OS.length && window.__baixar && window.__csv) {
+    dlx = window.__baixar('exe');
+    const t = document.createElement('div');
+    t.className = 'exe-tipos';
+    t.innerHTML = `<button type="button" class="exe-tipos-b" aria-expanded="false" aria-controls="exe-tipos-l"></button>` +
+      `<div class="mes-lista exe-tipos-l" id="exe-tipos-l" role="group" aria-label="Tipos de serviço do download" hidden>` +
+      `<label class="mes-tds"><input type="checkbox" value=""> Todos <small>${nf(OS.length)} OS</small></label>` +
+      TIPOS_ORD.map(i => `<label><input type="checkbox" value="${i}"> <span>${esc(TIPO_TXT[i])}</span> <small>${nf(N_TIPO[i])}</small></label>`).join('') +
+      '</div>';
+    dlx.append(t);
+    dlBtn = window.__baixar.botao('exe', '', baixaOs);
+    dlBtn.classList.add('exe-baixa');
+  }
+  function pintaDl() {
+    if (!dlx) return;
+    const b = dlx.querySelector('.exe-tipos-b'), nv = OS.reduce((c, o, k) => c + doTipo(k), 0);
+    b.textContent = rotTipos();
+    b.setAttribute('aria-label', `Tipos de serviço do download: ${rotTipos()}`);
+    dlx.querySelectorAll('.exe-tipos-l input').forEach(i => { i.checked = i.value ? st.tipos.has(+i.value) : !st.tipos.size; });
+    dlBtn.querySelector('.dl-t').textContent = `Baixar ${nf(nv)} OS (Excel)`;
+    dlBtn.title = `Planilha (CSV para o Excel) com as ${nf(nv)} OS de manutenção executadas ${st.tipos.size ? 'dos tipos marcados' : 'de todos os tipos'}`;
+    dlBtn.setAttribute('aria-disabled', String(!nv));
+  }
   function abreTipos(sim, foco) {
     st.tiposAberto = sim;
-    const l = card.querySelector('.exe-tipos-l'), b = card.querySelector('.exe-tipos-b');
-    if (!l) return;
+    if (!dlx) return;
+    const l = dlx.querySelector('.exe-tipos-l'), b = dlx.querySelector('.exe-tipos-b');
     l.hidden = !sim;
     b.setAttribute('aria-expanded', String(sim));
     if (sim && foco) (l.querySelector('input:checked') || l.querySelector('input')).focus();
+  }
+  if (dlx) {
+    // marcar "Todos" volta a todos; marcar um tipo a partir de todos fica só ele; todos marcados um a um = todos
+    dlx.addEventListener('change', e => {
+      if (!e.target.closest('.exe-tipos-l')) return;
+      const v = e.target.value;
+      if (!v) st.tipos.clear(); else if (e.target.checked) st.tipos.add(+v); else st.tipos.delete(+v);
+      if (st.tipos.size === EX.tipos.length) st.tipos.clear();
+      pintaDl();
+    });
+    dlx.addEventListener('click', e => { if (e.target.closest('.exe-tipos-b')) abreTipos(!st.tiposAberto, true); });
+    // abre e fecha: botão, Esc (só a lista, antes do Esc da tela cheia), clique fora ou Tab para fora; ↑ ↓ Home End andam na lista
+    dlx.addEventListener('keydown', e => {
+      if (e.target.matches('.exe-tipos-b') && e.key === 'ArrowDown' && !st.tiposAberto) { e.preventDefault(); return abreTipos(true, true); }
+      const is = e.target.closest('.exe-tipos-l') ? [...dlx.querySelectorAll('.exe-tipos-l input')] : [], i = is.indexOf(e.target);
+      const passo = { ArrowDown: 1, ArrowUp: -1, Home: -Infinity, End: Infinity }[e.key];
+      if (i < 0 || passo === undefined) return;
+      e.preventDefault();
+      is[Math.max(0, Math.min(is.length - 1, i + passo))].focus();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape' || !st.tiposAberto) return;
+      e.stopPropagation();
+      const volta = dlx.querySelector('.exe-tipos-l').contains(document.activeElement);
+      abreTipos(false);
+      if (volta) dlx.querySelector('.exe-tipos-b').focus();
+    }, true);
+    document.addEventListener('pointerdown', e => { if (st.tiposAberto && !e.target.closest('.exe-tipos')) abreTipos(false); }, true);
+    dlx.addEventListener('focusout', e => { if (st.tiposAberto && e.target.closest('.exe-tipos') && e.relatedTarget && !e.relatedTarget.closest('.exe-tipos')) abreTipos(false); });
+    pintaDl();
   }
 
   function pinta() {
@@ -317,54 +351,21 @@
     const n = OS.length;
     const noMapa = AT.length;
     const sub = n ? `${nf(n)} OS executadas · ${nf(noMapa)} ativos` : 'Nenhuma OS de manutenção executada';
-    const nv = OS.reduce((c, o, k) => c + passa(k), 0);
-    const baixa = `<button type="button" class="exe-baixa" data-foco="baixar"${nv ? '' : ' disabled'} aria-label="Baixar ${nf(nv)} OS (Excel)" title="Baixar ${nf(nv)} OS: planilha (CSV para o Excel) com as OS que os filtros de ano e tipo de serviço mostram">` +
-      '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 11v2.5h11V11"/></svg></button>';
-    const ferr = `<div class="exe-ferr">${listaTipos()}${baixa}</div>`;
     card.hidden = !st.ligado && !!btn;                    // bloco da Manutenção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Manutenção<small>${sub}</small></h2></div>
-      ${n ? `${ferr}<div class="limp-anos">${ANOS.map(linha).join('')}</div>` : ''}`;
+      ${n ? `<div class="limp-anos">${ANOS.map(linha).join('')}</div>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (lg) {
       lg.hidden = !st.ligado || !n;
-      const t1 = st.tipos.size === 1 ? [...st.tipos][0] : -1;
-      lg.innerHTML = `<span>Manutenção${st.tipos.size ? `<small title="${esc([...st.tipos].map(i => TIPO_TXT[i]).join(', '))}">${t1 >= 0 ? esc(nomeTipo(EX.tipos[t1])) : st.tipos.size + ' tipos'}</small>` : ''}</span>` +
+      lg.innerHTML = '<span>Manutenção</span>' +
         ANOS.map(a => `<button type="button" data-a="${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${rotAno(a)}"><i style="--c:${corAno(a)}"></i><span class="nm">${rotAno(a)}</span><em>${nf(contaAno(a))}</em></button>`).join('');
     }
     if (det) det.querySelectorAll('.exe-os-b').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.k === st.foco)));
   }
-  // lista dos tipos: marcar "Todos" volta a todos; marcar um tipo a partir de todos fica só ele; todos marcados um a um = todos
-  card.addEventListener('change', e => {
-    if (!e.target.closest('.exe-tipos-l')) return;
-    const v = e.target.value;
-    if (!v) st.tipos.clear(); else if (e.target.checked) st.tipos.add(+v); else st.tipos.delete(+v);
-    if (st.tipos.size === EX.tipos.length) st.tipos.clear();
-    st.foco = null; desenha(); pinta();
-  });
-  // abre e fecha: botão, Esc (só a lista, antes do Esc da tela cheia), clique fora ou Tab para fora; ↑ ↓ Home End andam na lista
-  card.addEventListener('keydown', e => {
-    if (e.target.matches('.exe-tipos-b') && e.key === 'ArrowDown' && !st.tiposAberto) { e.preventDefault(); return abreTipos(true, true); }
-    const is = e.target.closest('.exe-tipos-l') ? [...card.querySelectorAll('.exe-tipos-l input')] : [], i = is.indexOf(e.target);
-    const passo = { ArrowDown: 1, ArrowUp: -1, Home: -Infinity, End: Infinity }[e.key];
-    if (i < 0 || passo === undefined) return;
-    e.preventDefault();
-    is[Math.max(0, Math.min(is.length - 1, i + passo))].focus();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape' || !st.tiposAberto) return;
-    e.stopPropagation();
-    const volta = card.querySelector('.exe-tipos-l')?.contains(document.activeElement);
-    abreTipos(false);
-    if (volta) card.querySelector('.exe-tipos-b').focus();
-  }, true);
-  document.addEventListener('pointerdown', e => { if (st.tiposAberto && !e.target.closest('.exe-tipos')) abreTipos(false); }, true);
-  card.addEventListener('focusout', e => { if (st.tiposAberto && e.target.closest('.exe-tipos') && e.relatedTarget && !e.relatedTarget.closest('.exe-tipos')) abreTipos(false); });
   card.addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.classList.contains('exe-tipos-b')) return abreTipos(!st.tiposAberto, true);
-    if (b.classList.contains('exe-baixa')) { e.stopPropagation(); return baixaOs(); }
     if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
     if (b.classList.contains('abre')) { const a = +b.dataset.g; st.grupos.has(a) ? st.grupos.delete(a) : st.grupos.add(a); return pinta(); }   // monta as OS do ano aberto
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(+b.dataset.a);

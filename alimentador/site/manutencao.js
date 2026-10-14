@@ -273,6 +273,24 @@
     det.addEventListener('click', e => { const b = e.target.closest('.mnt-os-b'); if (b) focar(+b.dataset.k, true); });
   }
 
+  // ---------- Downloads (em "Dados", extras.js): todas as OS geradas pela inspeção ----------
+  if (window.__baixar && window.__csv && MN.os.length) {
+    const C = window.__csv;
+    const SIT_CSV = { venc: 'vencida', pend: 'no prazo', exec: 'executada' };
+    window.__baixar.botao('mnt', 'OS da inspeção (Excel)', () => {
+      const ks = MN.os.map((o, k) => k).sort((a, b) => (MN.os[b].criada || '').localeCompare(MN.os[a].criada || ''));
+      C(`OS_da_inspecao_${C.al}.csv`,
+        ['Alimentador', 'OS', 'Situação', 'Situação hoje', 'Tipo', 'Defeito', 'Criticidade', 'Criada', 'Prazo', 'Execução', 'Equipe', 'Executora',
+          'Inspeção', 'Data da inspeção', 'Poste', 'Trechos', 'Latitude', 'Longitude'],
+        ks.map(k => {
+          const o = MN.os[k];
+          return [D.meta.al, o.os_completa || o.os, o.sit, SIT_CSV[sitDe(o)], o.tipo, o.defeito, o.crit, C.data(o.criada), C.data(o.limite),
+            C.data(o.exec), o.eq, o.executora, o.insp, C.data(o.insp_data), o.poste, o.poste ? C.trechosPoste(o.poste) : '',
+            o.ll ? C.num(o.ll[0]) : '', o.ll ? C.num(o.ll[1]) : ''];
+        }));
+    }, `Planilha (CSV para o Excel) com as ${MN.os.length} OS geradas pela inspeção`);
+  }
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poeLegenda); else poeLegenda();
   poeDetalhe();
   desenha();

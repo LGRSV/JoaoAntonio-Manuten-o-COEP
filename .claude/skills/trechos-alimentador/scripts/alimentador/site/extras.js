@@ -1,6 +1,6 @@
 // Acréscimos da página do alimentador no site por município (roda depois de alimentador.js, com window.D):
 // caminho Município › Alimentador › Trecho, barra acima do mapa com a busca e o filtro de município (a classe segue o T1/T2/T3 do mapa),
-// resumo por classe, avisos, origem e KMZ.
+// resumo por classe, avisos, origem e, em "Dados", os downloads por bloco (window.__baixar, window.__csv).
 (function () {
   const M = D.meta || {};
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -142,8 +142,90 @@
     `<p class="origem">Origem: ${esc(o.kml)} (${esc(o.data)})` +
     (o.observacao ? `</p><p class="origem"><b>Procedência:</b> ${esc(M.origem.observacao)}` : '') +
     `${o.postes ? ' · postes ' + esc(M.origem.postes) : ''}${o.critica ? ' · Crítica ' + esc(M.origem.critica.join(', ')) + (M.origem.nae_filtro === 'arvore' ? ' (só Meio Ambiente · Árvore/Eucalipto na rede)' : '') : ''}` +
-    `${o.malha ? ' · municípios: ' + esc(M.origem.malha) : ''}</p><p class="origem"><a href="${esc(M.al)}-trechos.kmz" download>Baixar o KMZ (Google Earth)</a></p>`;   // o KMZ só em "Dados"
+    `${o.malha ? ' · municípios: ' + esc(M.origem.malha) : ''}</p>`;
   document.querySelector('.panel').append(box);
+
+  // ---------- Downloads: no início de "Dados", um bloco por camada (Faixa, Inspeção, Insp→manut, Manutenção) e a Rede.
+  // Cada script de camada põe os botões dele com window.__baixar(bloco) (só se tiver dados); o bloco aparece com o
+  // 1º botão. window.__csv é a planilha de todos: CSV que o Excel em pt-BR abre direto (BOM, ';', CRLF, dd/mm/aaaa,
+  // vírgula decimal, texto que viraria fórmula protegido); nomes de arquivo com o código do alimentador.
+  const salva = (blob, nome) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = nome;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+  };
+  const celCsv = v => {
+    let s = String(v ?? '');
+    if (/^[=+@\t\r]/.test(s) || /^-[^\d]/.test(s)) s = "'" + s;   // texto que o Excel leria como fórmula
+    return /[";\r\n]/.test(s) || s !== s.trim() ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const csv = window.__csv = (nome, cols, linhas) =>
+    salva(new Blob(['﻿' + [cols, ...linhas].map(l => l.map(celCsv).join(';')).join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' }), nome);
+  csv.salva = salva;
+  csv.num = (x, casas) => typeof x === 'number' && isFinite(x) ? String(casas == null ? x : +x.toFixed(casas)).replace('.', ',') : '';
+  csv.data = d => d ? String(d).slice(0, 10).split('-').reverse().join('/') : '';
+  csv.arq = s => String(s ?? '').replace(/[^\w.-]+/g, '_');
+  csv.al = csv.arq(M.al || 'alimentador');
+  // trecho(s) de um conjunto de vãos (ids do D.vaos), na ordem da lista
+  const vaoTrecho = Object.fromEntries(D.vaos.map(x => [x[5], x[4]]));
+  csv.trechos = ids => [...new Set(ids.map(i => vaoTrecho[i]).filter(i => i !== undefined))].sort((a, b) => a - b).map(i => D.trechos[i].nome).join(', ');
+  // trecho(s) de um poste (pontas dos vãos)
+  let tPoste = null;
+  csv.trechosPoste = p => {
+    if (!tPoste) { tPoste = {}; D.vaos.forEach(x => [x[6], x[7]].forEach(q => { (tPoste[q] = tPoste[q] || new Set()).add(x[4]); })); }
+    return [...(tPoste[p] || [])].sort((a, b) => a - b).map(i => D.trechos[i].nome).join(', ');
+  };
+
+  const BLOCOS = { faixa: 'Faixa', insp: 'Inspeção', mnt: 'Insp→manut', exe: 'Manutenção', rede: 'Rede' };
+  const dl = document.createElement('div');
+  dl.className = 'dl';
+  dl.setAttribute('role', 'group');
+  dl.setAttribute('aria-labelledby', 'dl-tit');
+  dl.innerHTML = '<h3 class="dl-tit" id="dl-tit">Downloads</h3>';
+  box.querySelector('summary').after(dl);
+  const ICONE_DL = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 11v2.5h11V11"/></svg>';
+  const baixar = window.__baixar = id => {
+    let b = dl.querySelector(`.dl-b[data-b="${id}"]`);
+    if (!b) {
+      b = document.createElement('div');
+      b.className = 'dl-b'; b.dataset.b = id;
+      b.setAttribute('role', 'group'); b.setAttribute('aria-labelledby', 'dl-n-' + id);
+      b.innerHTML = `<span class="dl-n" id="dl-n-${id}">${esc(BLOCOS[id] || id)}</span><div class="dl-a"></div>`;
+      const ids = Object.keys(BLOCOS), depois = [...dl.querySelectorAll('.dl-b')].find(x => ids.indexOf(x.dataset.b) > ids.indexOf(id));
+      depois ? depois.before(b) : dl.append(b);
+    }
+    return b.querySelector('.dl-a');
+  };
+  // botão de baixar num bloco (rotulo em texto; acao: função, ou o endereço de um arquivo pronto)
+  baixar.botao = (id, rotulo, acao, titulo) => {
+    const b = document.createElement(typeof acao === 'string' ? 'a' : 'button');
+    b.className = 'dl-btn';
+    b.innerHTML = `${ICONE_DL}<span class="dl-t">${esc(rotulo)}</span>`;
+    if (titulo) b.title = titulo;
+    if (typeof acao === 'string') { b.href = acao; b.setAttribute('download', ''); }
+    else { b.type = 'button'; b.addEventListener('click', e => { if (b.getAttribute('aria-disabled') !== 'true') acao(e); }); }
+    baixar(id).append(b);
+    return b;
+  };
+  baixar.botao('rede', 'KMZ (Google Earth)', `${encodeURIComponent(M.al || '')}-trechos.kmz`, 'Trechos do alimentador para o Google Earth');
+  {
+    const s = document.createElement('style');
+    s.textContent = '.dl{display:grid;gap:0}.dl-tit{margin:0 0 var(--s1);font:700 var(--t-base) var(--f-display)}' +
+      '.dl-b{display:grid;grid-template-columns:6.5em minmax(0,1fr);align-items:start;gap:var(--s2) var(--s3);padding:var(--s2) 0;border-top:1px solid var(--line)}' +
+      '.dl-b:last-child{border-bottom:1px solid var(--line)}' +
+      '.dl-n{display:flex;align-items:center;min-height:var(--alvo);font:600 var(--t-sm)/1.2 var(--f-body);color:var(--fg)}' +
+      '.dl-a{display:flex;flex-wrap:wrap;gap:var(--s2);min-width:0}' +
+      '.dl-btn{display:inline-flex;align-items:center;gap:var(--s2);max-width:100%;min-height:var(--alvo);padding:0 var(--s3) 0 10px;box-sizing:border-box;' +
+      'border:1px solid var(--line-forte);border-radius:var(--r2);background:var(--paper);color:var(--fg);font:600 var(--t-sm)/1.2 var(--f-body);text-align:left;text-decoration:none;cursor:pointer}' +
+      '.dl-btn svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:var(--accent)}' +
+      '.dl-btn .dl-t{min-width:0;overflow-wrap:anywhere}.dl-btn small{font-weight:400;color:var(--muted)}' +
+      '.dl-btn:hover{border-color:var(--accent);background:var(--hover)}.dl-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}' +
+      '.dl-btn[aria-disabled=true],.dl-btn:disabled{opacity:.55;cursor:not-allowed}.dl-btn[aria-disabled=true]:hover,.dl-btn:disabled:hover{border-color:var(--line-forte);background:var(--paper)}' +
+      '@media (prefers-reduced-motion:no-preference){.dl-btn{transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease)}}' +
+      '@media (max-width:480px){.dl-b{grid-template-columns:minmax(0,1fr);gap:var(--s1)}.dl-n{min-height:0;padding-top:var(--s1)}}';   // celular: o nome em cima dos botões
+    document.head.append(s);
+  }
   const foot = document.querySelector('.foot');
   if (foot) box.append(foot);
   // "Como os trechos são divididos" também fica em "Dados", no fim (pedido do painel)

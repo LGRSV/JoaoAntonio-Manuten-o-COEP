@@ -407,6 +407,23 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     det.addEventListener('click', e => { const b = e.target.closest('.insp-os-b'); if (b) focar(+b.dataset.k, true); });
   }
 
+  // ---------- Downloads (em "Dados", extras.js): todas as inspeções do alimentador ----------
+  if (window.__baixar && window.__csv && IN.os.length) {
+    const C = window.__csv;
+    window.__baixar.botao('insp', 'Inspeções (Excel)', () => {
+      const ks = IN.os.map((o, k) => k).sort((a, b) => (IN.os[b].data || '').localeCompare(IN.os[a].data || ''));
+      C(`Inspecoes_${C.al}.csv`,
+        ['Alimentador', 'OS', 'Equipe', 'Execução', 'Criticidade', 'ELEMENTO', 'ABRANGÊNCIA', 'Montante da ABRANGÊNCIA', 'Trechos',
+          'Extensão no mapa (km)', 'Chaves de fim do bloco', 'Latitude', 'Longitude', 'Posição no mapa', 'Descrição'],
+        ks.map(k => {
+          const o = IN.os[k], ll = o.pe || o.pt || o.pa;
+          return [D.meta.al, o.os_completa || o.os, o.eq, C.data(o.data), o.crit, o.elem, o.abr, o.mont, C.trechos(vaosDaOs[k].map(v => v[5])),
+            vaosDaOs[k].length ? C.num(o.m / 1000, 2) : '', (o.fins || []).map(f => f[2]).join(', '),
+            ll ? C.num(ll[0]) : '', ll ? C.num(ll[1]) : '', o.metodo, o.desc];
+        }));
+    }, `Planilha (CSV para o Excel) com as ${IN.os.length} inspeções`);
+  }
+
   poeDetalhe();
   desenha();
   pinta();
