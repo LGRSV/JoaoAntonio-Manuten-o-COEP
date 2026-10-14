@@ -315,9 +315,9 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
     ey.textContent = m[1];
     h1.textContent = m[2];
     h1.after(mk('p', 'sub', 'Trechos por ativo'));
-    var nav = mk('nav', 'migalhas'), a = mk('a', '', 'Municípios'), sep = mk('span', '', '›'), al = mk('span', '', m[2]), t = mk('span', 'mig-t');
-    nav.setAttribute('aria-label', 'Caminho'); a.href = '../../'; sep.setAttribute('aria-hidden', 'true'); al.setAttribute('aria-current', 'page'); t.id = 'mig-trecho';
-    nav.append(a, sep, mk('span', 'mig-mun'), al, t);
+    var nav = mk('nav', 'migalhas'), a = mk('a', '', 'Municípios'), t = mk('span', 'mig-t');
+    nav.setAttribute('aria-label', 'Caminho'); a.href = '../../'; t.id = 'mig-trecho';
+    nav.append(a, mk('span', 'mig-mun'), t);   // sem o código do alimentador (já está no título logo abaixo)
     document.querySelector('header').prepend(nav);
     document.addEventListener('DOMContentLoaded', function () { document.documentElement.classList.add('al-pronto'); });   // depois de dados.js, alimentador.js, extras.js, limpeza.js
   })();

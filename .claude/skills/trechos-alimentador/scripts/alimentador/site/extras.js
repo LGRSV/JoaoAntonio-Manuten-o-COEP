@@ -34,17 +34,17 @@
     if (!h1.nextElementSibling?.classList.contains('sub')) h1.insertAdjacentHTML('afterend', '<p class="sub">Trechos por ativo</p>');
   }
 
-  // caminho e volta para o município (o município só se sabe com os dados: entra no lugar reservado)
+  // caminho e volta para o município (o município só se sabe com os dados: entra no lugar reservado); sem o código do
+  // alimentador, que já é o título logo abaixo
   const sep = '<span aria-hidden="true">›</span>';
-  const linkMun = mun ? `<a href="../../municipios/${esc(mun.slug)}/">${esc(mun.nome)}</a>${sep}` : '';
+  const linkMun = mun ? `${sep}<a href="../../municipios/${esc(mun.slug)}/">${esc(mun.nome)}</a>` : '';
   let nav = document.querySelector('header .migalhas');
   if (nav) { const lugar = nav.querySelector('.mig-mun'); if (lugar) lugar.innerHTML = linkMun; }
   else {
     nav = document.createElement('nav');
     nav.className = 'migalhas';
     nav.setAttribute('aria-label', 'Caminho');
-    nav.innerHTML = `<a href="../../">Municípios</a>${sep}${linkMun}` +
-      `<span aria-current="page">${esc(M.al)}</span><span class="mig-t" id="mig-trecho"></span>`;
+    nav.innerHTML = `<a href="../../">Municípios</a>${linkMun}<span class="mig-t" id="mig-trecho"></span>`;
     document.querySelector('header').prepend(nav);
   }
 
