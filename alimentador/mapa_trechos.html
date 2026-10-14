@@ -375,6 +375,7 @@ $('legenda').innerHTML = leg.map(([n, c, k]) => `<span><i class="${k}" style="--
 
 // interrupções (NAE): coletiva = atuou DJ, religador, fusível ou trafo; individual = um consumidor
 const NAE = D.nae || null;
+const ROT_NAE = ((D.meta || {}).origem || {}).nae_filtro === 'arvore' ? 'NAE - vegetação' : 'NAE';   // NAE só de árvore/eucalipto
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const rotMes1 = m => `${MESES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
 // meses escolhidos (botão #mes, lista de marcar): vazio = todos
@@ -415,7 +416,7 @@ function listaOc(os, comTrecho) {
 function blocoNae(nome, l) {
   const os = doTrecho().filter(o => (l || [nome]).includes(o.trecho)), col = os.filter(o => o.col).length, ext = os.filter(o => o.de).length;
   const ind = $('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : '';
-  return `<dt class="nae">NAE</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
+  return `<dt class="nae">${ROT_NAE}</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
 }
 function atualizaNae() {
   desenhaLista($('busca').value);
@@ -589,17 +590,17 @@ function detalheVarios(l) {
   </dl><p class="lede so-mouse">Ctrl (⌘ no Mac) + clique põe ou tira um trecho. Clique sem Ctrl volta a um trecho só.</p>`;
 }
 function resumoNae() {
-  return `<dt class="nae">NAE</dt><dd class="nae"><b>${doMes().length}</b> no alimentador</dd>`;
+  return `<dt class="nae">${ROT_NAE}</dt><dd class="nae"><b>${doMes().length}</b> no alimentador</dd>`;
 }
 function resumo() {
   const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);
-  // trechos e extensão por classe (T1, T2, T3): as informações gerais do alimentador, no alto do painel
+  // trechos e extensão por classe (T1, T2, T3): as informações gerais do alimentador, no alto do painel, sem título (o Total já dá)
   const cl = {T1: [0, 0], T2: [0, 0], T3: [0, 0]};
   D.trechos.forEach(t => { const c = cl[t.nome.split('-')[0]]; if (c) { c[0]++; c[1] += t.ext; } });
   const tabela = `<table class="resumo-classe"><tr><th>Classe</th><th>Trechos</th><th>Extensão</th></tr>` +
     Object.entries(cl).map(([k, [n, m]]) => `<tr><td>${k}</td><td>${mil(n)}</td><td>${km(m)}</td></tr>`).join('') +
     `<tr><th>Total</th><th>${mil(D.trechos.length)}</th><th>${km(total)}</th></tr></table>`;
-  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trecho${D.trechos.length === 1 ? '' : 's'} <small>${km(total)} de rede</small></h2>${tabela}
+  $('det').innerHTML = `${tabela}
   ${NAE ? `<dl>${resumoNae()}</dl>` : ''}`;
 }
 $('det').addEventListener('click', e => {
