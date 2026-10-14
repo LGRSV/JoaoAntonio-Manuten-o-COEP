@@ -824,12 +824,6 @@ def nae_por_municipio(dados):
     return nae
 
 
-def meses_nae(dados):
-    """Primeiro e último mês da NAE no site (['2026-01', '2026-08']); [] sem NAE."""
-    ms = {o['mes'] for c in dados if c['validacao']['status'] != 'falha' for o in (c.get('nae') or {}).get('oc', [])}
-    return [min(ms), max(ms)] if ms else []
-
-
 def contorno_regionais(geo_muns, reg_de):
     """Contorno de cada regional no mapa da página inicial (path SVG): as arestas dos municípios da regional que não são
     divididas com outro município da mesma regional. Os contornos dos 139 municípios vêm da mesma malha, então os
@@ -878,7 +872,7 @@ def mapa_e_ranking(saida, dados, man):
                                              for a in m['alimentadores']])
         muns.append(g)
     (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
-        'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns, meses=meses_nae(dados),
+        'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns,
                                         regs=contorno_regionais(geo['muns'], {c: p['regional'] for c, p in polo_de.items()})),
                                    ensure_ascii=False,
                                    separators=(',', ':')) + ';\n', encoding='utf-8')
