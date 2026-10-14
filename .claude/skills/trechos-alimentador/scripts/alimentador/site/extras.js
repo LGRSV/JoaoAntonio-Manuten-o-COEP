@@ -15,7 +15,7 @@
     'border:1px solid var(--line);border-radius:var(--rp);padding:1px var(--s2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}' +
     '.dados>summary .selo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--aviso)}' +
     '.aviso-dados{display:grid;gap:2px;border-left:2px solid var(--aviso);padding:var(--s2) var(--s3);font-size:var(--t-sm)}' +
-    '.regra.rodape{border-top:1px solid var(--line);padding-top:var(--s3)}' +
+    '.dados .regra>.lede{font-size:var(--t-sm);color:var(--muted)}' +   // "Como os trechos são divididos" em Dados, no tom do resto
     '#lista[hidden]{display:none}' +
     '.origem{font-size:var(--t-xs);color:var(--muted);overflow-wrap:anywhere}.dados .foot{overflow-wrap:anywhere}' +
     '.ativo-hit:empty{display:none}.ativo-hit{display:grid;gap:var(--s1);margin:var(--s2) 0}' +
@@ -146,9 +146,9 @@
   document.querySelector('.panel').append(box);
   const foot = document.querySelector('.foot');
   if (foot) box.append(foot);
-  // "Como os trechos são divididos" vai para o rodapé da página, depois do mapa e do painel (pedido do painel)
-  const regra = document.querySelector('header .regra'), wrap = document.querySelector('.wrap');
-  if (regra && wrap) { regra.classList.add('rodape'); wrap.append(regra); }
+  // "Como os trechos são divididos" também fica em "Dados", no fim (pedido do painel)
+  const regra = document.querySelector('header .regra');
+  if (regra) box.append(regra);
 
   // abre enquadrado na parte do município escolhido
   if (mun && window.__map && window.L) {
