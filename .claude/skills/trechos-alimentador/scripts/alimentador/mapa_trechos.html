@@ -334,7 +334,7 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
       <input class="busca" id="busca" type="search" placeholder="Buscar trecho, ativo ou poste" aria-label="Buscar trecho, ativo ou poste">
       <div class="ferramentas" id="ferramentas">
         <div class="ctrl" id="ctrl" hidden>
-          <div class="mes"><button type="button" id="mes" aria-expanded="false" aria-controls="mes-lista"><span class="mes-rot">NAE</span><span class="mes-sep">: </span><span class="mes-txt">todos os meses</span></button>
+          <div class="mes"><button type="button" id="mes" aria-expanded="false" aria-controls="mes-lista"><span class="mes-rot">Meses</span><span class="mes-sep">: </span><span class="mes-txt">todos</span></button>
             <div class="mes-lista" id="mes-lista" role="group" aria-label="Meses do NAE" hidden></div></div>
           <label for="ind"><input type="checkbox" id="ind" checked> Contar individuais</label>
         </div>
@@ -383,10 +383,10 @@ const mesSel = new Set();
 const noPeriodo = m => !mesSel.size || mesSel.has(m);
 const escolhidos = () => NAE.meses.filter(noPeriodo);
 const segue = (a, b) => { const n = +a.slice(0, 4) * 12 + +a.slice(5, 7); return +b.slice(0, 4) * 12 + +b.slice(5, 7) === n + 1; };
-// texto curto do botão: "todos os meses", "mar/2026", "mar, abr/2026", "3 meses"
+// texto curto do botão "Meses: …": "todos", "mar/2026", "mar, abr/2026", "3 meses"
 function rotBotao() {
   const ms = escolhidos();
-  if (!mesSel.size && NAE.meses.length > 1) return 'todos os meses';
+  if (!mesSel.size && NAE.meses.length > 1) return 'todos';
   if (ms.length === 1) return rotMes1(ms[0]);
   return ms.length === 2 && ms[0].slice(0, 4) === ms[1].slice(0, 4) ? `${MESES[+ms[0].slice(5, 7) - 1]}, ${rotMes1(ms[1])}` : `${ms.length} meses`;
 }

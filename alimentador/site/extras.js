@@ -84,7 +84,7 @@
       '.barra-linha .mes{flex:0 1 auto}.barra-linha .mes-txt{display:inline-block;min-width:7.5em}.barra-linha label[for="ind"]{flex:none}' +
       // celular: busca na linha toda; município e meses lado a lado; a caixa embaixo
       '@media (max-width:640px){.barra-linha>.busca,.barra-linha label[for="ind"]{flex:1 1 100%}.barra-linha select,.barra-linha .mes{flex:1 1 40%}' +
-      // botão dos meses estreito: o nome (NAE - vegetação) em cima, pequeno, e os meses embaixo
+      // botão dos meses estreito: o nome (Meses) em cima, pequeno, e os meses embaixo
       '.barra-linha #mes{display:grid;align-content:center;padding-block:2px;line-height:1.2}.barra-linha #mes>span{min-width:0;overflow:hidden;text-overflow:ellipsis}' +
       '.barra-linha .mes-rot{font-size:var(--t-xs);color:var(--muted)}.barra-linha .mes-sep{display:none}}' +
       '.barra-busca>.ativo-hit{margin:0;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}';
@@ -126,9 +126,6 @@
   }).observe(lista, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current'] });
   aplica();
 
-  // NAE só de vegetação: deixa isso escrito no botão dos meses
-  const rotNae = document.querySelector('#mes .mes-rot');
-  if (rotNae && (M.origem || {}).nae_filtro === 'arvore') rotNae.textContent = 'NAE - vegetação';
 
   // avisos de dados e origem: tudo em "Dados", fechado (a tabela por classe fica no resumo, no alto do painel)
   const v = M.validacao || { avisos: [] };
