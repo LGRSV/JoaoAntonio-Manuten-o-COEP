@@ -1,5 +1,5 @@
 // Acréscimos da página do alimentador no site por município (roda depois de alimentador.js, com window.D):
-// caminho Município › Alimentador › Trecho, filtros por classe e município, resumo por classe, avisos, origem e KMZ.
+// caminho Município › Alimentador › Trecho, filtro de município (a classe segue o T1/T2/T3 do mapa), resumo por classe, avisos, origem e KMZ.
 (function () {
   const M = D.meta || {};
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -50,21 +50,18 @@
     document.querySelector('header').prepend(nav);
   }
 
-  // filtros por classe (segmentado curto) e município (select na largura toda); a lista é refeita a cada busca: o filtro é reaplicado
+  // filtro de município (select na largura toda); a classe vem dos botões T1/T2/T3 do mapa (window.__visivel, de
+  // alimentador.js): classe escondida no mapa também sai da lista. A lista é refeita a cada busca: o filtro é reaplicado
   const lista = document.getElementById('lista');
   const f = document.createElement('div');
   f.className = 'filtros';
-  const COR = { T1: '#3b82f6', T2: '#22c55e', T3: '#facc15' };   // as cores das classes no mapa
-  let classe = '';
-  f.innerHTML = '<div class="f-classe" role="group" aria-label="Classe do trecho">' + ['', 'T1', 'T2', 'T3'].map(c =>
-    `<button type="button" data-c="${c}" aria-pressed="${c === classe}">${c ? `<i style="--c:${COR[c]}" aria-hidden="true"></i>${c}` : 'Todas'}</button>`).join('') + '</div>' +
-    (muns.length > 1 ? `<label>Município <select id="f-mun"><option value="">Todos</option>${muns.map(x =>
+  f.innerHTML = (muns.length > 1 ? `<label>Município <select id="f-mun"><option value="">Todos</option>${muns.map(x =>
       `<option value="${esc(x.cod)}"${mun && x.cod === mun.cod ? ' selected' : ''}>${esc(x.nome)} (${km(x.m)})</option>`).join('')}</select></label>` : '');
   const ferr = document.getElementById('ferramentas');
   ferr ? ferr.prepend(f) : document.getElementById('busca').after(f);
   const tm = M.trecho_mun || {};
   function aplica(mexeu) {
-    const c = classe, fm = (document.getElementById('f-mun') || {}).value || '';
+    const vis = window.__visivel || {}, fm = (document.getElementById('f-mun') || {}).value || '';
     let grp = null, n = 0;                               // título de grupo: conta só as linhas à vista; sem nenhuma, some junto
     const fechaGrp = () => {
       if (!grp) return;
@@ -77,7 +74,7 @@
       if (r.classList.contains('grp')) { fechaGrp(); grp = r; n = 0; return; }
       if (!r.classList.contains('row')) return;
       const t = r.dataset.t;
-      r.hidden = !((!c || t.split('-')[0] === c) && (!fm || (tm[t] || []).includes(fm)));
+      r.hidden = !(vis[t.split('-')[0]] !== false && (!fm || (tm[t] || []).includes(fm)));
       n += r.hidden ? 0 : 1;
     });
     fechaGrp();
@@ -89,13 +86,8 @@
     }
   }
   f.addEventListener('change', () => aplica(true));
-  f.addEventListener('click', e => {
-    const b = e.target.closest('.f-classe button');
-    if (!b || b.dataset.c === classe) return;
-    classe = b.dataset.c;
-    f.querySelectorAll('.f-classe button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-    aplica(true);
-  });
+  const cls = document.getElementById('classes');      // o clique do mapa (alimentador.js) já trocou o __visivel
+  if (cls) cls.addEventListener('click', e => { if (e.target.closest('button')) aplica(true); });
   new MutationObserver(ms => {
     if (ms.some(m => m.type === 'childList' && m.target === lista)) aplica();   // lista refeita (não a contagem dos títulos)
     const s = [...lista.querySelectorAll('.row[aria-current="true"]')].map(b => b.dataset.t);
