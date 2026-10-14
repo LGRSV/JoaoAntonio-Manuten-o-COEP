@@ -192,6 +192,8 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .mes-lista small{font-size:var(--t-xs);color:var(--muted)}
 .mes-lista .mes-tds{margin-bottom:6px;box-shadow:0 7px 0 -6px var(--line)}   /* filete entre "Todos" e os meses */
 .mes-lista .mes-tds:has(:focus-visible){box-shadow:inset 0 0 0 2px var(--accent)}
+.mes-lista .mes-ind{margin-top:6px;box-shadow:0 -7px 0 -6px var(--line)}   /* filete entre os meses e "Contar individuais" */
+.mes-lista .mes-ind:has(:focus-visible){box-shadow:inset 0 0 0 2px var(--accent)}
 
 /* ====== Detalhe do trecho ====== */
 .det{display:grid;gap:var(--s3);position:relative;min-width:0;border:0;background:none;padding:0}
@@ -375,17 +377,6 @@ const mesSel = new Set();
 const noPeriodo = m => !mesSel.size || mesSel.has(m);
 const escolhidos = () => NAE.meses.filter(noPeriodo);
 const segue = (a, b) => { const n = +a.slice(0, 4) * 12 + +a.slice(5, 7); return +b.slice(0, 4) * 12 + +b.slice(5, 7) === n + 1; };
-const comE = l => l.length > 1 ? l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1] : l[0];
-// período no título do NAE: "jan/2026 a ago/2026" (todos ou meses seguidos), "mar/2026", "mar, mai e jun/2026"
-function rotPeriodo() {
-  const ms = escolhidos();
-  if (ms.length < 2) return ms.length ? rotMes1(ms[0]) : '';
-  if (!mesSel.size || (ms.length > 2 && ms.every((m, i) => !i || segue(ms[i - 1], m)))) return `${rotMes1(ms[0])} a ${rotMes1(ms[ms.length - 1])}`;
-  const anos = {};
-  ms.forEach(m => (anos[m.slice(0, 4)] = anos[m.slice(0, 4)] || []).push(MESES[+m.slice(5, 7) - 1]));
-  const txt = Object.entries(anos).map(([a, l]) => `${comE(l)}/${a}`).join(', ');
-  return ms.length > 4 ? `${ms.length} meses (${txt})` : txt;
-}
 // texto curto do botão: "todos os meses", "mar/2026", "mar, abr/2026", "3 meses"
 function rotBotao() {
   const ms = escolhidos();
@@ -398,6 +389,8 @@ if (NAE && NAE.meses.length) {
   $('ctrl').hidden = false;
   $('mes-lista').innerHTML = (NAE.meses.length > 1 ? `<label class="mes-tds"><input type="checkbox" value="" checked> Todos <small>${rotMes1(NAE.meses[0])} a ${rotMes1(NAE.meses[NAE.meses.length - 1])}</small></label>` : '') +
     NAE.meses.map(m => `<label><input type="checkbox" value="${m}"${NAE.meses.length > 1 ? '' : ' checked'}> ${rotMes1(m)}</label>`).join('');
+  $('mes-lista').append(document.querySelector('label[for="ind"]'));   // "Contar individuais" fica na lista, embaixo dos meses
+  document.querySelector('label[for="ind"]').classList.add('mes-ind');
   $('mes').querySelector('.mes-txt').textContent = rotBotao();
 }
 const filtra = l => (l || []).filter(o => noPeriodo(o.mes) && (o.col || $('ind').checked));
@@ -417,7 +410,7 @@ function listaOc(os, comTrecho) {
 function blocoNae(nome, l) {
   const os = doTrecho().filter(o => (l || [nome]).includes(o.trecho)), col = os.filter(o => o.col).length, ext = os.filter(o => o.de).length;
   const ind = $('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : '';
-  return `<dt class="nae">NAE ${rotPeriodo()}</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
+  return `<dt class="nae">NAE</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
 }
 function atualizaNae() {
   desenhaLista($('busca').value);
@@ -430,10 +423,11 @@ function atualizaNae() {
 $('ind').addEventListener('change', atualizaNae);
 // lista dos meses: marcar "Todos" volta a todos; marcar um mês a partir de todos fica só ele; todos marcados um a um = todos
 function marcaMeses() {
-  $('mes-lista').querySelectorAll('input').forEach(i => { i.checked = i.value ? mesSel.has(i.value) || NAE.meses.length === 1 : !mesSel.size; });
+  $('mes-lista').querySelectorAll('input:not(#ind)').forEach(i => { i.checked = i.value ? mesSel.has(i.value) || NAE.meses.length === 1 : !mesSel.size; });
   $('mes').querySelector('.mes-txt').textContent = rotBotao();
 }
 $('mes-lista').addEventListener('change', e => {
+  if (e.target.id === 'ind') return;                     // "Contar individuais" tem o próprio aviso
   const v = e.target.value;
   if (!v) mesSel.clear(); else if (e.target.checked) mesSel.add(v); else mesSel.delete(v);
   if (mesSel.size === NAE.meses.length) mesSel.clear();
@@ -592,7 +586,7 @@ function detalheVarios(l) {
 function resumoNae() {
   const os = doMes(), col = os.filter(o => o.col).length;
   const pl = (n, s, p) => `${n} ${n === 1 ? s : p}`;
-  return `<dt class="nae">NAE ${rotPeriodo()}</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})</dd>`;
+  return `<dt class="nae">NAE</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})</dd>`;
 }
 function resumo() {
   const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);   // o mesmo total de 'Dados e procedência'
