@@ -1103,7 +1103,7 @@ def indice_ativos(saida, dados):
     Transformadores do GIS ('ativos_kml'): o trecho do vão mais próximo (scripts/ativos_gis.py).
     Poste: os trechos dos vãos que chegam nele. Postes N123 (pontos sem número no cadastro) ficam de fora.
     """
-    idx = {}
+    idx, nomes = {}, {}                              # nomes: código → {como está no cadastro: tipo} (lista suspensa)
     for c in dados:
         if c['validacao']['status'] == 'falha':
             continue
@@ -1120,6 +1120,7 @@ def indice_ativos(saida, dados):
             if re.fullmatch(r'N\d+', p):
                 continue
             ns = unicos(ns)
+            nomes.setdefault(chave_ativo(p), {})[p] = 'poste'
             idx.setdefault(chave_ativo(p), []).append([al, 'poste', ns[0], ', '.join(ns) if len(ns) > 1 else '', *onde[p]])
         for ch in c['chaves']:
             n = ch['nome']
@@ -1134,6 +1135,7 @@ def indice_ativos(saida, dados):
             if not alvo and papel:                     # só fim de trecho (ponta de linha)
                 alvo = next(t['nome'] for t in ts if n in (t.get('fim') or []))
             if alvo:
+                nomes.setdefault(chave_ativo(n), {})[n] = ch['tipo']
                 idx.setdefault(chave_ativo(n), []).append([al, ch['tipo'], alvo, ' · '.join(papel), ch['lonlat'][1],
                                                            ch['lonlat'][0]])
         # transformadores do GIS (camada Transformadores do acervo; scripts/ativos_gis.py)
@@ -1142,6 +1144,7 @@ def indice_ativos(saida, dados):
             if nome in ja or d is None:
                 continue
             papel = (f'no {t}' + (f' (a {d:g} m da rede)' if d > 5 else '')) if t else f'fora da rede do site ({d:g} m)'
+            nomes.setdefault(chave_ativo(nome), {})[nome] = tipo
             idx.setdefault(chave_ativo(nome), []).append([al, tipo, t or '', papel, lat, lon])
     pasta = saida / 'dados' / 'ativos'
     if pasta.exists():
@@ -1151,7 +1154,31 @@ def indice_ativos(saida, dados):
         por.setdefault(fatia(k), {})[k] = idx[k]
     for f, d in por.items():
         grava_json(pasta / f'{f}.json', d)
+    sugestoes_ativos(saida, nomes)
     return len(idx)
+
+
+def sugestoes_ativos(saida, nomes):
+    """dados/ativos-pref/<2 primeiros caracteres do código>.json: a lista suspensa da busca de ativo da página inicial.
+
+    Cada arquivo: tipo → códigos como estão no cadastro (com os zeros da frente), separados por espaço (~100 arquivos,
+    o maior com ~1 MB antes do gzip). A página, a partir de 3 caracteres digitados, baixa o arquivo dos 2 primeiros
+    (no mesmo formato de chave_ativo) e mostra os que começam com o que se digitou;
+    ao escolher um, a busca de sempre (dados/ativos/<fatia>.json) diz o alimentador e o trecho.
+    """
+    pasta = saida / 'dados' / 'ativos-pref'
+    if pasta.exists():
+        shutil.rmtree(pasta)
+    por = {}
+    for k, ns in nomes.items():
+        if len(k) < 3:
+            continue
+        g = por.setdefault(k[:2], {})
+        for nome, tipo in ns.items():
+            g.setdefault(tipo, []).append(nome)
+    for f, d in por.items():
+        grava_json(pasta / f'{f}.json', {t: ' '.join(sorted(set(v))) for t, v in sorted(d.items())})
+    return len(por)
 
 
 def nae_resumo(c):
@@ -1225,13 +1252,12 @@ def interface(saida, malha=None):
     ranking_polos(saida, dados, man)
     manutencao_polos(saida, dados)
     indice_ativos(saida, dados)
-    corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na busca, depois o '
-             'alimentador.</p><a class="cab-link" href="polos/#eto">Ranking dos alimentadores →</a></header>\n'
+    corpo = ('<header class="cab"><h1>Trechos por município</h1><a class="cab-link" href="polos/#eto">Ranking dos alimentadores →</a></header>\n'
              # casca do mapa já no HTML (estilo em assets/site.css; o svg com viewBox reserva a altura do mapa):
              # os scripts só preenchem, e a página não pula ao carregar. Mesmos ids de antes (busca-ativo.js e
              # mapa-municipios.js); a busca de município (#busca) abre a lista suspensa de todos os municípios.
              '<div id="mapa-to" class="mapa-to"><div class="mt-barra">'
-             '<form class="ativo" id="ativo" role="search"><label for="ativo-q" class="rot">Em que trecho está o ativo?</label>'
+             '<form class="ativo" id="ativo" role="search"><label for="ativo-q" class="rot">Selecione o ativo</label>'
              '<div class="campo"><input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
              'placeholder="Ex.: 0300350016" enterkeyhint="search">'   # sem botão: o Enter busca
              '<div id="ativo-res" aria-live="polite"></div></div></form>'

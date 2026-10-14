@@ -39,7 +39,7 @@
   const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
   const rotMes = m => `${MES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
   const leg = alvo.querySelector('.mt-regs');
-  if (leg) leg.innerHTML = `<b>NAE no município</b><small>árvore/eucalipto na rede${(M.meses || []).length ? ` · ${rotMes(M.meses[0])} a ${rotMes(M.meses[1])}` : ''}</small>` +
+  if (leg) leg.innerHTML = `<b>NAE-Vegetação</b>${(M.meses || []).length ? `<small>${rotMes(M.meses[0])} a ${rotMes(M.meses[1])}</small>` : ''}` +
     FAIXAS.map((l, i) => `<span><i class="nae-${i}" aria-hidden="true"></i>${rotFaixa(i)}</span>`).join('') +
     (M.regs ? '<span><i class="lim" aria-hidden="true"></i>Limite das regionais</span>' : '');
   // teclado: um só município na ordem do Tab (o escolhido, ou Palmas); as setas andam pelo mapa
