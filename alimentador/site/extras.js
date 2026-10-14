@@ -20,6 +20,7 @@
     '.resumo-classe tr:first-child th{font:500 var(--t-xs) var(--f-body);color:var(--muted)}' +
     '.resumo-classe td+td,.resumo-classe th+th{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}' +
     '.resumo-classe td:first-child{font:600 var(--t-sm) var(--f-mono)}' +
+    '.regra.rodape{border-top:1px solid var(--line);padding-top:var(--s3)}' +
     '.origem{font-size:var(--t-xs);color:var(--muted);overflow-wrap:anywhere}.dados .foot{overflow-wrap:anywhere}' +
     '.ativo-hit:empty{display:none}.ativo-hit{display:grid;gap:var(--s1);margin:var(--s2) 0}' +
     '.ativo-hit button{display:grid;gap:2px;text-align:left;width:100%;min-height:var(--alvo);padding:var(--s2) var(--s3);border:1px solid var(--line-forte);' +
@@ -149,6 +150,9 @@
   box.before(kmz);
   const foot = document.querySelector('.foot');
   if (foot) box.append(foot);
+  // "Como os trechos são divididos" vai para o rodapé da página, depois do mapa e do painel (pedido do painel)
+  const regra = document.querySelector('header .regra'), wrap = document.querySelector('.wrap');
+  if (regra && wrap) { regra.classList.add('rodape'); wrap.append(regra); }
 
   // abre enquadrado na parte do município escolhido
   if (mun && window.__map && window.L) {
