@@ -206,6 +206,30 @@ header.cab>.cab-link{justify-self:center}
 .mun.nae-0{fill:var(--nae0)}.mun.nae-1{fill:var(--nae1)}.mun.nae-2{fill:var(--nae2)}.mun.nae-3{fill:var(--nae3)}.mun.nae-4{fill:var(--nae4)}.mun.nae-5{fill:var(--nae5)}
 /* limite das regionais (Norte, Centro, Sul) por cima dos municípios, no vermelho do site (o mesmo nos dois temas) */
 .mt-regc path{fill:none;stroke:var(--mt-lim);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none}
+/* regional aberta (mapa-municipios.js): os polos se afastam (transform no grupo), as outras regionais somem e o contorno
+   passa a ser o dos polos; no estado inteiro, passar o mouse numa regional apaga as outras */
+.mt-polo{transition:transform .65s cubic-bezier(.45,0,.55,1),opacity .4s}
+.mt-polo.apaga{opacity:.45}
+.mt-polo.fora{opacity:0;pointer-events:none}
+.mt-poloc{fill:none;stroke:var(--mt-lim);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none;opacity:0;transition:opacity .4s}
+.aberta .mt-poloc{opacity:1}
+.mt-regc{transition:opacity .3s}.aberta .mt-regc{opacity:0}
+.aberta .mt-nomes{display:none}
+.mt-dica .mt-dica-c{display:block;margin-top:2px;font-size:var(--t-xs)}
+.mt-volta{position:static;justify-self:start;min-height:var(--alvo);margin-top:var(--s3);padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r2);
+  background:var(--paper);color:var(--accent);font:600 var(--t-sm) var(--f-body);cursor:pointer}
+.mt-volta:hover{background:var(--hover)}.mt-volta[hidden]{display:none}
+@media (max-width:860px){.mt-volta{position:absolute;z-index:2;top:0;left:0;margin:0;box-shadow:var(--sh1,0 1px 3px rgba(0,0,0,.15))}}
+.mt-polos p{position:absolute;z-index:1;display:grid;gap:2px;margin:0;transform:translateY(-50%);pointer-events:none;animation:mt-surge .3s ease-out}
+.mt-polos[data-modo=esq] p{max-width:240px}
+.mt-polos:is([data-modo=meio],[data-modo=cel]) p{transform:translate(-50%,-50%);text-align:center;width:max-content;max-width:min(240px,calc(50% - 8px));padding:4px 8px;border-radius:var(--r1);background:color-mix(in srgb,var(--bg) 82%,transparent)}
+.mt-polos b{font:700 var(--t-md,15px) var(--f-body);color:var(--fg)}
+.mt-polos span{font-size:var(--t-sm);color:var(--muted)}
+.mt-polos[data-modo=cel] p b{font-size:var(--t-sm)}
+.mt-polos ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s2) var(--s4);margin:var(--s3) 0 0;padding:0}
+.mt-polos li{display:grid;gap:2px}
+@keyframes mt-surge{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.mt-polo,.mt-poloc,.mt-regc{transition:none}.mt-polos p{animation:none}}
 .mun.tem:hover,.mun.acende{stroke:var(--fg);stroke-opacity:1;stroke-width:2.5}
 .mun.sem:hover{fill:var(--mt-vazio-h)}
 .mun.achou{stroke:var(--fg);stroke-opacity:1;stroke-width:2}

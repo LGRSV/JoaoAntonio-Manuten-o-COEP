@@ -852,7 +852,8 @@ def mapa_e_ranking(saida, dados, man):
     A geometria dos 139 municípios é estática (contornos já projetados, em
     alimentador/site/mapa-municipios-geo.json); o que a rodada preenche é
     quais municípios têm alimentador (`slug`, `als`), a regional e o polo de cada um (`reg`, `polo`, de polos.json),
-    a NAE de cada município (`nae`, nae_por_municipio: o mapa pinta por ela), o contorno das regionais (`regs`) e o
+    a NAE de cada município (`nae`, nae_por_municipio: o mapa pinta por ela), o contorno das regionais (`regs`) e dos
+    polos (`pols`: clicar numa regional abre ela dividida nos polos) e o
     ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
     a página inicial não mostra mais o ranking, que fica na página dos polos, visão ETO).
     """
@@ -873,7 +874,8 @@ def mapa_e_ranking(saida, dados, man):
         muns.append(g)
     (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
         'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns,
-                                        regs=contorno_regionais(geo['muns'], {c: p['regional'] for c, p in polo_de.items()})),
+                                        regs=contorno_regionais(geo['muns'], {c: p['regional'] for c, p in polo_de.items()}),
+                                        pols=contorno_regionais(geo['muns'], {c: p['nome'] for c, p in polo_de.items()})),
                                    ensure_ascii=False,
                                    separators=(',', ':')) + ';\n', encoding='utf-8')
     vb = f'-6 -6 {geo["w"] + 12} {geo["h"] + 12}'      # mesmo viewBox de assets/mapa-municipios.js

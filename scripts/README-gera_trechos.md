@@ -104,12 +104,20 @@ python scripts/gera_trechos.py --saida site --so-interface
   OS; com o mapa afastado (zoom < 17), os ativos próximos viram um losango de grupo (soma das OS; o toque aproxima) e só
   entra o que está na tela, porque há alimentador com milhares de ativos. Filtro por ano (legenda e painel) e por tipo
   de serviço (painel); balão com as OS do ativo; OS do trecho no detalhe dele.
-- O .txt da base passa de 150 MB: pelo menu, enviar o .zip (23 MB; o limite de envio pelo navegador é 25 MB).
+- O .txt da base passa de 150 MB: pelo menu, enviar o .zip (23 MB).
 
-## Atualizar bases pelo menu (automático)
+## Atualização de dados pelo menu (automático)
 
-No site publicado, o menu ☰ tem **Atualizar bases**: cada base abre a página de envio do GitHub na pasta dela
-(`bases/critica`, `bases/limpeza`, `bases/inspecao`, `bases/manutencao`, `bases/executadas` no gh-pages). Quando chega arquivo, a automação
+O menu ☰ tem **Atualização de dados**: arrastar o arquivo no diálogo; a base sai do nome (`critica`, `limpeza`,
+`inspec…`, `gerad…` → manutenção, `executad…`; sem reconhecer, escolhe-se na lista) e o site envia direto ao GitHub
+(`PUT /repos/…/contents/bases/<tipo>/<arquivo>` no gh-pages, com o `sha` quando o arquivo já existe), acompanha a
+execução da automação daquele commit (`/actions/runs?head_sha=`) e relê `dados/bases.json`. Cada base mostra a
+última atualização (a data mais recente entre `enviado` e `processado`). Na 1ª vez pede uma chave do GitHub
+(fine-grained token só deste repositório, Contents: Read and write, Actions: Read), guardada só naquele navegador
+(`localStorage`, botão "Esquecer chave"); ela só vai para `https://api.github.com`. Fora do github.io o envio não
+funciona (nos testes, `window.__repoSite = {dono, repo, ramo, pasta}`). Limite no site: 50 MB por arquivo.
+
+Pastas no gh-pages: `bases/critica`, `bases/limpeza`, `bases/inspecao`, `bases/manutencao`, `bases/executadas`. Quando chega arquivo, a automação
 `.github/workflows/atualiza-bases.yml` (no gh-pages) roda `ferramentas/scripts/atualiza_bases.py --site teste` com os
 arquivos novos e publica em `teste/` (uns 5 minutos). Se der erro, não publica nada (motivo na aba Actions).
 
