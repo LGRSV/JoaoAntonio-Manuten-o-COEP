@@ -150,8 +150,6 @@
 .limp-ano-l .abre:disabled::after{visibility:hidden}
 .limp-ano-l.off .abre{color:var(--muted)}
 .limp-ano-l.off b{text-decoration:line-through}
-.limp-ano-l .so{display:grid;place-items:center;width:36px;font:600 var(--t-xs) var(--f-body);color:var(--accent)}
-.limp-anos:has(.so) .limp-ano-l:not(:has(.so)) .abre{margin-right:36px}   /* sem "só" (criadas, pendentes): a seta fica na coluna das outras */
 .limp-oss{display:grid;gap:var(--s1);padding:var(--s1) 0 var(--s2) var(--s3);border-bottom:1px solid var(--line)}
 /* OS não executadas: tracejado (criadas) e pontilhado (pendentes), igual ao traço no mapa */
 .limp-card i.trac,.limp-maplg i.trac{background:repeating-linear-gradient(90deg,var(--c) 0 5px,transparent 5px 9px)!important;box-shadow:none!important}
@@ -416,11 +414,6 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     pinta();
     if (!doPainel) rolaPainel(card, st.foco);
   }
-  function soAno(a) {
-    st.anos = new Set([a]);
-    desenha(); pinta();
-    enquadra(VAOS_ANO[a]);
-  }
   function alternaAno(a) {
     if (a in NEXE) st.nexe.has(a) ? st.nexe.delete(a) : st.nexe.add(a);
     else { a = +a; st.anos.has(a) ? st.anos.delete(a) : st.anos.add(a); }
@@ -496,7 +489,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
   };
   const plural = (n, um) => `${n} ${um}${n === 1 ? '' : 's'}`;
   // linha de um grupo (ano, criadas, pendentes): a cor liga/desliga no mapa (só na vista por ano); o resto abre as OS
-  // logo abaixo (montadas só com o grupo aberto); "só" deixa só aquele ano no mapa
+  // logo abaixo (montadas só com o grupo aberto)
   function linha(g, rot, info, cor, ks, opc) {
     const aberto = st.grupos.has(g) && ks.length > 0, id = 'limp-g-' + g;
     const i = `<i${opc.cls ? ` class="${opc.cls}"` : ''} style="--c:${cor}"></i>`;
@@ -504,7 +497,6 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       (opc.liga ? `<button type="button" class="liga" data-a="${g}" data-foco="a${g}" aria-pressed="${!!opc.on}" aria-label="${opc.nome} no mapa" title="${opc.liga}">${i}</button>`
         : `<span class="cor" aria-hidden="true">${i}</span>`) +
       `<button type="button" class="abre" data-g="${g}" data-foco="g${g}" aria-expanded="${aberto}" aria-controls="${id}"${ks.length ? '' : ' disabled'}><span>${rot}</span><em>${info}</em></button>` +
-      (opc.so ? `<button type="button" class="so" data-so="${g}" data-foco="s${g}" title="Mostrar só ${g} e enquadrar no mapa">só</button>` : '') +
       `</div><div class="limp-oss" id="${id}" role="group" aria-label="OS: ${opc.nome}"${aberto ? '' : ' hidden'}>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div>`;
   }
 
@@ -518,7 +510,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       GRUPOS_NEXE.map(([, x]) => ' · ' + plural(x.ks.length, x.um)).join('');
     const porAno = st.ligado && st.vista === 'ano';
     const linhas = ANOS.map(a => linha(String(a), `<b>${a}</b> · ${OS_ANO[a].length} OS`, km(KM_ANO[a]), corAno(a), OS_ANO[a],
-      porAno ? { liga: `Mostrar/esconder ${a} no mapa`, on: st.anos.has(a), nome: String(a), so: true } : { nome: String(a) })).join('') +
+      porAno ? { liga: `Mostrar/esconder ${a} no mapa`, on: st.anos.has(a), nome: String(a) } : { nome: String(a) })).join('') +
       GRUPOS_NEXE.map(([g, x]) => linha(g, `${x.rot} · ${x.ks.length} OS`, km(x.km), CINZA, x.ks,
         porAno ? { liga: `Mostrar/esconder no mapa as OS ${x.rot.toLowerCase()}${x.nota ? ' (' + x.nota + ')' : ''}`, on: st.nexe.has(g), nome: x.rot, cls: x.cls }
           : { nome: x.rot, cls: x.cls })).join('');
@@ -565,7 +557,6 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     if (!b) return;
     if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
     if (b.classList.contains('abre')) { const g = b.dataset.g; st.grupos.has(g) ? st.grupos.delete(g) : st.grupos.add(g); return pinta(); }
-    if (b.dataset.so) return soAno(+b.dataset.so);
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(b.dataset.a);
     const ac = b.dataset.acao;
     if (ac === 'ano' || ac === 'sit') { st.vista = ac; guarda('limp-vista', ac); }

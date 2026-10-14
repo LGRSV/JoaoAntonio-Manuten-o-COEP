@@ -303,7 +303,6 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     maplg.addEventListener('click', e => { const b = e.target.closest('button[data-a]'); if (b) alternaAno(+b.dataset.a); });
   }
   function alternaAno(a) { st.anos.has(a) ? st.anos.delete(a) : st.anos.add(a); desenha(); pinta(); }
-  function soAno(a) { st.anos = new Set([a]); desenha(); pinta(); enquadra(VAOS_ANO[a].flatMap(seg)); }
 
   // botão "Inspeção" no menu Camadas do mapa (extras.js), com o "Faixa"
   const l2 = map && window.__ctlMapa ? window.__ctlMapa() : null;
@@ -349,7 +348,6 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       (st.ligado ? `<button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${on}" aria-label="${a} no mapa" title="Mostrar/esconder ${a} no mapa">${i}</button>`
         : `<span class="cor" aria-hidden="true">${i}</span>`) +
       `<button type="button" class="abre" data-g="${g}" data-foco="g${g}" aria-expanded="${aberto}" aria-controls="${id}"><span><b>${a}</b> · ${ks.length} OS</span><em>${ext(KM_ANO[a])}</em></button>` +
-      (st.ligado ? `<button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">só</button>` : '') +
       `</div><div class="limp-oss" id="${id}" role="group" aria-label="Inspeções de ${a}"${aberto ? '' : ' hidden'}>${aberto ? ks.map(k => osBtn(k, true)).join('') : ''}</div>`;
   }
 
@@ -379,7 +377,6 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     if (!b) return;
     if (b.dataset.k !== undefined) return focar(+b.dataset.k, true, true);
     if (b.classList.contains('abre')) { const g = b.dataset.g; st.grupos.has(g) ? st.grupos.delete(g) : st.grupos.add(g); return pinta(); }
-    if (b.dataset.so) return soAno(+b.dataset.so);
     if (b.classList.contains('liga') && b.dataset.a) return alternaAno(+b.dataset.a);
     if (b.dataset.acao === 'todos') { st.anos = new Set(ANOS); desenha(); pinta(); }
   });
