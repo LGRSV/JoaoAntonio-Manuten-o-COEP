@@ -415,6 +415,7 @@
     const cards = [...document.querySelectorAll('.panel>.limp-card')];
     cards.forEach(poe);
     poe(lista);
+    poe(document.getElementById('ord-lista'));          // a ordem da lista fica logo embaixo dela
     // com alguma camada do Menu ligada, a lista de trechos sai do painel (fica o bloco da camada); volta ao buscar
     const campo = document.getElementById('busca');
     const mostra = () => { lista.hidden = cards.some(c => !c.hidden) && !(campo && campo.value.trim()); };
