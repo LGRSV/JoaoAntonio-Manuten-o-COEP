@@ -584,9 +584,7 @@ function detalheVarios(l) {
   </dl><p class="lede so-mouse">Ctrl (⌘ no Mac) + clique põe ou tira um trecho. Clique sem Ctrl volta a um trecho só.</p>`;
 }
 function resumoNae() {
-  const os = doMes(), col = os.filter(o => o.col).length;
-  const pl = (n, s, p) => `${n} ${n === 1 ? s : p}`;
-  return `<dt class="nae">NAE</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})</dd>`;
+  return `<dt class="nae">NAE</dt><dd class="nae"><b>${doMes().length}</b> no alimentador</dd>`;
 }
 function resumo() {
   const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);   // o mesmo total de 'Dados e procedência'
