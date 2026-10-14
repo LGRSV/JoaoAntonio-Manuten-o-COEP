@@ -21,6 +21,7 @@
     '.resumo-classe td+td,.resumo-classe th+th{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}' +
     '.resumo-classe td:first-child{font:600 var(--t-sm) var(--f-mono)}' +
     '.regra.rodape{border-top:1px solid var(--line);padding-top:var(--s3)}' +
+    '#lista[hidden]{display:none}' +
     '.origem{font-size:var(--t-xs);color:var(--muted);overflow-wrap:anywhere}.dados .foot{overflow-wrap:anywhere}' +
     '.ativo-hit:empty{display:none}.ativo-hit{display:grid;gap:var(--s1);margin:var(--s2) 0}' +
     '.ativo-hit button{display:grid;gap:2px;text-align:left;width:100%;min-height:var(--alvo);padding:var(--s2) var(--s3);border:1px solid var(--line-forte);' +
@@ -336,8 +337,15 @@
       ult = el;
     };
     poe(document.getElementById('ferramentas'));
-    document.querySelectorAll('.panel>.limp-card').forEach(poe);
+    const cards = [...document.querySelectorAll('.panel>.limp-card')];
+    cards.forEach(poe);
     poe(lista);
+    // com alguma camada do Menu ligada, a lista de trechos sai do painel (fica o bloco da camada); volta ao buscar
+    const campo = document.getElementById('busca');
+    const mostra = () => { lista.hidden = cards.some(c => !c.hidden) && !(campo && campo.value.trim()); };
+    cards.forEach(c => new MutationObserver(mostra).observe(c, { attributes: true, attributeFilter: ['hidden'] }));
+    if (campo) campo.addEventListener('input', mostra);
+    mostra();
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ordena); else ordena();
 
