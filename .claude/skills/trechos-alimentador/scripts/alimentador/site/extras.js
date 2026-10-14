@@ -15,11 +15,6 @@
     'border:1px solid var(--line);border-radius:var(--rp);padding:1px var(--s2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}' +
     '.dados>summary .selo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--aviso)}' +
     '.aviso-dados{display:grid;gap:2px;border-left:2px solid var(--aviso);padding:var(--s2) var(--s3);font-size:var(--t-sm)}' +
-    '.resumo-classe{width:100%;border-collapse:collapse;font-size:var(--t-sm)}' +
-    '.resumo-classe td,.resumo-classe th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}' +
-    '.resumo-classe tr:first-child th{font:500 var(--t-xs) var(--f-body);color:var(--muted)}' +
-    '.resumo-classe td+td,.resumo-classe th+th{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}' +
-    '.resumo-classe td:first-child{font:600 var(--t-sm) var(--f-mono)}' +
     '.regra.rodape{border-top:1px solid var(--line);padding-top:var(--s3)}' +
     '#lista[hidden]{display:none}' +
     '.origem{font-size:var(--t-xs);color:var(--muted);overflow-wrap:anywhere}.dados .foot{overflow-wrap:anywhere}' +
@@ -135,28 +130,20 @@
   const rotNae = document.querySelector('#mes .mes-rot');
   if (rotNae && (M.origem || {}).nae_filtro === 'arvore') rotNae.textContent = 'NAE árvore/eucalipto';
 
-  // resumo por classe, avisos de dados e origem: tudo em "Dados", fechado
-  const r = M.resumo || {};
+  // avisos de dados e origem: tudo em "Dados", fechado (a tabela por classe fica no resumo, no alto do painel)
   const v = M.validacao || { avisos: [] };
   const o = M.origem || {};
   const box = document.createElement('details');
   box.className = 'dados';
   box.innerHTML = `<summary>Dados${v.avisos.length ? '<em class="selo">com avisos</em>' : ''}</summary>` +
-    `<table class="resumo-classe"><tr><th>Classe</th><th>Trechos</th><th>Extensão</th></tr>` +
-    ['T1', 'T2', 'T3'].map(k => `<tr><td>${k}</td><td>${mil((r[k] || {}).n ?? 0)}</td><td>${km((r[k] || {}).m || 0)}</td></tr>`).join('') +
-    `<tr><th>Total</th><th>${mil(r.trechos ?? '')}</th><th>${km(r.extensao_m || 0)}</th></tr></table>` +
     `<p class="origem">Municípios: ${muns.map(x => `${esc(x.nome)} ${km(x.m)}`).join(' · ') || '—'}</p>` +
     `<p class="origem">Continuidades estimadas: ${(M.continuidades_estimadas || []).length || (o.observacao ? 'não contabilizadas (ver procedência)' : 'nenhuma (o processamento não cria ligações)')}</p>` +
     (v.avisos.length ? `<div class="aviso-dados"><b>Dados a conferir:</b>${v.avisos.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : '') +
     `<p class="origem">Origem: ${esc(o.kml)} (${esc(o.data)})` +
     (o.observacao ? `</p><p class="origem"><b>Procedência:</b> ${esc(M.origem.observacao)}` : '') +
     `${o.postes ? ' · postes ' + esc(M.origem.postes) : ''}${o.critica ? ' · Crítica ' + esc(M.origem.critica.join(', ')) + (M.origem.nae_filtro === 'arvore' ? ' (só Meio Ambiente · Árvore/Eucalipto na rede)' : '') : ''}` +
-    `${o.malha ? ' · municípios: ' + esc(M.origem.malha) : ''}</p><p class="origem"><a href="${esc(M.al)}-trechos.kmz">Baixar o KMZ (Google Earth)</a></p>`;
+    `${o.malha ? ' · municípios: ' + esc(M.origem.malha) : ''}</p><p class="origem"><a href="${esc(M.al)}-trechos.kmz" download>Baixar o KMZ (Google Earth)</a></p>`;   // o KMZ só em "Dados"
   document.querySelector('.panel').append(box);
-  const kmz = document.createElement('p');
-  kmz.className = 'origem kmz';
-  kmz.innerHTML = `<a href="${esc(M.al)}-trechos.kmz" download>Baixar o KMZ (Google Earth)</a>`;
-  box.before(kmz);
   const foot = document.querySelector('.foot');
   if (foot) box.append(foot);
   // "Como os trechos são divididos" vai para o rodapé da página, depois do mapa e do painel (pedido do painel)

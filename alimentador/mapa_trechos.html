@@ -268,6 +268,11 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
 .legend i{display:inline-block;width:22px;height:5px;border-radius:2px;background:var(--c)}
 .legend i.fino{height:3px}
 .foot{font-size:var(--t-xs);color:var(--muted);max-width:80ch}
+.resumo-classe{width:100%;border-collapse:collapse;font-size:var(--t-sm)}
+.resumo-classe td,.resumo-classe th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+.resumo-classe tr:first-child th{font:500 var(--t-xs) var(--f-body);color:var(--muted)}
+.resumo-classe td+td,.resumo-classe th+th{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.resumo-classe td:first-child{font:600 var(--t-sm) var(--f-mono)}
 /* marcadores */
 .at{display:flex;align-items:center;gap:4px;white-space:nowrap}
 .at b{display:inline-grid;place-items:center;min-width:28px;height:20px;padding:0 4px;background:#fbfbf9;color:#1b2024;border:2px solid #1b2024;border-radius:3px;font:600 11.5px/1 var(--f-mono)}
@@ -587,16 +592,15 @@ function resumoNae() {
   return `<dt class="nae">NAE</dt><dd class="nae"><b>${doMes().length}</b> no alimentador</dd>`;
 }
 function resumo() {
-  const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);   // o mesmo total de 'Dados e procedência'
-  const fus = D.trechos.filter(t => t.tipo === 'fusivel');
-  const porZ = {};
-  fus.forEach(t => { porZ[t.zona] = (porZ[t.zona] || 0) + 1; });
-  const linha = t => `<dt>${esc(t.nome)}</dt><dd><span class="mono">${esc(t.inicio)} → ${esc(fimTxt(t))}</span> · ${km(t.ext)}</dd>`;
-  const prin = D.trechos.filter(t => t.tipo !== 'fusivel');   // T1 e T2: início → fim de cada um, só quando pedir
-  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trecho${D.trechos.length === 1 ? '' : 's'} <small>${km(total)} de rede</small></h2><dl>
-    <dt>Fusíveis</dt><dd>${fus.length ? `${mil(fus.length)} trecho${fus.length === 1 ? '' : 's'} (${Object.entries(porZ).map(([z, n]) => `T${z}: ${mil(n)}`).join(' · ')})` : 'nenhum trecho depois de fusível'}</dd>
-    ${NAE ? resumoNae() : ''}
-  </dl>${prin.length ? `<details class="mais"><summary>T1 e T2 · início → fim</summary><dl>${prin.map(linha).join('')}</dl></details>` : ''}`;
+  const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);
+  // trechos e extensão por classe (T1, T2, T3): as informações gerais do alimentador, no alto do painel
+  const cl = {T1: [0, 0], T2: [0, 0], T3: [0, 0]};
+  D.trechos.forEach(t => { const c = cl[t.nome.split('-')[0]]; if (c) { c[0]++; c[1] += t.ext; } });
+  const tabela = `<table class="resumo-classe"><tr><th>Classe</th><th>Trechos</th><th>Extensão</th></tr>` +
+    Object.entries(cl).map(([k, [n, m]]) => `<tr><td>${k}</td><td>${mil(n)}</td><td>${km(m)}</td></tr>`).join('') +
+    `<tr><th>Total</th><th>${mil(D.trechos.length)}</th><th>${km(total)}</th></tr></table>`;
+  $('det').innerHTML = `<h2 tabindex="-1">${mil(D.trechos.length)} trecho${D.trechos.length === 1 ? '' : 's'} <small>${km(total)} de rede</small></h2>${tabela}
+  ${NAE ? `<dl>${resumoNae()}</dl>` : ''}`;
 }
 $('det').addEventListener('click', e => {
   const v = e.target.closest('[data-ll]');               // ocorrência da lista: vai até o ativo no mapa
