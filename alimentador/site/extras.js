@@ -126,13 +126,13 @@
   const labMes = document.querySelector('label[for="mes"]');
   if (labMes && (M.origem || {}).nae_filtro === 'arvore') labMes.firstChild.textContent = 'NAE árvore/eucalipto em ';
 
-  // resumo por classe, avisos de dados e origem: tudo em "Dados e procedência", fechado
+  // resumo por classe, avisos de dados e origem: tudo em "Dados", fechado
   const r = M.resumo || {};
   const v = M.validacao || { avisos: [] };
   const o = M.origem || {};
   const box = document.createElement('details');
   box.className = 'dados';
-  box.innerHTML = `<summary>Dados e procedência${v.avisos.length ? '<em class="selo">com avisos</em>' : ''}</summary>` +
+  box.innerHTML = `<summary>Dados${v.avisos.length ? '<em class="selo">com avisos</em>' : ''}</summary>` +
     `<table class="resumo-classe"><tr><th>Classe</th><th>Trechos</th><th>Extensão</th></tr>` +
     ['T1', 'T2', 'T3'].map(k => `<tr><td>${k}</td><td>${mil((r[k] || {}).n ?? 0)}</td><td>${km((r[k] || {}).m || 0)}</td></tr>`).join('') +
     `<tr><th>Total</th><th>${mil(r.trechos ?? '')}</th><th>${km(r.extensao_m || 0)}</th></tr></table>` +
