@@ -289,7 +289,7 @@
   // sem os botões + e − do mapa (pedido do painel): o zoom fica no gesto de pinça, na roda do mouse e no duplo clique
   if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
-  // canto superior direito do mapa: o card T1 T2 T3 e, à direita dele, o "Menu" das camadas (três barras) com Faixa
+  // canto superior esquerdo do mapa: o card T1 T2 T3 e, à direita dele, o "Menu" das camadas (três barras) com Faixa
   // (limpeza.js), Inspeção (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). As legendas das camadas
   // ligadas ficam no canto inferior esquerdo (.ctl-lgs, no fim deste arquivo). Devolve a lista do menu (criada na 1ª chamada), onde cada camada
   // põe o seu card; sem o card das classes (mapa não carregou), devolve null.
@@ -350,23 +350,23 @@
   // as camadas se combinam livremente (Faixa, Inspeção, Insp→manut e Manutenção, quantas quiser ao mesmo tempo)
   {
     const s = document.createElement('style');
-    // a coluna da direita (T1 T2 T3, Menu e a lista dele) cabe no mapa: para em cima do card Tela cheia e do chip da OS
+    // a coluna do canto superior esquerdo (T1 T2 T3, Menu e a lista dele) cabe no mapa: para em cima do card Tela cheia e do chip da OS
     // (28 px do pé + 50 do card + folga)
-    s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px);' +
+    s.textContent = '.ctl-dir{position:absolute;left:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-start;gap:var(--s2);max-width:calc(100% - 76px);' +
       'max-height:calc(100% - 12px - 88px);pointer-events:none}.ctl-dir>*{pointer-events:auto}' +   // fora dos cards, o clique é do mapa
       '.ctl-dir>.ctl-topo{display:flex;align-items:flex-start;gap:var(--s1);flex:none;pointer-events:none}.ctl-topo>*{pointer-events:auto}' +
       '.ctl-topo>.classes{position:static}.ctl-topo>.classes,.ctl-topo>.ctl-cam{flex:none}' +
-      '.ctl-l{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--s2)}.ctl-l:empty{display:none}' +
+      '.ctl-l{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:var(--s2)}.ctl-l:empty{display:none}' +
       '.ctl-card{display:flex;padding:var(--s1);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
       '.ctl-card button{display:inline-flex;align-items:center;gap:6px;font:600 var(--t-sm)/1 var(--f-mono);padding:0 var(--s3);border:0;border-radius:var(--r1);background-color:transparent;' +
       'color:var(--vidro-fg);cursor:pointer;min-width:40px;min-height:40px;white-space:nowrap}' +
       '.ctl-card button:hover{background-color:var(--vidro-hover)}.ctl-card button:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:1px}' +
       '@media (prefers-reduced-motion:no-preference){.ctl-card button{transition:background-color var(--dur) var(--ease),opacity var(--dur) var(--ease)}}' +
       // Menu das camadas: o botão (três barras e "Menu") e, embaixo, a lista solta sobre o mapa (por cima das legendas: z-index)
-      '.ctl-cam{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-end}' +
+      '.ctl-cam{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start}' +
       '.ctl-card .ctl-cam-b{gap:var(--s2);padding:0 var(--s3) 0 var(--s2)}.ctl-cam-b[aria-expanded=true]{background-color:var(--vidro-hover)}' +
       '.ctl-cam-b svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}' +
-      '.ctl-l2{position:absolute;top:calc(100% + var(--s1));right:0;flex-direction:column;flex-wrap:nowrap;gap:2px;min-width:200px;max-width:calc(100vw - 24px);padding:var(--s1);' +
+      '.ctl-l2{position:absolute;top:calc(100% + var(--s1));left:0;flex-direction:column;flex-wrap:nowrap;gap:2px;min-width:200px;max-width:calc(100vw - 24px);padding:var(--s1);' +
       'background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
       '.ctl-l2>.ctl-card{display:block;padding:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;border-radius:0;box-shadow:none}' +
       // cada camada é uma linha inteira: caixa de marcar à esquerda, o filete colorido embaixo do nome (o de cada camada)

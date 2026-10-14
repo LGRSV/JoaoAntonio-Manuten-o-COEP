@@ -35,7 +35,7 @@ body.tela-cheia .panel{position:fixed;top:0;right:0;bottom:0;z-index:1100;width:
 @media (prefers-reduced-motion:no-preference){body.tela-cheia.tc-anima .panel{transition:transform var(--dur-l) var(--ease),visibility 0s var(--dur-l)}}
 body.tela-cheia.tc-gaveta .panel{transform:none;visibility:visible;transition-delay:0s}
 body.tela-cheia .grp{background:var(--paper)}
-@media (min-width:701px){body.tela-cheia.tc-gaveta .classes,body.tela-cheia.tc-gaveta .ctl-dir,body.tela-cheia.tc-gaveta .tc-canto{right:calc(min(420px,92vw) + 12px)}}
+@media (min-width:701px){body.tela-cheia.tc-gaveta .tc-canto{right:calc(min(420px,92vw) + 12px)}}   /* T1 T2 T3 e Menu ficam à esquerda: a gaveta não os cobre */
 /* canto inferior direito, acima do crédito do mapa; o chip da OS em foco fica à esquerda dele */
 .tc-canto{position:absolute;right:12px;bottom:28px;z-index:810}
 .mapbox .limp-chip{right:calc(20px + var(--tc-w,0px))}
