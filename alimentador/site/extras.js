@@ -52,8 +52,9 @@
     document.querySelector('header').prepend(nav);
   }
 
-  // barra acima do mapa (como a busca da página inicial): a busca sobe do painel (o ouvinte do modelo vai junto, pelo id) e o
-  // filtro de município fica ao lado dela; no celular, embaixo. Os achados da busca de ativo entram logo abaixo (.ativo-hit).
+  // barra acima do mapa (como a busca da página inicial): a busca sobe do painel (o ouvinte do modelo vai junto, pelo id) e,
+  // ao lado dela, o município, os meses do NAE e "Contar individuais" (o #ctrl do modelo); no celular, a busca na linha toda,
+  // município e meses lado a lado e a caixa embaixo. Os achados da busca de ativo entram logo abaixo (.ativo-hit).
   // Na tela cheia a barra vai para o alto da gaveta do painel (telacheia.js). Sem o .stage, tudo fica no painel como antes.
   // A classe vem dos botões T1/T2/T3 do mapa (window.__visivel, de alimentador.js): classe escondida no mapa também sai
   // da lista. A lista é refeita a cada busca: o filtro é reaplicado
@@ -68,10 +69,12 @@
     barra = document.createElement('div');
     barra.className = 'barra-busca';
     barra.setAttribute('role', 'search');
-    barra.setAttribute('aria-label', 'Busca e município');
+    barra.setAttribute('aria-label', 'Busca e filtros');
     const linha = document.createElement('div');
     linha.className = 'barra-linha';
     linha.append(bus, f);
+    const ctrl = document.getElementById('ctrl');
+    if (ctrl) linha.append(ctrl);                        // o #ferramentas do painel fica vazio e some (CSS do modelo)
     barra.append(linha);
     stage.before(barra);
   } else ferr ? ferr.prepend(f) : document.getElementById('busca').after(f);
@@ -79,11 +82,16 @@
     const s = document.createElement('style');
     s.textContent = '.barra-busca{position:relative;display:grid;gap:var(--s2);min-width:0}' +
       '.barra-linha{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s3);min-width:0}' +
-      '.barra-linha>.busca{flex:1 1 240px;width:auto;min-width:0}' +
-      '.barra-linha select{flex:0 1 300px;width:auto}' +   // o nome "Município" fica só para o leitor de tela (.vh)
-      '@media (max-width:640px){.barra-linha select{flex:1 1 100%}}' +   // celular: o município numa linha só dele
-      '.barra-busca>.ativo-hit{margin:0;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}' +
-      '.barra-busca~.stage .ferramentas{margin-top:0}';   // a busca saiu do painel: o NAE não encosta mais nela
+      '.barra-linha>.busca{flex:1 1 200px;width:auto;min-width:0}' +
+      '.barra-linha select{flex:0 1 260px;width:auto}' +   // o nome "Município" fica só para o leitor de tela (.vh)
+      // botão dos meses na medida do texto, com lugar fixo para os meses: a busca não muda de largura ao trocar o mês
+      '.barra-linha .mes{flex:0 1 auto}.barra-linha .mes-txt{display:inline-block;min-width:7.5em}.barra-linha label[for="ind"]{flex:none}' +
+      // celular: busca na linha toda; município e meses lado a lado; a caixa embaixo
+      '@media (max-width:640px){.barra-linha>.busca,.barra-linha label[for="ind"]{flex:1 1 100%}.barra-linha select,.barra-linha .mes{flex:1 1 40%}' +
+      // botão dos meses estreito: o nome (NAE árvore/eucalipto) em cima, pequeno, e os meses embaixo
+      '.barra-linha #mes{display:grid;align-content:center;padding-block:2px;line-height:1.2}.barra-linha #mes>span{min-width:0;overflow:hidden;text-overflow:ellipsis}' +
+      '.barra-linha .mes-rot{font-size:var(--t-xs);color:var(--muted)}.barra-linha .mes-sep{display:none}}' +
+      '.barra-busca>.ativo-hit{margin:0;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}';
     document.head.append(s);
   }
   const tm = M.trecho_mun || {};
@@ -122,9 +130,9 @@
   }).observe(lista, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current'] });
   aplica();
 
-  // NAE só de vegetação: deixa isso escrito no seletor de mês
-  const labMes = document.querySelector('label[for="mes"]');
-  if (labMes && (M.origem || {}).nae_filtro === 'arvore') labMes.firstChild.textContent = 'NAE árvore/eucalipto em ';
+  // NAE só de vegetação: deixa isso escrito no botão dos meses
+  const rotNae = document.querySelector('#mes .mes-rot');
+  if (rotNae && (M.origem || {}).nae_filtro === 'arvore') rotNae.textContent = 'NAE árvore/eucalipto';
 
   // resumo por classe, avisos de dados e origem: tudo em "Dados", fechado
   const r = M.resumo || {};

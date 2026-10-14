@@ -168,13 +168,30 @@ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .ferramentas:not(:has(>:not([hidden]))){display:none}
 .filtros,.ctrl{display:contents}
 .ferramentas label{display:grid;gap:2px;align-content:start;min-width:0;font-size:var(--t-xs);color:var(--muted)}
-.ferramentas label[for="ind"]{justify-self:start;display:inline-flex;align-items:center;gap:var(--s2);min-height:var(--alvo);margin-top:calc(var(--s1) - var(--s3));font-size:var(--t-sm);color:var(--fg);cursor:pointer}
+.ctrl label[for="ind"]{justify-self:start;display:inline-flex;align-items:center;gap:var(--s2);min-height:var(--alvo);font-size:var(--t-sm);color:var(--fg);white-space:nowrap;cursor:pointer}
+.ferramentas label[for="ind"]{margin-top:calc(var(--s1) - var(--s3))}
 /* Classe: segmentado curto (mesma receita de .limp-seg e do ranking por polo) */
 #ind{flex:none;width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
 .filtros select,#mes{-webkit-appearance:none;appearance:none;width:100%;min-width:0;min-height:40px;padding:0 32px 0 var(--s3);border:1px solid var(--line-forte);border-radius:var(--r2);
   background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238c948f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center/12px;
   color:var(--fg);font:var(--t-base) var(--f-body);text-overflow:ellipsis;cursor:pointer}
 @media (max-width:980px){.busca,.filtros select,#mes{min-height:44px;font-size:16px}}   /* 16 px: o iPhone não dá zoom no campo */
+/* NAE: botão com a lista de meses para marcar (um, vários ou todos); a lista abre embaixo, alinhada à direita do botão */
+.mes{position:relative;min-width:0}
+#mes{display:block;text-align:left;white-space:nowrap;overflow:hidden}
+#mes[aria-expanded="true"]{border-color:var(--accent)}
+.mes-lista{position:absolute;z-index:1200;top:calc(100% + var(--s1));right:0;min-width:100%;width:max-content;max-width:min(320px,calc(100vw - 32px));
+  max-height:min(380px,60vh);overflow-y:auto;overscroll-behavior:contain;display:grid;padding:6px;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r3);box-shadow:var(--sh2)}
+.ferramentas .mes-lista label,.mes-lista label{display:flex;align-items:center;gap:10px;min-height:var(--alvo);padding:0 10px;border-radius:calc(var(--r2) - 2px);
+  font:var(--t-base) var(--f-body);color:var(--fg);white-space:nowrap;cursor:pointer}
+.mes-lista label:hover{background:var(--hover)}
+.mes-lista label:has(:focus-visible){box-shadow:inset 0 0 0 2px var(--accent)}
+.mes-lista input{flex:none;width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
+.mes-lista input:focus-visible{outline:none}
+.mes-lista small{font-size:var(--t-xs);color:var(--muted)}
+.mes-lista .mes-tds{margin-bottom:6px;box-shadow:0 7px 0 -6px var(--line)}   /* filete entre "Todos" e os meses */
+.mes-lista .mes-tds:has(:focus-visible){box-shadow:inset 0 0 0 2px var(--accent)}
 
 /* ====== Detalhe do trecho ====== */
 .det{display:grid;gap:var(--s3);position:relative;min-width:0;border:0;background:none;padding:0}
@@ -310,7 +327,8 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
       <input class="busca" id="busca" type="search" placeholder="Buscar trecho, ativo ou poste" aria-label="Buscar trecho, ativo ou poste">
       <div class="ferramentas" id="ferramentas">
         <div class="ctrl" id="ctrl" hidden>
-          <label for="mes">NAE em <select id="mes"></select></label>
+          <div class="mes"><button type="button" id="mes" aria-expanded="false" aria-controls="mes-lista"><span class="mes-rot">NAE</span><span class="mes-sep">: </span><span class="mes-txt">todos os meses</span></button>
+            <div class="mes-lista" id="mes-lista" role="group" aria-label="Meses do NAE" hidden></div></div>
           <label for="ind"><input type="checkbox" id="ind" checked> Contar individuais</label>
         </div>
       </div>
@@ -352,14 +370,37 @@ $('legenda').innerHTML = leg.map(([n, c, k]) => `<span><i class="${k}" style="--
 const NAE = D.nae || null;
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const rotMes1 = m => `${MESES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
-const rotMes = m => m === 'todos' ? `${rotMes1(NAE.meses[0])} a ${rotMes1(NAE.meses[NAE.meses.length - 1])}` : rotMes1(m);
+// meses escolhidos (botão #mes, lista de marcar): vazio = todos
+const mesSel = new Set();
+const noPeriodo = m => !mesSel.size || mesSel.has(m);
+const escolhidos = () => NAE.meses.filter(noPeriodo);
+const segue = (a, b) => { const n = +a.slice(0, 4) * 12 + +a.slice(5, 7); return +b.slice(0, 4) * 12 + +b.slice(5, 7) === n + 1; };
+const comE = l => l.length > 1 ? l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1] : l[0];
+// período no título do NAE: "jan/2026 a ago/2026" (todos ou meses seguidos), "mar/2026", "mar, mai e jun/2026"
+function rotPeriodo() {
+  const ms = escolhidos();
+  if (ms.length < 2) return ms.length ? rotMes1(ms[0]) : '';
+  if (!mesSel.size || (ms.length > 2 && ms.every((m, i) => !i || segue(ms[i - 1], m)))) return `${rotMes1(ms[0])} a ${rotMes1(ms[ms.length - 1])}`;
+  const anos = {};
+  ms.forEach(m => (anos[m.slice(0, 4)] = anos[m.slice(0, 4)] || []).push(MESES[+m.slice(5, 7) - 1]));
+  const txt = Object.entries(anos).map(([a, l]) => `${comE(l)}/${a}`).join(', ');
+  return ms.length > 4 ? `${ms.length} meses (${txt})` : txt;
+}
+// texto curto do botão: "todos os meses", "mar/2026", "mar, abr/2026", "3 meses"
+function rotBotao() {
+  const ms = escolhidos();
+  if (!mesSel.size && NAE.meses.length > 1) return 'todos os meses';
+  if (ms.length === 1) return rotMes1(ms[0]);
+  return ms.length === 2 && ms[0].slice(0, 4) === ms[1].slice(0, 4) ? `${MESES[+ms[0].slice(5, 7) - 1]}, ${rotMes1(ms[1])}` : `${ms.length} meses`;
+}
 const ABR = {DJ: 'DJ', RL: 'religador', 'CH FUS': 'fusível', CH: 'chave', TR: 'trafo', UC: 'consumidor'};
 if (NAE && NAE.meses.length) {
   $('ctrl').hidden = false;
-  $('mes').innerHTML = (NAE.meses.length > 1 ? `<option value="todos" selected>Todos (${rotMes('todos')})</option>` : '') +
-    NAE.meses.map(m => `<option value="${m}">${rotMes(m)}</option>`).join('');
+  $('mes-lista').innerHTML = (NAE.meses.length > 1 ? `<label class="mes-tds"><input type="checkbox" value="" checked> Todos <small>${rotMes1(NAE.meses[0])} a ${rotMes1(NAE.meses[NAE.meses.length - 1])}</small></label>` : '') +
+    NAE.meses.map(m => `<label><input type="checkbox" value="${m}"${NAE.meses.length > 1 ? '' : ' checked'}> ${rotMes1(m)}</label>`).join('');
+  $('mes').querySelector('.mes-txt').textContent = rotBotao();
 }
-const filtra = l => (l || []).filter(o => ($('mes').value === 'todos' || o.mes === $('mes').value) && (o.col || $('ind').checked));
+const filtra = l => (l || []).filter(o => noPeriodo(o.mes) && (o.col || $('ind').checked));
 const doMes = () => NAE ? filtra(NAE.oc) : [];            // NAE deste alimentador (Crítica): o total do alimentador
 const doExt = () => NAE ? filtra(NAE.ext) : [];           // NAE de outro alimentador cujo ativo hoje está num trecho daqui
 const doTrecho = () => [...doMes(), ...doExt()];          // bloco do trecho: soma a NAE de todos os ativos do trecho
@@ -376,7 +417,7 @@ function listaOc(os, comTrecho) {
 function blocoNae(nome, l) {
   const os = doTrecho().filter(o => (l || [nome]).includes(o.trecho)), col = os.filter(o => o.col).length, ext = os.filter(o => o.de).length;
   const ind = $('ind').checked ? ` · ${os.length - col} individua${os.length - col === 1 ? 'l' : 'is'}` : '';
-  return `<dt class="nae">NAE ${rotMes($('mes').value)}</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
+  return `<dt class="nae">NAE ${rotPeriodo()}</dt><dd class="nae"><b>${os.length}</b> (${col} coletiva${col === 1 ? '' : 's'}${ind}${ext ? ` · ${ext} registrada${ext === 1 ? '' : 's'} em outro alimentador` : ''})${os.length ? listaOc(os, !!l) : ''}</dd>`;
 }
 function atualizaNae() {
   desenhaLista($('busca').value);
@@ -386,8 +427,41 @@ function atualizaNae() {
   Object.entries(rotulos).forEach(([n, m]) => { const el = m.getElement(); if (el) { el.firstChild.innerHTML = esc(n) + (c[n] ? `<span class="n">${c[n]}</span>` : ''); el.firstChild.classList.toggle('oc', !!c[n]); } });
   rotulosT3();
 }
-$('mes').addEventListener('change', atualizaNae);
 $('ind').addEventListener('change', atualizaNae);
+// lista dos meses: marcar "Todos" volta a todos; marcar um mês a partir de todos fica só ele; todos marcados um a um = todos
+function marcaMeses() {
+  $('mes-lista').querySelectorAll('input').forEach(i => { i.checked = i.value ? mesSel.has(i.value) || NAE.meses.length === 1 : !mesSel.size; });
+  $('mes').querySelector('.mes-txt').textContent = rotBotao();
+}
+$('mes-lista').addEventListener('change', e => {
+  const v = e.target.value;
+  if (!v) mesSel.clear(); else if (e.target.checked) mesSel.add(v); else mesSel.delete(v);
+  if (mesSel.size === NAE.meses.length) mesSel.clear();
+  marcaMeses();
+  atualizaNae();
+});
+// abre e fecha: botão, Esc (só a lista, antes do Esc da tela cheia), clique fora ou Tab para fora; ↑ ↓ Home End andam na lista
+const abreMes = (sim, foco) => {
+  $('mes-lista').hidden = !sim;
+  $('mes').setAttribute('aria-expanded', String(sim));
+  if (sim && foco) ($('mes-lista').querySelector('input:checked') || $('mes-lista').querySelector('input')).focus();
+};
+$('mes').addEventListener('click', () => abreMes($('mes-lista').hidden, true));
+$('mes').addEventListener('keydown', e => { if (e.key === 'ArrowDown' && $('mes-lista').hidden) { e.preventDefault(); abreMes(true, true); } });
+$('mes-lista').addEventListener('keydown', e => {
+  const is = [...$('mes-lista').querySelectorAll('input')], i = is.indexOf(e.target), passo = {ArrowDown: 1, ArrowUp: -1, Home: -Infinity, End: Infinity}[e.key];
+  if (i < 0 || passo === undefined) return;
+  e.preventDefault();
+  is[Math.max(0, Math.min(is.length - 1, i + passo))].focus();
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape' || $('mes-lista').hidden) return;
+  e.stopPropagation();
+  if ($('mes-lista').contains(document.activeElement)) $('mes').focus();
+  abreMes(false);
+}, true);
+document.addEventListener('pointerdown', e => { if (!$('mes-lista').hidden && !$('mes').parentElement.contains(e.target)) abreMes(false); }, true);
+$('mes').parentElement.addEventListener('focusout', e => { if (e.relatedTarget && !$('mes').parentElement.contains(e.relatedTarget)) abreMes(false); });
 
 // lista
 const GRUPOS = [['principal', 'T1 e T2'], ['ramal', 'T2-A, T2-B… (um por religador)'], ['fusivel', 'Depois de fusível']];
@@ -518,7 +592,7 @@ function detalheVarios(l) {
 function resumoNae() {
   const os = doMes(), col = os.filter(o => o.col).length;
   const pl = (n, s, p) => `${n} ${n === 1 ? s : p}`;
-  return `<dt class="nae">NAE ${rotMes($('mes').value)}</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})</dd>`;
+  return `<dt class="nae">NAE ${rotPeriodo()}</dt><dd class="nae"><b>${os.length}</b> no alimentador (${pl(col, 'coletiva', 'coletivas')}${$('ind').checked ? ` · ${pl(os.length - col, 'individual', 'individuais')}` : ''})</dd>`;
 }
 function resumo() {
   const total = ((D.meta || {}).resumo || {}).extensao_m ?? D.trechos.reduce((s, t) => s + t.ext, 0);   // o mesmo total de 'Dados e procedência'
