@@ -1,7 +1,7 @@
 // Mapa dos municípios do Tocantins na página inicial (usa window.MUN de mapa-municipios-dados.js).
-// Município com alimentador no site: colorido e clicável (mostra os alimentadores ao lado).
-// A busca (#busca) e os blocos (.card[data-busca]) da página ficam ligados ao mapa.
-// A casca (#mapa-to com barra, ranking, svg com viewBox e painel) vem pronta no HTML de scripts/gera_trechos.py
+// Município com alimentador no site: colorido e clicável (abre a página do município).
+// A busca de município (#busca) abre a lista suspensa de todos os municípios (#mun-lista) e acende os achados no mapa.
+// A casca (#mapa-to com a barra e o svg com viewBox) vem pronta no HTML de scripts/gera_trechos.py
 // e todo o estilo está em assets/site.css: este script só preenche, nada muda de tamanho nem de lugar ao carregar.
 (function () {
   const M = window.MUN, alvo = document.getElementById('mapa-to');
@@ -12,11 +12,8 @@
   const kmTot = m => m.als.reduce((s, a) => s + a.m, 0);
   const nAls = m => `${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`;
   const porCod = Object.fromEntries(M.muns.map(m => [m.cod, m]));
-  const porBusca = Object.fromEntries(M.muns.map(m => [m.busca, m]));
-  const calmo = matchMedia('(prefers-reduced-motion: reduce)');
 
-  const svg = alvo.querySelector('.mt-mapa svg'), dica = alvo.querySelector('.mt-dica'), sel = alvo.querySelector('.mt-sel'), caixa = svg.parentNode;
-  const celular = matchMedia('(max-width:860px)');
+  const svg = alvo.querySelector('.mt-mapa svg'), dica = alvo.querySelector('.mt-dica'), caixa = svg.parentNode;
   const VW = M.w + 12;
   svg.setAttribute('viewBox', `-6 -6 ${VW} ${M.h + 12}`);
   const NS = 'http://www.w3.org/2000/svg', el = {}, rot = {};
@@ -104,47 +101,11 @@
     dica.innerHTML = `${esc(m.nome)} <small>${m.slug ? `· ${nAls(m)} · ${km(kmTot(m))}` : '· sem dados ainda'}</small>`;
     dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
   });
-  svg.addEventListener('mouseleave', () => {
-    dica.style.display = 'none';
-    document.querySelectorAll('.card.acende').forEach(c => c.classList.remove('acende'));
-  });
+  svg.addEventListener('mouseleave', () => { dica.style.display = 'none'; });
 
-  // painel ao lado: só redesenha (e anima) quando o conteúdo muda
-  let pintado = '';
-  const pinta = h => { if (h !== pintado) sel.innerHTML = pintado = h; };
-  const nTem = M.muns.filter(m => m.slug).length;
-  const LEG = '<p class="mt-leg"><i aria-hidden="true"></i>Sem dados ainda</p>';
-  function resumo(nada) {
-    pinta(`<h2>Tocantins</h2><p>${nTem} de ${M.muns.length} municípios com alimentador no site. Clique ou toque num município no mapa ` +
-      `ou busque pelo nome acima.</p>${nada ? `<p class="mt-nada">Nenhum município com “${esc(nada)}”.</p>` : ''}${LEG}`);
-  }
-  function achados(ms) {
-    pinta('<h2>Encontrados</h2><p>Escolha o município:</p>' + ms.map(m =>
-      `<button type="button" class="al nome" data-cod="${esc(m.cod)}"><b>${esc(m.nome)}</b>` +
-      `<span>${m.slug ? `${nAls(m)} · ${km(kmTot(m))}` : 'Sem dados ainda'}</span></button>`).join(''));
-  }
-  function tiraFoco() {
-    if (!foco) return;
-    el[foco].classList.remove('foco');
-    foco = null;
-  }
-  function escolhe(cod, rola) {
-    const m = porCod[cod];
-    tiraFoco();
-    foco = cod;
-    el[cod].classList.add('foco');
-    if (m.slug) roda(cod);
-    traz(el[cod]);
-    rotulos();
-    pinta(m.slug
-      ? `<h2>${esc(m.nome)}</h2><p>${nAls(m)} · ${km(kmTot(m))} de rede no município</p>` +
-        m.als.map(a => `<a class="al" href="alimentadores/${esc(a.cod)}/?m=${esc(m.slug)}"><b>${esc(a.cod)}</b><span>${esc(a.se)} · ${km(a.m)} aqui</span></a>`).join('') +
-        `<a class="abre" href="municipios/${esc(m.slug)}/">Abrir a página do município →</a>`
-      : `<h2>${esc(m.nome)}</h2><p>Ainda sem alimentador processado no site.</p>${LEG}`);
-    if (rola && celular.matches) sel.scrollIntoView({ block: sel.offsetHeight > innerHeight * .8 ? 'start' : 'nearest', behavior: calmo.matches ? 'auto' : 'smooth' });
-  }
-  svg.addEventListener('click', e => { const p = e.target.closest('.mun'); if (p) escolhe(p.dataset.cod, true); });
-  sel.addEventListener('click', e => { const b = e.target.closest('button.al[data-cod]'); if (b) escolhe(b.dataset.cod, true); });
+  // escolher um município com dados abre a página dele (o painel ao lado saiu da página inicial)
+  const abre = cod => { const m = porCod[cod]; if (m && m.slug) location.href = `municipios/${m.slug}/`; };
+  svg.addEventListener('click', e => { const p = e.target.closest('.mun'); if (p) abre(p.dataset.cod); });
 
   // setas: vai ao município mais perto na direção (dentro de um cone de ±56°)
   const centro = {};
@@ -153,7 +114,7 @@
   svg.addEventListener('keydown', e => {
     const p = e.target.closest('.mun');
     if (!p) return;
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); escolhe(p.dataset.cod, true); return; }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abre(p.dataset.cod); return; }
     const d = DIR[e.key];
     if (!d) return;
     e.preventDefault();
@@ -180,99 +141,55 @@
   });
   svg.addEventListener('focusout', () => { if (foco) traz(el[foco]); });
 
-  // busca da página (campo #busca, já na barra em cima do mapa): destaca no mapa (também os municípios sem dados);
-  // um resultado só = já escolhe
-  const busca = document.getElementById('busca');
-  if (busca) {
-    const bm = busca.closest('.mt-bmun') || busca;
-    // celular: com texto no campo, o painel sobe para logo abaixo da barra (.buscando, em site.css);
-    // se o teclado ainda cobrir o resultado, o campo vai para o alto da tela e o resultado aparece embaixo dele
-    const mostraSel = () => {
-      if (!celular.matches) return;
-      const vv = window.visualViewport, fundo = vv ? vv.offsetTop + vv.height : innerHeight;
-      if (sel.getBoundingClientRect().top > fundo - 120) bm.scrollIntoView({ block: 'start', behavior: calmo.matches ? 'auto' : 'smooth' });
+  // município: o campo #busca abre a lista suspensa (#mun-lista) com todos os municípios, filtrada pelo que se digita;
+  // os achados acendem no mapa. Setas andam na lista, Enter abre o município (ou o único achado), Esc fecha.
+  const busca = document.getElementById('busca'), lista = document.getElementById('mun-lista');
+  if (busca && lista) {
+    const todos = M.muns.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    let ops = [], ativo = -1;
+    const acende = cod => { Object.values(el).forEach(p => p.classList.remove('acende')); if (cod) el[cod].classList.add('acende'); };
+    const marca = i => {
+      ops.forEach((o, k) => o.classList.toggle('marcado', k === i));
+      ativo = i;
+      if (i >= 0) { busca.setAttribute('aria-activedescendant', ops[i].id); ops[i].scrollIntoView({ block: 'nearest' }); acende(ops[i].dataset.cod); }
+      else { busca.removeAttribute('aria-activedescendant'); acende(null); }
     };
-    busca.addEventListener('input', () => {
-      const txt = busca.value.trim(), q = semAcento(txt);
+    const abreLista = sim => {
+      lista.hidden = !sim;
+      busca.setAttribute('aria-expanded', String(sim));
+      if (!sim) marca(-1);
+    };
+    function filtra() {
+      const q = semAcento(busca.value.trim());
+      const ms = todos.filter(m => !q || m.busca.includes(q));
       achou.forEach(c => el[c].classList.remove('achou'));
-      achou = new Set();
-      alvo.classList.toggle('buscando', !!q);
-      if (!q) { tiraFoco(); rotulos(); resumo(); return; }
-      const ms = M.muns.filter(m => m.busca.includes(q));
-      ms.forEach(m => { el[m.cod].classList.add('achou'); achou.add(m.cod); });
-      if (ms.length === 1) escolhe(ms[0].cod);
-      else {
-        tiraFoco();
-        rotulos();
-        if (ms.length >= 2 && ms.length <= 8) achados(ms); else resumo(ms.length ? '' : txt);
-      }
-      mostraSel();
+      achou = new Set(q ? ms.map(m => m.cod) : []);
+      achou.forEach(c => el[c].classList.add('achou'));
+      rotulos();
+      lista.innerHTML = ms.map((m, i) => m.slug
+        ? `<a class="mun-op" role="option" id="mun-op-${i}" data-cod="${esc(m.cod)}" href="municipios/${esc(m.slug)}/" tabindex="-1"><b>${esc(m.nome)}</b><span>${nAls(m)} · ${km(kmTot(m))}</span></a>`
+        : `<div class="mun-op sem" role="option" id="mun-op-${i}" data-cod="${esc(m.cod)}" aria-disabled="true"><b>${esc(m.nome)}</b><span>sem dados ainda</span></div>`).join('')
+        || `<p class="vazio">Nenhum município com “${esc(busca.value.trim())}”.</p>`;
+      ops = [...lista.querySelectorAll('.mun-op')];
+      abreLista(true);
+      marca(q && ops.length === 1 ? 0 : -1);
+    }
+    busca.addEventListener('input', filtra);
+    busca.addEventListener('focus', filtra);
+    busca.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (lista.hidden) filtra();
+        if (!ops.length) return;
+        marca(e.key === 'ArrowDown' ? Math.min(ops.length - 1, ativo + 1) : Math.max(0, ativo - 1));
+      } else if (e.key === 'Enter') {
+        const o = ops[ativo >= 0 ? ativo : 0];
+        if (o && o.href) { e.preventDefault(); location.href = o.href; }
+      } else if (e.key === 'Escape' && !lista.hidden) { e.preventDefault(); abreLista(false); }
     });
+    lista.addEventListener('mousedown', e => e.preventDefault());   // clicar na lista não tira o foco do campo antes do clique
+    lista.addEventListener('mouseover', e => { const o = e.target.closest('.mun-op'); if (o) marca(ops.indexOf(o)); });
+    document.addEventListener('pointerdown', e => { if (!lista.hidden && !busca.parentElement.contains(e.target)) abreLista(false); });
+    busca.addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== busca) abreLista(false); }, 0));
   }
-  // blocos da página: passar o mouse acende o município no mapa
-  document.querySelectorAll('.card[data-busca]').forEach(c => {
-    const m = porBusca[c.dataset.busca];
-    if (!m) return;
-    c.addEventListener('mouseenter', () => el[m.cod].classList.add('acende'));
-    c.addEventListener('mouseleave', () => el[m.cod].classList.remove('acende'));
-  });
-  svg.addEventListener('mouseover', e => {
-    const p = e.target.closest('.mun.tem');
-    document.querySelectorAll('.card.acende').forEach(c => c.classList.remove('acende'));
-    if (p) document.querySelector(`.card[data-busca="${CSS.escape(porCod[p.dataset.cod].busca)}"]`)?.classList.add('acende');
-  });
-  resumo();
-
-  // ---------- ranking de alimentadores por NAE (window.RANK de ranking-nae.js) ----------
-  const R = window.RANK, rank = alvo.querySelector('.mt-rank');
-  if (!R || !R.als.length) { rank.remove(); return; }
-  const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-  const rotMes = m => `${MES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
-  const nf = n => n.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
-  const ORD = {
-    nae: { rot: 'NAE', val: a => a.nae, un: 'NAE' },
-    cons: { rot: 'Consumidores', val: a => a.cons, un: 'cons.' },
-    // NAE/100 km: a NAE da mesma rede dos km (nae_rede: onde o ativo está hoje no GIS, ferramentas/nae_rede.py)
-    km: { rot: 'NAE/100 km', val: a => a.km ? (a.nae_rede ?? a.nae) / a.km * 100 : 0, un: '/100 km' },
-  };
-  let ord = 'nae';
-  const slugDe = cod => (porCod[cod] || {}).slug;
-  const hoje = new Date();
-  const anosDesde = d => d ? (hoje - new Date(d + 'T00:00:00')) / 31557600000 : Infinity;
-  const tres = matchMedia('(min-width:1181px)');          // 3 colunas: lista inteira com rolagem; senão, de 10 em 10
-  let mostra = 10;
-  function pintaRank() {
-    const o = ORD[ord];
-    const ls = R.als.slice().sort((a, b) => o.val(b) - o.val(a) || b.nae - a.nae);
-    const vis = tres.matches ? ls : ls.slice(0, mostra);
-    const max = Math.max(...ls.map(o.val), 1);
-    rank.innerHTML = `<h2>Alimentadores com mais NAE<small>Árvore/eucalipto na rede · ${R.meses.length ? rotMes(R.meses[0]) + ' a ' + rotMes(R.meses[1]) : ''}${ord === 'km' ? ' · NAE contada no alimentador onde o ativo está hoje no GIS' : ''}</small></h2>
-      <div class="mt-ord" role="group" aria-label="Ordenar por">${Object.entries(ORD).map(([k, x]) => `<button type="button" data-o="${k}" aria-pressed="${k === ord}">${x.rot}</button>`).join('')}</div>
-      <ol class="mt-rl">${vis.map((a, i) => {
-        const v = o.val(a), slug = a.muns.map(slugDe).find(Boolean), nomes = a.muns.map(c => (porCod[c] || {}).nome || c);
-        const velha = anosDesde(a.ult_limpeza) > 3;
-        return `<li><a class="mt-ra${a.nae ? '' : ' zero'}" href="alimentadores/${esc(a.al)}/${slug ? '?m=' + esc(slug) : ''}" data-al="${esc(a.al)}">
-          <span class="p">${i + 1}º</span><b>${esc(a.al)}</b><span class="v">${nf(v)}<small>${o.un}</small></span>
-          <span class="se">${esc(a.se)} · ${esc(nomes.slice(0, 3).join(', '))}${nomes.length > 3 ? ` e mais ${nomes.length - 3}` : ''}</span>
-          <span class="bar"><i style="width:${100 * v / max}%"></i></span>
-          <span class="ex">${a.nae} NAE${ord === 'km' && a.nae_rede !== undefined && a.nae_rede !== a.nae ? ` (${a.nae_rede} com o ativo nesta rede)` : ''} · ${a.cons.toLocaleString('pt-BR')} cons. · ${a.km >= 1 ? nf(a.km) : a.km.toLocaleString('pt-BR', { maximumFractionDigits: 2 })} km · <span class="lp">limpeza: <em class="${velha ? 'velha' : ''}">${a.ult_limpeza ? a.ult_limpeza.split('-').reverse().join('/') : 'sem registro'}</em></span></span></a></li>`;
-      }).join('')}</ol>${vis.length < ls.length ? `<button type="button" class="mt-mais" data-mais>Mostrar mais ${Math.min(20, ls.length - vis.length)} (de ${ls.length})</button>` : ''}`;
-  }
-  rank.addEventListener('click', e => {
-    const b = e.target.closest('[data-o],[data-mais]');
-    if (!b) return;
-    if (b.dataset.o) ord = b.dataset.o; else mostra += 20;
-    pintaRank();
-    if (b.hasAttribute('data-mais')) rank.querySelectorAll('.mt-ra')[mostra - 20]?.focus();   // foco no 1º item novo
-    else rank.querySelector(`[data-o="${ord}"]`)?.focus();                                      // o botão escolhido continua com o foco
-  });
-  tres.addEventListener('change', pintaRank);
-  // passar o mouse no alimentador acende os municípios dele no mapa
-  const apaga = () => Object.values(el).forEach(p => p.classList.remove('acende'));
-  const acende = a => (R.als.find(x => x.al === a.dataset.al) || { muns: [] }).muns.forEach(c => el[c] && el[c].classList.add('acende'));
-  rank.addEventListener('mouseover', e => { const a = e.target.closest('.mt-ra'); apaga(); if (a) acende(a); });
-  rank.addEventListener('mouseleave', apaga);
-  rank.addEventListener('focusin', e => { const a = e.target.closest('.mt-ra'); apaga(); if (a) acende(a); });
-  rank.addEventListener('focusout', e => { if (!rank.contains(e.relatedTarget)) apaga(); });
-  pintaRank();
 })();

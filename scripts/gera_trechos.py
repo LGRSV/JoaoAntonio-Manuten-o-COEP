@@ -808,7 +808,8 @@ def mapa_e_ranking(saida, dados, man):
 
     A geometria dos 139 municípios é estática (contornos já projetados, em
     alimentador/site/mapa-municipios-geo.json); o que a rodada preenche é
-    quais municípios têm alimentador (`slug`, `als`) e o ranking por NAE.
+    quais municípios têm alimentador (`slug`, `als`) e o ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
+    a página inicial não mostra mais o ranking, que fica na página dos polos, visão ETO).
     """
     geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))
     por_cod = {m['cod']: m for m in man['municipios']}
@@ -1142,12 +1143,7 @@ def interface(saida, malha=None):
                 exe.write_text('window.EXECUTADAS = null;\n', encoding='utf-8')
             grava_divisas(saida / 'alimentadores' / c['alimentador'] / 'municipios.js', c, malha)
             (saida / 'alimentadores' / c['alimentador'] / 'chaves.js').write_text(chaves_js(c), encoding='utf-8')
-    cards = []
     for m in man['municipios']:
-        tot = sum(a['m_no_municipio'] for a in m['alimentadores'])
-        cards.append(f'<a class="card" data-busca="{html.escape(slug(m["nome"]).replace("-", " "))}" '
-                     f'href="municipios/{m["slug"]}/"><b>{html.escape(m["nome"])}</b><span>{len(m["alimentadores"])}&nbsp;'
-                     f'alimentador{"es" if len(m["alimentadores"]) != 1 else ""} · {km(tot)}&nbsp;km&nbsp;de&nbsp;rede</span></a>')
         linhas = []
         for a in m['alimentadores']:
             n = a['trechos']
@@ -1170,28 +1166,23 @@ def interface(saida, malha=None):
     ranking_polos(saida, dados, man)
     manutencao_polos(saida, dados)
     indice_ativos(saida, dados)
-    corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
-             'alimentador.</p><a class="cab-link" href="polos/">Ranking dos alimentadores por polo →</a></header>\n'
+    corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na busca, depois o '
+             'alimentador.</p><a class="cab-link" href="polos/#eto">Ranking dos alimentadores →</a></header>\n'
              # casca do mapa já no HTML (estilo em assets/site.css; o svg com viewBox reserva a altura do mapa):
              # os scripts só preenchem, e a página não pula ao carregar. Mesmos ids de antes (busca-ativo.js e
-             # mapa-municipios.js); a busca de município (#busca) também filtra a lista 'Todos os municípios'.
+             # mapa-municipios.js); a busca de município (#busca) abre a lista suspensa de todos os municípios.
              '<div id="mapa-to" class="mapa-to"><div class="mt-barra">'
              '<form class="ativo" id="ativo" role="search"><label for="ativo-q" class="rot">Em que trecho está o ativo?</label>'
              '<div class="campo"><input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
-             'placeholder="Ex.: 0300350016" aria-describedby="ativo-dica"><button type="submit">Buscar</button>'
-             '<div id="ativo-res" aria-live="polite"></div></div><span id="ativo-dica" class="dica">Código da chave '
-             '(fusível, religador, faca…), do transformador ou número do poste</span></form>'
+             'placeholder="Ex.: 0300350016" enterkeyhint="search">'   # sem botão: o Enter busca
+             '<div id="ativo-res" aria-live="polite"></div></div></form>'
              '<div class="mt-bmun"><label for="busca" class="rot">Município</label>'
-             '<input class="busca" id="busca" type="search" aria-label="Buscar município" '
-             'placeholder="Buscar município"></div></div>\n'
-             '<aside class="mt-rank" aria-label="Ranking de alimentadores por NAE"></aside>\n'
+             '<div class="mun-cx"><input class="busca" id="busca" type="search" role="combobox" aria-autocomplete="list" '
+             'aria-expanded="false" aria-controls="mun-lista" autocomplete="off" placeholder="Buscar município">'
+             '<div class="mun-lista" id="mun-lista" role="listbox" aria-label="Municípios" hidden></div></div></div></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
-             '<div class="mt-dica" aria-hidden="true"></div></div>\n'
-             '<div class="mt-lado"><section class="mt-sel" aria-live="polite"></section></div></div>\n'
-             '<section class="bloco" aria-labelledby="todos"><h2 class="sec" id="todos">Todos os municípios</h2>\n'
-             f'<div class="grade">{"".join(cards)}</div></section>\n'
+             '<div class="mt-dica" aria-hidden="true"></div></div></div>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
-             '<script src="assets/ranking-nae.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')
     (saida / 'index.html').write_text(casca('Trechos por município', corpo, '', rodape=(
