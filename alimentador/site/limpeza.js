@@ -98,7 +98,7 @@
     anos: new Set(ANOS),
     nexe: new Set(),         // grupos de OS não executadas ligados no mapa ('cri', 'pend')
     foco: null,
-    mais: guarda('limp-mais') === '1',   // "Anos e ordens de serviço" aberto (fechado por padrão)
+    mais: guarda('limp-mais') !== '0',   // "Anos e ordens de serviço" aberto (o bloco só aparece com a Faixa ligada)
     lista: false,            // lista de OS aberta
     grupos: new Set(),       // grupos (anos) abertos na lista
     sel: null,               // trecho selecionado no mapa
@@ -115,7 +115,6 @@
 /* botão "Faixa" no mapa (card embaixo do T1 T2 T3), no jeito dos T1 T2 T3: ligado tem o filete com as cores dos anos; desligado fica riscado */
 .ctl-card .ctl-faixa{background-image:linear-gradient(90deg,#60a5fa,#22d3ee,#4ade80,#facc15,#fb923c);background-repeat:no-repeat;background-size:100% 3px;background-position:0 100%}
 .ctl-card .ctl-faixa[aria-pressed=false]{opacity:.6;text-decoration:line-through;background-image:none;box-shadow:inset 0 -3px 0 #5a636a}
-.limp-desl b{color:var(--fg)}
 /* segmentado Por ano / Vencimento */
 .limp-seg{display:flex;gap:2px;padding:3px;border:0;border-radius:var(--r2);background:var(--hover)}
 .limp-seg button{flex:1;min-height:var(--alvo);padding:0 var(--s3);border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 var(--t-sm) var(--f-body);white-space:nowrap;cursor:pointer}
@@ -146,6 +145,7 @@
 .limp-bar{display:flex;height:8px;border-radius:var(--rp);overflow:hidden;background:var(--sem)}
 .limp-bar span{display:block;height:100%}
 .limp-nota{font-size:var(--t-xs);color:var(--muted);margin:0}
+.limp-card[hidden]{display:none}
 /* OS por ano */
 .limp-lista>summary,.limp-grupo>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:var(--s2);min-height:var(--alvo);border-radius:var(--r1)}
 .limp-lista>summary::-webkit-details-marker,.limp-grupo>summary::-webkit-details-marker{display:none}
@@ -518,14 +518,12 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
           <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a} no mapa"><i style="--c:${corAno(a)}"></i><span><b>${a}</b> · ${OS_ANO[a].length} OS</span><em>${km(KM_ANO[a])}</em></button>
           <button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">Ver só</button></div>`).join('')}
         ${GRUPOS_NEXE.map(linhaNexe).join('')}</div>
-        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}
-        <p class="limp-nota">Só limpezas executadas${EQ}, pela data de execução. Cinza-claro: sem registro de limpeza.${GRUPOS_NEXE.length ? ' Não executadas: criadas (tracejado) e pendentes, a reprogramar ou reprogramadas (pontilhado).' : ''}</p>`
+        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}`
         : `<p class="limp-nota">Nenhuma OS executada${EQ} caiu neste alimentador.</p>` +
           (GRUPOS_NEXE.length ? `<div class="limp-anos">${GRUPOS_NEXE.map(linhaNexe).join('')}</div>` : '');
     } else if (st.ligado) {
       corpo = `<div class="limp-bar">${['dia', 'vence', 'vencida', 'sem'].map(k => TOT_SIT[k] ? `<span style="width:${100 * TOT_SIT[k] / KM_REDE}%;background:${SIT[k][1]}"></span>` : '').join('')}</div>
-        <div class="limp-anos">${Object.entries(SIT).map(([k, [n, c]]) => `<div class="limp-ano-l fixo"><button type="button" class="liga" tabindex="-1" aria-disabled="true"><i style="--c:${c}"></i><span>${n}</span><em>${km(TOT_SIT[k])}</em></button></div>`).join('')}</div>
-        <p class="limp-nota">T1 a cada ${REGRA.T1} anos · T2 a cada ${REGRA.T2} · T3 a cada ${REGRA.T3}, contando da última limpeza de cada vão${EQ ? ' (executadas' + EQ + ')' : ''}.</p>`;
+        <div class="limp-anos">${Object.entries(SIT).map(([k, [n, c]]) => `<div class="limp-ano-l fixo"><button type="button" class="liga" tabindex="-1" aria-disabled="true"><i style="--c:${c}"></i><span>${n}</span><em>${km(TOT_SIT[k])}</em></button></div>`).join('')}</div>`;
     }
     const nOs = LP.os.length;
     const lista = nOs ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nOs} OS por ano</summary><div>
@@ -533,8 +531,8 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
         ${GRUPOS_NEXE.map(([g, x]) => grupo(g, x.rot, CINZA, `${x.ks.length} OS · ${km(x.km)}${x.nota ? ' · ' + x.nota : ''}`, x.ks, x.cls)).join('')}</div></details>` : '';
     const seg = st.ligado ? `<div class="limp-seg" role="group" aria-label="Pintar o mapa por"><button type="button" data-acao="ano" data-foco="ano" aria-pressed="${st.vista === 'ano'}">Por ano</button><button type="button" data-acao="sit" data-foco="sit" aria-pressed="${st.vista === 'sit'}">Vencimento</button></div>` : '';
     const resto = seg + corpo + lista;                   // anos e OS só quando alguém pede
+    card.hidden = !st.ligado && !!btnFaixa;               // bloco da Faixa só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Limpeza de faixa<small>${sub}</small></h2></div>
-      ${!st.ligado && btnFaixa ? '<p class="limp-nota limp-desl">Desligada no mapa: toque em <b>Faixa</b>, no canto do mapa, para ver as limpezas.</p>' : ''}
       ${resto ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos e ordens de serviço</summary><div>${resto}</div></details>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
 
@@ -591,8 +589,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       <div class="limp-bar">${['dia', 'vence', 'vencida', 'sem'].map(k => r.m[k] ? `<span style="width:${100 * r.m[k] / (r.ext || 1)}%;background:${SIT[k][1]}" title="${SIT[k][0]}: ${km(r.m[k])}"></span>` : '').join('')}</div>
       <dl><dt>Situação</dt><dd><b>${SIT[s][0]}</b> · ${['dia', 'vence', 'vencida', 'sem'].filter(k => r.m[k]).map(k => `${SIT[k][0].toLowerCase()} ${km(r.m[k])}`).join(' · ')}</dd>
       <dt>Última</dt><dd>${r.ult ? br(r.ult) + ` · próxima até ${br(iso(prox))}` : 'nenhuma OS executada encontrada neste trecho'}</dd></dl>
-      ${ks.map(k => osBtn(k, false)).join('')}
-      <p class="limp-nota">Posição aproximada: vem das chaves/ativos citados na OS e dos km da descrição.</p></section>`;
+      ${ks.map(k => osBtn(k, false)).join('')}</section>`;
   }
   const det = $('det');
   function poeDetalhe() {

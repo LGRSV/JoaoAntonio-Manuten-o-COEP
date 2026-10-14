@@ -71,7 +71,7 @@
     ligado: guarda('insp-ligado') === '1',
     anos: new Set(ANOS),
     foco: null,
-    mais: guarda('insp-mais') === '1',
+    mais: guarda('insp-mais') !== '0',
     lista: false,
     grupos: new Set(),
     sel: null,
@@ -335,14 +335,13 @@ body.insp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       corpo = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
           <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder ${a} no mapa"><i style="--c:${corAno(a)}"></i><span><b>${a}</b> · ${OS_ANO[a].length} OS</span><em>${ext(KM_ANO[a])}</em></button>
           <button type="button" class="so" data-so="${a}" data-foco="s${a}" title="Mostrar só ${a} e enquadrar no mapa">Ver só</button></div>`).join('')}</div>
-        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}
-        <p class="limp-nota">Só inspeções executadas, pela data de execução. A inspeção cobre o bloco do ELEMENTO da OS: da chave dele descendo pela rede até as próximas chaves (conferido com os defeitos das OS de manutenção geradas pelas inspeções: 92% caem no bloco). Pontos vermelhos: o início do bloco (ELEMENTO) e as chaves onde ele termina; toque para ver as inspeções de cada um. Cinza-claro: sem inspeção registrada.</p>`;
+        ${st.anos.size < ANOS.length ? '<button type="button" class="limp-todos" data-acao="todos" data-foco="todos">Mostrar todos os anos</button>' : ''}`;
     }
     const lista = n ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nf(n)} inspeções por ano</summary><div>
         ${ANOS.map(a => grupo(String(a), a, corAno(a), `${OS_ANO[a].length} OS · ${ext(KM_ANO[a])}`, OS_ANO[a])).join('')}</div></details>` : '';
     const resto = corpo + lista;
+    card.hidden = !st.ligado && !!btn;                    // bloco da Inspeção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Inspeção visual<small>${sub}</small></h2></div>
-      ${!st.ligado && btn && n ? '<p class="limp-nota limp-desl">Desligada no mapa: toque em <b>Inspeção</b>, no canto do mapa, para ver a rede inspecionada.</p>' : ''}
       ${resto ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos e inspeções</summary><div>${resto}</div></details>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));

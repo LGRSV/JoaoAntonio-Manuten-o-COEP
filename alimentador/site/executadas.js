@@ -32,8 +32,6 @@
   const nomeAtivo = a => `${NOME_AT[a[1]] || 'Chave'} ${a[0]}`;
   const COMO = { p: 'poste da ESTRUTURA da OS', e: 'ativo da ESTRUTURA da OS',
     l: 'ELEMENTO da OS (o poste da OS não está no mapa: é o trafo ou a chave que atende o local)' };
-  const SEM_POS = OS.filter(o => o[4] < 0).length;
-  const OUTRO_AL = OS.filter(o => o[7]).length;
   // OS de cada ativo (já vêm da mais recente para a mais antiga)
   const DO_ATIVO = AT.map(() => []);
   OS.forEach((o, k) => { if (o[4] >= 0) DO_ATIVO[o[4]].push(k); });
@@ -46,7 +44,7 @@
     anos: new Set(ANOS),
     tipo: -1,                                         // -1: todos os tipos de serviço
     foco: null,
-    mais: guarda('exe-mais') === '1',
+    mais: guarda('exe-mais') !== '0',
     lista: false,
     grupos: new Set(),
   };
@@ -261,13 +259,10 @@
     const anos = `<div class="limp-anos">${ANOS.map(a => `<div class="limp-ano-l">
         <button type="button" class="liga" data-a="${a}" data-foco="a${a}" aria-pressed="${st.anos.has(a)}" title="Mostrar/esconder no mapa"><i style="--c:${corAno(a)}"></i><b>${rotAno(a)}</b><em>${nf(contaAno(a))} OS</em></button></div>`).join('')}</div>`;
     const tipo = `<label class="exe-tipo">Tipo de serviço<select data-foco="tipo">${opcoesTipo()}</select></label>`;
-    const nota = `<p class="limp-nota">No mapa, um losango por ativo manutencionado, na cor do ano da OS mais recente; o número é a quantidade de OS. ` +
-      `Posição: o poste da ESTRUTURA da OS; sem ele no mapa (rede BT), o ativo da ESTRUTURA ou o ELEMENTO (o trafo ou a chave que atende o local).` +
-      `${OUTRO_AL ? ` ${nf(OUTRO_AL)} OS são de outro alimentador, mas o ativo hoje está neste.` : ''}${SEM_POS ? ` ${nf(SEM_POS)} OS sem posição: só na lista.` : ''}</p>`;
     const lista = `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as OS por ano</summary><div>${st.lista ? ANOS.map(grupo).join('') : ''}</div></details>`;
+    card.hidden = !st.ligado && !!btn;                    // bloco da Manutenção só com ela ligada no mapa
     card.innerHTML = `<div class="limp-top"><h2>Manutenção<small>${sub}</small></h2></div>
-      ${!st.ligado && btn && n ? '<p class="limp-nota limp-desl">Desligada no mapa: toque em <b>Manutenção</b>, no canto do mapa, para ver os ativos manutencionados.</p>' : ''}
-      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos, tipos e OS</summary><div>${anos}${tipo}${nota}${lista}</div></details>` : ''}`;
+      ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Anos, tipos e OS</summary><div>${anos}${tipo}${lista}</div></details>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
     if (lg) {
@@ -312,7 +307,7 @@
     return `<section class="limp-sec exe-sec" aria-live="off"><h3>Manutenção executada</h3>
       <dl><dt>OS</dt><dd>${nf(ks.length)} · ${porAno.map(([a, c]) => `${rotAno(a)}: ${nf(c)}`).join(' · ')}</dd></dl>
       ${ks.slice(0, MAX_TRECHO).map(k => osBtn(k, false)).join('')}
-      ${ks.length > MAX_TRECHO ? `<p class="limp-nota">Mostrando as ${MAX_TRECHO} mais recentes; as outras estão no card Manutenção e nos losangos do mapa.</p>` : ''}</section>`;
+      ${ks.length > MAX_TRECHO ? `<p class="limp-nota">As ${MAX_TRECHO} mais recentes.</p>` : ''}</section>`;
   }
   function poeDetalhe() {
     if (!det || det.querySelector('.exe-sec')) return;

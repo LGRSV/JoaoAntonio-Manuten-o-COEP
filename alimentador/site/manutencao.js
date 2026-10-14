@@ -25,7 +25,6 @@
   const quando = o => sitDe(o) === 'exec' ? `executada ${br(o.exec)}` : sitDe(o) === 'venc' ? `venceu ${br(o.limite)}` : `prazo ${br(o.limite)}`;
   const POR_SIT = Object.fromEntries(ORDEM.map(s => [s, MN.os.map((o, k) => k).filter(k => sitDe(MN.os[k]) === s)]));
   const TIPOS = Object.entries(MN.os.reduce((m, o) => (m[o.tipo] = (m[o.tipo] || 0) + 1, m), {})).sort((a, b) => b[1] - a[1]);
-  const SEM_POSTE = MN.os.filter(o => !o.ll).length;
   // um ponto por poste
   const POSTES = new Map();
   MN.os.forEach((o, k) => {
@@ -41,7 +40,7 @@
     ligado: guarda('mnt-ligado') === '1',
     sits: new Set(ORDEM),
     foco: null,
-    mais: guarda('mnt-mais') === '1',
+    mais: guarda('mnt-mais') !== '0',
     lista: false,
     grupos: new Set(),
   };
@@ -223,12 +222,11 @@
     const corpo = st.ligado && n ? `<div class="limp-anos">${ORDEM.map(s => `<div class="limp-ano-l">
         <button type="button" class="liga" data-s="${s}" data-foco="s${s}" aria-pressed="${st.sits.has(s)}" title="Mostrar/esconder no mapa"><i style="--c:${SIT[s][1]}"></i><span>${SIT[s][0]}</span><em>${nf(POR_SIT[s].length)} OS</em></button></div>`).join('')}</div>` : '';
     const tipos = n ? `<p class="mnt-tipos">${TIPOS.map(([t, c]) => `<b>${esc(t.charAt(0) + t.slice(1).toLowerCase())}</b> ${nf(c)}`).join(' · ')}</p>` : '';
-    const nota = n ? `<p class="limp-nota">No mapa, um losango por poste (o da ESTRUTURA da OS), na cor da pior situação; o número é a quantidade de OS no poste. Vencida: não executada e o prazo já passou (pela data de hoje).${SEM_POSTE ? ` ${nf(SEM_POSTE)} OS sem o poste no mapa: tocar mostra o bloco da inspeção que a gerou.` : ''}</p>` : '';
     const lista = n ? `<details class="limp-lista"${st.lista ? ' open' : ''}><summary data-foco="lista">Ver as ${nf(n)} OS por situação</summary><div>
         ${ORDEM.filter(s => POR_SIT[s].length).map(s => grupo(s, SIT[s][0], SIT[s][1], `${nf(POR_SIT[s].length)} OS`, POR_SIT[s])).join('')}</div></details>` : '';
-    const resto = corpo + tipos + nota + lista;
+    const resto = corpo + tipos + lista;
+    card.hidden = !st.ligado && !!btn;                    // bloco do Insp→manut só com ele ligado no mapa
     card.innerHTML = `<div class="limp-top"><h2>Insp→manut<small>${sub}</small></h2></div>
-      ${!st.ligado && btn && n ? '<p class="limp-nota limp-desl">Desligada no mapa: toque em <b>Insp→manut</b>, no canto do mapa, para ver as OS de manutenção nos postes.</p>' : ''}
       ${n ? `<details class="limp-mais"${st.mais ? ' open' : ''}><summary data-foco="mais">Situação, tipos e OS</summary><div>${resto}</div></details>` : ''}`;
     if (chave) card.querySelector(chave)?.focus({ preventScroll: true });
     if (btn) btn.setAttribute('aria-pressed', String(st.ligado));
