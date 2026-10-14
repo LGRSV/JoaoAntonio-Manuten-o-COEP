@@ -1,6 +1,7 @@
 // Mapa em tela cheia (roda depois de alimentador.js, com window.__map).
 // Usa a tela cheia do navegador quando existe; no iPhone (sem essa função) o mapa ocupa a janela por CSS.
-// Em tela cheia, o botão "Painel" abre o painel lateral (limpeza, busca, detalhe) como gaveta sobre o mapa; a barra de busca e
+// Em tela cheia, o item "Painel" do Menu do mapa (o mesmo das camadas, de extras.js) abre o painel lateral (limpeza, busca,
+// detalhe) como gaveta sobre o mapa; sem o Menu, um botão "☰ Painel" no canto faz isso. A barra de busca e
 // município (acima do mapa, de extras.js) entra no alto da gaveta e volta para cima do mapa ao sair.
 // O botão "Tela cheia" fica num card no canto inferior direito do mapa (o card .ctl-card de extras.js); o chip da OS em
 // foco anda para não ficar embaixo dele (--tc-w: largura do card).
@@ -23,6 +24,7 @@
 .tc-btn .sai,.tc-btn[aria-pressed="true"] .abre{display:none}
 .tc-btn[aria-pressed="true"] .sai{display:block}
 .tc-ctl .tc-painel{width:auto;padding:0 var(--s3);font:600 var(--t-sm) var(--f-body);gap:6px;display:none}
+.ctl-l2>.tc-painel-c{border-bottom:1px solid var(--vidro-borda);padding-bottom:2px;margin-bottom:2px}
 body.tela-cheia{overflow:hidden}
 body.tela-cheia .mapbox{position:fixed;inset:0;z-index:1000;border-radius:0;border:0;box-shadow:none}
 body.tela-cheia #map{height:100vh;height:100dvh;min-height:0}
@@ -64,7 +66,7 @@ body.tela-cheia .panel .barra-linha{display:grid;grid-template-columns:minmax(0,
     options: { position: 'topleft' },
     onAdd() {
       const d = L.DomUtil.create('div', 'tc-ctl');
-      d.innerHTML = (canto ? '' : BTN_TC) +
+      d.innerHTML = BTN_TC +
         `<button type="button" class="tc-painel" aria-expanded="false" title="Abrir o painel (limpeza, busca, detalhe)">☰ Painel</button>`;
       L.DomEvent.disableClickPropagation(d);
       L.DomEvent.on(d, 'click', L.DomEvent.stopPropagation);   // clique nos botões não chega ao mapa (que limparia a seleção)
@@ -72,7 +74,7 @@ body.tela-cheia .panel .barra-linha{display:grid;grid-template-columns:minmax(0,
       return d;
     },
   });
-  const ctl = new Ctl().addTo(map);
+  const ctl = canto ? null : new Ctl().addTo(map);   // com o Menu do mapa, o painel abre por ele (item "Painel")
   if (canto) {                                            // card "Tela cheia"
     canto.className = 'tc-canto ctl-card';
     canto.innerHTML = BTN_TC;
@@ -85,7 +87,21 @@ body.tela-cheia .panel .barra-linha{display:grid;grid-template-columns:minmax(0,
   }
   const btn = (canto || ctl.getContainer()).querySelector('.tc-btn');
   btn.addEventListener('click', alterna);
-  const btnPainel = ctl.getContainer().querySelector('.tc-painel');
+  // item "Painel" no Menu do mapa: só em tela cheia (entra e sai da lista com ela), marcado com a gaveta aberta
+  const lista = canto ? window.__ctlMapa() : null;
+  let itemPainel = null;
+  if (lista) {
+    itemPainel = document.createElement('div');
+    itemPainel.className = 'ctl-card tc-painel-c';
+    itemPainel.innerHTML = '<button type="button" class="tc-painel-m" aria-pressed="false" title="Painel lateral (resumo, camadas, dados)">Painel</button>';
+    itemPainel.firstChild.addEventListener('click', () => {
+      const abrir = !document.body.classList.contains('tc-gaveta');
+      const menu = document.querySelector('.ctl-cam-b');
+      if (menu && menu.getAttribute('aria-expanded') === 'true') menu.click();   // fecha o Menu; o painel abre na lateral
+      gaveta(abrir, true);
+    });
+  }
+  const btnPainel = itemPainel ? itemPainel.firstChild : ctl.getContainer().querySelector('.tc-painel');
 
   const fecha = document.createElement('button');
   fecha.type = 'button';
@@ -114,6 +130,7 @@ body.tela-cheia .panel .barra-linha{display:grid;grid-template-columns:minmax(0,
     if (!ligado) document.body.classList.remove('tc-anima');
     document.body.classList.toggle('tela-cheia', ligado);
     moveBarra(ligado);
+    if (itemPainel) { if (ligado) lista.prepend(itemPainel); else itemPainel.remove(); }
     if (!ligado) { gaveta(false); voltar = yAntes; volta(); }
     // a gaveta só anima depois de já estar fora da tela (sem isso, ela passaria deslizando ao entrar na tela cheia)
     else { void painel.offsetWidth; document.body.classList.add('tc-anima'); }
@@ -136,9 +153,10 @@ body.tela-cheia .panel .barra-linha{display:grid;grid-template-columns:minmax(0,
   }
   function gaveta(abrir, foco) {
     document.body.classList.toggle('tc-gaveta', abrir);
-    btnPainel.setAttribute('aria-expanded', abrir);
+    btnPainel.setAttribute(itemPainel ? 'aria-pressed' : 'aria-expanded', abrir);
     if (abrir) painel.scrollTop = 0;
-    if (foco) (abrir ? fecha : btnPainel).focus({ preventScroll: true });   // teclado: o foco vai para dentro e volta ao botão
+    // teclado: o foco vai para dentro e volta ao botão (o do Menu, que fica fechado: o botão do Menu)
+    if (foco) (abrir ? fecha : itemPainel ? document.querySelector('.ctl-cam-b') : btnPainel).focus({ preventScroll: true });
   }
   // saiu da tela cheia nativa pelo Esc / gesto do sistema: volta o layout
   // (a saída da tela cheia nativa chega depois e muda o tamanho da janela: devolve a rolagem de novo)

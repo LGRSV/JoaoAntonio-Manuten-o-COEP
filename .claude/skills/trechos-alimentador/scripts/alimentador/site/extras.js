@@ -328,7 +328,7 @@
       cam.addEventListener('focusout', e => { if (e.relatedTarget && !cam.contains(e.relatedTarget)) abre(false); });
       // o botão mostra só o ícone e "Menu": quantas camadas estão ligadas fica no nome dele (leitor de tela)
       const conta = () => {
-        const n = l.querySelectorAll('button[aria-pressed="true"]').length;
+        const n = l.querySelectorAll('button[aria-pressed="true"]:not(.tc-painel-m)').length;   // o "Painel" da tela cheia não é camada
         cam.hidden = !l.children.length;
         b.setAttribute('aria-label', `Menu do mapa: ${n} camada${n === 1 ? '' : 's'} ligada${n === 1 ? '' : 's'}`);
       };
