@@ -803,12 +803,53 @@ def ultima_limpeza(lp, al):
     return max(ds) if ds else None
 
 
-REGIONAIS = ('Norte', 'Centro', 'Sul')            # ordem da legenda do mapa da página inicial (norte → sul)
+def nae_por_municipio(dados):
+    """NAE de cada município (código IBGE → ocorrências): cada ocorrência conta no município onde o trecho dela tem mais
+    rede; sem trecho, no município onde o alimentador tem mais rede (mesma ideia do polo em ranking_polos)."""
+    nae = {}
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        tot, do_t = {}, {}
+        for t in c['trechos']:
+            mm = {k: m for k, m in (t.get('municipios') or {}).items() if k != 'None'}
+            for k, m in mm.items():
+                tot[k] = tot.get(k, 0) + m
+            do_t[t['nome']] = max(mm, key=mm.get) if mm else None
+        principal = max(tot, key=tot.get) if tot else None
+        for o in (c.get('nae') or {}).get('oc', []):
+            cod = do_t.get(o.get('trecho')) or principal
+            if cod:
+                nae[cod] = nae.get(cod, 0) + 1
+    return nae
 
 
-def legenda_regionais():
-    """Legenda do mapa da página inicial: uma cor por regional (classes reg-<nome> em assets/site.css)."""
-    return ''.join(f'<span><i class="reg-{slug(r)}" aria-hidden="true"></i>{r}</span>' for r in REGIONAIS)
+def meses_nae(dados):
+    """Primeiro e último mês da NAE no site (['2026-01', '2026-08']); [] sem NAE."""
+    ms = {o['mes'] for c in dados if c['validacao']['status'] != 'falha' for o in (c.get('nae') or {}).get('oc', [])}
+    return [min(ms), max(ms)] if ms else []
+
+
+def contorno_regionais(geo_muns, reg_de):
+    """Contorno de cada regional no mapa da página inicial (path SVG): as arestas dos municípios da regional que não são
+    divididas com outro município da mesma regional. Os contornos dos 139 municípios vêm da mesma malha, então os
+    vizinhos têm as arestas iguais."""
+    por_reg = {}
+    for m in geo_muns:
+        r = reg_de.get(m['cod'])
+        if not r:
+            continue
+        cont = por_reg.setdefault(r, {})
+        for anel in re.findall(r'M([^MZz]+)', m['d']):
+            v = [float(x) for x in re.findall(r'-?\d+(?:\.\d+)?', anel)]
+            pts = list(zip(v[::2], v[1::2]))
+            for a, b in zip(pts, pts[1:] + pts[:1]):
+                if a != b:
+                    k = (a, b) if a < b else (b, a)
+                    cont[k] = cont.get(k, 0) + 1
+    fmt = lambda x: f'{x:g}'
+    return {r: ''.join(f'M{fmt(a[0])},{fmt(a[1])}L{fmt(b[0])},{fmt(b[1])}' for (a, b), n in sorted(cont.items()) if n == 1)
+            for r, cont in por_reg.items()}
 
 
 def mapa_e_ranking(saida, dados, man):
@@ -816,17 +857,20 @@ def mapa_e_ranking(saida, dados, man):
 
     A geometria dos 139 municípios é estática (contornos já projetados, em
     alimentador/site/mapa-municipios-geo.json); o que a rodada preenche é
-    quais municípios têm alimentador (`slug`, `als`), a regional e o polo de cada um (`reg`, `polo`, de polos.json:
-    o mapa pinta por regional) e o ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
+    quais municípios têm alimentador (`slug`, `als`), a regional e o polo de cada um (`reg`, `polo`, de polos.json),
+    a NAE de cada município (`nae`, nae_por_municipio: o mapa pinta por ela), o contorno das regionais (`regs`) e o
+    ranking por NAE (ranking-nae.js: lido pelo atualiza_bases;
     a página inicial não mostra mais o ranking, que fica na página dos polos, visão ETO).
     """
     geo = json.loads((PKG / 'site' / 'mapa-municipios-geo.json').read_text(encoding='utf-8'))
     por_cod = {m['cod']: m for m in man['municipios']}
     cfg = json.loads((PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
     polo_de = {cod: p for p in cfg['polos'] for cod in p['municipios']}
+    nae_mun = nae_por_municipio(dados)
     muns = []
     for g in geo['muns']:
         m = por_cod.get(g['cod'])
+        g = dict(g, nae=nae_mun.get(g['cod'], 0))
         if g['cod'] in polo_de:
             g = dict(g, reg=polo_de[g['cod']]['regional'], polo=polo_de[g['cod']]['nome'])
         if m:
@@ -834,7 +878,9 @@ def mapa_e_ranking(saida, dados, man):
                                              for a in m['alimentadores']])
         muns.append(g)
     (saida / 'assets' / 'mapa-municipios-dados.js').write_text(
-        'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns), ensure_ascii=False,
+        'window.MUN=' + json.dumps(dict(w=geo['w'], h=geo['h'], muns=muns, meses=meses_nae(dados),
+                                        regs=contorno_regionais(geo['muns'], {c: p['regional'] for c, p in polo_de.items()})),
+                                   ensure_ascii=False,
                                    separators=(',', ':')) + ';\n', encoding='utf-8')
     vb = f'-6 -6 {geo["w"] + 12} {geo["h"] + 12}'      # mesmo viewBox de assets/mapa-municipios.js
 
@@ -1195,7 +1241,7 @@ def interface(saida, malha=None):
              '<div class="mun-lista" id="mun-lista" role="listbox" aria-label="Municípios" hidden></div></div></div></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
              '<div class="mt-dica" aria-hidden="true"></div>'
-             f'<p class="mt-regs" aria-label="Cores das regionais">{legenda_regionais()}</p></div></div>\n'
+             '<p class="mt-regs" aria-label="Legenda do mapa"></p></div></div>\n'   # legenda: mapa-municipios.js
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')

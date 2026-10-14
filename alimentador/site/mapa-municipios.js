@@ -1,5 +1,5 @@
 // Mapa dos municípios do Tocantins na página inicial (usa window.MUN de mapa-municipios-dados.js).
-// Município com alimentador no site: colorido e clicável (abre a página do município).
+// Cada município pintado pela NAE dele (faixas), com o contorno das regionais por cima; clicável (abre a página do município).
 // A busca de município (#busca) abre a lista suspensa de todos os municípios (#mun-lista) e acende os achados no mapa.
 // A casca (#mapa-to com a barra e o svg com viewBox) vem pronta no HTML de scripts/gera_trechos.py
 // e todo o estilo está em assets/site.css: este script só preenche, nada muda de tamanho nem de lugar ao carregar.
@@ -18,15 +18,30 @@
   svg.setAttribute('viewBox', `-6 -6 ${VW} ${M.h + 12}`);
   const NS = 'http://www.w3.org/2000/svg', el = {}, rot = {};
   let foco = null, achou = new Set();
+  // cor de cada município pela NAE dele (faixas; a legenda sai daqui) e, por cima, o contorno das regionais
+  const FAIXAS = [0, 1, 11, 31, 101, 201];
+  const faixa = n => FAIXAS.reduce((k, l, i) => n >= l ? i : k, 0);
+  const rotFaixa = i => i === 0 ? 'Sem NAE' : i === FAIXAS.length - 1 ? `${FAIXAS[i]} ou mais` : `${FAIXAS[i]} a ${FAIXAS[i + 1] - 1}`;
   M.muns.forEach(m => {
     const p = document.createElementNS(NS, 'path');
     p.setAttribute('d', m.d);
-    p.setAttribute('class', 'mun ' + (m.slug ? 'tem' : 'sem') + (m.reg ? ' reg-' + semAcento(m.reg) : ''));   // cor da regional
+    p.setAttribute('class', `mun ${m.slug ? 'tem' : 'sem'} nae-${faixa(m.nae || 0)}`);
     if (m.slug) { p.setAttribute('tabindex', '-1'); p.setAttribute('role', 'button'); p.setAttribute('aria-label', m.nome); }
     p.dataset.cod = m.cod;
     svg.append(p);
     el[m.cod] = p;
   });
+  const regs = document.createElementNS(NS, 'g');
+  regs.setAttribute('class', 'mt-regc');
+  regs.setAttribute('aria-hidden', 'true');
+  Object.values(M.regs || {}).forEach(d => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); regs.append(p); });
+  svg.append(regs);
+  const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  const rotMes = m => `${MES[+m.slice(5, 7) - 1]}/${m.slice(0, 4)}`;
+  const leg = alvo.querySelector('.mt-regs');
+  if (leg) leg.innerHTML = `<b>NAE no município</b><small>árvore/eucalipto na rede${(M.meses || []).length ? ` · ${rotMes(M.meses[0])} a ${rotMes(M.meses[1])}` : ''}</small>` +
+    FAIXAS.map((l, i) => `<span><i class="nae-${i}" aria-hidden="true"></i>${rotFaixa(i)}</span>`).join('') +
+    (M.regs ? '<span><i class="lim" aria-hidden="true"></i>Limite das regionais</span>' : '');
   // teclado: um só município na ordem do Tab (o escolhido, ou Palmas); as setas andam pelo mapa
   const roda = cod => {
     svg.querySelectorAll('.mun[tabindex="0"]').forEach(p => p.setAttribute('tabindex', '-1'));
@@ -86,11 +101,11 @@
   rotulos();
   if (window.ResizeObserver) new ResizeObserver(escala).observe(svg); else escala();
 
-  // contorno por cima dos vizinhos (antes do <g> dos nomes); quem está com o foco do teclado não o perde
+  // contorno do município por cima dos vizinhos (antes do contorno das regionais e dos nomes); quem está com o foco do teclado não o perde
   const traz = p => {
-    if (p.nextSibling === g) return;
+    if (p.nextSibling === regs) return;
     const tinha = document.activeElement === p;
-    svg.insertBefore(p, g);
+    svg.insertBefore(p, regs);
     if (tinha && document.activeElement !== p) p.focus({ preventScroll: true });
   };
 
@@ -98,7 +113,7 @@
     const p = e.target.closest('.mun');
     if (!p) { dica.style.display = 'none'; return; }
     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
-    dica.innerHTML = `${esc(m.nome)} <small>${m.reg ? `· Regional ${esc(m.reg)} · polo ${esc(m.polo)} ` : ''}${m.slug ? `· ${nAls(m)} · ${km(kmTot(m))}` : '· sem dados ainda'}</small>`;
+    dica.innerHTML = `${esc(m.nome)} <small>· ${(m.nae || 0).toLocaleString('pt-BR')} NAE${m.reg ? ` · Regional ${esc(m.reg)} · polo ${esc(m.polo)}` : ''}${m.slug ? ` · ${nAls(m)} · ${km(kmTot(m))}` : ' · sem dados ainda'}</small>`;
     dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
   });
   svg.addEventListener('mouseleave', () => { dica.style.display = 'none'; });
