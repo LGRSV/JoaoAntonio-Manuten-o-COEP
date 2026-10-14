@@ -211,8 +211,8 @@
   if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
   // canto superior direito do mapa: o card T1 T2 T3 e, à direita dele, o "Menu" das camadas (três barras) com Faixa
-  // (limpeza.js), Inspeção (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js); embaixo do menu, as legendas
-  // das camadas ligadas (.ctl-lgs, no fim deste arquivo). Devolve a lista do menu (criada na 1ª chamada), onde cada camada
+  // (limpeza.js), Inspeção (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). As legendas das camadas
+  // ligadas ficam no canto inferior esquerdo (.ctl-lgs, no fim deste arquivo). Devolve a lista do menu (criada na 1ª chamada), onde cada camada
   // põe o seu card; sem o card das classes (mapa não carregou), devolve null.
   // O Tela cheia fica no canto inferior direito (telacheia.js), com o mesmo card (.ctl-card).
   window.__ctlMapa = function () {
@@ -271,8 +271,8 @@
   // as camadas se combinam livremente (Faixa, Inspeção, Insp→manut e Manutenção, quantas quiser ao mesmo tempo)
   {
     const s = document.createElement('style');
-    // a coluna toda cabe no mapa: para em cima do card Tela cheia e do chip da OS (28 px do pé + 50 do card + folga);
-    // o que não couber rola dentro das legendas
+    // a coluna da direita (T1 T2 T3, Menu e a lista dele) cabe no mapa: para em cima do card Tela cheia e do chip da OS
+    // (28 px do pé + 50 do card + folga)
     s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px);' +
       'max-height:calc(100% - 12px - 88px);pointer-events:none}.ctl-dir>*{pointer-events:auto}' +   // fora dos cards, o clique é do mapa
       '.ctl-dir>.ctl-topo{display:flex;align-items:flex-start;gap:var(--s1);flex:none;pointer-events:none}.ctl-topo>*{pointer-events:auto}' +
@@ -296,13 +296,18 @@
       '.ctl-l2 .ctl-card button::before{content:"";flex:none;display:grid;place-items:center;width:16px;height:16px;box-sizing:border-box;border:1.5px solid currentColor;border-radius:4px;' +
       'font:700 12px/1 var(--f-body);color:inherit}' +
       '.ctl-l2 .ctl-card button[aria-pressed=true]::before{content:"✓";background:var(--vidro-fg);border-color:var(--vidro-fg);color:#0b0f14}' +
-      // legendas embaixo do menu, uma sobre a outra, na largura da maior; cada uma no seu vidro (o das próprias camadas)
-      '.ctl-lgs{position:relative;z-index:1;flex:0 1 auto;min-height:0;display:flex;flex-direction:column;gap:var(--s1);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}' +
+      // legendas no canto inferior esquerdo, uma sobre a outra, na largura da maior; cada uma no seu vidro (o das próprias
+      // camadas), acima do crédito do mapa (28 px, como o Tela cheia). Alto: abaixo da linha T1 T2 T3/Menu (12 + 50 + folga);
+      // o que não couber rola dentro delas
+      '.ctl-lgs{position:absolute;left:12px;bottom:28px;z-index:800;display:flex;flex-direction:column;align-items:stretch;gap:var(--s1);max-height:calc(100% - 28px - 76px);' +
+      'max-width:calc(100% - 24px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}' +
+      // celular: o chip da OS em foco vai da esquerda até o Tela cheia (limpeza.js); as legendas sobem acima dele
+      '@media (max-width:640px){.mapbox:has(>.limp-chip:not([hidden]))>.ctl-lgs{bottom:calc(28px + 56px);max-height:calc(100% - 84px - 76px)}}' +
       '.ctl-lgs:not(:has(>:not([hidden]))){display:none}' +
       '.ctl-lgs.sob-balao{visibility:hidden;opacity:0}' +
       '@media (prefers-reduced-motion:no-preference){.ctl-lgs{transition:opacity var(--dur) var(--ease),visibility 0s}.ctl-lgs.sob-balao{transition:opacity var(--dur) var(--ease),visibility 0s var(--dur)}}' +
-      '.ctl-dir>.ctl-lgs>*{position:static;inset:auto;z-index:auto;flex:none;margin:0;max-width:none;float:none;clear:none}' +   // sem o canto antigo de cada uma
-      '@media (max-width:640px){.ctl-dir>.ctl-lgs>.limp-maplg>:is(.lg-cab,.lg-info){display:none}}';   // celular: só o traço e o ano
+      '.mapbox>.ctl-lgs>*{position:static;inset:auto;z-index:auto;flex:none;margin:0;max-width:none;float:none;clear:none}' +   // sem o canto antigo de cada uma
+      '@media (max-width:640px){.mapbox>.ctl-lgs>.limp-maplg>:is(.lg-cab,.lg-info){display:none}}';   // celular: só o traço e o ano
     document.head.append(s);
   }
 
@@ -342,12 +347,13 @@
 
   // legendas das camadas no mapa: saem dos cantos de cada uma (Faixa e Inspeção no pé do mapa, limpeza.js e inspecao.js;
   // Insp→manut e Manutenção, controles do Leaflet que manutencao.js e executadas.js criam no DOMContentLoaded) e vão para a
-  // coluna da direita, embaixo do Menu das camadas, nesta ordem. O ouvinte fica na window: roda depois dos do document
+  // coluna do canto inferior esquerdo do mapa, nesta ordem. O ouvinte fica na window: roda depois dos do document
   // (o evento sobe do document à window), com as quatro já criadas, e antes da 1ª pintura
   const legendas = () => {
     const dir = document.querySelector('.ctl-dir'), mb = document.querySelector('.mapbox');
     if (!dir || !mb) return;
-    const box = dir.querySelector('.ctl-lgs') || dir.appendChild(Object.assign(document.createElement('div'), { className: 'ctl-lgs' }));
+    const box = mb.querySelector('.ctl-lgs') || mb.appendChild(Object.assign(document.createElement('div'), { className: 'ctl-lgs' }));
+    if (window.L) { L.DomEvent.disableClickPropagation(box); L.DomEvent.disableScrollPropagation(box); }   // clique na legenda não é clique no mapa
     ['.limp-maplg:not(.insp-lg)', '.insp-lg', '.mnt-lg', '.exe-lg'].forEach(q => { const el = mb.querySelector(q); if (el) box.append(el); });
     // o balão do mapa fica por baixo dos cards (ver __folgaBalao): enquanto um balão aberto cruza a coluna (no celular, quase
     // sempre: o balão é quase da largura do mapa), as legendas saem da frente e voltam quando ele fecha
