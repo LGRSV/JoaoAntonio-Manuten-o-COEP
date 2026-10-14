@@ -148,6 +148,9 @@ municipios/<slug>/index.html       alimentadores com rede no município (≥ 100
 alimentadores/<AL>/index.html      mapa e trechos (página leve)
 alimentadores/<AL>/dados.js        dados do mapa ([lat, lon], formato do mapa da skill)
 alimentadores/<AL>/<AL>-trechos.kmz
+alimentadores/<AL>/municipios.js   divisas dos municípios em volta da rede e do Tocantins (tracejado no mapa;
+                                   assets/municipios.js desenha). Sai da malha que mediu os municípios; --so-interface
+                                   usa --malha ou --cache e só baixa se alguma página ainda está sem ele (null)
 dados/alimentadores/<AL>.json      fonte canônica do alimentador inteiro ([lon, lat]): trechos, vãos, chaves,
                                    municípios, NAE, avisos e validação. O recorte por município é só um filtro na
                                    página; o arquivo canônico nunca é recortado.

@@ -86,6 +86,7 @@ def test_pipeline():
         assert gera_trechos.main(['--saida', str(d / 'site'), '--validar']) == 0
         assert gera_trechos.main(['--saida', str(d / 'site'), '--so-interface']) == 0
         assert assinatura(d / 'site') == antes, 'só a interface: mesmo resultado'
+        divisas_no_site(d, antes)
         ativos_gis_no_site(d)
         critica_sem_kml(d)
         inspecao_no_site(d)
@@ -93,6 +94,51 @@ def test_pipeline():
         bases_pelo_menu(d)
         manutencao_no_site(d)
         executadas_no_site(d)
+
+
+def divisas_no_site(d, antes):
+    """municipios.js do alimentador: os dois municípios da malha de teste, anéis fechados recortados em volta da rede, a
+    divisa em comum com os mesmos pontos nos dois; sem a malha fica o que já existe (ou null); com ela, igual de novo."""
+    site, arq = d / 'site', d / 'site' / 'alimentadores' / 'ALTESTE' / 'municipios.js'
+    mu = gera_trechos.le_js(arq)
+    assert [m['nome'] for m in mu] == ['Norte Teste', 'Sul Teste'] or [m['nome'] for m in mu] == ['Sul Teste', 'Norte Teste'], mu
+    c = json.loads((site / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
+    assert [m['cod'] for m in mu] == [m['cod'] for m in c['municipios']], 'na ordem dos municípios da rede'
+    (s_, w), (n, e) = mu[0]['corte']
+    assert all(s_ < v[1] < n and w < v[0] < e for v in c['vaos'] for v in (v[:2], v[2:4])), 'a rede dentro do corte'
+    for m in mu:
+        assert m['corte'] == mu[0]['corte'] and m['linhas']
+        for r in m['linhas']:
+            assert len(r) >= 4 and r[0] == r[-1], 'anel fechado'
+            assert all(s_ <= la <= n and w <= lo <= e and la == round(la, 5) and lo == round(lo, 5) for la, lo in r)
+    lados = [{tuple(sorted((tuple(p), tuple(q)))) for r in m['linhas'] for p, q in zip(r, r[1:])} for m in mu]
+    corte = round(-7.2 + 3.5 * 0.0003, 5)
+    comum = lados[0] & lados[1]
+    assert comum and all(p[0] == q[0] == corte for p, q in comum), 'divisa em comum igual nos dois (a página desenha uma vez)'
+    pag = (site / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
+    assert ('assets/extras.js"></script>\n<script src="municipios.js"></script>\n<script src="../../assets/municipios.js">'
+            in pag) and (site / 'assets' / 'municipios.js').exists(), 'divisas logo depois do extras.js'
+    vazio = d / 'cache-vazio'
+    assert gera_trechos.main(['--saida', str(site), '--so-interface', '--cache', str(vazio)]) == 0
+    assert assinatura(site) == antes and not vazio.exists(), 'sem malha: fica o municipios.js que já existe, sem baixar'
+    arq.unlink()
+    assert gera_trechos.main(['--saida', str(site), '--so-interface', '--cache', str(vazio)]) == 0
+    assert arq.read_text(encoding='utf-8') == 'window.MUNICIPIOS = null;\n', 'sem malha e sem arquivo: null'
+    assert gera_trechos.main(['--saida', str(site), '--so-interface', '--malha', str(d / 'malha.json')]) == 0
+    assert assinatura(site) == antes, 'só a interface com a malha: o mesmo municipios.js'
+    assert all('uf' not in m for m in mu), 'divisa do TO longe da rede: não vem'
+    # divisa do Tocantins a ~1 km a oeste da rede: lados que só um município usa, recortados na caixa
+    caixa = lambda c_, n_, s_: (c_, c_, [[[[-48.21, s_], [-48.1, s_], [-48.1, n_], [-48.21, n_], [-48.21, s_]]]])
+    malha = gera_trechos.Malha([caixa('1', corte, -7.3), caixa('2', -7.1, corte)], 'teste')
+    mu = json.loads(gera_trechos.divisas_js(malha, c)[len('window.MUNICIPIOS = '):-2])
+    for m in mu:
+        assert len(m['uf']) == 1, m
+        a_, de, ate = m['uf'][0]
+        lado = m['linhas'][a_][de:ate + 1]
+        assert len(lado) == 2 and all(lo == -48.21 for la, lo in lado), 'divisa do TO: o lado oeste, até o corte e a divisa'
+    assert {tuple(p) for m in mu for a_, de, ate in m['uf'] for p in m['linhas'][a_][de:ate + 1]} == \
+        {(s_, -48.21), (corte, -48.21), (n, -48.21)}
+    print('ok divisas_no_site')
 
 
 def limpeza_reaproveita(d):
