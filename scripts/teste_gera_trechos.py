@@ -73,7 +73,8 @@ def test_pipeline():
                   'alimentadores/ALTESTE/dados.js', 'alimentadores/ALTESTE/ALTESTE-trechos.kmz', 'relatorio.md',
                   'assets/alimentador.js', 'assets/extras.js', 'assets/leaflet/leaflet.js',
                   'assets/busca-ativo.js', 'polos/index.html', 'assets/ranking-polos.js', 'assets/ranking-polos-dados.js',
-                  'assets/croqui.js', 'assets/croqui-modelo.js', 'assets/inspecao.js'):
+                  'assets/croqui.js', 'assets/croqui-modelo.js', 'assets/inspecao.js', 'assets/executadas.js',
+                  'alimentadores/ALTESTE/executadas.js'):
             assert (d / 'site' / f).exists(), f
         pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
         assert 'cdnjs' not in pag and 'const D' not in pag and len(pag) < 20000, 'página leve: dados e código em arquivos'
@@ -91,6 +92,7 @@ def test_pipeline():
         limpeza_reaproveita(d)
         bases_pelo_menu(d)
         manutencao_no_site(d)
+        executadas_no_site(d)
 
 
 def limpeza_reaproveita(d):
@@ -209,6 +211,73 @@ def manutencao_no_site(d):
     pag = (d / 'site' / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
     assert '<script src="manutencao.js"></script>' in pag and (d / 'site' / 'assets' / 'manutencao.js').exists()
     print('ok manutencao_no_site')
+
+
+def executadas_no_site(d):
+    """OS executadas (card Manutenção): só MC/MP; posição pelo poste da ESTRUTURA, pelo ativo da ESTRUTURA ou pelo
+    ELEMENTO (índice de ativos do site); ativo de outro alimentador vai para a página dele; sem posição fica na lista;
+    a OS repetida conta uma vez; pela automação (bases/executadas, .zip) entra no bases.json."""
+    import zipfile
+    site = d / 'site'
+    # um poste com número no índice (os postes da rede de teste são N1, N2..., que ficam fora do índice)
+    fp = site / 'dados' / 'ativos' / (gera_trechos.fatia('426869') + '.json')
+    idx = json.loads(fp.read_text(encoding='utf-8')) if fp.exists() else {}
+    idx['426869'] = [['ALTESTE', 'poste', 'T2', 'T2', -7.1985, -48.2]]
+    fp.write_text(json.dumps(idx), encoding='utf-8')
+    cab = ['NUMERO_OS', 'DESCRICAO_OS', 'ALIMENTADOR', 'CRITICIDADE', 'CODEQUIPE', 'FIM_EXEC', 'DESCESQUEMA', 'SITUACAO',
+           'ESTRUTURA', 'ELEMENTO']
+    linhas = [
+        ['ETO-RD-PA  000001/2025', 'TROCA DE\n\nISOLADOR   N1', 'ALTESTE', 'ALTA', 'ETO-RD-PA', '10/03/2025 14:00:00', 'MC - ISOLADOR',
+         'EXECUTADA', '190-426869', '8800001'],
+        ['ETO-RD-PA  000002/2026', 'TROCA DE TRAFO', 'ALTESTE', '', 'ETO-RD-PA', '05/02/2026 09:00:00',
+         'MC - SUBSTITUIÇÃO DE TRANSFORMADOR', 'EXECUTADA', 'GRU-57-5700001', '5700001'],
+        ['ETO-RD-PA  000003/2024', 'PODA', 'ALTESTE', '', 'DBM-PD', '01/07/2024 08:00:00', 'MP - PODA DE ARVORE', 'EXECUTADA',
+         '190-999999', '07900001'],
+        ['DBM-PDGU02  000004/2024', 'INSPEÇÃO', 'ALTESTE', '', 'DBM-PD', '01/07/2024 08:00:00', 'INSP - INSPEÇÃO PODA', 'EXECUTADA',
+         '190-426869', ''],
+        ['ETO-RD-PA  000005/2023', 'CRUZETA', 'ALOUTRO', '', 'ETO-RD-PA', '02/02/2023 10:00:00', 'MC - CRUZETA', 'EXECUTADA',
+         '190-426869', ''],
+        ['ETO-RD-PA  000006/2023', 'POSTE', 'ALTESTE', '', 'ETO-RD-PA', '03/03/2023 10:00:00', 'MC - POSTES', 'EXECUTADA',
+         '190-111', ''],
+        ['ETO-RD-PA  000007/2023', 'CRUZETA', 'ALSEMPAG', '', 'ETO-RD-PA', '04/03/2023 10:00:00', 'MC - CRUZETA', 'EXECUTADA',
+         '190-222', ''],
+        ['ETO-RD-PA  000001/2025', 'TROCA DE\n\nISOLADOR   N1', 'ALTESTE', 'ALTA', 'ETO-RD-PA', '10/03/2025 14:00:00', 'MC - ISOLADOR',
+         'EXECUTADA', '190-426869', '8800001'],
+        ['ETO-RD-PA  000008/2023', 'X', 'ALTESTE', '', 'ETO-RD-PA', '04/03/2023 10:00:00', 'MC - CRUZETA', 'CANCELADA', '190-426869', ''],
+    ]
+    import csv
+    import io
+    buf = io.StringIO()
+    w = csv.writer(buf, delimiter=';', lineterminator='\r\n')
+    for r in [cab] + linhas:
+        w.writerow(r)
+    (d / 'bases' / 'executadas').mkdir(parents=True)
+    z = d / 'bases' / 'executadas' / 'OS_STATUS_Executadas_teste.zip'
+    with zipfile.ZipFile(z, 'w', zipfile.ZIP_DEFLATED) as zz:
+        zz.writestr('OS_STATUS_Executadas_teste.txt', '﻿' + buf.getvalue())
+    feitos = atualiza_bases.atualiza(site, [z], hoje='2026-10-14')
+    assert list(feitos) == ['executadas']
+    ex = inspecao.le_js(site / 'alimentadores' / 'ALTESTE' / 'executadas.js')
+    por = {o[0]: o for o in ex['os']}
+    assert list(por) == ['ETO-RD-PA 000002/2026', 'ETO-RD-PA 000001/2025', 'ETO-RD-PA 000003/2024', 'ETO-RD-PA 000006/2023',
+                         'ETO-RD-PA 000005/2023'], 'só MC/MP executadas, uma vez cada, da mais recente para a mais antiga'
+    at = lambda o: ex['ativos'][o[4]] if o[4] >= 0 else None
+    o1 = por['ETO-RD-PA 000001/2025']
+    assert at(o1) == ['426869', 'poste', 'T2', -7.1985, -48.2, 'p'] and o1[2] == '2025-03-10' and o1[5] == 'TROCA DE ISOLADOR N1', o1
+    assert ex['tipos'][o1[1]] == 'MC - ISOLADOR' and o1[6] == 'alta' and o1[7] == ''
+    assert at(por['ETO-RD-PA 000002/2026'])[:2] == ['5700001', 'TR'] and at(por['ETO-RD-PA 000002/2026'])[5] == 'e', 'trafo da ESTRUTURA'
+    assert at(por['ETO-RD-PA 000003/2024'])[:2] == ['07900001', '79'] and at(por['ETO-RD-PA 000003/2024'])[5] == 'l', \
+        'poste fora do mapa: o ELEMENTO, com o código como está na OS'
+    o5 = por['ETO-RD-PA 000005/2023']
+    assert o5[4] == o1[4] and o5[7] == 'ALOUTRO', 'OS de alimentador sem página, ativo aqui: o mesmo ponto, alimentador anotado'
+    assert por['ETO-RD-PA 000006/2023'][4] == -1, 'sem posição: fica na lista'
+    assert len(ex['ativos']) == 3 and (ex['de'], ex['ate']) == ('2023-02-02', '2026-02-05'), ex
+    est = json.loads((site / 'dados' / 'bases.json').read_text(encoding='utf-8'))
+    assert est['executadas']['os'] == 5 and est['executadas']['ate'] == '2026-02-05', est['executadas']
+    assert est['executadas']['arquivo'] == 'OS_STATUS_Executadas_teste.zip' and est['executadas']['nome'] == 'OS de manutenção executadas'
+    pag = (site / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
+    assert '<script src="executadas.js"></script>' in pag and (site / 'assets' / 'executadas.js').exists()
+    print('ok executadas_no_site')
 
 
 def inspecao_no_site(d):

@@ -84,10 +84,32 @@ python scripts/gera_trechos.py --saida site --so-interface
   legenda com filtro no canto de cima; painel com totais, tipos e OS; balão com a inspeção de origem (o link liga a
   Inspeção e foca nela); OS do trecho no detalhe dele.
 
+## OS de manutenção executadas (ativos manutencionados)
+
+```bash
+python scripts/executadas.py OS_STATUS_Executadas_2021-2026.zip site   # grava alimentadores/<AL>/executadas.js
+python scripts/gera_trechos.py --saida site --so-interface
+```
+
+- Entram as OS **executadas** de manutenção corretiva (`MC - …`) e preventiva (`MP - …`); inspeção (`INSP`), manobra
+  (`AG`), construção (`ETO …`) e comissionamento ficam de fora. A OS repetida na base conta uma vez.
+- O ativo de cada OS sai do índice de ativos do site (`dados/ativos`, o mesmo da busca), nesta ordem: o poste da
+  `ESTRUTURA` (`190-426869`), o código da `ESTRUTURA` quando ela é o próprio ativo (`CAG-57-5700316113`, trafo) e o
+  `ELEMENTO` (o trafo ou a chave que atende o local, quando o poste é de rede BT e não está no mapa). Base 2021-2026:
+  218.935 OS de manutenção, 215.325 em alimentadores do site, 93% com posição (94 mil pelo poste, 6 mil pelo ativo da
+  ESTRUTURA, 100 mil pelo ELEMENTO). Ativo que hoje está em outro alimentador leva a OS para a página dele (com o
+  alimentador da OS anotado), como no NAE/100 km.
+- Na página: card **Manutenção** na linha do Faixa/Inspeção/Insp→manut; ligar a Manutenção desliga o Insp→manut (os
+  dois são losangos). Um losango por ativo, na cor do ano da OS mais recente (as cores de ano da Faixa), com o número de
+  OS; com o mapa afastado (zoom < 17), os ativos próximos viram um losango de grupo (soma das OS; o toque aproxima) e só
+  entra o que está na tela, porque há alimentador com milhares de ativos. Filtro por ano (legenda e painel) e por tipo
+  de serviço (painel); balão com as OS do ativo; OS do trecho no detalhe dele.
+- O .txt da base passa de 150 MB: pelo menu, enviar o .zip (23 MB; o limite de envio pelo navegador é 25 MB).
+
 ## Atualizar bases pelo menu (automático)
 
 No site publicado, o menu ☰ tem **Atualizar bases**: cada base abre a página de envio do GitHub na pasta dela
-(`bases/critica`, `bases/limpeza`, `bases/inspecao` no gh-pages). Quando chega arquivo, a automação
+(`bases/critica`, `bases/limpeza`, `bases/inspecao`, `bases/manutencao`, `bases/executadas` no gh-pages). Quando chega arquivo, a automação
 `.github/workflows/atualiza-bases.yml` (no gh-pages) roda `ferramentas/scripts/atualiza_bases.py --site teste` com os
 arquivos novos e publica em `teste/` (uns 5 minutos). Se der erro, não publica nada (motivo na aba Actions).
 
@@ -97,6 +119,7 @@ arquivos novos e publica em `teste/` (uns 5 minutos). Se der erro, não publica 
   que não vem na planilha sai. Conferido: a planilha montada a partir do site publicado refaz os 322 `limpeza.js` iguais.
 - Inspeção: a base inteira (aba Dados), só as executadas (`inspecao.py`).
 - Manutenção da inspeção: a base de OS geradas pela inspeção (1ª aba), sem as canceladas (`manutencao.py`).
+- Manutenção executada: o .zip da OS_STATUS_Executadas (`executadas.py`).
 - Depois: interface, `nae_rede.py`, validação e `dados/bases.json` (o que o menu mostra de cada base).
 - O repositório do site é público: o arquivo enviado fica visível.
 - `ferramentas/` no gh-pages é a cópia dos scripts que a automação usa: refazer a cada mudança neles com
@@ -113,8 +136,9 @@ python3 teste/ferramentas/nae_rede.py teste
 Grava `nae_rede` em `assets/ranking-nae.js` e `assets/ranking-polos-dados.js`: o NAE/100 km usa a NAE no
 alimentador onde o ativo está hoje no GIS (a coluna NAE segue a Crítica). Toda geração (`--so-interface`,
 `atualiza_critica.py`, `refaz_trechos.py`) reescreve esses dois arquivos sem o campo; sem rodar a ferramenta o
-NAE/100 km volta a dividir a NAE da Crítica pela rede do GIS. Ela usa o `teste-acervo/` ao lado de `teste/`, para
-na hora se a NAE por polo não bater com os `dados.js` e rodar de novo dá o mesmo resultado.
+NAE/100 km volta a dividir a NAE da Crítica pela rede do GIS. Ela usa as chaves do export do GIS de 02/10 gravadas em
+`teste/ferramentas/cadastro_anterior.json` (antes vinham do `teste-acervo/`, que saiu do site), para na hora se a NAE
+por polo não bater com os `dados.js` e rodar de novo dá o mesmo resultado.
 
 ## Saída
 
