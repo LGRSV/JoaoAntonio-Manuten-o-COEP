@@ -104,9 +104,13 @@ header{display:grid;gap:var(--s2);max-width:80ch}
 .migalhas .mig-t:empty{display:none}
 @media (pointer:coarse){.migalhas a{display:inline-flex;align-items:center;min-height:40px}}
 .al-site .wrap>.foot{display:none}   /* site: a nota vai para "Dados e procedência" (extras.js); sem isso ela aparece e depois pula */
-/* site: o painel aparece de uma vez, já completo (filtros, lista, detalhe), quando todos os scripts rodaram — sem ir empurrando a lista */
-.al-site:not(.al-pronto) .panel>:not(.busca){visibility:hidden;opacity:0}
-@media (prefers-reduced-motion:no-preference){.al-site .panel>:not(.busca){transition:opacity var(--dur-l) var(--ease)}}
+/* site: o painel aparece de uma vez, já completo (filtros, lista, detalhe), quando todos os scripts rodaram — sem ir empurrando a lista
+   (a busca também, até subir para a barra acima do mapa; a barra, que na tela cheia entra na gaveta, fica de fora) */
+.al-site:not(.al-pronto) .panel>:not(.barra-busca){visibility:hidden;opacity:0}
+@media (prefers-reduced-motion:no-preference){.al-site .panel>:not(.barra-busca){transition:opacity var(--dur-l) var(--ease)}}
+/* site: a busca e o município sobem para uma barra acima do mapa (extras.js); até ela chegar, o lugar fica guardado e o mapa não desce */
+.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(40px + var(--s5))}
+@media (max-width:980px){.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(44px + var(--s5))}}
 .eyebrow{font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .sub{font-size:var(--t-md);color:var(--muted);margin-top:calc(-1 * var(--s1))}
@@ -461,8 +465,9 @@ $('lista').addEventListener('click', e => {
     const r = rolador(), rola = d => { if (d) r ? (r.scrollTop += d) : window.scrollBy(0, d); };
     rola(b.getBoundingClientRect().top - y);             // a linha tocada fica no mesmo lugar da tela
     // o detalhe vem logo abaixo da lista: se o começo dele não aparece, sobe o necessário, sem tirar a linha tocada da vista
-    const v = areaVisivel(r), falta = $('det').getBoundingClientRect().top + 120 - v.bottom, folga = b.getBoundingClientRect().top - v.top - 40;
-    if (falta > 0 && folga > 0) rola(Math.min(falta, folga));
+    const v = areaVisivel(r), d = $('det').getBoundingClientRect().top, falta = d + 120 - v.bottom, folga = b.getBoundingClientRect().top - v.top - 40;
+    if (d < v.top) rolaPara(r, (r ? r.scrollTop : scrollY) + d - v.top - 8);   // no site o detalhe vem antes da lista (extras.js): ele vai para o alto
+    else if (falta > 0 && folga > 0) rola(Math.min(falta, folga));
   });
 });
 // trecho escolhido fora da lista (mapa, busca, link, detalhe): a lista rola por dentro até a linha e o detalhe aparece

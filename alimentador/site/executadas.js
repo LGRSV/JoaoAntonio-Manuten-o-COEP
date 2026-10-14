@@ -85,7 +85,7 @@
 .exe-os-b .q{font:600 var(--t-xs) var(--f-mono);font-variant-numeric:tabular-nums}
 .exe-os-b .s{color:var(--muted);font-size:var(--t-xs)}
 .exe-tipo{display:grid;gap:var(--s1);font:600 var(--t-xs) var(--f-body);color:var(--muted)}
-.exe-tipo select{font:var(--t-sm) var(--f-body);color:var(--fg);background:var(--paper,transparent);border:1px solid var(--line);border-radius:var(--r1);min-height:var(--alvo);padding:0 var(--s2);max-width:100%}
+.exe-tipo select{font:var(--t-sm) var(--f-body);color:var(--fg);background:var(--paper,transparent);border:1px solid var(--line);border-radius:var(--r1);min-height:var(--alvo);padding:0 var(--s2);width:100%}   /* width: o nome longo do tipo não alarga o card (sem rolagem lateral no celular) */
 .exe-tipo select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .exe-pop .t{font:700 15px var(--f-display);margin-bottom:2px}
 .exe-pop .t small{font:500 12px var(--f-body);color:#5a636a;margin-left:4px}

@@ -1,5 +1,6 @@
 // Acréscimos da página do alimentador no site por município (roda depois de alimentador.js, com window.D):
-// caminho Município › Alimentador › Trecho, filtro de município (a classe segue o T1/T2/T3 do mapa), resumo por classe, avisos, origem e KMZ.
+// caminho Município › Alimentador › Trecho, barra acima do mapa com a busca e o filtro de município (a classe segue o T1/T2/T3 do mapa),
+// resumo por classe, avisos, origem e KMZ.
 (function () {
   const M = D.meta || {};
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -50,15 +51,40 @@
     document.querySelector('header').prepend(nav);
   }
 
-  // filtro de município (select na largura toda); a classe vem dos botões T1/T2/T3 do mapa (window.__visivel, de
-  // alimentador.js): classe escondida no mapa também sai da lista. A lista é refeita a cada busca: o filtro é reaplicado
+  // barra acima do mapa (como a busca da página inicial): a busca sobe do painel (o ouvinte do modelo vai junto, pelo id) e o
+  // filtro de município fica ao lado dela; no celular, embaixo. Os achados da busca de ativo entram logo abaixo (.ativo-hit).
+  // Na tela cheia a barra vai para o alto da gaveta do painel (telacheia.js). Sem o .stage, tudo fica no painel como antes.
+  // A classe vem dos botões T1/T2/T3 do mapa (window.__visivel, de alimentador.js): classe escondida no mapa também sai
+  // da lista. A lista é refeita a cada busca: o filtro é reaplicado
   const lista = document.getElementById('lista');
   const f = document.createElement('div');
   f.className = 'filtros';
-  f.innerHTML = (muns.length > 1 ? `<label>Município <select id="f-mun"><option value="">Todos</option>${muns.map(x =>
-      `<option value="${esc(x.cod)}"${mun && x.cod === mun.cod ? ' selected' : ''}>${esc(x.nome)} (${km(x.m)})</option>`).join('')}</select></label>` : '');
-  const ferr = document.getElementById('ferramentas');
-  ferr ? ferr.prepend(f) : document.getElementById('busca').after(f);
+  f.innerHTML = (muns.length > 1 ? `<label for="f-mun" class="vh">Município</label><select id="f-mun"><option value="">Todos os municípios</option>${muns.map(x =>
+      `<option value="${esc(x.cod)}"${mun && x.cod === mun.cod ? ' selected' : ''}>${esc(x.nome)} (${km(x.m)})</option>`).join('')}</select>` : '');
+  const ferr = document.getElementById('ferramentas'), stage = document.querySelector('.wrap>.stage'), bus = document.getElementById('busca');
+  let barra = null;
+  if (stage && bus) {
+    barra = document.createElement('div');
+    barra.className = 'barra-busca';
+    barra.setAttribute('role', 'search');
+    barra.setAttribute('aria-label', 'Busca e município');
+    const linha = document.createElement('div');
+    linha.className = 'barra-linha';
+    linha.append(bus, f);
+    barra.append(linha);
+    stage.before(barra);
+  } else ferr ? ferr.prepend(f) : document.getElementById('busca').after(f);
+  {
+    const s = document.createElement('style');
+    s.textContent = '.barra-busca{position:relative;display:grid;gap:var(--s2);min-width:0}' +
+      '.barra-linha{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s3);min-width:0}' +
+      '.barra-linha>.busca{flex:1 1 240px;width:auto;min-width:0}' +
+      '.barra-linha select{flex:0 1 300px;width:auto}' +   // o nome "Município" fica só para o leitor de tela (.vh)
+      '@media (max-width:640px){.barra-linha select{flex:1 1 100%}}' +   // celular: o município numa linha só dele
+      '.barra-busca>.ativo-hit{margin:0;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}' +
+      '.barra-busca~.stage .ferramentas{margin-top:0}';   // a busca saiu do painel: o NAE não encosta mais nela
+    document.head.append(s);
+  }
   const tm = M.trecho_mun || {};
   function aplica(mexeu) {
     const vis = window.__visivel || {}, fm = (document.getElementById('f-mun') || {}).value || '';
@@ -157,7 +183,7 @@
     const box = document.createElement('div');
     box.className = 'ativo-hit';
     box.setAttribute('aria-live', 'polite');
-    lista.before(box);
+    barra ? barra.append(box) : lista.before(box);       // embaixo da barra de busca (na largura toda) ou acima da lista
     let pedido = 0, espera = null;
     campo.addEventListener('input', () => {
       clearTimeout(espera);
@@ -180,6 +206,9 @@
       poeAtivo(b.dataset.ll.split(',').map(Number), b.dataset.a);
     });
   }
+
+  // sem os botões + e − do mapa (pedido do painel): o zoom fica no gesto de pinça, na roda do mouse e no duplo clique
+  if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
   // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, a linha com Faixa (limpeza.js), Inspeção
   // (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). Devolve a linha (criada na 1ª chamada); sem o card das classes (mapa não carregou), devolve null.
@@ -234,4 +263,22 @@
     if (temT) window.__sel(tq, !temLL);                  // com o ponto do ativo, o mapa vai até ele (sem animar até o trecho)
     if (temLL) poeAtivo(ll, pq.get('a') || '');
   });
+
+  // ordem do painel: resumo (ou detalhe do trecho) primeiro, depois o mês do NAE, os blocos das camadas ligadas
+  // (Faixa, Inspeção, Insp→manut, Manutenção) e só então a lista. Os blocos entram pelos scripts seguintes: arruma
+  // quando todos já rodaram (DOMContentLoaded, na mesma volta que mostra o painel: a ordem antiga não chega a aparecer)
+  const ordena = () => {
+    const det = document.getElementById('det');
+    if (!det || !lista) return;
+    let ult = det;
+    const poe = el => {                                  // só o que está no painel (busca e município ficam onde estão)
+      if (!el || el.parentElement !== det.parentElement) return;
+      if (el !== ult.nextElementSibling) ult.after(el);
+      ult = el;
+    };
+    poe(document.getElementById('ferramentas'));
+    document.querySelectorAll('.panel>.limp-card').forEach(poe);
+    poe(lista);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ordena); else ordena();
 })();
