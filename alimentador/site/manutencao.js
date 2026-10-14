@@ -4,7 +4,7 @@
 // Manutenção, de executadas.js, também ligada, o losango dela no mesmo poste fica um pouco deslocado: os dois aparecem).
 // Situação pela data do dia: vencida (não executada e o prazo já passou), no prazo, executada.
 // Posição: o poste da ESTRUTURA da OS. Sem o poste no mapa, tocar na OS mostra o bloco da inspeção que a gerou.
-// No painel: tipos e uma linha por situação (liga/desliga no mapa; abre as OS dela embaixo). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
+// No painel: o alimentador ao lado do polo dele (as três situações), tipos e uma linha por situação (liga/desliga no mapa; abre as OS dela embaixo). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
 (function () {
   const MN = window.MANUTENCAO;
   if (!MN || !window.D) return;
@@ -24,6 +24,14 @@
   const sitDe = o => o.sit === 'EXECUTADA' ? 'exec' : o.limite && o.limite < HOJE ? 'venc' : 'pend';
   const quando = o => sitDe(o) === 'exec' ? `executada ${br(o.exec)}` : sitDe(o) === 'venc' ? `venceu ${br(o.limite)}` : `prazo ${br(o.limite)}`;
   const POR_SIT = Object.fromEntries(ORDEM.map(s => [s, MN.os.map((o, k) => k).filter(k => sitDe(MN.os[k]) === s)]));
+  // o polo do alimentador (assets/manutencao-polos.js, gera_trechos.manutencao_polos): a mesma conta por situação, somada
+  // nos alimentadores do polo, para comparar no bloco
+  const MP = window.MANUT_POLOS, PID = MP && MP.al[(D.meta || {}).al], PO = PID && MP.polos[PID];
+  const DO_POLO = PO && {
+    venc: Object.entries(PO.lim).reduce((s, [d, n]) => s + (d && d < HOJE ? n : 0), 0),
+    pend: Object.entries(PO.lim).reduce((s, [d, n]) => s + (d && d < HOJE ? 0 : n), 0),
+    exec: PO.exec,
+  };
   const TIPOS = Object.entries(MN.os.reduce((m, o) => (m[o.tipo] = (m[o.tipo] || 0) + 1, m), {})).sort((a, b) => b[1] - a[1]);
   // um ponto por poste
   const POSTES = new Map();
@@ -56,6 +64,7 @@
 .mnt-m.apaga{opacity:.35}
 /* Manutenção (executadas.js) também ligada: o losango dela desce para a direita, para não cobrir o deste no mesmo poste */
 .leaflet-marker-pane:has(.mnt-m) .exe-m{left:9px;top:9px}
+.mnt-polo{margin-top:var(--s2)}.mnt-polo td:first-child{font:600 var(--t-sm) var(--f-body)}.mnt-polo small{font-weight:400;color:var(--muted)}
 .mnt-lg{display:grid;gap:0;padding:var(--s1);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);
   border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro);font:var(--t-xs)/1.2 var(--f-body)}
 .mnt-lg[hidden]{display:none}
@@ -227,7 +236,10 @@
     const n = MN.os.length;
     const sub = n ? `${nf(n)} OS · ${ORDEM.map(s => `${nf(POR_SIT[s].length)} ${SIT[s][0].toLowerCase()}`).join(' · ')}` : 'Nenhuma OS gerada pela inspeção';
     const tipos = n ? `<p class="mnt-tipos">${TIPOS.map(([t, c]) => `<b>${esc(t.charAt(0) + t.slice(1).toLowerCase())}</b> ${nf(c)}`).join(' · ')}</p>` : '';
-    const resto = n ? tipos + `<div class="limp-anos">${ORDEM.map(linha).join('')}</div>` : '';
+    const polo = DO_POLO ? `<table class="resumo-classe mnt-polo"><tr><th></th>${ORDEM.map(s => `<th>${SIT[s][0]}</th>`).join('')}</tr>` +
+      `<tr><td>${esc((D.meta || {}).al)}</td>${ORDEM.map(s => `<td>${nf(POR_SIT[s].length)}</td>`).join('')}</tr>` +
+      `<tr><td>Polo ${esc(PO.nome)} <small>${nf(PO.als)} alim.</small></td>${ORDEM.map(s => `<td>${nf(DO_POLO[s])}</td>`).join('')}</tr></table>` : '';
+    const resto = polo + (n ? tipos + `<div class="limp-anos">${ORDEM.map(linha).join('')}</div>` : '');
     card.hidden = !st.ligado && !!btn;                    // bloco do Insp→manut só com ele ligado no mapa
     card.innerHTML = `<div class="limp-top"><h2>Insp→manut<small>${sub}</small></h2></div>
       ${resto}`;

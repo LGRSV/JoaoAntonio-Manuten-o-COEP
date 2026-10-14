@@ -739,7 +739,8 @@ def pagina_alimentador(modelo, c):
                # inspeção visual de MT: inspecao.js do alimentador vem de scripts/inspecao.py (sem ele, o card não aparece)
                '<script src="inspecao.js"></script>\n<script src="../../assets/inspecao.js"></script>\n'
                # OS de manutenção geradas pela inspeção: manutencao.js do alimentador vem de scripts/manutencao.py
-               '<script src="manutencao.js"></script>\n<script src="../../assets/manutencao.js"></script>\n'
+               '<script src="manutencao.js"></script>\n<script src="../../assets/manutencao-polos.js"></script>\n'
+               '<script src="../../assets/manutencao.js"></script>\n'
                # OS de manutenção executadas nos ativos: executadas.js do alimentador vem de scripts/executadas.py
                '<script src="executadas.js"></script>\n<script src="../../assets/executadas.js"></script>\n'
                '<script src="../../assets/telacheia.js"></script>\n'
@@ -844,6 +845,53 @@ def mapa_e_ranking(saida, dados, man):
                                          als=als), ensure_ascii=False, separators=(',', ':')) + ';\n',
         encoding='utf-8')
     return vb
+
+
+def polo_principal(c, polo_de):
+    """Polo onde o alimentador tem mais rede (km dos trechos por município); None se não tem rede em polo nenhum."""
+    km = {}
+    for t in c['trechos']:
+        for cod, m in (t.get('municipios') or {}).items():
+            if cod in polo_de:
+                km[polo_de[cod]] = km.get(polo_de[cod], 0) + m
+    return max(km, key=km.get) if km else None
+
+
+def manutencao_polos(saida, dados):
+    """assets/manutencao-polos.js (window.MANUT_POLOS): OS geradas pela inspeção somadas por polo, para o bloco Insp→manut
+    comparar o alimentador com o polo dele. Cada alimentador conta inteiro no polo onde tem mais rede (polo_principal).
+    Por polo: alimentadores com página, OS executadas e, das não executadas, quantas por data limite (vencida ou no prazo
+    a página decide com a data do dia, como no manutencao.js). Sem nenhum manutencao.js com OS: window.MANUT_POLOS = null."""
+    cfg = json.loads((PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
+    polo_de = {cod: p['id'] for p in cfg['polos'] for cod in p['municipios']}
+    polos = {p['id']: dict(nome=p['nome'], regional=p['regional'], als=0, exec=0, lim={}) for p in cfg['polos']}
+    al_polo, base, tem = {}, None, False
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        pid = polo_principal(c, polo_de)
+        if not pid:
+            continue
+        al_polo[c['alimentador']] = pid
+        q = polos[pid]
+        q['als'] += 1
+        mn = le_js(saida / 'alimentadores' / c['alimentador'] / 'manutencao.js')
+        if not mn:
+            continue
+        base = max(filter(None, [base, mn.get('base_ate')]), default=None)
+        for o in mn['os']:
+            tem = True
+            if o['sit'] == 'EXECUTADA':
+                q['exec'] += 1
+            else:
+                d = o.get('limite') or ''
+                q['lim'][d] = q['lim'].get(d, 0) + 1
+    for q in polos.values():
+        q['lim'] = dict(sorted(q['lim'].items()))
+    obj = dict(base_ate=base, polos=polos, al=al_polo) if tem else None
+    (saida / 'assets' / 'manutencao-polos.js').write_text(
+        'window.MANUT_POLOS = ' + json.dumps(obj, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
+    return obj
 
 
 def ranking_polos(saida, dados, man):
@@ -1120,6 +1168,7 @@ def interface(saida, malha=None):
                            rodape=f'<p>Malha do IBGE, amostra a cada {PASSO_M}&nbsp;m; mínimo de {MIN_M}&nbsp;m.</p>'), encoding='utf-8')
     vb = mapa_e_ranking(saida, dados, man)
     ranking_polos(saida, dados, man)
+    manutencao_polos(saida, dados)
     indice_ativos(saida, dados)
     corpo = ('<header class="cab"><h1>Trechos por município</h1><p>Escolha o município no mapa ou na lista, depois o '
              'alimentador.</p><a class="cab-link" href="polos/">Ranking dos alimentadores por polo →</a></header>\n'

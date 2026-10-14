@@ -481,6 +481,30 @@ def test_chaves_js():
     assert cs == [['8800000001', '88', -10.4, -48.4], ['8000000001', '80', -10.5, -48.5]], 'só as que não dividem, em [lat, lon]'
 
 
+
+def test_manutencao_polos():
+    cfg = json.loads((gera_trechos.PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
+    pa, pb = cfg['polos'][0], cfg['polos'][1]
+    with tempfile.TemporaryDirectory() as d:
+        saida = Path(d)
+        (saida / 'assets').mkdir()
+        ok = dict(status='ok')
+        dados = [dict(alimentador='AL1', validacao=ok, trechos=[dict(municipios={pa['municipios'][0]: 900.0, pb['municipios'][0]: 100.0})]),
+                 dict(alimentador='AL2', validacao=ok, trechos=[dict(municipios={pa['municipios'][1]: 50.0})]),
+                 dict(alimentador='AL3', validacao=dict(status='falha'), trechos=[dict(municipios={pa['municipios'][0]: 10.0})])]
+        for al, oss in [('AL1', [('EXECUTADA', '2026-01-01'), ('CRIADA', '2026-01-10'), ('CRIADA', '2026-01-10')]),
+                        ('AL2', [('PROGRAMADA', '2099-01-01')])]:
+            (saida / 'alimentadores' / al).mkdir(parents=True)
+            (saida / 'alimentadores' / al / 'manutencao.js').write_text('window.MANUTENCAO = ' + json.dumps(
+                dict(base_ate='2026-10-10', os=[dict(sit=a, limite=b) for a, b in oss])) + ';\n', encoding='utf-8')
+        obj = gera_trechos.manutencao_polos(saida, dados)
+        assert obj['al'] == {'AL1': pa['id'], 'AL2': pa['id']}, 'cada alimentador no polo de mais rede; falha fica de fora'
+        q = obj['polos'][pa['id']]
+        assert (q['als'], q['exec'], q['lim']) == (2, 1, {'2026-01-10': 2, '2099-01-01': 1}), q
+        assert obj['polos'][pb['id']]['als'] == 0
+        assert (saida / 'assets' / 'manutencao-polos.js').read_text(encoding='utf-8').startswith('window.MANUT_POLOS = {')
+
+
 if __name__ == '__main__':
     test_pipeline()
     print('ok test_pipeline')
@@ -490,3 +514,5 @@ if __name__ == '__main__':
     print('ok test_chave_sem_segmento')
     test_chaves_js()
     print('ok test_chaves_js')
+    test_manutencao_polos()
+    print('ok test_manutencao_polos')
