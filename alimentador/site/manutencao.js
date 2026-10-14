@@ -1,7 +1,7 @@
 // OS de manutenção geradas pela inspeção (roda depois de inspecao.js, com window.D e window.MANUTENCAO de
-// scripts/manutencao.py; as canceladas já ficaram de fora). Card "Insp→manut" no mapa, ao lado do "Faixa" e do
-// "Inspeção": um losango por poste com as OS dele, na cor da pior situação; fica por cima do que estiver ligado
-// (menos a Manutenção, de executadas.js, que também é de losangos: ligar uma desliga a outra).
+// scripts/manutencao.py; as canceladas já ficaram de fora). "Insp→manut" no menu Camadas do mapa, com "Faixa" e
+// "Inspeção": um losango por poste com as OS dele, na cor da pior situação; fica por cima do que estiver ligado (com a
+// Manutenção, de executadas.js, também ligada, o losango dela no mesmo poste fica um pouco deslocado: os dois aparecem).
 // Situação pela data do dia: vencida (não executada e o prazo já passou), no prazo, executada.
 // Posição: o poste da ESTRUTURA da OS. Sem o poste no mapa, tocar na OS mostra o bloco da inspeção que a gerou.
 // No painel: totais, tipos e as OS por situação. Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
@@ -56,6 +56,8 @@
   color:#fff;font:700 10.5px/16px var(--f-mono);text-align:center;box-shadow:0 0 0 1.5px #fff}
 .mnt-m.foco i{left:-11px;top:-11px;width:22px;height:22px;border-width:3px;box-shadow:0 0 0 3px #fde047,0 2px 8px #000a}
 .mnt-m.apaga{opacity:.35}
+/* Manutenção (executadas.js) também ligada: o losango dela desce para a direita, para não cobrir o deste no mesmo poste */
+.leaflet-marker-pane:has(.mnt-m) .exe-m{left:9px;top:9px}
 .mnt-lg{display:grid;gap:0;padding:var(--s1);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);
   border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro);font:var(--t-xs)/1.2 var(--f-body)}
 .mnt-lg[hidden]{display:none}
@@ -68,6 +70,13 @@
 .mnt-lg em{font:600 var(--t-xs) var(--f-mono);font-style:normal;margin-left:auto;padding-left:var(--s2);opacity:.85}
 @media (pointer:coarse){.mnt-lg button{min-height:40px}}
 @media (max-width:640px){.mnt-lg>span,.mnt-lg button .nm{display:none}.mnt-lg button{gap:6px;padding:0 8px}.mnt-lg em{padding-left:0}}   /* celular: só o losango e o número */
+/* celular com a Manutenção também ligada: as duas legendas lado a lado (uma embaixo da outra chegava nas legendas de baixo);
+   o botão Painel da tela cheia fica numa linha só dele */
+@media (max-width:640px){
+  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden])){display:flex;flex-wrap:wrap;align-items:flex-start}
+  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden]))>.tc-ctl{flex-basis:100%;align-items:flex-start;pointer-events:none}
+  .leaflet-top.leaflet-left:has(>.mnt-lg:not([hidden])):has(>.exe-lg:not([hidden]))>.tc-ctl button{pointer-events:auto}
+}
 .mnt-os-b{display:grid;gap:2px;text-align:left;width:100%;min-height:var(--alvo);padding:var(--s2) var(--s3);border:0;border-left:3px solid var(--c);border-radius:0 var(--r1) var(--r1) 0;
   background:color-mix(in srgb,var(--fg) 4%,transparent);color:var(--fg);cursor:pointer;font:var(--t-sm) var(--f-body)}
 .mnt-os-b:hover{background:color-mix(in srgb,var(--fg) 8%,transparent)}
@@ -151,11 +160,9 @@
   }
   function liga(on) {
     st.ligado = on; guarda('mnt-ligado', on ? '1' : '0');
-    if (on && window.__soEsteLosango) window.__soEsteLosango('mnt');
     if (!on) st.foco = null;
     desenha(); pinta();
   }
-  if (window.__losangos) window.__losangos.mnt = { desliga: () => { if (st.ligado) liga(false); } };
   function alternaSit(s) { st.sits.has(s) ? st.sits.delete(s) : st.sits.add(s); desenha(); pinta(); }
 
   // legenda (filtro por situação) no canto de cima, embaixo do + e −; criada depois dos outros controles da página
@@ -177,7 +184,7 @@
     pinta();
   };
 
-  // botão "Insp→manut" (OS de manutenção da inspeção) no mapa, ao lado do "Faixa" e do "Inspeção"
+  // botão "Insp→manut" (OS de manutenção da inspeção) no menu Camadas do mapa (extras.js)
   const l2 = map && window.__ctlMapa ? window.__ctlMapa() : null;
   let btn = null;
   if (l2) {

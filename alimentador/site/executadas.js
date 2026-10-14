@@ -1,9 +1,10 @@
 // OS de manutenção EXECUTADAS nos ativos do alimentador (roda depois de manutencao.js, com window.D e window.EXECUTADAS
 // de scripts/executadas.py: corretivas MC e preventivas MP; inspeção, manobra e construção ficaram de fora).
-// Card "Manutenção" no mapa, ao lado do "Insp→manut": um losango por ativo manutencionado (poste, transformador ou
+// "Manutenção" no menu Camadas do mapa, com o "Insp→manut": um losango por ativo manutencionado (poste, transformador ou
 // chave), na cor do ano da execução mais recente (as mesmas cores de ano da Faixa); o número é a quantidade de OS.
-// Filtros: ano (legenda do mapa e painel) e tipo de serviço (painel). Ligar a Manutenção desliga o Insp→manut e
-// vice-versa (os dois são losangos). Posição: o poste da ESTRUTURA da OS; sem ele no mapa, o ativo da ESTRUTURA ou o
+// Filtros: ano (legenda do mapa e painel) e tipo de serviço (painel). Liga junto com o Insp→manut (no mesmo poste,
+// o losango da Manutenção fica um pouco deslocado; manutencao.js).
+// Posição: o poste da ESTRUTURA da OS; sem ele no mapa, o ativo da ESTRUTURA ou o
 // ELEMENTO (o trafo ou a chave que atende o local). Usa o visual do cartão da limpeza (classes limp-* do limpeza.js).
 // No bloco, "Baixar OS (Excel)": CSV com as OS que os filtros de ano e tipo mostram.
 (function () {
@@ -178,11 +179,9 @@
   }
   function liga(on) {
     st.ligado = on; guarda('exe-ligado', on ? '1' : '0');
-    if (on && window.__soEsteLosango) window.__soEsteLosango('exe');
     if (!on) st.foco = null;
     desenha(); pinta();
   }
-  if (window.__losangos) window.__losangos.exe = { desliga: () => { if (st.ligado) liga(false); } };
   function alternaAno(a) { st.anos.has(a) ? st.anos.delete(a) : st.anos.add(a); desenha(); pinta(); }
 
   // legenda (filtro por ano) no canto de cima, embaixo do + e −; criada depois dos outros controles da página
@@ -204,7 +203,7 @@
     pinta();
   };
 
-  // botão "Manutenção" no mapa, na linha do "Faixa", "Inspeção" e "Insp→manut"
+  // botão "Manutenção" no menu Camadas do mapa (extras.js), com "Faixa", "Inspeção" e "Insp→manut"
   const l2 = map && window.__ctlMapa ? window.__ctlMapa() : null;
   let btn = null;
   if (l2) {

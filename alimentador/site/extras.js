@@ -214,8 +214,9 @@
   // sem os botões + e − do mapa (pedido do painel): o zoom fica no gesto de pinça, na roda do mouse e no duplo clique
   if (window.__map && window.__map.zoomControl) window.__map.removeControl(window.__map.zoomControl);
 
-  // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, a linha com Faixa (limpeza.js), Inspeção
-  // (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). Devolve a linha (criada na 1ª chamada); sem o card das classes (mapa não carregou), devolve null.
+  // canto superior direito do mapa: o card T1 T2 T3 e, embaixo dele, o menu "Camadas ▾" com Faixa (limpeza.js), Inspeção
+  // (inspecao.js), Insp→manut (manutencao.js) e Manutenção (executadas.js). Devolve a lista do menu (criada na 1ª chamada),
+  // onde cada camada põe o seu card; sem o card das classes (mapa não carregou), devolve null.
   // O Tela cheia fica no canto inferior direito (telacheia.js), com o mesmo card (.ctl-card).
   window.__ctlMapa = function () {
     const cls = document.getElementById('classes');
@@ -225,27 +226,51 @@
       dir = document.createElement('div');
       dir.className = 'ctl-dir';
       cls.before(dir);
-      const l = document.createElement('div');
-      l.className = 'ctl-l ctl-l2';
-      if (window.L) L.DomEvent.disableClickPropagation(l);
-      l.addEventListener('click', e => e.stopPropagation());   // clique nos cards não chega ao mapa (que limparia a seleção)
-      dir.append(cls, l);
+      const cam = document.createElement('div');
+      cam.className = 'ctl-cam';
+      cam.hidden = true;                                   // aparece com a 1ª camada
+      cam.innerHTML = '<div class="ctl-card"><button type="button" class="ctl-cam-b" aria-expanded="false" aria-controls="ctl-camadas" ' +
+        'title="Ligar ou desligar as camadas do mapa">Camadas<span class="ctl-cam-n"></span><span class="ctl-cam-cores" aria-hidden="true"></span>' +
+        '<svg class="ctl-cam-v" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></button></div>' +
+        '<div class="ctl-l ctl-l2" id="ctl-camadas" role="group" aria-label="Camadas do mapa" hidden></div>';
+      const l = cam.querySelector('.ctl-l2'), b = cam.querySelector('.ctl-cam-b');
+      if (window.L) L.DomEvent.disableClickPropagation(cam);
+      cam.addEventListener('click', e => e.stopPropagation());   // clique no menu não chega ao mapa (que limparia a seleção)
+      // o menu fica aberto ao ligar uma camada (dá para ligar várias); fecha no botão, no Esc, fora dele ou saindo com o Tab
+      const abre = sim => { l.hidden = !sim; b.setAttribute('aria-expanded', String(sim)); };
+      b.addEventListener('click', () => abre(l.hidden));
+      document.addEventListener('keydown', e => {          // antes do Esc da tela cheia: fecha só o menu
+        if (e.key !== 'Escape' || l.hidden) return;
+        e.stopPropagation();
+        if (cam.contains(document.activeElement)) b.focus();
+        abre(false);
+      }, true);
+      document.addEventListener('pointerdown', e => { if (!l.hidden && !cam.contains(e.target)) abre(false); }, true);
+      cam.addEventListener('focusout', e => { if (e.relatedTarget && !cam.contains(e.relatedTarget)) abre(false); });
+      // o botão mostra quantas camadas estão ligadas e as cores delas (o traço colorido de cada botão)
+      const conta = () => {
+        const on = [...l.querySelectorAll('button[aria-pressed="true"]')];
+        cam.hidden = !l.children.length;
+        b.querySelector('.ctl-cam-n').textContent = on.length ? ' · ' + on.length : '';
+        b.querySelector('.ctl-cam-cores').innerHTML = on.map(x => {
+          const g = getComputedStyle(x).backgroundImage;
+          return g && g !== 'none' ? `<i style="background-image:${g.replace(/"/g, "'")}"></i>` : '';
+        }).join('');
+      };
+      new MutationObserver(conta).observe(l, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
+      dir.append(cls, cam);
     }
     return dir.querySelector('.ctl-l2');
   };
   // balão do mapa: o Leaflet desenha os balões por baixo dos cards do canto (que ficam fora do mapa), então o balão
-  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = altura dos cards)
+  // aberto perto do alto empurra o mapa até ficar abaixo deles (folga de cima = altura dos cards; com o menu aberto, até o fim dele)
   window.__folgaBalao = () => {
     const dir = document.querySelector('.ctl-dir'), m = document.getElementById('map');
     if (!dir || !m) return [20, 20];
-    return [20, Math.max(20, Math.round(dir.getBoundingClientRect().bottom - m.getBoundingClientRect().top) + 12)];
+    const l = dir.querySelector('.ctl-l2'), fim = Math.max(dir.getBoundingClientRect().bottom, l && !l.hidden ? l.getBoundingClientRect().bottom : 0);
+    return [20, Math.max(20, Math.round(fim - m.getBoundingClientRect().top) + 12)];
   };
-  // camadas que pintam a rede inteira (Faixa, Inspeção): ligar uma desliga as outras
-  window.__camadas = window.__camadas || {};
-  window.__soEsta = nome => Object.entries(window.__camadas).forEach(([k, c]) => { if (k !== nome) c.desliga(); });
-  // camadas de losangos (Insp→manut, Manutenção): por cima da Faixa ou da Inspeção, mas uma de cada vez
-  window.__losangos = window.__losangos || {};
-  window.__soEsteLosango = nome => Object.entries(window.__losangos).forEach(([k, c]) => { if (k !== nome) c.desliga(); });
+  // as camadas se combinam livremente (Faixa, Inspeção, Insp→manut e Manutenção, quantas quiser ao mesmo tempo)
   {
     const s = document.createElement('style');
     s.textContent = '.ctl-dir{position:absolute;right:12px;top:12px;z-index:810;display:flex;flex-direction:column;align-items:flex-end;gap:var(--s2);max-width:calc(100% - 76px)}' +
@@ -255,7 +280,23 @@
       '.ctl-card button{display:inline-flex;align-items:center;gap:6px;font:600 var(--t-sm)/1 var(--f-mono);padding:0 var(--s3);border:0;border-radius:var(--r1);background-color:transparent;' +
       'color:var(--vidro-fg);cursor:pointer;min-width:40px;min-height:40px;white-space:nowrap}' +
       '.ctl-card button:hover{background-color:var(--vidro-hover)}.ctl-card button:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:1px}' +
-      '@media (prefers-reduced-motion:no-preference){.ctl-card button{transition:background-color var(--dur) var(--ease),opacity var(--dur) var(--ease)}}';
+      '@media (prefers-reduced-motion:no-preference){.ctl-card button{transition:background-color var(--dur) var(--ease),opacity var(--dur) var(--ease)}}' +
+      // menu Camadas: o botão (com o número e as cores das ligadas) e, embaixo, a lista solta sobre o mapa
+      '.ctl-cam{position:relative;display:flex;flex-direction:column;align-items:flex-end}' +
+      '.ctl-cam-n{font-variant-numeric:tabular-nums}.ctl-cam-cores{display:inline-flex;gap:2px}.ctl-cam-cores:empty{display:none}' +
+      '.ctl-cam-cores i{width:12px;height:4px;border-radius:2px;box-shadow:0 0 0 1px #0006}' +
+      '@media (max-width:640px){.ctl-cam-cores{display:none}}' +   // celular: só o número (o card estreito deixa lugar às legendas)
+      '.ctl-cam-v{flex:none;width:10px;height:6px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.85}.ctl-cam-b[aria-expanded=true]{background-color:var(--vidro-hover)}.ctl-cam-b[aria-expanded=true] .ctl-cam-v{transform:rotate(180deg)}' +
+      '.ctl-l2{position:absolute;top:calc(100% + var(--s1));right:0;flex-direction:column;flex-wrap:nowrap;gap:2px;min-width:200px;max-width:calc(100vw - 24px);padding:var(--s1);' +
+      'background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro)}' +
+      '.ctl-l2>.ctl-card{display:block;padding:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;border-radius:0;box-shadow:none}' +
+      // cada camada é uma linha inteira: caixa de marcar à esquerda, o filete colorido embaixo do nome (o de cada camada)
+      '.ctl-l2 .ctl-card button{width:100%;justify-content:flex-start;gap:var(--s2);padding:0 var(--s3) 0 var(--s2);background-size:calc(100% - 40px) 3px;background-position:32px 100%}' +
+      '.ctl-l2 .ctl-card button[aria-pressed=false]{text-decoration:none;box-shadow:none}' +
+      '.ctl-l2 .ctl-card button::before{content:"";flex:none;display:grid;place-items:center;width:16px;height:16px;box-sizing:border-box;border:1.5px solid currentColor;border-radius:4px;' +
+      'font:700 12px/1 var(--f-body);color:inherit}' +
+      '.ctl-l2 .ctl-card button[aria-pressed=true]::before{content:"✓";background:var(--vidro-fg);border-color:var(--vidro-fg);color:#0b0f14}' +
+      '@media (prefers-reduced-motion:no-preference){.ctl-cam-v{transition:transform var(--dur) var(--ease)}}';
     document.head.append(s);
   }
 

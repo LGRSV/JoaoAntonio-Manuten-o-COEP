@@ -112,7 +112,7 @@
 .limp-top h2 small{display:block;margin-top:var(--s1);font:500 var(--t-xs)/1.4 var(--f-body);color:var(--muted);white-space:normal}
 .limp-card button,.limp-sec button,.limp-maplg button,.limp-chip button{font-family:var(--f-body)}
 .limp-card button:focus-visible,.limp-sec button:focus-visible,.limp-card summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-/* botão "Faixa" no mapa (card embaixo do T1 T2 T3), no jeito dos T1 T2 T3: ligado tem o filete com as cores dos anos; desligado fica riscado */
+/* botão "Faixa" no menu Camadas do mapa, no jeito dos T1 T2 T3: ligado tem o filete com as cores dos anos; desligado fica apagado */
 .ctl-card .ctl-faixa{background-image:linear-gradient(90deg,#60a5fa,#22d3ee,#4ade80,#facc15,#fb923c);background-repeat:no-repeat;background-size:100% 3px;background-position:0 100%}
 .ctl-card .ctl-faixa[aria-pressed=false]{opacity:.6;text-decoration:line-through;background-image:none;box-shadow:inset 0 -3px 0 #5a636a}
 /* segmentado Por ano / Vencimento */
@@ -289,7 +289,8 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
       (exec.length ? linha(exec[0], 'Limpo em') + exec.slice(1).map(k => linha(k, 'Antes:')).join('') +
         `<div class="sit" style="--c:${SIT[sit][1]}">${SIT[sit][0]} · próxima até ${br(iso(somaAnos(ult, REGRA[classe])))}</div>`
         : '<div class="nada">Sem registro de limpeza aqui</div>') +
-      nexe.map(k => linha(k)).join('') + '</div>';
+      nexe.map(k => linha(k)).join('') + '</div>' +
+      (window.__balaoInsp ? window.__balaoInsp(v) : '');   // Inspeção também ligada: as inspeções do vão no mesmo balão
     L.popup({ className: 'limp-popup', maxWidth: 300, autoPanPadding: [20, 20], autoPanPaddingTopLeft: window.__folgaBalao ? window.__folgaBalao() : [20, 20] }).setLatLng(e.latlng).setContent(html).openOn(map);
   }
   if (map) map.getContainer().addEventListener('click', e => {
@@ -452,7 +453,7 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     });
   }
 
-  // botão "Faixa" no mapa (card embaixo do T1 T2 T3): liga/desliga a limpeza de faixa no mapa; os anos ficam no painel
+  // botão "Faixa" no menu Camadas do mapa (extras.js): liga/desliga a limpeza de faixa no mapa; os anos ficam no painel
   const l2 = map && window.__ctlMapa ? window.__ctlMapa() : null;
   let btnFaixa = null;
   if (l2) {
@@ -463,14 +464,12 @@ body.limp-on #map.longe .leaflet-marker-icon:has(>.at,>.lb:not(.sel)){visibility
     btnFaixa = c.querySelector('button');
     btnFaixa.addEventListener('click', () => liga(!st.ligado));
   }
-  // Faixa e Inspeção pintam a rede inteira: ligar uma desliga a outra (window.__camadas, de extras.js)
+  // liga junto com as outras camadas (com a Inspeção também ligada, ela vira a borda colorida em volta da Faixa)
   function liga(on) {
-    if (on && window.__soEsta) window.__soEsta('faixa');
     st.ligado = on; guarda('limp-ligado', on ? '1' : '0');
     window.__onSel(st.sel);
     desenha(); pinta();
   }
-  if (window.__camadas) window.__camadas.faixa = { desliga: () => { if (st.ligado) liga(false); } };
 
   // ---------- cartão no painel ----------
   const card = document.createElement('section');
