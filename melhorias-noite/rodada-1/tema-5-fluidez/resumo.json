@@ -1,0 +1,50 @@
+{
+  "tema": "Fluidez e acabamento impecável (tema 5, rodada 1)",
+  "sugestoes": [
+    {
+      "titulo": "Apagar as redes dos alimentadores durante o voo do mapa",
+      "prioridade": 1,
+      "esforco": "P",
+      "antes": ["prints/02-antes-zoom-alimentador-meio-do-voo-1440.jpg", "prints/02-antes-zoom-alimentador-meio-do-voo-390.jpg", "prints/00-fps-antes-depois-1440.jpg"],
+      "depois": ["prints/02-depois-zoom-alimentador-meio-do-voo-1440.jpg", "prints/02-depois-zoom-alimentador-pousado-1440.jpg", "prints/02-depois-zoom-alimentador-pousado-390.jpg"],
+      "prototipo": ["proto/site.css", "proto/site.css.diff"],
+      "descricao": "Abrir município, dar zoom no alimentador e voltar rodam a 18-25 fps (desktop) porque as redes (até 9.455 vértices, non-scaling-stroke, 3 camadas) são redesenhadas a cada quadro. Com .voando .mt-redes{opacity:0} e fade de 250 ms ao pousar: 53-58 fps (CPU 4x: 44-46 fps). 2 regras de CSS."
+    },
+    {
+      "titulo": "Voltar do navegador e gesto do celular sobem um nível do mapa",
+      "prioridade": 2,
+      "esforco": "M",
+      "antes": ["prints/04-antes-depois-do-voltar-1440.jpg", "prints/04-antes-depois-do-voltar-390.jpg"],
+      "depois": ["prints/04-depois-depois-do-voltar-1440.jpg", "prints/04-depois-depois-do-voltar-390.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mapa-municipios.js.diff", "teste-historico.js"],
+      "descricao": "Hoje abrir regional/polo/município não cria entrada no histórico e o Voltar sai do site. pushState por nível aberto, history.go ao subir pela interface e popstate subindo o que faltar (~25 linhas). Sequência de teste coerente, sem erros."
+    },
+    {
+      "titulo": "Foco sem paradas invisíveis e alvos de toque de 44 px",
+      "prioridade": 3,
+      "esforco": "P",
+      "antes": ["prints/03-antes-tab-10-paradas-1440.jpg", "prints/03-antes-tab-1440.txt", "prints/05-antes-alvos-de-toque-390.jpg"],
+      "depois": ["prints/03-depois-tab-10-paradas-1440.jpg", "prints/03-depois-tab-1440.txt", "prints/05-depois-alvos-de-toque-390.jpg"],
+      "prototipo": ["proto/site.css", "proto/site.css.diff"],
+      "descricao": "Os cartões Norte/Centro/Sul ficam no Tab com opacity:0 quando uma regional está aberta (3 paradas invisíveis). visibility:hidden depois do fade resolve. No celular --alvo 40 -> 44 px em pointer:coarse zera os alvos pequenos do início (4/11/7/10 por nível -> 0)."
+    },
+    {
+      "titulo": "Sem saltos na abertura: linha do menu reservada e cartões só depois de posicionados",
+      "prioridade": 4,
+      "esforco": "P",
+      "antes": ["prints/01-antes-salto-menu-390-quadro1.jpg", "prints/01-antes-salto-menu-390-quadro2.jpg", "prints/01-antes-salto-menu-1440-quadro1.jpg"],
+      "depois": ["prints/01-depois-salto-menu-390-quadro1.jpg", "prints/01-depois-salto-menu-1440-quadro1.jpg"],
+      "prototipo": ["proto/site.css", "proto/mapa-municipios.js"],
+      "descricao": "O menu.js monta o ☰ depois do 1º quadro e o conteúdo desce 64 px; os cartões das regionais nascem em (0,0) e pulam. ::before reservando a linha (:has) e data-ok nos cartões: CLS 0,046 -> 0,000 no início e 0,29 -> 0,0007 nos polos (celular lento)."
+    },
+    {
+      "titulo": "Fontes próprias (woff2 latin) com preload",
+      "prioridade": 5,
+      "esforco": "M",
+      "antes": ["medicoes/carga-antes-home.json"],
+      "depois": ["medicoes/carga-depois-home.json"],
+      "prototipo": ["proto/fonts/ibm-plex-sans-var.woff2", "proto/fontes.css", "injeta.js"],
+      "descricao": "O CSS do Google é bloqueante e encadeia 2 hosts: FCP 828 ms em 4G lenta (modelado) contra ~196 ms com 4 woff2 próprios (100 KB) e preload. Risco não medido: o GitHub Pages usa max-age=600, o Google Fonts fica 1 ano em cache; medir a 2ª visita antes de adotar."
+    }
+  ]
+}

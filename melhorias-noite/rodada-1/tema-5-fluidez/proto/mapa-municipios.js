@@ -215,7 +215,8 @@
   }
   window.addEventListener('popstate', e => {
     const alvo = (e.state && e.state.argos) || 0;
-    if (alvo >= fundura()) { hd = fundura(); return; }
+    if (alvo > fundura()) { hd = fundura(); try { history.go(fundura() - alvo); } catch (e) {} return; }   // Avançar para um nível que não dá para reabrir: desfaz
+    if (alvo === fundura()) { hd = alvo; return; }
     emPop = true;
     try { while (fundura() > alvo) sobe(); } finally { emPop = false; hd = fundura(); }
   });

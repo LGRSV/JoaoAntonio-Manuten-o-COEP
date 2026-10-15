@@ -1,0 +1,38 @@
+{
+ "desktop": {
+  "menuAberto": true,
+  "menuEscFechou": true,
+  "focoAposEsc": "BUTTON.mnu-btn",
+  "dialogoAberto": true,
+  "tabFicaNoDialogo": false,
+  "dialogoFechouComEsc": true,
+  "focoAposDialogo": "BUTTON.mnu-btn",
+  "rolaDepoisDoDialogo": true,
+  "shiftK": "dark → light",
+  "shiftKnaBuscaNaoTroca": true,
+  "alim_botaoTelaCheia": true,
+  "alim_entrou": true,
+  "alim_saiuComEsc": false,
+  "alim_bodyOverflow": "hidden",
+  "alim_rolaDepois": true,
+  "alim_erros": []
+ },
+ "celular": {
+  "menuAberto": true,
+  "menuEscFechou": true,
+  "focoAposEsc": "BUTTON.mnu-btn",
+  "dialogoAberto": true,
+  "tabFicaNoDialogo": false,
+  "dialogoFechouComEsc": true,
+  "focoAposDialogo": "BUTTON.mnu-btn",
+  "rolaDepoisDoDialogo": true,
+  "shiftK": "dark → light",
+  "shiftKnaBuscaNaoTroca": true,
+  "alim_botaoTelaCheia": true,
+  "alim_entrou": true,
+  "alim_saiuComEsc": false,
+  "alim_bodyOverflow": "hidden",
+  "alim_rolaDepois": true,
+  "alim_erros": []
+ }
+}

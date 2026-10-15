@@ -1,0 +1,11070 @@
+{
+ "desktop|escuro": {
+  "estado": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 14,
+     "h": 15
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 19,
+     "h": 15
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 30,
+     "h": 38
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 29,
+     "h": 28
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 27,
+     "h": 25
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 33,
+     "h": 22
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 60,
+     "h": 64
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 27,
+     "h": 13
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 30,
+     "h": 20
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 19,
+     "h": 25
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 22,
+     "h": 12
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 26,
+     "h": 15
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 21,
+     "h": 25
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 13,
+     "h": 18
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 14,
+     "h": 16
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 15,
+     "h": 19
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 17,
+     "h": 15
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 24,
+     "h": 14
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 40,
+     "h": 46
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 54,
+     "h": 44
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 55,
+     "h": 41
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 53,
+     "h": 27
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 73,
+     "h": 25
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 105,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 47,
+     "h": 41
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 30,
+     "h": 71
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 54,
+     "h": 55
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 39,
+     "h": 37
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 30,
+     "h": 37
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 30,
+     "h": 42
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 44,
+     "h": 38
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 42,
+     "h": 46
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 38,
+     "h": 57
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 60,
+     "h": 57
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 81,
+     "h": 82
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 27,
+     "h": 48
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 50,
+     "h": 45
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 111,
+     "h": 93
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 69,
+     "h": 35
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 23,
+     "h": 25
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 140,
+     "h": 125
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 74,
+     "h": 53
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 28,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 54,
+     "h": 64
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 27,
+     "h": 33
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 30,
+     "h": 29
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 46,
+     "h": 77
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 31,
+     "h": 38
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 47,
+     "h": 28
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 54,
+     "h": 41
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 72,
+     "h": 57
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 56,
+     "h": 75
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 37,
+     "h": 40
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 33,
+     "h": 36
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 52,
+     "h": 53
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 68,
+     "h": 34
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 63,
+     "h": 17
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 75,
+     "h": 73
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 78,
+     "h": 99
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 31,
+     "h": 40
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 63,
+     "h": 51
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 62,
+     "h": 79
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 73,
+     "h": 86
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 68,
+     "h": 44
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 26,
+     "h": 38
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 20,
+     "h": 35
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 44,
+     "h": 54
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 60,
+     "h": 83
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 96,
+     "h": 74
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 60,
+     "h": 41
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 72,
+     "h": 54
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 99,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 83,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 59,
+     "h": 36
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 29,
+     "h": 32
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 58,
+     "h": 93
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 40,
+     "h": 56
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 21,
+     "h": 24
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 54,
+     "h": 36
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 48,
+     "h": 73
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 78,
+     "h": 49
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 75,
+     "h": 72
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 54,
+     "h": 48
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 16,
+     "h": 25
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 35,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 26,
+     "h": 22
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 77,
+     "h": 32
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 75,
+     "h": 100
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 54,
+     "h": 31
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 43,
+     "h": 48
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 56,
+     "h": 29
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 66,
+     "h": 59
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 47,
+     "h": 48
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 36,
+     "h": 55
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 21,
+     "h": 22
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 34,
+     "h": 25
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 57,
+     "h": 43
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 24,
+     "h": 34
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 35,
+     "h": 23
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 23,
+     "h": 40
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 30,
+     "h": 25
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 32,
+     "h": 26
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 24,
+     "h": 36
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 24,
+     "h": 38
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 24,
+     "h": 65
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 47,
+     "h": 52
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 26,
+     "h": 53
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "busca aberta": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "input#ativo-q.busca \"\"",
+     "w": 404,
+     "h": 40
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 14,
+     "h": 15
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 19,
+     "h": 15
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 30,
+     "h": 38
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 29,
+     "h": 28
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 27,
+     "h": 25
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 33,
+     "h": 22
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 60,
+     "h": 64
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 27,
+     "h": 13
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 30,
+     "h": 20
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 19,
+     "h": 25
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 22,
+     "h": 12
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 26,
+     "h": 15
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 21,
+     "h": 25
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 13,
+     "h": 18
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 14,
+     "h": 16
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 15,
+     "h": 19
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 17,
+     "h": 15
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 24,
+     "h": 14
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 40,
+     "h": 46
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 54,
+     "h": 44
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 55,
+     "h": 41
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 53,
+     "h": 27
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 73,
+     "h": 25
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 105,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 47,
+     "h": 41
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 30,
+     "h": 71
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 54,
+     "h": 55
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 39,
+     "h": 37
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 30,
+     "h": 37
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 30,
+     "h": 42
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 44,
+     "h": 38
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 42,
+     "h": 46
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 38,
+     "h": 57
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 60,
+     "h": 57
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 81,
+     "h": 82
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 27,
+     "h": 48
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 50,
+     "h": 45
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 111,
+     "h": 93
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 69,
+     "h": 35
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 23,
+     "h": 25
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 140,
+     "h": 125
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 74,
+     "h": 53
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 28,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 54,
+     "h": 64
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 27,
+     "h": 33
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 30,
+     "h": 29
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 46,
+     "h": 77
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 31,
+     "h": 38
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 47,
+     "h": 28
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 54,
+     "h": 41
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 72,
+     "h": 57
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 56,
+     "h": 75
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 37,
+     "h": 40
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 33,
+     "h": 36
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 52,
+     "h": 53
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 68,
+     "h": 34
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 63,
+     "h": 17
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 75,
+     "h": 73
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 78,
+     "h": 99
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 31,
+     "h": 40
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 63,
+     "h": 51
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 62,
+     "h": 79
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 73,
+     "h": 86
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 68,
+     "h": 44
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 26,
+     "h": 38
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 20,
+     "h": 35
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 44,
+     "h": 54
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 60,
+     "h": 83
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 96,
+     "h": 74
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 60,
+     "h": 41
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 72,
+     "h": 54
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 99,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 83,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 59,
+     "h": 36
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 29,
+     "h": 32
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 58,
+     "h": 93
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 40,
+     "h": 56
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 21,
+     "h": 24
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 54,
+     "h": 36
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 48,
+     "h": 73
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 78,
+     "h": 49
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 75,
+     "h": 72
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 54,
+     "h": 48
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 16,
+     "h": 25
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 35,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 26,
+     "h": 22
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 77,
+     "h": 32
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 75,
+     "h": 100
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 54,
+     "h": 31
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 43,
+     "h": 48
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 56,
+     "h": 29
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 66,
+     "h": 59
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 47,
+     "h": 48
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 36,
+     "h": 55
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 21,
+     "h": 22
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 34,
+     "h": 25
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 57,
+     "h": 43
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 24,
+     "h": 34
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 35,
+     "h": 23
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 23,
+     "h": 40
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 30,
+     "h": 25
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 32,
+     "h": 26
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 24,
+     "h": 36
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 24,
+     "h": 38
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 24,
+     "h": 65
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 47,
+     "h": 52
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 26,
+     "h": 53
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "regional": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+     "w": 107,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+     "w": 151,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+     "w": 107,
+     "h": 36
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 91,
+     "h": 104
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 125,
+     "h": 94
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 120,
+     "h": 63
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 168,
+     "h": 57
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 240,
+     "h": 123
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 107,
+     "h": 95
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 69,
+     "h": 163
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 90,
+     "h": 85
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 34,
+     "h": 45
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 68,
+     "h": 85
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 70,
+     "h": 96
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 95,
+     "h": 106
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 88,
+     "h": 131
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 138,
+     "h": 131
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 186,
+     "h": 188
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 62,
+     "h": 111
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 114,
+     "h": 102
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 255,
+     "h": 213
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 157,
+     "h": 79
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 53,
+     "h": 58
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 100,
+     "h": 77
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 91,
+     "h": 82
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 320,
+     "h": 286
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 169,
+     "h": 121
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 63,
+     "h": 124
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 61,
+     "h": 75
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 68,
+     "h": 66
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 106,
+     "h": 175
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 70,
+     "h": 87
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 50,
+     "h": 49
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 107,
+     "h": 64
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 124,
+     "h": 93
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 165,
+     "h": 131
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 128,
+     "h": 172
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 119,
+     "h": 121
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 155,
+     "h": 78
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 144,
+     "h": 39
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 173,
+     "h": 166
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 178,
+     "h": 226
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 141,
+     "h": 181
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 287,
+     "h": 290
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 166,
+     "h": 196
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 47,
+     "h": 80
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 137,
+     "h": 190
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 220,
+     "h": 169
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 114,
+     "h": 98
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 73,
+     "h": 70
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 96,
+     "h": 98
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 226,
+     "h": 163
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 190,
+     "h": 89
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 67,
+     "h": 73
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 132,
+     "h": 213
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 90,
+     "h": 128
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 49,
+     "h": 56
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 34,
+     "h": 40
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 123,
+     "h": 82
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 281,
+     "h": 228
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 110,
+     "h": 166
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 72,
+     "h": 77
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 179,
+     "h": 112
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 172,
+     "h": 164
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 123,
+     "h": 111
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 37,
+     "h": 57
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 100,
+     "h": 131
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 80,
+     "h": 80
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 59,
+     "h": 50
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 176,
+     "h": 74
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 172,
+     "h": 228
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 125,
+     "h": 72
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 99,
+     "h": 111
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 129,
+     "h": 66
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 152,
+     "h": 134
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 109,
+     "h": 111
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 88,
+     "h": 97
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 82,
+     "h": 125
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 49,
+     "h": 49
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 78,
+     "h": 57
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 130,
+     "h": 98
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 55,
+     "h": 78
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 115,
+     "h": 97
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 80,
+     "h": 52
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 53,
+     "h": 91
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 69,
+     "h": 57
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 73,
+     "h": 58
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 55,
+     "h": 83
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 56,
+     "h": 87
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 55,
+     "h": 148
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 106,
+     "h": 119
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 60,
+     "h": 121
+    },
+    {
+     "n": "button.mt-volta \"Regional Centro. Voltar ao T\"",
+     "w": 40,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  },
+  "polo": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 36
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 74,
+     "h": 51
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 40,
+     "h": 32
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 71,
+     "h": 48
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 41,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 51,
+     "h": 30
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 85,
+     "h": 98
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 116,
+     "h": 94
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 117,
+     "h": 89
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 113,
+     "h": 59
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 157,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 226,
+     "h": 116
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 100,
+     "h": 89
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 65,
+     "h": 153
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 117,
+     "h": 119
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 85,
+     "h": 80
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 32,
+     "h": 42
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 64,
+     "h": 80
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 66,
+     "h": 90
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 95,
+     "h": 83
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 89,
+     "h": 100
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 82,
+     "h": 123
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 130,
+     "h": 123
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 174,
+     "h": 177
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 59,
+     "h": 104
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 107,
+     "h": 96
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 239,
+     "h": 200
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 148,
+     "h": 74
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 50,
+     "h": 55
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 94,
+     "h": 72
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 86,
+     "h": 77
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 301,
+     "h": 269
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 159,
+     "h": 114
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 59,
+     "h": 116
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 117,
+     "h": 137
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 57,
+     "h": 70
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 64,
+     "h": 62
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 100,
+     "h": 165
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 66,
+     "h": 82
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 47,
+     "h": 46
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 101,
+     "h": 60
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 117,
+     "h": 87
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 155,
+     "h": 124
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 120,
+     "h": 161
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 145,
+     "h": 73
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 135,
+     "h": 37
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 162,
+     "h": 156
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 133,
+     "h": 170
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 156,
+     "h": 185
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 44,
+     "h": 75
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 129,
+     "h": 179
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 107,
+     "h": 92
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 90,
+     "h": 92
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 212,
+     "h": 154
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 179,
+     "h": 83
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 63,
+     "h": 69
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 124,
+     "h": 200
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 85,
+     "h": 121
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 46,
+     "h": 52
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 32,
+     "h": 38
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 116,
+     "h": 77
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 264,
+     "h": 214
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 104,
+     "h": 156
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 68,
+     "h": 72
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 168,
+     "h": 105
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 162,
+     "h": 154
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 116,
+     "h": 104
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 35,
+     "h": 53
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 75,
+     "h": 75
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 55,
+     "h": 47
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 166,
+     "h": 70
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 162,
+     "h": 215
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 117,
+     "h": 67
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 93,
+     "h": 104
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 121,
+     "h": 62
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 143,
+     "h": 126
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 102,
+     "h": 104
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 82,
+     "h": 91
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 77,
+     "h": 117
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 46,
+     "h": 46
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 73,
+     "h": 53
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 123,
+     "h": 92
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 51,
+     "h": 73
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 108,
+     "h": 92
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 75,
+     "h": 49
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 50,
+     "h": 86
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 65,
+     "h": 54
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 69,
+     "h": 55
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 52,
+     "h": 78
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 52,
+     "h": 81
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 52,
+     "h": 139
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 100,
+     "h": 112
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 56,
+     "h": 114
+    },
+    {
+     "n": "button.mt-volta \"Paraíso. Voltar à Regional C\"",
+     "w": 40,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  },
+  "município": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Paraíso\"",
+     "w": 51,
+     "h": 36
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 235,
+     "h": 556
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 425,
+     "h": 433
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 435,
+     "h": 585
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 370,
+     "h": 378
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 299,
+     "h": 331
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 279,
+     "h": 425
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 167,
+     "h": 168
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 266,
+     "h": 193
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 391,
+     "h": 332
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 273,
+     "h": 177
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 236,
+     "h": 195
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 249,
+     "h": 199
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 187,
+     "h": 282
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 189,
+     "h": 296
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 205,
+     "h": 412
+    },
+    {
+     "n": "button.mt-volta \"Dois Irmãos do Tocantins. Vo\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.mt-amun \"Abrir Dois Irmãos do Tocanti\"",
+     "w": 265,
+     "h": 28
+    },
+    {
+     "n": "button.mt-al \"LD0205000894 NAE · 1.536,2 k\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0105000817 NAE · 88,2 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0506201342 NAE · 53,8 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0143414928 NAE · 23,1 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"AL010170174 NAE · 1,7 km aqu\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0202203360 NAE · 0,3 km aq\"",
+     "w": 265,
+     "h": 60
+    }
+   ],
+   "baixos": []
+  },
+  "alimentador": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a \"Municípios\"",
+     "w": 62,
+     "h": 20
+    },
+    {
+     "n": "input#busca.busca \"Buscar trecho, ativo ou post\"",
+     "w": 836,
+     "h": 40
+    },
+    {
+     "n": "select#f-mun \"Todos os municípiosPorto Nac\"",
+     "w": 260,
+     "h": 40
+    },
+    {
+     "n": "button#mes \"Meses: todos\"",
+     "w": 209,
+     "h": 40
+    },
+    {
+     "n": "div#map.leaflet-container \"Mapa dos trechos\"",
+     "w": 924,
+     "h": 702
+    },
+    {
+     "n": "button \"T1\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T2\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T3\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button.ctl-cam-b \"Menu do mapa: 1 camada ligad\"",
+     "w": 80,
+     "h": 40
+    },
+    {
+     "n": "button \"2023\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"2022\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"Criadas\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"Por ano\"",
+     "w": 182,
+     "h": 40
+    },
+    {
+     "n": "button \"Vencimento\"",
+     "w": 182,
+     "h": 40
+    },
+    {
+     "n": "button.liga \"2023 no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"2023 · 3 OS3,9 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "button.liga \"2022 no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"2022 · 3 OS20,3 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "button.liga \"Criadas no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"Criadas · 3 OS21,0 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "summary \"Dadoscom avisos\"",
+     "w": 372,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  }
+ },
+ "celular|escuro": {
+  "estado": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 11,
+     "h": 12
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 28,
+     "h": 19
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 15,
+     "h": 12
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 27,
+     "h": 15
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 24,
+     "h": 31
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 19,
+     "h": 19
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 27,
+     "h": 18
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 48,
+     "h": 51
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 22,
+     "h": 10
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 18,
+     "h": 10
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 21,
+     "h": 12
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 37,
+     "h": 29
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 10,
+     "h": 15
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 13,
+     "h": 16
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 13,
+     "h": 12
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 19,
+     "h": 11
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 32,
+     "h": 37
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 43,
+     "h": 36
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 43,
+     "h": 22
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 59,
+     "h": 20
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 85,
+     "h": 44
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 38,
+     "h": 34
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 24,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 44,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 12,
+     "h": 16
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 24,
+     "h": 30
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 25,
+     "h": 34
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 34,
+     "h": 38
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 31,
+     "h": 46
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 49,
+     "h": 46
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 66,
+     "h": 67
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 22,
+     "h": 39
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 90,
+     "h": 75
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 56,
+     "h": 28
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 19,
+     "h": 21
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 36,
+     "h": 27
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 32,
+     "h": 29
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 113,
+     "h": 101
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 60,
+     "h": 43
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 22,
+     "h": 44
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 44,
+     "h": 52
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 21,
+     "h": 26
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 24,
+     "h": 23
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 37,
+     "h": 62
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 25,
+     "h": 31
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 18,
+     "h": 17
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 38,
+     "h": 23
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 58,
+     "h": 47
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 45,
+     "h": 61
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 76,
+     "h": 100
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 45,
+     "h": 40
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 26,
+     "h": 29
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 55,
+     "h": 28
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 51,
+     "h": 14
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 61,
+     "h": 59
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 74,
+     "h": 63
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 49,
+     "h": 44
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 30,
+     "h": 35
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 23,
+     "h": 43
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 63,
+     "h": 80
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 29,
+     "h": 65
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 25,
+     "h": 33
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 51,
+     "h": 42
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 50,
+     "h": 64
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 101,
+     "h": 103
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 59,
+     "h": 69
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 55,
+     "h": 35
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 21,
+     "h": 31
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 39,
+     "h": 21
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 13,
+     "h": 14
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 17,
+     "h": 28
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 12,
+     "h": 12
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 36,
+     "h": 43
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 49,
+     "h": 67
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 78,
+     "h": 60
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 49,
+     "h": 33
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 26,
+     "h": 25
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 80,
+     "h": 58
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 67,
+     "h": 31
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 48,
+     "h": 29
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 24,
+     "h": 26
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 47,
+     "h": 75
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 32,
+     "h": 45
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 12,
+     "h": 14
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 99,
+     "h": 81
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 39,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 25,
+     "h": 27
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 63,
+     "h": 39
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 61,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 13,
+     "h": 20
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 35,
+     "h": 46
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 21,
+     "h": 18
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 62,
+     "h": 26
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 61,
+     "h": 81
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 44,
+     "h": 25
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 35,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 46,
+     "h": 23
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 54,
+     "h": 47
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 38,
+     "h": 39
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 29,
+     "h": 44
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 17,
+     "h": 17
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 28,
+     "h": 20
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 19,
+     "h": 28
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 41,
+     "h": 34
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 28,
+     "h": 18
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 19,
+     "h": 32
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 24,
+     "h": 20
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 26,
+     "h": 21
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 19,
+     "h": 29
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 20,
+     "h": 31
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 19,
+     "h": 52
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 21,
+     "h": 43
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "busca aberta": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "input#ativo-q.busca \"\"",
+     "w": 302,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 11,
+     "h": 12
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 28,
+     "h": 19
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 15,
+     "h": 12
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 27,
+     "h": 15
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 24,
+     "h": 31
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 19,
+     "h": 19
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 27,
+     "h": 18
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 48,
+     "h": 51
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 22,
+     "h": 10
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 18,
+     "h": 10
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 21,
+     "h": 12
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 37,
+     "h": 29
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 10,
+     "h": 15
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 13,
+     "h": 16
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 13,
+     "h": 12
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 19,
+     "h": 11
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 32,
+     "h": 37
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 43,
+     "h": 36
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 43,
+     "h": 22
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 59,
+     "h": 20
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 85,
+     "h": 44
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 38,
+     "h": 34
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 24,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 44,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 12,
+     "h": 16
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 24,
+     "h": 30
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 25,
+     "h": 34
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 34,
+     "h": 38
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 31,
+     "h": 46
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 49,
+     "h": 46
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 66,
+     "h": 67
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 22,
+     "h": 39
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 90,
+     "h": 75
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 56,
+     "h": 28
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 19,
+     "h": 21
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 36,
+     "h": 27
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 32,
+     "h": 29
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 113,
+     "h": 101
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 60,
+     "h": 43
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 22,
+     "h": 44
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 44,
+     "h": 52
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 21,
+     "h": 26
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 24,
+     "h": 23
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 37,
+     "h": 62
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 25,
+     "h": 31
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 18,
+     "h": 17
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 38,
+     "h": 23
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 58,
+     "h": 47
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 45,
+     "h": 61
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 76,
+     "h": 100
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 45,
+     "h": 40
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 26,
+     "h": 29
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 55,
+     "h": 28
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 51,
+     "h": 14
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 61,
+     "h": 59
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 74,
+     "h": 63
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 49,
+     "h": 44
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 30,
+     "h": 35
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 23,
+     "h": 43
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 63,
+     "h": 80
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 29,
+     "h": 65
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 25,
+     "h": 33
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 51,
+     "h": 42
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 50,
+     "h": 64
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 101,
+     "h": 103
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 59,
+     "h": 69
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 55,
+     "h": 35
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 21,
+     "h": 31
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 39,
+     "h": 21
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 13,
+     "h": 14
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 17,
+     "h": 28
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 12,
+     "h": 12
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 36,
+     "h": 43
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 49,
+     "h": 67
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 78,
+     "h": 60
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 49,
+     "h": 33
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 26,
+     "h": 25
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 80,
+     "h": 58
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 67,
+     "h": 31
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 48,
+     "h": 29
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 24,
+     "h": 26
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 47,
+     "h": 75
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 32,
+     "h": 45
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 12,
+     "h": 14
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 99,
+     "h": 81
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 39,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 25,
+     "h": 27
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 63,
+     "h": 39
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 61,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 13,
+     "h": 20
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 35,
+     "h": 46
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 21,
+     "h": 18
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 62,
+     "h": 26
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 61,
+     "h": 81
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 44,
+     "h": 25
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 35,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 46,
+     "h": 23
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 54,
+     "h": 47
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 38,
+     "h": 39
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 29,
+     "h": 44
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 17,
+     "h": 17
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 28,
+     "h": 20
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 19,
+     "h": 28
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 41,
+     "h": 34
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 28,
+     "h": 18
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 19,
+     "h": 32
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 24,
+     "h": 20
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 26,
+     "h": 21
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 19,
+     "h": 29
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 20,
+     "h": 31
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 19,
+     "h": 52
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 21,
+     "h": 43
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "regional": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+     "w": 107,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+     "w": 151,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+     "w": 107,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 10,
+     "h": 11
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 25,
+     "h": 17
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 13,
+     "h": 11
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 24,
+     "h": 13
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 21,
+     "h": 27
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 20,
+     "h": 18
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 30,
+     "h": 31
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 43,
+     "h": 46
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 19,
+     "h": 9
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 21,
+     "h": 14
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 14,
+     "h": 18
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 16,
+     "h": 9
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 18,
+     "h": 11
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 33,
+     "h": 25
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 9,
+     "h": 13
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 10,
+     "h": 12
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 15,
+     "h": 14
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 11,
+     "h": 14
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 12,
+     "h": 11
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 17,
+     "h": 10
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 28,
+     "h": 33
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 38,
+     "h": 31
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 39,
+     "h": 30
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 38,
+     "h": 20
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 52,
+     "h": 18
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 75,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 33,
+     "h": 30
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 22,
+     "h": 51
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 39,
+     "h": 40
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 28,
+     "h": 27
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 11,
+     "h": 14
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 21,
+     "h": 27
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 22,
+     "h": 30
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 32,
+     "h": 28
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 27,
+     "h": 41
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 43,
+     "h": 41
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 58,
+     "h": 59
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 19,
+     "h": 35
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 36,
+     "h": 32
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 80,
+     "h": 67
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 49,
+     "h": 25
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 17,
+     "h": 18
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 31,
+     "h": 24
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 29,
+     "h": 26
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 100,
+     "h": 90
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 53,
+     "h": 38
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 20,
+     "h": 39
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 39,
+     "h": 46
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 19,
+     "h": 23
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 21,
+     "h": 21
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 33,
+     "h": 55
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 22,
+     "h": 27
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 15,
+     "h": 15
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 34,
+     "h": 20
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 39,
+     "h": 29
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 52,
+     "h": 41
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 40,
+     "h": 54
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 68,
+     "h": 88
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 27,
+     "h": 29
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 23,
+     "h": 26
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 37,
+     "h": 38
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 48,
+     "h": 24
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 45,
+     "h": 12
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 54,
+     "h": 52
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 66,
+     "h": 56
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 27,
+     "h": 31
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 21,
+     "h": 38
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 56,
+     "h": 71
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 26,
+     "h": 57
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 22,
+     "h": 29
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 45,
+     "h": 37
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 90,
+     "h": 91
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 52,
+     "h": 61
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 48,
+     "h": 31
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 19,
+     "h": 27
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 31,
+     "h": 21
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 12,
+     "h": 13
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 15,
+     "h": 25
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 11,
+     "h": 10
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 32,
+     "h": 38
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 43,
+     "h": 60
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 69,
+     "h": 53
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 61,
+     "h": 57
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 43,
+     "h": 29
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 51,
+     "h": 39
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 23,
+     "h": 22
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 30,
+     "h": 31
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 71,
+     "h": 51
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 59,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 42,
+     "h": 26
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 21,
+     "h": 23
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 41,
+     "h": 67
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 28,
+     "h": 40
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 15,
+     "h": 17
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 39,
+     "h": 26
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 88,
+     "h": 71
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 35,
+     "h": 52
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 22,
+     "h": 24
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 56,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 54,
+     "h": 51
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 39,
+     "h": 35
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 12,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 31,
+     "h": 41
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 25,
+     "h": 25
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 18,
+     "h": 16
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 55,
+     "h": 23
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 54,
+     "h": 71
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 39,
+     "h": 22
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 31,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 40,
+     "h": 21
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 47,
+     "h": 42
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 27,
+     "h": 30
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 26,
+     "h": 39
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 15,
+     "h": 15
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 24,
+     "h": 18
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 41,
+     "h": 31
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 17,
+     "h": 24
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 25,
+     "h": 16
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 17,
+     "h": 29
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 22,
+     "h": 18
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 23,
+     "h": 18
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 17,
+     "h": 26
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 17,
+     "h": 27
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 17,
+     "h": 46
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 33,
+     "h": 37
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 19,
+     "h": 38
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Regional Centro. Voltar ao T\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a \"Relatório de validação\"",
+     "w": 130,
+     "h": 44
+    },
+    {
+     "n": "a \"manifesto.json\"",
+     "w": 84,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "polo": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 55,
+     "h": 56
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 79,
+     "h": 84
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 36,
+     "h": 17
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 39,
+     "h": 26
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 60,
+     "h": 46
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 22,
+     "h": 20
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 52,
+     "h": 60
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 69,
+     "h": 36
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 96,
+     "h": 33
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 138,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 40,
+     "h": 94
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 72,
+     "h": 73
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 52,
+     "h": 49
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 20,
+     "h": 26
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 39,
+     "h": 49
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 40,
+     "h": 55
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 58,
+     "h": 51
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 55,
+     "h": 61
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 50,
+     "h": 75
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 65,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 147,
+     "h": 123
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 90,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 31,
+     "h": 33
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 53,
+     "h": 47
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 184,
+     "h": 165
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 97,
+     "h": 70
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 36,
+     "h": 71
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 72,
+     "h": 84
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 35,
+     "h": 43
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 39,
+     "h": 38
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 61,
+     "h": 101
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 40,
+     "h": 50
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 62,
+     "h": 37
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 71,
+     "h": 54
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 95,
+     "h": 76
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 73,
+     "h": 99
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 124,
+     "h": 162
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 73,
+     "h": 65
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 49,
+     "h": 53
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 43,
+     "h": 47
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 69,
+     "h": 70
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 89,
+     "h": 45
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 83,
+     "h": 22
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 99,
+     "h": 95
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 121,
+     "h": 103
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 80,
+     "h": 72
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 38,
+     "h": 69
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 102,
+     "h": 130
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 48,
+     "h": 105
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 41,
+     "h": 53
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 83,
+     "h": 68
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 81,
+     "h": 104
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 165,
+     "h": 167
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 65,
+     "h": 56
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 109,
+     "h": 51
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 78,
+     "h": 47
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 76,
+     "h": 122
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 52,
+     "h": 74
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 28,
+     "h": 32
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 20,
+     "h": 23
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 71,
+     "h": 47
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 63,
+     "h": 96
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 72,
+     "h": 41
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 62,
+     "h": 64
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 50,
+     "h": 56
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 47,
+     "h": 72
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 45,
+     "h": 33
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 75,
+     "h": 57
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 31,
+     "h": 45
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 66,
+     "h": 56
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 46,
+     "h": 30
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 31,
+     "h": 53
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 40,
+     "h": 33
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 42,
+     "h": 34
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 32,
+     "h": 48
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 32,
+     "h": 50
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 32,
+     "h": 85
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 34,
+     "h": 69
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Paraíso. Voltar à Regional C\"",
+     "w": 44,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "município": {
+   "alvos": [
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Paraíso\"",
+     "w": 51,
+     "h": 44
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 269,
+     "h": 361
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 229,
+     "h": 234
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 184,
+     "h": 204
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 172,
+     "h": 263
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 103,
+     "h": 104
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 115,
+     "h": 174
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 126,
+     "h": 254
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Dois Irmãos do Tocantins. Vo\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "button.mt-puxa \"Esconder os alimentadores\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "a.mt-amun \"Abrir Dois Irmãos do Tocanti\"",
+     "w": 265,
+     "h": 44
+    },
+    {
+     "n": "button.mt-al \"LD0205000894 NAE · 1.536,2 k\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0105000817 NAE · 88,2 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0506201342 NAE · 53,8 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0143414928 NAE · 23,1 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"AL010170174 NAE · 1,7 km aqu\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0202203360 NAE · 0,3 km aq\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "a \"Relatório de validação\"",
+     "w": 130,
+     "h": 44
+    },
+    {
+     "n": "a \"manifesto.json\"",
+     "w": 84,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "alimentador": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a \"Municípios\"",
+     "w": 62,
+     "h": 40
+    },
+    {
+     "n": "input#busca.busca \"Buscar trecho, ativo ou post\"",
+     "w": 358,
+     "h": 44
+    },
+    {
+     "n": "select#f-mun \"Todos os municípiosPorto Nac\"",
+     "w": 173,
+     "h": 44
+    },
+    {
+     "n": "button#mes \"Meses: todos\"",
+     "w": 173,
+     "h": 44
+    },
+    {
+     "n": "div#map.leaflet-container \"Mapa dos trechos\"",
+     "w": 358,
+     "h": 490
+    },
+    {
+     "n": "a \"Leaflet\"",
+     "w": 49,
+     "h": 14
+    },
+    {
+     "n": "button \"T1\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T2\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T3\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button.ctl-cam-b \"Menu do mapa: 1 camada ligad\"",
+     "w": 80,
+     "h": 40
+    },
+    {
+     "n": "button.tc-btn \"Mapa em tela cheia\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"2023\"",
+     "w": 83,
+     "h": 40
+    },
+    {
+     "n": "button \"2022\"",
+     "w": 83,
+     "h": 40
+    },
+    {
+     "n": "button \"Criadas\"",
+     "w": 83,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  }
+ },
+ "desktop|claro": {
+  "estado": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 14,
+     "h": 15
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 19,
+     "h": 15
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 30,
+     "h": 38
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 29,
+     "h": 28
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 27,
+     "h": 25
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 33,
+     "h": 22
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 60,
+     "h": 64
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 27,
+     "h": 13
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 30,
+     "h": 20
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 19,
+     "h": 25
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 22,
+     "h": 12
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 26,
+     "h": 15
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 21,
+     "h": 25
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 13,
+     "h": 18
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 14,
+     "h": 16
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 15,
+     "h": 19
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 17,
+     "h": 15
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 24,
+     "h": 14
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 40,
+     "h": 46
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 54,
+     "h": 44
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 55,
+     "h": 41
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 53,
+     "h": 27
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 73,
+     "h": 25
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 105,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 47,
+     "h": 41
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 30,
+     "h": 71
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 54,
+     "h": 55
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 39,
+     "h": 37
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 30,
+     "h": 37
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 30,
+     "h": 42
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 44,
+     "h": 38
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 42,
+     "h": 46
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 38,
+     "h": 57
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 60,
+     "h": 57
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 81,
+     "h": 82
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 27,
+     "h": 48
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 50,
+     "h": 45
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 111,
+     "h": 93
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 69,
+     "h": 35
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 23,
+     "h": 25
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 140,
+     "h": 125
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 74,
+     "h": 53
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 28,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 54,
+     "h": 64
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 27,
+     "h": 33
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 30,
+     "h": 29
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 46,
+     "h": 77
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 31,
+     "h": 38
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 47,
+     "h": 28
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 54,
+     "h": 41
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 72,
+     "h": 57
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 56,
+     "h": 75
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 37,
+     "h": 40
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 33,
+     "h": 36
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 52,
+     "h": 53
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 68,
+     "h": 34
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 63,
+     "h": 17
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 75,
+     "h": 73
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 78,
+     "h": 99
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 31,
+     "h": 40
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 63,
+     "h": 51
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 62,
+     "h": 79
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 73,
+     "h": 86
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 68,
+     "h": 44
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 26,
+     "h": 38
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 20,
+     "h": 35
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 44,
+     "h": 54
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 60,
+     "h": 83
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 96,
+     "h": 74
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 60,
+     "h": 41
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 72,
+     "h": 54
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 99,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 83,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 59,
+     "h": 36
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 29,
+     "h": 32
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 58,
+     "h": 93
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 40,
+     "h": 56
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 21,
+     "h": 24
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 54,
+     "h": 36
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 48,
+     "h": 73
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 78,
+     "h": 49
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 75,
+     "h": 72
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 54,
+     "h": 48
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 16,
+     "h": 25
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 35,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 26,
+     "h": 22
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 77,
+     "h": 32
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 75,
+     "h": 100
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 54,
+     "h": 31
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 43,
+     "h": 48
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 56,
+     "h": 29
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 66,
+     "h": 59
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 47,
+     "h": 48
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 36,
+     "h": 55
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 21,
+     "h": 22
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 34,
+     "h": 25
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 57,
+     "h": 43
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 24,
+     "h": 34
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 35,
+     "h": 23
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 23,
+     "h": 40
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 30,
+     "h": 25
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 32,
+     "h": 26
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 24,
+     "h": 36
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 24,
+     "h": 38
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 24,
+     "h": 65
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 47,
+     "h": 52
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 26,
+     "h": 53
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "busca aberta": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "input#ativo-q.busca \"\"",
+     "w": 404,
+     "h": 40
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 14,
+     "h": 15
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 19,
+     "h": 15
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 30,
+     "h": 38
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 29,
+     "h": 28
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 27,
+     "h": 25
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 33,
+     "h": 22
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 60,
+     "h": 64
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 27,
+     "h": 13
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 30,
+     "h": 20
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 19,
+     "h": 25
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 22,
+     "h": 12
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 26,
+     "h": 15
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 21,
+     "h": 25
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 13,
+     "h": 18
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 14,
+     "h": 16
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 15,
+     "h": 19
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 17,
+     "h": 15
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 24,
+     "h": 14
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 40,
+     "h": 46
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 54,
+     "h": 44
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 55,
+     "h": 41
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 53,
+     "h": 27
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 73,
+     "h": 25
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 105,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 47,
+     "h": 41
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 30,
+     "h": 71
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 54,
+     "h": 55
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 39,
+     "h": 37
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 30,
+     "h": 37
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 30,
+     "h": 42
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 44,
+     "h": 38
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 42,
+     "h": 46
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 38,
+     "h": 57
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 60,
+     "h": 57
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 81,
+     "h": 82
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 27,
+     "h": 48
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 50,
+     "h": 45
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 111,
+     "h": 93
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 69,
+     "h": 35
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 23,
+     "h": 25
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 140,
+     "h": 125
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 74,
+     "h": 53
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 28,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 54,
+     "h": 64
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 27,
+     "h": 33
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 30,
+     "h": 29
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 46,
+     "h": 77
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 31,
+     "h": 38
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 47,
+     "h": 28
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 54,
+     "h": 41
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 72,
+     "h": 57
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 56,
+     "h": 75
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 37,
+     "h": 40
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 33,
+     "h": 36
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 52,
+     "h": 53
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 68,
+     "h": 34
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 63,
+     "h": 17
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 75,
+     "h": 73
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 78,
+     "h": 99
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 31,
+     "h": 40
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 63,
+     "h": 51
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 62,
+     "h": 79
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 73,
+     "h": 86
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 68,
+     "h": 44
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 26,
+     "h": 38
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 20,
+     "h": 35
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 44,
+     "h": 54
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 60,
+     "h": 83
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 96,
+     "h": 74
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 60,
+     "h": 41
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 72,
+     "h": 54
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 99,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 83,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 59,
+     "h": 36
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 29,
+     "h": 32
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 58,
+     "h": 93
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 40,
+     "h": 56
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 21,
+     "h": 24
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 54,
+     "h": 36
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 48,
+     "h": 73
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 78,
+     "h": 49
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 75,
+     "h": 72
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 54,
+     "h": 48
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 16,
+     "h": 25
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 35,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 26,
+     "h": 22
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 77,
+     "h": 32
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 75,
+     "h": 100
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 54,
+     "h": 31
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 43,
+     "h": 48
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 56,
+     "h": 29
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 66,
+     "h": 59
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 47,
+     "h": 48
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 36,
+     "h": 55
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 21,
+     "h": 22
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 34,
+     "h": 25
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 57,
+     "h": 43
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 24,
+     "h": 34
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 50,
+     "h": 43
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 35,
+     "h": 23
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 23,
+     "h": 40
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 30,
+     "h": 25
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 32,
+     "h": 26
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 24,
+     "h": 36
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 24,
+     "h": 38
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 24,
+     "h": 65
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 47,
+     "h": 52
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 26,
+     "h": 53
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "regional": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+     "w": 107,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+     "w": 151,
+     "h": 36
+    },
+    {
+     "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+     "w": 107,
+     "h": 36
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 91,
+     "h": 104
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 123,
+     "h": 100
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 125,
+     "h": 94
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 120,
+     "h": 63
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 168,
+     "h": 57
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 240,
+     "h": 123
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 107,
+     "h": 95
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 69,
+     "h": 163
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 125,
+     "h": 127
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 90,
+     "h": 85
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 34,
+     "h": 45
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 68,
+     "h": 85
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 70,
+     "h": 96
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 95,
+     "h": 106
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 88,
+     "h": 131
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 138,
+     "h": 131
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 186,
+     "h": 188
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 62,
+     "h": 111
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 114,
+     "h": 102
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 255,
+     "h": 213
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 157,
+     "h": 79
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 53,
+     "h": 58
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 100,
+     "h": 77
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 91,
+     "h": 82
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 320,
+     "h": 286
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 169,
+     "h": 121
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 63,
+     "h": 124
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 61,
+     "h": 75
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 68,
+     "h": 66
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 106,
+     "h": 175
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 70,
+     "h": 87
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 50,
+     "h": 49
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 107,
+     "h": 64
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 124,
+     "h": 93
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 165,
+     "h": 131
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 128,
+     "h": 172
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 119,
+     "h": 121
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 155,
+     "h": 78
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 144,
+     "h": 39
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 173,
+     "h": 166
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 178,
+     "h": 226
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 141,
+     "h": 181
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 287,
+     "h": 290
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 166,
+     "h": 196
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 47,
+     "h": 80
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 137,
+     "h": 190
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 220,
+     "h": 169
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 114,
+     "h": 98
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 73,
+     "h": 70
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 96,
+     "h": 98
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 226,
+     "h": 163
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 190,
+     "h": 89
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 67,
+     "h": 73
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 132,
+     "h": 213
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 90,
+     "h": 128
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 49,
+     "h": 56
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 34,
+     "h": 40
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 123,
+     "h": 82
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 281,
+     "h": 228
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 110,
+     "h": 166
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 72,
+     "h": 77
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 179,
+     "h": 112
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 172,
+     "h": 164
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 123,
+     "h": 111
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 37,
+     "h": 57
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 100,
+     "h": 131
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 80,
+     "h": 80
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 59,
+     "h": 50
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 176,
+     "h": 74
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 172,
+     "h": 228
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 125,
+     "h": 72
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 99,
+     "h": 111
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 129,
+     "h": 66
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 152,
+     "h": 134
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 109,
+     "h": 111
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 88,
+     "h": 97
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 82,
+     "h": 125
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 49,
+     "h": 49
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 78,
+     "h": 57
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 130,
+     "h": 98
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 55,
+     "h": 78
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 115,
+     "h": 97
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 80,
+     "h": 52
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 53,
+     "h": 91
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 69,
+     "h": 57
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 73,
+     "h": 58
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 55,
+     "h": 83
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 56,
+     "h": 87
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 55,
+     "h": 148
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 106,
+     "h": 119
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 60,
+     "h": 121
+    },
+    {
+     "n": "button.mt-volta \"Regional Centro. Voltar ao T\"",
+     "w": 40,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  },
+  "polo": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 36
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 74,
+     "h": 51
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 40,
+     "h": 32
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 71,
+     "h": 48
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 41,
+     "h": 54
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 51,
+     "h": 30
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 85,
+     "h": 98
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 116,
+     "h": 94
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 117,
+     "h": 89
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 113,
+     "h": 59
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 157,
+     "h": 54
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 226,
+     "h": 116
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 100,
+     "h": 89
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 65,
+     "h": 153
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 117,
+     "h": 119
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 85,
+     "h": 80
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 32,
+     "h": 42
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 64,
+     "h": 80
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 66,
+     "h": 90
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 95,
+     "h": 83
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 89,
+     "h": 100
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 82,
+     "h": 123
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 130,
+     "h": 123
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 174,
+     "h": 177
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 59,
+     "h": 104
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 107,
+     "h": 96
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 239,
+     "h": 200
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 148,
+     "h": 74
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 50,
+     "h": 55
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 94,
+     "h": 72
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 86,
+     "h": 77
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 301,
+     "h": 269
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 159,
+     "h": 114
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 59,
+     "h": 116
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 117,
+     "h": 137
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 57,
+     "h": 70
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 64,
+     "h": 62
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 100,
+     "h": 165
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 66,
+     "h": 82
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 47,
+     "h": 46
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 101,
+     "h": 60
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 117,
+     "h": 87
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 155,
+     "h": 124
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 120,
+     "h": 161
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 145,
+     "h": 73
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 135,
+     "h": 37
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 162,
+     "h": 156
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 133,
+     "h": 170
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 156,
+     "h": 185
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 44,
+     "h": 75
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 129,
+     "h": 179
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 107,
+     "h": 92
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 90,
+     "h": 92
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 212,
+     "h": 154
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 179,
+     "h": 83
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 63,
+     "h": 69
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 124,
+     "h": 200
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 85,
+     "h": 121
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 46,
+     "h": 52
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 32,
+     "h": 38
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 116,
+     "h": 77
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 264,
+     "h": 214
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 104,
+     "h": 156
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 68,
+     "h": 72
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 168,
+     "h": 105
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 162,
+     "h": 154
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 116,
+     "h": 104
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 35,
+     "h": 53
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 94,
+     "h": 123
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 75,
+     "h": 75
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 55,
+     "h": 47
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 166,
+     "h": 70
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 162,
+     "h": 215
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 117,
+     "h": 67
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 93,
+     "h": 104
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 121,
+     "h": 62
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 143,
+     "h": 126
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 102,
+     "h": 104
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 82,
+     "h": 91
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 77,
+     "h": 117
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 46,
+     "h": 46
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 73,
+     "h": 53
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 123,
+     "h": 92
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 51,
+     "h": 73
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 108,
+     "h": 92
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 75,
+     "h": 49
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 50,
+     "h": 86
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 65,
+     "h": 54
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 69,
+     "h": 55
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 52,
+     "h": 78
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 52,
+     "h": 81
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 52,
+     "h": 139
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 100,
+     "h": 112
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 56,
+     "h": 114
+    },
+    {
+     "n": "button.mt-volta \"Paraíso. Voltar à Regional C\"",
+     "w": 40,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  },
+  "município": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 40
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 40
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 36
+    },
+    {
+     "n": "button.mt-passo \"Paraíso\"",
+     "w": 51,
+     "h": 36
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 235,
+     "h": 556
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 425,
+     "h": 433
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 435,
+     "h": 585
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 370,
+     "h": 378
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 299,
+     "h": 331
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 279,
+     "h": 425
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 167,
+     "h": 168
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 266,
+     "h": 193
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 391,
+     "h": 332
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 273,
+     "h": 177
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 236,
+     "h": 195
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 249,
+     "h": 199
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 187,
+     "h": 282
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 189,
+     "h": 296
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 205,
+     "h": 412
+    },
+    {
+     "n": "button.mt-volta \"Dois Irmãos do Tocantins. Vo\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a.mt-amun \"Abrir Dois Irmãos do Tocanti\"",
+     "w": 265,
+     "h": 28
+    },
+    {
+     "n": "button.mt-al \"LD0205000894 NAE · 1.536,2 k\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0105000817 NAE · 88,2 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0506201342 NAE · 53,8 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0143414928 NAE · 23,1 km a\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"AL010170174 NAE · 1,7 km aqu\"",
+     "w": 265,
+     "h": 60
+    },
+    {
+     "n": "button.mt-al \"LD0202203360 NAE · 0,3 km aq\"",
+     "w": 265,
+     "h": 60
+    }
+   ],
+   "baixos": []
+  },
+  "alimentador": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a \"Municípios\"",
+     "w": 62,
+     "h": 20
+    },
+    {
+     "n": "input#busca.busca \"Buscar trecho, ativo ou post\"",
+     "w": 836,
+     "h": 40
+    },
+    {
+     "n": "select#f-mun \"Todos os municípiosPorto Nac\"",
+     "w": 260,
+     "h": 40
+    },
+    {
+     "n": "button#mes \"Meses: todos\"",
+     "w": 209,
+     "h": 40
+    },
+    {
+     "n": "div#map.leaflet-container \"Mapa dos trechos\"",
+     "w": 924,
+     "h": 702
+    },
+    {
+     "n": "button \"T1\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T2\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T3\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button.ctl-cam-b \"Menu do mapa: 1 camada ligad\"",
+     "w": 80,
+     "h": 40
+    },
+    {
+     "n": "button \"2023\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"2022\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"Criadas\"",
+     "w": 111,
+     "h": 32
+    },
+    {
+     "n": "button \"Por ano\"",
+     "w": 182,
+     "h": 40
+    },
+    {
+     "n": "button \"Vencimento\"",
+     "w": 182,
+     "h": 40
+    },
+    {
+     "n": "button.liga \"2023 no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"2023 · 3 OS3,9 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "button.liga \"2022 no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"2022 · 3 OS20,3 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "button.liga \"Criadas no mapa\"",
+     "w": 40,
+     "h": 39
+    },
+    {
+     "n": "button.abre \"Criadas · 3 OS21,0 km\"",
+     "w": 332,
+     "h": 39
+    },
+    {
+     "n": "summary \"Dadoscom avisos\"",
+     "w": 372,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  }
+ },
+ "celular|claro": {
+  "estado": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 11,
+     "h": 12
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 28,
+     "h": 19
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 15,
+     "h": 12
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 27,
+     "h": 15
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 24,
+     "h": 31
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 19,
+     "h": 19
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 27,
+     "h": 18
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 48,
+     "h": 51
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 22,
+     "h": 10
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 18,
+     "h": 10
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 21,
+     "h": 12
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 37,
+     "h": 29
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 10,
+     "h": 15
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 13,
+     "h": 16
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 13,
+     "h": 12
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 19,
+     "h": 11
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 32,
+     "h": 37
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 43,
+     "h": 36
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 43,
+     "h": 22
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 59,
+     "h": 20
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 85,
+     "h": 44
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 38,
+     "h": 34
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 24,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 44,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 12,
+     "h": 16
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 24,
+     "h": 30
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 25,
+     "h": 34
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 34,
+     "h": 38
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 31,
+     "h": 46
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 49,
+     "h": 46
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 66,
+     "h": 67
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 22,
+     "h": 39
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 90,
+     "h": 75
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 56,
+     "h": 28
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 19,
+     "h": 21
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 36,
+     "h": 27
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 32,
+     "h": 29
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 113,
+     "h": 101
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 60,
+     "h": 43
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 22,
+     "h": 44
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 44,
+     "h": 52
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 21,
+     "h": 26
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 24,
+     "h": 23
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 37,
+     "h": 62
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 25,
+     "h": 31
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 18,
+     "h": 17
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 38,
+     "h": 23
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 58,
+     "h": 47
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 45,
+     "h": 61
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 76,
+     "h": 100
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 45,
+     "h": 40
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 26,
+     "h": 29
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 55,
+     "h": 28
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 51,
+     "h": 14
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 61,
+     "h": 59
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 74,
+     "h": 63
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 49,
+     "h": 44
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 30,
+     "h": 35
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 23,
+     "h": 43
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 63,
+     "h": 80
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 29,
+     "h": 65
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 25,
+     "h": 33
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 51,
+     "h": 42
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 50,
+     "h": 64
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 101,
+     "h": 103
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 59,
+     "h": 69
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 55,
+     "h": 35
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 21,
+     "h": 31
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 39,
+     "h": 21
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 13,
+     "h": 14
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 17,
+     "h": 28
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 12,
+     "h": 12
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 36,
+     "h": 43
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 49,
+     "h": 67
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 78,
+     "h": 60
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 49,
+     "h": 33
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 26,
+     "h": 25
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 80,
+     "h": 58
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 67,
+     "h": 31
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 48,
+     "h": 29
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 24,
+     "h": 26
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 47,
+     "h": 75
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 32,
+     "h": 45
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 12,
+     "h": 14
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 99,
+     "h": 81
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 39,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 25,
+     "h": 27
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 63,
+     "h": 39
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 61,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 13,
+     "h": 20
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 35,
+     "h": 46
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 21,
+     "h": 18
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 62,
+     "h": 26
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 61,
+     "h": 81
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 44,
+     "h": 25
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 35,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 46,
+     "h": 23
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 54,
+     "h": 47
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 38,
+     "h": 39
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 29,
+     "h": 44
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 17,
+     "h": 17
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 28,
+     "h": 20
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 19,
+     "h": 28
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 41,
+     "h": 34
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 28,
+     "h": 18
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 19,
+     "h": 32
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 24,
+     "h": 20
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 26,
+     "h": 21
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 19,
+     "h": 29
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 20,
+     "h": 31
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 19,
+     "h": 52
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 21,
+     "h": 43
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "busca aberta": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "input#ativo-q.busca \"\"",
+     "w": 302,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 11,
+     "h": 12
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 28,
+     "h": 19
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 15,
+     "h": 12
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 27,
+     "h": 15
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 24,
+     "h": 31
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 23,
+     "h": 23
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 22,
+     "h": 21
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 19,
+     "h": 19
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 27,
+     "h": 18
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 48,
+     "h": 51
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 22,
+     "h": 10
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 15,
+     "h": 20
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 18,
+     "h": 10
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 21,
+     "h": 12
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 37,
+     "h": 29
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 10,
+     "h": 15
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 13,
+     "h": 16
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 13,
+     "h": 12
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 19,
+     "h": 11
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 32,
+     "h": 37
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 43,
+     "h": 36
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 43,
+     "h": 22
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 59,
+     "h": 20
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 85,
+     "h": 44
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 38,
+     "h": 34
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 24,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 44,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 32,
+     "h": 30
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 12,
+     "h": 16
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 24,
+     "h": 30
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 25,
+     "h": 34
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 34,
+     "h": 38
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 31,
+     "h": 46
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 49,
+     "h": 46
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 66,
+     "h": 67
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 22,
+     "h": 39
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 40,
+     "h": 36
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 90,
+     "h": 75
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 56,
+     "h": 28
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 19,
+     "h": 21
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 36,
+     "h": 27
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 32,
+     "h": 29
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 113,
+     "h": 101
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 60,
+     "h": 43
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 22,
+     "h": 44
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 44,
+     "h": 52
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 21,
+     "h": 26
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 24,
+     "h": 23
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 37,
+     "h": 62
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 25,
+     "h": 31
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 18,
+     "h": 17
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 38,
+     "h": 23
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 44,
+     "h": 33
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 58,
+     "h": 47
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 45,
+     "h": 61
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 76,
+     "h": 100
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 45,
+     "h": 40
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 26,
+     "h": 29
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 42,
+     "h": 43
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 55,
+     "h": 28
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 51,
+     "h": 14
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 61,
+     "h": 59
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 74,
+     "h": 63
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 49,
+     "h": 44
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 30,
+     "h": 35
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 23,
+     "h": 43
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 63,
+     "h": 80
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 29,
+     "h": 65
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 25,
+     "h": 33
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 51,
+     "h": 42
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 50,
+     "h": 64
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 101,
+     "h": 103
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 59,
+     "h": 69
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 55,
+     "h": 35
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 21,
+     "h": 31
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 35,
+     "h": 24
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 39,
+     "h": 21
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 13,
+     "h": 14
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 17,
+     "h": 28
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 12,
+     "h": 12
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 36,
+     "h": 43
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 49,
+     "h": 67
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 78,
+     "h": 60
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 69,
+     "h": 65
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 49,
+     "h": 33
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 26,
+     "h": 25
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 80,
+     "h": 58
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 67,
+     "h": 31
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 48,
+     "h": 29
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 24,
+     "h": 26
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 47,
+     "h": 75
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 32,
+     "h": 45
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 17,
+     "h": 20
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 12,
+     "h": 14
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 99,
+     "h": 81
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 39,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 25,
+     "h": 27
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 63,
+     "h": 39
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 61,
+     "h": 58
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 13,
+     "h": 20
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 35,
+     "h": 46
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 21,
+     "h": 18
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 62,
+     "h": 26
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 61,
+     "h": 81
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 44,
+     "h": 25
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 35,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 46,
+     "h": 23
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 54,
+     "h": 47
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 38,
+     "h": 39
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 31,
+     "h": 34
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 29,
+     "h": 44
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 17,
+     "h": 17
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 28,
+     "h": 20
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 46,
+     "h": 35
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 19,
+     "h": 28
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 41,
+     "h": 34
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 28,
+     "h": 18
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 19,
+     "h": 32
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 24,
+     "h": 20
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 26,
+     "h": 21
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 19,
+     "h": 29
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 20,
+     "h": 31
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 19,
+     "h": 52
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 21,
+     "h": 43
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button \"Abrir a Regional Norte, 3.13\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Centro, 1.6\"",
+     "w": 103,
+     "h": 48
+    },
+    {
+     "n": "button \"Abrir a Regional Sul, 963 NA\"",
+     "w": 89,
+     "h": 48
+    }
+   ],
+   "baixos": []
+  },
+  "regional": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+     "w": 107,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+     "w": 151,
+     "h": 44
+    },
+    {
+     "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+     "w": 107,
+     "h": 44
+    },
+    {
+     "n": "path \"Axixá do Tocantins\"",
+     "w": 10,
+     "h": 11
+    },
+    {
+     "n": "path \"Palmeiras do Tocantins\"",
+     "w": 25,
+     "h": 17
+    },
+    {
+     "n": "path \"Aguiarnópolis\"",
+     "w": 13,
+     "h": 11
+    },
+    {
+     "n": "path \"Nazaré\"",
+     "w": 24,
+     "h": 13
+    },
+    {
+     "n": "path \"Tocantinópolis\"",
+     "w": 21,
+     "h": 27
+    },
+    {
+     "n": "path \"Maurilândia do Tocantins\"",
+     "w": 21,
+     "h": 20
+    },
+    {
+     "n": "path \"Itaguatins\"",
+     "w": 20,
+     "h": 18
+    },
+    {
+     "n": "path \"São Miguel do Tocantins\"",
+     "w": 17,
+     "h": 16
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 24,
+     "h": 16
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 30,
+     "h": 31
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 43,
+     "h": 46
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 19,
+     "h": 9
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 21,
+     "h": 14
+    },
+    {
+     "n": "path \"Angico\"",
+     "w": 14,
+     "h": 18
+    },
+    {
+     "n": "path \"Luzinópolis\"",
+     "w": 16,
+     "h": 9
+    },
+    {
+     "n": "path \"Cachoeirinha\"",
+     "w": 18,
+     "h": 11
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 33,
+     "h": 25
+    },
+    {
+     "n": "path \"Augustinópolis\"",
+     "w": 15,
+     "h": 18
+    },
+    {
+     "n": "path \"Sampaio\"",
+     "w": 9,
+     "h": 13
+    },
+    {
+     "n": "path \"Carrasco Bonito\"",
+     "w": 10,
+     "h": 12
+    },
+    {
+     "n": "path \"Sítio Novo do Tocantins\"",
+     "w": 15,
+     "h": 14
+    },
+    {
+     "n": "path \"Praia Norte\"",
+     "w": 11,
+     "h": 14
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 12,
+     "h": 11
+    },
+    {
+     "n": "path \"Santa Terezinha do Tocantins\"",
+     "w": 17,
+     "h": 10
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 28,
+     "h": 33
+    },
+    {
+     "n": "path \"Filadélfia\"",
+     "w": 38,
+     "h": 31
+    },
+    {
+     "n": "path \"Darcinópolis\"",
+     "w": 39,
+     "h": 30
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 38,
+     "h": 20
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 52,
+     "h": 18
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 75,
+     "h": 39
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 33,
+     "h": 30
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 22,
+     "h": 51
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 39,
+     "h": 40
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 28,
+     "h": 27
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 11,
+     "h": 14
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 21,
+     "h": 27
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 22,
+     "h": 30
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 32,
+     "h": 28
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 30,
+     "h": 33
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 27,
+     "h": 41
+    },
+    {
+     "n": "path \"Campos Lindos\"",
+     "w": 43,
+     "h": 41
+    },
+    {
+     "n": "path \"Goiatins\"",
+     "w": 58,
+     "h": 59
+    },
+    {
+     "n": "path \"Barra do Ouro\"",
+     "w": 19,
+     "h": 35
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 36,
+     "h": 32
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 80,
+     "h": 67
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 49,
+     "h": 25
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 17,
+     "h": 18
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 31,
+     "h": 24
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 29,
+     "h": 26
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 100,
+     "h": 90
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 53,
+     "h": 38
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 20,
+     "h": 39
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 39,
+     "h": 46
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 19,
+     "h": 23
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 21,
+     "h": 21
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 33,
+     "h": 55
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 22,
+     "h": 27
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 15,
+     "h": 15
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 34,
+     "h": 20
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 39,
+     "h": 29
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 52,
+     "h": 41
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 40,
+     "h": 54
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 68,
+     "h": 88
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 40,
+     "h": 35
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 27,
+     "h": 29
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 23,
+     "h": 26
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 37,
+     "h": 38
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 48,
+     "h": 24
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 45,
+     "h": 12
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 54,
+     "h": 52
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 66,
+     "h": 56
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 44,
+     "h": 39
+    },
+    {
+     "n": "path \"Palmeirópolis\"",
+     "w": 27,
+     "h": 31
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 21,
+     "h": 38
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 56,
+     "h": 71
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 26,
+     "h": 57
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 22,
+     "h": 29
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 45,
+     "h": 37
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 44,
+     "h": 57
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 90,
+     "h": 91
+    },
+    {
+     "n": "path \"Almas\"",
+     "w": 52,
+     "h": 61
+    },
+    {
+     "n": "path \"Taguatinga\"",
+     "w": 48,
+     "h": 31
+    },
+    {
+     "n": "path \"Taipas do Tocantins\"",
+     "w": 19,
+     "h": 27
+    },
+    {
+     "n": "path \"Lavandeira\"",
+     "w": 31,
+     "h": 21
+    },
+    {
+     "n": "path \"Aurora do Tocantins\"",
+     "w": 34,
+     "h": 18
+    },
+    {
+     "n": "path \"Combinado\"",
+     "w": 12,
+     "h": 13
+    },
+    {
+     "n": "path \"Porto Alegre do Tocantins\"",
+     "w": 15,
+     "h": 25
+    },
+    {
+     "n": "path \"Novo Alegre\"",
+     "w": 11,
+     "h": 10
+    },
+    {
+     "n": "path \"Conceição do Tocantins\"",
+     "w": 32,
+     "h": 38
+    },
+    {
+     "n": "path \"Natividade\"",
+     "w": 43,
+     "h": 60
+    },
+    {
+     "n": "path \"Dianópolis\"",
+     "w": 69,
+     "h": 53
+    },
+    {
+     "n": "path \"Arraias\"",
+     "w": 61,
+     "h": 57
+    },
+    {
+     "n": "path \"Novo Jardim\"",
+     "w": 43,
+     "h": 29
+    },
+    {
+     "n": "path \"Ponte Alta do Bom Jesus\"",
+     "w": 51,
+     "h": 39
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Rio da Conceição\"",
+     "w": 23,
+     "h": 22
+    },
+    {
+     "n": "path \"Pindorama do Tocantins\"",
+     "w": 30,
+     "h": 31
+    },
+    {
+     "n": "path \"Ponte Alta do Tocantins\"",
+     "w": 71,
+     "h": 51
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 59,
+     "h": 28
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 42,
+     "h": 26
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 21,
+     "h": 23
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 41,
+     "h": 67
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 28,
+     "h": 40
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 15,
+     "h": 17
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 11,
+     "h": 13
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 39,
+     "h": 26
+    },
+    {
+     "n": "path \"Mateiros\"",
+     "w": 88,
+     "h": 71
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 35,
+     "h": 52
+    },
+    {
+     "n": "path \"Lagoa do Tocantins\"",
+     "w": 22,
+     "h": 24
+    },
+    {
+     "n": "path \"Novo Acordo\"",
+     "w": 56,
+     "h": 35
+    },
+    {
+     "n": "path \"Rio Sono\"",
+     "w": 54,
+     "h": 51
+    },
+    {
+     "n": "path \"Palmas\"",
+     "w": 39,
+     "h": 35
+    },
+    {
+     "n": "path \"Lajeado\"",
+     "w": 12,
+     "h": 18
+    },
+    {
+     "n": "path \"Tocantínia\"",
+     "w": 31,
+     "h": 41
+    },
+    {
+     "n": "path \"Aparecida do Rio Negro\"",
+     "w": 25,
+     "h": 25
+    },
+    {
+     "n": "path \"Santa Tereza do Tocantins\"",
+     "w": 18,
+     "h": 16
+    },
+    {
+     "n": "path \"São Félix do Tocantins\"",
+     "w": 55,
+     "h": 23
+    },
+    {
+     "n": "path \"Lizarda\"",
+     "w": 54,
+     "h": 71
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 39,
+     "h": 22
+    },
+    {
+     "n": "path \"Centenário\"",
+     "w": 31,
+     "h": 35
+    },
+    {
+     "n": "path \"Santa Maria do Tocantins\"",
+     "w": 40,
+     "h": 21
+    },
+    {
+     "n": "path \"Itacajá\"",
+     "w": 47,
+     "h": 42
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 34,
+     "h": 35
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 27,
+     "h": 30
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 26,
+     "h": 39
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 15,
+     "h": 15
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 24,
+     "h": 18
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 41,
+     "h": 31
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 17,
+     "h": 24
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 36,
+     "h": 31
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 25,
+     "h": 16
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 17,
+     "h": 29
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 22,
+     "h": 18
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 23,
+     "h": 18
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 17,
+     "h": 26
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 17,
+     "h": 27
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 17,
+     "h": 46
+    },
+    {
+     "n": "path \"Recursolândia\"",
+     "w": 33,
+     "h": 37
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 19,
+     "h": 38
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Regional Centro. Voltar ao T\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a \"Relatório de validação\"",
+     "w": 130,
+     "h": 44
+    },
+    {
+     "n": "a \"manifesto.json\"",
+     "w": 84,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "polo": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "a.cab-link \"Ranking\"",
+     "w": 53,
+     "h": 44
+    },
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "path \"Riachinho\"",
+     "w": 44,
+     "h": 29
+    },
+    {
+     "n": "path \"Ananás\"",
+     "w": 55,
+     "h": 56
+    },
+    {
+     "n": "path \"Araguatins\"",
+     "w": 79,
+     "h": 84
+    },
+    {
+     "n": "path \"São Sebastião do Tocantins\"",
+     "w": 36,
+     "h": 17
+    },
+    {
+     "n": "path \"Esperantina\"",
+     "w": 39,
+     "h": 26
+    },
+    {
+     "n": "path \"São Bento do Tocantins\"",
+     "w": 60,
+     "h": 46
+    },
+    {
+     "n": "path \"Buriti do Tocantins\"",
+     "w": 22,
+     "h": 20
+    },
+    {
+     "n": "path \"Wanderlândia\"",
+     "w": 52,
+     "h": 60
+    },
+    {
+     "n": "path \"Arapoema\"",
+     "w": 69,
+     "h": 36
+    },
+    {
+     "n": "path \"Pau D'Arco\"",
+     "w": 96,
+     "h": 33
+    },
+    {
+     "n": "path \"Araguaína\"",
+     "w": 138,
+     "h": 71
+    },
+    {
+     "n": "path \"Santa Fé do Araguaia\"",
+     "w": 61,
+     "h": 55
+    },
+    {
+     "n": "path \"Bandeirantes do Tocantins\"",
+     "w": 40,
+     "h": 94
+    },
+    {
+     "n": "path \"Palmeirante\"",
+     "w": 72,
+     "h": 73
+    },
+    {
+     "n": "path \"Nova Olinda\"",
+     "w": 52,
+     "h": 49
+    },
+    {
+     "n": "path \"Carmolândia\"",
+     "w": 20,
+     "h": 26
+    },
+    {
+     "n": "path \"Piraquê\"",
+     "w": 39,
+     "h": 49
+    },
+    {
+     "n": "path \"Araguanã\"",
+     "w": 40,
+     "h": 55
+    },
+    {
+     "n": "path \"Xambioá\"",
+     "w": 58,
+     "h": 51
+    },
+    {
+     "n": "path \"Muricilândia\"",
+     "w": 55,
+     "h": 61
+    },
+    {
+     "n": "path \"Aragominas\"",
+     "w": 50,
+     "h": 75
+    },
+    {
+     "n": "path \"Babaçulândia\"",
+     "w": 65,
+     "h": 59
+    },
+    {
+     "n": "path \"Lagoa da Confusão\"",
+     "w": 147,
+     "h": 123
+    },
+    {
+     "n": "path \"Cristalândia\"",
+     "w": 90,
+     "h": 45
+    },
+    {
+     "n": "path \"Nova Rosalândia\"",
+     "w": 31,
+     "h": 33
+    },
+    {
+     "n": "path \"Paraíso do Tocantins\"",
+     "w": 58,
+     "h": 44
+    },
+    {
+     "n": "path \"Chapada de Areia\"",
+     "w": 53,
+     "h": 47
+    },
+    {
+     "n": "path \"Pium\"",
+     "w": 184,
+     "h": 165
+    },
+    {
+     "n": "path \"Abreulândia\"",
+     "w": 97,
+     "h": 70
+    },
+    {
+     "n": "path \"Caseara\"",
+     "w": 36,
+     "h": 71
+    },
+    {
+     "n": "path \"Araguacema\"",
+     "w": 72,
+     "h": 84
+    },
+    {
+     "n": "path \"Rio dos Bois\"",
+     "w": 35,
+     "h": 43
+    },
+    {
+     "n": "path \"Barrolândia\"",
+     "w": 39,
+     "h": 38
+    },
+    {
+     "n": "path \"Miracema do Tocantins\"",
+     "w": 61,
+     "h": 101
+    },
+    {
+     "n": "path \"Miranorte\"",
+     "w": 40,
+     "h": 50
+    },
+    {
+     "n": "path \"Pugmil\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Monte Santo do Tocantins\"",
+     "w": 62,
+     "h": 37
+    },
+    {
+     "n": "path \"Marianópolis do Tocantins\"",
+     "w": 71,
+     "h": 54
+    },
+    {
+     "n": "path \"Divinópolis do Tocantins\"",
+     "w": 95,
+     "h": 76
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 73,
+     "h": 99
+    },
+    {
+     "n": "path \"Paranã\"",
+     "w": 124,
+     "h": 162
+    },
+    {
+     "n": "path \"Talismã\"",
+     "w": 73,
+     "h": 65
+    },
+    {
+     "n": "path \"Alvorada\"",
+     "w": 49,
+     "h": 53
+    },
+    {
+     "n": "path \"Cariri do Tocantins\"",
+     "w": 43,
+     "h": 47
+    },
+    {
+     "n": "path \"Gurupi\"",
+     "w": 69,
+     "h": 70
+    },
+    {
+     "n": "path \"Aliança do Tocantins\"",
+     "w": 89,
+     "h": 45
+    },
+    {
+     "n": "path \"Crixás do Tocantins\"",
+     "w": 83,
+     "h": 22
+    },
+    {
+     "n": "path \"Dueré\"",
+     "w": 99,
+     "h": 95
+    },
+    {
+     "n": "path \"Araguaçu\"",
+     "w": 121,
+     "h": 103
+    },
+    {
+     "n": "path \"Sandolândia\"",
+     "w": 80,
+     "h": 72
+    },
+    {
+     "n": "path \"São Salvador do Tocantins\"",
+     "w": 38,
+     "h": 69
+    },
+    {
+     "n": "path \"Peixe\"",
+     "w": 102,
+     "h": 130
+    },
+    {
+     "n": "path \"Jaú do Tocantins\"",
+     "w": 48,
+     "h": 105
+    },
+    {
+     "n": "path \"Sucupira\"",
+     "w": 41,
+     "h": 53
+    },
+    {
+     "n": "path \"Figueirópolis\"",
+     "w": 83,
+     "h": 68
+    },
+    {
+     "n": "path \"São Valério\"",
+     "w": 81,
+     "h": 104
+    },
+    {
+     "n": "path \"Formoso do Araguaia\"",
+     "w": 165,
+     "h": 167
+    },
+    {
+     "n": "path \"Chapada da Natividade\"",
+     "w": 65,
+     "h": 56
+    },
+    {
+     "n": "path \"Santa Rita do Tocantins\"",
+     "w": 109,
+     "h": 51
+    },
+    {
+     "n": "path \"Santa Rosa do Tocantins\"",
+     "w": 78,
+     "h": 47
+    },
+    {
+     "n": "path \"Ipueiras\"",
+     "w": 38,
+     "h": 42
+    },
+    {
+     "n": "path \"Porto Nacional\"",
+     "w": 76,
+     "h": 122
+    },
+    {
+     "n": "path \"Brejinho de Nazaré\"",
+     "w": 52,
+     "h": 74
+    },
+    {
+     "n": "path \"Fátima\"",
+     "w": 28,
+     "h": 32
+    },
+    {
+     "n": "path \"Oliveira de Fátima\"",
+     "w": 20,
+     "h": 23
+    },
+    {
+     "n": "path \"Silvanópolis\"",
+     "w": 71,
+     "h": 47
+    },
+    {
+     "n": "path \"Monte do Carmo\"",
+     "w": 63,
+     "h": 96
+    },
+    {
+     "n": "path \"Bom Jesus do Tocantins\"",
+     "w": 72,
+     "h": 41
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 62,
+     "h": 64
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 50,
+     "h": 56
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 47,
+     "h": 72
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "n": "path \"Bernardo Sayão\"",
+     "w": 45,
+     "h": 33
+    },
+    {
+     "n": "path \"Pedro Afonso\"",
+     "w": 75,
+     "h": 57
+    },
+    {
+     "n": "path \"Tupirama\"",
+     "w": 31,
+     "h": 45
+    },
+    {
+     "n": "path \"Guaraí\"",
+     "w": 66,
+     "h": 56
+    },
+    {
+     "n": "path \"Presidente Kennedy\"",
+     "w": 46,
+     "h": 30
+    },
+    {
+     "n": "path \"Tupiratins\"",
+     "w": 31,
+     "h": 53
+    },
+    {
+     "n": "path \"Brasilândia do Tocantins\"",
+     "w": 40,
+     "h": 33
+    },
+    {
+     "n": "path \"Tabocão\"",
+     "w": 42,
+     "h": 34
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 32,
+     "h": 48
+    },
+    {
+     "n": "path \"Colinas do Tocantins\"",
+     "w": 32,
+     "h": 50
+    },
+    {
+     "n": "path \"Itapiratins\"",
+     "w": 32,
+     "h": 85
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 34,
+     "h": 69
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Paraíso. Voltar à Regional C\"",
+     "w": 44,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "município": {
+   "alvos": [
+    {
+     "n": "button#lupa.lupa \"Buscar ativo, município, ali\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Tocantins\"",
+     "w": 66,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Centro\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "button.mt-passo \"Paraíso\"",
+     "w": 51,
+     "h": 44
+    },
+    {
+     "n": "path \"Dois Irmãos do Tocantins\"",
+     "w": 269,
+     "h": 361
+    },
+    {
+     "n": "path \"Goianorte\"",
+     "w": 229,
+     "h": 234
+    },
+    {
+     "n": "path \"Couto Magalhães\"",
+     "w": 184,
+     "h": 204
+    },
+    {
+     "n": "path \"Pequizeiro\"",
+     "w": 172,
+     "h": 263
+    },
+    {
+     "n": "path \"Juarina\"",
+     "w": 103,
+     "h": 104
+    },
+    {
+     "n": "path \"Itaporã do Tocantins\"",
+     "w": 115,
+     "h": 174
+    },
+    {
+     "n": "path \"Colméia\"",
+     "w": 126,
+     "h": 254
+    },
+    {
+     "n": "summary \"NAE-Vegetação\"",
+     "w": 134,
+     "h": 44
+    },
+    {
+     "n": "button.mt-volta \"Dois Irmãos do Tocantins. Vo\"",
+     "w": 44,
+     "h": 44
+    },
+    {
+     "n": "button.mt-puxa \"Esconder os alimentadores\"",
+     "w": 48,
+     "h": 44
+    },
+    {
+     "n": "a.mt-amun \"Abrir Dois Irmãos do Tocanti\"",
+     "w": 265,
+     "h": 44
+    },
+    {
+     "n": "button.mt-al \"LD0205000894 NAE · 1.536,2 k\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0105000817 NAE · 88,2 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0506201342 NAE · 53,8 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0143414928 NAE · 23,1 km a\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"AL010170174 NAE · 1,7 km aqu\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "button.mt-al \"LD0202203360 NAE · 0,3 km aq\"",
+     "w": 265,
+     "h": 50
+    },
+    {
+     "n": "a \"Relatório de validação\"",
+     "w": 130,
+     "h": 44
+    },
+    {
+     "n": "a \"manifesto.json\"",
+     "w": 84,
+     "h": 44
+    }
+   ],
+   "baixos": []
+  },
+  "alimentador": {
+   "alvos": [
+    {
+     "n": "button.mnu-btn \"Menu\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "a \"Municípios\"",
+     "w": 62,
+     "h": 40
+    },
+    {
+     "n": "input#busca.busca \"Buscar trecho, ativo ou post\"",
+     "w": 358,
+     "h": 44
+    },
+    {
+     "n": "select#f-mun \"Todos os municípiosPorto Nac\"",
+     "w": 173,
+     "h": 44
+    },
+    {
+     "n": "button#mes \"Meses: todos\"",
+     "w": 173,
+     "h": 44
+    },
+    {
+     "n": "div#map.leaflet-container \"Mapa dos trechos\"",
+     "w": 358,
+     "h": 490
+    },
+    {
+     "n": "a \"Leaflet\"",
+     "w": 49,
+     "h": 14
+    },
+    {
+     "n": "button \"T1\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T2\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"T3\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button.ctl-cam-b \"Menu do mapa: 1 camada ligad\"",
+     "w": 80,
+     "h": 40
+    },
+    {
+     "n": "button.tc-btn \"Mapa em tela cheia\"",
+     "w": 40,
+     "h": 40
+    },
+    {
+     "n": "button \"2023\"",
+     "w": 83,
+     "h": 40
+    },
+    {
+     "n": "button \"2022\"",
+     "w": 83,
+     "h": 40
+    },
+    {
+     "n": "button \"Criadas\"",
+     "w": 83,
+     "h": 40
+    }
+   ],
+   "baixos": []
+  }
+ }
+}

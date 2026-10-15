@@ -1,0 +1,40 @@
+--- /tmp/claude-0/-home-user-smartled/2ba15095-ae67-51f0-acd3-e77e4b1d05de/scratchpad/mirror/assets/mapa-municipios.js	2026-10-15 02:47:57.917919509 +0000
++++ proto/mapa-municipios.js	2026-10-15 03:40:11.471149716 +0000
+@@ -103,6 +103,7 @@
+   const poeCartoes = () => {                                // posição pelo viewBox do estado inteiro (-6 -6 VW M.h+12)
+     const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), H = M.h + 12;
+     if (!r.width) return;
++    cartoes.dataset.ok = '1';                                 // [tema 5] só depois de posicionados: sem salto de (0,0) para o lugar
+     const k = Math.min(r.width / VW, r.height / H), oy = (r.height - H * k) / 2;
+     [...cartoes.children].forEach((e, i) => {
+       e.style.left = (r.left - c.left + r.width / 2).toFixed(0) + 'px';
+@@ -198,7 +199,29 @@
+   }
+   const soma = (a, b) => [a[0] + b[0], a[1] + b[1]];
+   const tr = d => `translate(${d[0].toFixed(1)}px,${d[1].toFixed(1)}px)`;
++  // [tema 5] Voltar do navegador (e o gesto de voltar do celular) sobe um nível em vez de sair do mapa.
++  // Cada nível aberto empilha uma entrada no histórico; subir pela interface (Esc, ←, trilha) desempilha; popstate sobe o que faltar.
++  let hd = 0, emPop = false;
++  const fundura = () => (reg ? 1 : 0) + (pol ? 1 : 0) + (mun ? 1 : 0) + (alf ? 1 : 0);
++  try { history.replaceState({ argos: 0 }, ''); } catch (e) {}
++  function sinc() {
++    if (emPop) return;
++    const d = fundura();
++    try {
++      if (d > hd) for (let i = hd; i < d; i++) history.pushState({ argos: i + 1 }, '');
++      else if (d < hd) history.go(d - hd);
++    } catch (e) {}
++    hd = d;
++  }
++  window.addEventListener('popstate', e => {
++    const alvo = (e.state && e.state.argos) || 0;
++    if (alvo > fundura()) { hd = fundura(); try { history.go(fundura() - alvo); } catch (e) {} return; }   // Avançar para um nível que não dá para reabrir: desfaz
++    if (alvo === fundura()) { hd = alvo; return; }
++    emPop = true;
++    try { while (fundura() > alvo) sobe(); } finally { emPop = false; hd = fundura(); }
++  });
+   function voa(alvoVb) {             // anima o viewBox até o alvo
++    sinc();
+     cancelAnimationFrame(anima);
+     caixa.classList.remove('pronta');
+     caixa.classList.add('voando');

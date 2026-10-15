@@ -11,14 +11,13 @@ exports.aplica = async (ctx, page, ligado = !!process.env.PROTO, fontes = !!proc
   }
   if (fontes) {
     await ctx.route('**/assets/fonts/*.woff2', r => r.fulfill({ path: path.join(dir, 'fonts', r.request().url().split('/').pop()), contentType: 'font/woff2', headers: { 'cache-control': 'max-age=31536000' } }));
-    await ctx.route(u => { const s = u.toString(); return s === BASE || s === BASE + 'index.html'; }, async r => {
+    // páginas HTML do site que carregam as fontes do Google: início, polos, relatório (as de alimentador/município seriam iguais)
+    await ctx.route(u => { const s = u.toString(); return s === BASE || s === BASE + 'index.html' || s === BASE + 'polos/' || s === BASE + 'relatorio.html'; }, async r => {
       const res = await r.fetch(); let html = await res.text();
-      const faces = fs.readFileSync(path.join(dir, 'fontes.css'), 'utf8');
+      const faces = fs.readFileSync(path.join(dir, 'fontes.css'), 'utf8').replace(/@BASE@/g, BASE);
+      const pre = nome => `<link rel="preload" href="${BASE}assets/fonts/${nome}" as="font" type="font/woff2" crossorigin>`;
       html = html.replace(/<link rel="preconnect"[^>]*>/g, '').replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/, '')
-        .replace('<link rel="stylesheet" href="assets/site.css">',
-          '<link rel="preload" href="assets/fonts/ibm-plex-sans-condensed-700.woff2" as="font" type="font/woff2" crossorigin>' +
-          '<link rel="preload" href="assets/fonts/ibm-plex-sans-600.woff2" as="font" type="font/woff2" crossorigin>' +
-          '<style>' + faces + '</style><link rel="stylesheet" href="assets/site.css">');
+        .replace(/(<link rel="stylesheet" href="(?:\.\.\/)?assets\/site\.css">)/, pre('ibm-plex-sans-condensed-700.woff2') + pre('ibm-plex-sans-var.woff2') + '<style>' + faces + '</style>$1');
       r.fulfill({ response: res, body: html, headers: { ...res.headers(), 'content-length': String(Buffer.byteLength(html)) } });
     });
   }

@@ -1,0 +1,29 @@
+--- /tmp/claude-0/-home-user-smartled/2ba15095-ae67-51f0-acd3-e77e4b1d05de/scratchpad/mirror/assets/site.css	2026-10-15 02:47:57.595053190 +0000
++++ proto/site.css	2026-10-15 03:39:37.174085372 +0000
+@@ -386,3 +386,26 @@
+   .mun{transition:fill var(--dur) var(--ease)}
+   #ativo-res:not(:empty){animation:entra var(--dur) var(--ease)}
+ }
++
++/* ====== [tema 5 · fluidez e acabamento] protótipo — tudo abaixo é novo ====== */
++/* 1 · animação: as redes dos alimentadores (milhares de vértices com traço non-scaling-stroke) apagam enquanto o mapa voa e voltam com fade ao pousar */
++.mt-redes{transition:opacity .25s .05s}
++.voando .mt-redes{opacity:0;transition:none}
++/* 2 · foco: os cartões das regionais, escondidos (opacity:0), saíam da ordem do Tab como paradas invisíveis; agora também saem do foco */
++.mt-regcards button{transition:opacity .3s,border-color .15s,visibility 0s}
++.aberta .mt-regcards button,.voando .mt-regcards button{visibility:hidden;transition:opacity .3s,border-color .15s,visibility 0s .3s}
++/* 3 · sem salto: os cartões só aparecem depois de posicionados pelo JS, e a linha do ☰ já está reservada antes de o menu.js montá-lo */
++.mt-regcards:not([data-ok]) button{visibility:hidden}
++.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:40px;margin-bottom:calc(var(--s2) * -1)}
++/* 4 · toque: alvos de 44 px em telas de toque (o --alvo do site é 40 px) */
++@media (pointer:coarse){
++  :root{--alvo:44px}
++  .mnu .mnu-btn,.mnu .mnu-x{width:44px;height:44px}
++  .mt-barra .mt-pchip,.mt-passo{min-height:44px}
++  .wrap:not(:has(>.mnu))::before{min-height:44px}
++}
++@media (pointer:coarse){
++  .mt-amun{display:inline-flex;align-items:center;min-height:var(--alvo)}
++  .mt-puxa{min-height:44px}
++}
++@media (pointer:fine){.mt-amun{min-height:28px;display:inline-flex;align-items:center}}   /* link "Abrir município →": 23 px de altura no computador (mínimo AA: 24 px) */

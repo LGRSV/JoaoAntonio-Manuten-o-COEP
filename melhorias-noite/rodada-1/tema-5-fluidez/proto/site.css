@@ -404,3 +404,8 @@ span.mt-pchip{cursor:default}
   .mt-barra .mt-pchip,.mt-passo{min-height:44px}
   .wrap:not(:has(>.mnu))::before{min-height:44px}
 }
+@media (pointer:coarse){
+  .mt-amun{display:inline-flex;align-items:center;min-height:var(--alvo)}
+  .mt-puxa{min-height:44px}
+}
+@media (pointer:fine){.mt-amun{min-height:28px;display:inline-flex;align-items:center}}   /* link "Abrir município →": 23 px de altura no computador (mínimo AA: 24 px) */
