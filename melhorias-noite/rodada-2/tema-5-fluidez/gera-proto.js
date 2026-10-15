@@ -76,6 +76,24 @@ patch('assets/limpeza.js', 'limpeza.js', [
   [`const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';`,
    `const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const km = m => __nf1.format(m / 1000) + ' km';`],
+  // vãos em sequência numa só polilinha (a camada Faixa desenha a rede inteira 2x: contorno escuro + cor, ~16.000 vãos cada)
+  [`  const seg = v => [[v[0], v[1]], [v[2], v[3]]];`,
+   `  const seg = v => [[v[0], v[1]], [v[2], v[3]]];
+  const cadeia = vs => { const out = []; let cur = null; vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else out.push(cur = [[v[0], v[1]], [v[2], v[3]]]); }); return out; };`],
+  [`    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];`,
+   `    const an = cadeia(vs);
+    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
+      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];`],
+]);
+// inspecao.js: mesma coisa na camada de inspeção
+patch('assets/inspecao.js', 'inspecao.js', [
+  [`    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];`,
+   `    const an = []; let cur = null;                             // vãos em sequência → uma só polilinha (menos anéis a cada redesenho)
+    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else an.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
+    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
+      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];`],
 ]);
 patch('assets/extras.js', 'extras.js', [
   [`const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';`,
@@ -103,6 +121,11 @@ patch('assets/alimentador.js', 'alimentador.js', [
    `const __nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}), __nf0 = new Intl.NumberFormat('pt-BR');
 const km = m => m < 1000 ? Math.round(m) + ' m' : __nf2.format(m / 1000) + ' km';`],
   [`const mil = x => Number(x).toLocaleString('pt-BR');`, `const mil = x => __nf0.format(Number(x));`],
+  // papel(nome) varria os ~1.000 trechos para cada um dos ~1.000 fusíveis (desenho do mapa): índice por início, igual ao fimDe
+  [`const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');`,
+   `const inicioDe = {};
+D.trechos.forEach(t => (inicioDe[t.inicio] = inicioDe[t.inicio] || []).push(t.nome));
+const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');`],
   [`    const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);`,
    `    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
     vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });

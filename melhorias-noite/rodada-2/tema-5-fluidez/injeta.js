@@ -23,8 +23,9 @@ async function aplica(ctx) {
   await js('**/assets/busca-ativo.js', 'busca-ativo.js', ['foco', 'live']);
   await js('**/assets/menu.js', 'menu.js', ['toque']);
   await js('**/assets/ranking-polos.js', 'ranking-polos.js', ['toque', 'fmt']);
-  await js('**/assets/limpeza.js', 'limpeza.js', ['fmt']);
+  await js('**/assets/limpeza.js', 'limpeza.js', ['fmt', 'vaos']);
   await js('**/assets/extras.js', 'extras.js', ['fmt']);
+  await js('**/assets/inspecao.js', 'inspecao.js', ['vaos']);
   await js('**/assets/alimentador.js', 'alimentador.js', ['vaos', 'fmt']);
 }
 module.exports = { aplica, ativo };

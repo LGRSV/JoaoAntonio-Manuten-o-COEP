@@ -296,7 +296,9 @@ const classeDe = nome => nome.split('-')[0];          // nome do trecho → [pol
 let halo = null, marcas = null;
 const fimDe = {};
 D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
-const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
+const inicioDe = {};
+D.trechos.forEach(t => (inicioDe[t.inicio] = inicioDe[t.inicio] || []).push(t.nome));
+const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
 // clique com Ctrl (⌘ no Mac): põe ou tira o trecho da seleção; sem Ctrl: um trecho só
 const comCtrl = e => !!e && (e.ctrlKey || e.metaKey);
 function clique(nome, e, enquadrar, vao) {

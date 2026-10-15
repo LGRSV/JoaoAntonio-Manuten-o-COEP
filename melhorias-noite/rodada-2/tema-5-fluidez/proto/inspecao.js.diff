@@ -1,0 +1,15 @@
+--- inspecao.js
++++ inspecao.js
+@@ -117,8 +117,10 @@
+   const raio = () => map.getZoom() < 13 ? 3.5 : map.getZoom() < 16 ? 5 : 6.5;
+   function linhaDupla(vs, cor, peso, opacidade, extra) {
+     // contorno escuro por baixo: a cor aparece igual sobre mata escura ou solo claro
+-    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+-      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];
++    const an = []; let cur = null;                             // vãos em sequência → uma só polilinha (menos anéis a cada redesenho)
++    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else an.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
++    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
++      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];
+   }
+   function fundo() {
+     const chave = JSON.stringify(window.__visivel || {});

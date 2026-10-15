@@ -14,7 +14,18 @@
  const $ = id => document.getElementById(id);
  const FECHA = '<button type="button" class="fecha" id="todos" aria-label="Limpar seleção" title="Limpar seleção">✕</button>';
  
-@@ -442,7 +443,9 @@
+@@ -295,7 +296,9 @@
+ let halo = null, marcas = null;
+ const fimDe = {};
+ D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
+-const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
++const inicioDe = {};
++D.trechos.forEach(t => (inicioDe[t.inicio] = inicioDe[t.inicio] || []).push(t.nome));
++const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
+ // clique com Ctrl (⌘ no Mac): põe ou tira o trecho da seleção; sem Ctrl: um trecho só
+ const comCtrl = e => !!e && (e.ctrlKey || e.metaKey);
+ function clique(nome, e, enquadrar, vao) {
+@@ -442,7 +445,9 @@
    D.vaos.forEach(v => (vaosDe[v[4]] = vaosDe[v[4]] || []).push(v));
    Object.keys(vaosDe).forEach(i => {
      const t = D.trechos[i], vs = vaosDe[i];
