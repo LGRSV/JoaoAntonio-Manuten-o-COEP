@@ -645,7 +645,7 @@
     if (!Z) return;
     cancelAnimationFrame(rafZ); rafZ = 0; clearTimeout(tRot);
     Z = null; alvoZ = null; dr = null; tp = null;
-    caixa.classList.remove('zoomando', 'zoom-longe', 'arrastando');
+    caixa.classList.remove('zoomando', 'zoom-longe', 'arrastando', 'mexe');
     svg.style.width = svg.style.height = '';
     svg.setAttribute('viewBox', nivelVb.map(n => +n.toFixed(3)).join(' '));
     nomesZ.innerHTML = ''; previa.innerHTML = '';
@@ -671,7 +671,11 @@
     ctl.querySelector('[data-z=menos]').disabled = z < 1.02;
     poeCartoes(); moveSelos();
     clearTimeout(tRot);
-    tRot = setTimeout(() => { if (Z && !anima && !mun) { nomesDoZoom(); previaDoZoom(); } }, 110);
+    caixa.classList.add('mexe');                             // enquanto mexe, a prévia das redes (pesada de desenhar) fica escondida
+    tRot = setTimeout(() => {
+      caixa.classList.remove('mexe');
+      if (Z && !anima && !mun) { nomesDoZoom(); tRot = setTimeout(() => { if (Z && !anima && !mun) previaDoZoom(); }, 60); }   // nomes primeiro, prévia no quadro seguinte (tarefas curtas)
+    }, 110);
   }
   function moveSelos() {                                     // os selos de NAE dos polos acompanham o mapa
     if (!reg || pol || anima || !selos.children.length) return;
@@ -825,8 +829,7 @@
       if (tam >= 40) cand.push({ m, x, y, tam, larg: b.width * ppu });
     });
     cand.sort((a, b) => (prio({ dataset: { cod: b.m.cod } }) - prio({ dataset: { cod: a.m.cod } })) || b.tam - a.tam);
-    const ok = [];
-    cand.slice(0, 80).forEach(c => {
+    const ts = cand.slice(0, 80).map(c => {
       const dois = c.tam >= 70, t = document.createElementNS(NS, 'text'), a = document.createElementNS(NS, 'tspan');
       t.setAttribute('class', 'mt-rot' + (c.m.slug ? '' : ' sem'));
       t.setAttribute('x', c.x); t.setAttribute('y', c.y);
@@ -839,8 +842,12 @@
         t.append(n);
       }
       nomesZ.append(t);
-      const q = t.getBBox();
-      if (q.width * ppu > Math.max(c.larg * 1.6, 96) || ok.some(o => sobrepoe(q, o))) t.remove(); else ok.push(q);
+      return { t, c };
+    });
+    const qs = ts.map(o => o.t.getBBox()), ok = [];           // medir tudo de uma vez (um só layout), depois decidir quem fica
+    ts.forEach((o, i) => {
+      const q = qs[i];
+      if (q.width * ppu > Math.max(o.c.larg * 1.6, 96) || ok.some(r => sobrepoe(q, r))) o.t.remove(); else ok.push(q);
     });
   }
   // prévia das redes: município que ocupa bastante da tela mostra, dentro dele, a rede de cada alimentador (mesmos dados do município aberto)
@@ -868,7 +875,7 @@
     });
   }
   window.ARGOSMapa = {                                       // ganchos para a busca e para o mini-mapa
-    voaPara, enquadra: enquadraZ, vista: () => vb(), ativo: () => !!Z,
+    voaPara, enquadra: enquadraZ, vista: () => vb(), ativo: () => !!Z, zoom: () => Z ? Z.base[2] / vb()[2] : 1,
     centraEm(ux, uy) { if (!ligaZ()) return; const v = alvoZ || vb(); vai(limita([ux - v[2] / 2, uy - v[3] / 2, v[2], v[3]]), true); },
     aoMudar(fn) { new MutationObserver(fn).observe(svg, { attributes: true, attributeFilter: ['viewBox'] }); },
   };

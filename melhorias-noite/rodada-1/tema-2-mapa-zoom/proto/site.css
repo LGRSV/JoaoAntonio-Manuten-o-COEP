@@ -416,7 +416,9 @@ span.mt-pchip{cursor:default}
 .mt-nomesz .mt-rot.sem{font-weight:500;fill:var(--muted)}
 .mt-nomesz .mz-n{font-family:var(--f-mono);font-weight:700;font-size:.9em;fill:var(--accent);letter-spacing:.02em}
 .mt-previa{pointer-events:none}
+.mexe .mt-previa{display:none}
 .mt-previa path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;animation:mt-surge .35s ease-out}
 .mt-previa .h{stroke:var(--paper);stroke-opacity:.55;stroke-width:3.4}
 .mt-previa .l{stroke:var(--rede);stroke-width:1.5}
 @media (prefers-reduced-motion:reduce){.mt-previa path,.mt-zdica{animation:none;transition:none}}
+.mexe .mt-nomesz{display:none}

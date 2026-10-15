@@ -41,6 +41,6 @@
   });
   ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!nativo()) aplica(false); }));
   // tela cheia só por CSS (sem a nativa): o primeiro Esc sobe um nível do mapa (quem trata é mapa-municipios.js); sem nível aberto, sai
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') nivelAntes = raiz.classList.contains('aberta'); }, true);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') nivelAntes = caixa.classList.contains('aberta'); }, true);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && ligado() && !nativo() && !nivelAntes && !e.defaultPrevented) aplica(false); });
 })();

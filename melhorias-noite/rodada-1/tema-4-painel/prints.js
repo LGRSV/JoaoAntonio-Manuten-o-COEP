@@ -91,7 +91,7 @@ const POR_CONJUNTO = {
   todas: ['camadas', 'trecho', 'sem-faixa', 'tela-cheia', 'dados', 'painel-longo', 'gaveta'], 'todas-claro': ['trecho'],
 };
 
-(async () => {
+async function principal() {
   const args = process.argv.slice(2);
   const conj = args.filter(a => !a.startsWith('--')), only = (args.find(a => a.startsWith('--estados=')) || '').slice(10).split(',').filter(Boolean);
   const alims = (args.find(a => a.startsWith('--alim=')) || '').slice(7).split(',').filter(Boolean);
@@ -123,7 +123,8 @@ const POR_CONJUNTO = {
     }
   }
   await browser.close();
-})();
+}
+if (require.main === module) principal(); else module.exports = { abre, FLAGS, ESTADOS, menuMapa, ligaCamadas };
 
 function file(c, cod, vp, est) {
   const dir = path.join(OUT, c === 'antes' ? 'antes' : 'depois');

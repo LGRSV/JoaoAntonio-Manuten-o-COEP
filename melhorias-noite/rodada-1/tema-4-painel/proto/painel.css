@@ -21,7 +21,7 @@ html.p-s1 body:not(.tela-cheia) .barra-busca,
 html.p-s1 body:not(.tela-cheia) .barra-linha,
 html.p-s1 body:not(.tela-cheia) .barra-busca .filtros,
 html.p-s1 body:not(.tela-cheia) .barra-busca #ctrl{display:contents}   /* busca, município e meses viram itens da mesma grade do cabeçalho */
-html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit{position:absolute;z-index:1500;left:var(--s4);right:var(--s4);top:64px;max-height:50dvh;overflow:auto;
+html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit{position:absolute;z-index:1500;left:var(--s4);width:min(640px,calc(100% - 2 * var(--s4)));top:64px;max-height:50dvh;overflow:auto;
   padding:var(--s2);background:var(--paper);border:1px solid var(--line);border-radius:var(--r3);box-shadow:var(--sh2)}   /* achados da busca: lista solta sobre o mapa */
 html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit:empty{display:none}
 
@@ -42,7 +42,7 @@ html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit:empty{display:none}
   html.p-s1 body:not(.tela-cheia) .panel{position:relative;top:auto;height:100%;max-height:none}
 }
 @media (max-width:980px){
-  html.p-s1 body:not(.tela-cheia) .wrap{padding:10px var(--s3) var(--s3);gap:var(--s2);align-items:center;grid-template-columns:40px minmax(0,1fr) minmax(0,.9fr)}
+  html.p-s1 body:not(.tela-cheia) .wrap{padding:10px var(--s3) var(--s3);gap:var(--s2);align-items:center;grid-template-columns:40px minmax(0,1fr) minmax(0,1.25fr)}
   html.p-s1 body:not(.tela-cheia) .mnu{grid-column:1;grid-row:1}
   html.p-s1 body:not(.tela-cheia) header{grid-column:2/4;grid-row:1;grid-template-columns:minmax(0,1fr);row-gap:1px}
   html.p-s1 body:not(.tela-cheia) header .eyebrow{grid-row:3;grid-column:1;white-space:normal}
@@ -51,21 +51,34 @@ html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit:empty{display:none}
   html.p-s1 body:not(.tela-cheia) .barra-busca .mes{grid-column:3;grid-row:3}
   html.p-s1 body:not(.tela-cheia) .wrap:not(:has(#f-mun)) .barra-busca .mes{grid-column:1/4}
   html.p-s1 body:not(.tela-cheia) .stage{grid-column:1/4;grid-row:4}
-  html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit{top:150px;left:var(--s3);right:var(--s3)}
+  html.p-s1 body:not(.tela-cheia) .barra-busca>.ativo-hit{top:150px;left:var(--s3);width:calc(100% - 2 * var(--s3))}
 }
 
+html.p-s1 .mapbox,html.p-s2 .mapbox{overflow:clip}
 /* ---------------------------------------------------------------- S2 · resumo único */
 html.p-s2 #det:has(>.resumo-classe){display:none}                    /* a tabela Classe/Trechos/Extensão e o NAE do alimentador saem do painel */
 html.p-s2 #legenda{display:none}                                      /* legenda de cores T1/T2/T3 = os próprios botões do mapa */
 html.p-s2 .classes{gap:2px}
 html.p-s2 .classes button{display:grid;gap:4px;justify-items:center;align-content:center;min-width:56px;min-height:46px;padding:0 var(--s2);line-height:1}
-html.p-s2 .classes .cl-n{font:700 var(--t-sm)/1 var(--f-mono)}
+html.p-s2 .classes .cl-n{font:700 var(--t-sm)/1 var(--f-mono);white-space:nowrap}
+html.p-s2 .classes .cl-n em{display:none;font-style:normal;font-weight:500;opacity:.85;margin-left:4px}
 html.p-s2 .classes small{font:500 10.5px/1 var(--f-mono);opacity:.82;white-space:nowrap}
+html.p-s2 .classes small .k-m{display:none}
 html.p-s2 header .eyebrow .tot{text-transform:none;margin-left:var(--s2);padding-left:var(--s2);border-left:1px solid var(--line-forte);color:var(--fg);letter-spacing:.04em}
 html.p-s2 #mes .mes-n{display:inline-grid;place-items:center;min-width:22px;height:20px;margin:0 2px;padding:0 7px;border-radius:var(--rp);
   background:var(--alerta-fundo);color:#fff;font:600 var(--t-xs)/20px var(--f-mono);font-variant-numeric:tabular-nums}
 html.p-s2 #mes .mes-n.zero{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
 html.p-s2 #mes .mes-nae{font-weight:600}
+@media (max-width:640px){
+  html.p-s2 .classes button{min-width:0;padding:0 7px}
+  html.p-s2 .classes .cl-n em{display:inline}
+  html.p-s2 .classes small .k-d{display:none}
+  html.p-s2 .classes small .k-m{display:inline}
+  html.p-s2 .ctl-dir{max-width:calc(100% - 24px)}
+  html.p-s2 header .eyebrow .tot{display:block;margin:2px 0 0;padding:0;border:0}
+  html.p-s2 #mes .mes-rot{font-size:11px}
+  html.p-s2 #mes .mes-n{min-width:20px;padding:0 5px}
+}
 
 /* ---------------------------------------------------------------- S3 · camadas em acordeão, legenda do mapa em linha */
 html.p-s3 .panel{gap:0}
@@ -88,6 +101,7 @@ html.p-s3 .ctl-lgs :is(.mnt-lg,.exe-lg) button .nm{display:inline!important}
 html.p-s3 .ctl-lgs :is(.mnt-lg,.exe-lg) button em{display:none}
 html.p-s3 .ctl-lgs .limp-maplg .lg-info{display:inline-flex!important;min-height:28px;color:var(--vidro-fg);opacity:.85;font:500 var(--t-xs) var(--f-body)}
 html.p-s3 .ctl-lgs .limp-maplg .lg-info i{width:14px}
+@media (max-width:640px){html.p-s3 .ctl-lgs .limp-maplg .lg-info{display:none!important}}
 
 /* ---------------------------------------------------------------- S4 · trecho escolhido: ficha + abas */
 html.p-s4 .det-abas{display:flex;flex-wrap:wrap;gap:var(--s1);position:sticky;top:-4px;z-index:3;margin:var(--s1) 0 0;padding:var(--s2) 0;background:var(--bg);border-bottom:1px solid var(--line)}

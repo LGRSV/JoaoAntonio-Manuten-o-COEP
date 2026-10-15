@@ -81,7 +81,18 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   // afastar até 1× sai do zoom sozinho
   await ctrlRoda(3, -120, 720, 560); await ctrlRoda(8, 120, 720, 560);
   s = await S(); ok(!/zoomando/.test(s.cls) && s.vb.every((v, i) => Math.abs(v - vb0[i]) < 0.05), 'Ctrl+roda para fora até 1× desliga o zoom');
-  await ctx.close(); await b.close();
+  await ctx.close();
+  // teclado (+ − 0) e movimento reduzido (sem animação: o zoom é instantâneo)
+  const c2 = await abre(b, 'desk', true, { calmo: true }), p2 = c2.page;
+  await p2.focus('.mun[tabindex="0"]');
+  await p2.keyboard.press('+'); await p2.keyboard.press('+'); await p2.waitForTimeout(200);
+  let z = await p2.evaluate(() => document.querySelector('.mt-mapa').className + ' ' + document.querySelector('.mt-zn').textContent);
+  ok(/zoomando/.test(z) && /×2,6/.test(z), 'tecla + aproxima (' + z.split(' ').pop() + ')');
+  await p2.keyboard.press('-'); await p2.waitForTimeout(200);
+  z = await p2.evaluate(() => document.querySelector('.mt-zn').textContent); ok(/×1,6/.test(z), 'tecla - afasta (' + z + ')');
+  await p2.keyboard.press('0'); await p2.waitForTimeout(400);
+  z = await p2.evaluate(() => document.querySelector('.mt-mapa').className); ok(!/zoomando/.test(z), 'tecla 0 enquadra');
+  await c2.ctx.close(); await b.close();
   console.log(falhas ? `${falhas} FALHA(S)` : 'TODOS OS TESTES PASSARAM');
   process.exit(falhas ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2); });

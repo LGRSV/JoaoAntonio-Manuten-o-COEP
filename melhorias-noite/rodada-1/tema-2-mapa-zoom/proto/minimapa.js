@@ -17,7 +17,7 @@
 .mt-mini .r{fill:rgb(240 138 93 / .18);stroke:var(--accent);stroke-width:1.5;vector-effect:non-scaling-stroke}`;
   document.head.append(st);
   function atualiza() {
-    const v = A.vista(), pode = A.ativo() && !/aberta/.test(caixa.className) && VB[2] / v[2] > 1.5;
+    const v = A.vista(), pode = A.ativo() && !/aberta/.test(caixa.className) && A.zoom() > 1.5;
     box.hidden = !pode;
     if (!pode) return;
     const x = Math.max(v[0], VB[0]), y = Math.max(v[1], VB[1]), x2 = Math.min(v[0] + v[2], VB[0] + VB[2]), y2 = Math.min(v[1] + v[3], VB[1] + VB[3]);

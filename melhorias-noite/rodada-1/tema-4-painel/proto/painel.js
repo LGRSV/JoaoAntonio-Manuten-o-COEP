@@ -13,7 +13,7 @@
   const $ = id => document.getElementById(id);
   const nf = n => Number(n).toLocaleString('pt-BR');
   const kmL = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';
-  const kmC = m => m < 1000 ? Math.round(m) + ' m' : (m >= 99500 ? Math.round(m / 1000).toLocaleString('pt-BR') : (m / 1000).toFixed(1).replace('.', ',')) + ' km';
+  const kmC = m => m < 1000 ? Math.round(m) + ' m' : Math.round(m / 1000).toLocaleString('pt-BR') + ' km';   // curto, para o celular
   const mobile = () => matchMedia('(max-width:980px)').matches && !document.body.classList.contains('tela-cheia');
 
   /* ---------------------------------------------------------------- S2 · resumo único */
@@ -26,7 +26,7 @@
     // 1) T1/T2/T3 do mapa passam a levar o nº de trechos e a extensão (a tabela "Classe/Trechos/Extensão" e a legenda de cores saem do painel)
     document.querySelectorAll('#classes button[data-c]').forEach(b => {
       const [n, m] = cl[b.dataset.c];
-      b.innerHTML = `<span class="cl-n">${b.dataset.c}</span><small>${nf(n)} · ${kmC(m)}</small>`;
+      b.innerHTML = `<span class="cl-n">${b.dataset.c}<em>${nf(n)}</em></span><small><span class="k-d">${nf(n)} · ${kmL(m)}</span><span class="k-m">${kmC(m)}</span></small>`;
       b.title = `${b.dataset.c}: ${nf(n)} ${n === 1 ? 'trecho' : 'trechos'} · ${kmL(m)}. Clique para mostrar ou esconder.`;
     });
     // 2) o total (a linha "Total" da tabela) vai para o cabeçalho, ao lado da subestação

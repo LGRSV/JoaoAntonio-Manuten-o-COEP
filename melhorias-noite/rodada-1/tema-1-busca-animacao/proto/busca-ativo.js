@@ -45,7 +45,7 @@
     if (!lupa) return;
     q.hidden = !sim;
     lupa.setAttribute('aria-expanded', String(sim));
-    if (sim) { q.focus(); if (P('s4') && !q.value.trim() && !res.innerHTML) res.innerHTML = dicas(); } else { q.value = ''; res.innerHTML = ''; fechaSug(); }
+    if (sim) { q.focus(); if (P('s4') && !q.value.trim() && !res.innerHTML) res.innerHTML = dicas(); } else { clearTimeout(espera); pedido++; q.value = ''; res.innerHTML = ''; fechaSug(); }
   };
   if (lupa) lupa.addEventListener('click', () => abreCampo(q.hidden || !q.value.trim() ? q.hidden : true));
   if (P('s4') && lupa) {

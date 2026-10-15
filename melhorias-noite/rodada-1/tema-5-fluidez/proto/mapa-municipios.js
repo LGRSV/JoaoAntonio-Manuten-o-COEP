@@ -16,6 +16,8 @@
 
   const svg = alvo.querySelector('.mt-mapa svg'), dica = alvo.querySelector('.mt-dica'), caixa = svg.parentNode;
   const VW = M.w + 12;
+  const PX = window.__PX || {};   // PROTÓTIPO: chaves ligadas pelo script de teste (ver exp-voando2.js)
+  const poeU = (r, v) => { const u = Math.max(v[2] / r.width, v[3] / r.height).toFixed(5); if (PX.u) camada.style.setProperty('--u', u); if (PX.um) svg.style.setProperty('--u', u); };
   svg.setAttribute('viewBox', `-6 -6 ${VW} ${M.h + 12}`);
   const NS = 'http://www.w3.org/2000/svg', el = {}, rot = {};
   let foco = null, achou = new Set();
@@ -202,10 +204,12 @@
     cancelAnimationFrame(anima);
     caixa.classList.remove('pronta');
     caixa.classList.add('voando');
-    const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR;
+    const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR, rr = (PX.u || PX.um) ? svg.getBoundingClientRect() : null;
     const passo = agora => {
       const t = dur ? Math.min(1, (agora - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
-      svg.setAttribute('viewBox', de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2)).join(' '));
+      const nv = de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2));
+      svg.setAttribute('viewBox', nv.join(' '));
+      if (rr) poeU(rr, nv);
       if (t < 1) anima = requestAnimationFrame(passo); else { anima = 0; caixa.classList.remove('voando'); caixa.classList.toggle('pronta', !!reg); poeNomes(); poeSelos(); }
     };
     selos.innerHTML = '';
@@ -566,7 +570,7 @@
   const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
   volta.addEventListener('click', sobe);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && reg && !e.defaultPrevented) sobe(); });
-  if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { svg.setAttribute('viewBox', enquadra().join(' ')); poeNomes(); poeSelos(); } }).observe(caixa);
+  if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { const nv = enquadra(); svg.setAttribute('viewBox', nv.join(' ')); if (PX.u || PX.um) poeU(svg.getBoundingClientRect(), nv); poeNomes(); poeSelos(); } }).observe(caixa);
 
   // no estado inteiro, escolher um município abre a regional dele; com a regional aberta, abre o polo dele; com o polo
   // aberto, abre o município (a rede dos alimentadores); com o município aberto, abre a página dele

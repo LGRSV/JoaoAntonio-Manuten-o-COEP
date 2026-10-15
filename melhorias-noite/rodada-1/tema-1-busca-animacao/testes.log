@@ -1,0 +1,114 @@
+--- S1 · painel esquerdo · computador 1440x900
+PASSOU  legenda está na coluna esquerda, no topo do mapa (top 0px, left 0px do mapa)
+PASSOU  legenda aparece inteira na primeira tela, sem rolar (antes ficava no pé do mapa, abaixo da dobra)
+PASSOU  regional: legenda continua visível, sob a seta ←
+PASSOU  polo: legenda visível
+PASSOU  município: legenda some (as cores de NAE não aparecem mais), a lista fica sozinha
+PASSOU  lista e legenda não se sobrepõem
+PASSOU  lista com os 46 alimentadores de Palmas
+PASSOU  clicar no alimentador dá zoom nele e a trilha mostra o código
+PASSOU  link "Página do alimentador →" aponta para a página dele
+PASSOU  Esc: sai do foco do alimentador e volta ao município
+PASSOU  Esc: volta ao polo e a legenda reaparece
+PASSOU  Esc: volta à regional
+PASSOU  botão ←: volta ao estado, legenda no lugar
+PASSOU  sem erros de JavaScript []
+--- S1 · gaveta da esquerda · celular 390x844
+PASSOU  legenda: régua de cores colada na esquerda (fechada)
+PASSOU  tocar na régua abre os rótulos ao lado
+PASSOU  município: aba "46 alimentadores" na beira esquerda; legenda some
+PASSOU  gaveta fechada fica fora da tela (right 0px)
+PASSOU  itens da gaveta fechada não recebem foco do teclado (visibility hidden)
+PASSOU  tocar na aba abre a gaveta (largura 315px) com a lista
+PASSOU  Esc fecha só a gaveta (continua no município)
+PASSOU  tocar num alimentador: gaveta recolhe e o mapa dá zoom nele
+PASSOU  trilha no celular cabe em uma linha: "… › Palmas › LD02059122"
+PASSOU  botão ←: sai do foco do alimentador
+PASSOU  toque no "…" da trilha volta direto ao Tocantins
+PASSOU  sem rolagem horizontal
+PASSOU  sem erros de JavaScript []
+--- S2 · nada repetido
+PASSOU  regional: NAE de cada polo aparece uma vez (selo no mapa); chips só com o nome
+PASSOU  leitor de tela ainda ouve a NAE no chip (aria-label)
+PASSOU  polo aberto: a NAE do polo (434) fica só no chip atual (os selos saem)
+PASSOU  trilha: "Polo Palmas › Palmas" (antes "Palmas › Palmas")
+PASSOU  título da lista: "46 alimentadores" (sem repetir o nome da trilha)
+PASSOU  botão: "Página do município →"
+PASSOU  com o alimentador em foco: "Página do alimentador →" (antes "Abrir LD02059122 →", código 3x na tela)
+PASSOU  Esc devolve o texto do botão
+PASSOU  dica ao passar o mouse na rede não repete "em Palmas": "Palmas · 336 NAE · 46 alimentadores · 2.467,7 km"
+PASSOU  sem erros de JavaScript []
+--- S3 · tela cheia · tela cheia nativa
+PASSOU  [d] botão de tela cheia visível no canto do mapa
+PASSOU  [d] entra em tela cheia nativa e o mapa ocupa 1440x900 (1440x900)
+PASSOU  [d] título do botão vira "Sair da tela cheia (Esc)" e a página não rola por baixo
+PASSOU  [d] navegar estado → regional → polo → município funciona em tela cheia
+PASSOU  [d] botão ← sobe um nível dentro da tela cheia
+PASSOU  [d] sair: volta ao layout normal, rolagem restaurada (220 → 220; máximo possível agora 303) e o mapa continua no polo
+PASSOU  [d] Esc/saída do sistema (exitFullscreen) também desfaz o layout
+PASSOU  [d] sem erros de JavaScript []
+PASSOU  [m] botão de tela cheia visível no canto do mapa
+PASSOU  [m] entra em tela cheia nativa e o mapa ocupa 390x844 (390x844)
+PASSOU  [m] título do botão vira "Sair da tela cheia (Esc)" e a página não rola por baixo
+PASSOU  [m] navegar estado → regional → polo → município funciona em tela cheia
+PASSOU  [m] botão ← sobe um nível dentro da tela cheia
+PASSOU  [m] sair: volta ao layout normal, rolagem restaurada (174 → 0; máximo possível agora 0) e o mapa continua no polo
+PASSOU  [m] Esc/saída do sistema (exitFullscreen) também desfaz o layout
+PASSOU  [m] sem erros de JavaScript []
+--- S3 · tela cheia · sem API nativa (iPhone): só CSS
+FALHOU  sem Fullscreen API: o mapa ocupa a janela por CSS
+PASSOU  Esc (CSS): primeiro sobe um nível do mapa (continua em tela cheia)
+PASSOU  Esc: sobe de novo até o estado inteiro
+FALHOU  Esc no estado inteiro: sai da tela cheia
+--- S4 · busca renovada
+PASSOU  [d] botão com o olho tem o rótulo "Buscar"
+PASSOU  [d] atalho "/" abre o campo e foca
+PASSOU  [d] campo vazio mostra 4 exemplos (município, alimentador, ativo, OS)
+PASSOU  [d] tocar no exemplo preenche e já busca
+PASSOU  [d] "/" dentro do campo continua digitando normal
+FALHOU  [d] Esc com o campo vazio (só exemplos) fecha tudo
+PASSOU  [d] setas navegam na lista
+PASSOU  [d] resultado do ativo: cabeçalho sem repetir o código digitado
+PASSOU  [d] OS: "1 OS" (antes: "1 OS com o número 353/2026:")
+PASSOU  [d] "nada encontrado" traz os exemplos
+PASSOU  [d] Esc fecha a lista
+PASSOU  [d] sem erros de JavaScript []
+PASSOU  [m] botão com o olho tem o rótulo "Buscar"
+PASSOU  [m] atalho "/" abre o campo e foca
+PASSOU  [m] campo vazio mostra 4 exemplos (município, alimentador, ativo, OS)
+PASSOU  [m] tocar no exemplo preenche e já busca
+PASSOU  [m] "/" dentro do campo continua digitando normal
+FALHOU  [m] Esc com o campo vazio (só exemplos) fecha tudo
+PASSOU  [m] setas navegam na lista
+PASSOU  [m] resultado do ativo: cabeçalho sem repetir o código digitado
+PASSOU  [m] OS: "1 OS" (antes: "1 OS com o número 353/2026:")
+PASSOU  [m] "nada encontrado" traz os exemplos
+PASSOU  [m] Esc fecha a lista
+PASSOU  [m] sem erros de JavaScript []
+--- S5 · a busca voa no mapa
+PASSOU  município "Palmas": o mapa voa direto estado → município (sem recarregar a página)
+PASSOU  campo de busca fecha depois de escolher
+PASSOU  de um município para outro de outra regional (Palmas → Gurupi): troca tudo e termina em Gurupi: Tocantins › Sul › Polo Gurupi › Gurupi
+PASSOU  alimentador LD01072001: vai ao município principal e já dá zoom na rede: Tocantins › Centro › Polo Porto Nacional › Porto Nacional › LD01072001
+PASSOU  Esc ×4 volta ao Tocantins inteiro
+PASSOU  busca estando no estado inteiro, outro município (Palmeirante)
+PASSOU  depois do voo, ← ← volta passo a passo (município → polo → regional)
+PASSOU  sem erros de JavaScript []
+--- S5 · duração dos voos (antes 650 ms fixos) e jank
+  antes  estado → regional      duração 667 ms · 38 quadros · maior intervalo entre quadros 33 ms
+  antes  regional → polo        duração 650 ms · 22 quadros · maior intervalo entre quadros 150 ms
+  antes  polo → município       duração 750 ms · 14 quadros · maior intervalo entre quadros 133 ms
+  antes  município → alimentador duração 983 ms · 6 quadros · maior intervalo entre quadros 250 ms
+  antes  alimentador → município duração 950 ms · 8 quadros · maior intervalo entre quadros 200 ms
+  depois estado → regional      duração 583 ms · 33 quadros · maior intervalo entre quadros 33 ms
+  depois regional → polo        duração 817 ms · 39 quadros · maior intervalo entre quadros 67 ms
+  depois polo → município       duração 1133 ms · 14 quadros · maior intervalo entre quadros 250 ms
+  depois município → alimentador duração 717 ms · 4 quadros · maior intervalo entre quadros 533 ms
+  depois alimentador → município duração 700 ms · 8 quadros · maior intervalo entre quadros 150 ms
+--- S5 · movimento reduzido
+PASSOU  prefers-reduced-motion: navegação funciona (sem animação)
+--- Regressão: com o atributo data-proto ausente o site continua igual (protótipo injetado sem flags)
+PASSOU  sem flags: título e legenda como no site ao vivo
+PASSOU  sem erros de JavaScript []
+
+4 FALHA(S)

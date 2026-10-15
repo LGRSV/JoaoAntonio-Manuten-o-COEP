@@ -1,0 +1,42 @@
+{
+ "original": {
+  "abrir_regional_voa": {
+   "quadros": 92,
+   "medio_ms": 17,
+   "p95_ms": 16.8,
+   "max_ms": 33.4,
+   "fps_medio": 58.7,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
+  }
+ },
+ "prototipo": {
+  "ctrl_roda_x10": {
+   "quadros": 104,
+   "medio_ms": 23.2,
+   "p95_ms": 50,
+   "max_ms": 266.6,
+   "fps_medio": 43,
+   "tarefas_longas": 4,
+   "tarefa_longa_max_ms": 240
+  },
+  "arrastar_40_passos": {
+   "quadros": 138,
+   "medio_ms": 21.3,
+   "p95_ms": 33.4,
+   "max_ms": 166.7,
+   "fps_medio": 47,
+   "tarefas_longas": 6,
+   "tarefa_longa_max_ms": 142
+  },
+  "abrir_regional_voa": {
+   "quadros": 88,
+   "medio_ms": 17.8,
+   "p95_ms": 33.3,
+   "max_ms": 33.4,
+   "fps_medio": 56.2,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
+  }
+ }
+}
