@@ -34,6 +34,7 @@ async function uma(cfg, perfil) {
   await passo(page, '2 abrir polo', async () => { const b = await page.$('.mt-pchip[data-polo]'); await b.click(); }, R);
   await passo(page, '3 abrir município', async () => { await page.evaluate(() => { const p = [...document.querySelectorAll('.mun')].find(x => x.getAttribute('tabindex') === '0'); p.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); }, R);
   await espera(page, `document.querySelectorAll('.mt-redes-d path').length>0`, 15000);
+  if (cfg.mobile) { const px = await page.$('.mt-puxa'); if (px) { await px.click(); await page.waitForTimeout(400); } }   // celular: a lista de alimentadores começa recolhida
   await passo(page, '4 zoom no alimentador', async () => { const b = await page.$('.mt-al'); await b.click(); }, R);
   await passo(page, '5 Esc (volta ao município)', () => page.keyboard.press('Escape'), R);
   await passo(page, '6 Esc (volta ao polo)', () => page.keyboard.press('Escape'), R);

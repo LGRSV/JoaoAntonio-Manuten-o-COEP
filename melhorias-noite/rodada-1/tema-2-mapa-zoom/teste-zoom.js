@@ -1,6 +1,6 @@
 // Teste de comportamento do zoom livre (protótipo): Ctrl+roda, arrastar, botões, clique depois do zoom, Esc e ←.
 // Uso: node teste-zoom.js   (usa o site ao vivo + proto/mapa-municipios.js e proto/site.css injetados)
-const { lanca, abre, shot } = require('./lib.js');
+const { lanca, abre } = require('./lib.js');
 let falhas = 0;
 const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) falhas++; };
 (async () => {
@@ -37,7 +37,6 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   await ctrlRoda(5, -120);
   s = await S(); ok(/zoomando/.test(s.cls) && parseFloat(s.zn.replace('×', '').replace(',', '.')) > 2, `Ctrl+roda aproxima (${s.zn}, ${s.rot} nomes, ${s.prev} prévias)`);
   ok(s.rot > 10, 'nomes dos municípios aparecem com o zoom'); ok(s.prev > 0, 'prévia das redes aparece com zoom alto');
-  await shot(page, 't-zoom5');
   // arrastar
   const antes = s.vb;
   await page.mouse.move(700, 500); await page.mouse.down(); await page.mouse.move(600, 460, { steps: 8 }); await page.mouse.up(); await espera(300);
@@ -58,7 +57,6 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   const pt = await ponto(cod); ok(!!pt, 'achou ponto clicável no município ' + cod);
   await page.mouse.click(pt[0], pt[1]); await espera(1500);
   s = await S(); ok(/aberta/.test(s.cls) && !/zoomando/.test(s.cls), 'clique depois do zoom abre a regional e solta o zoom');
-  await shot(page, 't-regional');
   // regional: zoom e Esc em duas etapas
   await ctrlRoda(3, -120, 720, 560);
   s = await S(); ok(/zoomando/.test(s.cls) && /aberta/.test(s.cls), 'zoom dentro da regional');
@@ -69,12 +67,10 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   s = await S(); ok(/polo/.test(s.cls), 'polo aberto');
   await ctrlRoda(3, -120, 720, 560);
   s = await S(); ok(/zoomando/.test(s.cls), 'zoom dentro do polo'); ok(s.rot > 0, 'nomes no polo com zoom (' + s.rot + ')');
-  await shot(page, 't-polo-zoom');
   const cod2 = await page.evaluate(() => [...document.querySelectorAll('.mt-polo:not(.fora) .mun.tem')].map(p => { const r = p.getBoundingClientRect(), w = Math.min(r.right, 1100) - Math.max(r.left, 300), h = Math.min(r.bottom, 850) - Math.max(r.top, 300); return { c: p.dataset.cod, a: Math.max(0, w) * Math.max(0, h) }; }).sort((a, b) => b.a - a.a)[0].c);
   const pt2 = await ponto(cod2); ok(!!pt2, 'ponto clicável no polo ' + cod2);
   await page.mouse.click(pt2[0], pt2[1]); await espera(1800);
   s = await S(); ok(/nivel-mun/.test(s.cls) && !/zoomando/.test(s.cls), 'clique depois do zoom abre o município (rede dos alimentadores)');
-  await shot(page, 't-municipio');
   // ← sobe um nível; Esc também
   await page.click('.mt-volta'); await espera(1500);
   s = await S(); ok(!/nivel-mun/.test(s.cls) && /polo/.test(s.cls), '← volta do município ao polo');

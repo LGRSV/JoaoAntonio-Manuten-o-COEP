@@ -1,6 +1,6 @@
 // Teste do gesto de pinça no celular (390x844) com toques reais via CDP (Input.dispatchTouchEvent):
 // um dedo rola a página, dois dedos fazem pinça + arrastar, com zoom um dedo arrasta o mapa e o toque num município ainda abre a regional.
-const { lanca, abre, shot } = require('./lib.js');
+const { lanca, abre } = require('./lib.js');
 let falhas = 0;
 const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) falhas++; };
 (async () => {
@@ -12,7 +12,6 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   const esp = ms => page.waitForTimeout(ms);
   const r = await page.evaluate(() => { const b = document.querySelector('.mt-mapa svg').getBoundingClientRect(); return [b.left, b.top, b.width, b.height]; });
   console.log('svg', r);
-  await shot(page, 'm-antes-estado');
   // 1) um dedo arrastando na vertical rola a página (e mostra a dica)
   const cx = 195, cy = r[1] + 300;
   await toque('touchStart', [[cx, cy]]);
@@ -25,11 +24,9 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   // 2) pinça: dois dedos se afastando
   await toque('touchStart', [[165, my], [225, my]]);
   for (let i = 1; i <= 12; i++) { await toque('touchMove', [[165 - i * 6, my], [225 + i * 6, my]]); await esp(20); }
-  await shot(page, 'm-pinca-meio');
   await toque('touchEnd', []); await esp(1200);
   s = await S(); ok(/zoomando/.test(s.cls), 'pinça liga o zoom (' + s.zn + ')'); ok(s.y === 0, 'pinça não rolou a página');
   const z1 = parseFloat(s.zn.replace('×', '').replace(',', '.')); ok(z1 > 2.5, 'fator ' + z1);
-  await shot(page, 'm-zoom-pinca');
   console.log(s.rot + ' nomes, ' + s.prev + ' prévias');
   // 3) um dedo arrasta o mapa aproximado
   const v0 = s.vb;
@@ -37,7 +34,6 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   for (let i = 1; i <= 8; i++) { await toque('touchMove', [[250 - i * 15, my + i * 8]]); await esp(16); }
   await toque('touchEnd', []); await esp(300);
   s = await S(); ok(Math.abs(s.vb[0] - v0[0]) > 3, 'um dedo arrasta o mapa com zoom'); ok(s.y === 0, 'e não rola a página');
-  await shot(page, 'm-zoom-arrasto');
   // 4) pinça para fora volta ao 1x
   await toque('touchStart', [[120, my], [270, my]]);
   for (let i = 1; i <= 14; i++) { await toque('touchMove', [[120 + i * 5, my], [270 - i * 5, my]]); await esp(20); }
@@ -54,7 +50,6 @@ const ok = (c, msg) => { console.log((c ? 'PASS ' : 'FAIL ') + msg); if (!c) fal
   ok(!!pt, 'ponto de toque no município ' + cod);
   await page.touchscreen.tap(pt[0], pt[1]); await esp(1500);
   s = await S(); ok(/aberta/.test(s.cls) && !/zoomando/.test(s.cls), 'toque depois do zoom abre a regional');
-  await shot(page, 'm-regional');
   await ctx.close(); await b.close();
   console.log(falhas ? `${falhas} FALHA(S)` : 'TODOS OS TESTES PASSARAM');
 })().catch(e => { console.error(e); process.exit(2); });

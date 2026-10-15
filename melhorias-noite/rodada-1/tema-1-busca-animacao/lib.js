@@ -8,13 +8,14 @@ const URL = process.env.SITE || 'http://localhost:8765/teste/';
 const TELAS = { d: { width: 1440, height: 900 }, m: { width: 390, height: 844 } };
 
 // abre a página: proto = '' (site ao vivo, sem tocar em nada) ou 's1 s2 ...' (injeta proto/ e liga as sugestões)
-async function abre(browser, tela, proto = '', extra = {}) {
+async function abre(browser, tela, proto = '', extra = {}, claro = false) {
   const ctx = await browser.newContext({ viewport: TELAS[tela], deviceScaleFactor: 1, hasTouch: tela === 'm', isMobile: tela === 'm', ...extra });
   const p = await ctx.newPage();
   const erros = [];
   p.on('pageerror', e => erros.push(String(e)));
   p.on('console', m => { if (m.type() === 'error' && !/fonts\.g|favicon|Failed to load resource/.test(m.text())) erros.push(m.text()); });
   p.erros = erros;
+  if (claro) await p.addInitScript(() => { try { localStorage.setItem('tema', 'claro'); } catch (e) {} });
   if (proto) {
     await p.addInitScript(v => { const set = () => { document.documentElement.dataset.proto = v; }; if (document.documentElement) set(); else new MutationObserver((m, o) => { if (document.documentElement) { set(); o.disconnect(); } }).observe(document, { childList: true }); }, proto);
     for (const f of ['site.css', 'mapa-municipios.js', 'busca-ativo.js']) {
@@ -27,16 +28,17 @@ async function abre(browser, tela, proto = '', extra = {}) {
   return p;
 }
 const esperaVoo = async (p, ms = 1500) => { try { await p.waitForFunction(() => !document.querySelector('.mt-mapa.voando'), null, { timeout: ms }); } catch (e) {} await p.waitForTimeout(350); };
-async function nivel(p, ate) {                    // estado → regional Centro → polo Palmas → município Palmas
-  const passos = ['regional', 'polo', 'mun', 'al'];
-  for (const n of passos) {
-    if (n === 'regional') await p.click('.mt-regcards button[data-reg="Centro"]');
-    if (n === 'polo') await p.click('.mt-pchip[data-polo="Palmas"]');
-    if (n === 'mun') await p.click('.mun.tem[aria-label="Palmas"]', { force: true });
-    if (n === 'al') { if (await p.$('.mt-puxa') && await p.$eval('.mt-puxa', e => getComputedStyle(e).display !== 'none') && await p.$eval('.mt-polos-c', e => getComputedStyle(e).display === 'none' || getComputedStyle(e).visibility === 'hidden')) await p.click('.mt-puxa'); await p.waitForTimeout(400); await p.click('.mt-al'); }
-    await esperaVoo(p);
-    if (n === ate) break;
-  }
+async function nivel(p, ate) {                    // estado → regional Centro → polo Palmas → município Palmas → alimentador (só faz o que falta)
+  const tem = c => p.$eval('.mt-mapa', (e, c) => e.classList.contains(c), c);
+  if (!await tem('aberta')) { await p.click('.mt-regcards button[data-reg="Centro"]'); await esperaVoo(p); }
+  if (ate === 'regional') return;
+  if (!await tem('polo')) { await p.click('.mt-pchip[data-polo="Palmas"]'); await esperaVoo(p); }
+  if (ate === 'polo') return;
+  if (!await tem('nivel-mun')) { await p.click('.mun.tem[aria-label="Palmas"]', { force: true }); await esperaVoo(p); }
+  if (ate === 'mun') return;
+  const fechada = await p.$eval('.mt-polos-c', e => getComputedStyle(e).display === 'none' || getComputedStyle(e).visibility === 'hidden');
+  if (fechada) { await p.click('.mt-puxa'); await p.waitForTimeout(450); }
+  await p.click('.mt-al'); await esperaVoo(p);
 }
 const foto = (p, nome, opt = {}) => p.screenshot({ path: path.join(RAIZ, 'prints', nome + '.jpg'), type: 'jpeg', quality: 80, ...opt });
 const mapaNoTopo = p => p.evaluate(() => { const r = document.getElementById('mapa-to'); if (r && !document.body.classList.contains('tc-mapa')) window.scrollTo(0, r.getBoundingClientRect().top + scrollY - 8); });

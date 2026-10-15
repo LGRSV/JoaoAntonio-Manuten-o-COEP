@@ -26,7 +26,7 @@
 .zoom-longe .mt-regcards button,.zoom-longe .mt-selos{opacity:0;pointer-events:none}
 .mt-nomesz .mt-rot{font-weight:600;fill:var(--fg)}
 .mt-nomesz .mt-rot.sem{font-weight:500;fill:var(--muted)}
-.mt-nomesz .mz-n{font-family:var(--f-mono);font-weight:700;font-size:.9em;fill:#ffb089;letter-spacing:.02em}
+.mt-nomesz .mz-n{font-family:var(--f-mono);font-weight:700;font-size:.9em;fill:var(--accent);letter-spacing:.02em}
 .mt-previa{pointer-events:none}
 .mt-previa path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;animation:mt-surge .35s ease-out}
 .mt-previa .h{stroke:var(--paper);stroke-opacity:.55;stroke-width:3.4}

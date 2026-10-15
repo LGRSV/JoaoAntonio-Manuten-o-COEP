@@ -26,7 +26,7 @@
     // 1) T1/T2/T3 do mapa passam a levar o nº de trechos e a extensão (a tabela "Classe/Trechos/Extensão" e a legenda de cores saem do painel)
     document.querySelectorAll('#classes button[data-c]').forEach(b => {
       const [n, m] = cl[b.dataset.c];
-      b.innerHTML = `<span class="cl-n">${b.dataset.c}<em>${nf(n)}</em></span><small>${kmC(m)}</small>`;
+      b.innerHTML = `<span class="cl-n">${b.dataset.c}</span><small>${nf(n)} · ${kmC(m)}</small>`;
       b.title = `${b.dataset.c}: ${nf(n)} ${n === 1 ? 'trecho' : 'trechos'} · ${kmL(m)}. Clique para mostrar ou esconder.`;
     });
     // 2) o total (a linha "Total" da tabela) vai para o cabeçalho, ao lado da subestação
@@ -147,7 +147,8 @@
     const rotulo = () => {                                          // a linha da gaveta fechada: o trecho escolhido ou as camadas ligadas
       const h2 = det && det.querySelector(':scope>h2'), tt = h.querySelector('.sh-tt'), ts = h.querySelector('.sh-ts');
       if (h2) {
-        tt.textContent = h2.firstElementChild && h2.firstElementChild.tagName === 'I' ? h2.textContent.replace(/\s+/g, ' ').trim() : h2.textContent.replace(/\s+/g, ' ').trim();
+        const tipo = h2.querySelector('small');
+        tt.textContent = (h2.childNodes.length ? [...h2.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim() : '') + (tipo ? ' · ' + tipo.textContent.trim() : '');
         const dds = [...det.querySelectorAll(':scope>dl>dt')].find(d => d.textContent.trim() === 'Extensão');
         ts.textContent = dds ? dds.nextElementSibling.textContent.trim() : '';
       } else {

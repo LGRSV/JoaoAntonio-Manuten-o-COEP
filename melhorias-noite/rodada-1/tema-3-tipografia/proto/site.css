@@ -476,3 +476,12 @@ header.cab>.cab-link:hover{background:var(--hover);text-decoration:none}
   header.cab h1 span::before,header.cab h1 span::after{width:12px}
   header.cab h1 span::after{margin-left:-.38em}
 }
+/* sem repetir dado: com os cartões dos polos no mapa, os botões da barra ficam só com o nome (a NAE já está no cartão) */
+.mt-barra .mt-pchip:not(.mt-atual) i{display:none}
+/* a legenda das faixas de NAE só vale para o mapa colorido: no município (rede dos alimentadores) ela some e libera a lista */
+.nivel-mun .mt-regs{display:none}
+@media (max-width:860px){
+  .mt-selos .mt-mn.mt-pm{padding:4px 9px 5px;gap:3px}
+  .mt-selos .mt-mn.mt-pm b{font-size:10.5px;letter-spacing:.06em}
+  .mt-selos .mt-mn.mt-pm i{font-size:9.5px;padding:1px 5px}
+}
