@@ -86,16 +86,26 @@
     rot[m.cod] = t;
   });
   svg.append(g);
-  const nomesReg = document.createElementNS(NS, 'g');
-  nomesReg.setAttribute('class', 'mt-nomes-reg');
-  nomesReg.setAttribute('aria-hidden', 'true');
-  Object.keys(M.regs || {}).forEach(r => {                 // no meio dos municípios da regional (média dos centros)
-    const ms = M.muns.filter(m => m.reg === r), t = document.createElementNS(NS, 'text');
-    t.setAttribute('x', ms.reduce((s, m) => s + m.c[0], 0) / ms.length); t.setAttribute('y', ms.reduce((s, m) => s + m.c[1], 0) / ms.length);
-    t.textContent = r;
-    nomesReg.append(t);
+  // regionais no estado inteiro: um cartãozinho com o nome e a NAE de cada uma, todos alinhados no meio do mapa, cada um
+  // na altura do meio dos municípios da sua regional (some ao abrir uma regional)
+  const cartoes = document.createElement('div');
+  cartoes.className = 'mt-regcards';
+  cartoes.setAttribute('aria-hidden', 'true');
+  const regInfo = Object.keys(M.regs || {}).map(r => {
+    const ms = M.muns.filter(m => m.reg === r);
+    return { r, y: ms.reduce((s, m) => s + m.c[1], 0) / ms.length, nae: ms.reduce((s, m) => s + (m.nae || 0), 0) };
   });
-  svg.append(nomesReg);
+  cartoes.innerHTML = regInfo.map(i => `<span><b>${esc(i.r)}</b><i>${i.nae.toLocaleString('pt-BR')} NAE</i></span>`).join('');
+  caixa.append(cartoes);
+  const poeCartoes = () => {                                // posição pelo viewBox do estado inteiro (-6 -6 VW M.h+12)
+    const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), H = M.h + 12;
+    if (!r.width) return;
+    const k = Math.min(r.width / VW, r.height / H), oy = (r.height - H * k) / 2;
+    [...cartoes.children].forEach((e, i) => {
+      e.style.left = (r.left - c.left + r.width / 2).toFixed(0) + 'px';
+      e.style.top = (r.top - c.top + oy + (regInfo[i].y + 6) * k).toFixed(0) + 'px';
+    });
+  };
   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
   const X0 = -6, X1 = M.w + 6;
   function desamontoa() {            // os que se cruzam somem (o escolhido e os achados ganham dos outros)
@@ -126,7 +136,7 @@
     const r = svg.getBoundingClientRect();                 // o SVG pode ficar limitado pela altura (max-height)
     if (!r.width || !r.height) return;
     g.style.setProperty('--k', (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));
-    nomesReg.style.setProperty('--k', g.style.getPropertyValue('--k'));
+    poeCartoes();
     desamontoa();
   };
   rotulos();

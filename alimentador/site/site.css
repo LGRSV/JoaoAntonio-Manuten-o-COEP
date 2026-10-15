@@ -220,10 +220,14 @@ header.cab>.cab-link{justify-self:center}
 .aberta.pronta .mt-poloc{opacity:1}
 .mt-poloc.fundo{stroke:var(--paper);stroke-width:7}
 .mt-regc{transition:opacity .3s}.aberta .mt-regc{opacity:0}
-.aberta .mt-nomes,.aberta .mt-nomes-reg{display:none}
-/* nome das regionais no estado inteiro (no lugar das cidades de referência) */
-.mt-nomes-reg text{font:700 calc(17px * var(--k,1)) var(--f-body);letter-spacing:.06em;text-transform:uppercase;fill:var(--fg);paint-order:stroke;
-  stroke:var(--bg);stroke-width:calc(4px * var(--k,1));stroke-linejoin:round;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.aberta .mt-nomes{display:none}
+/* regionais no estado inteiro: cartãozinho com o nome e a NAE, todos no mesmo eixo (meio do mapa) */
+.mt-regcards span{position:absolute;z-index:2;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:2px;padding:5px 12px 6px;
+  border:1px solid var(--line);border-radius:var(--r2);background:color-mix(in srgb,var(--paper) 92%,transparent);box-shadow:var(--sh1);pointer-events:none;
+  transition:opacity .3s}
+.mt-regcards b{font:700 var(--t-sm)/1.1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg)}
+.mt-regcards i{font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 7px;border-radius:5px;background:#b8431f;color:#fff}
+.aberta .mt-regcards span,.voando .mt-regcards span{opacity:0}
 .mt-dica .mt-dica-c{display:block;margin-top:2px;font-size:var(--t-xs)}
 .mt-volta{position:static;justify-self:start;min-height:var(--alvo);padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r2);
   background:var(--paper);color:var(--accent);font:600 var(--t-sm) var(--f-body);cursor:pointer}
