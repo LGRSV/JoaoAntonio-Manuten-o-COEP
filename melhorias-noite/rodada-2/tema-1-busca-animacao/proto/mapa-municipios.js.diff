@@ -1,0 +1,100 @@
+--- live/mapa-municipios.js	2026-10-15 04:31:21.163859919 +0000
++++ proto/mapa-municipios.js	2026-10-15 04:40:33.539266073 +0000
+@@ -170,7 +170,7 @@
+     if (rd) {
+       const m = porCod[mun], a = m.als.find(x => x.cod === rd.dataset.al), r = caixa.getBoundingClientRect();
+       realceAl(a.cod);
+-      dica.innerHTML = `<span class="mt-dica-h"><b class="cod">${esc(a.cod)}</b><i>${(a.n || 0).toLocaleString('pt-BR')} NAE</i></span><small>${esc(a.se)} · ${km(a.m)} em ${esc(m.nome)}</small>` +
++      dica.innerHTML = `<span class="mt-dica-h"><b class="cod">${esc(a.cod)}</b><i>${(a.n || 0).toLocaleString('pt-BR')} NAE</i></span><small>${esc(a.se)} · ${km(a.m)} aqui</small>` +
+         `<small class="mt-dica-c">${alf === a.cod ? 'Clique para abrir o alimentador' : 'Clique para dar zoom no alimentador'}</small>`;
+       dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
+       return;
+@@ -180,7 +180,11 @@
+     if (!p) { dica.style.display = 'none'; return; }
+     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
+     if (!reg) realca(m.reg); else if (!pol) realcaPolo(m.reg === reg ? m.polo : null);
+-    dica.innerHTML = `<span class="mt-dica-h"><b>${esc(m.nome)}</b><i>${(m.nae || 0).toLocaleString('pt-BR')} NAE</i></span><small>${m.reg ? `Regional ${esc(m.reg)} · ${esc(m.polo)}` : ''}${m.slug ? `${m.reg ? ' · ' : ''}${nAls(m)} · ${km(kmTot(m))}` : `${m.reg ? ' · ' : ''}sem dados ainda`}</small>` +
++    // sem repetir: a trilha já diz a regional e o polo abertos, e o cartão do município no mapa já tem o nome e a NAE
++    const cartao = pol && nomes2.querySelector(`.mt-mn[data-cod="${m.cod}"]`), nv = cartao ? +cartao.dataset.nv : -1;
++    const ctx = [!reg && m.reg ? `Regional ${esc(m.reg)}` : '', !pol && m.polo ? esc(m.polo) : '', m.slug ? `${nAls(m)} · ${km(kmTot(m))}` : 'sem dados ainda'].filter(Boolean).join(' · ');
++    dica.innerHTML = (nv < 0 ? `<span class="mt-dica-h"><b>${esc(m.nome)}</b><i>${(m.nae || 0).toLocaleString('pt-BR')} NAE</i></span>` :
++      nv === 2 ? `<span class="mt-dica-h"><b>${esc(m.nome)}</b></span>` : '') + `<small>${ctx}</small>` +
+       (!reg && m.reg ? `<small class="mt-dica-c">Clique para ver os polos da Regional ${esc(m.reg)}</small>` :
+         reg && !pol && m.reg === reg ? `<small class="mt-dica-c">Clique para ver os municípios de ${esc(m.polo)}</small>` :
+         pol && !mun && m.polo === pol && m.slug ? '<small class="mt-dica-c">Clique para ver os alimentadores</small>' : '');
+@@ -252,8 +256,11 @@
+   // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
+   const selos = document.createElement('div');
+   selos.className = 'mt-selos';
+-  selos.setAttribute('aria-hidden', 'true');
+   caixa.append(selos);
++  // cartões dos polos da regional aberta: são os botões (a barra não repete os nomes); passar o mouse realça o polo no mapa
++  selos.addEventListener('click', e => { const b = e.target.closest('.mt-pm'); if (b) { dica.style.display = 'none'; entraPolo(b.dataset.polo, e.detail === 0); } });
++  selos.addEventListener('mouseover', e => { const b = e.target.closest('.mt-pm'); if (reg && !pol && b) realcaPolo(b.dataset.polo); });
++  selos.addEventListener('mouseleave', () => { if (reg && !pol) realcaPolo(null); });
+   let desl = {};
+   // enquadra a regional aberta deixando livre a coluna da legenda (computador) ou o topo para o "← Tocantins" (celular)
+   const move = (b, [dx, dy]) => ({ x: b.x + dx, y: b.y + dy, x2: b.x2 + dx, y2: b.y2 + dy });
+@@ -314,6 +321,8 @@
+   // (regionais, polos) como cartõezinhos com a NAE — clicar num deles abre ele e tira os outros do mapa
+   const passo = (ir, txt) => `<button type="button" class="mt-passo" data-ir="${ir}">${txt}</button><span class="mt-sep" aria-hidden="true">›</span>`;
+   const atual = txt => `<b class="mt-atual" aria-current="location">${txt}</b>`;
++  // a seta ← é o primeiro item da trilha (antes ficava solta no canto do mapa e a lista da busca a cobria no município aberto)
++  const trilha = html => { legPolos.innerHTML = html; legPolos.prepend(volta); };
+   function legendaEstado() {                               // estado inteiro: a barra só tem a busca (as regionais estão no mapa)
+     legPolos.hidden = true;
+     legPolos.innerHTML = '';
+@@ -322,10 +331,8 @@
+   function legendaRegional(ps) {
+     if (ps) psReg = ps;
+     legPolos.hidden = false;
+-    legPolos.setAttribute('aria-label', `Polos da Regional ${reg}`);
+-    legPolos.innerHTML = passo('estado', 'Tocantins') + atual(esc(reg)) + '<span class="mt-sep" aria-hidden="true">·</span>' + psReg.map(p =>
+-      `<button type="button" class="mt-pchip" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
+-      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b>${nae(p.nae)}</button>`).join('');
++    legPolos.setAttribute('aria-label', `Regional ${reg}`);
++    trilha(passo('estado', 'Tocantins') + atual(esc(reg)));      // os polos são os cartões do mapa (clicáveis); sem repetir os nomes aqui
+     volta.setAttribute('aria-label', `Regional ${reg}. Voltar ao Tocantins`);
+     volta.title = 'Voltar ao Tocantins';
+   }
+@@ -353,8 +360,8 @@
+   function legendaPolo() {
+     const ms = M.muns.filter(m => m.polo === pol), nae = ms.reduce((s, m) => s + (m.nae || 0), 0);
+     legPolos.setAttribute('aria-label', `Polo ${pol}`);
+-    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) +
+-      `<span class="mt-pchip mt-atual" style="--c:${corDe[pol]}" aria-current="location" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b><i>${nae.toLocaleString('pt-BR')}</i></span>`;
++    trilha(passo('estado', 'Tocantins') + passo('regional', esc(reg)) +
++      `<span class="mt-pchip mt-atual" style="--c:${corDe[pol]}" aria-current="location" aria-label="Polo ${esc(pol)}, ${numeros(ms, nae)}"><b>Polo ${esc(pol)}</b><i>${nae.toLocaleString('pt-BR')}</i></span>`);
+     volta.setAttribute('aria-label', `${pol}. Voltar à Regional ${reg}`);
+     volta.title = `Voltar à Regional ${reg}`;
+   }
+@@ -423,8 +430,8 @@
+   const abreAl = al => vaiPag(`alimentadores/${encodeURIComponent(al)}/`);
+   function trilhaMun() {
+     const m = porCod[mun];
+-    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', esc(pol)) +
+-      (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome)));
++    trilha(passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', 'Polo ' + esc(pol)) +
++      (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome))));
+   }
+   async function focaAl(al) {
+     if (!mun || alf === al) return;
+@@ -560,6 +567,7 @@
+       const [dx, dy] = soma(desl[pol], mdesl[m.cod]);
+       const t = document.createElement('span');
+       t.className = 'mt-mn';
++      t.dataset.cod = m.cod;
+       nomes2.append(t);
+       for (let nv = celular ? (nomeados < 10 ? 1 : 2) : 0; nv < NIVEIS_ROT.length; nv++) {      // celular: já começa no cartão compacto
+         t.innerHTML = NIVEIS_ROT[nv](m);
+@@ -591,8 +599,8 @@
+       const pt = svg.createSVGPoint();
+       [pt.x, pt.y] = soma(m.c, desl[p.polo]);
+       const s = pt.matrixTransform(ctm);
+-      return `<div class="mt-mn mt-pm${grp[p.polo].classList.contains('desliga') ? ' off' : ''}" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]};left:${(s.x - cx.left).toFixed(0)}px;top:${(s.y - cx.top).toFixed(0)}px">` +
+-        `<b>${esc(p.polo)}</b><i>${p.nae.toLocaleString('pt-BR')} NAE</i></div>`;
++      return `<button type="button" class="mt-mn mt-pm${grp[p.polo].classList.contains('desliga') ? ' off' : ''}" data-polo="${esc(p.polo)}" aria-label="Abrir o polo ${esc(p.polo)}, ${numeros(p.ms, p.nae)}" style="--c:${corDe[p.polo]};left:${(s.x - cx.left).toFixed(0)}px;top:${(s.y - cx.top).toFixed(0)}px">` +
++        `<b>${esc(p.polo)}</b><i>${p.nae.toLocaleString('pt-BR')} NAE</i></button>`;
+     }).join('');
+   }
+   legPolos.addEventListener('click', e => {

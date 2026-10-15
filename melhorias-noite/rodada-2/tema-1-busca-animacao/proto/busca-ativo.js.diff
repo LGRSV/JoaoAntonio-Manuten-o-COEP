@@ -1,0 +1,36 @@
+--- live/busca-ativo.js	2026-10-15 04:31:20.779859927 +0000
++++ proto/busca-ativo.js	2026-10-15 04:40:52.418598886 +0000
+@@ -74,9 +74,11 @@
+     return esc(txt.slice(0, i)) + '<mark>' + esc(txt.slice(i, i + n.length)) + '</mark>' + esc(txt.slice(i + n.length));
+   };
+   const item = {
+-    reg: (r, n) => ({ s: { reg: r.nome }, tipo: 'reg', t: realce(r.nome, n), c: `${plural(r.polos.size, 'polo', 'polos')} · ${r.n} municípios`, nae: r.nae }),
+-    polo: (p, n) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `Regional ${esc(p.reg)} · ${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
+-    mun: (m, n) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `Polo ${esc(m.polo)} · ${esc(m.reg)} · ${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
++    // curto: lista do campo vazio no computador. O mapa ao lado já mostra a NAE de cada um e a trilha já diz a regional e o polo abertos:
++    // a linha fica só com o que é novo (quantos polos/municípios/alimentadores) e a ordem por NAE vai no título do bloco
++    reg: (r, n, curto) => ({ s: { reg: r.nome }, tipo: 'reg', t: realce(r.nome, n), c: `${plural(r.polos.size, 'polo', 'polos')} · ${r.n} municípios`, nae: curto ? null : r.nae }),
++    polo: (p, n, curto) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `${curto ? '' : `Regional ${esc(p.reg)} · `}${plural(p.muns.length, 'município', 'municípios')}`, nae: curto ? null : p.nae }),
++    mun: (m, n, curto) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `${curto ? '' : `Polo ${esc(m.polo)} · ${esc(m.reg)} · `}${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: curto ? null : m.nae }),
+     al: (a, n, k) => ({ s: { al: a.cod }, tipo: 'al', t: realce(a.cod, k), c: `${realce(a.se, n)} · ${plural(a.muns.length, 'município', 'municípios')} · ${kmTxt(a.m)}`, nae: a.nae }),
+     // alimentador do município aberto (a lista que ficava ao lado do mapa): miniatura da rede, km no município e NAE
+     almun: (a, m, foco) => ({ s: { almun: a.cod }, tipo: 'al', mini: a.cod, foco, t: esc(a.cod), nae: a.n || 0,
+@@ -136,14 +138,14 @@
+   const topAls = filtro => als.filter(a => a.muns.some(filtro)).sort(porNae).slice(0, 5).map(a => item.al(a));
+   function atalhos() {
+     pedido++;
+-    const nv = nivel(), m = porCod[nv.mun];
++    const nv = nivel(), m = porCod[nv.mun], curto = !matchMedia('(max-width:860px)').matches;   // no celular a lista cobre o mapa: lá a NAE fica
+     if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
+       .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
+-    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
++    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}${curto ? ' · por NAE' : ''}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x, '', curto))],
+       [`Alimentadores com mais NAE no polo ${nv.pol}`, topAls(x => x.polo === nv.pol)]]);
+-    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg}`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p))],
++    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg}${curto ? ' · por NAE' : ''}`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p, '', curto))],
+       [`Alimentadores com mais NAE na Regional ${nv.reg}`, topAls(x => x.reg === nv.reg)]]);
+-    else mostra([['Regionais', regs.map(r => item.reg(r))], ['Alimentadores com mais NAE', topAls(() => true)]]);
++    else mostra([['Regionais', regs.map(r => item.reg(r, '', curto))], ['Alimentadores com mais NAE', topAls(() => true)]]);
+   }
+ 
+   // ---------- ao digitar ----------

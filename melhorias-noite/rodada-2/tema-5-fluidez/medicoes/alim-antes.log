@@ -1,0 +1,9 @@
+desktop|base     pronto 1010 FCP 116 LCP 1800 TBT 1089 LT 9 (max 419) CLS 0.0551 KB 634 req 23 nós 9096 heap 49MB DCL 2046 load 2053
+     arrastar       {"fps":54.9,"pior":233.3,"p95":16.8,"travados":1,"longtasks":1,"ltMax":215}
+     zoom-roda      {"fps":36,"pior":350.1,"p95":66.7,"travados":26,"longtasks":7,"ltMax":201}
+     hover-linhas   {"fps":58.9,"pior":50,"p95":16.7,"travados":0,"longtasks":0,"ltMax":0}
+desktop|cpu4     pronto 2449 FCP 480 LCP 3508 TBT 4363 LT 12 (max 1273) CLS 0.0551 KB 634 req 23 nós 9096 heap 51MB DCL 5599 load 5618
+     arrastar       {"fps":49.1,"pior":116.6,"p95":33.4,"travados":7,"longtasks":2,"ltMax":194}
+     zoom-roda      {"fps":17.8,"pior":483.3,"p95":183.3,"travados":40,"longtasks":18,"ltMax":396}
+     hover-linhas   {"fps":54.8,"pior":66.6,"p95":16.8,"travados":2,"longtasks":0,"ltMax":0}
+desktop|lenta    pronto 6106 FCP 908 LCP 7416 TBT 5303 LT 14 (max 1911) CLS 0.0581 KB 634 req 23 nós 9096 heap 44MB DCL 9874 load 9892

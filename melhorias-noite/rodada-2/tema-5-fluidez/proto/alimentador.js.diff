@@ -1,0 +1,13 @@
+--- alimentador.js
++++ alimentador.js
+@@ -442,7 +442,9 @@
+   D.vaos.forEach(v => (vaosDe[v[4]] = vaosDe[v[4]] || []).push(v));
+   Object.keys(vaosDe).forEach(i => {
+     const t = D.trechos[i], vs = vaosDe[i];
+-    const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);
++    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
++    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
++    const l = L.polyline(aneis, {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round', lineJoin: 'round'}).addTo(map);
+     l.on('click', e => { L.DomEvent.stopPropagation(e); clique(t.nome, e.originalEvent, false, vaoPerto(vs, e.latlng)); });
+     l.bindTooltip(esc(t.nome), {sticky: true, direction: 'top', offset: [0, -8]});
+     l.on('mouseover', () => l.setStyle({weight: t.peso + 3}));

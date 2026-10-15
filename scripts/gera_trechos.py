@@ -1375,10 +1375,10 @@ def interface(saida, malha=None):
              '<label for="ativo-q" class="vh">Buscar regional, polo, município, alimentador, ativo ou OS</label>'
              '<input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
              'placeholder="Município, alimentador, ativo, OS" enterkeyhint="search">'
-             '<div id="ativo-res" aria-live="polite"></div></div></form></div>\n'
+             '<div id="ativo-res" aria-live="polite"></div></div></form>'
+             '<details class="mt-regs" open><summary>NAE-Vegetação</summary></details></div>\n'   # legenda na barra, ao lado do olho (mapa-municipios.js)
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
-             '<div class="mt-dica" aria-hidden="true"></div>'
-             '<details class="mt-regs" open><summary>NAE-Vegetação</summary></details></div></div>\n'   # legenda: mapa-municipios.js
+             '<div class="mt-dica" aria-hidden="true"></div></div></div>\n'
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')

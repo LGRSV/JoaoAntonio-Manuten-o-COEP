@@ -1,0 +1,80 @@
+0a1,5
+> // [RODADA 2 · tema 4] Cópia da proposta da outra sessão (proto/original/lupa-painel.orig.js) com 4 acréscimos, todos marcados com "R2:".
+> //   R2-a: com texto no campo, a lista suspensa mostra o resultado (ativos e trechos): a lista de trechos do painel e os achados
+> //         soltos sobre o mapa saem (era a mesma lista em dois lugares). Enter abre o 1º resultado; ↓ entra na lista.
+> //   R2-b: nota que fecha a conta da NAE (a soma das classes não bate com o total do alimentador).
+> //   R2-c: o total do alimentador sai do painel (tabela Classe/Trechos/Extensão): está no resumo do cabeçalho (painel.js).
+97a103,123
+>   // R2-a: uma linha de trecho (a mesma na lista da classe e no resultado da busca)
+>   const linhaTr = (t, nae) => `<button type="button" class="lp-op lp-tr" data-t="${esc(t.nome)}" style="--c:${esc(t.cor)}"><span class="lp-bol" aria-hidden="true"></span>` +
+>     `<span class="lp-x"><b>${esc(t.nome)}</b><small>${esc(t.inicio)} → ${esc(t.fim.join(' / ').replace('fim de linha · poste ', 'fim '))} · ${km(t.ext)}</small></span>${pill(nae ? nae[t.nome] || 0 : null)}</button>`;
+>   const buscando = () => !!q.value.trim();
+>   const achados = () => [...document.querySelectorAll('.barra-busca>.ativo-hit>button')];   // ativos achados por extras.js (código de chave, trafo…)
+>   function desenhaBusca() {
+>     const { nae } = leLista(), porNome = Object.fromEntries(D.trechos.map(t => [t.nome, t]));
+>     const trs = [...document.querySelectorAll('#lista .row')].filter(r => !r.hidden).map(r => porNome[r.dataset.t]).filter(Boolean);   // a lista da página já filtrou por texto, classe e município
+>     const ats = achados();
+>     let html = '';
+>     if (ats.length) html += `<p class="lp-t">Ativos · ${mil(ats.length)}</p>` + ats.map((b, i) => {
+>       const sp = b.querySelectorAll('span');
+>       return `<button type="button" class="lp-op lp-at" data-i="${i}"><span class="lp-pin" aria-hidden="true"></span><span class="lp-x"><b>${esc(b.querySelector('b').textContent)}</b>` +
+>         `<small>${esc(sp[0] ? sp[0].textContent : '')}</small></span><span class="lp-ir">${esc((sp[1] ? sp[1].textContent : 'Ver no mapa').replace(/ →$/, ''))}</span></button>`;
+>     }).join('');
+>     if (trs.length) html += `<p class="lp-t">Trechos · ${mil(trs.length)}${nae ? ' · maior NAE primeiro' : ''}</p>` + trs.slice(0, limite).map(t => linhaTr(t, nae)).join('');
+>     if (trs.length > limite) html += `<button type="button" class="lp-op lp-mais"><span class="lp-x"><b>Mostrar mais ${mil(Math.min(LOTE, trs.length - limite))}</b>` +
+>       `<small>faltam ${mil(trs.length - limite)}; ou escreva mais do nome</small></span></button>`;
+>     if (!html) html = '<p class="lp-vazio">Nada encontrado neste alimentador. Escreva o nome do trecho (T3-AK), o código de uma chave ou transformador, ou o número de um poste.</p>';
+>     drop.innerHTML = html;
+>   }
+98a125
+>     if (buscando()) return desenhaBusca();
+110a138,146
+>       // R2-b: a soma das classes não fecha com o total do alimentador: entram nas classes as NAE de outros alimentadores cujo ativo hoje está aqui
+>       // (doExt) e ficam de fora as que a Crítica não consegue pôr num trecho (sem trecho). Dito em uma linha, para o número não parecer erro.
+>       if (nae && typeof doMes === 'function') {
+>         const de = doExt().length, sem = doMes().filter(o => !o.trecho).length, pl = (n, a, b) => n + ' ' + (n === 1 ? a : b);
+>         const partes = [];
+>         if (de) partes.push(`entram ${pl(de, 'ocorrência de outro alimentador', 'ocorrências de outros alimentadores')} que hoje estão em trechos daqui`);
+>         if (sem) partes.push(`${sem === 1 ? 'fica de fora 1 sem trecho' : 'ficam de fora ' + sem + ' sem trecho'}`);
+>         if (partes.length) html += `<p class="lp-nota">NAE do alimentador: ${mil(doMes().length)}. Nas classes ${partes.join('; ')}.</p>`;
+>       }
+119,120c155
+<         ts.slice(0, limite).map(t => `<button type="button" class="lp-op lp-tr" data-t="${esc(t.nome)}" style="--c:${esc(t.cor)}"><span class="lp-bol" aria-hidden="true"></span>` +
+<           `<span class="lp-x"><b>${esc(t.nome)}</b><small>${esc(t.inicio)} → ${esc(t.fim.join(' / ').replace('fim de linha · poste ', 'fim '))} · ${km(t.ext)}</small></span>${pill(nae ? nae[t.nome] || 0 : null)}</button>`).join('') ||
+---
+>         ts.slice(0, limite).map(t => linhaTr(t, nae)).join('') ||
+143c178,197
+<   q.addEventListener('input', () => abreDrop(!q.value.trim() && document.activeElement === q));
+---
+>   q.addEventListener('input', () => {                    // R2-a: com texto, a lista suspensa é o resultado da busca (limite volta ao 1º lote)
+>     limite = LOTE;
+>     if (document.activeElement !== q) return abreDrop(false);
+>     if (drop.hidden) abreDrop(true); else { aberta = null; desenha(); drop.scrollTop = 0; }
+>   });
+>   const observa = achados => { const h = document.querySelector('.barra-busca>.ativo-hit'); if (h) new MutationObserver(achados).observe(h, { childList: true }); };
+>   observa(() => { if (!drop.hidden && buscando()) { const y = drop.scrollTop; desenha(); drop.scrollTop = y; } });   // os ativos chegam depois (busca no índice)
+>   q.addEventListener('keydown', e => {
+>     if (e.key === 'ArrowDown' && !drop.hidden) { const b = drop.querySelector('.lp-op'); if (b) { e.preventDefault(); b.focus(); } }
+>     else if (e.key === 'ArrowDown' && drop.hidden) { abreDrop(true, true); e.preventDefault(); }
+>     else if (e.key === 'Enter' && buscando() && !drop.hidden) { const b = drop.querySelector('.lp-at, .lp-tr'); if (b) { e.preventDefault(); b.click(); } }
+>   });
+>   drop.addEventListener('keydown', e => {                // ↑ ↓ andam na lista; ↑ no 1º volta ao campo
+>     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+>     const bs = [...drop.querySelectorAll('.lp-op, .lp-olho')], i = bs.indexOf(document.activeElement);
+>     if (i < 0) return;
+>     e.preventDefault();
+>     if (e.key === 'ArrowUp' && i === 0) return q.focus();
+>     (bs[i + (e.key === 'ArrowDown' ? 1 : -1)] || bs[i]).focus();
+>   });
+168a223,229
+>     if (b.classList.contains('lp-at')) {                 // R2-a: ativo achado: o botão original (extras.js) escolhe o trecho e põe o marcador
+>       const o = achados()[+b.dataset.i];
+>       abreDrop(false);
+>       if (document.activeElement === q) q.blur();
+>       if (o) o.click();
+>       return;
+>     }
+241a303,305
+>     '.lp-nota{margin:0;padding:var(--s1) var(--s3) var(--s2);color:var(--muted);font-size:var(--t-xs);line-height:1.45}' +
+>     '.lp-pin{flex:none;width:10px;height:10px;box-sizing:border-box;border:2px solid var(--accent);border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin:0 1px}' +
+>     '.lp-ir{flex:none;max-width:44%;text-align:right;font:600 var(--t-xs)/1.3 var(--f-body);color:var(--accent)}' +

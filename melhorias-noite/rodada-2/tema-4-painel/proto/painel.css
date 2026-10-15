@@ -1,0 +1,187 @@
+/* ============================================================================================
+   PROTÓTIPO CONSOLIDADO · Painel do alimentador (tema 4, rodada 2) — parte CSS
+   Entra por cima de assets/alimentador.css e do CSS que proto/lupa-painel.js injeta. Tudo escopado em html.p-r2 (a classe que o
+   painel.js põe) e, quando é do layout da página, em body:not(.tela-cheia): a tela cheia (gaveta lateral) segue como está.
+
+     1  uma linha só no alto: ☰ · caminho + código + SE · resumo (trechos, km, NAE) · lupa (olho, campo, Filtros)
+     2  mapa na altura da tela; painel rola por dentro
+     3  resumo único: o que a lupa e o resumo do cabeçalho dizem sai do painel (tabela, NAE, lista de trechos, legenda de cores)
+     4  legenda das classes no mapa (só sem Faixa/Inspeção) + legendas das camadas em linha
+     5  camadas em acordeão
+     6  trecho escolhido: ficha + abas
+     7  celular: gaveta inferior
+   ============================================================================================ */
+
+/* ---------------------------------------------------------------- 1 · uma linha só no alto */
+html.p-r2 body:not(.tela-cheia) .mnu{margin:0}
+html.p-r2 body:not(.tela-cheia) header{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:baseline;column-gap:var(--s3);row-gap:2px;max-width:none;min-width:0}
+html.p-r2 body:not(.tela-cheia) .migalhas{grid-column:1/-1;flex-wrap:nowrap;min-height:16px;overflow:hidden;font-size:var(--t-xs);white-space:nowrap}
+html.p-r2 body:not(.tela-cheia) .migalhas .mig-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--t-xs)}
+html.p-r2 body:not(.tela-cheia) h1{grid-row:2;grid-column:1;font-size:24px;line-height:1.1}
+html.p-r2 body:not(.tela-cheia) header .eyebrow{grid-row:2;grid-column:2;align-self:center;font-size:11px;line-height:1.2;white-space:nowrap}
+html.p-r2 body:not(.tela-cheia) header .sub{display:none}            /* "Trechos por ativo": o título da aba já diz */
+html.p-r2 body:not(.tela-cheia) .migalhas .mig-t{display:none}        /* o trecho escolhido já está na ficha do painel (e na gaveta, no celular) */
+
+/* resumo: o que era a tabela Classe/Trechos/Extensão (total) e o "NAE - vegetação: N no alimentador" do painel */
+html.p-r2 .al-res{display:flex;align-items:center;gap:var(--s4);min-width:0;white-space:nowrap}
+html.p-r2 .al-res .r-i{display:grid;gap:3px;justify-items:start;margin:0;padding:0;border:0;background:none;color:var(--fg);font:inherit;text-align:left}
+html.p-r2 .al-res b{display:inline-flex;align-items:center;gap:6px;font:700 17px/1 var(--f-mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+html.p-r2 .al-res small{font:500 11px/1 var(--f-body);color:var(--muted)}
+html.p-r2 .al-res .r-nae{cursor:pointer;border-radius:var(--r2)}
+html.p-r2 .al-res .r-nae b{padding:3px 9px 3px 8px;border-radius:var(--rp);background:var(--alerta-fundo);color:#fff;font-size:13px}
+html.p-r2 .al-res .r-nae .r-nr{font:600 11px/1 var(--f-body);letter-spacing:.03em;opacity:.9}
+html.p-r2 .al-res .r-nae.zero b{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
+html.p-r2 .al-res .r-nae:hover small{color:var(--fg)}
+html.p-r2 .al-res .r-nae:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+/* tela cheia: o resumo vai para o alto da gaveta, embaixo da barra */
+html.p-r2 body.tela-cheia .panel>.al-res{grid-column:1/-1;gap:var(--s5);padding:var(--s1) 0 var(--s2)}
+
+@media (min-width:981px){
+  html.p-r2 body:not(.tela-cheia) .wrap{
+    max-width:none;margin:0;height:100dvh;min-height:600px;padding:12px var(--s4) var(--s4);gap:var(--s3) var(--s4);align-items:center;
+    grid-template-columns:40px max-content max-content minmax(300px,1fr);grid-template-rows:auto minmax(0,1fr)}
+  html.p-r2 body:not(.tela-cheia) .mnu{grid-column:1;grid-row:1}
+  html.p-r2 body:not(.tela-cheia) header{grid-column:2;grid-row:1}
+  html.p-r2 body:not(.tela-cheia) .al-res{grid-column:3;grid-row:1}
+  html.p-r2 body:not(.tela-cheia) .barra-busca{grid-column:4;grid-row:1;align-self:center}
+  html.p-r2 body:not(.tela-cheia) .stage{grid-column:1/-1;grid-row:2;height:100%;min-height:0;align-items:stretch;gap:var(--s4);grid-template-columns:minmax(0,1fr) 400px}
+  html.p-r2 body:not(.tela-cheia) .mapbox{position:relative;top:auto;height:100%}
+  html.p-r2 body:not(.tela-cheia) #map{height:100%;min-height:0}
+  html.p-r2 body:not(.tela-cheia) .panel{position:relative;top:auto;height:100%;max-height:none}
+}
+@media (min-width:981px) and (max-width:1280px){                      /* janela estreita: a SE desce para baixo do código */
+  html.p-r2 body:not(.tela-cheia) header{grid-template-columns:auto}
+  html.p-r2 body:not(.tela-cheia) h1{grid-column:1}
+  html.p-r2 body:not(.tela-cheia) header .eyebrow{grid-row:3;grid-column:1}
+  html.p-r2 body:not(.tela-cheia) .al-res{gap:var(--s3)}
+}
+
+/* ---------------------------------------------------------------- 2/3 · painel enxuto */
+html.p-r2 #det:has(>.resumo-classe){display:none}                    /* a tabela Classe/Trechos/Extensão e o "NAE do alimentador": estão no cabeçalho e na lupa */
+html.p-r2 body:not(.tela-cheia) #lista,
+html.p-r2 body:not(.tela-cheia) #ord-lista,
+html.p-r2 body:not(.tela-cheia) .barra-busca>.ativo-hit{display:none!important}   /* a lupa mostra o resultado da busca (proto/lupa-painel.js, R2-a) */
+html.p-r2 body.tela-cheia #lista:not([hidden]){max-height:none}
+html.p-r2 .al-vazio{display:grid;gap:var(--s3);justify-items:start;padding:var(--s4);border:1px dashed var(--line-forte);border-radius:var(--r3);color:var(--muted);font-size:var(--t-sm)}
+html.p-r2 .al-vazio[hidden]{display:none}
+html.p-r2 .al-vazio p{margin:0}
+html.p-r2 .al-vazio button{min-height:var(--alvo);padding:0 var(--s4);border:1px solid var(--line-forte);border-radius:var(--r2);background:var(--paper);color:var(--fg);font:600 var(--t-sm) var(--f-body);cursor:pointer}
+html.p-r2 .al-vazio button:hover{border-color:var(--accent)}
+html.p-r2 .mapbox{overflow:clip}
+
+/* tela cheia: os botões T1/T2/T3 voltam ao mapa (a lupa vai para a gaveta) e levam nº de trechos e km: é o único lugar do resumo por classe ali */
+html.p-r2 .classes{gap:2px}
+html.p-r2 .classes button{display:grid;gap:4px;justify-items:center;align-content:center;min-width:56px;min-height:46px;padding:0 var(--s2);line-height:1}
+html.p-r2 .classes .cl-n{font:700 var(--t-sm)/1 var(--f-mono);white-space:nowrap}
+html.p-r2 .classes .cl-n em{display:none;font-style:normal;font-weight:500;opacity:.85;margin-left:4px}
+html.p-r2 .classes small{font:500 10.5px/1 var(--f-mono);opacity:.82;white-space:nowrap}
+html.p-r2 .classes small .k-m{display:none}
+
+/* ---------------------------------------------------------------- 4 · legendas no mapa */
+/* classes (T1 · T2 · T3): uma linha no canto, só quando a Faixa/Inspeção não pintam as linhas por outra cor */
+html.p-r2 .ctl-lgs>#legenda{display:flex;flex-wrap:wrap;align-items:center;gap:2px var(--s3);padding:var(--s2) var(--s3);background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  border:1px solid var(--vidro-borda);border-radius:var(--r2);box-shadow:var(--sh-vidro);color:var(--vidro-fg);font:600 var(--t-xs)/1.3 var(--f-body)}
+html.p-r2 .ctl-lgs>#legenda span{min-height:24px}
+html.p-r2 .ctl-lgs:has(>.limp-maplg:not([hidden]))>#legenda{display:none}
+html.p-r2 body.limp-on .ctl-lgs>#legenda{display:none}
+/* camadas ligadas: uma linha por camada (cor + nome; os números ficam no cartão do painel) */
+html.p-r2 .ctl-lgs{max-height:none;overflow:visible;gap:4px;max-width:calc(100% - 76px)}
+html.p-r2 .ctl-lgs>:is(.limp-maplg,.mnt-lg,.exe-lg){display:flex;flex-wrap:wrap;align-items:center;gap:0 2px;padding:2px var(--s1)}
+html.p-r2 .ctl-lgs :is(.lg-cab,.mnt-lg>span,.exe-lg>span){display:inline-flex!important;min-height:28px;align-items:center;padding:0 var(--s2) 0 var(--s1);font:700 var(--t-xs) var(--f-body)}
+html.p-r2 .ctl-lgs :is(.limp-maplg,.mnt-lg,.exe-lg) button{min-height:30px;padding:0 var(--s2)}
+html.p-r2 .ctl-lgs :is(.mnt-lg,.exe-lg) button .nm{display:inline!important}
+html.p-r2 .ctl-lgs :is(.mnt-lg,.exe-lg) button em{display:none}
+html.p-r2 .ctl-lgs .limp-maplg .lg-info{display:inline-flex!important;min-height:28px;color:var(--vidro-fg);opacity:.85;font:500 var(--t-xs) var(--f-body)}
+html.p-r2 .ctl-lgs .limp-maplg .lg-info i{width:14px}
+@media (max-width:640px){html.p-r2 .ctl-lgs .limp-maplg .lg-info{display:none!important}}
+/* celular, 2 ou mais legendas: um botão "Legendas (n)" recolhe a coluna (devolve ~190 px do mapa) */
+html.p-r2 .lg-tg{display:none}
+html.p-r2 .ctl-lgs.lg-varias>.lg-tg{display:inline-flex;align-items:center;gap:var(--s2);align-self:flex-start;min-height:32px;padding:0 var(--s3);border:1px solid var(--vidro-borda);border-radius:var(--r2);
+  background:var(--vidro);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--vidro-fg);font:600 var(--t-xs) var(--f-body);cursor:pointer;box-shadow:var(--sh-vidro)}
+html.p-r2 .lg-tg em{font:700 11px/1 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:var(--rp);background:var(--vidro-hover)}
+html.p-r2 .lg-tg .lg-ch{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg)}
+html.p-r2 .ctl-lgs.lg-fechada .lg-ch{transform:translateY(1px) rotate(-135deg)}
+html.p-r2 .ctl-lgs.lg-fechada>:not(.lg-tg){display:none!important}
+@media (min-width:641px){html.p-r2 .ctl-lgs>.lg-tg{display:none!important}html.p-r2 .ctl-lgs.lg-fechada>:not(.lg-tg){display:revert!important}}
+
+/* ---------------------------------------------------------------- 5 · camadas em acordeão */
+html.p-r2 .panel{gap:0}
+html.p-r2 .panel>.limp-card{padding:0;gap:var(--s2)}
+html.p-r2 .panel>.limp-card:not([hidden])~.limp-card:not([hidden]){border-top:1px solid var(--line)}   /* filete só entre cartões à vista */
+html.p-r2 .panel>.limp-card>.limp-top{position:relative;cursor:pointer;padding:var(--s3) 36px var(--s3) 0;min-height:56px;border-radius:var(--r1)}
+html.p-r2 .panel>.limp-card>.limp-top:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+html.p-r2 .panel>.limp-card>.limp-top h2{font-size:var(--t-lg);white-space:normal}
+html.p-r2 .panel>.limp-card>.limp-top::after{content:"";position:absolute;right:10px;top:50%;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:translateY(-70%) rotate(45deg)}
+html.p-r2 .panel>.limp-card.acd-fechada>.limp-top::after{transform:translateY(-50%) rotate(-45deg)}
+html.p-r2 .panel>.limp-card.acd-fechada>:not(.limp-top){display:none}
+html.p-r2 .panel>.limp-card:not(.acd-fechada){padding-bottom:var(--s3)}
+html.p-r2 .panel>.dados{margin-top:var(--s2);padding-top:var(--s3)}
+@media (prefers-reduced-motion:no-preference){html.p-r2 .panel>.limp-card>.limp-top::after{transition:transform var(--dur) var(--ease)}}
+
+/* ---------------------------------------------------------------- 6 · trecho escolhido: ficha + abas */
+html.p-r2 .det-abas{display:flex;flex-wrap:wrap;gap:var(--s1);position:sticky;top:-4px;z-index:3;margin:var(--s1) 0 0;padding:var(--s2) 0;background:var(--bg);border-bottom:1px solid var(--line)}
+html.p-r2 .det-abas button{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 var(--s3);border:0;border-radius:var(--rp);background:var(--hover);color:var(--fg);
+  font:600 var(--t-sm)/1 var(--f-body);cursor:pointer;white-space:nowrap}
+html.p-r2 .det-abas button:hover{background:color-mix(in srgb,var(--fg) 12%,transparent)}
+html.p-r2 .det-abas button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+html.p-r2 .det-abas button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html.p-r2 .det-abas button.vazia{opacity:.55}
+html.p-r2 .det-abas em{font:600 11px/1 var(--f-mono);font-style:normal;opacity:.75}
+html.p-r2 .det-abas .tab-nae em{opacity:1;padding:3px 6px;border-radius:var(--rp);background:var(--alerta-fundo);color:#fff}
+html.p-r2 .det-nae{margin:0;padding-top:var(--s3)}
+html.p-r2 .det-nae>dt.nae{display:none}                               /* a aba já se chama NAE */
+html.p-r2 .det>.limp-sec[data-aba]{padding-top:var(--s3)}
+@media (pointer:coarse){html.p-r2 .det-abas button{min-height:40px}}
+
+/* ---------------------------------------------------------------- 7 · celular: caixa de cima compacta + gaveta */
+.sheet-h{display:none}
+@media (max-width:980px){
+  html.p-r2,html.p-r2 body:not(.tela-cheia){height:100%;overflow:hidden}
+  html.p-r2 body:not(.tela-cheia) .wrap{
+    height:100dvh;max-width:none;margin:0;padding:10px var(--s3) calc(var(--sheet-peek,60px) + var(--s2));gap:var(--s2) var(--s2);align-items:center;
+    grid-template-columns:40px minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr)}
+  html.p-r2 body:not(.tela-cheia) .mnu{grid-column:1;grid-row:1}
+  html.p-r2 body:not(.tela-cheia) header{grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);row-gap:1px}
+  html.p-r2 body:not(.tela-cheia) h1{grid-column:1;font-size:21px}
+  html.p-r2 body:not(.tela-cheia) header .eyebrow{grid-row:3;grid-column:1;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+  html.p-r2 body:not(.tela-cheia) .al-res{grid-column:3;grid-row:1;flex-direction:column;align-items:flex-end;gap:2px}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-i{display:flex;align-items:baseline;gap:4px;justify-items:end}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-t{order:3}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-k{order:2}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-nae{order:1;margin-bottom:2px}
+  html.p-r2 body:not(.tela-cheia) .al-res b{font-size:12px}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-nae b{font-size:12px;padding:2px 8px 2px 7px}
+  html.p-r2 body:not(.tela-cheia) .al-res small{font-size:10px}
+  html.p-r2 body:not(.tela-cheia) .al-res .r-np{display:none}
+  html.p-r2 body:not(.tela-cheia) .barra-busca{grid-column:1/4;grid-row:2}
+  html.p-r2 body:not(.tela-cheia) .stage{grid-column:1/4;grid-row:3;height:100%;min-height:0;grid-template-rows:minmax(0,1fr)}
+  html.p-r2 body:not(.tela-cheia) .mapbox{position:relative;top:auto;z-index:1;isolation:isolate;height:100%;border-radius:var(--r2)}   /* isolado: os controles do Leaflet (z 1000) ficam por baixo da gaveta */
+  html.p-r2 body:not(.tela-cheia) #map{height:100%;min-height:0}
+  html.p-r2 body:not(.tela-cheia) .panel{--visivel:var(--sheet-peek,60px);position:fixed;left:0;right:0;bottom:0;top:auto;z-index:900;height:88dvh;max-height:none;overflow-y:auto;overscroll-behavior:contain;
+    padding:0 var(--s4) calc(var(--s5) + env(safe-area-inset-bottom));background:var(--paper);border-radius:var(--r3) var(--r3) 0 0;box-shadow:0 -10px 30px rgb(0 0 0/.45);
+    transform:translateY(calc(88dvh - var(--visivel)));transition:transform var(--dur-l) var(--ease)}
+  html.p-r2 body:not(.tela-cheia) .panel[data-estado="meio"]{--visivel:46dvh}
+  html.p-r2 body:not(.tela-cheia) .panel[data-estado="cheio"]{--visivel:88dvh}
+  html.p-r2 body:not(.tela-cheia) .panel[data-arrasta]{transition:none}
+  html.p-r2 body:not(.tela-cheia) .sheet-h{display:flex;align-items:center;gap:var(--s3);position:sticky;top:0;z-index:5;width:calc(100% + 2 * var(--s4));margin:0 calc(-1 * var(--s4));min-height:var(--sheet-peek,60px);padding:0 var(--s4);
+    border:0;background:var(--paper);color:var(--fg);font:600 var(--t-md)/1.2 var(--f-body);text-align:left;cursor:grab;touch-action:none;border-radius:var(--r3) var(--r3) 0 0}
+  html.p-r2 .sheet-h::before{content:"";position:absolute;left:50%;top:7px;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:var(--line-forte)}
+  html.p-r2 .sheet-h .sh-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-top:8px}
+  html.p-r2 .sheet-h .sh-t small{display:block;font:500 var(--t-xs)/1.3 var(--f-body);color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+  html.p-r2 .sheet-h .sh-s{flex:none;width:10px;height:10px;margin-top:8px;border-right:2px solid var(--muted);border-top:2px solid var(--muted);transform:rotate(-45deg)}
+  html.p-r2 .panel:not([data-estado="peek"]) .sheet-h .sh-s{transform:rotate(135deg)}
+  html.p-r2 body:not(.tela-cheia) .panel>:not(.sheet-h){min-width:0}
+  html.p-r2 body:not(.tela-cheia) .panel>.det{padding-top:var(--s2)}
+  html.p-r2 body:not(.tela-cheia) .ctl-lgs{max-height:calc(100% - 28px - 76px)}
+  /* a lupa abre por cima da gaveta */
+  html.p-r2 body:not(.tela-cheia) .barra-busca{position:relative;z-index:1000}
+  html.p-r2 body:not(.tela-cheia) .lp-drop{max-height:min(62dvh,560px)}
+}
+@media (max-width:640px){
+  html.p-r2 .classes button{min-width:0;padding:0 7px}
+  html.p-r2 .classes .cl-n em{display:inline}
+  html.p-r2 .classes small .k-d{display:none}
+  html.p-r2 .classes small .k-m{display:inline}
+}
+@media (prefers-reduced-motion:reduce){html.p-r2 body:not(.tela-cheia) .panel{transition:none}}

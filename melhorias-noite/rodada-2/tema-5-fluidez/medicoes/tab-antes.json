@@ -1,0 +1,1499 @@
+{
+ "desktop|estado": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 98,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 404,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Palmas",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 51,
+    "h": 46,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Porto Nacional\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n- group:\n  - text: NAE-Vegetação\n  - list:\n    - listitem \"Sem NAE\"\n    - listitem \"1 a 10\"\n    - listitem \"11 a 30\"\n    - listitem \"31 a 100\"\n    - listitem \"101 a 200\"\n    - listitem \"201 ou mais\"\n  - text: Limite das regionais\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "desktop|regional": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 98,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 404,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Paraíso, 588 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Porto Nacional, 633 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 110,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Palmas, 434 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 131,
+    "h": 211,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Regional Centro. Voltar ao Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polos da Regional Centro\":\n  - button \"Tocantins\"\n  - text: Centro\n  - button \"Paraíso, 588 NAE\": Paraíso\n  - button \"Porto Nacional, 633 NAE\": Porto Nacional\n  - button \"Palmas, 434 NAE\": Palmas\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- group:\n  - text: NAE-Vegetação\n  - list:\n    - listitem \"Sem NAE\"\n    - listitem \"1 a 10\"\n    - listitem \"11 a 30\"\n    - listitem \"31 a 100\"\n    - listitem \"101 a 200\"\n    - listitem \"201 ou mais\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Regional Centro. Voltar ao Tocantins\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "desktop|polo": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 98,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 404,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res",
+    "nome": "Municípios do polo Porto NacionalPorto N",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 460,
+    "h": 540,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 138,
+    "h": 224,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar à Regional Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - text: Porto Nacional 633\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- group:\n  - text: NAE-Vegetação\n  - list:\n    - listitem \"Sem NAE\"\n    - listitem \"1 a 10\"\n    - listitem \"11 a 30\"\n    - listitem \"31 a 100\"\n    - listitem \"101 a 200\"\n    - listitem \"201 ou mais\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Porto Nacional. Voltar à Regional Centro\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "desktop|municipio": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 98,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 404,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res.lista-mun",
+    "nome": "Alimentadores de Porto Nacional · 23AL02",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 460,
+    "h": 405,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 359,
+    "h": 580,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar ao polo Porto Nac",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N"
+  ],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - button \"Porto Nacional\"\n  - text: Porto Nacional\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Porto Nacional. Voltar ao polo Porto Nacional\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "desktop|alimentador": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 98,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 404,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res.lista-mun",
+    "nome": "Alimentadores de Porto Nacional · 23AL02",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 460,
+    "h": 405,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true,
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - button \"Porto Nacional\"\n  - button \"Porto Nacional\"\n  - text: AL02057189\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"AL02057189. Voltar a Porto Nacional\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "celular|estado": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 83,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 302,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Palmas",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 44,
+    "h": 39,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Porto Nacional\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n- group: NAE-Vegetação\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "celular|regional": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 83,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 302,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res",
+    "nome": "Polos da Regional CentroPorto NacionalRe",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 358,
+    "h": 506,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Paraíso, 588 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Porto Nacional, 633 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 110,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Palmas, 434 NAE",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 41,
+    "h": 67,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Regional Centro. Voltar ao Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polos da Regional Centro\":\n  - button \"Tocantins\"\n  - text: Centro\n  - button \"Paraíso, 588 NAE\": Paraíso\n  - button \"Porto Nacional, 633 NAE\": Porto Nacional\n  - button \"Palmas, 434 NAE\": Palmas\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- group: NAE-Vegetação\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Regional Centro. Voltar ao Tocantins\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "celular|polo": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 83,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 302,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res",
+    "nome": "Municípios do polo Porto NacionalPorto N",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 358,
+    "h": 506,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 43,
+    "h": 70,
+    "indicador": true
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 136,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar à Regional Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - text: Porto Nacional 633\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- group: NAE-Vegetação\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Porto Nacional. Voltar à Regional Centro\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "celular|municipio": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 83,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 302,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res.lista-mun",
+    "nome": "Alimentadores de Porto Nacional · 23AL02",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 358,
+    "h": 380,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "path",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 271,
+    "h": 438,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Norte, 3.130 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Centro, 1.655 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 103,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button",
+    "nome": "Abrir a Regional Sul, 963 NAE",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 89,
+    "h": 48,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar ao polo Porto Nac",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 130,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 84,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "BODY",
+    "volta": true
+   }
+  ],
+  "anuncios": [
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N",
+   "ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N"
+  ],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - button \"Porto Nacional\"\n  - text: Porto Nacional\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"Porto Nacional. Voltar ao polo Porto Nacional\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ },
+ "celular|alimentador": {
+  "paradas": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 40,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 83,
+    "h": 40,
+    "indicador": true
+   },
+   {
+    "n": "button#lupa.lupa",
+    "nome": "Ir para a busca",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "input#ativo-q.busca",
+    "nome": "Município, alimentador, ativo, OS",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 302,
+    "h": 44,
+    "indicador": true
+   },
+   {
+    "n": "div#ativo-res.lista-mun",
+    "nome": "Alimentadores de Porto Nacional · 23AL02",
+    "invisivel": true,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 358,
+    "h": 380,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 66,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 48,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "invisivel": false,
+    "ariaHidden": false,
+    "foraDaTela": false,
+    "w": 95,
+    "h": 36,
+    "indicador": true,
+    "volta": true
+   }
+  ],
+  "anuncios": [],
+  "vivas": [
+   "ativo-res[polite]",
+   "mnu-st[polite]"
+  ],
+  "arvore": "- navigation \"Menu\":\n  - button \"Menu\"\n- banner:\n  - heading \"ARGOS MANUTENÇÃO\" [level=1]\n  - link \"Ranking →\":\n    - /url: polos/#eto\n- search:\n  - button \"Ir para a busca\"\n  - text: Buscar regional, polo, município, alimentador, ativo ou OS\n  - combobox \"Buscar regional, polo, município, alimentador, ativo ou OS\" [expanded]\n  - listbox \"Resultados\":\n    - text: Alimentadores de Porto Nacional · 23\n    - option \"AL02057189 Em foco no mapa · toque de novo para abrir a página 44 NAE\"\n    - option \"AL01057189 280,5 km aqui · SE NOVA PINHEIRÓPOLIS 31 NAE\"\n    - option \"AL03062013 260,1 km aqui · SE PARAÍSO I 22 NAE\"\n    - option \"AL03101271 240,5 km aqui · SE LUZIMANGUES 15 NAE\"\n    - option \"AL02101271 217,0 km aqui · SE LUZIMANGUES 6 NAE\"\n    - option \"AL06072001 184,2 km aqui · SE PORTO NACIONAL 21 NAE\"\n    - option \"LD02072001 162,7 km aqui · SE PORTO NACIONAL 79 NAE\"\n    - option \"AL03072001 149,0 km aqui · SE PORTO NACIONAL 37 NAE\"\n    - option \"LD01072001 139,6 km aqui · SE PORTO NACIONAL 23 NAE\"\n    - option \"LD01100001 121,4 km aqui · SE SÃO JOÃO 67 NAE\"\n    - option \"AL04072001 95,6 km aqui · SE PORTO NACIONAL 13 NAE\"\n    - option \"LD02100001 72,9 km aqui · SE SÃO JOÃO 29 NAE\"\n    - option \"AL01101271 40,2 km aqui · SE LUZIMANGUES 10 NAE\"\n    - option \"LD03072001 34,1 km aqui · SE PORTO NACIONAL 3 NAE\"\n    - option \"AL05072001 30,2 km aqui · SE PORTO NACIONAL 3 NAE\"\n    - option \"AL01072001 27,4 km aqui · SE PORTO NACIONAL 1 NAE\"\n    - option \"AL02072001 16,0 km aqui · SE PORTO NACIONAL 1 NAE\"\n    - option \"AL01071001 12,8 km aqui · SE DIST IND DE PORTO NACIONAL 2 NAE\"\n    - option \"AL02102271 11,3 km aqui · SE LUZIMANGUES INDUSTRIAL 15 NAE\"\n    - option \"LD03434001 7,5 km aqui · 2 NAE\"\n    - option \"AL01032044 7,4 km aqui · SE FÁTIMA 4 NAE\"\n    - option \"AL02017017 5,3 km aqui · SE BARROLÂNDIA 3 NAE\"\n    - option \"LD01056046 3,8 km aqui · SE NOVA ROSALÂNDIA 40 NAE\"\n- group \"Polo Porto Nacional\":\n  - button \"Tocantins\"\n  - button \"Centro\"\n  - button \"Porto Nacional\"\n  - button \"Porto Nacional\"\n  - text: AL02057189\n- group \"Mapa dos municípios do Tocantins\":\n  - button \"Axixá do Tocantins\"\n  - button \"Palmeiras do Tocantins\"\n  - button \"Aguiarnópolis\"\n  - button \"Nazaré\"\n  - button \"Tocantinópolis\"\n  - button \"Maurilândia do Tocantins\"\n  - button \"Itaguatins\"\n  - button \"São Miguel do Tocantins\"\n  - button \"Riachinho\"\n  - button \"Ananás\"\n  - button \"Araguatins\"\n  - button \"São Sebastião do Tocantins\"\n  - button \"Esperantina\"\n  - button \"Angico\"\n  - button \"Luzinópolis\"\n  - button \"Cachoeirinha\"\n  - button \"São Bento do Tocantins\"\n  - button \"Augustinópolis\"\n  - button \"Sampaio\"\n  - button \"Carrasco Bonito\"\n  - button \"Sítio Novo do Tocantins\"\n  - button \"Praia Norte\"\n  - button \"Buriti do Tocantins\"\n  - button \"Santa Terezinha do Tocantins\"\n  - button \"Wanderlândia\"\n  - button \"Filadélfia\"\n  - button \"Darcinópolis\"\n  - button \"Arapoema\"\n  - button \"Pau D'Arco\"\n  - button \"Araguaína\"\n  - button \"Santa Fé do Araguaia\"\n  - button \"Bandeirantes do Tocantins\"\n  - button \"Palmeirante\"\n  - button \"Nova Olinda\"\n  - button \"Carmolândia\"\n  - button \"Piraquê\"\n  - button \"Araguanã\"\n  - button \"Xambioá\"\n  - button \"Muricilândia\"\n  - button \"Aragominas\"\n  - button \"Campos Lindos\"\n  - button \"Goiatins\"\n  - button \"Barra do Ouro\"\n  - button \"Babaçulândia\"\n  - button \"Lagoa da Confusão\"\n  - button \"Cristalândia\"\n  - button \"Nova Rosalândia\"\n  - button \"Paraíso do Tocantins\"\n  - button \"Chapada de Areia\"\n  - button \"Pium\"\n  - button \"Abreulândia\"\n  - button \"Caseara\"\n  - button \"Araguacema\"\n  - button \"Rio dos Bois\"\n  - button \"Barrolândia\"\n  - button \"Miracema do Tocantins\"\n  - button \"Miranorte\"\n  - button \"Pugmil\"\n  - button \"Monte Santo do Tocantins\"\n  - button \"Marianópolis do Tocantins\"\n  - button \"Divinópolis do Tocantins\"\n  - button \"Dois Irmãos do Tocantins\"\n  - button \"Paranã\"\n  - button \"Talismã\"\n  - button \"Alvorada\"\n  - button \"Cariri do Tocantins\"\n  - button \"Gurupi\"\n  - button \"Aliança do Tocantins\"\n  - button \"Crixás do Tocantins\"\n  - button \"Dueré\"\n  - button \"Araguaçu\"\n  - button \"Sandolândia\"\n  - button \"Palmeirópolis\"\n  - button \"São Salvador do Tocantins\"\n  - button \"Peixe\"\n  - button \"Jaú do Tocantins\"\n  - button \"Sucupira\"\n  - button \"Figueirópolis\"\n  - button \"São Valério\"\n  - button \"Formoso do Araguaia\"\n  - button \"Almas\"\n  - button \"Taguatinga\"\n  - button \"Taipas do Tocantins\"\n  - button \"Lavandeira\"\n  - button \"Aurora do Tocantins\"\n  - button \"Combinado\"\n  - button \"Porto Alegre do Tocantins\"\n  - button \"Novo Alegre\"\n  - button \"Conceição do Tocantins\"\n  - button \"Natividade\"\n  - button \"Dianópolis\"\n  - button \"Arraias\"\n  - button \"Novo Jardim\"\n  - button \"Ponte Alta do Bom Jesus\"\n  - button \"Chapada da Natividade\"\n  - button \"Rio da Conceição\"\n  - button \"Bom Jesus do Tocantins\"\n  - button \"Centenário\"\n  - button \"Santa Maria do Tocantins\"\n  - button \"Itacajá\"\n  - button \"Goianorte\"\n  - button \"Couto Magalhães\"\n  - button \"Pequizeiro\"\n  - button \"Juarina\"\n  - button \"Bernardo Sayão\"\n  - button \"Pedro Afonso\"\n  - button \"Tupirama\"\n  - button \"Guaraí\"\n  - button \"Presidente Kennedy\"\n  - button \"Tupiratins\"\n  - button \"Brasilândia do Tocantins\"\n  - button \"Tabocão\"\n  - button \"Itaporã do Tocantins\"\n  - button \"Colinas do Tocantins\"\n  - button \"Itapiratins\"\n  - button \"Recursolândia\"\n  - button \"Colméia\"\n  - button \"Lagoa do Tocantins\"\n  - button \"Novo Acordo\"\n  - button \"Rio Sono\"\n  - button \"Lajeado\"\n  - button \"Tocantínia\"\n  - button \"Aparecida do Rio Negro\"\n  - button \"Santa Tereza do Tocantins\"\n  - button \"São Félix do Tocantins\"\n  - button \"Lizarda\"\n  - button \"Palmas\"\n  - button \"Pindorama do Tocantins\"\n  - button \"Ponte Alta do Tocantins\"\n  - button \"Santa Rita do Tocantins\"\n  - button \"Santa Rosa do Tocantins\"\n  - button \"Ipueiras\"\n  - button \"Brejinho de Nazaré\"\n  - button \"Fátima\"\n  - button \"Oliveira de Fátima\"\n  - button \"Silvanópolis\"\n  - button \"Mateiros\"\n  - button \"Monte do Carmo\"\n  - button \"Porto Nacional\"\n- button \"Abrir a Regional Norte, 3.130 NAE\": Norte 3.130 NAE\n- button \"Abrir a Regional Centro, 1.655 NAE\": Centro 1.655 NAE\n- button \"Abrir a Regional Sul, 963 NAE\": Sul 963 NAE\n- button \"AL02057189. Voltar a Porto Nacional\": ←\n- contentinfo:\n  - paragraph: T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.\n  - paragraph:\n    - link \"Relatório de validação\":\n      - /url: relatorio.html\n    - text: ·\n    - link \"manifesto.json\":\n      - /url: manifesto.json"
+ }
+}

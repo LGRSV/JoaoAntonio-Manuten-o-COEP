@@ -1,0 +1,173 @@
+desktop estado paradas: 11 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 path "Palmas"                                                      
+    6 summary "NAE-Vegetação"                                            
+    7 button "Abrir a Regional Norte, 3.130 NAE"                         
+    8 button "Abrir a Regional Centro, 1.655 NAE"                        
+    9 button "Abrir a Regional Sul, 963 NAE"                             
+   10 a "Relatório de validação"                                         
+   11 a "manifesto.json"                                                 
+   12 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+desktop regional paradas: 16 | problemas: 3 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 button.mt-passo "Tocantins"                                        
+    6 button.mt-pchip "Paraíso, 588 NAE"                                 
+    7 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    8 button.mt-pchip "Palmas, 434 NAE"                                  
+    9 path "Porto Nacional"                                              
+   10 summary "NAE-Vegetação"                                            
+   11 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   12 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   13 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   14 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   15 a "Relatório de validação"                                         
+   16 a "manifesto.json"                                                 
+   17 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+desktop polo paradas: 15 | problemas: 4 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res "Municípios do polo Porto NacionalPorto N"       INVISIVEL     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 path "Porto Nacional"                                              
+    9 summary "NAE-Vegetação"                                            
+   10 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   11 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   12 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   13 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+   14 a "Relatório de validação"                                         
+   15 a "manifesto.json"                                                 
+   16 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+desktop municipio paradas: 15 | problemas: 3 | anúncios: 7
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02"     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 button.mt-passo "Porto Nacional"                                   
+    9 path "Porto Nacional"                                              
+   10 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   11 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   12 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   13 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+   14 a "Relatório de validação"                                         
+   15 a "manifesto.json"                                                 
+   16 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+desktop alimentador paradas: 8 | problemas: 1 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02" INVISIVEL     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 button.mt-passo "Porto Nacional"                                   
+    9 button.mt-passo "Porto Nacional"                                   (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+celular estado paradas: 11 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 path "Palmas"                                                      
+    6 summary "NAE-Vegetação"                                            
+    7 button "Abrir a Regional Norte, 3.130 NAE"                         
+    8 button "Abrir a Regional Centro, 1.655 NAE"                        
+    9 button "Abrir a Regional Sul, 963 NAE"                             
+   10 a "Relatório de validação"                                         
+   11 a "manifesto.json"                                                 
+   12 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+celular regional paradas: 17 | problemas: 4 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res "Polos da Regional CentroPorto NacionalRe"       INVISIVEL     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-pchip "Paraíso, 588 NAE"                                 
+    8 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    9 button.mt-pchip "Palmas, 434 NAE"                                  
+   10 path "Porto Nacional"                                              
+   11 summary "NAE-Vegetação"                                            
+   12 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   13 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   14 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   15 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   16 a "Relatório de validação"                                         
+   17 a "manifesto.json"                                                 
+   18 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+celular polo paradas: 15 | problemas: 4 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res "Municípios do polo Porto NacionalPorto N"       INVISIVEL     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 path "Porto Nacional"                                              
+    9 summary "NAE-Vegetação"                                            
+   10 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   11 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   12 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   13 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+   14 a "Relatório de validação"                                         
+   15 a "manifesto.json"                                                 
+   16 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+celular municipio paradas: 15 | problemas: 3 | anúncios: 24
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02"     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 button.mt-passo "Porto Nacional"                                   
+    9 path "Porto Nacional"                                              
+   10 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   11 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   12 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   13 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+   14 a "Relatório de validação"                                         
+   15 a "manifesto.json"                                                 
+   16 BODY ""                                                            (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
+celular alimentador paradas: 8 | problemas: 1 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Ir para a busca"                                 
+    4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02" INVISIVEL     
+    6 button.mt-passo "Tocantins"                                        
+    7 button.mt-passo "Centro"                                           
+    8 button.mt-passo "Porto Nacional"                                   
+    9 button.mt-passo "Porto Nacional"                                   (volta ao começo)
+   live: ativo-res[polite], mnu-st[polite]

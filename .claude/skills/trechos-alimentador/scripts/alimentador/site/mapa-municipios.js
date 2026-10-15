@@ -269,7 +269,7 @@
     // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
     // com a busca da barra, a lista do município aberto abre embaixo da logo: o lado esquerdo fica livre para ela
     const lista = window.ARGOS_BUSCA && mun && !alf ? ((document.querySelector('.mt-barra .ativo') || {}).offsetWidth || 0) : 0;
-    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
+    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg && !leg.closest('.mt-barra') ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
     const altura = H / k;
     return [x - L1 / k, y - (altura - h) / 2, w + (L1 + L2) / k, altura];

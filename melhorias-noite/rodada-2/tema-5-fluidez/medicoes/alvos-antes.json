@@ -1,0 +1,668 @@
+{
+ "estado": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "w": 136,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "regional": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Paraíso, 588 NAE",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Porto Nacional, 633 NAE",
+    "w": 110,
+    "h": 36
+   },
+   {
+    "n": "button.mt-pchip",
+    "nome": "Palmas, 434 NAE",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "w": 136,
+    "h": 40
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Regional Centro. Voltar ao T",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 40,
+  "municipiosMenoresQue44": 34
+ },
+ "polo": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "w": 48,
+    "h": 36
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "w": 136,
+    "h": 40
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar à Reg",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 12,
+  "municipiosMenoresQue44": 10
+ },
+ "municipio": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "w": 48,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "w": 95,
+    "h": 36
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "Porto Nacional. Voltar ao po",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Tocantins",
+    "w": 66,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Centro",
+    "w": 48,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "w": 95,
+    "h": 36
+   },
+   {
+    "n": "button.mt-passo",
+    "nome": "Porto Nacional",
+    "w": 95,
+    "h": 36
+   },
+   {
+    "n": "button.mt-volta",
+    "nome": "AL02057189. Voltar a Porto N",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "busca-aberta": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "w": 136,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "menu-aberto": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Atualização de dados",
+    "w": 306,
+    "h": 40
+   },
+   {
+    "n": "button.mnu-tema",
+    "nome": "Night shiftShift K",
+    "w": 306,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Script KML → trechos (.zip)",
+    "w": 306,
+    "h": 40
+   },
+   {
+    "n": "a.cab-link",
+    "nome": "Ranking",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "summary",
+    "nome": "NAE-Vegetação",
+    "w": 136,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Relatório de validação",
+    "w": 130,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "manifesto.json",
+    "w": 84,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "polos": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Municípios",
+    "w": 62,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Araguaína 1.235 NAE",
+    "w": 160,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Augustinópolis 1.352 NAE",
+    "w": 189,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Guaraí 545 NAE",
+    "w": 125,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Palmas 434 NAE",
+    "w": 129,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Paraíso 609 NAE",
+    "w": 131,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Porto Nacional 612 NAE",
+    "w": 177,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Gurupi 700 NAE",
+    "w": 125,
+    "h": 40
+   },
+   {
+    "n": "button.pl-pil",
+    "nome": "Dianópolis 261 NAE",
+    "w": 150,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Alimentadores",
+    "w": 99,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Trechos",
+    "w": 55,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "LD03010004",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "LD05010004",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "LD02010004",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "AL02096004",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "LD03105019",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "LD01095030",
+    "w": 115,
+    "h": 25
+   },
+   {
+    "n": "a",
+    "nome": "LD02010153",
+    "w": 115,
+    "h": 25
+   }
+  ],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador-pagina": {
+  "pequenos": [
+   {
+    "n": "button.mnu-btn",
+    "nome": "Menu",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Municípios",
+    "w": 62,
+    "h": 40
+   },
+   {
+    "n": "a",
+    "nome": "Leaflet",
+    "w": 49,
+    "h": 14
+   },
+   {
+    "n": "button",
+    "nome": "T1",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "T2",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "T3",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "button.ctl-cam-b",
+    "nome": "Menu do mapa: 1 camada ligad",
+    "w": 80,
+    "h": 40
+   },
+   {
+    "n": "button.tc-btn",
+    "nome": "Mapa em tela cheia",
+    "w": 40,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "2025",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "2024",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "2023",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Criadas",
+    "w": 83,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Por ano",
+    "w": 175,
+    "h": 40
+   },
+   {
+    "n": "button",
+    "nome": "Vencimento",
+    "w": 175,
+    "h": 40
+   },
+   {
+    "n": "button.liga",
+    "nome": "2025 no mapa",
+    "w": 40,
+    "h": 39
+   },
+   {
+    "n": "button.abre",
+    "nome": "2025 · 1 OS27,5 km",
+    "w": 318,
+    "h": 39
+   },
+   {
+    "n": "button.liga",
+    "nome": "2024 no mapa",
+    "w": 40,
+    "h": 39
+   },
+   {
+    "n": "button.abre",
+    "nome": "2024 · 7 OS109,9 km",
+    "w": 318,
+    "h": 39
+   },
+   {
+    "n": "button.liga",
+    "nome": "2023 no mapa",
+    "w": 40,
+    "h": 39
+   },
+   {
+    "n": "button.abre",
+    "nome": "2023 · 2 OS17,3 km",
+    "w": 318,
+    "h": 39
+   },
+   {
+    "n": "button.liga",
+    "nome": "Criadas no mapa",
+    "w": 40,
+    "h": 39
+   },
+   {
+    "n": "button.abre",
+    "nome": "Criadas · 5 OS224,8 km",
+    "w": 318,
+    "h": 39
+   },
+   {
+    "n": "summary",
+    "nome": "Dadoscom avisos",
+    "w": 358,
+    "h": 40
+   },
+   {
+    "n": "button.dl-btn",
+    "nome": "OS de faixa (Excel)",
+    "w": 160,
+    "h": 40
+   },
+   {
+    "n": "button.dl-btn",
+    "nome": "Croqui da faixa · alimentado",
+    "w": 224,
+    "h": 40
+   },
+   {
+    "n": "button.dl-btn",
+    "nome": "Inspeções (Excel)",
+    "w": 154,
+    "h": 40
+   },
+   {
+    "n": "button.dl-btn",
+    "nome": "OS da inspeção (Excel)",
+    "w": 184,
+    "h": 40
+   },
+   {
+    "n": "button.exe-tipos-b",
+    "nome": "Tipos de serviço do download",
+    "w": 358,
+    "h": 40
+   },
+   {
+    "n": "button.dl-btn",
+    "nome": "Baixar 1.778 OS (Excel)",
+    "w": 190,
+    "h": 40
+   },
+   {
+    "n": "a.dl-btn",
+    "nome": "KMZ (Google Earth)",
+    "w": 164,
+    "h": 40
+   }
+  ],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ }
+}
