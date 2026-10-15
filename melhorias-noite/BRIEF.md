@@ -65,3 +65,16 @@ cartões dos polos com nome e NAE, título ARGOS em wordmark com o Ranking em bo
 municípios mais espaçados. As rodadas seguintes partem DESTA versão (o "antes" agora é ela). Pedido do usuário: espaçar
 ainda mais as cidades onde ficar apertado. No Artifact existe também uma busca integrada ao mapa (outra sessão),
 ainda não publicada no /teste/.
+
+## Atualização 01h30 (Tocantins): base da rodada 2
+- No /teste/ agora (e no gerador): design do tema 3 + busca integrada ao mapa (campo sempre visível; escolher um resultado
+  move o mapa até lá) + lista dos alimentadores do município aberta EMBAIXO da busca (a caixa ao lado do mapa saiu).
+- Outra sessão ("Argos design improvements") está cuidando, a pedido do usuário, de: (a) animação e renderização do mapa
+  da página inicial e (b) busca/lupa no painel do alimentador (proposta em assets/lupa-painel.js,
+  https://claude.ai/artifact/F9h14JEhEqGMgZqPrZXV8W). NÃO duplicar:
+  - Tema 1: a busca já foi feita; foque em TELA CHEIA do mapa, dados repetidos que sobraram e no botão Voltar do
+    navegador subir um nível (hash na URL).
+  - Tema 4: parta da proposta lupa-painel (leia o artifact acima) e proponha só o que ela não cobre (resumo único,
+    camadas, celular).
+  - Tema 5: a fluidez das animações da página inicial está com a outra sessão; foque em Tab/foco, CLS do cabeçalho,
+    alvos de toque, página do alimentador e ranking.
