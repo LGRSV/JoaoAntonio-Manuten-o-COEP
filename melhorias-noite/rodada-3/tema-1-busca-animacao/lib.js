@@ -45,7 +45,7 @@ async function abre(browser, tela, { proto = false, claro = false, hash = '', ex
     }
     if (/\/teste\/(index\.html)?(\?.*)?$/.test(u)) {
       let h = fs.readFileSync(path.join(RAIZ, 'live', 'index.html'), 'utf8');
-      if (proto && fs.existsSync(path.join(RAIZ, 'proto', 'mapa-extras.js'))) h = h.replace('<script src="assets/busca-ativo.js"></script>', '<script src="assets/busca-ativo.js"></script>\n<script src="assets/mapa-extras.js"></script>');
+      if (proto && !process.env.SEM_EXTRAS && fs.existsSync(path.join(RAIZ, 'proto', 'mapa-extras.js'))) h = h.replace('<script src="assets/busca-ativo.js"></script>', '<script src="assets/busca-ativo.js"></script>\n<script src="assets/mapa-extras.js"></script>');
       return r.fulfill({ body: h, contentType: 'text/html; charset=utf-8' });
     }
     const [s, t, b] = baixa(u);
