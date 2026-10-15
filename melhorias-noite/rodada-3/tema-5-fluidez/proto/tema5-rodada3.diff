@@ -1,0 +1,258 @@
+--- a/alimentador/site/site.css
++++ b/alimentador/site/site.css
+@@ -596,3 +596,21 @@
+   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
+ .voando .mt-bandeiras{display:none}
+ @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
++
++/* ====== Fluidez e acabamento (tema 5) ======
++   (1) CLS: o menu.js monta a linha do ☰ depois do 1º quadro e empurrava a página 64 px; a pseudo-linha tem a mesma geometria
++       do .mnu (altura do alvo, margem -8 px, mais o gap da grade) e some quando o ☰ chega. Sem :has() volta ao comportamento de hoje.
++       Os cartões Norte/Centro/Sul nascem em (0,0) e o JS os põe no lugar: escondidos até lá (mapa-municipios.js marca data-ok). */
++.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
++.mt-regcards:not([data-ok]) button{visibility:hidden}
++/* (2) Tab: cartões escondidos (regional aberta ou voando) saem de verdade do Tab depois do fade (opacity:0 não tira do Tab) */
++.mt-regcards button{transition:opacity .3s,border-color .15s,visibility 0s}
++.aberta .mt-regcards button,.voando .mt-regcards button{visibility:hidden;transition:opacity .3s,border-color .15s,visibility 0s .3s}
++/* (3) toque: alvos de 44 px (só telas de toque; no mouse nada muda) */
++@media (pointer:coarse){
++  :root{--alvo:44px}
++  .mt-barra .mt-pchip,.mt-passo,.mt-puxa,.ativo .ir-mapa,.mt-regs>summary{min-height:44px}
++  .mt-volta{min-width:44px}
++  .mt-amun{display:inline-flex;align-items:center;min-height:44px}
++  .sug-op,.mun-op{min-height:48px}
++}
+--- a/alimentador/site/mapa-municipios.js
++++ b/alimentador/site/mapa-municipios.js
+@@ -19,7 +19,8 @@
+   if (!noSite) document.querySelectorAll('.cab-link[href], .rodape a[href]').forEach(a => {
+     a.href = pag(a.getAttribute('href')); a.target = '_blank'; a.rel = 'noopener';
+   });
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
++  const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });   // toLocaleString com opções cria um Intl.NumberFormat a cada chamada
++  const km = m => __nf1.format(m / 1000) + ' km';
+   const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+   const kmTot = m => m.als.reduce((s, a) => s + a.m, 0);
+   const nAls = m => `${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`;
+@@ -225,10 +226,11 @@
+   });
+   cartoes.innerHTML = regInfo.map(i => `<button type="button" data-reg="${esc(i.r)}" aria-label="Abrir a Regional ${esc(i.r)}, ${i.nae.toLocaleString('pt-BR')} NAE">` +
+     `<b>${esc(i.r)}</b><i>${i.nae.toLocaleString('pt-BR')} NAE</i></button>`).join('');
+-  caixa.append(cartoes);
++  caixa.prepend(cartoes);                                   // antes do svg na ordem do Tab (posicionados por JS: a ordem do DOM não muda o visual)
+   cartoes.addEventListener('click', e => { const b = e.target.closest('button'); if (b) entra(b.dataset.reg, e.detail === 0); });
+   const poeCartoes = () => {                                // só no estado inteiro e parado (o contorno é lido da tela)
+     if (caixa.classList.contains('aberta') || caixa.classList.contains('voando') || !svg.getBoundingClientRect().width) return;
++    cartoes.dataset.ok = '1';                                 // posicionados: o CSS os mostra (antes ficam escondidos, sem pular de (0,0))
+     fios.innerHTML = bandeiras([...cartoes.children].map((e, i) => ({ e, path: regs.children[i], centro: regInfo[i].a })), M.muns);
+   };
+   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
+@@ -950,5 +952,20 @@
+   }
+   // rede do alimentador (para a miniatura na lista da busca) e o destaque dela no mapa com o município aberto
+   const redeDe = al => { const m = porCod[mun] || M.muns.find(x => x.als.some(a => a.cod === al)); return m ? rede(al, m.polo) : Promise.resolve(null); };
++  const aviso = document.createElement('p');
++  aviso.className = 'vh'; aviso.id = 'mt-aviso'; aviso.setAttribute('role', 'status'); aviso.setAttribute('aria-live', 'polite'); aviso.setAttribute('aria-atomic', 'true');
++  alvo.append(aviso);
++  const fala = txt => { aviso.textContent = ''; clearTimeout(fala.t); fala.t = setTimeout(() => { aviso.textContent = txt; }, 60); };
++  window.ARGOS_ANUNCIA = fala;
++  const __nf0 = new Intl.NumberFormat('pt-BR'), nfa = n => __nf0.format(n || 0);
++  const textoNivel = d => {
++    if (d.al) { const m = porCod[d.mun], a = m.als.find(x => x.cod === d.al) || {}; return `Alimentador ${d.al} em foco, em ${m.nome}: ${nfa(a.n)} NAE. Enter abre a página dele. Esc volta ao município.`; }
++    if (d.mun) { const m = porCod[d.mun]; return `${m.nome}${m.nome === m.polo ? '' : ', polo ' + m.polo}: ${nAls(m)}, ${nfa(m.nae)} NAE. Esc volta ao polo.`; }
++    if (d.pol) { const ms = M.muns.filter(m => m.polo === d.pol); return `Polo ${d.pol}: ${ms.length} municípios, ${nfa(ms.reduce((s, m) => s + (m.nae || 0), 0))} NAE. Esc volta à regional ${d.reg}.`; }
++    if (d.reg) { const ps = polosDe(d.reg).map(([p]) => p); return `Regional ${d.reg}: ${ps.length} polos, ${ps.join(', ')}. Esc volta ao Tocantins.`; }
++    return `Tocantins inteiro. Regionais: ${Object.keys(M.regs || {}).map(r => r + ' ' + nfa(M.muns.filter(m => m.reg === r).reduce((s, m) => s + (m.nae || 0), 0)) + ' NAE').join(', ')}.`;
++  };
++  let primeira = true;   // o 1º evento é o da carga da página: sem anúncio
++  document.addEventListener('argos-nivel', e => { if (primeira) { primeira = false; if (!(e.detail || {}).reg) return; } fala(textoNivel(e.detail || {})); });
+   window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), vai, previa, rede: redeDe, realceAl: al => { if (mun) realceAl(al); } };
+ })();
+--- a/alimentador/site/busca-ativo.js
++++ b/alimentador/site/busca-ativo.js
+@@ -15,6 +15,8 @@
+   const form = document.getElementById('ativo');
+   if (!form) return;
+   const q = document.getElementById('ativo-q'), res = document.getElementById('ativo-res');
++  res.tabIndex = -1;                                     // área rolável fora do Tab (sem isto o Chromium para nela e o Tab seguinte fecha a lista)
++  res.removeAttribute('aria-live');                      // a lista inteira não é lida a cada abertura; o resumo vai na região de aviso (ARGOS_ANUNCIA)
+   const barra = document.querySelector('.mt-barra');     // página de versão antiga, com o formulário fora da barra
+   if (barra && !barra.contains(form)) barra.prepend(form);
+   // fechada, só o olho do ARGOS aparece; tocar nele abre o campo (e a lista). Página antiga, sem o olho: campo sempre à vista
+@@ -29,8 +31,9 @@
+     TR: 'Transformador', ET: 'Transformador', EP: 'Transformador particular', Capacitor: 'Banco de capacitor', Regulador: 'Regulador de tensão',
+     Chave: 'Chave', ChaveNA: 'Chave NA' };
+   const semAcento = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+-  const nf = n => (n || 0).toLocaleString('pt-BR');
+-  const kmTxt = m => (m / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + ' km';
++  const __nfb = new Intl.NumberFormat('pt-BR'), __nfk = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });   // formatadores criados uma vez
++  const nf = n => __nfb.format(n || 0);
++  const kmTxt = m => __nfk.format(m / 1000) + ' km';
+   const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+ 
+   // ---------- índice dos dados do mapa: regionais e polos (NAE = soma dos municípios, como nos cartões do mapa) e
+@@ -104,6 +107,7 @@
+     res.className = classe;
+     res.innerHTML = `<ul class="sug" role="listbox" aria-label="Resultados">${html}</ul>${rodape}`;
+     q.setAttribute('aria-expanded', 'true');
++    if (!classe && window.ARGOS_ANUNCIA) window.ARGOS_ANUNCIA(sug.length ? `${sug.length} ${sug.length === 1 ? 'opção' : 'opções'}. Use as setas para escolher.` : 'Nenhuma opção.');
+     marca(-1);
+     // miniatura da rede de cada alimentador (a mesma que o mapa desenha, dados/redes/)
+     if (mapa() && mapa().rede) res.querySelectorAll('.so-mini').forEach(el => mapa().rede(el.dataset.al).then(r => {
+--- a/alimentador/site/menu.js
++++ b/alimentador/site/menu.js
+@@ -117,6 +117,8 @@
+     '.mnu-bases small{grid-column:1/-1}.mnu-bases small:empty{display:none}' +
+     '.mnu-esq{justify-self:start;padding:0 4px;border:0;background:none;color:var(--muted,#5a636a);' +
+     'font-size:var(--t-xs,12px)!important;text-decoration:underline;cursor:pointer}';
++  css.textContent += '@media (pointer:coarse){.mnu{min-height:44px}.mnu .mnu-btn,.mnu .mnu-x{width:44px;height:44px}.mnu-lista a,.mnu-lista button{min-height:44px}' +
++    '.mnu-dlg input,.mnu-dlg select,.mnu-dlg button{min-height:44px}.mnu-esq{min-height:44px}}';
+   document.head.append(css);
+ 
+   const box = document.createElement('nav');
+--- a/alimentador/site/ranking-polos.js
++++ b/alimentador/site/ranking-polos.js
+@@ -5,7 +5,8 @@
+   const P = window.POLOS, alvo = document.getElementById('polos');
+   if (!P || !alvo) return;
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+-  const nf = (n, d = 0) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
++  const __nfs = {};   // um Intl.NumberFormat por nº de casas (toLocaleString com opções cria um novo a cada chamada)
++  const nf = (n, d = 0) => (__nfs[d] || (__nfs[d] = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }))).format(n);
+   const km = m => nf(m / 1000, 1);
+   const br = d => d ? d.split('-').reverse().join('/') : '';
+   const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+@@ -99,6 +100,7 @@
+ }
+ @keyframes esmaece{from{opacity:.35}}
+ 
++@media (pointer:coarse){:root{--alvo:44px}}
+ .wrap{max-width:var(--wrap)}
+ #polos{display:grid;gap:var(--s5);min-width:0}
+ #polos :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+--- a/alimentador/site/limpeza.js
++++ b/alimentador/site/limpeza.js
+@@ -11,7 +11,8 @@
+   if (!LP || !window.D) return;
+   const $ = id => document.getElementById(id);
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
++  const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
++  const km = m => __nf1.format(m / 1000) + ' km';
+   const br = d => d ? d.split('-').reverse().join('/') : '—';
+   const REGRA = LP.regra_anos;
+   // executadas só das equipes da regra (prefixo do número da OS); pendentes aparecem de qualquer equipe
+@@ -229,12 +230,14 @@
+   // ---------- mapa ----------
+   const map = window.__map;
+   const seg = v => [[v[0], v[1]], [v[2], v[3]]];
++  const cadeia = vs => { const out = []; let cur = null; vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else out.push(cur = [[v[0], v[1]], [v[2], v[3]]]); }); return out; };
+   let camada = null, realce = null, selL = null, fundoCache = null;
+   const vis = v => !window.__visivel || window.__visivel[classeDe(D.trechos[v[4]].nome)];
+   function linhaDupla(vs, cor, peso, opacidade, extra) {
+     // contorno escuro por baixo: a cor aparece igual sobre mata escura ou solo claro
+-    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+-      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];
++    const an = cadeia(vs);
++    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
++      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];
+   }
+   function fundo() {
+     const chave = JSON.stringify(window.__visivel || {});
+--- a/alimentador/site/inspecao.js
++++ b/alimentador/site/inspecao.js
+@@ -117,8 +117,10 @@
+   const raio = () => map.getZoom() < 13 ? 3.5 : map.getZoom() < 16 ? 5 : 6.5;
+   function linhaDupla(vs, cor, peso, opacidade, extra) {
+     // contorno escuro por baixo: a cor aparece igual sobre mata escura ou solo claro
+-    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+-      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];
++    const an = []; let cur = null;                             // vãos em sequência → uma só polilinha (menos anéis a cada redesenho)
++    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else an.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
++    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
++      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];
+   }
+   function fundo() {
+     const chave = JSON.stringify(window.__visivel || {});
+--- a/alimentador/site/extras.js
++++ b/alimentador/site/extras.js
+@@ -4,8 +4,9 @@
+ (function () {
+   const M = D.meta || {};
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';
+-  const mil = x => x === '' || x == null ? '' : Number(x).toLocaleString('pt-BR');
++  const __nfx2 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), __nfx0 = new Intl.NumberFormat('pt-BR');
++  const km = m => __nfx2.format(m / 1000) + ' km';
++  const mil = x => x === '' || x == null ? '' : __nfx0.format(Number(x));
+   const muns = M.municipios || [];
+   const mun = muns.find(x => x.slug === new URLSearchParams(location.search).get('m'));
+   const css = document.createElement('style');
+--- a/alimentador/mapa_trechos.html
++++ b/alimentador/mapa_trechos.html
+@@ -302,6 +302,29 @@
+     transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+   #det>*{animation:entra var(--dur) var(--ease) both}
+ }
++
++/* ====== Fluidez e acabamento (tema 5) ======
++   (1) CLS: a linha do ☰ já reservada no 1º quadro (menu.js monta depois dos 14 scripts, ~1,3 s) */
++.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
++/* o "Como os trechos são divididos" sai do cabeçalho quando o extras.js monta a barra de busca (vai para "Dados e procedência"): não ocupa lugar antes disso */
++.al-site:not(.al-pronto) header>details.regra{display:none}
++/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista) */
++.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
++.lista>.grp{contain-intrinsic-size:auto 32px}
++/* (3) alvos de toque de 44 px (só telas de toque). html body na frente: limpeza.js / extras.js / telacheia.js injetam <style> depois deste */
++@media (pointer:coarse){
++  :root{--alvo:44px}
++  html body .migalhas a{min-height:44px}
++  html body .mapbox .classes button{min-width:44px;min-height:44px}
++  html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
++  html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}
++  html body :is(.limp-maplg,.limp-seg) button{min-height:44px}
++  html body .limp-ano-l button{min-height:44px}
++  html body .limp-ano-l .liga{min-width:44px}
++  html body :is(.dados,.regra,.mais)>summary{min-height:44px}
++  html body :is(.dl-btn,.exe-tipos-b,.fecha){min-height:44px}
++  html body .fecha{width:44px}
++}
+ </style>
+ </head><body>
+ <div class="wrap">
+@@ -366,10 +389,11 @@
+ const TIPO = {DJ:'disjuntor', '79':'religador', '03':'fusível 03', '33':'fusível 33', '02':'chave 02',
+               '40':'trip saver 40', '41':'trip saver 41', SEC:'seccionamento',
+               FTR:'fusível no tronco (não abre T3)'};
+-const km = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' km';
++const __nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}), __nf0 = new Intl.NumberFormat('pt-BR');   // formatadores criados uma vez (km e mil rodam ~2x por linha das ~1.000 da lista)
++const km = m => m < 1000 ? Math.round(m) + ' m' : __nf2.format(m / 1000) + ' km';
+ const nv = q => q + (q === 1 ? ' vão' : ' vãos');
+ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+-const mil = x => Number(x).toLocaleString('pt-BR');     // 1996 → 1.996
++const mil = x => __nf0.format(Number(x));     // 1996 → 1.996
+ const $ = id => document.getElementById(id);
+ const FECHA = '<button type="button" class="fecha" id="todos" aria-label="Limpar seleção" title="Limpar seleção">✕</button>';
+ 
+@@ -653,7 +677,9 @@
+ let halo = null, marcas = null;
+ const fimDe = {};
+ D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
+-const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
++const inicioDe = {};
++D.trechos.forEach(t => (inicioDe[t.inicio] = inicioDe[t.inicio] || []).push(t.nome));
++const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
+ // clique com Ctrl (⌘ no Mac): põe ou tira o trecho da seleção; sem Ctrl: um trecho só
+ const comCtrl = e => !!e && (e.ctrlKey || e.metaKey);
+ function clique(nome, e, enquadrar, vao) {
+@@ -800,7 +826,9 @@
+   D.vaos.forEach(v => (vaosDe[v[4]] = vaosDe[v[4]] || []).push(v));
+   Object.keys(vaosDe).forEach(i => {
+     const t = D.trechos[i], vs = vaosDe[i];
+-    const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);
++    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
++    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
++    const l = L.polyline(aneis, {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round', lineJoin: 'round'}).addTo(map);
+     l.on('click', e => { L.DomEvent.stopPropagation(e); clique(t.nome, e.originalEvent, false, vaoPerto(vs, e.latlng)); });
+     l.bindTooltip(esc(t.nome), {sticky: true, direction: 'top', offset: [0, -8]});
+     l.on('mouseover', () => l.setStyle({weight: t.peso + 3}));

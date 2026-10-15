@@ -1,0 +1,17 @@
+--- ../live/site.css	2026-10-15 06:07:33.815727885 +0000
++++ site.css	2026-10-15 06:12:16.103721428 +0000
+@@ -596,3 +596,14 @@
+   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
+ .voando .mt-bandeiras{display:none}
+ @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
++/* ====== Rodada 3 · tema 1: sem dado repetido, seta que não some, cartão do polo clicável, balão que não cobre ======
++   1) a seta ← mora na barra, logo antes da trilha (na coluna do mapa a lista dos alimentadores a cobria) */
++#mapa-to .mt-barra .mt-volta{position:static;z-index:auto;margin:0;box-shadow:none;align-self:center}
++#mapa-to .mt-barra .mt-volta[hidden]{display:none}
++/* 2) o cartão do polo na regional é o botão (a barra não repete mais o nome dos polos) */
++.mt-selos button.mt-mn.mt-pm{font:inherit;color:var(--cartao-fg);text-align:center;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background-color .15s}
++.mt-selos button.mt-mn.mt-pm:hover{border-color:var(--c);background:var(--cartao-2)}
++.mt-selos button.mt-mn.mt-pm:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
++/* 3) balão do município: sem o cabeçalho quando o cartão já diz nome e NAE; vai para baixo do mouse se cobrir o cartão do próprio município */
++.mt-dica small.sem-h{margin-top:0}
++.mt-dica.abaixo{transform:translate(-50%,18px)}

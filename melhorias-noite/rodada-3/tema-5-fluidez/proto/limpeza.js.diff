@@ -1,0 +1,29 @@
+--- a/alimentador/site/limpeza.js
++++ b/alimentador/site/limpeza.js
+@@ -11,7 +11,8 @@
+   if (!LP || !window.D) return;
+   const $ = id => document.getElementById(id);
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
++  const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
++  const km = m => __nf1.format(m / 1000) + ' km';
+   const br = d => d ? d.split('-').reverse().join('/') : '—';
+   const REGRA = LP.regra_anos;
+   // executadas só das equipes da regra (prefixo do número da OS); pendentes aparecem de qualquer equipe
+@@ -229,12 +230,14 @@
+   // ---------- mapa ----------
+   const map = window.__map;
+   const seg = v => [[v[0], v[1]], [v[2], v[3]]];
++  const cadeia = vs => { const out = []; let cur = null; vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else out.push(cur = [[v[0], v[1]], [v[2], v[3]]]); }); return out; };
+   let camada = null, realce = null, selL = null, fundoCache = null;
+   const vis = v => !window.__visivel || window.__visivel[classeDe(D.trechos[v[4]].nome)];
+   function linhaDupla(vs, cor, peso, opacidade, extra) {
+     // contorno escuro por baixo: a cor aparece igual sobre mata escura ou solo claro
+-    return [L.polyline(vs.map(seg), { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round' }),
+-      L.polyline(vs.map(seg), Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round' }, extra))];
++    const an = cadeia(vs);
++    return [L.polyline(an, { color: '#0b0f14', weight: peso + 4, opacity: .75 * opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }),
++      L.polyline(an, Object.assign({ color: cor, weight: peso, opacity: opacidade, interactive: false, lineCap: 'round', lineJoin: 'round' }, extra))];
+   }
+   function fundo() {
+     const chave = JSON.stringify(window.__visivel || {});

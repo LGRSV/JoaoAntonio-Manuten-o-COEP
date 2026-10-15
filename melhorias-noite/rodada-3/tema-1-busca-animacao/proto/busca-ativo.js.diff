@@ -1,0 +1,26 @@
+--- ../live/busca-ativo.js	2026-10-15 06:07:34.202407771 +0000
++++ busca-ativo.js	2026-10-15 06:12:02.085200569 +0000
+@@ -78,8 +78,9 @@
+   };
+   const item = {
+     reg: (r, n) => ({ s: { reg: r.nome }, tipo: 'reg', t: realce(r.nome, n), c: `${plural(r.polos.size, 'polo', 'polos')} · ${r.n} municípios`, nae: r.nae }),
+-    polo: (p, n) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `Regional ${esc(p.reg)} · ${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
+-    mun: (m, n) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `Polo ${esc(m.polo)} · ${esc(m.reg)} · ${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
++    // curto: campo vazio, a lista é o "próximo nível" e o título dela e a trilha do mapa já dizem a regional e o polo; só o que é novo
++    polo: (p, n, curto) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `${curto ? '' : `Regional ${esc(p.reg)} · `}${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
++    mun: (m, n, curto) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `${curto ? '' : `Polo ${esc(m.polo)} · ${esc(m.reg)} · `}${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
+     al: (a, n, k) => ({ s: { al: a.cod }, tipo: 'al', t: realce(a.cod, k), c: `${realce(a.se, n)} · ${plural(a.muns.length, 'município', 'municípios')} · ${kmTxt(a.m)}`, nae: a.nae }),
+     // alimentador do município aberto (a lista que ficava ao lado do mapa): miniatura da rede, código e NAE (sem km e SE,
+     // pedido do usuário); só o que está em foco ganha a linha que explica o 2º toque
+@@ -143,9 +144,9 @@
+     const nv = nivel(), m = porCod[nv.mun];
+     if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
+       .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
+-    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
++    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol} · por NAE`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x, '', true))],
+       [`Alimentadores com mais NAE no polo ${nv.pol}`, topAls(x => x.polo === nv.pol)]]);
+-    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg}`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p))],
++    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg} · por NAE`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p, '', true))],
+       [`Alimentadores com mais NAE na Regional ${nv.reg}`, topAls(x => x.reg === nv.reg)]]);
+     else mostra([['Regionais', regs.map(r => item.reg(r))], ['Alimentadores com mais NAE', topAls(() => true)]]);
+   }

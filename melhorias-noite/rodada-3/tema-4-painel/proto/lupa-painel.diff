@@ -1,0 +1,32 @@
+--- original/lupa-painel.artifact.js	2026-10-15 06:08:27.008123102 +0000
++++ lupa-painel.js	2026-10-15 06:10:12.446904549 +0000
+@@ -1,3 +1,5 @@
++// [RODADA 3 · tema 4] Cópia da lupa ATUAL do Artifact F9h14JEhEqGMgZqPrZXV8W (proto/original/lupa-painel.artifact.js) com 1 acréscimo, "R3-b":
++//   a linha que fecha a conta da NAE (soma das classes x total do alimentador). A busca com resultados dentro da lupa, que a rodada 2 acrescentava, já é nativa.
+ // Painel do alimentador: a lupa do ARGOS (como na página inicial) no lugar da busca solta, dos botões T1 T2 T3 e do "Menu"
+ // das camadas em cima do mapa. A barra fica DENTRO do mapa, no canto de cima: de primeira só o olho do ARGOS; tocar no olho
+ // abre olho · campo "Trecho, ativo ou poste" · botão Filtros, com a lista das classes. Tocar de novo no olho (campo vazio),
+@@ -119,6 +121,15 @@
+           '<span class="lp-seta" aria-hidden="true">›</span></button>' +
+           `<button type="button" class="lp-olho" data-c="${c}" aria-pressed="${v}" title="${v ? 'Esconder' : 'Mostrar'} ${c} no mapa" aria-label="Mostrar ${c} no mapa">${OLHO}</button></div>`;
+       }).join('');
++      // [R3-b] a soma das classes não fecha com o total do alimentador: entram nas classes as NAE de outros alimentadores cujo ativo hoje
++      // está aqui (doExt) e ficam de fora as que a Crítica não põe num trecho (sem trecho). A conta aparece fechada, uma vez, aqui.
++      if (nae && typeof doMes === 'function' && typeof doExt === 'function') {
++        const soma = CLS.filter(btCls).reduce((s, c) => s + doCls(c).reduce((a, t) => a + (nae[t.nome] || 0), 0), 0);
++        const total = doMes().length, de = doExt().length, sem = doMes().filter(o => !o.trecho).length;
++        if ((de || sem) && soma === total + de - sem) html += `<p class="lp-nota"><b>Soma das classes ${mil(soma)}</b> = NAE do alimentador ${mil(total)}` +
++          `${de ? ` + ${mil(de)} de outro${de === 1 ? '' : 's'} alimentador${de === 1 ? '' : 'es'} que ${de === 1 ? 'está' : 'estão'} em trecho${de === 1 ? '' : 's'} daqui` : ''}` +
++          `${sem ? ` − ${mil(sem)} sem trecho` : ''}.</p>`;
++      }
+       const cams = [...document.querySelectorAll('#ctl-camadas .ctl-card > button:not(.tc-painel-m)')];
+       if (cams.length) html += '<p class="lp-t">Camadas</p>' + cams.map((b, i) =>
+         `<button type="button" class="lp-op lp-cam" data-i="${i}" aria-pressed="${b.getAttribute('aria-pressed') === 'true'}"><span class="lp-chk" aria-hidden="true"></span>` +
+@@ -914,6 +925,7 @@
+     '.lp-cam .lp-x b{font-family:var(--f-body)}' +
+     '.lp-volta .lp-x b{font-family:var(--f-body);color:var(--muted)}' +
+     '.lp-vazio{margin:0;padding:var(--s3);color:var(--muted);font-size:var(--t-sm)}' +
++    '.lp-nota{margin:0;padding:var(--s1) var(--s3) var(--s2);color:var(--muted);font-size:var(--t-xs);line-height:1.45}.lp-nota b{color:var(--fg);font-weight:600}' +
+     // resultados ao digitar (o visual da busca da página inicial): ícone do tipo, nome com o trecho digitado em destaque,
+     // contexto numa linha e a NAE no selo vermelho; a opção marcada ganha o filete da cor de destaque
+     '.lp-sug{position:absolute;top:calc(100% + 6px);left:0;z-index:1000;width:min(100%,540px);max-height:min(66vh,600px);overflow:auto;overscroll-behavior:contain;' +

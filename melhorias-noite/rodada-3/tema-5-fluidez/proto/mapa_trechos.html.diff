@@ -1,0 +1,68 @@
+--- a/alimentador/mapa_trechos.html
++++ b/alimentador/mapa_trechos.html
+@@ -302,6 +302,29 @@
+     transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+   #det>*{animation:entra var(--dur) var(--ease) both}
+ }
++
++/* ====== Fluidez e acabamento (tema 5) ======
++   (1) CLS: a linha do ☰ já reservada no 1º quadro (menu.js monta depois dos 14 scripts, ~1,3 s) */
++.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
++/* o "Como os trechos são divididos" sai do cabeçalho quando o extras.js monta a barra de busca (vai para "Dados e procedência"): não ocupa lugar antes disso */
++.al-site:not(.al-pronto) header>details.regra{display:none}
++/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista) */
++.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
++.lista>.grp{contain-intrinsic-size:auto 32px}
++/* (3) alvos de toque de 44 px (só telas de toque). html body na frente: limpeza.js / extras.js / telacheia.js injetam <style> depois deste */
++@media (pointer:coarse){
++  :root{--alvo:44px}
++  html body .migalhas a{min-height:44px}
++  html body .mapbox .classes button{min-width:44px;min-height:44px}
++  html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
++  html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}
++  html body :is(.limp-maplg,.limp-seg) button{min-height:44px}
++  html body .limp-ano-l button{min-height:44px}
++  html body .limp-ano-l .liga{min-width:44px}
++  html body :is(.dados,.regra,.mais)>summary{min-height:44px}
++  html body :is(.dl-btn,.exe-tipos-b,.fecha){min-height:44px}
++  html body .fecha{width:44px}
++}
+ </style>
+ </head><body>
+ <div class="wrap">
+@@ -366,10 +389,11 @@
+ const TIPO = {DJ:'disjuntor', '79':'religador', '03':'fusível 03', '33':'fusível 33', '02':'chave 02',
+               '40':'trip saver 40', '41':'trip saver 41', SEC:'seccionamento',
+               FTR:'fusível no tronco (não abre T3)'};
+-const km = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' km';
++const __nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}), __nf0 = new Intl.NumberFormat('pt-BR');   // formatadores criados uma vez (km e mil rodam ~2x por linha das ~1.000 da lista)
++const km = m => m < 1000 ? Math.round(m) + ' m' : __nf2.format(m / 1000) + ' km';
+ const nv = q => q + (q === 1 ? ' vão' : ' vãos');
+ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+-const mil = x => Number(x).toLocaleString('pt-BR');     // 1996 → 1.996
++const mil = x => __nf0.format(Number(x));     // 1996 → 1.996
+ const $ = id => document.getElementById(id);
+ const FECHA = '<button type="button" class="fecha" id="todos" aria-label="Limpar seleção" title="Limpar seleção">✕</button>';
+ 
+@@ -653,7 +677,9 @@
+ let halo = null, marcas = null;
+ const fimDe = {};
+ D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
+-const papel = nome => [...D.trechos.filter(t => t.inicio === nome).map(t => 'início do ' + t.nome), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
++const inicioDe = {};
++D.trechos.forEach(t => (inicioDe[t.inicio] = inicioDe[t.inicio] || []).push(t.nome));
++const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ...(fimDe[nome] || []).map(n => 'fim do ' + n)].join(' · ');
+ // clique com Ctrl (⌘ no Mac): põe ou tira o trecho da seleção; sem Ctrl: um trecho só
+ const comCtrl = e => !!e && (e.ctrlKey || e.metaKey);
+ function clique(nome, e, enquadrar, vao) {
+@@ -800,7 +826,9 @@
+   D.vaos.forEach(v => (vaosDe[v[4]] = vaosDe[v[4]] || []).push(v));
+   Object.keys(vaosDe).forEach(i => {
+     const t = D.trechos[i], vs = vaosDe[i];
+-    const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);
++    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
++    vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
++    const l = L.polyline(aneis, {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round', lineJoin: 'round'}).addTo(map);
+     l.on('click', e => { L.DomEvent.stopPropagation(e); clique(t.nome, e.originalEvent, false, vaoPerto(vs, e.latlng)); });
+     l.bindTooltip(esc(t.nome), {sticky: true, direction: 'top', offset: [0, -8]});
+     l.on('mouseover', () => l.setStyle({weight: t.peso + 3}));

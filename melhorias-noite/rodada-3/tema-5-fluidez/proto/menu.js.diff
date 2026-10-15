@@ -1,0 +1,11 @@
+--- a/alimentador/site/menu.js
++++ b/alimentador/site/menu.js
+@@ -117,6 +117,8 @@
+     '.mnu-bases small{grid-column:1/-1}.mnu-bases small:empty{display:none}' +
+     '.mnu-esq{justify-self:start;padding:0 4px;border:0;background:none;color:var(--muted,#5a636a);' +
+     'font-size:var(--t-xs,12px)!important;text-decoration:underline;cursor:pointer}';
++  css.textContent += '@media (pointer:coarse){.mnu{min-height:44px}.mnu .mnu-btn,.mnu .mnu-x{width:44px;height:44px}.mnu-lista a,.mnu-lista button{min-height:44px}' +
++    '.mnu-dlg input,.mnu-dlg select,.mnu-dlg button{min-height:44px}.mnu-esq{min-height:44px}}';
+   document.head.append(css);
+ 
+   const box = document.createElement('nav');

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fluxo dos dados</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#000;--fg:#e7eaeb;--muted:#9aa4ab;--line:#3a4247;--card:#101315;--acc:#e0623a;--ok:#22c55e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"IBM Plex Sans",system-ui,sans-serif}
+svg{display:block;width:100%;height:auto}
+.mob{display:none}
+@media (max-width:700px){.desk{display:none}.mob{display:block}}
+text{fill:var(--fg)}
+.t{font:700 13px "IBM Plex Sans Condensed","Arial Narrow",sans-serif;letter-spacing:.08em;fill:var(--muted);text-transform:uppercase}
+.h{font:600 15px "IBM Plex Sans",sans-serif}
+.s{font:400 12.5px "IBM Plex Sans",sans-serif;fill:var(--muted)}
+.m{font:500 12px "IBM Plex Mono",ui-monospace,monospace;fill:#c9d0d4}
+.box{fill:var(--card);stroke:var(--line);stroke-width:1.2}
+.acc{stroke:var(--acc);stroke-width:1.6}
+.arr{stroke:var(--muted);stroke-width:1.6;fill:none;marker-end:url(#a)}
+.arrA{stroke:var(--acc);stroke-width:1.8;fill:none;marker-end:url(#b)}
+</style></head><body>
+<!-- DESKTOP 1440x900 -->
+<svg class="desk" viewBox="0 0 1440 900" role="img" aria-label="Fluxo dos dados do ARGOS Manutenção: fontes, scripts, site e atualização pelo menu">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#9aa4ab"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e0623a"/></marker>
+</defs>
+<text x="48" y="52" class="t">1 · De onde vêm</text>
+<text x="548" y="52" class="t">2 · Quem processa (scripts/)</text>
+<text x="1048" y="52" class="t">3 · O que o site mostra</text>
+
+<!-- fontes -->
+<g>
+<rect class="box" x="48" y="72" width="400" height="76" rx="12"/><text class="h" x="68" y="100">KML do Daimon</text><text class="s" x="68" y="122">Rede: DJ, religadores, fusíveis e vãos (1 por alimentador)</text>
+<rect class="box" x="48" y="160" width="400" height="76" rx="12"/><text class="h" x="68" y="188">GIS (acervo + export de 02/10)</text><text class="s" x="68" y="210">Transformadores e onde cada ativo está hoje</text>
+<rect class="box" x="48" y="248" width="400" height="76" rx="12"/><text class="h" x="68" y="276">Crítica (NAE)</text><text class="s" x="68" y="298">Critica-…_MM-AAAA.txt · jan a ago/2026 · árvore/eucalipto</text>
+<rect class="box" x="48" y="336" width="400" height="76" rx="12"/><text class="h" x="68" y="364">Planilha de cidades por polo (DCMD)</text><text class="s" x="68" y="386">139 municípios → 8 polos → Norte, Centro, Sul</text>
+<rect class="box" x="48" y="424" width="400" height="190" rx="12"/><text class="h" x="68" y="452">Bases de OS (planilhas do menu)</text>
+<text class="s" x="68" y="478">Faixa (limpeza) · 2.615 OS</text>
+<text class="s" x="68" y="502">Inspeção · 2.081 OS</text>
+<text class="s" x="68" y="526">Manutenção gerada pela inspeção · 5.323 OS</text>
+<text class="s" x="68" y="550">Manutenção executada (MC e MP) · 215.325 OS</text>
+<text class="s" x="68" y="580">+ postes (vera-vegetacao): número do poste nos vãos</text>
+</g>
+
+<!-- scripts -->
+<g>
+<rect class="box" x="548" y="72" width="400" height="104" rx="12"/><text class="h" x="568" y="100">gera_trechos.py</text><text class="s" x="568" y="122">Divide em T1/T2/T3, mede km por município,</text><text class="s" x="568" y="142">gera páginas, polos/ e relatorio.html</text><text class="m" x="568" y="164">+ validação de cada alimentador</text>
+<rect class="box" x="548" y="188" width="400" height="104" rx="12"/><text class="h" x="568" y="216">atualiza_critica.py · ativos_gis.py</text><text class="s" x="568" y="238">Associa cada NAE a um trecho (chave de início,</text><text class="s" x="568" y="258">vão mais próximo) e põe os trafos do GIS</text>
+<rect class="box" x="548" y="304" width="400" height="76" rx="12"/><text class="h" x="568" y="332">polos_municipios.py</text><text class="s" x="568" y="354">Município → polo e regional (polos.json)</text>
+<rect class="box" x="548" y="392" width="400" height="124" rx="12"/><text class="h" x="568" y="420">limpeza_faixa · inspecao · manutencao · executadas</text><text class="s" x="568" y="442">Cada OS vai para o poste ou ativo e</text><text class="s" x="568" y="462">para o alimentador/trecho dele (.js)</text>
+<rect class="box" x="548" y="528" width="400" height="86" rx="12"/><text class="h" x="568" y="556">nae_rede.py</text><text class="s" x="568" y="578">NAE/100 km: NAE do alimentador onde o</text><text class="s" x="568" y="596">ativo está hoje no GIS, sobre os km dele</text>
+</g>
+
+<!-- site -->
+<g>
+<rect class="box acc" x="1048" y="72" width="344" height="542" rx="14"/>
+<text class="h" x="1068" y="102" style="fill:#e0623a">Site /teste/ (GitHub Pages)</text>
+<text class="s" x="1068" y="134">Página inicial: mapa → regional → polo</text><text class="s" x="1068" y="154">→ município → alimentador</text>
+<text class="m" x="1068" y="190">polos/</text><text class="s" x="1068" y="210">Ranking por polo: NAE e NAE/100 km</text>
+<text class="m" x="1068" y="246">alimentadores/&lt;AL&gt;/</text><text class="s" x="1068" y="266">Trechos, NAE, faixa, inspeção, manutenção</text>
+<text class="m" x="1068" y="302">relatorio.html</text><text class="s" x="1068" y="322">Validação: ok, aviso ou falha</text>
+<text class="m" x="1068" y="358">dados/bases.json</text><text class="s" x="1068" y="378">Data da última atualização de cada base</text>
+<text class="m" x="1068" y="414">dados/alimentadores/&lt;AL&gt;.json</text><text class="s" x="1068" y="434">Fonte canônica de cada alimentador</text>
+<text class="s" x="1068" y="486">Falha crítica (ex.: classificação colapsada)</text><text class="s" x="1068" y="506">tira o alimentador das páginas: 3 hoje</text>
+</g>
+
+<!-- setas colunas -->
+<path class="arr" d="M448 110H540"/><path class="arr" d="M448 198H540"/><path class="arr" d="M448 286H540"/><path class="arr" d="M448 374H540"/><path class="arr" d="M448 520H540"/>
+<path class="arr" d="M948 124H1040"/><path class="arr" d="M948 240H1040"/><path class="arr" d="M948 342H1040"/><path class="arr" d="M948 454H1040"/><path class="arr" d="M948 570H1040"/>
+
+<!-- atualização -->
+<rect x="48" y="650" width="1344" height="214" rx="14" fill="#0c0f10" stroke="#e0623a" stroke-width="1.6" stroke-dasharray="6 6"/>
+<text x="68" y="682" class="t" style="fill:#e0623a">Como atualizar (sem abrir terminal)</text>
+<g>
+<rect class="box" x="68" y="704" width="250" height="132" rx="12"/><text class="h" x="86" y="732">1 · Menu ☰</text><text class="s" x="86" y="756">Atualização de dados:</text><text class="s" x="86" y="776">arrastar o arquivo; a base</text><text class="s" x="86" y="796">sai do nome (critica, limpeza,</text><text class="s" x="86" y="816">inspec…, gerad…, executad…)</text>
+<rect class="box" x="368" y="704" width="250" height="132" rx="12"/><text class="h" x="386" y="732">2 · Envio ao GitHub</text><text class="s" x="386" y="756">PUT em bases/&lt;tipo&gt;/ no</text><text class="s" x="386" y="776">gh-pages (chave do GitHub</text><text class="s" x="386" y="796">guardada só no navegador;</text><text class="s" x="386" y="816">limite de 50 MB)</text>
+<rect class="box" x="668" y="704" width="250" height="132" rx="12"/><text class="h" x="686" y="732">3 · Automação</text><text class="m" x="686" y="756">atualiza-bases.yml</text><text class="s" x="686" y="778">roda atualiza_bases.py:</text><text class="s" x="686" y="798">bases, páginas, rankings,</text><text class="s" x="686" y="818">NAE/100 km e validação</text>
+<rect class="box" x="968" y="704" width="250" height="132" rx="12"/><text class="h" x="986" y="732">4 · Publicação</text><text class="s" x="986" y="756">Grava em teste/ (uns 5 min).</text><text class="s" x="986" y="776">Se der erro, não publica nada</text><text class="s" x="986" y="796">(motivo na aba Actions).</text><text class="s" x="986" y="816">O menu mostra o andamento.</text>
+<rect class="box" x="1268" y="704" width="104" height="132" rx="12" style="stroke:#22c55e"/><text class="h" x="1284" y="760" style="fill:#22c55e">Pronto</text><text class="s" x="1284" y="782">bases.json</text><text class="s" x="1284" y="800">atualizado</text>
+</g>
+<path class="arrA" d="M318 770H360"/><path class="arrA" d="M618 770H660"/><path class="arrA" d="M918 770H960"/><path class="arrA" d="M1218 770H1260"/>
+</svg>
+
+<!-- MOBILE 390x844 -->
+<svg class="mob" viewBox="0 0 390 844" role="img" aria-label="Fluxo dos dados do ARGOS Manutenção, versão vertical">
+<defs>
+<marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#9aa4ab"/></marker>
+<marker id="b2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e0623a"/></marker>
+</defs>
+<text x="16" y="28" class="t">1 · De onde vêm</text>
+<rect class="box" x="16" y="38" width="358" height="168" rx="12"/>
+<text class="h" x="30" y="62">KML do Daimon · GIS · Crítica (NAE)</text>
+<text class="s" x="30" y="84">KML: rede (DJ, religadores, fusíveis, vãos)</text>
+<text class="s" x="30" y="104">GIS: trafos e onde cada ativo está hoje</text>
+<text class="s" x="30" y="124">Crítica: jan a ago/2026, árvore/eucalipto</text>
+<text class="s" x="30" y="144">Polos: planilha DCMD (139 municípios, 8 polos)</text>
+<text class="s" x="30" y="170">Bases de OS: faixa 2.615 · inspeção 2.081</text>
+<text class="s" x="30" y="190">manut. da inspeção 5.323 · executadas 215.325</text>
+<path class="arr" style="marker-end:url(#a2)" d="M195 206V232"/>
+<text x="16" y="254" class="t">2 · Scripts</text>
+<rect class="box" x="16" y="264" width="358" height="128" rx="12"/>
+<text class="h" x="30" y="288">gera_trechos · atualiza_critica · ativos_gis</text>
+<text class="s" x="30" y="310">T1/T2/T3, km por município, NAE por trecho</text>
+<text class="h" x="30" y="338">limpeza · inspecao · manutencao · executadas</text>
+<text class="s" x="30" y="360">cada OS vai para o poste/ativo e o trecho</text>
+<text class="m" x="30" y="382">nae_rede.py → NAE/100 km</text>
+<path class="arr" style="marker-end:url(#a2)" d="M195 392V418"/>
+<text x="16" y="440" class="t">3 · O que o site mostra</text>
+<rect class="box acc" x="16" y="450" width="358" height="132" rx="12"/>
+<text class="m" x="30" y="474">polos/</text><text class="s" x="96" y="474">ranking NAE e NAE/100 km</text>
+<text class="m" x="30" y="500">alimentadores/&lt;AL&gt;/</text><text class="s" x="190" y="500">trechos e camadas</text>
+<text class="m" x="30" y="526">relatorio.html</text><text class="s" x="140" y="526">validação ok/aviso/falha</text>
+<text class="m" x="30" y="552">dados/bases.json</text><text class="s" x="160" y="552">data de cada base</text>
+<text class="s" x="30" y="574">3 alimentadores com falha crítica ficam de fora</text>
+<text x="16" y="612" class="t" style="fill:#e0623a">Como atualizar</text>
+<rect x="16" y="622" width="358" height="206" rx="12" fill="#0c0f10" stroke="#e0623a" stroke-width="1.4" stroke-dasharray="5 5"/>
+<text class="h" x="30" y="648">1 · Menu ☰ → Atualização de dados</text><text class="s" x="30" y="668">arrastar o arquivo; a base sai do nome</text>
+<text class="h" x="30" y="696">2 · Envio ao GitHub (bases/&lt;tipo&gt;/)</text><text class="s" x="30" y="716">chave só no navegador · até 50 MB</text>
+<text class="h" x="30" y="744">3 · Automação atualiza-bases.yml</text><text class="s" x="30" y="764">atualiza_bases.py: páginas, rankings, validação</text>
+<text class="h" x="30" y="792">4 · Publica em teste/ (uns 5 min)</text><text class="s" x="30" y="812">com erro, não publica nada</text>
+</svg>
+</body></html>

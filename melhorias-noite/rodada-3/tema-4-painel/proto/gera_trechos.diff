@@ -1,0 +1,29 @@
+--- a/scripts/gera_trechos.py
++++ b/scripts/gera_trechos.py
+@@ -665,7 +665,7 @@
+     (a / 'alimentador.css').write_text(css, encoding='utf-8')
+     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
+     for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
+-              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'argos.png'):
++              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'painel.js', 'painel.css', 'argos.png'):
+         shutil.copyfile(PKG / 'site' / f, a / f)
+     pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
+     return modelo
+@@ -726,7 +726,7 @@
+             ('Chaves 88 não aparecem.', 'Chaves que não dividem trecho (88, faca e outras) só aparecem com o mapa de perto.')]:
+         assert h.count(x) == 1, x[:50]
+         h = h.replace(x, y)
+-    h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">', h, count=1, flags=re.S)
++    h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">\n<link rel="stylesheet" href="../../assets/painel.css">', h, count=1, flags=re.S)   # painel.css: layout consolidado (tema 4, rodada 3)
+     h = re.sub(r'<script>\nconst D = %%DADOS%%;\n.*?</script>',
+                '<script src="dados.js"></script>\n<script src="../../assets/alimentador.js"></script>\n'
+                '<script src="../../assets/extras.js"></script>\n'
+@@ -746,7 +746,7 @@
+                '<script src="../../assets/telacheia.js"></script>\n'
+                # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
+                '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>\n'
+-               '<script src="../../assets/lupa-painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu)
++               '<script src="../../assets/lupa-painel.js"></script>\n<script src="../../assets/painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu)
+     assert '%%' not in h
+     return h
+ 

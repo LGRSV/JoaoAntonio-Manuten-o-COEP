@@ -1,0 +1,46 @@
+--- a/alimentador/site/mapa-municipios.js
++++ b/alimentador/site/mapa-municipios.js
+@@ -19,7 +19,8 @@
+   if (!noSite) document.querySelectorAll('.cab-link[href], .rodape a[href]').forEach(a => {
+     a.href = pag(a.getAttribute('href')); a.target = '_blank'; a.rel = 'noopener';
+   });
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
++  const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });   // toLocaleString com opções cria um Intl.NumberFormat a cada chamada
++  const km = m => __nf1.format(m / 1000) + ' km';
+   const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+   const kmTot = m => m.als.reduce((s, a) => s + a.m, 0);
+   const nAls = m => `${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`;
+@@ -225,10 +226,11 @@
+   });
+   cartoes.innerHTML = regInfo.map(i => `<button type="button" data-reg="${esc(i.r)}" aria-label="Abrir a Regional ${esc(i.r)}, ${i.nae.toLocaleString('pt-BR')} NAE">` +
+     `<b>${esc(i.r)}</b><i>${i.nae.toLocaleString('pt-BR')} NAE</i></button>`).join('');
+-  caixa.append(cartoes);
++  caixa.prepend(cartoes);                                   // antes do svg na ordem do Tab (posicionados por JS: a ordem do DOM não muda o visual)
+   cartoes.addEventListener('click', e => { const b = e.target.closest('button'); if (b) entra(b.dataset.reg, e.detail === 0); });
+   const poeCartoes = () => {                                // só no estado inteiro e parado (o contorno é lido da tela)
+     if (caixa.classList.contains('aberta') || caixa.classList.contains('voando') || !svg.getBoundingClientRect().width) return;
++    cartoes.dataset.ok = '1';                                 // posicionados: o CSS os mostra (antes ficam escondidos, sem pular de (0,0))
+     fios.innerHTML = bandeiras([...cartoes.children].map((e, i) => ({ e, path: regs.children[i], centro: regInfo[i].a })), M.muns);
+   };
+   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
+@@ -950,5 +952,20 @@
+   }
+   // rede do alimentador (para a miniatura na lista da busca) e o destaque dela no mapa com o município aberto
+   const redeDe = al => { const m = porCod[mun] || M.muns.find(x => x.als.some(a => a.cod === al)); return m ? rede(al, m.polo) : Promise.resolve(null); };
++  const aviso = document.createElement('p');
++  aviso.className = 'vh'; aviso.id = 'mt-aviso'; aviso.setAttribute('role', 'status'); aviso.setAttribute('aria-live', 'polite'); aviso.setAttribute('aria-atomic', 'true');
++  alvo.append(aviso);
++  const fala = txt => { aviso.textContent = ''; clearTimeout(fala.t); fala.t = setTimeout(() => { aviso.textContent = txt; }, 60); };
++  window.ARGOS_ANUNCIA = fala;
++  const __nf0 = new Intl.NumberFormat('pt-BR'), nfa = n => __nf0.format(n || 0);
++  const textoNivel = d => {
++    if (d.al) { const m = porCod[d.mun], a = m.als.find(x => x.cod === d.al) || {}; return `Alimentador ${d.al} em foco, em ${m.nome}: ${nfa(a.n)} NAE. Enter abre a página dele. Esc volta ao município.`; }
++    if (d.mun) { const m = porCod[d.mun]; return `${m.nome}${m.nome === m.polo ? '' : ', polo ' + m.polo}: ${nAls(m)}, ${nfa(m.nae)} NAE. Esc volta ao polo.`; }
++    if (d.pol) { const ms = M.muns.filter(m => m.polo === d.pol); return `Polo ${d.pol}: ${ms.length} municípios, ${nfa(ms.reduce((s, m) => s + (m.nae || 0), 0))} NAE. Esc volta à regional ${d.reg}.`; }
++    if (d.reg) { const ps = polosDe(d.reg).map(([p]) => p); return `Regional ${d.reg}: ${ps.length} polos, ${ps.join(', ')}. Esc volta ao Tocantins.`; }
++    return `Tocantins inteiro. Regionais: ${Object.keys(M.regs || {}).map(r => r + ' ' + nfa(M.muns.filter(m => m.reg === r).reduce((s, m) => s + (m.nae || 0), 0)) + ' NAE').join(', ')}.`;
++  };
++  let primeira = true;   // o 1º evento é o da carga da página: sem anúncio
++  document.addEventListener('argos-nivel', e => { if (primeira) { primeira = false; if (!(e.detail || {}).reg) return; } fala(textoNivel(e.detail || {})); });
+   window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), vai, previa, rede: redeDe, realceAl: al => { if (mun) realceAl(al); } };
+ })();
