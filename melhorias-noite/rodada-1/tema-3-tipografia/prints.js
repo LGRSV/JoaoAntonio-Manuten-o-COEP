@@ -14,9 +14,9 @@ const TAMS = { desk: { width: 1440, height: 900 }, cel: { width: 390, height: 84
 // níveis: [nome, polo, município]
 const NIVEIS = [
   ['1-estado'], ['2-regional', 'Norte'], ['3-polo', 'Norte', 'Araguaína'], ['3b-polo-denso', 'Norte', 'Augustinópolis'],
-  ['4-municipio', 'Norte', 'Araguaína', 'Araguaína'], ['3c-polo-pequeno', 'Centro', 'Palmas'],
+  ['4-municipio', 'Norte', 'Araguaína', 'Araguaína'], ['3c-polo-pequeno', 'Centro', 'Palmas'], ['4b-municipio-lista', 'Norte', 'Araguaína', 'Araguaína', 'puxa'],
 ];
-async function vai(p, [, reg, polo, mun]) {
+async function vai(p, [, reg, polo, mun, extra]) {
   if (reg) { await p.click(`.mt-regcards button[data-reg="${reg}"]`); await p.waitForTimeout(1500); }
   if (polo) { await p.click(`.mt-pchip[data-polo="${polo}"]`); await p.waitForTimeout(1500); }
   if (mun) {
@@ -26,6 +26,7 @@ async function vai(p, [, reg, polo, mun]) {
     }, mun);
     await p.waitForTimeout(1800);
   }
+  if (extra === 'puxa') { await p.click('.mt-puxa').catch(() => {}); await p.waitForTimeout(500); }
 }
 (async () => {
   const b = await chromium.launch();
