@@ -90,13 +90,13 @@
   "5 Esc com a busca aberta": {
    "antes": {
     "campo": true,
-    "res": 0
+    "res": 1
    },
    "seq": [
     {
      "esc": 1,
-     "campoAberto": false,
-     "res": 1,
+     "campoAberto": true,
+     "res": 0,
      "nivel": "mt-mapa aberta pronta"
     },
     {

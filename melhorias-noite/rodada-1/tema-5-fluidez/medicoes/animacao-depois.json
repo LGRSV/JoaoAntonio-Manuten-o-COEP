@@ -1,0 +1,354 @@
+{
+ "desktop|base": {
+  "0 mouse varrendo o estado": {
+   "dur_ms": 2719,
+   "fps": 60,
+   "p95_ms": 16.8,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "1 abrir regional (Centro)": {
+   "dur_ms": 765,
+   "fps": 60,
+   "p95_ms": 16.7,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "2 abrir polo": {
+   "dur_ms": 735,
+   "fps": 55.3,
+   "p95_ms": 33.3,
+   "pior_ms": 33.4,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "3 abrir município": {
+   "dur_ms": 681,
+   "fps": 57.5,
+   "p95_ms": 16.7,
+   "pior_ms": 50,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "4 zoom no alimentador": {
+   "dur_ms": 727,
+   "fps": 52.8,
+   "p95_ms": 16.8,
+   "pior_ms": 100,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 85,
+   "lt_total": 85
+  },
+  "5 Esc (volta ao município)": {
+   "dur_ms": 681,
+   "fps": 57.4,
+   "p95_ms": 16.8,
+   "pior_ms": 50,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "6 Esc (volta ao polo)": {
+   "dur_ms": 681,
+   "fps": 60,
+   "p95_ms": 16.8,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "7 Esc (volta à regional)": {
+   "dur_ms": 682,
+   "fps": 60,
+   "p95_ms": 16.7,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "8 Esc (volta ao Tocantins)": {
+   "dur_ms": 683,
+   "fps": 51.1,
+   "p95_ms": 50,
+   "pior_ms": 50,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "errosTxt": []
+ },
+ "desktop|cpu4": {
+  "0 mouse varrendo o estado": {
+   "dur_ms": 2994,
+   "fps": 59.4,
+   "p95_ms": 16.7,
+   "pior_ms": 33.4,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "1 abrir regional (Centro)": {
+   "dur_ms": 895,
+   "fps": 53.9,
+   "p95_ms": 33.4,
+   "pior_ms": 66.7,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 67,
+   "lt_total": 67
+  },
+  "2 abrir polo": {
+   "dur_ms": 840,
+   "fps": 48.4,
+   "p95_ms": 49.9,
+   "pior_ms": 66.7,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 53,
+   "lt_total": 53
+  },
+  "3 abrir município": {
+   "dur_ms": 716,
+   "fps": 44.1,
+   "p95_ms": 66.7,
+   "pior_ms": 66.8,
+   "quadros_lentos": 2,
+   "lt_n": 1,
+   "lt_max": 63,
+   "lt_total": 83
+  },
+  "4 zoom no alimentador": {
+   "dur_ms": 795,
+   "fps": 45.8,
+   "p95_ms": 49.9,
+   "pior_ms": 99.9,
+   "quadros_lentos": 1,
+   "lt_n": 2,
+   "lt_max": 94,
+   "lt_total": 138
+  },
+  "5 Esc (volta ao município)": {
+   "dur_ms": 700,
+   "fps": 45.9,
+   "p95_ms": 50,
+   "pior_ms": 66.6,
+   "quadros_lentos": 1,
+   "lt_n": 2,
+   "lt_max": 70,
+   "lt_total": 133
+  },
+  "6 Esc (volta ao polo)": {
+   "dur_ms": 716,
+   "fps": 58.8,
+   "p95_ms": 16.8,
+   "pior_ms": 33.4,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "7 Esc (volta à regional)": {
+   "dur_ms": 722,
+   "fps": 56.3,
+   "p95_ms": 33.3,
+   "pior_ms": 33.4,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "8 Esc (volta ao Tocantins)": {
+   "dur_ms": 696,
+   "fps": 45.6,
+   "p95_ms": 50,
+   "pior_ms": 66.6,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 53,
+   "lt_total": 57
+  },
+  "errosTxt": []
+ },
+ "celular|base": {
+  "1 abrir regional (Centro)": {
+   "dur_ms": 751,
+   "fps": 60,
+   "p95_ms": 16.7,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "2 abrir polo": {
+   "dur_ms": 722,
+   "fps": 60,
+   "p95_ms": 16.8,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "3 abrir município": {
+   "dur_ms": 671,
+   "fps": 60,
+   "p95_ms": 16.8,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "4 zoom no alimentador": {
+   "dur_ms": 761,
+   "fps": 35.6,
+   "p95_ms": 50,
+   "pior_ms": 66.7,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 59,
+   "lt_total": 59
+  },
+  "5 Esc (volta ao município)": {
+   "dur_ms": 712,
+   "fps": 34.8,
+   "p95_ms": 49.9,
+   "pior_ms": 66.7,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 57,
+   "lt_total": 57
+  },
+  "6 Esc (volta ao polo)": {
+   "dur_ms": 682,
+   "fps": 60,
+   "p95_ms": 16.7,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "7 Esc (volta à regional)": {
+   "dur_ms": 676,
+   "fps": 60,
+   "p95_ms": 16.7,
+   "pior_ms": 16.8,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "8 Esc (volta ao Tocantins)": {
+   "dur_ms": 667,
+   "fps": 57.4,
+   "p95_ms": 16.8,
+   "pior_ms": 33.3,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "errosTxt": []
+ },
+ "celular|cpu4": {
+  "1 abrir regional (Centro)": {
+   "dur_ms": 904,
+   "fps": 48,
+   "p95_ms": 33.4,
+   "pior_ms": 66.7,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 68,
+   "lt_total": 68
+  },
+  "2 abrir polo": {
+   "dur_ms": 857,
+   "fps": 51.6,
+   "p95_ms": 33.4,
+   "pior_ms": 66.6,
+   "quadros_lentos": 2,
+   "lt_n": 2,
+   "lt_max": 67,
+   "lt_total": 127
+  },
+  "3 abrir município": {
+   "dur_ms": 708,
+   "fps": 54,
+   "p95_ms": 33.4,
+   "pior_ms": 50.1,
+   "quadros_lentos": 1,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "4 zoom no alimentador": {
+   "dur_ms": 874,
+   "fps": 30.5,
+   "p95_ms": 66.7,
+   "pior_ms": 83.3,
+   "quadros_lentos": 2,
+   "lt_n": 3,
+   "lt_max": 75,
+   "lt_total": 198
+  },
+  "5 Esc (volta ao município)": {
+   "dur_ms": 728,
+   "fps": 30,
+   "p95_ms": 66.6,
+   "pior_ms": 66.7,
+   "quadros_lentos": 3,
+   "lt_n": 4,
+   "lt_max": 61,
+   "lt_total": 230
+  },
+  "6 Esc (volta ao polo)": {
+   "dur_ms": 711,
+   "fps": 58.8,
+   "p95_ms": 16.8,
+   "pior_ms": 33.3,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "7 Esc (volta à regional)": {
+   "dur_ms": 737,
+   "fps": 36,
+   "p95_ms": 50,
+   "pior_ms": 50.1,
+   "quadros_lentos": 1,
+   "lt_n": 1,
+   "lt_max": 50,
+   "lt_total": 50
+  },
+  "8 Esc (volta ao Tocantins)": {
+   "dur_ms": 689,
+   "fps": 46,
+   "p95_ms": 50,
+   "pior_ms": 50,
+   "quadros_lentos": 0,
+   "lt_n": 0,
+   "lt_max": 0,
+   "lt_total": 0
+  },
+  "errosTxt": []
+ }
+}

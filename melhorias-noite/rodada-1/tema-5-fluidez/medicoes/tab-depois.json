@@ -1,0 +1,752 @@
+{
+ "desktop|estado": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Palmas\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Norte, \"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Centro,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Sul, 96\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Palmas\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  }
+ ],
+ "desktop|regional": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Porto Nacional\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-volta \"Regional Centro. Voltar \"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  }
+ ],
+ "desktop|polo": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Centro\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "path \"Dois Irmãos do Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-volta \"Paraíso. Voltar à Region\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Centro\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  }
+ ],
+ "celular|estado": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Palmas\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Norte, \"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Centro,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button \"Abrir a Regional Sul, 96\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Palmas\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  }
+ ],
+ "celular|regional": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Paraíso, 588 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Porto Nacional, 633 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-pchip \"Palmas, 434 NAE\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "path \"Porto Nacional\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-volta \"Regional Centro. Voltar \"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  }
+ ],
+ "celular|polo": [
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Centro\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "path \"Dois Irmãos do Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": false,
+   "sombra": false,
+   "traco": true
+  },
+  {
+   "n": "summary \"NAE-Vegetação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-volta \"Paraíso. Voltar à Region\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "a \"Relatório de validação\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a \"manifesto.json\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "BODY"
+  },
+  {
+   "n": "button.mnu-btn \"Menu\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "a.cab-link \"Ranking\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button#lupa.lupa \"Buscar ativo, município,\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": true,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Tocantins\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  },
+  {
+   "n": "button.mt-passo \"Centro\"",
+   "invisivel": false,
+   "foraDaTela": false,
+   "contorno": true,
+   "sombra": false,
+   "traco": false
+  }
+ ]
+}

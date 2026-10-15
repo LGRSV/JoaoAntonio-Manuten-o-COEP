@@ -1372,9 +1372,9 @@ def interface(saida, malha=None):
              '<button type="button" class="lupa" id="lupa" aria-label="Buscar ativo, município, alimentador ou OS" '
              'aria-expanded="false" aria-controls="ativo-q">'
              '<img class="argos-img" src="assets/argos.png" alt="" width="34" height="23"></button>'   # o olho do ARGOS (logo)
-             '<label for="ativo-q" class="vh">Buscar ativo, município, alimentador ou OS</label>'
+             '<label for="ativo-q" class="vh">Buscar regional, polo, município, alimentador, ativo ou OS</label>'
              '<input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
-             'placeholder="Ativo, município, alimentador ou OS" enterkeyhint="search" hidden>'
+             'placeholder="Município, alimentador, ativo, OS" enterkeyhint="search">'
              '<div id="ativo-res" aria-live="polite"></div></div></form></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
              '<div class="mt-dica" aria-hidden="true"></div>'

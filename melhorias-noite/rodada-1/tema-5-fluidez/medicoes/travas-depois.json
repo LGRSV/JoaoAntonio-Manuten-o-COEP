@@ -1,0 +1,300 @@
+{
+ "desktop": {
+  "1 duplo clique na regional": {
+   "terminou": true,
+   "classes": "mt-mapa aberta pronta",
+   "voando": false,
+   "viewBox": "-148.34 358.11 750.74 412.68",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 3,
+   "erros": []
+  },
+  "2 abre/Esc 10x rápido": {
+   "terminou": true,
+   "classes": "mt-mapa",
+   "voando": false,
+   "viewBox": "-6 -6 572 944",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 3,
+   "erros": [],
+   "regAberta": false
+  },
+  "3 polo → voltar durante a animação": {
+   "terminou": true,
+   "classes": "mt-mapa aberta pronta",
+   "voando": false,
+   "viewBox": "-7.01 -83.77 514.55 624.7",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 4,
+   "erros": []
+  },
+  "4 teclado e Esc": [
+   {
+    "passo": "Enter na regional",
+    "nivel": "aberta pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Enter no polo",
+    "nivel": "aberta polo pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Enter no município",
+    "nivel": "aberta polo nivel-mun pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 1",
+    "nivel": "aberta polo pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 2",
+    "nivel": "aberta pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 3",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 4",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 5",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   }
+  ],
+  "5 Esc com a busca aberta": {
+   "antes": {
+    "campo": true,
+    "res": 1
+   },
+   "seq": [
+    {
+     "esc": 1,
+     "campoAberto": true,
+     "res": 0,
+     "nivel": "mt-mapa aberta pronta"
+    },
+    {
+     "esc": 2,
+     "campoAberto": false,
+     "res": 0,
+     "nivel": "mt-mapa aberta pronta"
+    },
+    {
+     "esc": 3,
+     "campoAberto": false,
+     "res": 0,
+     "nivel": "mt-mapa voando"
+    }
+   ]
+  },
+  "6 rolagem": [
+   {
+    "nivel": "estado",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "regional",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "polo",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "município",
+    "podeRolar": true,
+    "rolou": true
+   }
+  ],
+  "7 botão Voltar do navegador": {
+   "historicoAntes": 2,
+   "historicoDepois": 4,
+   "urlDepoisDoVoltar": "(raiz)/",
+   "saiuDoSite": false
+  },
+  "8 Esc antes da rede chegar (4G lenta)": {
+   "nivel": "mt-mapa aberta polo pronta",
+   "caminhosDeRedeOrfaos": 0,
+   "legendaAlimentadorVisivel": false,
+   "erros": []
+  }
+ },
+ "celular": {
+  "1 duplo clique na regional": {
+   "terminou": true,
+   "classes": "mt-mapa aberta pronta",
+   "voando": false,
+   "viewBox": "-57.88799560546875 272.1550338455285 646.7199798583985 584.593936215193",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 3,
+   "erros": []
+  },
+  "2 abre/Esc 10x rápido": {
+   "terminou": true,
+   "classes": "mt-mapa",
+   "voando": false,
+   "viewBox": "-6 -6 572 944",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 3,
+   "erros": [],
+   "regAberta": false
+  },
+  "3 polo → voltar durante a animação": {
+   "terminou": true,
+   "classes": "mt-mapa aberta pronta",
+   "voando": false,
+   "viewBox": "129.91 -135.64 357.09 728.44",
+   "foco": "path",
+   "focoNoCorpo": false,
+   "bodyOverflow": "visible/visible",
+   "scrollY": 0,
+   "histLen": 4,
+   "erros": []
+  },
+  "4 teclado e Esc": [
+   {
+    "passo": "Enter na regional",
+    "nivel": "aberta pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Enter no polo",
+    "nivel": "aberta polo pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Enter no município",
+    "nivel": "aberta polo nivel-mun pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 1",
+    "nivel": "aberta polo pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 2",
+    "nivel": "aberta pronta",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 3",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 4",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   },
+   {
+    "passo": "Esc 5",
+    "nivel": "",
+    "foco": "path",
+    "focoNoCorpo": false
+   }
+  ],
+  "5 Esc com a busca aberta": {
+   "antes": {
+    "campo": true,
+    "res": 1
+   },
+   "seq": [
+    {
+     "esc": 1,
+     "campoAberto": true,
+     "res": 0,
+     "nivel": "mt-mapa aberta pronta"
+    },
+    {
+     "esc": 2,
+     "campoAberto": false,
+     "res": 0,
+     "nivel": "mt-mapa aberta pronta"
+    },
+    {
+     "esc": 3,
+     "campoAberto": false,
+     "res": 0,
+     "nivel": "mt-mapa voando"
+    }
+   ]
+  },
+  "6 rolagem": [
+   {
+    "nivel": "estado",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "regional",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "polo",
+    "podeRolar": true,
+    "rolou": true
+   },
+   {
+    "nivel": "município",
+    "podeRolar": true,
+    "rolou": true
+   }
+  ],
+  "7 botão Voltar do navegador": {
+   "historicoAntes": 2,
+   "historicoDepois": 4,
+   "urlDepoisDoVoltar": "(raiz)/",
+   "saiuDoSite": false
+  },
+  "8 Esc antes da rede chegar (4G lenta)": {
+   "nivel": "mt-mapa aberta polo pronta",
+   "caminhosDeRedeOrfaos": 0,
+   "legendaAlimentadorVisivel": false,
+   "erros": []
+  }
+ }
+}
