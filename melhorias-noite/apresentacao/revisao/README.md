@@ -1,6 +1,6 @@
 # ARGOS Manutenção: roteiro de slides da apresentação (versão revisada, rodada 3)
 
-Público: gestores e equipes de manutenção e poda da distribuição (Tocantins). Duração: 10 minutos, 23 slides (os marcados "se sobrar tempo" podem ser pulados).
+Público: gestores e equipes de manutenção da distribuição (limpeza de faixa, inspeção e manutenção) (Tocantins). Duração: 10 minutos, 23 slides (os marcados "se sobrar tempo" podem ser pulados).
 Site de demonstração: https://lgrsv.github.io/vera-vegeta-o-back/teste/
 Todos os prints foram refeitos em 15/10/2026 no site ao vivo (tema escuro, JPEG, `-d` = computador 1440x900, `-m` = celular 390x844) e todos os números foram conferidos no site e nos dados dele (Crítica de jan a ago/2026). Se alguma base for atualizada antes da apresentação, os números mudam: releia a tabela "Números para citar".
 
@@ -12,7 +12,7 @@ Este arquivo substitui os README dos pacotes p1 a p5 (a versão do fim da noite,
 
 ## Resumo (a mensagem em 5 linhas)
 
-1. Problema: árvore e eucalipto na rede derrubam alimentadores; de jan a ago/2026 foram 5.748 ocorrências (NAE) no Tocantins e a equipe precisa decidir onde podar primeiro.
+1. Problema: árvore e eucalipto na rede derrubam alimentadores; de jan a ago/2026 foram 5.748 ocorrências (NAE) no Tocantins e a manutenção precisa decidir onde agir primeiro.
 2. O ARGOS põe num mapa só a rede (KML do GIS), as ocorrências da Crítica por trecho e as OS de limpeza de faixa, inspeção e manutenção.
 3. Demonstração em ordem: mapa (estado, regional, polo, município, alimentador), busca atrás do olho, página do alimentador (T1/T2/T3, NAE por trecho, camadas, croqui) e ranking por polo.
 4. Ganho: do "quem mais interrompe" ao "qual trecho, entre quais chaves, quantos km sem limpeza", com o croqui Excel pronto para a equipe de campo.
@@ -22,7 +22,7 @@ Este arquivo substitui os README dos pacotes p1 a p5 (a versão do fim da noite,
 
 | Bloco | Slides | Tempo | O que dizer em uma frase |
 |---|---|---|---|
-| Abertura | 1 a 3 | 0:00 a 1:30 | "De jan a ago/2026 foram 5.748 ocorrências de árvore e eucalipto na rede. Onde podar primeiro?" |
+| Abertura | 1 a 3 | 0:00 a 1:30 | "De jan a ago/2026 foram 5.748 ocorrências de árvore e eucalipto na rede. Onde agir primeiro?" |
 | Mapa | 4 a 8 | 1:30 a 4:00 | "Do Tocantins ao alimentador em cinco cliques; a cor e o número são sempre a NAE de vegetação." |
 | Busca e menu | 9 a 11 | 4:00 a 5:15 | "Um só campo atrás do olho: regional, polo, município, alimentador, ativo e OS." |
 | Alimentador | 12 a 17 | 5:15 a 7:45 | "Cada trecho tem chave de início e fim, NAE, limpeza, inspeção e manutenção; o croqui sai em Excel." |
@@ -72,7 +72,7 @@ Se faltar tempo, pule os slides 8, 11 e 17 (tela cheia e tema claro, menu, croqu
 ## Abertura (0:00 a 1:30)
 
 ### Slide 1. ARGOS Manutenção
-- Onde podar primeiro: vegetação e interrupções no Tocantins
+- Manutenção da rede no Tocantins: vegetação, interrupções, inspeção e OS
 - Mapa da NAE por município, polo e alimentador
 - Dados da Crítica de jan a ago/2026
 - Apresentação de 10 minutos
@@ -83,8 +83,8 @@ Prints: `prints/01-capa-d.jpg` · `prints/01-capa-m.jpg`
 ### Slide 2. O problema
 - Árvore e eucalipto na rede derrubam alimentadores
 - 5.748 ocorrências (NAE) de jan a ago/2026 no Tocantins: Norte 3.130, Centro 1.655, Sul 963
-- A equipe de poda não alcança tudo ao mesmo tempo
-- Pergunta: onde podar primeiro?
+- As equipes de manutenção não alcançam tudo ao mesmo tempo
+- Pergunta: onde agir primeiro?
 
 ![Slide 2](prints/02-problema-d.jpg)
 Prints: `prints/02-problema-d.jpg` · `prints/02-problema-m.jpg`
@@ -219,7 +219,7 @@ Prints: `prints/14-lista-nae-d.jpg` · `prints/14b-nae-meses-d.jpg` · `prints/1
 - Menu do mapa › Faixa, em duas vistas: Por ano (uma cor por ano; cinza sem limpeza) e Vencimento (T1 a cada 3 anos, T2 a cada 4, T3 a cada 5)
 - LD01072001, vencimento: em dia 3,9 km, vence em até 12 meses 12,4 km, vencida 7,9 km, sem registro 129,7 km
 - Criadas (tracejado): 3 OS, 21,0 km. Pendentes (pontilhado), no LD02010004: 22 executadas, 4 criadas, 6 pendentes
-- No T1 do LD01072001: 7,9 km vencidos e 5,1 km sem registro dos 13,02 km: candidato claro à poda
+- No T1 do LD01072001: 7,9 km vencidos e 5,1 km sem registro dos 13,02 km: candidato claro à limpeza de faixa
 
 ![Slide 15, faixa por ano e criadas](prints/15-faixa-criadas-d.jpg)
 ![Slide 15, vencimento](prints/15c-faixa-vencimento-d.jpg)
@@ -305,7 +305,7 @@ Print: `prints/17b-croqui-d.jpg` (o mesmo do slide 17)
 - Piloto com um polo: Augustinópolis (1.352 NAE) ou Araguaína (1.235)
 - Validar com as equipes ETO-RD os trechos a revisar e a posição das OS
 - Definir responsável e calendário de atualização
-- Perguntas: o que falta para o uso diário da poda?
+- Perguntas: o que falta para o uso diário da manutenção?
 
 ![Slide 23](prints/11c-atualizar-bases-d.jpg)
 Print: `prints/11c-atualizar-bases-d.jpg` (o mesmo do slide 11)
@@ -344,7 +344,7 @@ Print: `prints/11c-atualizar-bases-d.jpg` (o mesmo do slide 11)
 
 # Perguntas frequentes
 
-**1. Como o ARGOS ajuda a decidir onde podar primeiro?**
+**1. Como o ARGOS ajuda a decidir onde agir primeiro?**
 Ele ordena, não decide por você. Leitura sugerida: no Ranking, ordene por NAE (volume); confira consumidores e CHI (impacto) e NAE/100 km (concentração); veja "Limpeza no prazo" e a última limpeza; abra o alimentador e olhe os trechos. Exemplo real: no T1 do LD01072001 foram 4 desarmes do DJ por árvore e 7,9 km de limpeza vencida mais 5,1 km sem registro, dos 13,02 km. Esse é um candidato claro.
 
 **2. O que entra na NAE do site?**
