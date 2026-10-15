@@ -65,3 +65,10 @@ AL01015049 lupa d lupa 2,1,1,1,1,1,2,2,0,1
 AL01015049 lupa d camadas 2,1,1,1,1,1,1,1,0,1
 AL01015049 lupa d trecho 0,0,0,1,1,1,0,0,0,0
 AL01015049 lupa d lista 1,2,1,1,1,0,2,1,2,1
+AL01015049 consolidado d inicial 1,1,1,1,0,1,0,0,0,1
+AL01015049 consolidado d lupa 1,1,1,1,0,1,1,1,0,1
+AL01015049 consolidado d camadas 1,1,1,1,0,1,0,0,0,1
+AL01015049 consolidado d trecho 1,1,1,1,0,1,0,0,0,1
+AL01015049 consolidado d lista 1,1,1,1,0,0,0,0,1,1
+AL01015049 lupa m inicial 0,0,1,1,1,0,1,1,0,0
+AL01015049 lupa m lupa 0,0,1,1,1,0,2,2,0,0

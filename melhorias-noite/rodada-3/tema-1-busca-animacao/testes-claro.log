@@ -52,3 +52,19 @@
   ok   Voltar num link aberto direto sai do site (comportamento normal do navegador)
 
 ## Histórico · celular 390x844 (toque)
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro
+  ok   polo → #centro/palmas
+  ok   município → #centro/palmas/palmas
+  ok   alimentador → #centro/palmas/palmas/LD02059122
+  ok   cada descida empilhou uma entrada (4 níveis = +4)
+  ok   título da aba acompanha o nível
+  ok   Voltar 1: alimentador → município (mapa e endereço)
+  ok   Voltar 2: município → polo
+  ok   Voltar 3: polo → regional
+  ok   Voltar 4: regional → estado inteiro
+  ok   depois de tudo isso o mapa voltou ao enquadramento do estado (cartões de regionais visíveis)
+  ok   Avançar desce de novo (regional)
+  ok   Avançar ×4 chega ao alimentador
+  ok   sem erros de JavaScript durante Voltar/Avançar

@@ -113,3 +113,8 @@ ok consolidado AL01015049 d filtros
 ok consolidado AL01015049 m inicial 
 ok consolidado AL01015049 m lupa 
 ok consolidado AL01015049 m camadas 
+ok consolidado AL01015049 m trecho 
+ok consolidado AL01015049 m busca 
+ok consolidado AL01015049 m filtros 
+(node:25166) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
