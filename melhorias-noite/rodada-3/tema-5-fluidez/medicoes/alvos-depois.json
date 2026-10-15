@@ -58,14 +58,7 @@
   "municipiosMenoresQue44": 111
  },
  "legenda-recolhida": {
-  "pequenos": [
-   {
-    "n": "button.mt-regs-b",
-    "nome": "Legenda NAE-Vegetação",
-    "w": 104,
-    "h": 30
-   }
-  ],
+  "pequenos": [],
   "municipiosPaths": 139,
   "municipiosMenoresQue44": 111
  },

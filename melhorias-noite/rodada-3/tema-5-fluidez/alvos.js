@@ -23,7 +23,8 @@ const varre = (page, min) => page.evaluate(min => {
       // área de toque efetiva: um ::after invisível pode esticar o clique além da caixa; confere se os pontos a 22 px do centro ainda acertam o próprio elemento
       const cx = r.left + r.width / 2, cy = r.top + r.height / 2, bate = (x, y) => { const t = document.elementFromPoint(x, y); return !!t && (e === t || e.contains(t)); };
       const dw = Math.max(0, min - w), dh = Math.max(0, min - h);   // quanto falta em cada eixo: a área estendida pode crescer para qualquer lado
-      const okX = !dw || bate(r.right + dw - 1, cy) || bate(r.left - dw + 1, cy), okY = !dh || bate(cx, r.bottom + dh - 1) || bate(cx, r.top - dh + 1);
+      const janela = (d, ini, fim, ponto) => { if (!d) return true; for (let k = 0; k <= d; k++) if (ponto(ini - k + .5) && ponto(fim + (d - k) - .5)) return true; return false; };   // existe uma janela de 44 px que contém a caixa e só pisa no próprio elemento
+      const okX = janela(dw, r.left, r.right, x => bate(x, cy)), okY = janela(dh, r.top, r.bottom, y => bate(cx, y));
       const acerta = okX && okY;
       if (!acerta) out.push(item); else item.efetivo = true;
     }

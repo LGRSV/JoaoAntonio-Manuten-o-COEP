@@ -98,7 +98,7 @@
 | municipio | 8 → 0 | – |
 | alimentador | 9 → 0 | – |
 | busca-aberta | 4 → 1 | Legenda NAE-Vegetação[48x22] |
-| legenda-recolhida | 8 → 1 | Legenda NAE-Vegetação[104x30] |
+| legenda-recolhida | 8 → 0 | – |
 | menu-aberto | 11 → 1 | Legenda NAE-Vegetação[104x30] |
 | polos | 12 → 0 | – |
 | alimentador-pagina | 30 → 1 | Leaflet[49x14] |

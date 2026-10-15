@@ -22,10 +22,10 @@
 +  .mt-amun{display:inline-flex;align-items:center;min-height:44px}
 +  .sug-op,.mun-op{min-height:48px}
 +  .mt-regcards button{min-height:44px;align-content:center}   /* com a legenda recolhida (.sem-nae) os cartões das regionais caem para 27 px */
-+  /* orelhinha da legenda (parte da outra sessão): o visual não muda; só a área de toque desce até 44 px */
-+  .mt-regs-b::after{content:"";position:absolute;inset:0 -8px -22px}
++  /* orelhinha da legenda (parte da outra sessão): com a legenda aberta o clique vale para o painel inteiro (leg.addEventListener('click')),
++     então não há o que mudar; recolhida, sobra só a orelhinha (30 px): o visual não muda, a área de toque ganha 8 px (da borda interna) para cada lado */
 +  .mt-regs.fechada .mt-regs-b{position:relative;left:auto;top:auto}   /* (a regra de base tem left:50%; sem zerar, a orelha recolhida andaria 50 %) */
-+  .mt-regs.fechada .mt-regs-b::after{bottom:-14px}
++  .mt-regs.fechada .mt-regs-b::after{content:"";position:absolute;inset:-8px}
 +}
 --- a/alimentador/site/mapa-municipios.js
 +++ b/alimentador/site/mapa-municipios.js

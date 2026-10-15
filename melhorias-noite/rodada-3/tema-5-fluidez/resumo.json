@@ -1,0 +1,26 @@
+{
+  "tema": "5 · Fluidez e acabamento (rodada 3: pacote único)",
+  "sugestoes": [
+    {"titulo": "Página do alimentador mais leve (polilinhas, papel() indexado, Intl em cache, content-visibility)", "prioridade": 1, "esforco": "M",
+     "antes": ["prints/02-antes-cls-alimentador-quadro1-1440.jpg", "prints/02-antes-cls-alimentador-quadro2-1440.jpg", "prints/02-antes-cls-alimentador-quadro1-390.jpg"],
+     "depois": ["prints/02-depois-cls-alimentador-quadro1-1440.jpg", "prints/02-depois-cls-alimentador-quadro2-1440.jpg", "prints/02-depois-cls-alimentador-quadro1-390.jpg", "prints/07-nada-quebra-20-ld02-carga-1440.jpg"],
+     "prototipo": ["proto/tema5-rodada3.diff", "proto/mapa_trechos.html.diff", "proto/limpeza.js.diff", "proto/inspecao.js.diff", "proto/extras.js.diff", "proto/ranking-polos.js.diff"],
+     "descricao": "CPU 4x: TBT 6,2 s para 3,2 s (computador) e 6,7 s para 2,8 s (celular), pronto 4,2 s para 2,6 s, estilo+layout 3.250 para 1.723 ms, redesenho a cada zoom 134 para 54 ms, anéis no canvas 52.548 para 8.104, abrir a lista de trechos cerca de 1,1 s para 0,7 s. Ressalva: com content-visibility a rolagem rápida da lista no computador com CPU 4x cai de 27 para 15 a 17 fps."},
+    {"titulo": "Sem salto de 64 px (CLS do ☰ e dos cartões das regionais)", "prioridade": 2, "esforco": "P",
+     "antes": ["prints/01-antes-cls-inicio-quadro1-1440.jpg", "prints/01-antes-cls-inicio-quadro1-390.jpg", "prints/03-antes-cls-polos-quadro1-390.jpg"],
+     "depois": ["prints/01-depois-cls-inicio-quadro1-1440.jpg", "prints/01-depois-cls-inicio-quadro1-390.jpg", "prints/03-depois-cls-polos-quadro1-390.jpg"],
+     "prototipo": ["proto/site.css.diff", "proto/mapa-municipios.js.diff", "proto/mapa_trechos.html.diff"],
+     "descricao": "CLS início (computador) 0,070 para 0,008, ranking 0,037 para 0,0001, alimentador 0,055 para 0 a 0,0009, celular 0,06 para 0; escuro e claro. 3 regras de CSS e 1 linha de JS."},
+    {"titulo": "Alvos de toque de 44 px (pointer:coarse)", "prioridade": 3, "esforco": "P",
+     "antes": ["prints/06-antes-alvos-estado-390.jpg", "prints/06-antes-alvos-alimentador-390.jpg", "prints/06-antes-alvos-polos-390.jpg"],
+     "depois": ["prints/06-depois-alvos-estado-390.jpg", "prints/06-depois-alvos-alimentador-390.jpg", "prints/06-depois-alvos-polos-390.jpg", "prints/07-nada-quebra-02-legenda-recolhida-390.jpg"],
+     "prototipo": ["proto/site.css.diff", "proto/menu.js.diff", "proto/ranking-polos.js.diff", "proto/mapa_trechos.html.diff"],
+     "descricao": "5 a 30 alvos abaixo de 44 px por tela passam a 0 (exceções: link Leaflet da licença e a orelhinha da legenda aberta, cujo clique vale no painel inteiro). Inclui legenda recolhida (cartões de 27 px e orelha de 30 px)."},
+    {"titulo": "Tab coerente e leitor de tela que anuncia o nível do mapa", "prioridade": 4, "esforco": "P",
+     "antes": ["prints/04-antes-tab-regional-1440.jpg", "prints/04-antes-tab-regional-390.jpg", "prints/05-antes-tab-busca-1440.jpg"],
+     "depois": ["prints/04-depois-tab-regional-1440.jpg", "prints/04-depois-tab-regional-390.jpg", "prints/05-depois-tab-busca-1440.jpg"],
+     "prototipo": ["proto/site.css.diff", "proto/mapa-municipios.js.diff", "proto/busca-ativo.js.diff"],
+     "descricao": "3 paradas invisíveis por nível para 0, 3 a 4 paradas a menos, aviso role=status de 61 a 108 caracteres por nível, lista do município deixa de ser lida inteira (395 para 61 caracteres). O olho da busca continua no Tab. Falta teste com NVDA ou VoiceOver."}
+  ],
+  "verificacao": "4 fluxos (1440 e 390, escuro e claro) x 27 estados: 0 diferenças estruturais, 0 erros de console; computador: no máximo 0,42 % de pixels (variação que já existe sem o protótipo na posição das bandeirinhas)."
+}
