@@ -1,4 +1,4 @@
-(node:24847) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(node:10054) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
 antes LD01072001-d {"mapa":{"x":56,"y":224,"w":924,"h":702},"mapaVisivelH":676,"topoAteMapa":224,"areaVisivelPx2":624624,"areaVisivelPct":48.2,"cabecalhoAlt":200,"rolagemPagina":58,"painel":{"x":1004,"y":224,"w":380,"h":626},"painelConteudoPx":626,"painel4camadasPx":1528,"legendaAltura":598,"detalheT2A_px":11409,"erros":[]}
 antes LD01072001-m {"mapa":{"x":16,"y":226,"w":358,"h":490},"mapaVisivelH":490,"topoAteMapa":226,"areaVisivelPx2":175420,"areaVisivelPct":53.3,"cabecalhoAlt":202,"rolagemPagina":526,"painel":{"x":16,"y":739,"w":358,"h":598},"painelConteudoPx":598,"painel4camadasPx":1500,"legendaAltura":386,"detalheT2A_px":11965,"erros":[]}

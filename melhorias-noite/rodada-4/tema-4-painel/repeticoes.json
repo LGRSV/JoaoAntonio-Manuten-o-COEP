@@ -163,10 +163,11 @@
   "antes-d-camadas": [
    {
     "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
-    "vezes": 2,
+    "vezes": 3,
     "onde": [
      "painel: Total 199 153,98 km",
-     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas",
+     "painel: Inspeção visual 21 inspeções executadas · 34,0 km de 154,0 km"
     ]
    },
    {

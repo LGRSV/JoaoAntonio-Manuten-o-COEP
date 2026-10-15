@@ -303,4 +303,14 @@
   ok   m: girar a tela (390x844 → 844x390) em tela cheia: mapa reencaixa no tamanho novo, sem rolagem lateral
   ok   m: sem erros de JavaScript em todo o teste
 
-272 verificações ok, 0 falharam
+## 1 clique no alimentador abre o painel; Voltar do painel volta ao município · d
+  ok   1 clique na lista abre direto o painel de LD02059122
+  ok   Voltar do painel devolve ao mapa no município de onde saiu
+  ok   sem erros de JavaScript
+
+## 1 clique no alimentador abre o painel; Voltar do painel volta ao município · m
+  ok   1 clique na lista abre direto o painel de LD02059122
+  ok   Voltar do painel devolve ao mapa no município de onde saiu
+  ok   sem erros de JavaScript
+
+278 verificações ok, 0 falharam

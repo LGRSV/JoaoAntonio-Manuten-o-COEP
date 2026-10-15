@@ -1,0 +1,66 @@
+(node:12081) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ok    AL01015049 d sem erro de JavaScript na carga · 
+ok    AL01015049 d resumo do cabeçalho bate com os dados · {"t":"11","k":"5,46","n":"3","D":11,"nae":3}
+ok    AL01015049 d gerador: classe no <html>, resumo (trechos, km, NAE, período) e seta ← escritos no HTML são iguais ao que a JS calcula; um só resumo · {"baked":{"cls":true,"t":"11","k":"5,46","n":"3","np":"vegetação · todos os meses"},"vivo":{"t":"11","k":"5,46","n":"3","np":"vegetação · todos os meses","resumos":1,"ph":false,"voltar":true,"dataph":false,"cls":true}}
+ok    AL01015049 d gerador: a seta ← do HTML some quando o botão da lupa chega (uma seta só) · {"ph":false,"voltar":true}
+ok    AL01015049 d tabela Classe/Trechos/Extensão, lista e legenda de cores fora do painel 
+ok    AL01015049 d lupa abre com as classes e as camadas · {"cls":3,"cam":4,"nota":""}
+ok    AL01015049 d nota da NAE: a conta das classes fecha com o total (ou some quando já fecha) · {"soma":3,"total":3,"nota":"","m":null}
+ok    AL01015049 d classe T3 lista trechos (máx. 150 por vez) · 9
+ok    AL01015049 d escolher o trecho na lupa seleciona no mapa e abre a ficha · T3-H → T3-H
+ok    AL01015049 d a lista suspensa fecha ao escolher 
+ok    AL01015049 d ficha do trecho com abas (ou sem, se só há uma seção) · NAE1 | Faixa0 | Inspeção0 | Manutenção6
+ok    AL01015049 d só a aba escolhida fica à vista · 1
+ok    AL01015049 d com trecho escolhido os cartões do alimentador ficam recolhidos sob o título · {"abertos":0,"tit":true}
+ok    AL01015049 d limpar o trecho reabre o cartão que estava aberto · {"abertos":1,"tit":false}
+ok    AL01015049 d ligar Inspeção na lupa abre o cartão dela e fecha o da Faixa · {"visivel":true,"aberto":true,"faixaAberta":false}
+ok    AL01015049 d Esc fecha a lista suspensa 
+ok    AL01015049 d digitar abre o resultado na lupa (poste N1060) · {"aberta":true,"n":0,"vazio":true}
+ok    AL01015049 d busca sem resultado diz o que digitar 
+ok    AL01015049 d Enter no campo escolhe o 1º resultado · T3-A
+ok    AL01015049 d escolher um mês muda o NAE do cabeçalho (e o selo do Filtros) · {"cab":1,"dados":1,"per":"vegetação · jan/2026","badge":"1"}
+ok    AL01015049 d o selo do NAE no cabeçalho abre os Filtros 
+ok    AL01015049 d alimentador de um município só: sem seletor · 
+ok    AL01015049 d sem erro de JavaScript durante os testes (parte 1) · 
+ok    AL01015049 d sem camada ligada: aviso no painel e legenda das classes no mapa 
+ok    AL01015049 d o botão do aviso abre a lupa 
+ok    AL01015049 d tela cheia: resumo vai para a gaveta; T1/T2/T3 voltam ao mapa com nº e km · {"nopanel":true,"btnN":["T111 · 31 m31 m","T211 · 1,12 km1 km","T399 · 4,31 km4 km"]}
+ok    AL01015049 d sair da tela cheia: resumo volta ao cabeçalho 
+ok    AL01015049 d mapa inteiro na tela, sem rolagem da página nem horizontal · {"y":64,"h":820,"bottom":884,"vh":900,"rolagem":0,"hscroll":0}
+ok    AL01015049 d cabeçalho numa faixa só: o mapa começa em até 70 px do topo · 64
+ok    AL01015049 d o olho da lupa fica dentro do mapa, com alvo de toque de 40 px ou mais · {"dentro":true,"w":48,"h":40}
+ok    AL01015049 d sem erro de JavaScript durante os testes (parte 2) · 
+ok    AL01015049 m sem erro de JavaScript na carga · 
+ok    AL01015049 m resumo do cabeçalho bate com os dados · {"t":"11","k":"5,46","n":"3","D":11,"nae":3}
+ok    AL01015049 m gerador: classe no <html>, resumo (trechos, km, NAE, período) e seta ← escritos no HTML são iguais ao que a JS calcula; um só resumo · {"baked":{"cls":true,"t":"11","k":"5,46","n":"3","np":"vegetação · todos os meses"},"vivo":{"t":"11","k":"5,46","n":"3","np":"vegetação · todos os meses","resumos":1,"ph":false,"voltar":true,"dataph":false,"cls":true}}
+ok    AL01015049 m gerador: a seta ← do HTML some quando o botão da lupa chega (uma seta só) · {"ph":false,"voltar":true}
+ok    AL01015049 m tabela Classe/Trechos/Extensão, lista e legenda de cores fora do painel 
+ok    AL01015049 m lupa abre com as classes e as camadas · {"cls":3,"cam":4,"nota":""}
+ok    AL01015049 m nota da NAE: a conta das classes fecha com o total (ou some quando já fecha) · {"soma":3,"total":3,"nota":"","m":null}
+ok    AL01015049 m classe T3 lista trechos (máx. 150 por vez) · 9
+ok    AL01015049 m escolher o trecho na lupa seleciona no mapa e abre a ficha · T3-H → T3-H
+ok    AL01015049 m a lista suspensa fecha ao escolher 
+ok    AL01015049 m celular: a gaveta sobe sozinha até a ficha · meio
+ok    AL01015049 m ficha do trecho com abas (ou sem, se só há uma seção) · NAE1 | Faixa0 | Inspeção0 | Manutenção6
+ok    AL01015049 m só a aba escolhida fica à vista · 1
+ok    AL01015049 m com trecho escolhido os cartões do alimentador ficam recolhidos sob o título · {"abertos":0,"tit":true}
+ok    AL01015049 m limpar o trecho reabre o cartão que estava aberto · {"abertos":1,"tit":false}
+ok    AL01015049 m ligar Inspeção na lupa abre o cartão dela e fecha o da Faixa · {"visivel":true,"aberto":true,"faixaAberta":false}
+ok    AL01015049 m Esc fecha a lista suspensa 
+ok    AL01015049 m digitar abre o resultado na lupa (poste N1060) · {"aberta":true,"n":0,"vazio":true}
+ok    AL01015049 m busca sem resultado diz o que digitar 
+ok    AL01015049 m Enter no campo escolhe o 1º resultado · T3-A
+ok    AL01015049 m escolher um mês muda o NAE do cabeçalho (e o selo do Filtros) · {"cab":1,"dados":1,"per":"vegetação · jan/2026","badge":"1"}
+ok    AL01015049 m o selo do NAE no cabeçalho abre os Filtros 
+ok    AL01015049 m alimentador de um município só: sem seletor · 
+ok    AL01015049 m sem erro de JavaScript durante os testes (parte 1) · 
+ok    AL01015049 m sem camada ligada: aviso no painel e legenda das classes no mapa 
+ok    AL01015049 m o botão do aviso abre a lupa 
+ok    AL01015049 m tela cheia: resumo vai para a gaveta; T1/T2/T3 voltam ao mapa com nº e km · {"nopanel":true,"btnN":["T111 · 31 m31 m","T211 · 1,12 km1 km","T399 · 4,31 km4 km"]}
+ok    AL01015049 m sair da tela cheia: resumo volta ao cabeçalho 
+ok    AL01015049 m mapa inteiro na tela, sem rolagem da página nem horizontal · {"y":66,"h":710,"bottom":776,"vh":844,"rolagem":0,"hscroll":0}
+ok    AL01015049 m cabeçalho numa faixa só: o mapa começa em até 70 px do topo · 66
+ok    AL01015049 m o olho da lupa fica dentro do mapa, com alvo de toque de 40 px ou mais · {"dentro":true,"w":48,"h":44}
+ok    AL01015049 m sem erro de JavaScript durante os testes (parte 2) · 
+63 ok · 0 falhas

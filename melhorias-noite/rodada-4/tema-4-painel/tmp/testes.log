@@ -1,1 +1,6 @@
 63 ok · 0 falhas
+63 ok · 0 falhas
+63 ok · 0 falhas
+FALHA AL01015049 d mapa inteiro na tela, sem rolagem da página nem horizontal · {"y":231,"h":702,"bottom":933,"vh":900,"rolagem":105,"hscroll":0}
+FALHA AL01015049 d cabeçalho numa faixa só: o mapa começa em até 70 px do topo · 231
+61 ok · 2 falhas
