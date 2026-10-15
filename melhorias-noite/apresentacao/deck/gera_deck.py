@@ -92,6 +92,7 @@ if '--artifact' in sys.argv:                                  # cópia sem docty
 cab, _, resto = pag.partition('<style>')
 doc = ('<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+       '<meta name="robots" content="noindex, nofollow">\n'
        + cab.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', '') + '<style>' +
        resto.replace('</style>', '</style>\n</head>\n<body>', 1) + '\n</body>\n</html>\n')
 (SAIDA / 'index.html').write_text(doc, encoding='utf-8')
