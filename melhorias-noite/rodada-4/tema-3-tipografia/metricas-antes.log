@@ -1,0 +1,27 @@
+desk     Araguaína       {"n":20,"nomeDentro":19,"nomeFio":1,"soNumero":0,"semRotulo":0,"comNome":20,"k":1.978,"ocupaL":0.86,"ocupaA":0.93,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":9.4}
+desk     Augustinópolis  {"n":24,"nomeDentro":20,"nomeFio":3,"soNumero":1,"semRotulo":0,"comNome":23,"k":2.679,"ocupaL":0.78,"ocupaA":0.91,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8}
+desk     Guaraí          {"n":21,"nomeDentro":21,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":21,"k":2.613,"ocupaL":0.87,"ocupaA":0.91,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":11}
+desk     Palmas          {"n":10,"nomeDentro":10,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":10,"k":2.758,"ocupaL":0.85,"ocupaA":0.9,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.6}
+desk     Porto Nacional  {"n":12,"nomeDentro":12,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":12,"k":2.018,"ocupaL":0.9,"ocupaA":0.67,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.1}
+desk     Paraíso         {"n":18,"nomeDentro":13,"nomeFio":4,"soNumero":1,"semRotulo":0,"comNome":17,"k":1.479,"ocupaL":0.81,"ocupaA":0.95,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.2}
+desk     Gurupi          {"n":18,"nomeDentro":18,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":18,"k":1.857,"ocupaL":0.88,"ocupaA":0.94,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":10.3}
+desk     Dianópolis      {"n":16,"nomeDentro":15,"nomeFio":1,"soNumero":0,"semRotulo":0,"comNome":16,"k":1.967,"ocupaL":0.82,"ocupaA":0.93,"alturaMapa":696,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":7.7}
+notebook Araguaína       {"n":20,"nomeDentro":17,"nomeFio":3,"soNumero":0,"semRotulo":0,"comNome":20,"k":1.592,"ocupaL":0.84,"ocupaA":0.93,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.5}
+notebook Augustinópolis  {"n":24,"nomeDentro":13,"nomeFio":8,"soNumero":3,"semRotulo":0,"comNome":21,"k":2.155,"ocupaL":0.76,"ocupaA":0.91,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":9}
+notebook Guaraí          {"n":21,"nomeDentro":20,"nomeFio":1,"soNumero":0,"semRotulo":0,"comNome":21,"k":2.103,"ocupaL":0.85,"ocupaA":0.91,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":9.7}
+notebook Palmas          {"n":10,"nomeDentro":10,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":10,"k":2.219,"ocupaL":0.83,"ocupaA":0.9,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":10.9}
+notebook Porto Nacional  {"n":12,"nomeDentro":12,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":12,"k":1.888,"ocupaL":0.89,"ocupaA":0.78,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.7}
+notebook Paraíso         {"n":18,"nomeDentro":11,"nomeFio":5,"soNumero":2,"semRotulo":0,"comNome":16,"k":1.19,"ocupaL":0.78,"ocupaA":0.95,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":9.1}
+notebook Gurupi          {"n":18,"nomeDentro":16,"nomeFio":2,"soNumero":0,"semRotulo":0,"comNome":18,"k":1.494,"ocupaL":0.86,"ocupaA":0.94,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.3}
+notebook Dianópolis      {"n":16,"nomeDentro":13,"nomeFio":3,"soNumero":0,"semRotulo":0,"comNome":16,"k":1.582,"ocupaL":0.79,"ocupaA":0.93,"alturaMapa":560,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":8.1}
+tablet   Araguaína       {"n":20,"nomeDentro":19,"nomeFio":1,"soNumero":0,"semRotulo":0,"comNome":20,"k":1.76,"ocupaL":0.95,"ocupaA":0.8,"alturaMapa":723,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":5.1}
+tablet   Augustinópolis  {"n":24,"nomeDentro":21,"nomeFio":2,"soNumero":1,"semRotulo":0,"comNome":23,"k":2.965,"ocupaL":0.75,"ocupaA":0.81,"alturaMapa":858,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.1}
+tablet   Guaraí          {"n":21,"nomeDentro":21,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":21,"k":1.967,"ocupaL":0.94,"ocupaA":0.76,"alturaMapa":628,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":3.7}
+tablet   Palmas          {"n":10,"nomeDentro":10,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":10,"k":2.294,"ocupaL":0.93,"ocupaA":0.77,"alturaMapa":683,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":6.4}
+tablet   Porto Nacional  {"n":12,"nomeDentro":10,"nomeFio":2,"soNumero":0,"semRotulo":0,"comNome":12,"k":1.283,"ocupaL":0.96,"ocupaA":0.69,"alturaMapa":433,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.6}
+tablet   Paraíso         {"n":18,"nomeDentro":16,"nomeFio":2,"soNumero":0,"semRotulo":0,"comNome":18,"k":1.65,"ocupaL":0.74,"ocupaA":0.86,"alturaMapa":858,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":3.8}
+tablet   Gurupi          {"n":18,"nomeDentro":18,"nomeFio":0,"soNumero":0,"semRotulo":0,"comNome":18,"k":1.504,"ocupaL":0.95,"ocupaA":0.79,"alturaMapa":668,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":5.3}
+tablet   Dianópolis      {"n":16,"nomeDentro":15,"nomeFio":1,"soNumero":0,"semRotulo":0,"comNome":16,"k":2.161,"ocupaL":0.83,"ocupaA":0.83,"alturaMapa":858,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.3}
+cel      Araguaína       {"n":20,"nomeDentro":11,"nomeFio":6,"soNumero":3,"semRotulo":0,"comNome":17,"k":0.799,"ocupaL":0.95,"ocupaA":0.68,"alturaMapa":385,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}
+cel      Augustinópolis  {"n":24,"nomeDentro":12,"nomeFio":4,"soNumero":8,"semRotulo":0,"comNome":16,"k":1.598,"ocupaL":0.89,"ocupaA":0.73,"alturaMapa":519,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.1}
+cel      Guaraí          {"n":21,"nomeDentro":8,"nomeFio":5,"soNumero":8,"semRotulo":0,"comNome":13,"k":0.894,"ocupaL":0.94,"ocupaA":0.63,"alturaMapa":342,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}

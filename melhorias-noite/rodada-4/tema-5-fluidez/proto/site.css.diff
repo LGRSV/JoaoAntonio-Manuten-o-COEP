@@ -1,0 +1,29 @@
+--- a/alimentador/site/site.css
++++ b/alimentador/site/site.css
+@@ -596,3 +596,26 @@
+   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
+ .voando .mt-bandeiras{display:none}
+ @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
++
++/* ====== Fluidez e acabamento (tema 5) ======
++   (1) CLS: o menu.js monta a linha do ☰ depois do 1º quadro e empurrava a página 64 px; a pseudo-linha tem a mesma geometria
++       do .mnu (altura do alvo, margem -8 px, mais o gap da grade) e some quando o ☰ chega. Sem :has() volta ao comportamento de hoje.
++       Os cartões Norte/Centro/Sul nascem em (0,0) e o JS os põe no lugar: escondidos até lá (mapa-municipios.js marca data-ok). */
++.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
++.mt-regcards:not([data-ok]) button{visibility:hidden}
++/* (2) Tab: cartões escondidos (regional aberta ou voando) saem de verdade do Tab depois do fade (opacity:0 não tira do Tab) */
++.mt-regcards button{transition:opacity .3s,border-color .15s,visibility 0s}
++.aberta .mt-regcards button,.voando .mt-regcards button{visibility:hidden;transition:opacity .3s,border-color .15s,visibility 0s .3s}
++/* (3) toque: alvos de 44 px (só telas de toque; no mouse nada muda) */
++@media (pointer:coarse){
++  :root{--alvo:44px}
++  .mt-barra .mt-pchip,.mt-passo,.mt-puxa,.ativo .ir-mapa,.mt-regs>summary{min-height:44px}
++  .mt-volta{min-width:44px}
++  .mt-amun{display:inline-flex;align-items:center;min-height:44px}
++  .sug-op,.mun-op{min-height:48px}
++  .mt-regcards button{min-height:44px;align-content:center}   /* com a legenda recolhida (.sem-nae) os cartões das regionais caem para 27 px */
++  /* orelhinha da legenda (parte da outra sessão): com a legenda aberta o clique vale para o painel inteiro (leg.addEventListener('click')),
++     então não há o que mudar; recolhida, sobra só a orelhinha (30 px): o visual não muda, a área de toque ganha 8 px (da borda interna) para cada lado */
++  .mt-regs.fechada .mt-regs-b{position:relative;left:auto;top:auto}   /* (a regra de base tem left:50%; sem zerar, a orelha recolhida andaria 50 %) */
++  .mt-regs.fechada .mt-regs-b::after{content:"";position:absolute;inset:-8px}
++}

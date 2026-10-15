@@ -1,0 +1,31 @@
+--- a/alimentador/site/busca-ativo.js
++++ b/alimentador/site/busca-ativo.js
+@@ -15,6 +15,8 @@
+   const form = document.getElementById('ativo');
+   if (!form) return;
+   const q = document.getElementById('ativo-q'), res = document.getElementById('ativo-res');
++  res.tabIndex = -1;                                     // área rolável fora do Tab (sem isto o Chromium para nela e o Tab seguinte fecha a lista)
++  res.removeAttribute('aria-live');                      // a lista inteira não é lida a cada abertura; o resumo vai na região de aviso (ARGOS_ANUNCIA)
+   const barra = document.querySelector('.mt-barra');     // página de versão antiga, com o formulário fora da barra
+   if (barra && !barra.contains(form)) barra.prepend(form);
+   // fechada, só o olho do ARGOS aparece; tocar nele abre o campo (e a lista). Página antiga, sem o olho: campo sempre à vista
+@@ -29,8 +31,9 @@
+     TR: 'Transformador', ET: 'Transformador', EP: 'Transformador particular', Capacitor: 'Banco de capacitor', Regulador: 'Regulador de tensão',
+     Chave: 'Chave', ChaveNA: 'Chave NA' };
+   const semAcento = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+-  const nf = n => (n || 0).toLocaleString('pt-BR');
+-  const kmTxt = m => (m / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + ' km';
++  const __nfb = new Intl.NumberFormat('pt-BR'), __nfk = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });   // formatadores criados uma vez
++  const nf = n => __nfb.format(n || 0);
++  const kmTxt = m => __nfk.format(m / 1000) + ' km';
+   const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+ 
+   // ---------- índice dos dados do mapa: regionais e polos (NAE = soma dos municípios, como nos cartões do mapa) e
+@@ -103,6 +106,7 @@
+     res.className = classe;
+     res.innerHTML = `<ul class="sug" role="listbox" aria-label="Resultados">${html}</ul>${rodape}`;
+     q.setAttribute('aria-expanded', 'true');
++    if (!classe && window.ARGOS_ANUNCIA) window.ARGOS_ANUNCIA(sug.length ? `${sug.length} ${sug.length === 1 ? 'opção' : 'opções'}. Use as setas para escolher.` : 'Nenhuma opção.');
+     marca(-1);
+     // miniatura da rede de cada alimentador (a mesma que o mapa desenha, dados/redes/)
+     if (mapa() && mapa().rede) res.querySelectorAll('.so-mini').forEach(el => mapa().rede(el.dataset.al).then(r => {

@@ -1,0 +1,76 @@
+PASS estado inicial sem zoom
+PASS sem zoom, no estado inteiro não há cartões de município (só os das regionais)
+PASS roda sem Ctrl rola a página
+PASS roda sem Ctrl não dá zoom
+PASS aviso "Use Ctrl + rolagem" aparece
+PASS Ctrl+roda ×2 aproxima (×1,7); cartões das regionais ainda à vista
+PASS estado ×1,7: 33 cartões nome+NAE, sem sobreposição, dentro do município
+PASS cartões Norte/Centro/Sul visíveis com pouco zoom [1,1,1]
+PASS bandeirinhas com pouco zoom {"n":3,"fora":0,"comBotao":0,"opac":[1,1,1],"fios":3}: 3 cartões e 3 fios, dentro da caixa e fora dos botões
+PASS legenda recolhida com zoom: cartões só com o nome (42 contra 33), nenhum número de NAE
+PASS legenda recolhida: cartões sem sobreposição e dentro do município
+PASS legenda reaberta: os 33 cartões voltam com a NAE
+PASS acima de 1,8x (×3,7) os cartões das regionais saem de cena
+PASS estado ×3,7: 42 cartões nome+NAE, sem sobreposição, dentro do município
+PASS durante o arrasto os cartões ficam escondidos (sem piscar por quadro)
+PASS arrastar move o mapa
+PASS arrastar não dispara clique (continua no estado)
+PASS ao fim do arrasto os cartões foram recalculados para a nova vista
+PASS depois de arrastar: 44 cartões nome+NAE, sem sobreposição, dentro do município
+PASS botão + aproxima
+PASS depois do botão +: 27 cartões nome+NAE, sem sobreposição, dentro do município
+PASS botão − afasta
+PASS depois do botão −: 44 cartões nome+NAE, sem sobreposição, dentro do município
+PASS 1º Esc enquadra: volta ao viewBox original do estado
+PASS estilos inline do zoom removidos
+PASS e os cartões de município somem junto
+PASS cartões das regionais voltam
+PASS zoom antes do clique
+PASS achou ponto clicável no município 1709005 (por baixo do cartão)
+PASS clique depois do zoom abre a regional e solta o zoom
+PASS voo terminou
+PASS zoom dentro da regional (×1,7)
+PASS regional ×1,7: 23 cartões nome+NAE, sem sobreposição, dentro do município
+PASS cartões dos polos acompanham o mapa com pouco zoom
+PASS regional depois de arrastar: 23 cartões nome+NAE, sem sobreposição, dentro do município
+PASS arrastar na regional move o mapa
+PASS com mais zoom os cartões dos polos saem de cena (×3,7)
+PASS regional ×3,7: 12 cartões nome+NAE, sem sobreposição, dentro do município
+PASS 1º Esc só enquadra (continua na regional)
+PASS cartões dos polos de volta
+PASS polo aberto
+PASS zoom dentro do polo (×1,7)
+PASS polo ×1,7: 20 cartões nome+NAE, sem sobreposição, dentro do município
+PASS polo depois de arrastar: 18 cartões nome+NAE, sem sobreposição, dentro do município
+PASS ponto clicável no polo 1720101
+PASS clique depois do zoom abre o município (rede dos alimentadores)
+PASS no município não há cartões de município
+PASS a rede dos alimentadores desenhou
+PASS zoom dentro do município
+PASS achou um ponto da rede de um alimentador para arrastar
+PASS arrastar a partir da rede de um alimentador move o mapa e não abre o painel dele
+PASS vai({al}) com zoom ligado: solta o zoom e foca o alimentador LD03005098
+PASS ← do alimentador volta ao município (sem zoom)
+PASS ← volta do município ao polo
+PASS cartões do polo voltam depois do voo
+PASS Esc volta do polo à regional
+PASS Esc volta ao estado inteiro, enquadramento original
+PASS zoom antes da busca
+PASS digitar na busca não derruba o zoom
+PASS Enter na busca leva o mapa ao resultado e solta o zoom ({"reg":"Centro","pol":"Palmas","mun":null,"al":null})
+PASS zoom dentro do que está aberto
+PASS vai() para o mesmo nível já aberto enquadra de volta (não fica preso no zoom)
+PASS Ctrl+roda para fora até 1x desliga o zoom
+PASS mudar a largura da janela solta o zoom (mapa não fica com tamanho preso)
+PASS sem erros de JavaScript na página
+PASS tecla + aproxima (×2,6) sem animação (movimento reduzido)
+PASS tecla - afasta (×1,6)
+PASS tecla 0 enquadra
+PASS botão de tela cheia e botões de zoom não se sobrepõem
+PASS zoom ligado antes da tela cheia
+PASS tela cheia ligou (ok)
+PASS entrar na tela cheia solta o zoom (o mapa é reenquadrado para a largura nova)
+PASS zoom também funciona dentro da tela cheia
+PASS sair da tela cheia solta o zoom de novo
+PASS tema claro: 42 cartões sem sobreposição
+TODOS OS TESTES PASSARAM

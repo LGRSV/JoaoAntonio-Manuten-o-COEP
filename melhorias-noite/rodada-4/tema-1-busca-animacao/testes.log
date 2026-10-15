@@ -1,0 +1,20 @@
+
+## Histórico · computador 1440x900
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro
+  ok   polo → #centro/palmas
+  ok   município → #centro/palmas/palmas
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: TypeError: Cannot read properties of null (reading 'classList')
+    at eval (eval at evaluate (:290:30), <anonymous>:1:121)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at tela (/home/user/smartled/melhorias-noite/rodada-4/tema-1-busca-animacao/testes.js:12:27)
+    at historico (/home/user/smartled/melhorias-noite/rodada-4/tema-1-busca-animacao/testes.js:30:44)
+    at async /home/user/smartled/melhorias-noite/rodada-4/tema-1-busca-animacao/testes.js:424:76
+
+Node.js v22.22.2

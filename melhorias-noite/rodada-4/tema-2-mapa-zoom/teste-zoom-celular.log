@@ -1,0 +1,26 @@
+PASS a página cabe na tela (sem rolagem): o gesto de um dedo não vira zoom
+PASS um dedo não liga o zoom
+PASS dica "dois dedos" aparece
+PASS pinça liga o zoom (×3,3)
+PASS pinça não rolou a página nem deu zoom na página inteira (visualViewport.scale=1)
+PASS fator 3.3
+PASS estado ×3,3: 26 cartões nome+NAE, sem sobreposição, dentro do município
+PASS um dedo arrasta o mapa com zoom
+PASS e não rola a página
+PASS depois de arrastar: 21 cartões nome+NAE, sem sobreposição, dentro do município
+PASS segunda pinça aproxima mais (×8,9)
+PASS estado ×8,9: 5 cartões nome+NAE, sem sobreposição, dentro do município
+depois da pinça para fora ×1,0 mt-mapa
+PASS enquadrar devolve o mapa ao enquadramento original do estado
+PASS botão + no celular (×2,6)
+PASS botão +: 25 cartões nome+NAE, sem sobreposição, dentro do município
+PASS ponto de toque no município 1718758
+PASS toque depois do zoom abre a regional
+PASS pinça na regional (×2,5)
+PASS regional ×2,5: 9 cartões nome+NAE, sem sobreposição, dentro do município
+PASS regional depois de arrastar: 9 cartões nome+NAE, sem sobreposição, dentro do município
+PASS enquadrar na regional continua na regional
+PASS polo aberto no celular
+PASS pinça no polo (×2,3)
+PASS polo ×2,3: 13 cartões nome+NAE, sem sobreposição, dentro do município
+PASS ponto de toque no polo 1717503

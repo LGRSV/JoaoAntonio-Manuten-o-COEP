@@ -1,0 +1,52 @@
+{
+  "no_ar": [
+    "Cartão preto em todos os municípios do polo, com a NAE embaixo; os que não cabem ganham o cartão ao lado, ligado por um fio (computador: nenhum sem rótulo)",
+    "Título ARGOS em wordmark, Ranking em botão e página inicial sem rodapé (Relatórios no menu ☰)",
+    "Busca integrada ao mapa atrás do olho; a lista dos alimentadores do município abre embaixo do olho",
+    "Legenda NAE com título e orelhinha (recolhida, tira os números do mapa) e tela cheia do mapa",
+    "Bandeirinhas das regionais e dos polos saindo do contorno",
+    "Painel do alimentador com a lupa dentro do mapa; 1 clique no alimentador abre o painel",
+    "Ranking por polo igual ao mapa: Paraíso 588, Porto Nacional 633, Guaraí 543, Gurupi 702 (total 5.748)",
+    "Insp→manut no painel (INSP nº → MANUT nº) e NAE/100 km com a NAE no alimentador onde o ativo está no GIS"
+  ],
+  "recomenda": ["(a definir com a rodada 4)"],
+  "decide": [
+    "Manter ou tirar a NAE em cada linha da lista de alimentadores no computador (no celular ela fica)",
+    "Página do alimentador: aplicar a lista leve (content-visibility) em todos os aparelhos ou só no celular",
+    "Nota na lupa do painel explicando por que a soma das classes difere da NAE do alimentador (a lupa é da outra sessão)",
+    "Tela cheia sem o olho e a legenda: em que aparelho aconteceu? Nos testes (computador, celular, iPhone simulado) aparecem",
+    "O significado oficial da sigla NAE, para o glossário da apresentação"
+  ],
+  "rodadas": {
+    "tema-1-busca-animacao": [
+      "Mapeou 6 dados repetidos, propôs tela cheia e lista à esquerda; a busca integrada acabou feita por outra sessão",
+      "Voltar do navegador sobe um nível (endereço por nível) e tela cheia completa, num arquivo separado",
+      "Rebaseado na versão atual; corrige 3 defeitos (seta ← coberta, cartão do polo sem clique, balão cobrindo o cartão)",
+      "Versão final pronta para aplicar"
+    ],
+    "tema-2-mapa-zoom": [
+      "Zoom livre com Ctrl/⌘ + roda, pinça e arrastar; achou que o mapa não cabia na 1ª tela",
+      "Portado para o mapa atual com zoom semântico (cartão com nome e NAE ao aproximar)",
+      "Rebase de três vias sobre bandeirinhas, rótulos com fio e legenda; 108 verificações",
+      "Versão final pronta para aplicar"
+    ],
+    "tema-3-tipografia": [
+      "Cartão preto nos municípios com a NAE embaixo, wordmark e legenda em faixa: aprovado e publicado",
+      "Espaçamento adaptativo e moldura no celular; achou a diferença de NAE entre mapa e ranking (corrigida)",
+      "Celular: só número 35 → 4, sem rótulo 1 → 0; corrige o mapa que encolhia com o alimentador em foco",
+      "Versão final pronta para aplicar"
+    ],
+    "tema-4-painel": [
+      "Inventário do painel: 5 dados repetidos; mapa 924×702 com só 624 px visíveis",
+      "Juntou com a lupa da outra sessão: cabeçalho numa linha, mapa +40%",
+      "Rebaseado na lupa atual e no Insp→manut; repetições 4 → 0, 236 testes",
+      "Versão final pronta para aplicar"
+    ],
+    "tema-5-fluidez": [
+      "Mediu tudo: o engasgo real era abrir o município e dar zoom no alimentador (22 → 53 fps com a correção)",
+      "Página do alimentador mais leve, CLS do ☰, Tab e leitor de tela, alvos de 44 px",
+      "Pacote único: TBT do maior alimentador 6,7 s → 2,8 s no celular, CLS quase zero",
+      "Versão final pronta para aplicar, testada junto com a lupa"
+    ]
+  }
+}
