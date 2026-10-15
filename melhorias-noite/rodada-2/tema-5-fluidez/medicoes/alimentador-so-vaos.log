@@ -2,3 +2,13 @@ desktop|base     pronto 733 FCP 116 LCP 1576 TBT 1003 LT 8 (max 319) CLS 0.0551 
      arrastar       {"fps":55.6,"pior":200,"p95":16.8,"travados":1,"longtasks":1,"ltMax":195}
      zoom-roda      {"fps":41.9,"pior":216.7,"p95":50,"travados":5,"longtasks":2,"ltMax":91}
      hover-linhas   {"fps":60,"pior":16.8,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+mouse.move: Target page, context or browser has been closed
+    at dragMouse (/home/user/smartled/melhorias-noite/rodada-2/tema-5-fluidez/medir-alim.js:16:139)
+    at async fase (/home/user/smartled/melhorias-noite/rodada-2/tema-5-fluidez/medir-alim.js:23:3)
+    at async /home/user/smartled/melhorias-noite/rodada-2/tema-5-fluidez/medir-alim.js:45:44
+
+Node.js v22.22.2
