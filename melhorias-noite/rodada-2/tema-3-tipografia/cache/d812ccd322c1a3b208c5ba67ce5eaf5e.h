@@ -12,10 +12,10 @@ content-length: 19816
 x-content-type-options: nosniff
 server: sffe
 x-xss-protection: 0
-date: Wed, 14 Oct 2026 22:31:33 GMT
-expires: Thu, 14 Oct 2027 22:31:33 GMT
+date: Thu, 15 Oct 2026 01:05:01 GMT
+expires: Fri, 15 Oct 2027 01:05:01 GMT
 cache-control: public, max-age=31536000
-age: 21671
 last-modified: Wed, 10 Sep 2025 17:04:41 GMT
 content-type: font/woff2
+age: 15413
 

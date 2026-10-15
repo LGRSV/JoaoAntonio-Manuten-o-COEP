@@ -4,14 +4,11 @@
 //   busca-ativo.js, ranking-polos.js). Saída: prints/<modo>-<cenario>-<tema>-<desk|cel>.jpg (JPEG q80, 1440x900 e 390x844).
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const path = require('path'), fs = require('fs');
-const { liga } = require('./rede.js');
+const { liga, arquivosModo } = require('./rede.js');
 const modo = process.argv[2] || 'antes', filtro = new RegExp(process.argv[3] || '.');
 const temas = (process.argv[4] || 'dark').split(',');
 const BASE = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/';
-const over = {};
-if (modo === 'depois') for (const f of ['site.css', 'mapa-municipios.js', 'busca-ativo.js', 'ranking-polos.js']) {
-  const p = path.join(__dirname, 'proto', f); if (fs.existsSync(p)) over['/assets/' + f] = p;
-}
+const over = arquivosModo(modo);
 const TAMS = { desk: { width: 1440, height: 900 }, cel: { width: 390, height: 844 } };
 // cenários: id, página, e passos {reg,polo,cod,al,foco:true...} (usa window.ARGOS_MAPA.vai, o mesmo caminho dos cliques)
 const POLOS = [['araguaina', 'Araguaína'], ['augustinopolis', 'Augustinópolis'], ['guarai', 'Guaraí'], ['palmas', 'Palmas'],

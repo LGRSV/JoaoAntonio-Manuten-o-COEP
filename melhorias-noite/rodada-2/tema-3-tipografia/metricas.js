@@ -1,13 +1,10 @@
 // Métricas de espaçamento por polo e tamanho de tela. Uso: node metricas.js antes|depois  -> metricas-<modo>.json + tabela no console
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const path = require('path'), fs = require('fs');
-const { liga } = require('./rede.js');
+const { liga, arquivosModo } = require('./rede.js');
 const modo = process.argv[2] || 'antes';
 const BASE = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/';
-const over = {};
-if (modo === 'depois') for (const f of ['site.css', 'mapa-municipios.js', 'busca-ativo.js']) {
-  const p = path.join(__dirname, 'proto', f); if (fs.existsSync(p)) over['/assets/' + f] = p;
-}
+const over = arquivosModo(modo);
 const TAMS = { desk: { width: 1440, height: 900 }, notebook: { width: 1280, height: 720 }, tablet: { width: 820, height: 1100 }, cel: { width: 390, height: 844 } };
 const POLOS = ['Araguaína', 'Augustinópolis', 'Guaraí', 'Palmas', 'Porto Nacional', 'Paraíso', 'Gurupi', 'Dianópolis'];
 const SO = (process.argv[3] || '').split(',').filter(Boolean);
@@ -23,8 +20,8 @@ const SO = (process.argv[3] || '').split(',').filter(Boolean);
       await p.waitForTimeout(2000);
       const r = await p.evaluate(modo => {
         const ms = [...document.querySelectorAll('.mt-nomes2 .mt-mn')];
-        const NUM = modo === 'depois' ? 3 : 2, nv = [0, 0, 0, 0]; ms.forEach(t => nv[+t.dataset.nv]++);
-        const nome = ms.filter(t => +t.dataset.nv < NUM).length;
+        const NUM = 2, nv = [0, 0, 0, 0]; ms.forEach(t => nv[+t.dataset.nv]++);
+        const nome = ms.filter(t => +t.dataset.nv < NUM).length, foraFio = ms.filter(t => t.classList.contains('fora')).length;
         const polo = window.MUN.muns.filter(m => m.polo === window.ARGOS_MAPA.nivel().pol).length;
         const svg = document.querySelector('.mt-mapa svg'), ctm = svg.getScreenCTM();
         // união das caixas dos municípios do polo na tela / área do svg
@@ -38,7 +35,7 @@ const SO = (process.argv[3] || '').split(',').filter(Boolean);
           const a = rs[i], c = rs[j], dx = Math.max(a.left - c.right, c.left - a.right), dy = Math.max(a.top - c.bottom, c.top - a.bottom);
           if (dx < 0 && dy < 0) ov++; else gmin = Math.min(gmin, Math.max(dx, dy));
         }
-        return { n: polo, nv0: nv[0], nv1: nv[1], curto: modo === 'depois' ? nv[2] : 0, soNumero: nv[NUM], semRotulo: polo - ms.length, comNome: nome, k: +ctm.a.toFixed(3),
+        return { n: polo, nv0: nv[0], nv1: nv[1], foraFio, soNumero: nv[NUM], semRotulo: polo - ms.length, comNome: nome, k: +ctm.a.toFixed(3),
           ocupaL: +((x1 - x0) / R.width).toFixed(2), ocupaA: +((y1 - y0) / R.height).toFixed(2), sobrep: ov, gapMin: +gmin.toFixed(1) };
       }, modo);
       out.push({ tela: tn, polo, ...r });

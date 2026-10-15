@@ -1,5 +1,5 @@
---- orig/mapa-municipios.js	2026-10-15 05:12:34.860460826 +0000
-+++ proto/mapa-municipios.js	2026-10-15 05:15:20.073921132 +0000
+--- orig/mapa-municipios.js	2026-10-15 05:22:24.264534096 +0000
++++ proto/mapa-municipios.js	2026-10-15 05:22:24.222319569 +0000
 @@ -2,6 +2,7 @@
  // Cada município pintado pela NAE dele (faixas), com o contorno das regionais por cima. Clicar numa regional aproxima
  // nela e separa os polos (cada polo controla um grupo de municípios); aí clicar num município abre a página dele.
@@ -79,7 +79,7 @@
      };
      selos.innerHTML = '';
      anima = requestAnimationFrame(passo);
-@@ -605,29 +611,70 @@
+@@ -605,27 +611,45 @@
      m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão compacto (letra menor, via data-nv)
      m => `<i${zero(m)}>${fmt(m.nae)}</i>`,                               // só o número
    ];
@@ -101,17 +101,20 @@
 +    // ZOOM: o botão de tela cheia, os botões +/− e, enquanto aparecem, os cartões das regionais (estado) ou dos polos (regional) também entram na conta
 +    const longe = caixa.classList.contains('zoom-longe'), extra = longe ? [] : !reg ? [...cartoes.children] : !pol ? [...selos.children] : [];
 +    [caixa.contains(leg) ? leg : null, volta, tc, ctl, ...extra].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
-+    const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
-+    const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
-+    const aTela = (x, y) => { pt.x = x; pt.y = y; return pt.matrixTransform(ctm); };
+     const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
+     const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
+     const aTela = (x, y) => { pt.x = x; pt.y = y; return pt.matrixTransform(ctm); };
+-    const ms = M.muns.filter(m => m.polo === pol).sort((a, b) => (b.nae || 0) - (a.nae || 0));
 +    // ZOOM: no estado/regional entram os municípios que já têm tamanho para um cartão (≥ 40 px) e estão na tela; os maiores NAE primeiro
 +    const marg = 24 * u, sem = !pol;
 +    const naTela = m => { const [ox, oy] = offDe(m), b = bboxMun(m.cod); return b.x + ox < v[0] + v[2] - marg && b.x + b.width + ox > v[0] + marg && b.y + oy < v[1] + v[3] - marg && b.y + b.height + oy > v[1] + marg; };
 +    const ms = (pol ? M.muns.filter(m => m.polo === pol) : M.muns.filter(m => doNivel(m) && !achou.has(m.cod) && naTela(m) && Math.max(bboxMun(m.cod).width, bboxMun(m.cod).height) / u >= 40))
 +      .sort((a, b) => (b.nae || 0) - (a.nae || 0)).slice(0, 70);
-+    // pontos candidatos no próprio município: o centro e anéis em volta (em pixels de tela)
-+    const ANEIS = [0, 9, 18, 28, 40, 54];
-+    function* cand(m) {                                         // preguiçoso: só testa o próximo ponto se o anterior não coube
+     // pontos candidatos no próprio município: o centro e anéis em volta (em pixels de tela)
+     const ANEIS = [0, 9, 18, 28, 40, 54];
+     function* cand(m) {                                         // preguiçoso: só testa o próximo ponto se o anterior não coube
+-      const p = el[m.cod], [cx, cy] = m.c;
+-      for (const rr of ANEIS) {
 +      const p = el[m.cod], [ox, oy] = offDe(m), bases = [m.c];
 +      if (Z) {                                                  // ZOOM: com o centro fora da tela, procura também em volta do ponto visível mais perto
 +        const px = Math.min(Math.max(m.c[0] + ox, v[0] + 50 * u), v[0] + v[2] - 50 * u) - ox, py = Math.min(Math.max(m.c[1] + oy, v[1] + 24 * u), v[1] + v[3] - 24 * u) - oy;
@@ -120,16 +123,15 @@
 +      const alcance = sem ? Math.max(18, Math.max(bboxMun(m.cod).width, bboxMun(m.cod).height) / u * .6) : Infinity;   // ZOOM: município pequeno não procura longe
 +      for (const [cx, cy] of bases) for (const rr of ANEIS) {
 +        if (rr > alcance) break;
-+        const n = rr ? 12 : 1;
-+        for (let i = 0; i < n; i++) {
-+          const a = i / n * 2 * Math.PI + (rr % 2 ? .26 : 0), q = new DOMPoint(cx + Math.cos(a) * rr * u, cy + Math.sin(a) * rr * u * .8);
+         const n = rr ? 12 : 1;
+         for (let i = 0; i < n; i++) {
+           const a = i / n * 2 * Math.PI + (rr % 2 ? .26 : 0), q = new DOMPoint(cx + Math.cos(a) * rr * u, cy + Math.sin(a) * rr * u * .8);
+-          if (p.isPointInFill(q)) yield q;
 +          if (sem || p.isPointInFill(q)) yield q;               // ZOOM (estado/regional): a conta cara fica para depois de checar o espaço (dentro())
-+        }
-+      }
-+    }
-     // 1º: nome DENTRO do município (cartão inteiro; no celular, compacto; depois compacto). 2º: os que não couberam
-     // ganham o nome FORA, ao lado, ligado ao município por um fio fino (ninguém fica sem nome). 3º: só o número dentro.
-     const fios = document.createElementNS(NS, 'svg');
+         }
+       }
+     }
+@@ -635,15 +659,22 @@
      fios.setAttribute('class', 'mt-fios');
      nomes2.append(fios);
      const caixaR = (s, w, h) => ({ left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 });
@@ -155,7 +157,7 @@
        const tela = q => aTela(q.x + dx, q.y + dy);
        ponta[m.cod] = { tela, ponto };
        const t = document.createElement('span');
-@@ -635,10 +682,11 @@
+@@ -651,10 +682,11 @@
        nomes2.append(t);
        for (let nv = celular ? 1 : 0; nv < 2; nv++) {
          const [w, h] = mede(t, m, nv);
@@ -168,7 +170,7 @@
      const ANG = 16, RAIOS = celular ? [30, 42, 56, 72, 90] : [38, 52, 68, 86, 108, 132, 160];
      const resto = [];
      const fora = (t, m, w, h) => {                              // põe o cartão ao lado do município, ligado por um fio
-@@ -663,16 +711,19 @@
+@@ -679,16 +711,19 @@
      });
    }
    // selo de cada polo: no município do polo mais perto do meio dele (o selo sempre cai dentro do polo)
@@ -193,7 +195,7 @@
        return `<div class="mt-mn mt-pm${grp[p.polo].classList.contains('desliga') ? ' off' : ''}" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]};left:${(s.x - cx.left).toFixed(0)}px;top:${(s.y - cx.top).toFixed(0)}px">` +
          `<b>${esc(p.polo)}</b><i>${p.nae.toLocaleString('pt-BR')} NAE</i></div>`;
      }).join('');
-@@ -706,11 +757,214 @@
+@@ -722,11 +757,214 @@
    }
    const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
    volta.addEventListener('click', sobe);
@@ -411,7 +413,7 @@
  
    // no estado inteiro, escolher um município abre a regional dele; com a regional aberta, abre o polo dele; com o polo
    // aberto, abre o município (a rede dos alimentadores); com o município aberto, abre a página dele
-@@ -842,6 +1096,7 @@
+@@ -858,6 +1096,7 @@
      if (polo && !pol) entraPolo(polo);
      if (cod && !mun) entraMun(cod);
      if (al && mun) await focaAl(al);
@@ -419,7 +421,7 @@
    }
    // previa(alvo): acende no mapa o que está marcado na lista da busca, sem mudar de nível (null apaga)
    let acesos = [];
-@@ -861,5 +1116,5 @@
+@@ -877,5 +1116,5 @@
    }
    // rede do alimentador (para a miniatura na lista da busca) e o destaque dela no mapa com o município aberto
    const redeDe = al => { const m = porCod[mun] || M.muns.find(x => x.als.some(a => a.cod === al)); return m ? rede(al, m.polo) : Promise.resolve(null); };

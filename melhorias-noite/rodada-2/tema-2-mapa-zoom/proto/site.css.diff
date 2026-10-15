@@ -1,6 +1,6 @@
---- orig/site.css	2026-10-15 05:12:34.861065268 +0000
-+++ proto/site.css	2026-10-15 05:15:20.128792256 +0000
-@@ -582,3 +582,34 @@
+--- orig/site.css	2026-10-15 05:22:24.264893973 +0000
++++ proto/site.css	2026-10-15 05:22:24.266932643 +0000
+@@ -585,3 +585,34 @@
  .mt-fios line{stroke:var(--cartao-fg);stroke-opacity:.55;stroke-width:1}
  .mt-fios circle{fill:var(--selo);stroke:var(--cartao);stroke-width:1}
  :root[data-theme="light"] .mt-fios line{stroke:#1b2024;stroke-opacity:.6}

@@ -2,11 +2,10 @@
 // com a fonte reserva e outro com a fonte final. Uso: node fontes-cls.js antes|depois
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const path = require('path'), fs = require('fs');
-const { liga } = require('./rede.js');
+const { liga, arquivosModo } = require('./rede.js');
 const modo = process.argv[2] || 'antes';
 const BASE = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/';
-const over = {};
-if (modo === 'depois') for (const f of ['site.css', 'mapa-municipios.js', 'busca-ativo.js', 'ranking-polos.js']) { const p = path.join(__dirname, 'proto', f); if (fs.existsSync(p)) over['/assets/' + f] = p; }
+const over = arquivosModo(modo);
 (async () => {
   const b = await chromium.launch();
   for (const [tn, vp] of [['desk', { width: 1440, height: 900 }], ['cel', { width: 390, height: 844 }]]) for (const pag of ['', 'polos/']) {

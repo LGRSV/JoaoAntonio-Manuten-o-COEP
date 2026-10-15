@@ -2,12 +2,12 @@
 // (entraPolo: afastamento base + ajuste) e (b) as tarefas longas (>50 ms) da animação inteira. Uso: node perf.js
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const path = require('path'), fs = require('fs');
-const { liga } = require('./rede.js');
+const { liga, arquivosModo } = require('./rede.js');
 const BASE = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/';
 (async () => {
   const b = await chromium.launch();
   for (const modo of ['antes', 'depois']) {
-    const over = {}; if (modo === 'depois') for (const f of ['site.css', 'mapa-municipios.js', 'busca-ativo.js']) over['/assets/' + f] = path.join(__dirname, 'proto', f);
+    const over = arquivosModo(modo);
     for (const [tn, vp] of [['desk', { width: 1440, height: 900 }], ['cel', { width: 390, height: 844 }]]) {
       const ctx = await b.newContext({ viewport: vp, isMobile: tn === 'cel', hasTouch: tn === 'cel' }); await liga(ctx, over);
       const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(800);

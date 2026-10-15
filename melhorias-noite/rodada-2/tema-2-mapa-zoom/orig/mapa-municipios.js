@@ -613,6 +613,22 @@
     if (!r.width || !ctm) return;
     const celular = matchMedia('(max-width:860px)').matches, ocupado = [];   // seta de voltar (e a legenda, se estiver no mapa) também entram na conta
     [caixa.contains(leg) ? leg : null, volta, tc].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
+    const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
+    const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
+    const aTela = (x, y) => { pt.x = x; pt.y = y; return pt.matrixTransform(ctm); };
+    const ms = M.muns.filter(m => m.polo === pol).sort((a, b) => (b.nae || 0) - (a.nae || 0));
+    // pontos candidatos no próprio município: o centro e anéis em volta (em pixels de tela)
+    const ANEIS = [0, 9, 18, 28, 40, 54];
+    function* cand(m) {                                         // preguiçoso: só testa o próximo ponto se o anterior não coube
+      const p = el[m.cod], [cx, cy] = m.c;
+      for (const rr of ANEIS) {
+        const n = rr ? 12 : 1;
+        for (let i = 0; i < n; i++) {
+          const a = i / n * 2 * Math.PI + (rr % 2 ? .26 : 0), q = new DOMPoint(cx + Math.cos(a) * rr * u, cy + Math.sin(a) * rr * u * .8);
+          if (p.isPointInFill(q)) yield q;
+        }
+      }
+    }
     // 1º: nome DENTRO do município (cartão inteiro; no celular, compacto; depois compacto). 2º: os que não couberam
     // ganham o nome FORA, ao lado, ligado ao município por um fio fino (ninguém fica sem nome). 3º: só o número dentro.
     const fios = document.createElementNS(NS, 'svg');

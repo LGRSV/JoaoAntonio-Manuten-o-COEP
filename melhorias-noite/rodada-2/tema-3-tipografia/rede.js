@@ -34,4 +34,12 @@ async function liga(ctx, over = {}, trocas = [], atrasoFonte = 0) {   // trocas:
     route.fulfill({ status: r.status, contentType: r.ct, body: r.body, headers: { 'access-control-allow-origin': '*' } });
   });
 }
-module.exports = { liga, baixa };
+// arquivos do site por modo: "antes" = a versão atual do repositório (orig-head/, de alimentador/site/ em 15/10 05:20; o /teste/ ao vivo
+// pode estar um commit atrás), "depois" = protótipo (proto/). Troca assets/<arquivo> no navegador, sem tocar no site.
+const ARQ = ['site.css', 'mapa-municipios.js', 'busca-ativo.js', 'ranking-polos.js'];
+function arquivosModo(modo) {
+  const o = {}, dir = modo === 'depois' ? 'proto' : 'orig-head';
+  for (const f of ARQ) { const p = path.join(__dirname, dir, f); if (fs.existsSync(p)) o['/assets/' + f] = p; }
+  return o;
+}
+module.exports = { liga, baixa, arquivosModo };
