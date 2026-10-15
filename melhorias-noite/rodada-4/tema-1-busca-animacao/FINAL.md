@@ -1,6 +1,6 @@
 # Tema 1 · Voltar do navegador, tela cheia, 3 defeitos e dados repetidos · FINAL (rodada 4)
 
-Base: commit atual (`alimentador/site/` = /teste/ ao vivo, gh-pages 8f86bf3, com a lupa no painel e **1 clique no alimentador abrindo o painel**). Patch único: `proto/final.diff` (5 arquivos, +210 −18; `git apply --check` na raiz passa tanto na árvore de trabalho de agora quanto no HEAD limpo; contexto de 1 linha de propósito, para aguentar o `gera_trechos.py` que outra sessão está mexendo). Arquivo novo dentro do diff: `alimentador/site/mapa-extras.js`. Cópias prontas dos 4 arquivos em `proto/`.
+Base: HEAD e6bca61 (`alimentador/site/` = /teste/ ao vivo, gh-pages f715a31 "mapa mais leve"; inclui a lupa no painel e **1 clique no alimentador abrindo o painel**). Rebaseado 2 vezes durante a rodada (o `mapa-municipios.js` mudou ~450 linhas no commit do mapa mais leve): fusão de 3 vias sem conflito de lógica; o único ajuste foi pôr `data-cod` nos cartões do novo laço de rótulos. Patch único: `proto/final.diff` (5 arquivos, +210 −18; `git apply --check` na raiz passa no HEAD e6bca61 e na árvore de trabalho de 08:20 UTC; contexto de 1 linha de propósito, para aguentar o `gera_trechos.py` que outra sessão está mexendo). Arquivo novo dentro do diff: `alimentador/site/mapa-extras.js`. Cópias prontas dos 4 arquivos em `proto/`.
 **Atenção ao rebase:** o `.diff` da rodada 3 desfazia o "1 clique abre o painel" (foi gerado contra a base de antes). Esta versão foi refeita por fusão de 3 vias contra a base nova (sem conflito) e o "1 clique" está preservado e testado.
 
 ## O que muda (6 tópicos)
@@ -22,7 +22,7 @@ Base: commit atual (`alimentador/site/` = /teste/ ao vivo, gh-pages 8f86bf3, com
 | Clique no cartão do polo (regional) | ignorado | abre o polo (clique, Enter, Espaço) |
 | Balão cobrindo o cartão do próprio município | sim | 0 em 26 pontos × 6 municípios |
 | Repetições de informação no mapa/lista | 5 | 0 |
-| Verificações automáticas | — | **272 ok escuro + 272 ok claro, 0 falhas**; +12 do "1 clique/Voltar do painel" (6 escuro, 6 claro); computador, celular com toque, tela cheia nativa/só CSS/negada, Voltar rápido, F5, girar tela |
+| Verificações automáticas | — | **278 ok escuro + 278 ok claro, 0 falhas** (inclui 6 de "1 clique abre o painel / Voltar do painel volta ao município" por tema); computador, celular com toque, tela cheia nativa/só CSS/negada, Voltar rápido, F5, girar tela |
 | Fluidez (`medidas.log`, 3 repetições, mediana) | — | **sem diferença acima do ruído**: ex. computador, regional→polo, maior intervalo 67 → 67 ms; município→alimentador 267 → 217 ms; celular polo→município 183 → 100 ms. Com CPU 4x há oscilações nos dois sentidos (custo é o desenho da rede, tema 5) |
 
 Prints em `prints-finais/` (4 pares, 1440 e 390, escuro): 01 link `#sul/gurupi` (base ignora, depois abre no polo) · 02 município (← coberta × na barra) · 03 regional (chips repetidos × cartão-botão) · 04 balão (repete e cobre × enxuto).
