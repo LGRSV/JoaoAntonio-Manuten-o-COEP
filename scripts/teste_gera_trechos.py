@@ -482,6 +482,23 @@ def test_chaves_js():
 
 
 
+def test_redes_mapa():
+    """Rede da prévia do município: vãos encadeados numa linha por galho, nas coordenadas do mapa (PROJ_MUN)."""
+    a, b, c_, d = gera_trechos.PROJ_MUN
+    pts = [(-48.30, -10.20), (-48.31, -10.20), (-48.32, -10.20), (-48.31, -10.21)]      # tronco com uma derivação no meio
+    vaos = [[*pts[0], *pts[1]], [*pts[1], *pts[2]], [*pts[1], *pts[3]]]
+    with tempfile.TemporaryDirectory() as dd:
+        saida = Path(dd)
+        gera_trechos.redes_mapa(saida, [dict(alimentador='AL1', validacao=dict(status='ok'), vaos=vaos),
+                                         dict(alimentador='AL2', validacao=dict(status='falha'), vaos=vaos)])
+        r = json.loads((saida / 'dados' / 'redes' / 'AL1.json').read_text(encoding='utf-8'))
+        assert not (saida / 'dados' / 'redes' / 'AL2.json').exists(), 'alimentador com falha fica de fora'
+        assert r['d'].count('M') == 3, 'três galhos a partir da derivação: ' + r['d']
+        x = lambda lon: round(a * lon + b, 2)
+        y = lambda lat: round(c_ * lat + d, 2)
+        assert r['b'] == [x(-48.32), y(-10.20), x(-48.30), y(-10.21)], r['b']
+
+
 def test_manutencao_polos():
     cfg = json.loads((gera_trechos.PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
     pa, pb = cfg['polos'][0], cfg['polos'][1]
@@ -514,5 +531,7 @@ if __name__ == '__main__':
     print('ok test_chave_sem_segmento')
     test_chaves_js()
     print('ok test_chaves_js')
+    test_redes_mapa()
+    print('ok test_redes_mapa')
     test_manutencao_polos()
     print('ok test_manutencao_polos')
