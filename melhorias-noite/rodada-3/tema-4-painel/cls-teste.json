@@ -1,0 +1,182 @@
+{
+ "antes-d": {
+  "cls": 0.0609,
+  "fontes": [
+   [
+    1979,
+    0.0232,
+    "DIV.stage#"
+   ],
+   [
+    2298,
+    0.0001,
+    "SELECT.#f-mun,DIV.mes#"
+   ],
+   [
+    2522,
+    0.0375,
+    "HEADER.#,DIV.stage#"
+   ],
+   [
+    3015,
+    0,
+    "#text.#,#text.#,EM.selo#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 224,
+   "w": 924,
+   "h": 702
+  },
+  "final": {
+   "y": 224,
+   "w": 924,
+   "h": 702
+  }
+ },
+ "antes-m": {
+  "cls": 0.0656,
+  "fontes": [
+   [
+    1177,
+    0.0656,
+    "HEADER.#,DIV.stage#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 226,
+   "w": 358,
+   "h": 490
+  },
+  "final": {
+   "y": 226,
+   "w": 358,
+   "h": 490
+  }
+ },
+ "p-r3-d": {
+  "cls": 0.2515,
+  "fontes": [
+   [
+    541,
+    0,
+    "#text.#"
+   ],
+   [
+    788,
+    0.0232,
+    "DIV.stage#"
+   ],
+   [
+    1544,
+    0.0375,
+    "HEADER.#,DIV.stage#"
+   ],
+   [
+    1648,
+    0.1907,
+    "DIV.wrap#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 64,
+   "w": 992,
+   "h": 820
+  },
+  "final": {
+   "y": 64,
+   "w": 992,
+   "h": 820
+  }
+ },
+ "p-r3-m": {
+  "cls": 0.1287,
+  "fontes": [
+   [
+    1224,
+    0.0656,
+    "HEADER.#,DIV.stage#"
+   ],
+   [
+    1244,
+    0.0539,
+    "DIV.leaflet-control-attribution leaflet-control#,DIV.limp-maplg#,DIV.tc-canto ctl-card#,BUTTON.lp-lupa#"
+   ],
+   [
+    1392,
+    0.0092,
+    "NAV.mnu#,HEADER.#,DIV.mapbox#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 58,
+   "w": 366,
+   "h": 718
+  },
+  "final": {
+   "y": 66,
+   "w": 366,
+   "h": 710
+  }
+ },
+ "html-p-r3-d": {
+  "cls": 0.1638,
+  "fontes": [
+   [
+    698,
+    0.0004,
+    "NAV.migalhas#,SPAN.eyebrow#,#text.#"
+   ],
+   [
+    792,
+    0.1343,
+    "NAV.migalhas#,SPAN.eyebrow#,H1.#,DIV.stage#,DIV.mapbox#"
+   ],
+   [
+    1223,
+    0.0292,
+    "HEADER.#,DIV.stage#,DIV.mapbox#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 64,
+   "w": 992,
+   "h": 820
+  },
+  "final": {
+   "y": 64,
+   "w": 992,
+   "h": 820
+  }
+ },
+ "html-p-r3-m": {
+  "cls": 0.0752,
+  "fontes": [
+   [
+    796,
+    0.0456,
+    "DIV.mapbox#,H1.#,DIV.stage#"
+   ],
+   [
+    849,
+    0.0205,
+    "SMALL.#,SMALL.#,DIV.limp-maplg#"
+   ],
+   [
+    950,
+    0.0091,
+    "NAV.mnu#,HEADER.#,DIV.mapbox#"
+   ]
+  ],
+  "noDOMContentLoaded": {
+   "y": 58,
+   "w": 366,
+   "h": 718
+  },
+  "final": {
+   "y": 66,
+   "w": 366,
+   "h": 710
+  }
+ }
+}

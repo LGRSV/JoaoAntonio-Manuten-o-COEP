@@ -1,5 +1,5 @@
---- original/lupa-painel.artifact.js	2026-10-15 06:08:27.008123102 +0000
-+++ lupa-painel.js	2026-10-15 06:10:12.446904549 +0000
+--- a/alimentador/site/lupa-painel.js
++++ b/alimentador/site/lupa-painel.js
 @@ -1,3 +1,5 @@
 +// [RODADA 3 · tema 4] Cópia da lupa ATUAL do Artifact F9h14JEhEqGMgZqPrZXV8W (proto/original/lupa-painel.artifact.js) com 1 acréscimo, "R3-b":
 +//   a linha que fecha a conta da NAE (soma das classes x total do alimentador). A busca com resultados dentro da lupa, que a rodada 2 acrescentava, já é nativa.

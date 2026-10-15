@@ -118,3 +118,50 @@ ok consolidado AL01015049 m busca
 ok consolidado AL01015049 m filtros 
 (node:25166) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
+ok consolidado LD01072001 d trecho-insp 
+ok consolidado LD01072001 d insp-manut 
+ok consolidado LD01072001 d sem-faixa 
+ok consolidado LD01072001 d classe 
+ok consolidado LD01072001 d municipio 
+ok consolidado LD01072001 d tela-cheia 
+ok consolidado LD01072001 m trecho-insp 
+ok consolidado LD01072001 m insp-manut 
+ok consolidado LD01072001 m sem-faixa 
+ok consolidado LD01072001 m classe 
+ok consolidado LD01072001 m municipio 
+ok consolidado LD01072001 m tela-cheia 
+ok consolidado LD01072001 m gaveta 
+(node:26776) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ok claro LD01072001 d inicial 
+ok claro LD01072001 d camadas 
+ok claro LD01072001 d trecho 
+ok claro LD01072001 d lupa 
+ok claro LD01072001 m inicial 
+ok claro LD01072001 m camadas 
+ok claro LD01072001 m trecho 
+ok claro LD01072001 m lupa 
+ok claro AL03037009 d inicial 
+ok claro AL03037009 d camadas 
+ok claro AL03037009 d trecho 
+ok claro AL03037009 d lupa 
+ok claro AL03037009 m inicial 
+ok claro AL03037009 m camadas 
+ok claro AL03037009 m trecho 
+ok claro AL03037009 m lupa 
+ok claro LD02022033 d inicial 
+ok claro LD02022033 d camadas 
+ok claro LD02022033 d trecho 
+ok claro LD02022033 d lupa 
+ok claro LD02022033 m inicial 
+ok claro LD02022033 m camadas 
+ok claro LD02022033 m trecho 
+ok claro LD02022033 m lupa 
+ok claro AL01015049 d inicial 
+ok claro AL01015049 d camadas 
+ok claro AL01015049 d trecho 
+ok claro AL01015049 d lupa 
+ok claro AL01015049 m inicial 
+ok claro AL01015049 m camadas 
+ok claro AL01015049 m trecho 
+ok claro AL01015049 m lupa 

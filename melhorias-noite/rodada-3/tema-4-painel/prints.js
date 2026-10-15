@@ -86,7 +86,15 @@ const ESTADOS = {
   trecho: async p => { await ligaCamadas(p); await escolhe(p, 'T2-A'); },
   'sem-faixa': async p => { await p.evaluate(() => document.querySelector('#ctl-camadas .ctl-faixa').click()); await p.waitForTimeout(700); },
   busca: async p => { await p.click('.lp-lupa'); await p.waitForTimeout(300); await p.click('#busca'); await p.keyboard.type('T3-A', { delay: 40 }); await p.waitForTimeout(2600); },
-  'trecho-insp': async p => { await ligaCamadas(p); await escolhe(p, 'T2-A'); const b = await p.$('.det-abas .tab-mnt'); if (b) { await b.click(); await p.waitForTimeout(500); } },
+  'trecho-insp': async p => {
+    await ligaCamadas(p); await escolhe(p, 'T2-A');
+    const h = await p.$('.sheet-h');
+    if (h && await h.isVisible()) {                       // celular: arrasta a gaveta até 88% (também confere o arrastar por ponteiro)
+      const b = await h.boundingBox(), x = b.x + b.width / 2, y = b.y + b.height / 2;
+      await p.mouse.move(x, y); await p.mouse.down(); await p.mouse.move(x, 90, { steps: 10 }); await p.mouse.up(); await p.waitForTimeout(700);
+    }
+    const bt = await p.$('.det-abas .tab-mnt'); if (bt) { await bt.click(); await p.waitForTimeout(300); await p.evaluate(() => { const bar = document.querySelector('.det-abas'); if (bar) bar.scrollIntoView({ block: 'start' }); }); await p.waitForTimeout(500); }
+  },
   'busca-poste': async p => { await p.click('.lp-lupa'); await p.waitForTimeout(300); await p.click('#busca'); await p.keyboard.type('N1060', { delay: 40 }); await p.waitForTimeout(1200); },
   municipio: async p => {
     await p.click('.lp-lupa'); await p.waitForTimeout(300); await p.click('.lp-fbt'); await p.waitForTimeout(300);

@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/alimentador/site/painel.css
-@@ -0,0 +1,190 @@
+@@ -0,0 +1,192 @@
 +/* ============================================================================================
 +   PROTÓTIPO CONSOLIDADO · Painel do alimentador (tema 4, rodada 3) — parte CSS
 +   Entra por cima de assets/alimentador.css e do CSS que proto/lupa-painel.js injeta. Tudo escopado em html.p-r3 (a classe que o
@@ -138,6 +138,8 @@
 +html.p-r3 .det-nae{margin:0;padding-top:var(--s3)}
 +html.p-r3 .det-nae>dt.nae{display:none}                               /* a aba já se chama NAE */
 +html.p-r3 .det>.limp-sec[data-aba]{padding-top:var(--s3)}
++/* o nome da aba já é o título da seção (Inspeção visual, Insp→manut, Manutenção executada): o h3 fica só para o leitor de tela; o da Faixa fica (traz "T2 a cada 4 anos") */
++html.p-r3 .det>.limp-sec[data-aba]:is(.insp-sec,.mnt-sec,.exe-sec)>h3{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 +@media (pointer:coarse){html.p-r3 .det-abas button{min-height:40px}}
 +
 +/* ---------------------------------------------------------------- 7 · celular: caixa de cima compacta + gaveta */

@@ -1,0 +1,110 @@
+{
+ "tema": "Mapa: zoom e interatividade (rodada 3, consolidação sobre o commit 8ab7caf)",
+ "base": "alimentador/site/mapa-municipios.js e site.css do commit 8ab7caf (= /teste/ ao vivo)",
+ "sugestoes": [
+  {
+   "titulo": "Zoom livre + zoom semântico consolidados (Ctrl/⌘+roda, pinça, arrastar, + − ↺, teclas, aviso, cartão preto nome+NAE por município)",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/a-desk-2-ctrl-roda.jpg",
+    "prints/a-desk-3-regional.jpg",
+    "prints/a-desk-4-polo.jpg",
+    "prints/a-mob-2-pinca.jpg",
+    "prints/a-desk-5-estado-claro.jpg"
+   ],
+   "depois": [
+    "prints/d-desk-02-estado-1x7.jpg",
+    "prints/d-desk-03-estado-3x7.jpg",
+    "prints/d-desk-06-regional-1x7.jpg",
+    "prints/d-desk-07-regional-3x7.jpg",
+    "prints/d-desk-08-polo-zoom.jpg",
+    "prints/d-desk-12-legenda-recolhida.jpg",
+    "prints/d-desk-13-tela-cheia-zoom.jpg",
+    "prints/d-desk-10-busca-com-zoom.jpg",
+    "prints/d-desk-14-claro-estado.jpg",
+    "prints/d-mob-2-pinca-1.jpg",
+    "prints/d-mob-3-pinca-2.jpg",
+    "prints/d-mob-7-legenda-recolhida.jpg",
+    "prints/d-mob-8-tela-cheia-zoom.jpg",
+    "prints/d-mob-9-claro.jpg",
+    "prints/z-sequencia-desk.jpg",
+    "prints/z-sequencia-mob.jpg",
+    "prints/z-antes-depois-desk.jpg",
+    "prints/z-antes-depois-mob.jpg",
+    "prints/z-convivencia-desk.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.diff",
+    "proto/site.css.diff",
+    "proto/zoom.css"
+   ],
+   "descricao": "Patch único (+274/-21 em mapa-municipios.js, +31 de CSS) sobre a base atual, sem mudar gera_trechos.py. Convive com bandeirinhas, rótulos com fio, legenda recolhida (.sem-nae), tela cheia (.mt-tc), busca (ARGOS_MAPA.vai) e o clique na rede que abre o painel. 71 verificações no desktop e 37 no celular (toques CDP) passam; zero sobreposição. Risco: falta aparelho real (iOS Safari)."
+  },
+  {
+   "titulo": "Cache dos pontos do contorno nas bandeirinhas (contorno())",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [
+    "proto/mapa-municipios.diff (hunk de contorno)"
+   ],
+   "descricao": "getPointAtLength era o maior custo de bandeiras(): 75-120 ms em 3 aberturas da regional na base contra 23-44 ms com o cache; no recálculo do zoom, 18 ms caem para 5 ms. Pode sair antes e sozinho."
+  },
+  {
+   "titulo": "Teste em aparelho real e pinça do Safari de desktop (gesturechange)",
+   "prioridade": 3,
+   "esforco": "M",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Os toques CDP validam a lógica, não a sensação; falta iOS Safari e o gesto do trackpad no Safari."
+  },
+  {
+   "titulo": "Balão do mouse sem repetir nome e NAE quando o cartão do município está na tela",
+   "prioridade": 4,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Com zoom o balão repete o cartão (tema 1: dado repetido)."
+  },
+  {
+   "titulo": "NAE no aria-label de cada município",
+   "prioridade": 5,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Os cartões são aria-hidden; o leitor de tela só ouve o nome (tema 5)."
+  },
+  {
+   "titulo": "Mini-mapa de orientação com zoom alto",
+   "prioridade": 6,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Da rodada 1; adiado para manter o diff pequeno."
+  },
+  {
+   "titulo": "Prévia das redes dentro dos municípios grandes",
+   "prioridade": 7,
+   "esforco": "G",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Da rodada 1; precisa de rede simplificada por município em gera_trechos.py."
+  },
+  {
+   "titulo": "Mapa cabe na primeira tela (1440x900)",
+   "prioridade": 8,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "A base do mapa termina em y=918 no 1440x900 (página com 919 px); CSS, fica com a outra sessão."
+  }
+ ]
+}

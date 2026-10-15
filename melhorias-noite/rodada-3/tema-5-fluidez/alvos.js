@@ -21,9 +21,10 @@ const varre = (page, min) => page.evaluate(min => {
     // alvo efetivo: o elemento ou, se menor, o espaço livre até os vizinhos não conta; aqui só o retângulo do próprio elemento
     if (w < min || h < min) {
       // área de toque efetiva: um ::after invisível pode esticar o clique além da caixa; confere se os pontos a 22 px do centro ainda acertam o próprio elemento
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2, pts = [];
-      if (w < min) pts.push([cx - 21, cy], [cx + 21, cy]); if (h < min) pts.push([cx, cy - 21], [cx, cy + 21]);
-      const acerta = pts.every(([x, y]) => { const t = document.elementFromPoint(x, y); return t && (e === t || e.contains(t)); });
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2, bate = (x, y) => { const t = document.elementFromPoint(x, y); return !!t && (e === t || e.contains(t)); };
+      const dw = Math.max(0, min - w), dh = Math.max(0, min - h);   // quanto falta em cada eixo: a área estendida pode crescer para qualquer lado
+      const okX = !dw || bate(r.right + dw - 1, cy) || bate(r.left - dw + 1, cy), okY = !dh || bate(cx, r.bottom + dh - 1) || bate(cx, r.top - dh + 1);
+      const acerta = okX && okY;
       if (!acerta) out.push(item); else item.efetivo = true;
     }
   });

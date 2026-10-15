@@ -84,6 +84,20 @@ const mediana = a => { const q = a.slice().sort((x, y) => x - y); return q.lengt
     out[(proto ? 'prototipo' : 'original') + '_celular_cpu_4x_abrir_regional'] = await para(page);
     await ctx.close();
   }
+  // (5) custo das bandeirinhas SEM zoom (já na base): tempo gasto em getPointAtLength (contorno) ao abrir a regional e voltar ao estado, base x protótipo (cache dos pontos do contorno)
+  for (const proto of [false, true]) {
+    const r = [];
+    for (let i = 0; i < 3; i++) {
+      const { ctx, page } = await abre(b, 'desk', proto, { calmo: false });
+      await page.evaluate(() => { window.__gp = 0; window.__gpn = 0; const o = SVGGeometryElement.prototype.getPointAtLength; SVGGeometryElement.prototype.getPointAtLength = function (x) { const t = performance.now(); const q = o.call(this, x); window.__gp += performance.now() - t; window.__gpn++; return q; }; });
+      await page.click('.mt-regcards button[data-reg="Centro"]'); await esp(page, 2000);
+      await page.click('.mt-volta'); await esp(page, 2000);
+      await page.click('.mt-regcards button[data-reg="Sul"]'); await esp(page, 2000);
+      r.push(await page.evaluate(() => ({ ms: +window.__gp.toFixed(1), chamadas: window.__gpn })));
+      await ctx.close();
+    }
+    out[(proto ? 'prototipo' : 'original') + '_contorno_getPointAtLength_3_aberturas'] = r;
+  }
   await b.close();
   fs.writeFileSync(__dirname + '/medidas.json', JSON.stringify(out, null, 1));
   console.log(JSON.stringify(out, null, 1));

@@ -31,7 +31,7 @@ const ate = async (p, fn, arg) => { try { await p.waitForFunction(fn, arg, { tim
     return { c: p.dataset.cod, a: Math.max(0, w) * Math.max(0, h) };
   }).sort((a, b) => b.a - a.a)[0].c, [xmin, xmax, ymin, ymax]);
   const ctrlRoda = async (n, dy, x = 720, y = 560) => { await page.mouse.move(x, y); await page.keyboard.down('Control'); for (let i = 0; i < n; i++) { await page.mouse.wheel(0, dy); await esp(page, 50); } await page.keyboard.up('Control'); await page.mouse.move(1420, 520); await esp(page, 1100); };
-  const limpo = async (rot, minimo = 1) => { const c = await checaCartoes(page); ok(c.n >= minimo && !c.sobrepoe.length && !c.comFixo.length && !c.fora.length && !c.foraDoMun.length && !c.semNae, `${rot}: ${c.n} cartões nome+NAE, sem sobreposição, dentro do município${c.sobrepoe.length || c.comFixo.length || c.fora.length || c.foraDoMun.length ? ' ' + JSON.stringify(c) : ''}`); return c; };
+  const limpo = async (rot, minimo = 1) => { await ate(page, () => { const c = document.querySelector('.mt-mapa').classList; return !c.contains('mexe') && !c.contains('voando'); }); await esp(page, 250); const c = await checaCartoes(page); ok(c.n >= minimo && !c.sobrepoe.length && !c.comFixo.length && !c.fora.length && !c.foraDoMun.length && !c.semNae, `${rot}: ${c.n} cartões nome+NAE, sem sobreposição, dentro do município${c.sobrepoe.length || c.comFixo.length || c.fora.length || c.foraDoMun.length ? ' ' + JSON.stringify(c) : ''}`); return c; };
 
   let s = await S();
   ok(!/zoomando/.test(s.cls), 'estado inicial sem zoom'); ok(s.cart === 0, 'sem zoom, no estado inteiro não há cartões de município (só os das regionais)');
@@ -130,6 +130,19 @@ const ate = async (p, fn, arg) => { try { await p.waitForFunction(fn, arg, { tim
   ok(s.cart === 0, 'no município não há cartões de município'); ok(await page.evaluate(() => !!document.querySelector('.mt-redes path[data-al]')), 'a rede dos alimentadores desenhou');
   // zoom no município e foco num alimentador (drill-down) com zoom ligado
   await ctrlRoda(2, -120, 720, 560); s = await S(); ok(/zoomando/.test(s.cls) && /nivel-mun/.test(s.cls), 'zoom dentro do município');
+  // arrastar começando em cima da rede de um alimentador NÃO abre o painel dele (1 clique na rede abre a página): o clique depois do arrasto é engolido
+  const urlAntes = page.url();
+  const pr = await page.evaluate(() => {
+    for (const p of document.querySelectorAll('.mt-redes-d path[data-al]')) {
+      const L = p.getTotalLength(), s = p.ownerSVGElement;
+      for (let k = 1; k < 80; k++) { const q = p.getPointAtLength(L * k / 80), pt = s.createSVGPoint(); pt.x = q.x; pt.y = q.y; const t = pt.matrixTransform(p.getScreenCTM());
+        if (t.x > 450 && t.x < 1250 && t.y > 300 && t.y < 800 && document.elementFromPoint(t.x, t.y) === p) return [t.x, t.y]; }
+    }
+    return null;
+  });
+  ok(!!pr, 'achou um ponto da rede de um alimentador para arrastar');
+  if (pr) { await page.mouse.move(pr[0], pr[1]); await page.mouse.down(); await page.mouse.move(pr[0] - 90, pr[1] + 40, { steps: 8 }); await page.mouse.up(); await esp(page, 800);
+    ok(page.url() === urlAntes && /zoomando/.test((await S()).cls), 'arrastar a partir da rede de um alimentador move o mapa e não abre o painel dele'); }
   await page.evaluate(() => document.querySelector('.mt-barra #ativo-res') && 0);
   const al = await page.evaluate(() => (document.querySelector('.mt-redes-d path[data-al]') || {}).dataset.al);
   await page.evaluate(al => window.ARGOS_MAPA.vai({ al }), al); await esp(page, 1800);

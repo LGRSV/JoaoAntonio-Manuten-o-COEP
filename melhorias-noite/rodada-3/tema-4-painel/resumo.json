@@ -1,0 +1,120 @@
+{
+ "tema": "Painel do alimentador: protótipo único (cabeçalho, mapa na altura da tela, painel sem repetição, abas, acordeão, gaveta no celular), rebaseado na lupa atual e no Insp→manut (rodada 3)",
+ "sugestoes": [
+  {
+   "titulo": "Cabeçalho numa faixa só, resumo ao lado e mapa na altura da tela (rebaseado na lupa atual)",
+   "prioridade": 1,
+   "esforco": "P",
+   "antes": [
+    "antes/lupa-LD01072001-d-inicial.jpg",
+    "antes/lupa-LD01072001-m-inicial.jpg",
+    "antes/claro-lupa-LD01072001-d-inicial.jpg"
+   ],
+   "depois": [
+    "depois/LD01072001-d-inicial.jpg",
+    "depois/LD01072001-m-inicial.jpg",
+    "depois/AL03037009-d-inicial.jpg",
+    "depois/LD02022033-d-inicial.jpg",
+    "depois/AL01015049-d-inicial.jpg",
+    "depois/claro-LD01072001-d-inicial.jpg",
+    "depois/claro-LD01072001-m-inicial.jpg"
+   ],
+   "prototipo": [
+    "proto/painel.css",
+    "proto/painel.js",
+    "proto/gera_trechos.diff"
+   ],
+   "descricao": "Cabeçalho de 224 px (5 linhas) vira uma faixa de 64 px: ☰, ← Municípios, código, SE e o resumo (199 trechos · 153,98 km · NAE 23). A página passa a ter a altura da janela. Mapa desktop 924×702 (676 visíveis) → 992×820 todo à vista (+30% de área visível); celular 358×490 → 366×710 (+48%); rolagem da página 58/526 px → 0."
+  },
+  {
+   "titulo": "Painel só com dados e nota da NAE (soma das classes × total)",
+   "prioridade": 2,
+   "esforco": "M",
+   "antes": [
+    "antes/lupa-LD01072001-d-inicial.jpg",
+    "antes/lupa-LD01072001-d-lupa.jpg"
+   ],
+   "depois": [
+    "depois/LD01072001-d-lupa.jpg",
+    "depois/AL03037009-d-lupa.jpg",
+    "depois/LD01072001-d-sem-faixa.jpg",
+    "depois/LD01072001-d-busca.jpg",
+    "depois/LD01072001-m-busca.jpg",
+    "depois/LD01072001-m-municipio.jpg"
+   ],
+   "prototipo": [
+    "proto/painel.js",
+    "proto/painel.css",
+    "proto/lupa-painel.js",
+    "proto/lupa-painel.diff"
+   ],
+   "descricao": "Sai do painel o que a lupa e o cabeçalho já dizem (tabela Classe/Trechos/Extensão, bloco NAE, lista de trechos, Ordem, legenda de cores). A lupa ganha uma linha que fecha a conta: 'Soma das classes 24 = NAE do alimentador 23 + 3 de outros alimentadores que estão em trechos daqui − 2 sem trecho' (confere nos 4 alimentadores; some quando já fecha). Repetições visíveis (4 alimentadores): 4→0 (inicial), 6→0 (4 camadas), 13→0 (classe aberta)."
+  },
+  {
+   "titulo": "Trecho escolhido: ficha curta e abas NAE · Faixa · Inspeção · Insp→manut · Manutenção",
+   "prioridade": 3,
+   "esforco": "M",
+   "antes": [
+    "antes/lupa-LD01072001-d-trecho.jpg",
+    "antes/lupa-LD01072001-m-trecho.jpg"
+   ],
+   "depois": [
+    "depois/LD01072001-d-trecho.jpg",
+    "depois/LD01072001-d-trecho-insp.jpg",
+    "depois/LD01072001-m-trecho.jpg",
+    "depois/LD01072001-m-trecho-insp.jpg",
+    "depois/claro-LD01072001-d-trecho.jpg",
+    "depois/claro-LD01072001-m-trecho.jpg"
+   ],
+   "prototipo": [
+    "proto/painel.js",
+    "proto/painel.css"
+   ],
+   "descricao": "O painel com o T2-A escolhido e as 4 camadas passa de 11.409 px (desktop) e 11.965 px (celular) para 1.158 e 1.310 px: ficha fixa e abas com contagem; só a aba aberta mostra a lista (inclusive as linhas INSP nº → MANUT nº do Insp→manut). Os cartões do alimentador ficam recolhidos sob 'Camadas · alimentador inteiro'."
+  },
+  {
+   "titulo": "Camadas em acordeão e legendas do mapa em linha",
+   "prioridade": 4,
+   "esforco": "M",
+   "antes": [
+    "antes/lupa-LD01072001-d-camadas.jpg",
+    "antes/lupa-LD01072001-m-camadas.jpg"
+   ],
+   "depois": [
+    "depois/LD01072001-d-camadas.jpg",
+    "depois/LD01072001-m-camadas.jpg",
+    "depois/LD01072001-d-insp-manut.jpg",
+    "depois/AL03037009-d-camadas.jpg",
+    "depois/claro-LD01072001-d-camadas.jpg"
+   ],
+   "prototipo": [
+    "proto/painel.js",
+    "proto/painel.css"
+   ],
+   "descricao": "Quatro cartões abertos (1.528 px) viram linhas de acordeão que cabem nos 820 px do painel; ligar a camada na lupa abre o cartão dela. Insp→manut aberto: sem subtítulo repetido e com a tabela do polo reduzida a uma linha. Legendas do mapa em linha, sem números: 598 → 156 px no desktop, 386 → 32 px no celular (botão Legendas)."
+  },
+  {
+   "titulo": "Celular: gaveta inferior no lugar do painel empilhado",
+   "prioridade": 5,
+   "esforco": "G",
+   "antes": [
+    "antes/lupa-LD01072001-m-inicial.jpg",
+    "antes/lupa-LD01072001-m-camadas.jpg",
+    "antes/lupa-LD01072001-m-trecho.jpg"
+   ],
+   "depois": [
+    "depois/LD01072001-m-inicial.jpg",
+    "depois/LD01072001-m-gaveta.jpg",
+    "depois/LD01072001-m-trecho.jpg",
+    "depois/LD01072001-m-camadas.jpg",
+    "depois/LD01072001-m-lupa.jpg",
+    "depois/LD01072001-m-tela-cheia.jpg"
+   ],
+   "prototipo": [
+    "proto/painel.js",
+    "proto/painel.css"
+   ],
+   "descricao": "Mapa quase na tela inteira (366×710) e o painel numa gaveta de 60 px que abre em 46% ou 88% (toque ou arraste); escolher um trecho sobe a gaveta até a ficha e o mapa enquadra a parte que ela não cobre; abrir a lupa desce a gaveta. Não testado em aparelho real."
+  }
+ ]
+}

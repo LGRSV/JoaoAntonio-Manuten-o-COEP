@@ -11,11 +11,13 @@ def folha(nomes, saida, cols, tw, th, rotulos):
         d.text((x + 2, y + 4), l, fill=(240, 138, 93), font=f)
         im.paste(Image.open(P + n + '.jpg').convert('RGB').resize((tw, th), Image.LANCZOS), (x, y + lh))
     im.save(P + saida + '.jpg', 'JPEG', quality=80)
-folha(['z-depois-desk-1-aviso', 'z-depois-desk-2-estado-1x7', 'z-depois-desk-3-estado-3x7', 'z-depois-desk-4-arrastar', 'z-depois-desk-6-regional-1x7', 'z-depois-desk-8-polo-zoom'], 'z-sequencia-desk', 3, 480, 300,
-      ['1. rolar sem Ctrl: página rola + aviso', '2. Ctrl+roda x2: cartões nome+NAE (1,7x)', '3. Ctrl+roda x5: mais cartões (3,7x)', '4. arrastar o mapa: cartões recalculados', '5. regional aberta, zoom 1,7x', '6. polo aberto, zoom'])
-folha(['z-depois-mob-1-aviso', 'z-depois-mob-2-pinca-1', 'z-depois-mob-3-pinca-2', 'z-depois-mob-4-arrastar', 'z-depois-mob-5-regional-pinca', 'z-depois-mob-6-polo-pinca'], 'z-sequencia-mob', 6, 234, 506,
-      ['1. 1 dedo rola + aviso', '2. pinça (2,2x)', '3. pinça (7,2x)', '4. 1 dedo arrasta', '5. regional', '6. polo'])
-folha(['z-antes-desk-2-ctrl-roda', 'z-depois-desk-3-estado-3x7', 'z-antes-desk-3-regional', 'z-depois-desk-7-regional-3x7'], 'z-antes-depois-desk', 2, 720, 450,
-      ['ANTES: Ctrl+roda x5 não faz nada', 'DEPOIS: Ctrl+roda, nome+NAE por município', 'ANTES: regional (1x)', 'DEPOIS: regional com zoom'])
-folha(['z-antes-mob-2-pinca', 'z-depois-mob-2-pinca-1', 'z-antes-mob-4-polo', 'z-depois-mob-6-polo-pinca'], 'z-antes-depois-mob', 4, 234, 506,
+folha(['d-desk-01-aviso', 'd-desk-02-estado-1x7', 'd-desk-03-estado-3x7', 'd-desk-04-arrastar', 'd-desk-06-regional-1x7', 'd-desk-08-polo-zoom'], 'z-sequencia-desk', 3, 480, 300,
+      ['1. rolar sem Ctrl: página rola + aviso', '2. Ctrl+roda x2: bandeirinhas + cartões (1,7x)', '3. Ctrl+roda x5: mais cartões (3,7x)', '4. arrastar o mapa: cartões recalculados', '5. regional aberta, zoom 1,7x', '6. polo aberto, zoom'])
+folha(['d-mob-1-aviso', 'd-mob-2-pinca-1', 'd-mob-3-pinca-2', 'd-mob-4-arrastar', 'd-mob-5-regional-pinca', 'd-mob-6-polo-pinca'], 'z-sequencia-mob', 6, 234, 506,
+      ['1. 1 dedo + aviso', '2. pinça (2,2x)', '3. pinça (7,2x)', '4. 1 dedo arrasta', '5. regional', '6. polo'])
+folha(['a-desk-2-ctrl-roda', 'd-desk-03-estado-3x7', 'a-desk-3-regional', 'd-desk-07-regional-3x7'], 'z-antes-depois-desk', 2, 720, 450,
+      ['ANTES: Ctrl+roda x5 não faz nada', 'DEPOIS: Ctrl+roda, nome+NAE por município', 'ANTES: regional (1x)', 'DEPOIS: regional com zoom (3,7x)'])
+folha(['a-mob-2-pinca', 'd-mob-2-pinca-1', 'a-mob-4-polo', 'd-mob-6-polo-pinca'], 'z-antes-depois-mob', 4, 234, 506,
       ['ANTES: pinça amplia a página', 'DEPOIS: pinça amplia o mapa', 'ANTES: polo (1x)', 'DEPOIS: polo com pinça'])
+folha(['d-desk-12-legenda-recolhida', 'd-desk-13-tela-cheia-zoom', 'd-desk-10-busca-com-zoom', 'd-desk-14-claro-estado'], 'z-convivencia-desk', 2, 720, 450,
+      ['legenda recolhida: só o nome', 'tela cheia + zoom', 'busca aberta com o mapa aproximado', 'tema claro'])

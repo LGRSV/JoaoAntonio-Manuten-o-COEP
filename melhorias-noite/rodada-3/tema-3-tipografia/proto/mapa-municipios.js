@@ -739,11 +739,18 @@
   const FOLGA_ROT = () => (matchMedia('(max-width:860px)').matches ? 4 : 8);   // folga entre rótulos (menor no celular)
   let folgaRot = 8;
   const bate = (a, b, f = folgaRot) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
+  const ORCAMENTO_ROT = 45;                                     // ms: tentativas extras de ordem só enquanto couberem neste tempo (máquina lenta = só a 1ª)
+  let chaveNomes = '';                                          // geometria do último cálculo: a mesma geometria não se recalcula
   function poeNomes() {
-    nomes2.innerHTML = '';
-    if (!pol || mun || anima) return;
+    if (!pol || mun || anima) { nomes2.innerHTML = ''; chaveNomes = ''; return; }
     const r = svg.getBoundingClientRect(), v = vb(), c0 = caixa.getBoundingClientRect(), ctm = svg.getScreenCTM();
-    if (!r.width || !ctm) return;
+    if (!r.width || !ctm) { nomes2.innerHTML = ''; chaveNomes = ''; return; }
+    // chamado ao fim da animação, pelo ResizeObserver e ao recolher a legenda: se nada mudou (polo, enquadramento, tamanho, legenda),
+    // os cartões já estão certos e refazer custava ~200 ms no celular
+    const chave = [pol, v.map(x => x.toFixed(1)).join(), r.width.toFixed(0), r.height.toFixed(0), c0.width.toFixed(0), c0.height.toFixed(0), legAberta, caixa.contains(leg)].join('|');
+    if (chave === chaveNomes && nomes2.childElementCount) return;
+    chaveNomes = chave;
+    nomes2.innerHTML = '';
     folgaRot = FOLGA_ROT();                                     // uma vez por cálculo (matchMedia a cada comparação custava ~120 ms)
     const celular = matchMedia('(max-width:860px)').matches, ocupado = [];   // seta de voltar (e a legenda, se estiver no mapa) também entram na conta
     [caixa.contains(leg) ? leg : null, volta, tc].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
@@ -824,18 +831,19 @@
     const folgaM = m => area(m) / (curto(m.nome).length + 4);       // área do município por letra do nome: os mais apertados primeiro
     const ordens = [porNae, todos.slice().sort((a, b) => area(a) - area(b)), todos.slice().sort((a, b) => b.nome.length - a.nome.length),
       todos.slice().sort((a, b) => folgaM(a) - folgaM(b)), porNae.slice().reverse(), todos.slice().sort((a, b) => a.c[1] - b.c[1] || a.c[0] - b.c[0])];
-    for (let q = 1, z = 7; q <= 6; q++) {                         // mais 6 embaralhadas (sempre as mesmas: semente fixa)
+    for (let q = 1, z = 7; q <= 2; q++) {                         // mais 2 embaralhadas (sempre as mesmas: semente fixa)
       const o = porNae.slice();
       for (let i = o.length - 1; i > 0; i--) { z = (z * 1103515245 + 12345) % 2147483648; const j = z % (i + 1); [o[i], o[j]] = [o[j], o[i]]; }
       ordens.push(o);
     }
     let melhor = 0, nm = Infinity, ultima = 0;
+    const t0 = performance.now();
     for (let i = 0; i < ordens.length; i++) {
       tenta(ordens[i]);
       ultima = i;
       const n = nota();
       if (n < nm) { nm = n; melhor = i; }
-      if (!pior) break;                                           // ninguém só com o número: a ordem serve
+      if (!pior || performance.now() - t0 > ORCAMENTO_ROT) break; // ninguém só com o número, ou acabou o orçamento de tempo
     }
     if (melhor !== ultima) tenta(ordens[melhor]);
   }

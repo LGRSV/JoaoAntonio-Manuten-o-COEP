@@ -1,5 +1,5 @@
 
-/* ====== Zoom livre do mapa (rodada 3 · tema 2): acrescentar ao fim de assets/site.css ====== */
+/* ====== Zoom livre do mapa : acrescentar ao fim de assets/site.css ====== */
 /* um dedo continua rolando a página; a pinça de dois dedos é tratada em mapa-municipios.js (touchmove não passivo) */
 .mt-mapa{touch-action:pan-x pan-y}
 /* aproximado: o mapa usa a largura toda da caixa, recorta o que passa e um dedo arrasta o mapa */

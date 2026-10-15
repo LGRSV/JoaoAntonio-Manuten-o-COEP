@@ -366,6 +366,7 @@
     if (liga('f')) f();
     if (liga('g')) g();
     if (liga('h')) hh();
+    if (document.querySelector('.wrap > .barra-busca')) root.classList.add('p-sem-lupa');   // a lupa não carregou: a barra antiga volta a aparecer
     if (window.__map) window.__map.invalidateSize();
     root.classList.add('proto-pronto');
   }
