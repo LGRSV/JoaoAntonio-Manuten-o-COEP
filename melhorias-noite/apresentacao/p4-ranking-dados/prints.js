@@ -16,7 +16,7 @@ const espera = (p, ms = 500) => p.waitForTimeout(ms);
     await ponte(ctx);
     const p = await ctx.newPage();
     p.setDefaultTimeout(30000);
-    const abre = async url => { await p.goto(url, { waitUntil: 'networkidle' }); await p.evaluate(() => document.fonts && document.fonts.ready); await espera(p, 400); };
+    const abre = async url => { await p.goto('about:blank'); await p.goto(url, { waitUntil: 'networkidle' }); await p.evaluate(() => document.fonts && document.fonts.ready); await espera(p, 400); };
 
     // 1 · ranking: ETO, regionais e polos com a NAE de cada um
     await abre(B + 'polos/#eto');

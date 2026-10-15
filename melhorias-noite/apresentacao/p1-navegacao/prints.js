@@ -6,7 +6,7 @@ const OUT = __dirname + '/';
 const log = [];
 async function run(nome, vp, mobile) {
   const b = await chromium.launch();
-  const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: mobile ? 2 : 1, isMobile: mobile, hasTouch: mobile });
+  const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
   await ctx.route('**/*', async r => { try {
     const rs = await fetch(r.request().url());
     const buf = Buffer.from(await rs.arrayBuffer());
@@ -44,15 +44,15 @@ async function run(nome, vp, mobile) {
   log.push([nome, 'trilha', await txt('#legpolos, .mt-passo, .mt-atual')]);
   // voltar pela trilha (Esc)
   await p.keyboard.press('Escape'); await shot('06-esc-volta-municipio');
-  await p.keyboard.press('Escape'); await p.waitForTimeout(500);
-  await p.keyboard.press('Escape'); await p.waitForTimeout(500);
-  await p.keyboard.press('Escape'); await shot('07-esc-volta-regional');
-  await p.keyboard.press('Escape'); await shot('08-esc-volta-estado');
+  await p.keyboard.press('Escape'); await shot('07-esc-volta-polo');
+  await p.keyboard.press('Escape'); await shot('08-esc-volta-regional');
+  await p.keyboard.press('Escape'); await shot('09-esc-volta-estado');
   // tema claro
   await p.keyboard.press('Shift+K'); await p.waitForTimeout(600);
-  await shot('09-estado-claro');
+  await shot('10-estado-claro');
   await p.click('button[data-reg="Centro"]');
-  await shot('10-regional-claro');
+  await shot('11-regional-claro');
+  log.push([nome, 'centro', await txt('.mt-pchip')]);
   await b.close();
 }
 (async () => {
