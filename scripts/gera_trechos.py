@@ -1489,7 +1489,7 @@ def validar_saida(saida):
             print(f'  falha {c["alimentador"]}: {"; ".join(c["validacao"]["criticas"])}')
     for p in sorted(saida.rglob('*.html')):
         for ref in re.findall(r'(?:href|src)="([^"#?]+)', p.read_text(encoding='utf-8')):
-            if re.match(r'https?:|mailto:', ref):
+            if re.match(r'https?:|mailto:', ref) or '${' in ref:   # ${...}: modelo dentro de um script, não é link
                 continue
             alvo = (p.parent / ref)
             if not (alvo / 'index.html' if ref.endswith('/') else alvo).exists():
