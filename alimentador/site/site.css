@@ -44,8 +44,8 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark;
-  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab;
-  --line:#30383e; --line-forte:#5f6b73;
+  --bg:#000; --paper:#111314; --fg:#e7eaeb; --muted:#9aa4ab;
+  --line:#2a2f33; --line-forte:#5f6b73;
   --accent:#f08a5d; --on-accent:#14181b;
   --sel:#352b27; --hover:rgb(231 234 235 / .06); --seg-on:#323a41;
   --alerta:#ef4444; --alerta-fundo:#c81e1e; --aviso:#f59e0b; --sem:#343c42;
@@ -58,8 +58,8 @@
 }}
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#14181b; --paper:#1b2024; --fg:#e7eaeb; --muted:#9aa4ab;
-  --line:#30383e; --line-forte:#5f6b73;
+  --bg:#000; --paper:#111314; --fg:#e7eaeb; --muted:#9aa4ab;
+  --line:#2a2f33; --line-forte:#5f6b73;
   --accent:#f08a5d; --on-accent:#14181b;
   --sel:#352b27; --hover:rgb(231 234 235 / .06); --seg-on:#323a41;
   --alerta:#ef4444; --alerta-fundo:#c81e1e; --aviso:#f59e0b; --sem:#343c42;
@@ -158,12 +158,22 @@ header.cab>.cab-link{justify-self:center}
 .mt-barra .mt-polos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--s1);padding:4px;border-radius:var(--r2);
   background:color-mix(in srgb,var(--bg) 88%,transparent)}
 .mt-barra .mt-polos[hidden]{display:none}
-.mt-barra .mt-pchip{min-height:36px;padding:4px 10px 6px}
+.mt-barra .mt-pchip{min-height:36px;padding:4px 10px 6px;display:inline-flex;align-items:center;gap:var(--s2)}
+/* trilha: Tocantins › Norte › Araguaína…; os passos voltam até ele, o nível atual em negrito */
+.mt-passo{min-height:36px;padding:0 4px;border:0;background:none;color:var(--muted);font:500 var(--t-sm) var(--f-body);cursor:pointer;
+  text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px}
+.mt-passo:hover{color:var(--accent);text-decoration-color:currentColor}
+.mt-sep{color:var(--muted);font-size:var(--t-sm)}
+b.mt-atual{font:700 var(--t-sm) var(--f-body);color:var(--fg);padding:0 2px}
+.mt-pchip i{font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;background:#b8431f;color:#fff;font-variant-numeric:tabular-nums}
+.mt-rchip b{letter-spacing:.06em;text-transform:uppercase}
+.mt-rchip{box-shadow:inset 0 -4px 0 var(--mt-lim)}
 .mt-barra .ativo .campo{justify-content:center}
 .mt-barra .busca{max-width:none}
 .ativo .lupa{flex:none;display:grid;place-items:center;width:var(--alvo);min-height:var(--alvo);padding:0;border:1px solid var(--line);border-radius:999px;
   background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
-.ativo .lupa svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.ativo .lupa svg{width:30px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ativo .lupa svg .no{fill:var(--paper)}
 .ativo .lupa:hover{filter:none;background:var(--hover);color:var(--accent)}
 .ativo .lupa[aria-expanded=true]{border-color:var(--accent);color:var(--accent)}
 .ativo .busca[hidden]{display:none}
@@ -221,13 +231,6 @@ header.cab>.cab-link{justify-self:center}
 .mt-poloc.fundo{stroke:var(--paper);stroke-width:7}
 .mt-regc{transition:opacity .3s}.aberta .mt-regc{opacity:0}
 .aberta .mt-nomes{display:none}
-/* regionais no estado inteiro: cartãozinho com o nome e a NAE, todos no mesmo eixo (meio do mapa) */
-.mt-regcards span{position:absolute;z-index:2;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:2px;padding:5px 12px 6px;
-  border:1px solid var(--line);border-radius:var(--r2);background:color-mix(in srgb,var(--paper) 92%,transparent);box-shadow:var(--sh1);pointer-events:none;
-  transition:opacity .3s}
-.mt-regcards b{font:700 var(--t-sm)/1.1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg)}
-.mt-regcards i{font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 7px;border-radius:5px;background:#b8431f;color:#fff}
-.aberta .mt-regcards span,.voando .mt-regcards span{opacity:0}
 .mt-dica .mt-dica-c{display:block;margin-top:2px;font-size:var(--t-xs)}
 .mt-volta{position:static;justify-self:start;min-height:var(--alvo);padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r2);
   background:var(--paper);color:var(--accent);font:600 var(--t-sm) var(--f-body);cursor:pointer}
@@ -255,14 +258,18 @@ header.cab>.cab-link{justify-self:center}
 .mt-redes-d path{stroke:var(--rede);stroke-width:1.7;pointer-events:stroke;cursor:pointer;transition:opacity .15s}
 .mt-redes.realce .mt-redes-d path{opacity:.15}
 .mt-redes.realce .mt-redes-d path.on{opacity:1;stroke-width:2.8}
+/* alimentador em foco: a rede inteira dele forte e sem corte; as outras quase somem */
+.mt-redes.foco .mt-redes-d path{opacity:.12}.mt-redes.foco .mt-redes-f path{opacity:.12}
+.mt-redes-a path{stroke:var(--rede);stroke-width:2.6;pointer-events:stroke;cursor:pointer}
 .mt-redes path{animation:mt-surge .35s ease-out}
 /* lista dos alimentadores do município aberto (na caixinha dos polos): miniatura da rede, código, NAE e km no município */
 .nivel-mun .mt-lado{max-width:290px}
 .nivel-mun .mt-polos-c{max-height:min(calc(100svh - 340px),620px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:2px}
 .mt-amun{font:600 var(--t-sm) var(--f-body);text-decoration:none;padding:2px 0 var(--s1)}
 .mt-amun:hover{text-decoration:underline}
-.mt-al{display:grid;grid-template-columns:64px minmax(0,1fr);grid-template-rows:auto auto;column-gap:var(--s2);align-items:center;padding:6px;
-  border:1px solid var(--line);border-radius:var(--r1);background:var(--paper);color:var(--fg);text-decoration:none}
+.mt-al{display:grid;grid-template-columns:64px minmax(0,1fr);grid-template-rows:auto auto;column-gap:var(--s2);align-items:center;width:100%;padding:6px;
+  border:1px solid var(--line);border-radius:var(--r1);background:var(--paper);color:var(--fg);text-decoration:none;text-align:left;font:inherit;cursor:pointer}
+.mt-al.foco{border-color:var(--rede);box-shadow:inset 0 0 0 1px var(--rede)}
 .mt-al:hover,.mt-al.on{border-color:var(--rede);background:var(--hover)}
 .mt-al:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .mt-al-m{grid-row:1/3;width:64px;height:46px;border-radius:6px;background:var(--bg)}

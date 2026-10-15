@@ -86,26 +86,11 @@
     rot[m.cod] = t;
   });
   svg.append(g);
-  // regionais no estado inteiro: um cartãozinho com o nome e a NAE de cada uma, todos alinhados no meio do mapa, cada um
-  // na altura do meio dos municípios da sua regional (some ao abrir uma regional)
-  const cartoes = document.createElement('div');
-  cartoes.className = 'mt-regcards';
-  cartoes.setAttribute('aria-hidden', 'true');
+  // NAE de cada regional (os botões do estado inteiro, na barra da lupa)
   const regInfo = Object.keys(M.regs || {}).map(r => {
     const ms = M.muns.filter(m => m.reg === r);
-    return { r, y: ms.reduce((s, m) => s + m.c[1], 0) / ms.length, nae: ms.reduce((s, m) => s + (m.nae || 0), 0) };
+    return { r, nae: ms.reduce((s, m) => s + (m.nae || 0), 0) };
   });
-  cartoes.innerHTML = regInfo.map(i => `<span><b>${esc(i.r)}</b><i>${i.nae.toLocaleString('pt-BR')} NAE</i></span>`).join('');
-  caixa.append(cartoes);
-  const poeCartoes = () => {                                // posição pelo viewBox do estado inteiro (-6 -6 VW M.h+12)
-    const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), H = M.h + 12;
-    if (!r.width) return;
-    const k = Math.min(r.width / VW, r.height / H), oy = (r.height - H * k) / 2;
-    [...cartoes.children].forEach((e, i) => {
-      e.style.left = (r.left - c.left + r.width / 2).toFixed(0) + 'px';
-      e.style.top = (r.top - c.top + oy + (regInfo[i].y + 6) * k).toFixed(0) + 'px';
-    });
-  };
   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
   const X0 = -6, X1 = M.w + 6;
   function desamontoa() {            // os que se cruzam somem (o escolhido e os achados ganham dos outros)
@@ -136,7 +121,6 @@
     const r = svg.getBoundingClientRect();                 // o SVG pode ficar limitado pela altura (max-height)
     if (!r.width || !r.height) return;
     g.style.setProperty('--k', (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));
-    poeCartoes();
     desamontoa();
   };
   rotulos();
@@ -152,12 +136,12 @@
   };
 
   svg.addEventListener('mousemove', e => {
-    const rd = e.target.closest('.mt-redes-d path[data-al]');
+    const rd = e.target.closest('.mt-redes path[data-al]');
     if (rd) {
       const m = porCod[mun], a = m.als.find(x => x.cod === rd.dataset.al), r = caixa.getBoundingClientRect();
       realceAl(a.cod);
       dica.innerHTML = `${esc(a.cod)} <small>· ${esc(a.se)} · ${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} em ${esc(m.nome)}</small>` +
-        '<small class="mt-dica-c">Clique para abrir o alimentador</small>';
+        `<small class="mt-dica-c">${alf === a.cod ? 'Clique para abrir o alimentador' : 'Clique para dar zoom no alimentador'}</small>`;
       dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
       return;
     }
@@ -244,7 +228,8 @@
   const move = (b, [dx, dy]) => ({ x: b.x + dx, y: b.y + dy, x2: b.x2 + dx, y2: b.y2 + dy });
   function enquadra() {
     let bb = null;
-    if (mun) bb = move(caixaDe(el[mun]), soma(desl[pol], mdesl[mun]));
+    if (alCaixa) bb = alCaixa;
+    else if (mun) bb = move(caixaDe(el[mun]), soma(desl[pol], mdesl[mun]));
     else if (pol) M.muns.forEach(m => { if (m.polo === pol) bb = une(bb, move(caixaDe(el[m.cod]), soma(desl[pol], mdesl[m.cod]))); });
     else polosDe(reg).forEach(([polo, gp]) => { bb = une(bb, move(caixaDe(gp), desl[polo])); });
     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
@@ -291,12 +276,24 @@
   }
   let psReg = [];
   const numeros = (ms, nae) => `${nae.toLocaleString('pt-BR')} NAE`;
+  const nae = n => `<i>${n.toLocaleString('pt-BR')}</i>`;
+  // trilha na barra da lupa: cada passo já percorrido é um botão que volta até ele; no fim, as opções do nível atual
+  // (regionais, polos) como cartõezinhos com a NAE — clicar num deles abre ele e tira os outros do mapa
+  const passo = (ir, txt) => `<button type="button" class="mt-passo" data-ir="${ir}">${txt}</button><span class="mt-sep" aria-hidden="true">›</span>`;
+  const atual = txt => `<b class="mt-atual" aria-current="location">${txt}</b>`;
+  function legendaEstado() {
+    legPolos.hidden = false;
+    legPolos.setAttribute('aria-label', 'Regionais');
+    legPolos.innerHTML = regInfo.map(i =>
+      `<button type="button" class="mt-pchip mt-rchip" data-reg="${esc(i.r)}" aria-label="Regional ${esc(i.r)}, ${numeros(0, i.nae)}"><b>${esc(i.r)}</b>${nae(i.nae)}</button>`).join('');
+  }
+  legendaEstado();
   function legendaRegional(ps) {
     if (ps) psReg = ps;
     legPolos.setAttribute('aria-label', `Polos da Regional ${reg}`);
-    legPolos.innerHTML = `<b class="mt-polos-t">${esc(reg)}</b>` + psReg.map(p =>
-      `<button type="button" class="mt-pchip" aria-pressed="true" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
-      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b></button>`).join('');
+    legPolos.innerHTML = passo('estado', 'Tocantins') + atual(esc(reg)) + '<span class="mt-sep" aria-hidden="true">·</span>' + psReg.map(p =>
+      `<button type="button" class="mt-pchip" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
+      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b>${nae(p.nae)}</button>`).join('');
     volta.setAttribute('aria-label', `Regional ${reg}. Voltar ao Tocantins`);
     volta.title = 'Voltar ao Tocantins';
   }
@@ -324,8 +321,8 @@
   function legendaPolo() {
     const ms = M.muns.filter(m => m.polo === pol), nae = ms.reduce((s, m) => s + (m.nae || 0), 0);
     legPolos.setAttribute('aria-label', `Polo ${pol}`);
-    legPolos.innerHTML = `<b class="mt-polos-t">${esc(reg)} ›</b>` +
-      `<span class="mt-pchip" style="--c:${corDe[pol]}" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b></span>`;
+    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) +
+      `<span class="mt-pchip mt-atual" style="--c:${corDe[pol]}" aria-current="location" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b><i>${nae.toLocaleString('pt-BR')}</i></span>`;
     volta.setAttribute('aria-label', `${pol}. Voltar à Regional ${reg}`);
     volta.title = `Voltar à Regional ${reg}`;
   }
@@ -343,6 +340,7 @@
   const camada = document.createElementNS(NS, 'g');
   camada.setAttribute('class', 'mt-redes');
   const realceAl = al => {
+    if (alf) al = null;
     camada.classList.toggle('realce', !!al);
     camada.querySelectorAll('path[data-al]').forEach(p => p.classList.toggle('on', p.dataset.al === al));
     legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('on', a.dataset.al === al));
@@ -361,13 +359,13 @@
     camada.style.transform = tr(mdesl[cod]);
     grp[pol].append(camada);
     const als = m.als.slice().sort((a, b) => b.m - a.m);
-    legPolos.querySelector('.mt-pchip').insertAdjacentHTML('afterend', `<b class="mt-polos-t mt-mun-t">› ${esc(m.nome)}</b>`);
+    trilhaMun();
     legAl.setAttribute('aria-label', `Alimentadores de ${m.nome}`);
     legAl.hidden = false;
     legAl.innerHTML = caixaPolos(`${esc(m.nome)} · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`,
       `<a class="mt-amun" href="municipios/${esc(m.slug)}/">Abrir ${esc(m.nome)} →</a>` + als.map(a =>
-        `<a class="mt-al" href="alimentadores/${encodeURIComponent(a.cod)}/" data-al="${esc(a.cod)}"><span class="mt-al-m" aria-hidden="true"></span>` +
-        `<b>${esc(a.cod)}</b><span>${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} aqui</span></a>`).join(''));
+        `<button type="button" class="mt-al" data-al="${esc(a.cod)}" title="Clique para dar zoom; clique de novo para abrir"><span class="mt-al-m" aria-hidden="true"></span>` +
+        `<b>${esc(a.cod)}</b><span>${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} aqui</span></button>`).join(''));
     legAl.classList.toggle('aberta', puxada);
     volta.setAttribute('aria-label', `${m.nome}. Voltar ao polo ${pol}`);
     volta.title = `Voltar ao polo ${pol}`;
@@ -387,8 +385,58 @@
       if (mini) mini.innerHTML = `<svg viewBox="${x0 - f} ${y0 - f} ${w + 2 * f} ${h + 2 * f}"><path d="${r.d}"/></svg>`;
     }));
   }
+  // alimentador em foco (clicar nele na lista ou na rede): o mapa aproxima na rede inteira dele, que fica forte e sem
+  // corte; os outros apagam. Clicar nele de novo (ou em "Abrir …") abre a página do alimentador.
+  let alf = null, alCaixa = null;
+  const abreAl = al => { location.href = `alimentadores/${encodeURIComponent(al)}/`; };
+  function trilhaMun() {
+    const m = porCod[mun];
+    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', esc(pol)) +
+      (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome)));
+  }
+  async function focaAl(al) {
+    if (!mun || alf === al) return;
+    const cod = mun, r = await rede(al, porCod[mun].polo);
+    if (!r || mun !== cod) return;
+    alf = al;
+    const [x0, y0, x1, y1] = r.b, d = soma(desl[pol], mdesl[mun]);
+    alCaixa = move({ x: x0, y: y0, x2: x1, y2: y1 }, d);
+    camada.classList.add('foco');
+    let gf = camada.querySelector('.mt-redes-a');
+    if (!gf) { gf = document.createElementNS(NS, 'g'); gf.setAttribute('class', 'mt-redes-a'); camada.append(gf); }
+    gf.innerHTML = '';
+    const pa = document.createElementNS(NS, 'path');
+    pa.setAttribute('d', r.d);
+    pa.dataset.al = al;
+    gf.append(pa);
+    legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('foco', a.dataset.al === al));
+    const ab = legAl.querySelector('.mt-amun');
+    if (ab) { ab.href = `alimentadores/${encodeURIComponent(al)}/`; ab.textContent = `Abrir ${al} →`; }
+    trilhaMun();
+    volta.setAttribute('aria-label', `${al}. Voltar a ${porCod[mun].nome}`);
+    volta.title = `Voltar a ${porCod[mun].nome}`;
+    voa(enquadra());
+  }
+  function saiAl(animar = true) {
+    if (!alf) return;
+    alf = null;
+    alCaixa = null;
+    camada.classList.remove('foco');
+    const gf = camada.querySelector('.mt-redes-a');
+    if (gf) gf.innerHTML = '';
+    if (!mun) return;
+    const m = porCod[mun];
+    legAl.querySelectorAll('.mt-al.foco').forEach(a => a.classList.remove('foco'));
+    const ab = legAl.querySelector('.mt-amun');
+    if (ab) { ab.href = `municipios/${m.slug}/`; ab.textContent = `Abrir ${m.nome} →`; }
+    trilhaMun();
+    volta.setAttribute('aria-label', `${m.nome}. Voltar ao polo ${pol}`);
+    volta.title = `Voltar ao polo ${pol}`;
+    if (animar) voa(enquadra());
+  }
   function saiMun(animar = true) {
     if (!mun) return;
+    saiAl(false);
     const cod = mun;
     mun = null;
     const tinha = document.activeElement === volta || legAl.contains(document.activeElement);
@@ -408,6 +456,8 @@
   legAl.addEventListener('mouseleave', () => realceAl(null));
   legAl.addEventListener('focusin', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
   legAl.addEventListener('click', e => {
+    const al = e.target.closest('.mt-al');
+    if (al) { if (alf === al.dataset.al) abreAl(al.dataset.al); else focaAl(al.dataset.al); return; }
     const px = e.target.closest('.mt-puxa');
     if (!px) return;
     puxada = !puxada;
@@ -469,12 +519,15 @@
     }).join('');
   }
   legPolos.addEventListener('click', e => {
-    const bt = e.target.closest('.mt-pchip');
-    if (!bt || bt.tagName !== 'BUTTON') return;
-    const liga = bt.getAttribute('aria-pressed') !== 'true';
-    bt.setAttribute('aria-pressed', String(liga));
-    grp[bt.dataset.polo].classList.toggle('desliga', !liga);
-    poeSelos();
+    const bt = e.target.closest('button');
+    if (!bt) return;
+    if (bt.dataset.reg) { entra(bt.dataset.reg, e.detail === 0); return; }
+    if (bt.dataset.polo) { entraPolo(bt.dataset.polo, e.detail === 0); return; }
+    const ir = bt.dataset.ir;
+    if (ir === 'estado') sai();
+    else if (ir === 'regional') { saiMun(false); saiPolo(); }
+    else if (ir === 'polo') saiMun();
+    else if (ir === 'mun') saiAl();
   });
   function sai() {
     if (!reg) return;
@@ -486,14 +539,13 @@
     Object.values(grp).forEach(gp => { gp.classList.remove('fora', 'desliga'); gp.style.transform = ''; });
     const tinha = document.activeElement === volta || legPolos.contains(document.activeElement);
     caixa.classList.remove('aberta');
-    legPolos.hidden = true;
-    legPolos.innerHTML = '';
+    legendaEstado();
     volta.hidden = true;
     voa(TODO);
     const m = M.muns.find(x => x.reg === r && x.slug);
     if (tinha && m) { roda(m.cod); el[m.cod].focus({ preventScroll: true }); }
   }
-  const sobe = () => (mun ? saiMun() : pol ? saiPolo() : sai());
+  const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
   volta.addEventListener('click', sobe);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && reg && !e.defaultPrevented) sobe(); });
   if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { svg.setAttribute('viewBox', enquadra().join(' ')); poeNomes(); poeSelos(); } }).observe(caixa);
@@ -509,8 +561,8 @@
     else if (!reg || (mun ? cod === mun : pol ? m.polo === pol : m.reg === reg)) abre(cod);
   };
   svg.addEventListener('click', e => {
-    const r = e.target.closest('.mt-redes-d path[data-al]');
-    if (r) { location.href = `alimentadores/${encodeURIComponent(r.dataset.al)}/`; return; }
+    const r = e.target.closest('.mt-redes path[data-al]');
+    if (r) { if (alf === r.dataset.al) abreAl(r.dataset.al); else focaAl(r.dataset.al); return; }
     const p = e.target.closest('.mun');
     if (p) escolhe(p.dataset.cod);
   });
