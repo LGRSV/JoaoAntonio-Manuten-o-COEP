@@ -1,0 +1,64 @@
+{
+ "inicial": {
+  "aberta": "fechada",
+  "sug": 0,
+  "drop": false,
+  "camadas": 2121,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "aberta": {
+  "aberta": "aberta",
+  "sug": 0,
+  "drop": true,
+  "camadas": 2121,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "campo": {
+  "aberta": "aberta",
+  "sug": 0,
+  "drop": true,
+  "camadas": 2121,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "digitou": {
+  "aberta": "aberta",
+  "sug": 6,
+  "drop": false,
+  "camadas": 2135,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "escolheu": {
+  "aberta": "fechada",
+  "sug": 0,
+  "drop": false,
+  "camadas": 2135,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "telaCheia": {
+  "barraNaGaveta": false,
+  "mapa": [
+   1440,
+   900
+  ]
+ },
+ "saiu": {
+  "aberta": "fechada",
+  "sug": 0,
+  "drop": false,
+  "camadas": 2138,
+  "selecionado": "",
+  "erroBarra": false,
+  "stageTop": 224
+ },
+ "erros": []
+}

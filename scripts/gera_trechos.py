@@ -1319,9 +1319,9 @@ def chaves_js(c):
 
 
 def grava_divisas(arq, c, malha):
-    """divisas.js do alimentador (divisas no mapa, como scripts/divisas.py): com a malha do IBGE; sem ela, fica o arquivo
-    que já existe (ou null: a página fica sem as divisas)."""
-    if malha:
+    """divisas.js do alimentador (divisas no mapa, como scripts/divisas.py). Só com a mesma malha que mediu os municípios
+    dele; sem ela, fica o arquivo que já existe (ou null: a página fica sem as divisas)."""
+    if malha and c['origem'].get('malha') == malha.origem:
         arq.write_text(divisas_js(malha, c), encoding='utf-8')
     elif not arq.exists():
         arq.write_text('window.MUNICIPIOS = null;\n', encoding='utf-8')

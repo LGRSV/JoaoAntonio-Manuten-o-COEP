@@ -644,9 +644,9 @@
     const ma = porCod[mun], aa = ma.als.find(x => x.cod === al) || {};
     cartaoAl.href = pag(`alimentadores/${encodeURIComponent(al)}/`);
     if (alvoA) { cartaoAl.target = '_blank'; cartaoAl.rel = 'noopener'; }
-    cartaoAl.setAttribute('aria-label', `Abrir a página do alimentador ${al}`);
+    cartaoAl.setAttribute('aria-label', `Abrir o painel do alimentador ${al}`);
     cartaoAl.innerHTML = `<span class="mt-ac-h"><b>${esc(al)}</b><i>${(aa.n || 0).toLocaleString('pt-BR')} NAE</i></span>` +
-      `<small>${esc(aa.se || '')} · ${km(aa.m || 0)} em ${esc(ma.nome)}</small><span class="mt-ac-ir">Abrir a página <span aria-hidden="true">→</span></span>`;
+      `<small>${esc(aa.se || '')} · ${km(aa.m || 0)} em ${esc(ma.nome)}</small><span class="mt-ac-ir">Abrir o painel <span aria-hidden="true">→</span></span>`;
     cartaoAl.hidden = false;
     trilhaMun();
     volta.setAttribute('aria-label', `${al}. Voltar a ${porCod[mun].nome}`);

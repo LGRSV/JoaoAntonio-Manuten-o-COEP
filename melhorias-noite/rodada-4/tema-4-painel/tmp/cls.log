@@ -1,0 +1,22 @@
+(node:4652) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+LD01072001 antes d CLS 0.0609 0.0608 0.0608 mediana 0.0608 [[538,0,"#text.#"],[675,0.0232,"DIV.stage#"],[1024,0.0375,"HEADER.#,DIV.stage#"]]
+LD01072001 antes m CLS 0.1567 0.0656 0.0656 mediana 0.0656 [[1061,0.0656,"HEADER.#,DIV.stage#"]]
+LD01072001 depois d CLS 0.1405 0.1404 0.1404 mediana 0.1404 [[549,0.001,"NAV.migalhas#,SPAN.eyebrow#,#text.#,DIV.al-res#,#text.#"],[658,0.1348,"NAV.migalhas#,DIV.mapbox#,H1.#,DIV.al-res#,DIV.stage#"],[957,0,"SMALL.#,SMALL.#"],[1048,0.0046,"HEADER.#,DIV.al-res#,DIV.stage#,DIV.mapbox#"]]
+LD01072001 depois m CLS 0.0219 0 0.0014 mediana 0.0014 [[859,0,"SMALL.#,SMALL.#"],[929,0.0014,"SPAN.eyebrow#,H1.#"]]
+AL03037009 antes d CLS 0.0638 0.0608 0.0608 mediana 0.0608 [[892,0,"#text.#"],[1000,0.0232,"DIV.stage#"],[1318,0.0375,"HEADER.#,DIV.stage#"]]
+AL03037009 antes m CLS 0.0656 0.0656 0.1567 mediana 0.0656 [[1047,0.0592,"HEADER.#,DIV.barra-busca lp-fechada#,DIV.stage#"],[1069,0.0975,"A.#,DIV.stage#"]]
+AL03037009 depois d CLS 0.1403 0.1403 0.1403 mediana 0.1403 [[901,0.0009,"NAV.migalhas#,SPAN.eyebrow#,#text.#,DIV.al-res#,#text.#"],[1025,0.1348,"NAV.migalhas#,DIV.mapbox#,H1.#,DIV.al-res#,DIV.stage#"],[2312,0.0046,"HEADER.#,DIV.al-res#,DIV.stage#,DIV.mapbox#"]]
+AL03037009 depois m CLS 0.2221 0.0014 0.2221 mediana 0.2221 [[1194,0.2207,"HEADER.#,DIV.mapbox#"],[1505,0.0014,"SPAN.eyebrow#,H1.#"]]
+LD02022033 antes d CLS 0.0638 0.0638 0.0638 mediana 0.0638 [[179,0.003,"SPAN.eyebrow#,H1.#,DETAILS.regra#"],[476,0,"#text.#"],[2419,0.0232,"DIV.stage#"],[5379,0.0375,"HEADER.#,DIV.stage#"]]
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.goto: Target page, context or browser has been closed
+Call log:
+[2m  - navigating to "https://lgrsv.github.io/vera-vegeta-o-back/teste/alimentadores/LD02022033/", waiting until "load"[22m
+
+    at /home/user/smartled/melhorias-noite/rodada-4/tema-4-painel/cls-teste.js:35:15
+
+Node.js v22.22.2

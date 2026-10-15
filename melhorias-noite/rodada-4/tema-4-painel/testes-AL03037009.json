@@ -1,0 +1,443 @@
+[
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "sem erro de JavaScript na carga",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "resumo do cabeçalho bate com os dados",
+  "ok": true,
+  "detalhe": "{\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"D\":171,\"nae\":37}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "gerador: classe no <html>, resumo (trechos, km, NAE, período) e seta ← escritos no HTML são iguais ao que a JS calcula; um só resumo",
+  "ok": true,
+  "detalhe": "{\"baked\":{\"cls\":true,\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"np\":\"vegetação · todos os meses\"},\"vivo\":{\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"np\":\"vegetação · todos os meses\",\"resumos\":1,\"ph\":false,\"voltar\":true,\"dataph\":false,\"cls\":true}}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "gerador: a seta ← do HTML some quando o botão da lupa chega (uma seta só)",
+  "ok": true,
+  "detalhe": "{\"ph\":false,\"voltar\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "tabela Classe/Trechos/Extensão, lista e legenda de cores fora do painel",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "lupa abre com as classes e as camadas",
+  "ok": true,
+  "detalhe": "{\"cls\":3,\"cam\":4,\"nota\":\"Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador que está em trecho daqui − 6 sem trecho.\"}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "nota da NAE: a conta das classes fecha com o total (ou some quando já fecha)",
+  "ok": true,
+  "detalhe": "{\"soma\":32,\"total\":37,\"nota\":\"Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador que está em trecho daqui − 6 sem trecho.\",\"m\":[32,37,1,6]}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "classe T3 lista trechos (máx. 150 por vez)",
+  "ok": true,
+  "detalhe": "150"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "escolher o trecho na lupa seleciona no mapa e abre a ficha",
+  "ok": true,
+  "detalhe": "T3-O → T3-O"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "a lista suspensa fecha ao escolher",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "ficha do trecho com abas (ou sem, se só há uma seção)",
+  "ok": true,
+  "detalhe": "NAE2 | Faixa2 | Inspeção0 | Manutenção7"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "só a aba escolhida fica à vista",
+  "ok": true,
+  "detalhe": "1"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "com trecho escolhido os cartões do alimentador ficam recolhidos sob o título",
+  "ok": true,
+  "detalhe": "{\"abertos\":0,\"tit\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "limpar o trecho reabre o cartão que estava aberto",
+  "ok": true,
+  "detalhe": "{\"abertos\":1,\"tit\":false}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "ligar Inspeção na lupa abre o cartão dela e fecha o da Faixa",
+  "ok": true,
+  "detalhe": "{\"visivel\":true,\"aberto\":true,\"faixaAberta\":false}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "Esc fecha a lista suspensa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "digitar abre o resultado na lupa (poste N1060)",
+  "ok": true,
+  "detalhe": "{\"aberta\":true,\"n\":0,\"vazio\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "busca sem resultado diz o que digitar",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "Enter no campo escolhe o 1º resultado",
+  "ok": true,
+  "detalhe": "T3-A"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "escolher um mês muda o NAE do cabeçalho (e o selo do Filtros)",
+  "ok": true,
+  "detalhe": "{\"cab\":11,\"dados\":11,\"per\":\"vegetação · jan/2026\",\"badge\":\"1\"}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "o selo do NAE no cabeçalho abre os Filtros",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "escolher o município enquadra o mapa nele",
+  "ok": true,
+  "detalhe": "17:-8.8469 → 12:-8.9509"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "sem erro de JavaScript durante os testes (parte 1)",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "sem camada ligada: aviso no painel e legenda das classes no mapa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "o botão do aviso abre a lupa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "tela cheia: resumo vai para a gaveta; T1/T2/T3 voltam ao mapa com nº e km",
+  "ok": true,
+  "detalhe": "{\"nopanel\":true,\"btnN\":[\"T111 · 29,71 km30 km\",\"T200 · 0 m0 m\",\"T3170170 · 181,95 km182 km\"]}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "sair da tela cheia: resumo volta ao cabeçalho",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "mapa inteiro na tela, sem rolagem da página nem horizontal",
+  "ok": true,
+  "detalhe": "{\"y\":64,\"h\":820,\"bottom\":884,\"vh\":900,\"rolagem\":0,\"hscroll\":0}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "cabeçalho numa faixa só: o mapa começa em até 70 px do topo",
+  "ok": true,
+  "detalhe": "64"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "o olho da lupa fica dentro do mapa, com alvo de toque de 40 px ou mais",
+  "ok": true,
+  "detalhe": "{\"dentro\":true,\"w\":48,\"h\":40}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "d",
+  "teste": "sem erro de JavaScript durante os testes (parte 2)",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "sem erro de JavaScript na carga",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "resumo do cabeçalho bate com os dados",
+  "ok": true,
+  "detalhe": "{\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"D\":171,\"nae\":37}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "gerador: classe no <html>, resumo (trechos, km, NAE, período) e seta ← escritos no HTML são iguais ao que a JS calcula; um só resumo",
+  "ok": true,
+  "detalhe": "{\"baked\":{\"cls\":true,\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"np\":\"vegetação · todos os meses\"},\"vivo\":{\"t\":\"171\",\"k\":\"211,66\",\"n\":\"37\",\"np\":\"vegetação · todos os meses\",\"resumos\":1,\"ph\":false,\"voltar\":true,\"dataph\":false,\"cls\":true}}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "gerador: a seta ← do HTML some quando o botão da lupa chega (uma seta só)",
+  "ok": true,
+  "detalhe": "{\"ph\":false,\"voltar\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "tabela Classe/Trechos/Extensão, lista e legenda de cores fora do painel",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "lupa abre com as classes e as camadas",
+  "ok": true,
+  "detalhe": "{\"cls\":3,\"cam\":4,\"nota\":\"Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador que está em trecho daqui − 6 sem trecho.\"}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "nota da NAE: a conta das classes fecha com o total (ou some quando já fecha)",
+  "ok": true,
+  "detalhe": "{\"soma\":32,\"total\":37,\"nota\":\"Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador que está em trecho daqui − 6 sem trecho.\",\"m\":[32,37,1,6]}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "classe T3 lista trechos (máx. 150 por vez)",
+  "ok": true,
+  "detalhe": "150"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "escolher o trecho na lupa seleciona no mapa e abre a ficha",
+  "ok": true,
+  "detalhe": "T3-O → T3-O"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "a lista suspensa fecha ao escolher",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "celular: a gaveta sobe sozinha até a ficha",
+  "ok": true,
+  "detalhe": "meio"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "ficha do trecho com abas (ou sem, se só há uma seção)",
+  "ok": true,
+  "detalhe": "NAE2 | Faixa2 | Inspeção0 | Manutenção7"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "só a aba escolhida fica à vista",
+  "ok": true,
+  "detalhe": "1"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "com trecho escolhido os cartões do alimentador ficam recolhidos sob o título",
+  "ok": true,
+  "detalhe": "{\"abertos\":0,\"tit\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "limpar o trecho reabre o cartão que estava aberto",
+  "ok": true,
+  "detalhe": "{\"abertos\":1,\"tit\":false}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "ligar Inspeção na lupa abre o cartão dela e fecha o da Faixa",
+  "ok": true,
+  "detalhe": "{\"visivel\":true,\"aberto\":true,\"faixaAberta\":false}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "Esc fecha a lista suspensa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "digitar abre o resultado na lupa (poste N1060)",
+  "ok": true,
+  "detalhe": "{\"aberta\":true,\"n\":0,\"vazio\":true}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "busca sem resultado diz o que digitar",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "Enter no campo escolhe o 1º resultado",
+  "ok": true,
+  "detalhe": "T3-A"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "escolher um mês muda o NAE do cabeçalho (e o selo do Filtros)",
+  "ok": true,
+  "detalhe": "{\"cab\":11,\"dados\":11,\"per\":\"vegetação · jan/2026\",\"badge\":\"1\"}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "o selo do NAE no cabeçalho abre os Filtros",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "escolher o município enquadra o mapa nele",
+  "ok": true,
+  "detalhe": "17:-8.8483 → 10.75:-9.0784"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "sem erro de JavaScript durante os testes (parte 1)",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "sem camada ligada: aviso no painel e legenda das classes no mapa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "o botão do aviso abre a lupa",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "tela cheia: resumo vai para a gaveta; T1/T2/T3 voltam ao mapa com nº e km",
+  "ok": true,
+  "detalhe": "{\"nopanel\":true,\"btnN\":[\"T111 · 29,71 km30 km\",\"T200 · 0 m0 m\",\"T3170170 · 181,95 km182 km\"]}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "sair da tela cheia: resumo volta ao cabeçalho",
+  "ok": true,
+  "detalhe": ""
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "mapa inteiro na tela, sem rolagem da página nem horizontal",
+  "ok": true,
+  "detalhe": "{\"y\":66,\"h\":710,\"bottom\":776,\"vh\":844,\"rolagem\":0,\"hscroll\":0}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "cabeçalho numa faixa só: o mapa começa em até 70 px do topo",
+  "ok": true,
+  "detalhe": "66"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "o olho da lupa fica dentro do mapa, com alvo de toque de 40 px ou mais",
+  "ok": true,
+  "detalhe": "{\"dentro\":true,\"w\":48,\"h\":44}"
+ },
+ {
+  "alimentador": "AL03037009",
+  "vp": "m",
+  "teste": "sem erro de JavaScript durante os testes (parte 2)",
+  "ok": true,
+  "detalhe": ""
+ }
+]

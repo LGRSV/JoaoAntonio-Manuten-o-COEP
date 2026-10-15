@@ -25,3 +25,8 @@ tablet   Dianópolis      {"n":16,"nomeDentro":15,"nomeFio":1,"soNumero":0,"semR
 cel      Araguaína       {"n":20,"nomeDentro":11,"nomeFio":6,"soNumero":3,"semRotulo":0,"comNome":17,"k":0.799,"ocupaL":0.95,"ocupaA":0.68,"alturaMapa":385,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}
 cel      Augustinópolis  {"n":24,"nomeDentro":12,"nomeFio":4,"soNumero":8,"semRotulo":0,"comNome":16,"k":1.598,"ocupaL":0.89,"ocupaA":0.73,"alturaMapa":519,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.1}
 cel      Guaraí          {"n":21,"nomeDentro":8,"nomeFio":5,"soNumero":8,"semRotulo":0,"comNome":13,"k":0.894,"ocupaL":0.94,"ocupaA":0.63,"alturaMapa":342,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}
+cel      Palmas          {"n":10,"nomeDentro":8,"nomeFio":1,"soNumero":0,"semRotulo":1,"comNome":9,"k":1.042,"ocupaL":0.93,"ocupaA":0.65,"alturaMapa":367,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4.5}
+cel      Porto Nacional  {"n":12,"nomeDentro":4,"nomeFio":5,"soNumero":3,"semRotulo":0,"comNome":9,"k":0.583,"ocupaL":0.96,"ocupaA":0.53,"alturaMapa":253,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":3.6}
+cel      Paraíso         {"n":18,"nomeDentro":9,"nomeFio":4,"soNumero":5,"semRotulo":0,"comNome":13,"k":0.954,"ocupaL":0.94,"ocupaA":0.77,"alturaMapa":553,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}
+cel      Gurupi          {"n":18,"nomeDentro":10,"nomeFio":4,"soNumero":4,"semRotulo":0,"comNome":14,"k":0.683,"ocupaL":0.95,"ocupaA":0.67,"alturaMapa":360,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":3.7}
+cel      Dianópolis      {"n":16,"nomeDentro":10,"nomeFio":2,"soNumero":4,"semRotulo":0,"comNome":12,"k":1.093,"ocupaL":0.93,"ocupaA":0.73,"alturaMapa":491,"sobrep":0,"sobUI":0,"cortados":0,"gapMin":4}

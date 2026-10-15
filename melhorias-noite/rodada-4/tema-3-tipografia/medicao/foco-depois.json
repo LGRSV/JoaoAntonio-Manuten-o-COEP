@@ -1,0 +1,158 @@
+[
+ {
+  "tela": "desk",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ },
+ {
+  "tela": "notebook",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ },
+ {
+  "tela": "tablet",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ },
+ {
+  "tela": "cel",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ }
+]

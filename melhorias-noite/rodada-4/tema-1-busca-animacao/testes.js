@@ -417,6 +417,23 @@ async function estresse(b) {
   }
 }
 
+// Base nova (rodada 4): 1 clique num alimentador da lista do município abre o painel direto; o Voltar do painel devolve ao mapa no município
+async function umClique(b, tl) {
+  T(`1 clique no alimentador abre o painel; Voltar do painel volta ao município · ${tl}`);
+  const p = await abre(b, tl, { proto: true });
+  await nivel(p, 'mun');
+  if (await p.$eval('#ativo-q', e => e.hidden)) await p.click('#lupa'); else await p.click('#ativo-q');
+  await p.waitForSelector('#ativo-res .sug-op.so-al', { timeout: 8000 });
+  const cod = await p.$eval('#ativo-res .sug-op.so-al .so-x b', e => e.textContent.trim());
+  await Promise.all([p.waitForURL(/alimentadores\/[A-Z0-9]+\//, { timeout: 15000 }), p.click('#ativo-res .sug-op.so-al')]);
+  t(`1 clique na lista abre direto o painel de ${cod}`, p.url().includes(`/alimentadores/${cod}/`), p.url());
+  await p.waitForLoadState('networkidle'); await p.waitForTimeout(500);
+  await p.goBack(); await p.waitForLoadState('networkidle'); await esperaVoo(p, 5000); await p.waitForTimeout(900);
+  t('Voltar do painel devolve ao mapa no município de onde saiu', p.url().endsWith('#centro/palmas/palmas') && await nv(p) === `Centro/Palmas/${MUN}/`, [p.url(), await nv(p)]);
+  t('sem erros de JavaScript', p.erros.length === 0, p.erros);
+  await p.context().close();
+}
+
 (async () => {
   const b = await chromium.launch();
   const alvo = process.argv[2] || 'tudo';
@@ -428,6 +445,7 @@ async function estresse(b) {
     if (alvo === 'tudo' || alvo === 'repeticoes') await repeticoes(b);
     if (alvo === 'tudo' || alvo === 'defeitos') await defeitos(b);
     if (alvo === 'tudo' || alvo === 'estresse') await estresse(b);
+    if (alvo === 'tudo' || alvo === 'um-clique') { await umClique(b, 'd'); await umClique(b, 'm'); }
   } finally { await b.close(); }
   console.log(`\n${ok} verificações ok, ${falhas.length} falharam${falhas.length ? ':\n - ' + falhas.join('\n - ') : ''}`);
   process.exit(falhas.length ? 1 : 0);

@@ -163,19 +163,23 @@ patch('alimentador/site/extras.js', [
   [`const mil = x => x === '' || x == null ? '' : Number(x).toLocaleString('pt-BR');`, `const mil = x => x === '' || x == null ? '' : __nfx0.format(Number(x));`],
 ]);
 
+const LISTA_TOQUE = process.env.LISTA !== 'global';   // decisão da rodada 4: só no toque (no computador a rolagem da lista piora)
+const CV = '.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}\n.lista>.grp{contain-intrinsic-size:auto 32px}';
 const CSS_AL = `
 /* ====== Fluidez e acabamento (tema 5) ======
    (1) CLS: a linha do ☰ já reservada no 1º quadro (menu.js monta depois dos 14 scripts, ~1,3 s) */
 .wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
 /* o "Como os trechos são divididos" sai do cabeçalho quando o extras.js monta a barra de busca (vai para "Dados e procedência"): não ocupa lugar antes disso */
 .al-site:not(.al-pronto) header>details.regra{display:none}
-/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista) */
-.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
-.lista>.grp{contain-intrinsic-size:auto 32px}
+/* a seta ← que a lupa põe no caminho (32 px) fazia a linha das migalhas crescer 12 px no fim da carga: a altura já vem guardada */
+.al-site header .migalhas{min-height:32px}
+/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista). SÓ NO TOQUE: no computador a rolagem rápida piora (23 → 15 fps com CPU 4x, medido em 2 rodadas) */
+${LISTA_TOQUE ? '@media (pointer:coarse){' + CV.replace('\n', '') + '}' : CV}
 /* (3) alvos de toque de 44 px (só telas de toque). html body na frente: limpeza.js / extras.js / telacheia.js injetam <style> depois deste */
 @media (pointer:coarse){
   :root{--alvo:44px}
   html body .migalhas a{min-height:44px}
+  html body .migalhas .lp-voltar{width:44px;height:44px}   /* seta ← da lupa (lupa-painel.js põe 40 px) */
   html body .mapbox .classes button{min-width:44px;min-height:44px}
   html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
   html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}
@@ -201,6 +205,11 @@ const papel = nome => [...(inicioDe[nome] || []).map(n => 'início do ' + n), ..
    `    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
     vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });
     const l = L.polyline(aneis, {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round', lineJoin: 'round'}).addTo(map);`],
+  // CLS com a lupa (lupa-painel.js): a barra de busca nasce em fluxo (extras.js) e sobe para dentro do mapa; a folga guardada para ela
+  // (margin-top do .stage) e a própria barra empurravam o mapa 52 px para cima no fim da carga. Escondida até lá, não há o que guardar.
+  [`.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(40px + var(--s5))}
+@media (max-width:980px){.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(44px + var(--s5))}}`,
+   `.al-site:not(.al-pronto) .wrap>.barra-busca{display:none}   /* a lupa (lupa-painel.js) a leva para dentro do mapa: sem lugar guardado, o mapa não sobe 52 px no fim */`],
   [`</style>`, CSS_AL + `</style>`],
 ]);
 // o que o gera_trechos.py publica (ativos_interface): mesmos recortes por expressão regular

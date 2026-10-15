@@ -1,0 +1,34 @@
+{
+ "desktop|base": {
+  "mostra": 510.4,
+  "filtra": 35.4,
+  "limpa": 89.8,
+  "rolaFps": 40.5,
+  "rolaPior": 149.9,
+  "clique": 309
+ },
+ "desktop|cpu4": {
+  "mostra": 675.7,
+  "filtra": 140.4,
+  "limpa": 190.7,
+  "rolaFps": 14.5,
+  "rolaPior": 316.7,
+  "clique": 587.6
+ },
+ "celular|base": {
+  "mostra": 325.7,
+  "filtra": 173.1,
+  "limpa": 47.5,
+  "rolaFps": 59.2,
+  "rolaPior": 33.3,
+  "clique": 178.4
+ },
+ "celular|cpu4": {
+  "mostra": 704.8,
+  "filtra": 506.4,
+  "limpa": 164.3,
+  "rolaFps": 55.4,
+  "rolaPior": 150.1,
+  "clique": 643.4
+ }
+}

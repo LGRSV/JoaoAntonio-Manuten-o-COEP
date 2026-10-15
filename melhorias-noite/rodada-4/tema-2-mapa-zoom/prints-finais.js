@@ -45,9 +45,9 @@ const polo = async (page, tap) => { await page[tap ? 'tap' : 'click']('.mt-barra
         }
         await ctx.close(); ({ ctx, page } = await abre(b, 'desk', proto, {}));
         await reg(page);                                                  // 02 regional
-        if (proto) await ctrlRoda(page, 3, -120, 720, 560); else await ctrlRoda(page, 3, -120, 720, 560);
+        await ctrlRoda(page, 3, -120, 720, 560);
         await shot(page, `02-regional-zoom-${lado}-1440`); dados[`02 desk ${lado}`] = await info(page);
-        await page.keyboard.press('Escape'); await esp(page, 1500); await assenta(page);
+        if (proto) { await page.keyboard.press('Escape'); await esp(page, 1500); await assenta(page); }   // 1º Esc só enquadra (a base sobe um nível)
         await polo(page);                                                 // 03 polo
         await ctrlRoda(page, 2, -120, 720, 520);
         await shot(page, `03-polo-zoom-${lado}-1440`); dados[`03 desk ${lado}`] = await info(page);

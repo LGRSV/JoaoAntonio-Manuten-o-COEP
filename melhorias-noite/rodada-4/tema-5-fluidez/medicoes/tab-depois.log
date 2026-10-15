@@ -1,0 +1,134 @@
+desktop estado paradas: 9 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button "Abrir a Regional Norte, 3.130 NAE"                         
+    6 button "Abrir a Regional Centro, 1.655 NAE"                        
+    7 button "Abrir a Regional Sul, 963 NAE"                             
+    8 path "Palmas"                                                      
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+desktop regional paradas: 11 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button.mt-passo "Tocantins"                                        
+    6 button.mt-pchip "Paraíso, 588 NAE"                                 
+    7 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    8 button.mt-pchip "Palmas, 434 NAE"                                  
+    9 path "Porto Nacional"                                              
+   10 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   11 button.mt-tc "Mapa em tela cheia"                                  
+   12 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 82 car. Regional Centro: 3 polos, Paraíso, Porto Nacional, Palmas. Esc volta ao Tocantins.
+desktop polo paradas: 9 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button.mt-passo "Tocantins"                                        
+    6 button.mt-passo "Centro"                                           
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 73 car. Polo Porto Nacional: 12 municípios, 633 NAE. Esc volta à regional Centro.
+desktop municipio paradas: 9 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 61 car. Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.
+desktop alimentador paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 button.mt-passo "Porto Nacional"                                   
+    8 path "Porto Nacional"                                              
+    9 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   10 button.mt-tc "Mapa em tela cheia"                                  
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 127 car. Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. O link Abrir AL02057189 leva ao painel dele. Esc volta ao município.
+celular estado paradas: 9 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button "Abrir a Regional Norte, 3.130 NAE"                         
+    6 button "Abrir a Regional Centro, 1.655 NAE"                        
+    7 button "Abrir a Regional Sul, 963 NAE"                             
+    8 path "Palmas"                                                      
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+celular regional paradas: 11 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button.mt-passo "Tocantins"                                        
+    6 button.mt-pchip "Paraíso, 588 NAE"                                 
+    7 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    8 button.mt-pchip "Palmas, 434 NAE"                                  
+    9 path "Porto Nacional"                                              
+   10 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   11 button.mt-tc "Mapa em tela cheia"                                  
+   12 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 82 car. Regional Centro: 3 polos, Paraíso, Porto Nacional, Palmas. Esc volta ao Tocantins.
+celular polo paradas: 9 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-regs-b "Legenda NAE-Vegetação"                           
+    5 button.mt-passo "Tocantins"                                        
+    6 button.mt-passo "Centro"                                           
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 73 car. Polo Porto Nacional: 12 municípios, 633 NAE. Esc volta à regional Centro.
+celular municipio paradas: 9 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+    9 button.mt-tc "Mapa em tela cheia"                                  
+   10 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 61 car. Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.
+celular alimentador paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 button#lupa.lupa "Abrir a busca: regional, polo, município"        
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 button.mt-passo "Porto Nacional"                                   
+    8 path "Porto Nacional"                                              
+    9 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   10 button.mt-tc "Mapa em tela cheia"                                  
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 127 car. Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. O link Abrir AL02057189 leva ao painel dele. Esc volta ao município.

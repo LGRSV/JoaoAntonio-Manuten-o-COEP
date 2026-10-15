@@ -24,3 +24,15 @@ PASS polo aberto no celular
 PASS pinça no polo (×2,3)
 PASS polo ×2,3: 13 cartões nome+NAE, sem sobreposição, dentro do município
 PASS ponto de toque no polo 1717503
+PASS toque depois do zoom abre o município
+PASS sem erros de JavaScript
+PASS bandeirinhas com pouco zoom no celular (×1,6): 3 cartões e 3 fios
+PASS ×1,6 no celular: 23 cartões, sem sobreposição com as bandeirinhas, fios e botões
+PASS legenda recolhida no celular: 17 cartões só com o nome (antes 15), nenhum número
+PASS legenda recolhida: sem sobreposição
+PASS tela cheia no celular solta o zoom (a caixa mudou de tamanho)
+PASS pinça funciona dentro da tela cheia (×3,2)
+PASS tela cheia + zoom: 32 cartões, sem sobreposição
+PASS sair da tela cheia solta o zoom
+PASS busca com o mapa aproximado leva ao resultado e solta o zoom ({"reg":"Norte","pol":"Araguaína","mun":null,"al":null})
+TODOS OS TESTES PASSARAM

@@ -1,0 +1,55 @@
+depois desk {
+ "A_rede_abre_painel": true,
+ "B_cartao_visivel": true,
+ "B_cartao_texto": "LD03010004\n478 NAE\nSE ARAGUAÍNA I · 451,2 km em Araguaína\nABRIR O PAINEL →",
+ "B_dica": null,
+ "B_sobre": {
+  "sobre": [],
+  "dentroDaTela": true,
+  "cartao": [
+   56,
+   248,
+   312,
+   338
+  ],
+  "mapa": [
+   56,
+   196,
+   1384,
+   892
+  ]
+ },
+ "B_troca_atualiza": true,
+ "C_href": "alimentadores/LD03010004/",
+ "C_cartao_abre_painel": true,
+ "D_volta_esconde": true,
+ "D_nivel": "{\"reg\":\"Norte\",\"pol\":\"Araguaína\",\"mun\":\"1702109\",\"al\":null}",
+ "E_dica": null
+} erros: 0
+depois cel {
+ "A_rede_abre_painel": true,
+ "B_cartao_visivel": true,
+ "B_cartao_texto": "LD03010004\n478 NAE\nSE ARAGUAÍNA I · 451,2 km em Araguaína\nABRIR O PAINEL →",
+ "B_dica": null,
+ "B_sobre": {
+  "sobre": [],
+  "dentroDaTela": true,
+  "cartao": [
+   25,
+   689,
+   365,
+   779
+  ],
+  "mapa": [
+   16,
+   241,
+   374,
+   785
+  ]
+ },
+ "B_troca_atualiza": true,
+ "C_href": "alimentadores/LD03010004/",
+ "C_cartao_abre_painel": true,
+ "D_volta_esconde": true,
+ "D_nivel": "{\"reg\":\"Norte\",\"pol\":\"Araguaína\",\"mun\":\"1702109\",\"al\":null}"
+} erros: 0

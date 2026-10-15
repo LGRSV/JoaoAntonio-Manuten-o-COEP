@@ -95,6 +95,10 @@
     const html = blocos.filter(([, itens]) => itens.length).map(([titulo, itens]) =>
       `<li class="sug-t" role="presentation">${esc(titulo)}</li>` + itens.map(it => {
         sug.push(it.s);
+        // DECISÃO DE PRODUTO EM ABERTO (NAE nas linhas da lista, no computador): hoje cada linha mostra a NAE (a lista é um ranking e o
+        // botão da legenda, ao recolher, tira a NAE de todos os lugares). Para tirá-la só das linhas de regional/polo/município no
+        // computador, onde o cartão do mapa já a mostra, descomente a linha abaixo (e troque `it.nae != null` por `it.nae != null && !semNae`):
+        // const semNae = !matchMedia('(max-width:700px)').matches && it.tipo !== 'al';
         return `<li class="sug-op so-${it.tipo}${it.foco ? ' foco' : ''}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
           (it.mini ? `<span class="so-mini" data-al="${esc(it.mini)}" aria-hidden="true"></span>` :
             `<svg class="so-i" viewBox="0 0 24 24" aria-hidden="true">${ICO[it.tipo]}</svg>`) +

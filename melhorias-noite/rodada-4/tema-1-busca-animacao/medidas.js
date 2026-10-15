@@ -16,7 +16,11 @@ async function mede(b, tl, proto, lento) {
     ['estado → regional (clique no cartão da regional)', () => p.click('.mt-regcards button[data-reg="Centro"]')],
     ['regional → polo (clique no cartão/botão do polo)', async () => { await p.click(await p.$('.mt-selos button.mt-pm[data-polo="Palmas"]') ? '.mt-selos button.mt-pm[data-polo="Palmas"]' : '.mt-pchip[data-polo="Palmas"]'); }],
     ['polo → município (clique no município)', () => p.click('.mun.tem[aria-label="Palmas"]', { force: true })],
-    ['município → alimentador (clique na lista)', async () => { if (!await p.$('#ativo-res .sug-op')) { await p.click('#lupa'); await p.waitForTimeout(300); } await p.click('#ativo-res .sug-op'); }],
+    ['município → alimentador em foco (busca; na base nova clicar na lista abre o painel)', async () => {
+      if (await p.$eval('#ativo-q', e => e.hidden)) await p.click('#lupa'); else await p.click('#ativo-q');
+      await p.keyboard.press('Control+A'); await p.keyboard.type('LD02059122');
+      await p.waitForFunction(() => { const o = document.querySelector('#ativo-res .sug-op'); return !!o && o.classList.contains('so-al') && /LD02059122/.test(o.innerText) && document.querySelectorAll('#ativo-res .sug-op').length === 1; }, null, { timeout: 15000 });
+      await p.keyboard.press('ArrowDown'); await p.keyboard.press('Enter'); }],
   ];
   const out = [];
   for (const [nome, acao] of passos) {

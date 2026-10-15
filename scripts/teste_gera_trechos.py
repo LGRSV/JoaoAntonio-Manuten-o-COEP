@@ -97,9 +97,9 @@ def test_pipeline():
 
 
 def divisas_no_site(d, antes):
-    """municipios.js do alimentador: os dois municípios da malha de teste, anéis fechados recortados em volta da rede, a
+    """divisas.js do alimentador: os dois municípios da malha de teste, anéis fechados recortados em volta da rede, a
     divisa em comum com os mesmos pontos nos dois; sem a malha fica o que já existe (ou null); com ela, igual de novo."""
-    site, arq = d / 'site', d / 'site' / 'alimentadores' / 'ALTESTE' / 'municipios.js'
+    site, arq = d / 'site', d / 'site' / 'alimentadores' / 'ALTESTE' / 'divisas.js'
     mu = gera_trechos.le_js(arq)
     assert [m['nome'] for m in mu] == ['Norte Teste', 'Sul Teste'] or [m['nome'] for m in mu] == ['Sul Teste', 'Norte Teste'], mu
     c = json.loads((site / 'dados' / 'alimentadores' / 'ALTESTE.json').read_text(encoding='utf-8'))
@@ -116,16 +116,17 @@ def divisas_no_site(d, antes):
     comum = lados[0] & lados[1]
     assert comum and all(p[0] == q[0] == corte for p, q in comum), 'divisa em comum igual nos dois (a página desenha uma vez)'
     pag = (site / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
-    assert ('assets/extras.js"></script>\n<script src="municipios.js"></script>\n<script src="../../assets/municipios.js">'
-            in pag) and (site / 'assets' / 'municipios.js').exists(), 'divisas logo depois do extras.js'
+    assert ('assets/extras.js"></script>\n<script src="divisas.js"></script>\n<script src="../../dados/tocantins.js"></script>\n'
+            '<script src="../../assets/municipios.js">' in pag) and (site / 'assets' / 'municipios.js').exists() \
+        and (site / 'dados' / 'tocantins.js').exists(), 'divisas e contorno do TO logo depois do extras.js'
     vazio = d / 'cache-vazio'
     assert gera_trechos.main(['--saida', str(site), '--so-interface', '--cache', str(vazio)]) == 0
-    assert assinatura(site) == antes and not vazio.exists(), 'sem malha: fica o municipios.js que já existe, sem baixar'
+    assert assinatura(site) == antes and not vazio.exists(), 'sem malha: fica o divisas.js que já existe, sem baixar'
     arq.unlink()
     assert gera_trechos.main(['--saida', str(site), '--so-interface', '--cache', str(vazio)]) == 0
     assert arq.read_text(encoding='utf-8') == 'window.MUNICIPIOS = null;\n', 'sem malha e sem arquivo: null'
     assert gera_trechos.main(['--saida', str(site), '--so-interface', '--malha', str(d / 'malha.json')]) == 0
-    assert assinatura(site) == antes, 'só a interface com a malha: o mesmo municipios.js'
+    assert assinatura(site) == antes, 'só a interface com a malha: o mesmo divisas.js'
     assert all('uf' not in m for m in mu), 'divisa do TO longe da rede: não vem'
     # divisa do Tocantins a ~1 km a oeste da rede: lados que só um município usa, recortados na caixa
     caixa = lambda c_, n_, s_: (c_, c_, [[[[-48.21, s_], [-48.1, s_], [-48.1, n_], [-48.21, n_], [-48.21, s_]]]])

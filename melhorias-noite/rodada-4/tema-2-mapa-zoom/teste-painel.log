@@ -1,0 +1,19 @@
+PASS desk/lista: zoom ligado antes do clique
+PASS desk/lista: 2 alimentadores visíveis embaixo do olho
+PASS desk/lista: clique em o 1º da lista abre o painel
+PASS desk/lista: lupa do painel (.lp-lupa) montada
+PASS desk/rede: zoom ligado antes do clique
+PASS desk/rede: achou ponto clicável na rede
+PASS desk/rede: arrastar a partir da rede NÃO abre o painel
+PASS desk/rede: clique parado abre o painel
+PASS desk/rede: lupa do painel (.lp-lupa) montada
+PASS mob/lista: zoom ligado antes do clique
+PASS mob/lista: 2 alimentadores visíveis embaixo do olho
+PASS mob/lista: clique em o 1º da lista abre o painel
+PASS mob/lista: lupa do painel (.lp-lupa) montada
+PASS mob/rede: zoom ligado antes do clique
+PASS mob/rede: achou ponto clicável na rede
+PASS mob/rede: toque abre o painel
+PASS mob/rede: lupa do painel (.lp-lupa) montada
+
+17 ok, 0 falhas

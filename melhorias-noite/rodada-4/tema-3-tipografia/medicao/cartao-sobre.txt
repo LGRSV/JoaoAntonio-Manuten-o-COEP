@@ -1,0 +1,4 @@
+desk (pontos do traçado sob o cartão de 3001; * = caixa da rede encosta no cartão) August:0 Aragua:0 Paraís:0 Gurupi:0 Dianóp:0 Porto :0 Palmas:0 Guaraí:0
+notebook (pontos do traçado sob o cartão de 3001; * = caixa da rede encosta no cartão) August:0 Aragua:0 Paraís:0 Gurupi:0 Dianóp:0 Porto :0 Palmas:0 Guaraí:0
+tablet (pontos do traçado sob o cartão de 3001; * = caixa da rede encosta no cartão) August:0 Aragua:0 Paraís:0 Gurupi:0 Dianóp:0 Porto :0 Palmas:0 Guaraí:0
+cel (pontos do traçado sob o cartão de 3001; * = caixa da rede encosta no cartão) August:0 Aragua:0 Paraís:0 Gurupi:0 Dianóp:0* Porto :0 Palmas:0 Guaraí:0

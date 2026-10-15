@@ -1,0 +1,1544 @@
+{
+ "01-estado": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     805,
+     396,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     870,
+     586,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    726,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    592,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": null,
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "02-legenda-recolhida": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     805,
+     365,
+     74,
+     27
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     870,
+     555,
+     83,
+     27
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     664,
+     53,
+     27
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": false,
+   "orelha": [
+    698,
+    133,
+    104,
+    30
+   ],
+   "painel": [
+    698,
+    133,
+    104,
+    30
+   ],
+   "semNae": true
+  },
+  "tc": {
+   "btn": [
+    1344,
+    192,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    192,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    128,
+    48,
+    40
+   ],
+   "foco": "mt-regs-b"
+  },
+  "aviso": null,
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "03-legenda-reaberta": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     805,
+     396,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     870,
+     586,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    726,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    592,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": "mt-regs-b"
+  },
+  "aviso": null,
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "04-busca-palmas": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     805,
+     396,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     870,
+     586,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    932,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    798,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": true,
+   "opcoes": 7,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": "ativo-q"
+  },
+  "aviso": "7 opções. Use as setas para escolher.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "05-busca-escolheu": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     805,
+     396,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     870,
+     586,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 10,
+  "chips": 1,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    859,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    725,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Polo Palmas: 10 municípios, 434 NAE. Esc volta à regional Centro.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Palmas",
+   "mun": null,
+   "al": null
+  }
+ },
+ "06-regional": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     391,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     586,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 3,
+  "chips": 3,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    928,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    794,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Regional Centro: 3 polos, Paraíso, Porto Nacional, Palmas. Esc volta ao Tocantins.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": "Centro",
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "07-polo": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     391,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     586,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 12,
+  "chips": 1,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    881,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    747,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Polo Porto Nacional: 12 municípios, 633 NAE. Esc volta à regional Centro.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": null,
+   "al": null
+  }
+ },
+ "08-polo-araguaina": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     391,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     586,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 1,
+  "pontosRotulo": 1,
+  "rotulos": 20,
+  "chips": 1,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    871,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    737,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Polo Araguaína: 20 municípios, 1.235 NAE. Esc volta à regional Norte.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": "Norte",
+   "pol": "Araguaína",
+   "mun": null,
+   "al": null
+  }
+ },
+ "09-municipio": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     364,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     559,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     668,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "painel": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    196,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    196,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 23,
+   "lupa": [
+    56,
+    130,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": "1718204",
+   "al": null
+  }
+ },
+ "10-alimentador-foco": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     364,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     559,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     668,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "painel": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    196,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    196,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    130,
+    48,
+    40
+   ],
+   "foco": ""
+  },
+  "aviso": "Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. O link Abrir AL02057189 leva ao painel dele. Esc volta ao município.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": "1718204",
+   "al": "AL02057189"
+  }
+ },
+ "11-tela-cheia": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     760,
+     236,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     831,
+     431,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     838,
+     540,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "painel": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1384,
+    68,
+    40,
+    40
+   ],
+   "cheia": true,
+   "trava": false,
+   "mapa": [
+    16,
+    68,
+    1408,
+    820
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    16,
+    14,
+    48,
+    40
+   ],
+   "foco": "mt-tc"
+  },
+  "aviso": "Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. O link Abrir AL02057189 leva ao painel dele. Esc volta ao município.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": "1718204",
+   "al": "AL02057189"
+  }
+ },
+ "12-esc-na-tela-cheia": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     760,
+     236,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     831,
+     431,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     838,
+     540,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "painel": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1384,
+    68,
+    40,
+    40
+   ],
+   "cheia": true,
+   "trava": false,
+   "mapa": [
+    16,
+    68,
+    1408,
+    820
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    16,
+    14,
+    48,
+    40
+   ],
+   "foco": "mt-tc"
+  },
+  "aviso": "Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": "1718204",
+   "al": null
+  }
+ },
+ "12b-saiu": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     364,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     559,
+     103,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     668,
+     89,
+     48
+    ],
+    "vis": "hidden",
+    "op": "0"
+   }
+  ],
+  "fios": 0,
+  "pinos": 0,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "painel": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    196,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    196,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    130,
+    48,
+    40
+   ],
+   "foco": "mt-tc"
+  },
+  "aviso": "Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": "Centro",
+   "pol": "Porto Nacional",
+   "mun": "1718204",
+   "al": null
+  }
+ },
+ "13-estado-tela-cheia": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     819,
+     295,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     899,
+     517,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     900,
+     638,
+     89,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    726,
+    71,
+    48,
+    22
+   ],
+   "painel": [
+    592,
+    12,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1384,
+    95,
+    40,
+    40
+   ],
+   "cheia": true,
+   "trava": false,
+   "mapa": [
+    16,
+    95,
+    1408,
+    794
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    16,
+    27,
+    48,
+    40
+   ],
+   "foco": "mt-tc"
+  },
+  "aviso": "Tocantins inteiro. Regionais: Norte 3.130 NAE, Centro 1.655 NAE, Sul 963 NAE.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 900,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "14-estado-saiu": {
+  "cartoes": [
+   {
+    "t": "Norte3.130 NAE",
+    "r": [
+     800,
+     391,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Centro1.655 NAE",
+    "r": [
+     871,
+     586,
+     103,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   },
+   {
+    "t": "Sul963 NAE",
+    "r": [
+     878,
+     695,
+     89,
+     48
+    ],
+    "vis": "visible",
+    "op": "1"
+   }
+  ],
+  "fios": 3,
+  "pinos": 3,
+  "fiosRotulo": 0,
+  "pontosRotulo": 0,
+  "rotulos": 0,
+  "chips": 0,
+  "legenda": {
+   "aberta": true,
+   "orelha": [
+    726,
+    187,
+    48,
+    22
+   ],
+   "painel": [
+    592,
+    128,
+    316,
+    61
+   ],
+   "semNae": false
+  },
+  "tc": {
+   "btn": [
+    1344,
+    223,
+    40,
+    40
+   ],
+   "cheia": false,
+   "trava": false,
+   "mapa": [
+    56,
+    223,
+    1328,
+    696
+   ]
+  },
+  "busca": {
+   "campoVisivel": false,
+   "opcoes": 0,
+   "lupa": [
+    56,
+    143,
+    48,
+    40
+   ],
+   "foco": "mt-tc"
+  },
+  "aviso": "Tocantins inteiro. Regionais: Norte 3.130 NAE, Centro 1.655 NAE, Sul 963 NAE.",
+  "avisoRole": "status",
+  "scrollY": 0,
+  "altura": 919,
+  "nivel": {
+   "reg": null,
+   "pol": null,
+   "mun": null,
+   "al": null
+  }
+ },
+ "ld02-base": {
+  "linhas": 1020,
+  "camadas": 2121,
+  "zoom": 10,
+  "titulo": "LD02022033 · trechos",
+  "lista0": "Maior NAE primeiro · 1.019",
+  "listaN": "T3-ALU0310116087 → 03100810870 NAEsem limpeza9,34 km",
+  "papel": [
+   "T3-CZ0300398033 → 03000970335 NAEsem limpeza2,02 km",
+   "T3-GU4010197033 → fim 9497105 NAEsem limpeza13,33 km",
+   "T3-HP4000754033 → fim 5106424 NAEsem limpeza24,90 km"
+  ]
+ },
+ "ld02-rolagem": {
+  "scrolls": [
+   4821,
+   9643,
+   15811
+  ],
+  "sh": 16071,
+  "ch": 260,
+  "visiveis": 335,
+  "ultima": "T3-ALU0310116087 → 03100810870 NAEsem limpeza9,34 km"
+ },
+ "ld02-clique-linha": {
+  "classes": "row",
+  "dentroDaLista": true,
+  "centro": "-8.8573",
+  "z": 17,
+  "painel": "T3-AAG depois de fusível · T3"
+ },
+ "ld02-camadas-itens": [
+  "Faixa:true",
+  "Inspeção:false",
+  "Insp→manut:false",
+  "Manutenção:false"
+ ],
+ "ld02-camadas-contagens": [
+  ".ctl-insp=2321",
+  ".ctl-mnt=2450",
+  ".ctl-exe=2451",
+  ".ctl-faixa=2434"
+ ],
+ "ld02-tela-cheia": {
+  "cheia": true,
+  "mapa": [
+   1440,
+   900
+  ]
+ },
+ "al03-base": {
+  "linhas": 172,
+  "camadas": 390,
+  "zoom": 11.75,
+  "titulo": "AL03037009 · trechos",
+  "lista0": "Maior NAE primeiro · 171",
+  "listaN": "T3-FN0310050011 → fim 1445050 NAEsem limpeza31 m",
+  "papel": [
+   "T1DJ AL03037009 → 40100530114 NAE202629,71 km",
+   "T3-O3300527009 → 03012330092 NAE20263,34 km",
+   "T3-AX0300965009 → 03009690092 NAE20264,13 km"
+  ]
+ },
+ "al03-rolagem": {
+  "scrolls": [
+   401,
+   801,
+   1075
+  ],
+  "sh": 1335,
+  "ch": 260,
+  "visiveis": 28,
+  "ultima": "T3-AZ0301388009 → fim 8320510 NAE20262 m"
+ },
+ "al03-clique-linha": {
+  "classes": "row",
+  "dentroDaLista": true,
+  "centro": "-8.8911",
+  "z": 17,
+  "painel": "T3-AZ depois de fusível · T3"
+ },
+ "al03-camadas-itens": [
+  "Faixa:true",
+  "Inspeção:false",
+  "Insp→manut:false",
+  "Manutenção:false"
+ ],
+ "al03-camadas-contagens": [
+  ".ctl-insp=412",
+  ".ctl-mnt=413",
+  ".ctl-exe=418",
+  ".ctl-faixa=407"
+ ],
+ "al03-tela-cheia": {
+  "cheia": true,
+  "mapa": [
+   1440,
+   900
+  ]
+ },
+ "erros": [],
+ "falhas": 0
+}

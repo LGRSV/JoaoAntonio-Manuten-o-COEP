@@ -72,8 +72,11 @@ async function nivel0(p, ate) {
   if (ate === 'polo') return;
   if (!await tem('nivel-mun')) { await p.click('.mun.tem[aria-label="Palmas"]', { force: true }); await esperaVoo(p); }
   if (ate === 'mun') return;
-  if (!await p.$('#ativo-res .sug-op')) { await p.click('#ativo-q'); await p.waitForTimeout(300); }
-  await p.click('#ativo-res .sug-op'); await esperaVoo(p);
+  // base atual: clicar num alimentador da lista abre o painel direto (1 clique); o alimentador EM FOCO no mapa (nível "alimentador") vem da busca
+  if (await p.$eval('#ativo-q', e => e.hidden)) await p.click('#lupa'); else await p.click('#ativo-q');
+  await p.keyboard.press('Control+A'); await p.keyboard.type('LD02059122');
+  await p.waitForFunction(() => { const o = document.querySelector('#ativo-res .sug-op'); return !!o && o.classList.contains('so-al') && /LD02059122/.test(o.innerText) && document.querySelectorAll('#ativo-res .sug-op').length === 1; }, null, { timeout: 15000 });
+  await p.keyboard.press('ArrowDown'); await p.keyboard.press('Enter'); await esperaVoo(p, 4000); await p.waitForTimeout(900);
 }
 const solta = p => p.mouse.move(1, 1);                 // tira o mouse de cima do mapa (o toque emulado deixa um "hover" que apaga os outros polos)
 const foto = (p, nome, opt = {}) => p.screenshot({ path: path.join(RAIZ, 'prints', nome + '.jpg'), type: 'jpeg', quality: 80, ...opt });

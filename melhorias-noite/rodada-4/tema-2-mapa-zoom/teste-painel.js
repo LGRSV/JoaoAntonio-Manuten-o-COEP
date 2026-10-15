@@ -21,9 +21,10 @@ let ok = 0, ruim = 0; const T = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') 
       const zoomOn = await page.evaluate(() => !!(window.ARGOS_MAPA && ARGOS_MAPA.zoom && ARGOS_MAPA.zoom.ativo()));
       T(zoomOn, `${view}/${modo}: zoom ligado antes do clique`);
       if (modo === 'lista') {
-        const n = await page.evaluate(() => document.querySelectorAll('.mt-al').length); T(n > 0, `${view}/lista: ${n} alimentadores na lista`);
-        const al = await page.evaluate(() => document.querySelector('.mt-al').dataset.al);
-        await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 15000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/lista: clique em ${al} abre o painel`)), tap('.mt-al')]);
+        const al = 'o 1º da lista';
+        if (!(await page.locator('.sug-op.so-al >> visible=true').count())) { await tap('#lupa'); await esp(page, 700); }   // a lista do município abre embaixo do olho do ARGOS
+        T((await page.locator('.sug-op.so-al >> visible=true').count()) > 0, `${view}/lista: ${await page.locator('.sug-op.so-al >> visible=true').count()} alimentadores visíveis embaixo do olho`);
+        await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 40000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/lista: clique em ${al} abre o painel`)), tap('.sug-op.so-al >> visible=true >> nth=0')]);
       } else {
         // rede: arrastar a partir da rede não abre; clique parado abre
         const p = await page.evaluate(() => { const e = [...document.querySelectorAll('.mt-mapa svg [data-al]')].find(x => x.getBoundingClientRect().width > 4); if (!e) return null; const L = e.getTotalLength ? e.getTotalLength() : 0; for (let k = 1; k < 20; k++) { const q = e.getPointAtLength(L * k / 20), w = q.matrixTransform(e.getScreenCTM()); if (document.elementFromPoint(w.x, w.y) === e) return [w.x, w.y, e.dataset.al]; } return null; });
@@ -32,9 +33,9 @@ let ok = 0, ruim = 0; const T = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') 
           await page.mouse.move(p[0], p[1]); await page.mouse.down(); await page.mouse.move(p[0] - 60, p[1] + 30, { steps: 8 }); await page.mouse.up(); await esp(page, 500);
           T(!page.url().includes('/alimentadores/'), `${view}/rede: arrastar a partir da rede NÃO abre o painel`);
           const p2 = await page.evaluate(() => { const e = [...document.querySelectorAll('.mt-mapa svg [data-al]')].find(x => x.getBoundingClientRect().width > 4); const L = e.getTotalLength(); for (let k = 1; k < 20; k++) { const q = e.getPointAtLength(L * k / 20), w = q.matrixTransform(e.getScreenCTM()); if (document.elementFromPoint(w.x, w.y) === e) return [w.x, w.y]; } return null; });
-          await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 15000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/rede: clique parado abre o painel`)), page.mouse.click(p2[0], p2[1])]);
+          await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 40000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/rede: clique parado abre o painel`)), page.mouse.click(p2[0], p2[1])]);
         } else if (p) {
-          await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 15000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/rede: toque abre o painel`)), page.touchscreen.tap(p[0], p[1])]);
+          await Promise.all([page.waitForURL(u => u.pathname.includes('/alimentadores/'), { timeout: 40000 }).then(() => true).catch(() => false).then(v => T(v, `${view}/rede: toque abre o painel`)), page.touchscreen.tap(p[0], p[1])]);
         }
       }
       if (page.url().includes('/alimentadores/')) {

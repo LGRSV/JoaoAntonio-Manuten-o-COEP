@@ -1,0 +1,5589 @@
+{
+ "LD01072001": {
+  "antes-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-antes": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 13,0 km 4 ›",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 3 trechos · 26,0 km 6 ›",
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-d-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Maior NAE primeiro · 199"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 3,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 1 13,02 km",
+     "painel: T1 DJ LD01072001 → 7927413001 4 2022 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 DJ LD01072001 → 7927413001 4 2022 13,02 km"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "depois-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-antes": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 13,0 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 3 trechos · 26,0 km 6 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses",
+     "antes: Soma das classes 24 = NAE do alimentador 23 + 3 de outros alimentadore"
+    ]
+   }
+  ],
+  "depois-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "antes-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-antes": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 13,0 km 4 ›",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 3 trechos · 26,0 km 6 ›",
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "depois-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "depois-m-antes": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 13,0 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 3 trechos · 26,0 km 6 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 23",
+     "antes: Soma das classes 24 = NAE do alimentador 23 + 3 de outros alimentadore"
+    ]
+   }
+  ],
+  "depois-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "depois-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "depois-m-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ]
+ },
+ "AL03037009": {
+  "antes-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 171 211,66 km",
+     "painel: Limpeza de faixa 5 OS executadas · 43,0 km de 211,7 km · 1 criada"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 171 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 2022 · 2 OS 0,0 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "painel: 37 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-antes": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 171 211,66 km",
+     "painel: Limpeza de faixa 5 OS executadas · 43,0 km de 211,7 km · 1 criada"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 171 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 29,7 km 4 ›",
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 2022 · 2 OS 0,0 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›",
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›",
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "painel: 37 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 171 211,66 km",
+     "painel: Limpeza de faixa 5 OS executadas · 43,0 km de 211,7 km · 1 criada"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 171 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 2022 · 2 OS 0,0 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "painel: 37 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 29,71 km · 473 vãos"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-d-lista": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 171 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 171 211,66 km",
+     "painel: Maior NAE primeiro · 171"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 3,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4",
+     "painel: T1 1 29,71 km",
+     "painel: T1 DJ AL03037009 → 4010053011 4 2026 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4",
+     "painel: T1 DJ AL03037009 → 4010053011 4 2026 29,71 km"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "painel: 37 no alimentador"
+    ]
+   }
+  ],
+  "depois-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 2022 · 2 OS 0,0 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-antes": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 29,7 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 2022 · 2 OS 0,0 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 37 vegetação · todos os meses",
+     "antes: Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador q"
+    ]
+   }
+  ],
+  "depois-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 29,71 km · 473 vãos"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-lista": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "antes-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-antes": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 29,7 km 4 ›",
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›",
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›",
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-lista": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4",
+     "painel: T1 1 29,71 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 170 181,95 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "depois-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37"
+    ]
+   }
+  ],
+  "depois-m-antes": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 29,7 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 170 trechos · 181,9 km 28 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 37",
+     "antes: Soma das classes 32 = NAE do alimentador 37 + 1 de outro alimentador q"
+    ]
+   }
+  ],
+  "depois-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37"
+    ]
+   }
+  ],
+  "depois-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: 29,71 km · 473 vãos"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37"
+    ]
+   }
+  ],
+  "depois-m-lista": [
+   {
+    "dado": "extensão total do alimentador (211,66 km, ou 211,7 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 171 trechos 211,66 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2GU1 SE GUARAÍ I"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL03037009"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (29,71 km / 29,7 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (0,00 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (170)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (181,95 km / 181,9 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL03037009 → 4010053011 · 29,7 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (37)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 37"
+    ]
+   }
+  ]
+ },
+ "LD02022033": {
+  "antes-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km",
+     "painel: Limpeza de faixa 10 OS executadas · 127,0 km de 1.375,2 km · 5 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "painel: 60 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-antes": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km",
+     "painel: Limpeza de faixa 10 OS executadas · 127,0 km de 1.375,2 km · 5 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 30,3 km 0 ›",
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 9 trechos · 155,1 km 7 ›",
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›",
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›",
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "painel: 60 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 3,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km",
+     "painel: Limpeza de faixa 10 OS executadas · 127,0 km de 1.375,2 km · 5 criadas",
+     "painel: Inspeção visual 37 inspeções executadas · 152,9 km de 1.375,2 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "painel: 60 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-d-lista": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 1.019 1.375,19 km",
+     "painel: Maior NAE primeiro · 1.019"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0",
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "painel: 60 no alimentador"
+    ]
+   }
+  ],
+  "depois-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-antes": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 30,3 km 0 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 9 trechos · 155,1 km 7 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 60 vegetação · todos os meses",
+     "antes: Soma das classes 61 = NAE do alimentador 60 + 1 de outro alimentador q"
+    ]
+   }
+  ],
+  "depois-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km",
+     "painel: Manutenção 1.778 OS executadas · 1.019 ativos"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km",
+     "painel: Manutenção 1.778 OS executadas · 1.019 ativos"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-lista": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "antes-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-antes": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 1 trecho · 30,3 km 0 ›",
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 9 trechos · 155,1 km 7 ›",
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›",
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›",
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-lista": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0",
+     "painel: T1 1 30,35 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 9 155,08 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 1.009 1.189,77 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "depois-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60"
+    ]
+   }
+  ],
+  "depois-m-antes": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 1 trecho · 30,3 km 0 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 9 trechos · 155,1 km 7 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 1.009 trechos · 1.189,8 km 54 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 2,
+    "onde": [
+     "cabeçalho: NAE 60",
+     "antes: Soma das classes 61 = NAE do alimentador 60 + 1 de outro alimentador q"
+    ]
+   }
+  ],
+  "depois-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60"
+    ]
+   }
+  ],
+  "depois-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60"
+    ]
+   }
+  ],
+  "depois-m-lista": [
+   {
+    "dado": "extensão total do alimentador (1.375,19 km, ou 1.375,2 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 1.019 trechos 1.375,19 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2CLM SE COLMEIA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD02022033"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (30,35 km / 30,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "T2: extensão (155,08 km / 155,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (1.009)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (1.189,77 km / 1.189,8 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ LD02022033 → 7925602033 · 30,3 km 0"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (60)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 60"
+    ]
+   }
+  ]
+ },
+ "AL01015049": {
+  "antes-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 11 5,46 km",
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 11 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "painel: 3 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-antes": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 11 5,46 km",
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 11 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 1 trecho · 1,1 km 0 ›",
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 9 trechos · 4,3 km 1 ›",
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "painel: 3 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 11 5,46 km",
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 11 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km de 5,5 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "painel: 3 no alimentador"
+    ]
+   }
+  ],
+  "antes-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Sem registro · sem registro 0,0 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-d-lista": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 11 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 11 5,46 km",
+     "painel: Maior NAE primeiro · 11"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 2,
+    "onde": [
+     "painel: T2 1 1,12 km",
+     "painel: T2 7908705049 → 0300008049 0 sem limpeza 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 2,
+    "onde": [
+     "antes: T1 DJ AL01015049 → 7908705049 · 31 m 2",
+     "painel: T1 DJ AL01015049 → 7908705049 2 sem limpeza 31 m"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "painel: 3 no alimentador"
+    ]
+   }
+  ],
+  "depois-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km (0%)"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-antes": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km (0%)"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 1 trecho · 1,1 km 0 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 9 trechos · 4,3 km 1 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km (0%)"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: Limpeza de faixa 0 OS executadas · 0,0 km (0%)"
+    ]
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "depois-d-lista": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL01015049 → 7908705049 · 31 m 2"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "antes-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-antes": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T2 1 trecho · 1,1 km 0 ›",
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 2,
+    "onde": [
+     "antes: T3 9 trechos · 4,3 km 1 ›",
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "antes-m-lista": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 1 1,12 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 9 4,31 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL01015049 → 7908705049 · 31 m 2"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "depois-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3"
+    ]
+   }
+  ],
+  "depois-m-antes": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T2 1 trecho · 1,1 km 0 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 1,
+    "onde": [
+     "antes: T3 9 trechos · 4,3 km 1 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3"
+    ]
+   }
+  ],
+  "depois-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3"
+    ]
+   }
+  ],
+  "depois-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3"
+    ]
+   }
+  ],
+  "depois-m-lista": [
+   {
+    "dado": "extensão total do alimentador (5,46 km, ou 5,5 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 11 trechos 5,46 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2AUR SE AURORA"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: AL01015049"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (0,03 km / 0,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (1,12 km / 1,1 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (4,31 km / 4,3 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "antes: T1 DJ AL01015049 → 7908705049 · 31 m 2"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (3)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 3"
+    ]
+   }
+  ]
+ }
+}

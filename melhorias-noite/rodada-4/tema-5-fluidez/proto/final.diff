@@ -195,7 +195,17 @@
    const css = document.createElement('style');
 --- a/alimentador/mapa_trechos.html
 +++ b/alimentador/mapa_trechos.html
-@@ -302,6 +302,29 @@
+@@ -111,8 +111,7 @@
+ .al-site:not(.al-pronto) .panel>:not(.barra-busca){visibility:hidden;opacity:0}
+ @media (prefers-reduced-motion:no-preference){.al-site .panel>:not(.barra-busca){transition:opacity var(--dur-l) var(--ease)}}
+ /* site: a busca e o município sobem para uma barra acima do mapa (extras.js); até ela chegar, o lugar fica guardado e o mapa não desce */
+-.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(40px + var(--s5))}
+-@media (max-width:980px){.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(44px + var(--s5))}}
++.al-site:not(.al-pronto) .wrap>.barra-busca{display:none}   /* a lupa (lupa-painel.js) a leva para dentro do mapa: sem lugar guardado, o mapa não sobe 52 px no fim */
+ .eyebrow{font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+ h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
+ .sub{font-size:var(--t-md);color:var(--muted);margin-top:calc(-1 * var(--s1))}
+@@ -302,6 +301,31 @@
      transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
    #det>*{animation:entra var(--dur) var(--ease) both}
  }
@@ -205,13 +215,15 @@
 +.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
 +/* o "Como os trechos são divididos" sai do cabeçalho quando o extras.js monta a barra de busca (vai para "Dados e procedência"): não ocupa lugar antes disso */
 +.al-site:not(.al-pronto) header>details.regra{display:none}
-+/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista) */
-+.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
-+.lista>.grp{contain-intrinsic-size:auto 32px}
++/* a seta ← que a lupa põe no caminho (32 px) fazia a linha das migalhas crescer 12 px no fim da carga: a altura já vem guardada */
++.al-site header .migalhas{min-height:32px}
++/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista). SÓ NO TOQUE: no computador a rolagem rápida piora (23 → 15 fps com CPU 4x, medido em 2 rodadas) */
++@media (pointer:coarse){.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}.lista>.grp{contain-intrinsic-size:auto 32px}}
 +/* (3) alvos de toque de 44 px (só telas de toque). html body na frente: limpeza.js / extras.js / telacheia.js injetam <style> depois deste */
 +@media (pointer:coarse){
 +  :root{--alvo:44px}
 +  html body .migalhas a{min-height:44px}
++  html body .migalhas .lp-voltar{width:44px;height:44px}   /* seta ← da lupa (lupa-painel.js põe 40 px) */
 +  html body .mapbox .classes button{min-width:44px;min-height:44px}
 +  html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
 +  html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}
@@ -225,7 +237,7 @@
  </style>
  </head><body>
  <div class="wrap">
-@@ -366,10 +389,11 @@
+@@ -366,10 +390,11 @@
  const TIPO = {DJ:'disjuntor', '79':'religador', '03':'fusível 03', '33':'fusível 33', '02':'chave 02',
                '40':'trip saver 40', '41':'trip saver 41', SEC:'seccionamento',
                FTR:'fusível no tronco (não abre T3)'};
@@ -239,7 +251,7 @@
  const $ = id => document.getElementById(id);
  const FECHA = '<button type="button" class="fecha" id="todos" aria-label="Limpar seleção" title="Limpar seleção">✕</button>';
  
-@@ -653,7 +677,9 @@
+@@ -653,7 +678,9 @@
  let halo = null, marcas = null;
  const fimDe = {};
  D.trechos.forEach(t => t.fim.forEach(f => (fimDe[f] = fimDe[f] || []).push(t.nome)));
@@ -250,7 +262,7 @@
  // clique com Ctrl (⌘ no Mac): põe ou tira o trecho da seleção; sem Ctrl: um trecho só
  const comCtrl = e => !!e && (e.ctrlKey || e.metaKey);
  function clique(nome, e, enquadrar, vao) {
-@@ -800,7 +826,9 @@
+@@ -800,7 +827,9 @@
    D.vaos.forEach(v => (vaosDe[v[4]] = vaosDe[v[4]] || []).push(v));
    Object.keys(vaosDe).forEach(i => {
      const t = D.trechos[i], vs = vaosDe[i];

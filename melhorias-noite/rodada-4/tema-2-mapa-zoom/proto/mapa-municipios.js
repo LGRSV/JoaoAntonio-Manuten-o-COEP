@@ -172,7 +172,7 @@
     const px = g2.getImageData(0, 0, W, H).data;
     return (x, y) => { const i = x / E | 0, j = y / E | 0; return i >= 0 && j >= 0 && i < W && j < H && px[(j * W + i) * 4 + 3] > 0; };
   }
-  const ptsContorno = new Map();                           // pontos do contorno em coordenadas do mapa (o desenho não muda; getPointAtLength é caro e o zoom pede de novo a cada gesto)
+  const ptsContorno = new WeakMap();                           // pontos do contorno em coordenadas do mapa (o desenho não muda; getPointAtLength é caro e o zoom pede de novo a cada gesto)
   function contorno(path, n) {                             // n pontos ao longo do contorno, em px da caixa
     const t = path && path.getScreenCTM(), c = caixa.getBoundingClientRect(), out = [];
     if (!t) return out;

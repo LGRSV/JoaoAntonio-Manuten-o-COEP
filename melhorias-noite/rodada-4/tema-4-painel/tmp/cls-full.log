@@ -1,0 +1,18 @@
+(node:30425) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+LD01072001 antes d CLS 0.065 0.0638 0.0638 mediana 0.0638 [[471,0.003,"SPAN.eyebrow#,H1.#,DETAILS.regra#"],[2148,0,"#text.#"],[2345,0.0232,"DIV.stage#"],[3827,0.0375,"HEADER.#,DIV.stage#"]]
+LD01072001 antes m CLS 0.1597 0.0685 0.0685 mediana 0.0685 [[1517,0.0029,"DIV.stage#"],[2146,0.0656,"HEADER.#,DIV.stage#"]]
+LD01072001 depois d CLS 0.0048 0.0048 0.0048 mediana 0.0048 [[2256,0.0008,"NAV.migalhas#,SPAN.eyebrow#,#text.#,SPAN.r-i r-k#,BUTTON.r-i r-nae#"],[2563,0.0041,"HEADER.#"],[3367,0,"SMALL.#,SMALL.#"]]
+LD01072001 depois m CLS 0.0338 0 0 mediana 0 [[729,0,"SMALL.#,SMALL.#"]]
+AL03037009 antes d CLS 0.0608 0.0851 0.0638 mediana 0.0638 [[279,0.003,"SPAN.eyebrow#,H1.#,DETAILS.regra#"],[761,0,"#text.#"],[925,0.0232,"DIV.stage#"],[2035,0.0375,"HEADER.#,DIV.stage#"]]
+AL03037009 antes m CLS 0.0656 0.0685 0.0656 mediana 0.0656 [[1828,0.0656,"HEADER.#,DIV.stage#"]]
+AL03037009 depois d CLS 0.0047 0.0048 0.0048 mediana 0.0048 [[796,0.0007,"NAV.migalhas#,SPAN.eyebrow#,#text.#,SPAN.r-i r-k#,BUTTON.r-i r-nae#"],[1185,0.0041,"HEADER.#"],[1506,0,"BUTTON.#,BUTTON.#,BUTTON.#,BUTTON.#,SPAN.lg-info#"]]
+AL03037009 depois m CLS 0 0.0129 0 mediana 0 []
+LD02022033 antes d CLS 0.0638 0.0608 0.0608 mediana 0.0608 [[787,0,"#text.#"],[3788,0.0232,"DIV.stage#"],[5851,0.0375,"HEADER.#,DIV.stage#"]]
+LD02022033 antes m CLS 0.0685 0.0685 0.0685 mediana 0.0685 [[2272,0.0029,"DIV.stage#"],[3428,0.0656,"HEADER.#,DIV.stage#"]]
+LD02022033 depois d CLS 0.0044 0.0047 0.0047 mediana 0.0047 [[470,0.0007,"NAV.migalhas#,SPAN.eyebrow#,#text.#,BUTTON.r-i r-nae#,#text.#"],[1090,0.0041,"HEADER.#"],[2892,0,"SMALL.#,SMALL.#"]]
+LD02022033 depois m CLS 0.0129 0.0125 0.0125 mediana 0.0125 [[1009,0.0125,"HEADER.#"]]
+AL01015049 antes d CLS 0.0638 0.0608 0.0631 mediana 0.0631 [[489,0.0256,"#text.#,DIV.stage#"],[752,0.0375,"HEADER.#,DIV.stage#"]]
+AL01015049 antes m CLS 0 0 0 mediana 0 []
+AL01015049 depois d CLS 0.0048 0.0048 0.0048 mediana 0.0048 [[203,0.0007,"NAV.migalhas#,SPAN.eyebrow#,#text.#,#text.#,BUTTON.r-i r-nae#"],[262,0.0041,"HEADER.#"]]
+AL01015049 depois m CLS 0.0046 0 0 mediana 0 []

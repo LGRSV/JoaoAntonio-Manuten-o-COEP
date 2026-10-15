@@ -1,0 +1,4 @@
+desktop|base   {"mostra":742.9,"filtra":92.2,"limpa":143.8,"rolaFps":32.3,"rolaPior":183.3,"clique":957.5}
+desktop|cpu4   {"mostra":1214.4,"filtra":159,"limpa":256.5,"rolaFps":21.2,"rolaPior":383.4,"clique":999.5}
+celular|base   {"mostra":314.5,"filtra":178,"limpa":78.7,"rolaFps":58.8,"rolaPior":66.7,"clique":238.4}
+celular|cpu4   {"mostra":727.1,"filtra":435.8,"limpa":190,"rolaFps":56.3,"rolaPior":66.7,"clique":920.1}

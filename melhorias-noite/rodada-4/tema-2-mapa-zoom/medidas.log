@@ -1,0 +1,352 @@
+{
+ "carga_media_1min": 14,
+ "nucleos": 4,
+ "original": {
+  "abrir_regional_voa_mediana": {
+   "quadros": 69,
+   "medio_ms": 24.2,
+   "p95_ms": 50.1,
+   "max_ms": 83.4,
+   "fps_medio": 41.4,
+   "tarefas_longas": 2,
+   "tarefa_longa_max_ms": 77
+  },
+  "repeticoes_fps": [
+   42.9,
+   45.3,
+   41.4,
+   21.3
+  ],
+  "repeticoes_tarefa_longa_max_ms": [
+   94,
+   0,
+   77,
+   204
+  ]
+ },
+ "prototipo": {
+  "abrir_regional_voa_mediana": {
+   "quadros": 44,
+   "medio_ms": 37.5,
+   "p95_ms": 100,
+   "max_ms": 199.9,
+   "fps_medio": 26.7,
+   "tarefas_longas": 5,
+   "tarefa_longa_max_ms": 154
+  },
+  "repeticoes_fps": [
+   45,
+   54.4,
+   19.8,
+   26.7
+  ],
+  "repeticoes_tarefa_longa_max_ms": [
+   83,
+   0,
+   119,
+   154
+  ],
+  "ctrl_roda_x10": {
+   "quadros": 124,
+   "medio_ms": 30,
+   "p95_ms": 83.4,
+   "max_ms": 150.1,
+   "fps_medio": 33.4,
+   "tarefas_longas": 14,
+   "tarefa_longa_max_ms": 161
+  },
+  "cartoes_estado_zoom_alto_1a_vez": {
+   "vezes": 1,
+   "mediana_ms": 17.9,
+   "max_ms": 17.9
+  },
+  "arrastar_40_passos": {
+   "quadros": 210,
+   "medio_ms": 19.5,
+   "p95_ms": 33.4,
+   "max_ms": 50,
+   "fps_medio": 51.2,
+   "tarefas_longas": 4,
+   "tarefa_longa_max_ms": 65
+  },
+  "cartoes_depois_de_arrastar": {
+   "vezes": 1,
+   "mediana_ms": 28.8,
+   "max_ms": 28.8
+  },
+  "cartoes_estado_zoom_medio_1a_vez": {
+   "vezes": 3,
+   "mediana_ms": 125.4,
+   "max_ms": 459.6
+  },
+  "cartoes_estado_zoom_medio_2a_vez": {
+   "vezes": 2,
+   "mediana_ms": 99.3,
+   "max_ms": 99.3
+  }
+ },
+ "recalculo_desktop": {
+  "estado_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 57.3,
+     "mediana": 128.5,
+     "max": 303.5
+    },
+    "bandeirinhas": {
+     "min": 6.2,
+     "mediana": 15.1,
+     "max": 61.9
+    },
+    "cartoes": {
+     "min": 45.1,
+     "mediana": 113.4,
+     "max": 288.4
+    },
+    "cartoes_na_tela": 33
+   },
+   "quadros": 48,
+   "medio_ms": 91.3,
+   "p95_ms": 183.3,
+   "max_ms": 2049.8,
+   "fps_medio": 11,
+   "tarefas_longas": 9,
+   "tarefa_longa_max_ms": 2076
+  },
+  "estado_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 10.8,
+     "mediana": 24.1,
+     "max": 144.3
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 10.8,
+     "mediana": 24.1,
+     "max": 144.3
+    },
+    "cartoes_na_tela": 39
+   }
+  },
+  "regional_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 20.3,
+     "mediana": 56.7,
+     "max": 117.5
+    },
+    "bandeirinhas": {
+     "min": 5.7,
+     "mediana": 12.8,
+     "max": 57.1
+    },
+    "cartoes": {
+     "min": 12.7,
+     "mediana": 38,
+     "max": 90.7
+    },
+    "cartoes_na_tela": 32
+   }
+  },
+  "regional_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 3.3,
+     "mediana": 4.5,
+     "max": 31.5
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 3.3,
+     "mediana": 4.5,
+     "max": 31.5
+    },
+    "cartoes_na_tela": 9
+   }
+  },
+  "polo_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 8.4,
+     "mediana": 50.9,
+     "max": 146.9
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0
+    },
+    "cartoes": {
+     "min": 8.4,
+     "mediana": 50.9,
+     "max": 146.9
+    },
+    "cartoes_na_tela": 18
+   }
+  }
+ },
+ "recalculo_celular_cpu_4x": {
+  "estado_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 24.5,
+     "mediana": 117.8,
+     "max": 551.5
+    },
+    "bandeirinhas": {
+     "min": 3.5,
+     "mediana": 14.6,
+     "max": 102.9
+    },
+    "cartoes": {
+     "min": 20.4,
+     "mediana": 102.3,
+     "max": 509.5
+    },
+    "cartoes_na_tela": 23
+   },
+   "quadros": 84,
+   "medio_ms": 58.7,
+   "p95_ms": 100,
+   "max_ms": 2433.2,
+   "fps_medio": 17,
+   "tarefas_longas": 6,
+   "tarefa_longa_max_ms": 2658
+  },
+  "estado_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 20,
+     "mediana": 37.9,
+     "max": 222.3
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 20,
+     "mediana": 37.9,
+     "max": 222.3
+    },
+    "cartoes_na_tela": 19
+   }
+  },
+  "regional_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 12,
+     "mediana": 72.6,
+     "max": 144.6
+    },
+    "bandeirinhas": {
+     "min": 3.1,
+     "mediana": 15.6,
+     "max": 86.5
+    },
+    "cartoes": {
+     "min": 8.9,
+     "mediana": 48.4,
+     "max": 74.4
+    },
+    "cartoes_na_tela": 9
+   }
+  },
+  "regional_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 1.9,
+     "mediana": 9.3,
+     "max": 154.7
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0
+    },
+    "cartoes": {
+     "min": 1.9,
+     "mediana": 9.3,
+     "max": 154.7
+    },
+    "cartoes_na_tela": 5
+   }
+  },
+  "polo_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 20.6,
+     "mediana": 59,
+     "max": 334.9
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 20.6,
+     "mediana": 59,
+     "max": 334.9
+    },
+    "cartoes_na_tela": 16
+   }
+  }
+ },
+ "original_celular_cpu_4x_abrir_regional": {
+  "quadros": 63,
+  "medio_ms": 41.5,
+  "p95_ms": 116.7,
+  "max_ms": 483.3,
+  "fps_medio": 24.1,
+  "tarefas_longas": 7,
+  "tarefa_longa_max_ms": 420
+ },
+ "prototipo_celular_cpu_4x_abrir_regional": {
+  "quadros": 30,
+  "medio_ms": 86.7,
+  "p95_ms": 350,
+  "max_ms": 866.7,
+  "fps_medio": 11.5,
+  "tarefas_longas": 7,
+  "tarefa_longa_max_ms": 860
+ },
+ "original_contorno_getPointAtLength_3_aberturas": [
+  {
+   "ms": 161.5,
+   "chamadas": 990
+  },
+  {
+   "ms": 213.9,
+   "chamadas": 990
+  },
+  {
+   "ms": 281.7,
+   "chamadas": 990
+  }
+ ],
+ "prototipo_contorno_getPointAtLength_3_aberturas": [
+  {
+   "ms": 47.2,
+   "chamadas": 450
+  },
+  {
+   "ms": 58.7,
+   "chamadas": 450
+  },
+  {
+   "ms": 48.1,
+   "chamadas": 450
+  }
+ ]
+}

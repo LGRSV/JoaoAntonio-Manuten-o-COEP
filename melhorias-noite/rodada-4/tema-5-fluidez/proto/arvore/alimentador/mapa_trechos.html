@@ -111,8 +111,7 @@ header{display:grid;gap:var(--s2);max-width:80ch}
 .al-site:not(.al-pronto) .panel>:not(.barra-busca){visibility:hidden;opacity:0}
 @media (prefers-reduced-motion:no-preference){.al-site .panel>:not(.barra-busca){transition:opacity var(--dur-l) var(--ease)}}
 /* site: a busca e o município sobem para uma barra acima do mapa (extras.js); até ela chegar, o lugar fica guardado e o mapa não desce */
-.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(40px + var(--s5))}
-@media (max-width:980px){.al-site:not(.al-pronto) .wrap:not(:has(>.barra-busca))>.stage{margin-top:calc(44px + var(--s5))}}
+.al-site:not(.al-pronto) .wrap>.barra-busca{display:none}   /* a lupa (lupa-painel.js) a leva para dentro do mapa: sem lugar guardado, o mapa não sobe 52 px no fim */
 .eyebrow{font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font:700 var(--t-h1)/1.1 var(--f-display);letter-spacing:-.01em;margin:0}
 .sub{font-size:var(--t-md);color:var(--muted);margin-top:calc(-1 * var(--s1))}
@@ -308,13 +307,15 @@ strong.nae.tem{background:var(--alerta-fundo);color:#fff}
 .wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
 /* o "Como os trechos são divididos" sai do cabeçalho quando o extras.js monta a barra de busca (vai para "Dados e procedência"): não ocupa lugar antes disso */
 .al-site:not(.al-pronto) header>details.regra{display:none}
-/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista) */
-.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
-.lista>.grp{contain-intrinsic-size:auto 32px}
+/* a seta ← que a lupa põe no caminho (32 px) fazia a linha das migalhas crescer 12 px no fim da carga: a altura já vem guardada */
+.al-site header .migalhas{min-height:32px}
+/* (2) lista de trechos (até ~1.000 linhas, 8.000 nós): o que está fora da vista não entra no layout (a lista rola por dentro de .lista). SÓ NO TOQUE: no computador a rolagem rápida piora (23 → 15 fps com CPU 4x, medido em 2 rodadas) */
+@media (pointer:coarse){.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}.lista>.grp{contain-intrinsic-size:auto 32px}}
 /* (3) alvos de toque de 44 px (só telas de toque). html body na frente: limpeza.js / extras.js / telacheia.js injetam <style> depois deste */
 @media (pointer:coarse){
   :root{--alvo:44px}
   html body .migalhas a{min-height:44px}
+  html body .migalhas .lp-voltar{width:44px;height:44px}   /* seta ← da lupa (lupa-painel.js põe 40 px) */
   html body .mapbox .classes button{min-width:44px;min-height:44px}
   html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
   html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}

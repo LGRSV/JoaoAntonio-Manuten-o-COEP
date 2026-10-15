@@ -1,10 +1,8 @@
 diff --git a/alimentador/site/busca-ativo.js b/alimentador/site/busca-ativo.js
-index 5c220b0..dad43d7 100644
+index 5c220b0..0d7d92d 100644
 --- a/alimentador/site/busca-ativo.js
 +++ b/alimentador/site/busca-ativo.js
-@@ -78,8 +78,9 @@
-   };
-   const item = {
+@@ -80,4 +80,5 @@
      reg: (r, n) => ({ s: { reg: r.nome }, tipo: 'reg', t: realce(r.nome, n), c: `${plural(r.polos.size, 'polo', 'polos')} · ${r.n} municípios`, nae: r.nae }),
 -    polo: (p, n) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `Regional ${esc(p.reg)} · ${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
 -    mun: (m, n) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `Polo ${esc(m.polo)} · ${esc(m.reg)} · ${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
@@ -12,11 +10,14 @@ index 5c220b0..dad43d7 100644
 +    polo: (p, n, curto) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `${curto ? '' : `Regional ${esc(p.reg)} · `}${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
 +    mun: (m, n, curto) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `${curto ? '' : `Polo ${esc(m.polo)} · ${esc(m.reg)} · `}${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
      al: (a, n, k) => ({ s: { al: a.cod }, tipo: 'al', t: realce(a.cod, k), c: `${realce(a.se, n)} · ${plural(a.muns.length, 'município', 'municípios')} · ${kmTxt(a.m)}`, nae: a.nae }),
-     // alimentador do município aberto (a lista que ficava ao lado do mapa): miniatura da rede, código e NAE (sem km e SE,
-     // pedido do usuário); o que está em foco no mapa fica marcado
-@@ -142,9 +143,9 @@
-     const nv = nivel(), m = porCod[nv.mun];
-     if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
+@@ -96,2 +97,6 @@
+         sug.push(it.s);
++        // DECISÃO DE PRODUTO EM ABERTO (NAE nas linhas da lista, no computador): hoje cada linha mostra a NAE (a lista é um ranking e o
++        // botão da legenda, ao recolher, tira a NAE de todos os lugares). Para tirá-la só das linhas de regional/polo/município no
++        // computador, onde o cartão do mapa já a mostra, descomente a linha abaixo (e troque `it.nae != null` por `it.nae != null && !semNae`):
++        // const semNae = !matchMedia('(max-width:700px)').matches && it.tipo !== 'al';
+         return `<li class="sug-op so-${it.tipo}${it.foco ? ' foco' : ''}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
+@@ -144,5 +149,5 @@
        .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
 -    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
 +    else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol} · por NAE`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x, '', true))],
@@ -24,8 +25,6 @@ index 5c220b0..dad43d7 100644
 -    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg}`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p))],
 +    else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg} · por NAE`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p, '', true))],
        [`Alimentadores com mais NAE na Regional ${nv.reg}`, topAls(x => x.reg === nv.reg)]]);
-     else mostra([['Regionais', regs.map(r => item.reg(r))], ['Alimentadores com mais NAE', topAls(() => true)]]);
-   }
 diff --git a/alimentador/site/mapa-extras.js b/alimentador/site/mapa-extras.js
 new file mode 100644
 index 0000000..1331f09
@@ -166,9 +165,7 @@ diff --git a/alimentador/site/mapa-municipios.js b/alimentador/site/mapa-municip
 index 960308a..8f71dc6 100644
 --- a/alimentador/site/mapa-municipios.js
 +++ b/alimentador/site/mapa-municipios.js
-@@ -291,11 +291,28 @@
-     if (!p) { dica.style.display = 'none'; return; }
-     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
+@@ -293,7 +293,24 @@
      if (!reg) realca(m.reg); else if (!pol) realcaPolo(m.reg === reg ? m.polo : null);
 -    dica.innerHTML = `<span class="mt-dica-h"><b>${esc(m.nome)}</b><i>${(m.nae || 0).toLocaleString('pt-BR')} NAE</i></span><small>${m.reg ? `Regional ${esc(m.reg)} · ${esc(m.polo)}` : ''}${m.slug ? `${m.reg ? ' · ' : ''}${nAls(m)} · ${km(kmTot(m))}` : `${m.reg ? ' · ' : ''}sem dados ainda`}</small>` +
 -      (!reg && m.reg ? `<small class="mt-dica-c">Clique para ver os polos da Regional ${esc(m.reg)}</small>` :
@@ -196,45 +193,29 @@ index 960308a..8f71dc6 100644
 +      }
 +    }
    });
-   svg.addEventListener('mouseleave', () => { dica.style.display = 'none'; if (!reg) realca(null); else if (!pol) realcaPolo(null); else if (mun) realceAl(null); });
- 
-@@ -346,6 +363,10 @@
-   legPolos.setAttribute('role', 'group');
-   legPolos.hidden = true;
+@@ -348,2 +365,6 @@
    (document.querySelector('.mt-barra') || caixa).append(legPolos);
 +  // a seta ← mora na barra, dentro do grupo da trilha: na coluna da esquerda do mapa a lista dos alimentadores a cobria (computador e celular)
 +  const trilha = document.createElement('span');
 +  trilha.className = 'mt-trilha';
 +  legPolos.append(volta, trilha);
    // alimentadores do município aberto: no computador na coluna da esquerda; no celular presos embaixo do mapa, numa
-   // caixinha fechada que uma seta discreta puxa para cima (site.css)
-   const legAl = document.createElement('span');
-@@ -359,12 +380,11 @@
-   // coluna da esquerda do mapa: a seta de voltar e, com o município aberto, os alimentadores dele
-   const lado = document.createElement('div');
+@@ -361,3 +382,3 @@
    lado.className = 'mt-lado';
 -  lado.append(volta, legAl);
 +  lado.append(legAl);
    caixa.append(lado);
-   // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
-   const selos = document.createElement('div');
+@@ -366,3 +387,2 @@
    selos.className = 'mt-selos';
 -  selos.setAttribute('aria-hidden', 'true');
    caixa.append(selos);
-   // tela cheia: o mapa todo (barra da lupa, legenda e mapa) cobre a tela; o mesmo botão ou Esc voltam. Sem a API de tela
-   // cheia (iPhone, ou dentro de um iframe que não permite) o mapa cobre a janela (classe .mt-cheia no site.css)
-@@ -463,16 +483,17 @@
-   const atual = txt => `<b class="mt-atual" aria-current="location">${txt}</b>`;
-   function legendaEstado() {                               // estado inteiro: a barra só tem a busca (as regionais estão no mapa)
+@@ -465,3 +485,4 @@
      legPolos.hidden = true;
 -    legPolos.innerHTML = '';
 +    trilha.innerHTML = '';
 +    legPolos.dataset.n = 'estado';
    }
-   legendaEstado();
-   function legendaRegional(ps) {
-     if (ps) psReg = ps;
-     legPolos.hidden = false;
+@@ -472,5 +493,5 @@
      legPolos.setAttribute('aria-label', `Polos da Regional ${reg}`);
 -    legPolos.innerHTML = passo('estado', 'Tocantins') + atual(esc(reg)) + '<span class="mt-sep" aria-hidden="true">·</span>' + psReg.map(p =>
 -      `<button type="button" class="mt-pchip" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
@@ -243,11 +224,7 @@ index 960308a..8f71dc6 100644
 +    legPolos.dataset.n = 'regional';
 +    trilha.innerHTML = passo('estado', 'Tocantins') + atual(esc(reg));
      volta.setAttribute('aria-label', `Regional ${reg}. Voltar ao Tocantins`);
-     volta.title = 'Voltar ao Tocantins';
-   }
-@@ -500,8 +521,9 @@
-   function legendaPolo() {
-     const ms = M.muns.filter(m => m.polo === pol), nae = ms.reduce((s, m) => s + (m.nae || 0), 0);
+@@ -502,4 +523,5 @@
      legPolos.setAttribute('aria-label', `Polo ${pol}`);
 -    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) +
 -      `<span class="mt-pchip mt-atual" style="--c:${corDe[pol]}" aria-current="location" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b><i>${nae.toLocaleString('pt-BR')}</i></span>`;
@@ -255,29 +232,17 @@ index 960308a..8f71dc6 100644
 +    trilha.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) +
 +      `<span class="mt-pchip mt-atual" style="--c:${corDe[pol]}" aria-current="location" aria-label="Polo ${esc(pol)}, ${numeros(ms, nae)}"><b>Polo ${esc(pol)}</b><i>${nae.toLocaleString('pt-BR')}</i></span>`;
      volta.setAttribute('aria-label', `${pol}. Voltar à Regional ${reg}`);
-     volta.title = `Voltar à Regional ${reg}`;
-   }
-@@ -570,7 +592,8 @@
-   const abreAl = al => vaiPag(`alimentadores/${encodeURIComponent(al)}/`);
-   function trilhaMun() {
+@@ -572,3 +594,4 @@
      const m = porCod[mun];
 -    legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', esc(pol)) +
 +    legPolos.dataset.n = alf ? 'al' : 'mun';
 +    trilha.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', 'Polo ' + esc(pol)) +
        (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome)));
-   }
-   async function focaAl(al) {
-@@ -721,6 +744,7 @@
-       ponta[m.cod] = { tela, ponto };
-       const t = document.createElement('span');
+@@ -723,2 +746,3 @@
        t.className = 'mt-mn';
 +      t.dataset.cod = m.cod;
        nomes2.append(t);
-       for (let nv = celular ? 1 : 0; nv < 2; nv++) {
-         const [w, h] = mede(t, m, nv);
-@@ -755,17 +779,25 @@
-   function poeSelos() {
-     selos.innerHTML = '';
+@@ -757,4 +781,7 @@
      if (!reg || pol || anima) return;
 +    const tinha = document.activeElement && document.activeElement.closest && document.activeElement.closest('.mt-pm');
 +    const foco = tinha && tinha.dataset.polo;
@@ -286,13 +251,11 @@ index 960308a..8f71dc6 100644
 +      const e = document.createElement('button');             // o cartão é o botão do polo (antes era um div que engolia o clique e não fazia nada)
 +      e.type = 'button';
        e.className = 'mt-mn mt-pm' + (grp[p.polo].classList.contains('desliga') ? ' off' : '');
-       e.dataset.polo = p.polo;
+@@ -762,2 +789,3 @@
        e.style.setProperty('--c', corDe[p.polo]);
 +      e.setAttribute('aria-label', `Abrir o polo ${p.polo}, ${numeros(p.ms, p.nae)}`);
        e.innerHTML = `<b>${esc(p.polo)}</b><i>${p.nae.toLocaleString('pt-BR')} NAE</i>`;
-       selos.append(e);
-       return { e, cor: corDe[p.polo], path: grp[p.polo].querySelector('.mt-poloc:not(.fundo)'), centro: soma(meio(p.ms).c, desl[p.polo]) };
-     });
+@@ -767,3 +795,7 @@
      if (cards.length) fios.innerHTML = bandeiras(cards, M.muns.filter(m => m.reg === reg));
 +    if (foco) { const f = selos.querySelector(`.mt-pm[data-polo="${CSS.escape(foco)}"]`); if (f) f.focus({ preventScroll: true }); }   // a lista é refeita ao girar a tela: o foco do teclado fica
    }
@@ -300,15 +263,11 @@ index 960308a..8f71dc6 100644
 +  selos.addEventListener('mouseover', e => { const b = e.target.closest('.mt-pm'); if (reg && !pol && !anima) realcaPolo(b ? b.dataset.polo : null); });
 +  selos.addEventListener('mouseleave', () => { if (reg && !pol) realcaPolo(null); });
    legPolos.addEventListener('click', e => {
-     const bt = e.target.closest('button');
-     if (!bt) return;
 diff --git a/alimentador/site/site.css b/alimentador/site/site.css
 index 6943008..152a6be 100644
 --- a/alimentador/site/site.css
 +++ b/alimentador/site/site.css
-@@ -596,3 +596,26 @@ html.mt-cheia-trava,html.mt-cheia-trava body{overflow:hidden}
-   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
- .voando .mt-bandeiras{display:none}
+@@ -598 +598,24 @@ html.mt-cheia-trava,html.mt-cheia-trava body{overflow:hidden}
  @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
 +/* ====== Rodada 3 · tema 1: sem dado repetido, seta que não some, cartão do polo clicável, balão que não cobre ======
 +   1) a seta ← mora na barra, logo antes da trilha (na coluna do mapa a lista dos alimentadores a cobria) */
@@ -334,25 +293,16 @@ index 6943008..152a6be 100644
 +.mt-dica small.sem-h{margin-top:0}
 +.mt-dica.abaixo{transform:translate(-50%,0)}
 diff --git a/scripts/gera_trechos.py b/scripts/gera_trechos.py
-index ca7197a..6560943 100644
+index ca7197a..7132aac 100644
 --- a/scripts/gera_trechos.py
 +++ b/scripts/gera_trechos.py
-@@ -665,7 +665,7 @@ def ativos_interface(saida):
-     (a / 'alimentador.css').write_text(css, encoding='utf-8')
-     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
-     for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
--              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'argos.png'):
-+              'telacheia.js', 'busca-ativo.js', 'mapa-extras.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'argos.png'):
+@@ -669,2 +669,3 @@ def ativos_interface(saida):
          shutil.copyfile(PKG / 'site' / f, a / f)
++    shutil.copyfile(PKG / 'site' / 'mapa-extras.js', a / 'mapa-extras.js')   # Voltar do navegador, F e Esc na tela cheia (página inicial)
      pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
-     return modelo
-@@ -1391,7 +1391,8 @@ def interface(saida, malha=None):
-              '<div class="mt-dica" aria-hidden="true"></div></div></div>\n'
-              '<script src="assets/mapa-municipios-dados.js"></script>\n'
+@@ -1393,3 +1394,4 @@ def interface(saida, malha=None):
               '<script src="assets/mapa-municipios.js"></script>\n'
 -             '<script src="assets/busca-ativo.js"></script>')
 +             '<script src="assets/busca-ativo.js"></script>\n'
 +             '<script src="assets/mapa-extras.js"></script>')
      (saida / 'index.html').write_text(casca('ARGOS Manutenção', corpo, '', sem_rodape=True),   # página inicial sem rodapé (pedido do usuário)
-                                       encoding='utf-8')
-     (saida / '.nojekyll').touch()

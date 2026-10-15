@@ -1,0 +1,158 @@
+[
+ {
+  "tela": "desk",
+  "cortados": 8,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 0.56
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 0.6
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 0.4
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 0.51
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 0.49
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 0.67
+   },
+   {
+    "polo": "Palmas",
+    "razao": 0.84
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 0.76
+   }
+  ]
+ },
+ {
+  "tela": "notebook",
+  "cortados": 8,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 0.5
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 0.53
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 0.36
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 0.45
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 0.43
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 0.59
+   },
+   {
+    "polo": "Palmas",
+    "razao": 0.73
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 0.66
+   }
+  ]
+ },
+ {
+  "tela": "tablet",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ },
+ {
+  "tela": "cel",
+  "cortados": 0,
+  "de": 8,
+  "polos": [
+   {
+    "polo": "Augustinópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Araguaína",
+    "razao": 1
+   },
+   {
+    "polo": "Paraíso",
+    "razao": 1
+   },
+   {
+    "polo": "Gurupi",
+    "razao": 1
+   },
+   {
+    "polo": "Dianópolis",
+    "razao": 1
+   },
+   {
+    "polo": "Porto Nacional",
+    "razao": 1
+   },
+   {
+    "polo": "Palmas",
+    "razao": 1
+   },
+   {
+    "polo": "Guaraí",
+    "razao": 1
+   }
+  ]
+ }
+]

@@ -1,0 +1,16 @@
+desktop|base     pronto 1147 FCP 112 LCP 2120 TBT 1380 LT 10 (max 469) CLS 0.0015 KB 810 req 25 nós 9145 heap 45MB DCL 2644 load 2660
+     arrastar       {"fps":51.2,"pior":133.3,"p95":33.4,"travados":7,"longtasks":1,"ltMax":87}
+     zoom-roda      {"fps":14,"pior":450,"p95":266.6,"travados":53,"longtasks":18,"ltMax":335}
+     hover-linhas   {"fps":47.1,"pior":166.6,"p95":50,"travados":5,"longtasks":1,"ltMax":87}
+desktop|cpu4     pronto 3233 FCP 452 LCP 3644 TBT 6474 LT 19 (max 1383) CLS 0.0015 KB 810 req 25 nós 9145 heap 39MB DCL 8600 load 8653
+     arrastar       {"fps":36.6,"pior":399.9,"p95":66.7,"travados":43,"longtasks":8,"ltMax":258}
+     zoom-roda      {"fps":8.4,"pior":616.7,"p95":483.3,"travados":62,"longtasks":39,"ltMax":378}
+     hover-linhas   {"fps":43.7,"pior":183.3,"p95":50,"travados":5,"longtasks":2,"ltMax":70}
+celular|base     pronto 1778 FCP 328 LCP 2744 TBT 3150 LT 13 (max 1019) CLS 0.001 KB 810 req 25 nós 9136 heap 46MB DCL 4608 load 4630
+     arrastar       {"fps":56,"pior":50,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
+     pinca          {"fps":24.5,"pior":716.6,"p95":216.7,"travados":8,"longtasks":5,"ltMax":395}
+     hover-linhas   {"fps":55.9,"pior":50,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
+celular|cpu4     pronto 3719 FCP 500 LCP 4772 TBT 4857 LT 17 (max 1334) CLS 0.001 KB 810 req 25 nós 9136 heap 39MB DCL 7072 load 7106
+     arrastar       {"fps":46.2,"pior":83.3,"p95":66.6,"travados":5,"longtasks":0,"ltMax":0}
+     pinca          {"fps":23.2,"pior":483.4,"p95":133.3,"travados":11,"longtasks":9,"ltMax":272}
+     hover-linhas   {"fps":42,"pior":83.3,"p95":50,"travados":1,"longtasks":0,"ltMax":0}

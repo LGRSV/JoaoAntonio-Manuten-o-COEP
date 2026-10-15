@@ -74,13 +74,13 @@ const F = {};
       r.click(); await new Promise(k => setTimeout(k, 900)); return { classes: r.className, dentroDaLista: dentro, centro: window.__map.getCenter().lat.toFixed(4), z: window.__map.getZoom(), painel: document.querySelector('.panel h2,.panel h3,.panel .tit') ? document.querySelector('.panel h2,.panel h3,.panel .tit').textContent.trim().slice(0, 40) : null }; });
     F[tag + '-clique-linha'] = sel; await shot(`22-${tag}-linha`);
     // camadas: abre o menu do mapa e liga tudo, uma a uma
-    await p.locator('.ctl-cam-b').click(); await p.waitForTimeout(500);
+    await p.evaluate(() => document.querySelector('.ctl-cam-b').click());   // com a lupa (lupa-painel.js) o botão Menu fica escondido: o clique é por script await p.waitForTimeout(500);
     F[tag + '-camadas-itens'] = await p.evaluate(() => [...document.querySelectorAll('#ctl-camadas button')].map(e => e.textContent.trim() + ':' + e.getAttribute('aria-pressed')));
     await shot(`23-${tag}-camadas-menu`);
     const contagens = [];
-    for (const c of ['.ctl-insp', '.ctl-mnt', '.ctl-exe', '.ctl-faixa']) { await p.locator('#ctl-camadas ' + c).click(); await p.waitForTimeout(1000); contagens.push(c + '=' + await p.evaluate(() => Object.keys(window.__map._layers).length)); }
+    for (const c of ['.ctl-insp', '.ctl-mnt', '.ctl-exe', '.ctl-faixa']) { await p.evaluate(c => document.querySelector('#ctl-camadas ' + c).click(), c); await p.waitForTimeout(1000); contagens.push(c + '=' + await p.evaluate(() => Object.keys(window.__map._layers).length)); }
     F[tag + '-camadas-contagens'] = contagens;
-    for (const c of ['.ctl-insp', '.ctl-mnt', '.ctl-exe', '.ctl-faixa']) { await p.locator('#ctl-camadas ' + c).click(); await p.waitForTimeout(600); }
+    for (const c of ['.ctl-insp', '.ctl-mnt', '.ctl-exe', '.ctl-faixa']) { await p.evaluate(c => document.querySelector('#ctl-camadas ' + c).click(), c); await p.waitForTimeout(600); }
     await p.waitForTimeout(400); await shot(`24-${tag}-camadas-ligadas`);
     // tela cheia do mapa da página
     await p.keyboard.press('Escape'); await p.locator('.tc-btn').click().catch(() => {}); await p.waitForTimeout(900); await shot(`25-${tag}-tela-cheia`);
