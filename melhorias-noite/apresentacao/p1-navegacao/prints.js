@@ -37,6 +37,7 @@ async function run(nome, vp, mobile) {
   log.push([nome, 'alim', await txt('.mt-al')]);
   log.push([nome, 'caixaMun', await txt('.mt-amun')]);
   // foco no alimentador: 1º da lista
+  if (mobile) { await p.click('.mt-puxa'); await shot('04b-municipio-lista'); }
   await p.click('.mt-al');
   await shot('05-foco-alimentador');
   log.push([nome, 'abrir', await txt('.mt-amun')]);
