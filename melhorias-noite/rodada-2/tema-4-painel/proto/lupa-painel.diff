@@ -1,10 +1,9 @@
-0a1,5
-> // [RODADA 2 · tema 4] Cópia da proposta da outra sessão (proto/original/lupa-painel.orig.js) com 4 acréscimos, todos marcados com "R2:".
+0a1,4
+> // [RODADA 2 · tema 4] Cópia da proposta da outra sessão (proto/original/lupa-painel.orig.js) com 2 acréscimos, marcados com "R2-a" e "R2-b".
 > //   R2-a: com texto no campo, a lista suspensa mostra o resultado (ativos e trechos): a lista de trechos do painel e os achados
 > //         soltos sobre o mapa saem (era a mesma lista em dois lugares). Enter abre o 1º resultado; ↓ entra na lista.
 > //   R2-b: nota que fecha a conta da NAE (a soma das classes não bate com o total do alimentador).
-> //   R2-c: o total do alimentador sai do painel (tabela Classe/Trechos/Extensão): está no resumo do cabeçalho (painel.js).
-97a103,123
+97a102,122
 >   // R2-a: uma linha de trecho (a mesma na lista da classe e no resultado da busca)
 >   const linhaTr = (t, nae) => `<button type="button" class="lp-op lp-tr" data-t="${esc(t.nome)}" style="--c:${esc(t.cor)}"><span class="lp-bol" aria-hidden="true"></span>` +
 >     `<span class="lp-x"><b>${esc(t.nome)}</b><small>${esc(t.inicio)} → ${esc(t.fim.join(' / ').replace('fim de linha · poste ', 'fim '))} · ${km(t.ext)}</small></span>${pill(nae ? nae[t.nome] || 0 : null)}</button>`;
@@ -26,24 +25,23 @@
 >     if (!html) html = '<p class="lp-vazio">Nada encontrado neste alimentador. Escreva o nome do trecho (T3-AK), o código de uma chave ou transformador, ou o número de um poste.</p>';
 >     drop.innerHTML = html;
 >   }
-98a125
+98a124
 >     if (buscando()) return desenhaBusca();
-110a138,146
+110a137,144
 >       // R2-b: a soma das classes não fecha com o total do alimentador: entram nas classes as NAE de outros alimentadores cujo ativo hoje está aqui
 >       // (doExt) e ficam de fora as que a Crítica não consegue pôr num trecho (sem trecho). Dito em uma linha, para o número não parecer erro.
 >       if (nae && typeof doMes === 'function') {
->         const de = doExt().length, sem = doMes().filter(o => !o.trecho).length, pl = (n, a, b) => n + ' ' + (n === 1 ? a : b);
->         const partes = [];
->         if (de) partes.push(`entram ${pl(de, 'ocorrência de outro alimentador', 'ocorrências de outros alimentadores')} que hoje estão em trechos daqui`);
->         if (sem) partes.push(`${sem === 1 ? 'fica de fora 1 sem trecho' : 'ficam de fora ' + sem + ' sem trecho'}`);
->         if (partes.length) html += `<p class="lp-nota">NAE do alimentador: ${mil(doMes().length)}. Nas classes ${partes.join('; ')}.</p>`;
+>         const de = doExt().length, sem = doMes().filter(o => !o.trecho).length, partes = [];
+>         if (de) partes.push(de === 1 ? 'entra 1 ocorrência de outro alimentador que hoje está em trecho daqui' : `entram ${de} ocorrências de outros alimentadores que hoje estão em trechos daqui`);
+>         if (sem) partes.push(sem === 1 ? 'fica de fora 1 sem trecho' : `ficam de fora ${sem} sem trecho`);
+>         if (partes.length) html += `<p class="lp-nota">A soma das classes não é o NAE do alimentador (o selo no alto): ${partes.join('; ')}.</p>`;   // sem repetir o número do selo
 >       }
-119,120c155
+119,120c153
 <         ts.slice(0, limite).map(t => `<button type="button" class="lp-op lp-tr" data-t="${esc(t.nome)}" style="--c:${esc(t.cor)}"><span class="lp-bol" aria-hidden="true"></span>` +
 <           `<span class="lp-x"><b>${esc(t.nome)}</b><small>${esc(t.inicio)} → ${esc(t.fim.join(' / ').replace('fim de linha · poste ', 'fim '))} · ${km(t.ext)}</small></span>${pill(nae ? nae[t.nome] || 0 : null)}</button>`).join('') ||
 ---
 >         ts.slice(0, limite).map(t => linhaTr(t, nae)).join('') ||
-143c178,197
+143c176,195
 <   q.addEventListener('input', () => abreDrop(!q.value.trim() && document.activeElement === q));
 ---
 >   q.addEventListener('input', () => {                    // R2-a: com texto, a lista suspensa é o resultado da busca (limite volta ao 1º lote)
@@ -66,7 +64,7 @@
 >     if (e.key === 'ArrowUp' && i === 0) return q.focus();
 >     (bs[i + (e.key === 'ArrowDown' ? 1 : -1)] || bs[i]).focus();
 >   });
-168a223,229
+168a221,227
 >     if (b.classList.contains('lp-at')) {                 // R2-a: ativo achado: o botão original (extras.js) escolhe o trecho e põe o marcador
 >       const o = achados()[+b.dataset.i];
 >       abreDrop(false);
@@ -74,7 +72,7 @@
 >       if (o) o.click();
 >       return;
 >     }
-241a303,305
+241a301,303
 >     '.lp-nota{margin:0;padding:var(--s1) var(--s3) var(--s2);color:var(--muted);font-size:var(--t-xs);line-height:1.45}' +
 >     '.lp-pin{flex:none;width:10px;height:10px;box-sizing:border-box;border:2px solid var(--accent);border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin:0 1px}' +
 >     '.lp-ir{flex:none;max-width:44%;text-align:right;font:600 var(--t-xs)/1.3 var(--f-body);color:var(--accent)}' +

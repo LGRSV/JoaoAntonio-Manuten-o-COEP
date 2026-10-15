@@ -299,7 +299,7 @@
   // afastamento adaptativo: depois do afastamento base (AFASTA_MUN), espalha os centros dos municípios SÓ no eixo em que o
   // polo sobra na tela (polo alto em tela larga: espalha na horizontal; polo largo no celular: espalha na vertical) até o
   // conjunto ter a proporção da área útil. Não custa tamanho (o eixo que limita não muda) e dá lugar real aos cartões.
-  const MAX_ESP = { pc: 1.7, cel: 2.4 };
+  const MAX_ESP = { pc: 1.7, cel: 3.0 };
   // deslocamento = a posição relativa ao centro do polo ampliada por (1+f)*s e menos a posição original (s = 1: o afastamento base)
   const deslDe = ([dx, dy, f], sx, sy) => [dx * ((1 + f) * sx - 1), dy * ((1 + f) * sy - 1)];
   function ajusta(ms, base) {
@@ -614,20 +614,30 @@
         }
       }
     }
+    // RODADA 2 (fluidez): primeiro cria TODOS os cartões no nível inicial e mede todos de uma vez (um só layout); só quem não coube
+    // troca de nível e é medido de novo. Antes cada município forçava um layout por tentativa (a tarefa longa chegava a 130 ms a 4x de CPU).
+    const ini = celular ? 1 : 0, cartoes2 = [];
+    const nivelDe = (t, m, nv) => { t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv; };
+    const frag = document.createDocumentFragment();
     ms.forEach(m => {
-      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso, para os 3 níveis
+      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso, para os 4 níveis
       const ponto = k => { while (cache.length <= k) { const r = it.next(); if (r.done) return null; cache.push(r.value); } return cache[k]; };
       if (!ponto(0)) return;
-      const [dx, dy] = soma(desl[pol], mdesl[m.cod]);
       const t = document.createElement('span');
       t.className = 'mt-mn';
-      nomes2.append(t);
-      for (let nv = celular ? 1 : 0; nv < NIVEIS_ROT.length; nv++) {      // celular: já começa no cartão compacto; sem limite de nomes
+      nivelDe(t, m, ini);
+      t.style.left = '0px'; t.style.top = '0px';
+      frag.append(t);
+      cartoes2.push({ m, t, ponto });
+    });
+    nomes2.append(frag);
+    cartoes2.forEach(c => { c.w = c.t.offsetWidth; c.h = c.t.offsetHeight; });   // uma leitura só: um layout para todos
+    cartoes2.forEach(c => {
+      const { m, t, ponto } = c, [dx, dy] = soma(desl[pol], mdesl[m.cod]);
+      for (let nv = ini; nv < NIVEIS_ROT.length; nv++) {
         if (nv === 2 && curto(m.nome) === m.nome) continue;                // sem nome curto diferente: pula para o número
-        t.innerHTML = NIVEIS_ROT[nv](m);
-        t.dataset.nv = nv;
-        t.style.left = '0px'; t.style.top = '0px';
-        const w = t.offsetWidth, h = t.offsetHeight;
+        if (nv !== ini) { nivelDe(t, m, nv); c.w = t.offsetWidth; c.h = t.offsetHeight; }
+        const w = c.w, h = c.h;
         for (let k = 0, q; (q = ponto(k)); k++) {
           const s = aTela(q.x + dx, q.y + dy);
           const R = { left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 };

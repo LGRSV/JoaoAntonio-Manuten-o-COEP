@@ -160,6 +160,22 @@ const esp = (p, ms) => p.waitForTimeout(ms);
   z = await p2.evaluate(() => document.querySelector('.mt-mapa').className); ok(!/zoomando/.test(z), 'tecla 0 enquadra');
   await c2.ctx.close();
 
+  // ---- tela cheia (botão .mt-tc do mapa) com o mapa aproximado: solta o zoom (a largura da caixa muda) e os botões não se sobrepõem
+  const c4 = await abre(b, 'desk', true, { calmo: false }), p4 = c4.page;
+  const sobrep = () => p4.evaluate(() => { const a = document.querySelector('.mt-tc').getBoundingClientRect(), z = document.querySelector('.mt-zoom').getBoundingClientRect(); return !(a.right <= z.left || z.right <= a.left || a.bottom <= z.top || z.bottom <= a.top); });
+  ok(!(await sobrep()), 'botão de tela cheia e botões de zoom não se sobrepõem');
+  await p4.mouse.move(720, 560); await p4.keyboard.down('Control'); for (let i = 0; i < 4; i++) { await p4.mouse.wheel(0, -120); await esp(p4, 50); } await p4.keyboard.up('Control'); await esp(p4, 1000);
+  ok(/zoomando/.test(await p4.evaluate(() => document.querySelector('.mt-mapa').className)), 'zoom ligado antes da tela cheia');
+  await p4.click('.mt-tc'); await esp(p4, 1500);
+  const cheio = await p4.evaluate(() => ({ cls: document.querySelector('.mt-mapa').className, cheia: !!(document.fullscreenElement || document.querySelector('#mapa-to.mt-cheia')), sw: document.querySelector('.mt-mapa svg').style.cssText }));
+  ok(cheio.cheia, 'tela cheia ligou (' + (cheio.cheia ? 'ok' : 'não') + ')');
+  ok(!/zoomando/.test(cheio.cls) && !cheio.sw, 'entrar na tela cheia solta o zoom (o mapa é reenquadrado para a largura nova)');
+  await p4.mouse.move(720, 500); await p4.keyboard.down('Control'); for (let i = 0; i < 3; i++) { await p4.mouse.wheel(0, -120); await esp(p4, 50); } await p4.keyboard.up('Control'); await esp(p4, 1000);
+  ok(/zoomando/.test(await p4.evaluate(() => document.querySelector('.mt-mapa').className)), 'zoom também funciona dentro da tela cheia');
+  await p4.click('.mt-tc'); await esp(p4, 1500);
+  ok(!/zoomando/.test(await p4.evaluate(() => document.querySelector('.mt-mapa').className)), 'sair da tela cheia solta o zoom de novo');
+  await c4.ctx.close();
+
   // ---- tema claro: mesmos cartões, sem sobreposição
   const c3b = await abre(b, 'desk', true, { calmo: false, claro: true }), p3 = c3b.page;
   await p3.mouse.move(720, 560); await p3.keyboard.down('Control'); for (let i = 0; i < 5; i++) { await p3.mouse.wheel(0, -120); await esp(p3, 50); } await p3.keyboard.up('Control'); await p3.mouse.move(1420, 520); await esp(p3, 1200);

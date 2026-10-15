@@ -1,0 +1,1412 @@
+{
+ "LD01072001": {
+  "lupa-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "lupa-d-lupa": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T1 1 trecho · 13,0 km 4 ›",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T2 3 trechos · 26,0 km 6 ›",
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›",
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "lupa-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 3,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Limpeza de faixa 6 OS executadas · 24,2 km de 154,0 km · 3 criadas",
+     "painel: Inspeção visual 21 inspeções executadas · 34,0 km de 154,0 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "lupa-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "lupa-d-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "painel: Total 199 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 2,
+    "onde": [
+     "painel: Total 199 153,98 km",
+     "painel: Maior NAE primeiro · 199"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 3,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 1 13,02 km",
+     "painel: T1 DJ LD01072001 → 7927413001 4 2022 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T2 3 25,97 km"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T3 195 114,99 km"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 DJ LD01072001 → 7927413001 4 2022 13,02 km"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "painel: 23 no alimentador"
+    ]
+   }
+  ],
+  "consolidado-d-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "consolidado-d-lupa": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 1 trecho · 13,0 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T2 3 trechos · 26,0 km 6 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "consolidado-d-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "consolidado-d-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "consolidado-d-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23 vegetação · todos os meses"
+    ]
+   }
+  ],
+  "lupa-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "lupa-m-lupa": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T1 1 trecho · 13,0 km 4 ›",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T2 3 trechos · 26,0 km 6 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "lupa-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "lupa-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "lupa-m-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: Trechos por ativo"
+    ]
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 2,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4",
+     "painel: T1 1 13,02 km"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 0,
+    "onde": []
+   }
+  ],
+  "consolidado-m-inicial": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "consolidado-m-lupa": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 1 trecho · 13,0 km 4 ›"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T2 3 trechos · 26,0 km 6 ›"
+    ]
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T3 195 trechos · 115,0 km 14 ›"
+    ]
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "consolidado-m-camadas": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "consolidado-m-trecho": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ],
+  "consolidado-m-lista": [
+   {
+    "dado": "extensão total do alimentador (153,98 km, ou 154,0 km nos subtítulos)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "nº total de trechos (199)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: 199 trechos 153,98 km"
+    ]
+   },
+   {
+    "dado": "subestação (SE-… NOME)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: SE-2PNA SE PORTO NACIONAL"
+    ]
+   },
+   {
+    "dado": "código do alimentador (título, ou célula da tabela)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: LD01072001"
+    ]
+   },
+   {
+    "dado": "\"Trechos por ativo\"",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T1: extensão (13,02 km / 13,0 km)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "T2: extensão (25,97 km / 26,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: nº de trechos (195)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "T3: extensão (114,99 km / 115,0 km)",
+    "vezes": 0,
+    "onde": []
+   },
+   {
+    "dado": "linha do trecho T1 (nome … → fim)",
+    "vezes": 1,
+    "onde": [
+     "lupa: T1 DJ LD01072001 → 7927413001 · 13,0 km 4"
+    ]
+   },
+   {
+    "dado": "NAE do alimentador (23)",
+    "vezes": 1,
+    "onde": [
+     "cabeçalho: NAE 23"
+    ]
+   }
+  ]
+ }
+}

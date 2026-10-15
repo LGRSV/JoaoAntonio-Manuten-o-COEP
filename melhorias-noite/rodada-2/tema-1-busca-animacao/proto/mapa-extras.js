@@ -46,6 +46,10 @@
   };
   const poeTitulo = n => { const t = tituloDe(n); document.title = t ? `${t} · ${TITULO}` : TITULO; };
   const url = h => h || location.pathname + location.search;
+  // history.pushState/replaceState/back podem lançar (iframe sandbox da cópia no Artifact, origem 'null'): nesse caso o mapa funciona igual, só sem histórico
+  const seguro = f => { try { return f(); } catch (e) { return undefined; } };
+  const empilha = (st, h) => seguro(() => history.pushState(st, '', url(h)));
+  const troca = (st, h) => seguro(() => history.replaceState(st, '', url(h)));
 
   // ---------- tela cheia ----------
   const ABRE = '<svg class="abre" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
@@ -75,7 +79,7 @@
   const sentinela = () => !!(history.state && history.state.sentinela);
   function soPorCss() {                                       // sem tela cheia do navegador: o Voltar do celular sai antes de subir um nível
     soCss = true;
-    if (!sentinela()) history.pushState({ prev: ultimo, tc: true, sentinela: true }, '', location.href);
+    if (!sentinela()) seguro(() => history.pushState({ prev: ultimo, tc: true, sentinela: true }, '', location.href));
   }
   function entraTC() {
     if (ligado()) return;
@@ -88,7 +92,7 @@
     if (!ligado()) return;
     if (nativo()) { try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { /* o fullscreenchange refaz o layout */ } }
     aplica(false);
-    if (soCss) { soCss = false; if (sentinela()) history.back(); }
+    if (soCss) { soCss = false; if (sentinela()) seguro(() => history.back()); }
   }
   btn.addEventListener('click', () => (ligado() ? saiTC() : entraTC()));
   ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => {
@@ -125,7 +129,7 @@
       aplicando--;
       const n = A.nivel(), real = hashDe(n);
       poeTitulo(n);
-      if (!aplicando && (real !== ultimo || location.hash !== real)) { history.replaceState(history.state, '', url(real)); ultimo = real; }   // endereço inválido ou fora do padrão: a barra mostra o que abriu
+      if (!aplicando && (real !== ultimo || location.hash !== real)) { troca(history.state, real); ultimo = real; }   // endereço inválido ou fora do padrão: a barra mostra o que abriu
     });
   }
   function sincroniza() {                                     // o mapa mudou por clique/Esc/busca: reflete no histórico
@@ -135,8 +139,8 @@
     if (h === ultimo) return;
     const st = history.state || {}, antes = ultimo;
     ultimo = h;
-    if (st.prev === h) { history.back(); return; }            // subiu para o nível de onde veio: usa o Voltar em vez de empilhar
-    history.pushState({ prev: antes, tc: soCss && ligado() }, '', url(h));
+    if (st.prev === h) { seguro(() => history.back()); return; }            // subiu para o nível de onde veio: usa o Voltar em vez de empilhar
+    empilha({ prev: antes, tc: soCss && ligado() }, h);
   }
   const agenda = () => { clearTimeout(espera); espera = setTimeout(sincroniza, 0); };
   document.addEventListener('argos-nivel', () => { if (!aplicando) agenda(); });

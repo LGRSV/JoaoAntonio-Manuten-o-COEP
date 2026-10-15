@@ -1,0 +1,32 @@
+{
+  "tema": "Mapa: visualização e zoom interativo (rodada 2: zoom livre portado para o mapa-municipios.js atual)",
+  "sugestoes": [
+    {
+      "titulo": "Zoom livre no mapa atual: Ctrl/⌘+roda, pinça, arrastar, botões + − ⤢, teclas + − 0, Esc e aviso \"Use Ctrl + rolagem\"",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["prints/z-antes-desk-2-ctrl-roda.jpg", "prints/z-antes-mob-2-pinca.jpg"],
+      "depois": ["prints/z-sequencia-desk.jpg", "prints/z-sequencia-mob.jpg", "prints/z-depois-desk-3-estado-3x7.jpg", "prints/z-depois-desk-12-claro.jpg", "prints/z-depois-mob-2-pinca-1.jpg", "prints/z-depois-mob-7-claro.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mapa-municipios.diff", "proto/zoom.css", "proto/site.css", "proto/site.css.diff"],
+      "descricao": "Porta o zoom livre da rodada 1 para o arquivo atual (cartões .mt-mn, poeNomes, ARGOS_MAPA). O viewBox segue como fonte única; o zoom vive dentro do enquadramento do nível (nivelVb) e voa() solta o zoom ao chegar. Diff +268/-28 em mapa-municipios.js e +30 de CSS. Testes: teste-zoom.js (63 verificações) e teste-zoom-celular.js (27, toques CDP) passam."
+    },
+    {
+      "titulo": "Zoom semântico: cartão preto com nome + NAE em cada município ao aproximar no estado/regional",
+      "prioridade": 2,
+      "esforco": "P",
+      "antes": ["prints/z-antes-desk-1-estado.jpg", "prints/z-antes-desk-3-regional.jpg", "prints/z-antes-mob-4-polo.jpg"],
+      "depois": ["prints/z-depois-desk-2-estado-1x7.jpg", "prints/z-depois-desk-3-estado-3x7.jpg", "prints/z-depois-desk-7-regional-3x7.jpg", "prints/z-depois-desk-8-polo-zoom.jpg", "prints/z-antes-depois-desk.jpg", "prints/z-antes-depois-mob.jpg", "prints/z-depois-mob-5-regional-pinca.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mapa-municipios.diff", "proto/zoom.css"],
+      "descricao": "poeNomes() passa a rodar também no estado/regional com zoom ligado: municípios na tela com >= 40 px, do maior NAE para o menor, no mesmo cartão preto do polo aberto, procurando ponto livre dentro do próprio município. Recalculado 110 ms depois de cada gesto; cartões das regionais e dos polos saem de cena acima de 1,8x. Verificado: 0 sobreposições e centro de cada cartão dentro do município em todos os testes."
+    },
+    {
+      "titulo": "Zoom convive com a busca (ARGOS_MAPA.vai), o drill-down e as outras frentes (API ARGOS_MAPA.zoom)",
+      "prioridade": 3,
+      "esforco": "P",
+      "antes": ["prints/z-antes-desk-4-polo.jpg"],
+      "depois": ["prints/z-depois-desk-10-busca-com-zoom.jpg", "prints/z-depois-desk-11-busca-resultado.jpg", "prints/z-depois-desk-9-clique-abre-municipio.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mapa-municipios.diff", "rebase.sh", "teste-zoom.js"],
+      "descricao": "Clique num município depois do zoom abre regional/polo/município; Esc/← sobem nível a nível; vai() solta o zoom (ou enquadra se nada voou); mudança de largura solta o zoom; ARGOS_MAPA.zoom = {ativo, fator, enquadra, solta} para tela cheia e outras frentes. Prévia das redes, mini-mapa e Voar até ficaram de fora desta rodada."
+    }
+  ]
+}

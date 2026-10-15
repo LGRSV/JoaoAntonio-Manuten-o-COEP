@@ -1,0 +1,6 @@
+desktop|base     pronto 206 FCP 88 LCP 88 TBT 9 LT 1 (max 59) CLS 0.0367 KB 140 req 5 nós 1460 heap 6MB DCL 266 load 268
+desktop|cpu4     pronto 755 FCP 256 LCP 256 TBT 426 LT 4 (max 265) CLS 0.0384 KB 140 req 5 nós 1460 heap 6MB DCL 867 load 868
+desktop|lenta    pronto 1487 FCP 856 LCP 856 TBT 336 LT 5 (max 191) CLS 0.0473 KB 140 req 5 nós 1460 heap 6MB DCL 1653 load 1749
+celular|base     pronto 216 FCP 108 LCP 108 TBT 66 LT 3 (max 93) CLS 0 KB 140 req 5 nós 1457 heap 6MB DCL 323 load 357
+celular|cpu4     pronto 887 FCP 236 LCP 236 TBT 533 LT 4 (max 336) CLS 0 KB 140 req 5 nós 1457 heap 6MB DCL 936 load 1050
+celular|lenta    pronto 1705 FCP 840 LCP 840 TBT 706 LT 5 (max 354) CLS 0.2938 KB 140 req 5 nós 1457 heap 6MB DCL 2061 load 2061

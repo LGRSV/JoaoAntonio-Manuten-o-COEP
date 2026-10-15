@@ -10,9 +10,10 @@ if (modo === 'depois') for (const f of ['site.css', 'mapa-municipios.js', 'busca
 }
 const TAMS = { desk: { width: 1440, height: 900 }, notebook: { width: 1280, height: 720 }, tablet: { width: 820, height: 1100 }, cel: { width: 390, height: 844 } };
 const POLOS = ['Araguaína', 'Augustinópolis', 'Guaraí', 'Palmas', 'Porto Nacional', 'Paraíso', 'Gurupi', 'Dianópolis'];
+const SO = (process.argv[3] || '').split(',').filter(Boolean);
 (async () => {
   const b = await chromium.launch(), out = [];
-  for (const [tn, vp] of Object.entries(TAMS)) {
+  for (const [tn, vp] of Object.entries(TAMS)) { if (SO.length && !SO.includes(tn)) continue;
     const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: 1, isMobile: tn === 'cel', hasTouch: tn === 'cel' });
     await liga(ctx, over);
     const p = await ctx.newPage();
@@ -20,10 +21,10 @@ const POLOS = ['Araguaína', 'Augustinópolis', 'Guaraí', 'Palmas', 'Porto Naci
     for (const polo of POLOS) {
       await p.evaluate(po => window.ARGOS_MAPA.vai({ polo: po }), polo);
       await p.waitForTimeout(2000);
-      const r = await p.evaluate(() => {
+      const r = await p.evaluate(modo => {
         const ms = [...document.querySelectorAll('.mt-nomes2 .mt-mn')];
-        const nv = [0, 0, 0]; ms.forEach(t => nv[+t.dataset.nv]++);
-        const nome = ms.filter(t => +t.dataset.nv < 2).length;
+        const NUM = modo === 'depois' ? 3 : 2, nv = [0, 0, 0, 0]; ms.forEach(t => nv[+t.dataset.nv]++);
+        const nome = ms.filter(t => +t.dataset.nv < NUM).length;
         const polo = window.MUN.muns.filter(m => m.polo === window.ARGOS_MAPA.nivel().pol).length;
         const svg = document.querySelector('.mt-mapa svg'), ctm = svg.getScreenCTM();
         // união das caixas dos municípios do polo na tela / área do svg
@@ -37,9 +38,9 @@ const POLOS = ['Araguaína', 'Augustinópolis', 'Guaraí', 'Palmas', 'Porto Naci
           const a = rs[i], c = rs[j], dx = Math.max(a.left - c.right, c.left - a.right), dy = Math.max(a.top - c.bottom, c.top - a.bottom);
           if (dx < 0 && dy < 0) ov++; else gmin = Math.min(gmin, Math.max(dx, dy));
         }
-        return { n: polo, nv0: nv[0], nv1: nv[1], nv2: nv[2], semRotulo: polo - ms.length, comNome: nome, k: +ctm.a.toFixed(3),
+        return { n: polo, nv0: nv[0], nv1: nv[1], curto: modo === 'depois' ? nv[2] : 0, soNumero: nv[NUM], semRotulo: polo - ms.length, comNome: nome, k: +ctm.a.toFixed(3),
           ocupaL: +((x1 - x0) / R.width).toFixed(2), ocupaA: +((y1 - y0) / R.height).toFixed(2), sobrep: ov, gapMin: +gmin.toFixed(1) };
-      });
+      }, modo);
       out.push({ tela: tn, polo, ...r });
       console.log(tn.padEnd(8), polo.padEnd(15), JSON.stringify(r));
       await p.evaluate(() => window.ARGOS_MAPA.vai({})); await p.waitForTimeout(1300);

@@ -27,9 +27,16 @@ async function abre(browser, view, proto, opts = {}) {
   const page = await ctx.newPage();
   await page.route(/^https:\/\//, r => {
     const u = r.request().url();
-    if (proto && /\/assets\/mapa-municipios\.js$/.test(u)) return r.fulfill({ path: path.join(DIR, 'proto/mapa-municipios.js'), contentType: 'application/javascript' });
-    if (proto && /\/assets\/site\.css$/.test(u)) return r.fulfill({ path: path.join(DIR, 'proto/site.css'), contentType: 'text/css' });
+    // "antes" = o código ATUAL do repositório (orig/, cópia de alimentador/site/); "depois" = proto/. O HTML vem do site ao vivo
+    if (/\/assets\/mapa-municipios\.js$/.test(u)) return r.fulfill({ path: path.join(DIR, proto ? 'proto' : 'orig', 'mapa-municipios.js'), contentType: 'application/javascript' });
+    if (/\/assets\/site\.css$/.test(u)) return r.fulfill({ path: path.join(DIR, proto ? 'proto' : 'orig', 'site.css'), contentType: 'text/css' });
     const b = busca(u);
+    if (u === URL && b.status === 200) {      // o gerador já põe a legenda NAE-Vegetação na barra (commit 7fe2ddc); o /teste/ ao vivo ainda não: mesma troca aqui
+      const leg = '<details class="mt-regs" open><summary>NAE-Vegetação</summary></details>';
+      let h = b.body.toString('utf8');
+      if (h.includes('<div class="mt-dica" aria-hidden="true"></div>' + leg)) h = h.replace('<div class="mt-dica" aria-hidden="true"></div>' + leg, '<div class="mt-dica" aria-hidden="true"></div>').replace('</form></div>\n<div class="mt-mapa">', '</form>' + leg + '</div>\n<div class="mt-mapa">');
+      return r.fulfill({ status: 200, contentType: b.type, body: h });
+    }
     r.fulfill({ status: b.status, contentType: b.type, body: b.body });
   });
   page.on('pageerror', e => console.log('PAGEERROR', e.message));
@@ -64,8 +71,9 @@ const checaCartoes = page => page.evaluate(() => {
     for (let j = i + 1; j < cards.length; j++) if (cruza(c.r, cards[j].r)) out.sobrepoe.push([c.nome, cards[j].nome]);
     fixos.forEach(f => { if (cruza(c.r, f.r)) out.comFixo.push([c.nome, f.nome]); });
     if (c.r.left < cr.left - 1 || c.r.right > cr.right + 1 || c.r.top < cr.top - 1 || c.r.bottom > cr.bottom + 1) out.fora.push(c.nome);
-    if (c.nome) {
+    if (c.nome && !c.e.classList.contains('fora')) {      // o cartão "fora" (polo aberto: ao lado, com fio) fica de propósito fora do município
       const m = window.MUN.muns.find(x => x.nome === c.nome), el = document.elementFromPoint((c.r.left + c.r.right) / 2, (c.r.top + c.r.bottom) / 2), p = el && el.closest('.mun');
+      if (!el) return;                        // centro abaixo da dobra da janela (o mapa passa dela quando a barra de polos quebra em 2 linhas): elementFromPoint não enxerga
       if (!p || !m || p.dataset.cod !== m.cod) out.foraDoMun.push(c.nome + ' → ' + (p ? p.getAttribute('aria-label') || p.dataset.cod : el && el.tagName));
     }
   });

@@ -1,0 +1,6 @@
+/* ===== CLS (todas as páginas): reserva a linha do ☰ e esconde os cartões das regionais até serem posicionados ===== */
+/* menu.js monta o ☰ depois do 1º quadro e empurrava tudo para baixo (64 px); a pseudo-linha tem a mesma geometria do .mnu
+   (altura do alvo, margem -8 px, mais o gap da grade) e some quando o ☰ chega. Sem :has() (navegador antigo) volta ao comportamento de hoje. */
+.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:var(--alvo);margin-bottom:calc(var(--s2) * -1)}
+/* os cartões Norte/Centro/Sul nascem em (0,0) e o JS os põe no lugar: escondidos até lá (mapa-municipios.js marca data-ok) */
+.mt-regcards:not([data-ok]) button{visibility:hidden}

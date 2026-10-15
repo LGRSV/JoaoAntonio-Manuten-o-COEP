@@ -1,0 +1,15 @@
+/* ===== Página do alimentador: alvos de toque de 44 px (só telas de toque) =====
+   html body na frente: vários estilos vêm de <style> injetado por limpeza.js / extras.js / telacheia.js, depois deste arquivo */
+@media (pointer:coarse){
+  :root{--alvo:44px}
+  html body .migalhas a{min-height:44px}
+  html body .mapbox .classes button{min-width:44px;min-height:44px}
+  html body .leaflet-container .leaflet-bar a{width:44px;height:44px;line-height:44px}
+  html body :is(.ctl-cam-b,.tc-btn){min-height:44px;min-width:44px}
+  html body :is(.limp-maplg,.limp-seg) button{min-height:44px}
+  html body .limp-ano-l button{min-height:44px}
+  html body .limp-ano-l .liga{min-width:44px}
+  html body :is(.dados,.regra,.mais)>summary{min-height:44px}
+  html body :is(.dl-btn,.exe-tipos-b,.fecha){min-height:44px}
+  html body .fecha{width:44px}
+}

@@ -1,0 +1,9 @@
+estado                 alvos < 44: 0 | paths: 139 (<44: 111) 
+regional               alvos < 44: 0 | paths: 40 (<44: 34) 
+polo                   alvos < 44: 0 | paths: 12 (<44: 10) 
+municipio              alvos < 44: 0 | paths: 1 (<44: 0) 
+alimentador            alvos < 44: 0 | paths: 1 (<44: 0) 
+busca-aberta           alvos < 44: 0 | paths: 139 (<44: 111) 
+menu-aberto            alvos < 44: 0 | paths: 139 (<44: 111) 
+polos                  alvos < 44: 0 
+alimentador-pagina     alvos < 44: 1 Leaflet[49x14]

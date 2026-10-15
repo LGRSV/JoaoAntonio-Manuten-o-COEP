@@ -1,0 +1,54 @@
+{
+ "estado": {
+  "pequenos": [],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "regional": {
+  "pequenos": [],
+  "municipiosPaths": 40,
+  "municipiosMenoresQue44": 34
+ },
+ "polo": {
+  "pequenos": [],
+  "municipiosPaths": 12,
+  "municipiosMenoresQue44": 10
+ },
+ "municipio": {
+  "pequenos": [],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador": {
+  "pequenos": [],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "busca-aberta": {
+  "pequenos": [],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "menu-aberto": {
+  "pequenos": [],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "polos": {
+  "pequenos": [],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador-pagina": {
+  "pequenos": [
+   {
+    "n": "a",
+    "nome": "Leaflet",
+    "w": 49,
+    "h": 14
+   }
+  ],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ }
+}

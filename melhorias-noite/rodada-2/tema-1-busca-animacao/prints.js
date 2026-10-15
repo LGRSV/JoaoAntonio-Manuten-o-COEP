@@ -17,6 +17,7 @@ async function folha(b, itens, saida, mobile) {
   const im = itens.map(([f, leg]) => [`data:image/jpeg;base64,` + fs.readFileSync(path.join(L.RAIZ, 'prints', f + '.jpg')).toString('base64'), leg]);
   await p.setContent(`<body style="margin:0;background:#1c1c1c;width:1500px;display:flex;flex-wrap:wrap;gap:8px;padding:8px;box-sizing:border-box;align-items:flex-start">${im.map(([s, leg]) =>
     `<figure style="margin:0;color:#fff;font:600 13px/1.3 sans-serif;width:${w}px"><img src="${s}" style="width:${w}px;display:block;border:1px solid #555"><figcaption style="padding:5px 2px">${leg}</figcaption></figure>`).join('')}</body>`);
+  await p.setViewportSize({ width: 1500, height: 60 });
   const h = await p.evaluate(() => document.body.scrollHeight);
   await p.setViewportSize({ width: 1500, height: h });
   await p.screenshot({ path: path.join(L.RAIZ, 'prints', saida + '.jpg'), type: 'jpeg', quality: 80 });
@@ -33,10 +34,14 @@ async function antes(b) {
     await nivel(p, 'polo'); await foto(p, `antes-${t}-polo`);
     if (t === 'd') {
       await p.hover('.mun.tem[aria-label="Rio Sono"]', { force: true }); await p.waitForTimeout(350);
-      await anota(p, [['.mt-dica', 2], ['.mt-mn:has(b)', 2]]); await foto(p, `antes-d-polo-dica-notas`); await semNotas(p); await foto(p, `antes-d-polo-dica`); await p.mouse.move(2, 2);
+      await p.evaluate(() => [...document.querySelectorAll('.mt-mn')].filter(e => /^Rio Sono/.test(e.innerText)).forEach(e => e.classList.add('__alvo')));
+      await anota(p, [['.mt-dica .mt-dica-h', 2], ['.__alvo', 2]]); await foto(p, `antes-d-polo-dica-notas`); await semNotas(p); await foto(p, `antes-d-polo-dica`); await p.mouse.move(2, 2);
     }
     await p.click('#ativo-q'); await p.waitForTimeout(550); await foto(p, `antes-${t}-busca-polo`);
-    if (t === 'd') { await anota(p, [['#ativo-res .so-mun small', 3], ['#ativo-res .so-mun .so-n', 4], ['.mt-mn i', 4]]); await foto(p, `antes-d-busca-polo-notas`); await semNotas(p); }
+    if (t === 'd') {   // só as 3 primeiras linhas da lista e os cartões visíveis dos mesmos municípios
+      await p.evaluate(() => [...document.querySelectorAll('.mt-mn')].filter(e => /^(Rio Sono|Tocantínia|Lizarda)/.test(e.innerText)).forEach(e => { const i = e.querySelector('i'); if (i) i.classList.add('__alvo'); }));
+      await anota(p, [['#ativo-res .so-mun small', 3, 3], ['#ativo-res .so-mun .so-n', 4, 6], ['.__alvo', 4]]); await foto(p, `antes-d-busca-polo-notas`); await semNotas(p);
+    }
     await fechaBusca(p);
     await nivel(p, 'mun'); await foto(p, `antes-${t}-mun`);
     await anota(p, [['.mt-passo[data-ir="polo"]', 5], ['b.mt-atual', 5], ['.mt-volta', 6]]); await foto(p, `antes-${t}-mun-notas`); await semNotas(p);

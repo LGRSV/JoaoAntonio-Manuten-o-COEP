@@ -1,0 +1,3 @@
+/* ===== Tab/foco: cartões das regionais saem do Tab quando escondidos (regional aberta ou voando) ===== */
+.mt-regcards button{transition:opacity .3s,border-color .15s,background-color .15s,visibility 0s}
+.aberta .mt-regcards button,.voando .mt-regcards button{visibility:hidden;transition:opacity .3s,border-color .15s,background-color .15s,visibility 0s .3s}

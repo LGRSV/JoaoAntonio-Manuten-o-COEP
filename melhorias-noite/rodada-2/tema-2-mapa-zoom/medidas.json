@@ -1,86 +1,86 @@
 {
  "original": {
   "abrir_regional_voa_mediana": {
-   "quadros": 62,
-   "medio_ms": 25.8,
-   "p95_ms": 66.6,
-   "max_ms": 116.6,
-   "fps_medio": 38.8,
-   "tarefas_longas": 2,
-   "tarefa_longa_max_ms": 62
+   "quadros": 89,
+   "medio_ms": 17.4,
+   "p95_ms": 16.8,
+   "max_ms": 66.6,
+   "fps_medio": 57.4,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
   },
   "repeticoes_fps": [
-   53.6,
-   49.8,
-   38.8,
-   35.7
+   59.4,
+   54.3,
+   58.7,
+   57.4
   ],
   "repeticoes_tarefa_longa_max_ms": [
    0,
+   92,
    0,
-   62,
-   66
+   0
   ]
  },
  "prototipo": {
   "abrir_regional_voa_mediana": {
-   "quadros": 75,
-   "medio_ms": 21.8,
-   "p95_ms": 33.4,
-   "max_ms": 100,
-   "fps_medio": 45.9,
-   "tarefas_longas": 1,
-   "tarefa_longa_max_ms": 89
+   "quadros": 88,
+   "medio_ms": 17.6,
+   "p95_ms": 33.2,
+   "max_ms": 33.4,
+   "fps_medio": 56.8,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
   },
   "repeticoes_fps": [
-   41.1,
-   45.9,
-   54.9,
-   47.7
+   59.4,
+   56.1,
+   56.8,
+   60
   ],
   "repeticoes_tarefa_longa_max_ms": [
-   120,
-   89,
    0,
-   51
+   0,
+   0,
+   0
   ],
   "ctrl_roda_x10": {
-   "quadros": 124,
-   "medio_ms": 32.7,
-   "p95_ms": 100,
-   "max_ms": 183.4,
-   "fps_medio": 30.6,
-   "tarefas_longas": 15,
-   "tarefa_longa_max_ms": 147
+   "quadros": 145,
+   "medio_ms": 16.7,
+   "p95_ms": 16.7,
+   "max_ms": 16.8,
+   "fps_medio": 60,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
   },
   "cartoes_estado_zoom_alto_1a_vez": {
-   "vezes": 4,
-   "mediana_ms": 44.3,
-   "max_ms": 112.8
+   "vezes": 1,
+   "mediana_ms": 15.8,
+   "max_ms": 15.8
   },
   "arrastar_40_passos": {
-   "quadros": 206,
-   "medio_ms": 17.6,
-   "p95_ms": 33.3,
-   "max_ms": 33.4,
-   "fps_medio": 56.7,
-   "tarefas_longas": 4,
-   "tarefa_longa_max_ms": 65
+   "quadros": 144,
+   "medio_ms": 16.7,
+   "p95_ms": 16.8,
+   "max_ms": 16.8,
+   "fps_medio": 60,
+   "tarefas_longas": 0,
+   "tarefa_longa_max_ms": 0
   },
   "cartoes_depois_de_arrastar": {
-   "vezes": 2,
-   "mediana_ms": 9.1,
-   "max_ms": 9.1
+   "vezes": 1,
+   "mediana_ms": 7.2,
+   "max_ms": 7.2
   },
   "cartoes_estado_zoom_medio_1a_vez": {
    "vezes": 1,
-   "mediana_ms": 32.6,
-   "max_ms": 32.6
+   "mediana_ms": 121.6,
+   "max_ms": 121.6
   },
   "cartoes_estado_zoom_medio_2a_vez": {
    "vezes": 1,
-   "mediana_ms": 50.7,
-   "max_ms": 50.7
+   "mediana_ms": 133.6,
+   "max_ms": 133.6
   }
  }
 }

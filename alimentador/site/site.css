@@ -524,3 +524,64 @@ header.cab>.cab-link:hover{background:var(--hover);text-decoration:none}
 .mt-barra .mt-regs:not([open]) .mt-regs-c{display:none}
 .mt-barra .mt-regs>summary::after{transform:rotate(-45deg);margin:0}
 .mt-barra .mt-regs[open]>summary::after{transform:rotate(135deg);margin:0}
+/* ====== Legenda fixa na barra, NAE escondível e tela cheia (mapa-municipios.js) ======
+   A legenda das faixas de NAE fica na barra da lupa (que acompanha a rolagem), logo depois do olho, numa linha só. O botão
+   "NAE-Vegetação" recolhe ela; recolhida, o #mapa-to ganha .sem-nae e os números de NAE saem do mapa (fica só a cor).
+   (#mapa-to na frente: estas regras valem sobre as da legenda antiga em <details>) */
+#mapa-to .mt-barra .mt-regs{position:relative;left:auto;bottom:auto;z-index:auto;display:block;max-width:100%;margin:0 auto 10px;
+  padding:7px var(--s3) 8px;border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);box-shadow:var(--sh1);
+  cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
+#mapa-to .mt-barra .mt-regs-c{position:static;display:grid;gap:6px;min-width:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+  white-space:nowrap;animation:mt-desce .18s ease-out}
+#mapa-to .mt-barra .mt-regs-c[hidden]{display:none}
+#mapa-to .mt-barra .mt-regs-t{font:700 10.5px/1 var(--f-mono);letter-spacing:.1em}
+@keyframes mt-desce{from{opacity:0;transform:translateY(-6px)}}
+/* orelhinha: pendurada embaixo do painel (seta para cima = esconder); recolhida, sobra só ela, com a mini faixa de cores */
+.mt-regs-b{position:absolute;left:50%;top:100%;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-width:48px;height:22px;margin-top:-1px;padding:0 10px;border:1px solid var(--line);border-top:0;border-radius:0 0 9px 9px;
+  background:var(--paper);color:var(--muted);font:700 var(--t-xs)/1 var(--f-body);letter-spacing:.06em;cursor:pointer}
+.mt-regs-b svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.mt-regs:hover .mt-regs-b,.mt-regs-b:focus-visible{color:var(--accent)}
+.mt-regs-b:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.mt-regs-m,.mt-regs-o{display:none}
+#mapa-to .mt-barra .mt-regs.fechada{margin:0 auto;padding:0;border:0;background:none;box-shadow:none}
+/* mais ao centro e sempre em cima: as margens automáticas centralizam a legenda (ou a orelhinha) no espaço livre da barra;
+   no computador a trilha dos polos continua junto do olho e a legenda vem depois dela */
+@media (min-width:861px){#mapa-to .mt-barra .mt-regs{order:1}}
+.mt-regs.fechada .mt-regs-b{position:static;transform:none;height:30px;margin:0;padding:0 10px;border-top:1px solid var(--line);border-radius:0 0 12px 12px;box-shadow:var(--sh1)}
+.mt-regs.fechada .mt-regs-b svg{transform:rotate(180deg)}
+.mt-regs.fechada .mt-regs-m{display:inline-flex}.mt-regs.fechada .mt-regs-o{display:inline}
+#mapa-to .mt-regs-m i{width:5px;height:10px;border-radius:0;box-shadow:none}
+.mt-regs-m i:first-child{border-radius:2px 0 0 2px}.mt-regs-m i:last-child{border-radius:0 2px 2px 0}
+.mt-f-c{display:none}
+@media (prefers-reduced-motion:reduce){#mapa-to .mt-barra .mt-regs-c{animation:none}.mt-regs-b svg{transition:none}}
+/* no município (rede dos alimentadores) a rampa de cores não vale: a legenda some e libera a barra, como antes */
+#mapa-to:has(.mt-mapa.nivel-mun) .mt-barra .mt-regs{display:none}
+@media (max-width:600px){
+  #mapa-to .mt-barra .mt-rampa>span{min-width:30px}
+  .mt-f-l{display:none}.mt-f-c{display:inline}
+}
+/* lista do município aberto embaixo da logo: com o campo recolhido a barra só tem o olho; a lista mantém a largura dela */
+.mt-barra #ativo-res{right:auto;width:min(460px,calc(100vw - 32px))}
+/* NAE escondida: só o número sai; nome, cor e posição continuam */
+.sem-nae .mt-regcards i,.sem-nae .mt-selos .mt-mn i,.sem-nae .mt-nomes2 .mt-mn i,.sem-nae .mt-pchip i,.sem-nae .mt-dica-h i,
+.sem-nae .mt-al i,.sem-nae #ativo-res .so-n{display:none}
+.sem-nae .mt-nomes2 .mt-mn[data-nv="2"]{display:none}
+/* botão de tela cheia: canto de cima, à direita do mapa */
+.mt-tc{position:absolute;top:0;right:0;z-index:5;display:grid;place-items:center;width:var(--alvo);height:var(--alvo);padding:0;
+  border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);color:var(--fg);box-shadow:var(--sh1);cursor:pointer}
+.mt-tc:hover{color:var(--accent);border-color:var(--accent)}
+.mt-tc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#mapa-to .mt-tc svg{display:block;width:20px;height:20px;min-height:0;max-height:none;max-width:none;margin:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* tela cheia (API do navegador ou, sem ela, .mt-cheia): barra em cima, o mapa ocupa o resto da tela */
+#mapa-to:is(:fullscreen,:-webkit-full-screen,.mt-cheia){position:fixed;inset:0;z-index:1000;width:auto;height:auto;max-width:none;margin:0;
+  padding:var(--s3) var(--s4);grid-template-rows:auto minmax(0,1fr);align-items:stretch;gap:var(--s3);background:var(--bg);overflow:hidden}
+#mapa-to:is(:fullscreen,:-webkit-full-screen,.mt-cheia) .mt-barra{position:relative;top:auto}
+#mapa-to:is(:fullscreen,:-webkit-full-screen,.mt-cheia) .mt-mapa{min-height:0;height:100%}
+#mapa-to:is(:fullscreen,:-webkit-full-screen,.mt-cheia) .mt-mapa>svg{width:auto;max-width:100%;height:100%;min-height:0;max-height:none}
+html.mt-cheia-trava,html.mt-cheia-trava body{overflow:hidden}
+/* nome do município fora dele (quando não cabe dentro): fio fino do município até o cartão */
+.mt-fios{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:-1}
+.mt-fios line{stroke:var(--cartao-fg);stroke-opacity:.55;stroke-width:1}
+.mt-fios circle{fill:var(--selo);stroke:var(--cartao);stroke-width:1}
+:root[data-theme="light"] .mt-fios line{stroke:#1b2024;stroke-opacity:.6}

@@ -1,0 +1,358 @@
+{
+ "lupa": {
+  "LD01072001-d": {
+   "mapa": {
+    "x": 56,
+    "y": 276,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 624,
+   "topoAteMapa": 276,
+   "rolagemPagina": 110,
+   "painel": {
+    "x": 1004,
+    "y": 276,
+    "w": 380,
+    "h": 626
+   },
+   "painelConteudoPx": 626,
+   "painel4camadasPx": 1528,
+   "legendaAltura": 598,
+   "detalheT2A_px": 11409,
+   "erros": []
+  },
+  "LD01072001-m": {
+   "mapa": {
+    "x": 16,
+    "y": 294,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 294,
+   "rolagemPagina": 594,
+   "painel": {
+    "x": 16,
+    "y": 807,
+    "w": 358,
+    "h": 598
+   },
+   "painelConteudoPx": 598,
+   "painel4camadasPx": 1500,
+   "legendaAltura": 386,
+   "detalheT2A_px": 11965,
+   "erros": []
+  },
+  "AL03037009-d": {
+   "mapa": {
+    "x": 56,
+    "y": 276,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 624,
+   "topoAteMapa": 276,
+   "rolagemPagina": 110,
+   "painel": {
+    "x": 1004,
+    "y": 276,
+    "w": 380,
+    "h": 666
+   },
+   "painelConteudoPx": 666,
+   "painel4camadasPx": 1267,
+   "legendaAltura": 434,
+   "detalheT2A_px": 7576,
+   "erros": []
+  },
+  "AL03037009-m": {
+   "mapa": {
+    "x": 16,
+    "y": 294,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 294,
+   "rolagemPagina": 634,
+   "painel": {
+    "x": 16,
+    "y": 807,
+    "w": 358,
+    "h": 638
+   },
+   "painelConteudoPx": 638,
+   "painel4camadasPx": 1239,
+   "legendaAltura": 386,
+   "detalheT2A_px": 8112,
+   "erros": []
+  },
+  "LD02022033-d": {
+   "mapa": {
+    "x": 56,
+    "y": 276,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 624,
+   "topoAteMapa": 276,
+   "rolagemPagina": 110,
+   "painel": {
+    "x": 1004,
+    "y": 276,
+    "w": 380,
+    "h": 666
+   },
+   "painelConteudoPx": 666,
+   "painel4camadasPx": 1539,
+   "legendaAltura": 598,
+   "detalheT2A_px": 2115,
+   "erros": []
+  },
+  "LD02022033-m": {
+   "mapa": {
+    "x": 16,
+    "y": 294,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 294,
+   "rolagemPagina": 634,
+   "painel": {
+    "x": 16,
+    "y": 807,
+    "w": 358,
+    "h": 638
+   },
+   "painelConteudoPx": 638,
+   "painel4camadasPx": 1511,
+   "legendaAltura": 386,
+   "detalheT2A_px": 2126,
+   "erros": []
+  },
+  "AL01015049-d": {
+   "mapa": {
+    "x": 56,
+    "y": 276,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 624,
+   "topoAteMapa": 276,
+   "rolagemPagina": 110,
+   "painel": {
+    "x": 1004,
+    "y": 276,
+    "w": 380,
+    "h": 542
+   },
+   "painelConteudoPx": 542,
+   "painel4camadasPx": 1143,
+   "legendaAltura": 306,
+   "detalheT2A_px": 1598,
+   "erros": []
+  },
+  "AL01015049-m": {
+   "mapa": {
+    "x": 16,
+    "y": 294,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 294,
+   "rolagemPagina": 510,
+   "painel": {
+    "x": 16,
+    "y": 807,
+    "w": 358,
+    "h": 514
+   },
+   "painelConteudoPx": 514,
+   "painel4camadasPx": 1144,
+   "legendaAltura": 238,
+   "detalheT2A_px": 1600,
+   "erros": []
+  }
+ },
+ "consolidado": {
+  "LD01072001-d": {
+   "mapa": {
+    "x": 16,
+    "y": 70,
+    "w": 992,
+    "h": 814
+   },
+   "mapaVisivelH": 814,
+   "topoAteMapa": 70,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 70,
+    "w": 400,
+    "h": 814
+   },
+   "painelConteudoPx": 814,
+   "painel4camadasPx": 814,
+   "legendaAltura": 156,
+   "detalheT2A_px": 1158,
+   "erros": []
+  },
+  "LD01072001-m": {
+   "mapa": {
+    "x": 12,
+    "y": 147,
+    "w": 366,
+    "h": 629
+   },
+   "mapaVisivelH": 629,
+   "topoAteMapa": 147,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 1310,
+   "erros": []
+  },
+  "AL03037009-d": {
+   "mapa": {
+    "x": 16,
+    "y": 70,
+    "w": 992,
+    "h": 814
+   },
+   "mapaVisivelH": 814,
+   "topoAteMapa": 70,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 70,
+    "w": 400,
+    "h": 814
+   },
+   "painelConteudoPx": 814,
+   "painel4camadasPx": 814,
+   "legendaAltura": 114,
+   "detalheT2A_px": 1094,
+   "erros": []
+  },
+  "AL03037009-m": {
+   "mapa": {
+    "x": 12,
+    "y": 147,
+    "w": 366,
+    "h": 629
+   },
+   "mapaVisivelH": 629,
+   "topoAteMapa": 147,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 1251,
+   "erros": []
+  },
+  "LD02022033-d": {
+   "mapa": {
+    "x": 16,
+    "y": 70,
+    "w": 992,
+    "h": 814
+   },
+   "mapaVisivelH": 814,
+   "topoAteMapa": 70,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 70,
+    "w": 400,
+    "h": 814
+   },
+   "painelConteudoPx": 814,
+   "painel4camadasPx": 814,
+   "legendaAltura": 156,
+   "detalheT2A_px": 814,
+   "erros": []
+  },
+  "LD02022033-m": {
+   "mapa": {
+    "x": 12,
+    "y": 147,
+    "w": 366,
+    "h": 629
+   },
+   "mapaVisivelH": 629,
+   "topoAteMapa": 147,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 824,
+   "erros": []
+  },
+  "AL01015049-d": {
+   "mapa": {
+    "x": 16,
+    "y": 70,
+    "w": 992,
+    "h": 814
+   },
+   "mapaVisivelH": 814,
+   "topoAteMapa": 70,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 70,
+    "w": 400,
+    "h": 814
+   },
+   "painelConteudoPx": 814,
+   "painel4camadasPx": 814,
+   "legendaAltura": 112,
+   "detalheT2A_px": 847,
+   "erros": []
+  },
+  "AL01015049-m": {
+   "mapa": {
+    "x": 12,
+    "y": 147,
+    "w": 366,
+    "h": 629
+   },
+   "mapaVisivelH": 629,
+   "topoAteMapa": 147,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 973,
+   "erros": []
+  }
+ }
+}

@@ -767,14 +767,14 @@ TEMA = ("<script>(function(){var t;try{t=localStorage.getItem('tema')}catch(e){}
         "document.documentElement.dataset.theme=t==='claro'?'light':'dark'})()</script>")
 
 
-def casca(titulo, corpo, raiz, rodape=''):
+def casca(titulo, corpo, raiz, rodape='', sem_rodape=False):
     return (f'<!doctype html>\n<html lang="pt-BR"><head><meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
             f'<meta name="robots" content="noindex, nofollow">\n<title>{html.escape(titulo)}</title>\n'
             f'{TEMA}\n'
             f'{FONTES}<link rel="stylesheet" href="{raiz}assets/site.css"></head><body><div class="wrap">\n{corpo}\n'
-            f'<footer class="rodape">{rodape}<p><a href="{raiz}relatorio.html">Relatório de validação</a> · '
-            f'<a href="{raiz}manifesto.json">manifesto.json</a></p></footer>\n</div>\n'
+            + ('' if sem_rodape else f'<footer class="rodape">{rodape}<p><a href="{raiz}relatorio.html">Relatório de validação</a> · '
+               f'<a href="{raiz}manifesto.json">manifesto.json</a></p></footer>\n') + '</div>\n'
             '<script>const b=document.getElementById("busca");if(b)b.addEventListener("input",()=>{const q=b.value'
             '.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();document.querySelectorAll("[data-busca]")'
             '.forEach(e=>{e.hidden=!e.dataset.busca.includes(q)});document.querySelectorAll(".grade").forEach(g=>{let v=g.nextElementSibling;'
@@ -1374,7 +1374,7 @@ def interface(saida, malha=None):
              '<img class="argos-img" src="assets/argos.png" alt="" width="34" height="23"></button>'   # o olho do ARGOS (logo)
              '<label for="ativo-q" class="vh">Buscar regional, polo, município, alimentador, ativo ou OS</label>'
              '<input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
-             'placeholder="Município, alimentador, ativo, OS" enterkeyhint="search">'
+             'placeholder="Município, alimentador, ativo, OS" enterkeyhint="search" hidden>'   # fechada, só o olho; tocar nele abre
              '<div id="ativo-res" aria-live="polite"></div></div></form>'
              '<details class="mt-regs" open><summary>NAE-Vegetação</summary></details></div>\n'   # legenda na barra, ao lado do olho (mapa-municipios.js)
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
@@ -1382,9 +1382,8 @@ def interface(saida, malha=None):
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')
-    (saida / 'index.html').write_text(casca('ARGOS Manutenção', corpo, '', rodape=(
-        '<p>T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.</p>')),
-        encoding='utf-8')
+    (saida / 'index.html').write_text(casca('ARGOS Manutenção', corpo, '', sem_rodape=True),   # página inicial sem rodapé (pedido do usuário)
+                                      encoding='utf-8')
     (saida / '.nojekyll').touch()
     relatorio(saida, dados, man)
     return dados, man

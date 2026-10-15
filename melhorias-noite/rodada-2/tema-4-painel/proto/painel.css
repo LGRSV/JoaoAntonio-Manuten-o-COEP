@@ -117,6 +117,13 @@ html.p-r2 .panel>.limp-card.acd-fechada>.limp-top::after{transform:translateY(-5
 html.p-r2 .panel>.limp-card.acd-fechada>:not(.limp-top){display:none}
 html.p-r2 .panel>.limp-card:not(.acd-fechada){padding-bottom:var(--s3)}
 html.p-r2 .panel>.dados{margin-top:var(--s2);padding-top:var(--s3)}
+html.p-r2 .panel>.limp-card:not(.acd-fechada) .sub-x{display:none}                /* "· 3 criadas": aberto, a linha Criadas do cartão já diz */
+html.p-r2 .mnt-card:not(.acd-fechada)>.limp-top h2 small{display:none}      /* aberto, as 3 linhas dizem o mesmo que o subtítulo */
+html.p-r2 .mnt-polo-l{margin:0;font-size:var(--t-sm);color:var(--muted);line-height:1.5}
+html.p-r2 .mnt-polo-l span{display:block}
+html.p-r2 .mnt-polo-l b{color:var(--fg);font:600 var(--t-sm) var(--f-mono)}
+html.p-r2 .al-sec{margin:var(--s4) 0 var(--s1);padding-top:var(--s3);border-top:1px solid var(--line);font:700 var(--t-xs)/1.3 var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+html.p-r2 .al-sec[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){html.p-r2 .panel>.limp-card>.limp-top::after{transition:transform var(--dur) var(--ease)}}
 
 /* ---------------------------------------------------------------- 6 · trecho escolhido: ficha + abas */
@@ -129,6 +136,7 @@ html.p-r2 .det-abas button:focus-visible{outline:2px solid var(--accent);outline
 html.p-r2 .det-abas button.vazia{opacity:.55}
 html.p-r2 .det-abas em{font:600 11px/1 var(--f-mono);font-style:normal;opacity:.75}
 html.p-r2 .det-abas .tab-nae em{opacity:1;padding:3px 6px;border-radius:var(--rp);background:var(--alerta-fundo);color:#fff}
+html.p-r2 .det-abas .tab-nae.vazia em{background:none;color:var(--muted);padding:0}
 html.p-r2 .det-nae{margin:0;padding-top:var(--s3)}
 html.p-r2 .det-nae>dt.nae{display:none}                               /* a aba já se chama NAE */
 html.p-r2 .det>.limp-sec[data-aba]{padding-top:var(--s3)}

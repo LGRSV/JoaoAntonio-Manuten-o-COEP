@@ -1,18 +1,18 @@
-desktop|inicio|base            CLS 0.0591 0.0591/0.0591/0.0591 FCP 96 LCP 96 h1(624,0→629,0) button(0,786→647,264) header.cab(56,0→56,18) a.cab-link(1283,0→1283,22)
-desktop|inicio|cpu4            CLS 0.059 0.059/0.0591/0.059 FCP 184 LCP 184 h1(624,0→629,0) button(0,786→647,264) header.cab(56,0→56,18) a.cab-link(1283,0→1283,22)
-desktop|inicio|lenta           CLS 0.0592 0.0592/0.0592/0.0592 FCP 872 LCP 872 ?(633,0→649,0) button(0,786→647,264) header.cab(56,0→56,18) a.cab-link(1283,0→1283,22)
-desktop|polos|base             CLS 0.0367 0.0367/0.0367/0.0367 FCP 80 LCP 80 span(133,36→126,36) nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261)
-desktop|polos|cpu4             CLS 0.0384 0.0384/0.0384/0.0384 FCP 168 LCP 168 span(133,36→126,36) nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261)
-desktop|polos|lenta            CLS 0.0492 0.0492/0.0492/0.0492 FCP 836 LCP 836 nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261) ?(944,843→0,0)
-desktop|alimentador|base       CLS 0.0551 0.0551/0.0551/0.0551 FCP 120 LCP 1812 ?(56,51→56,48) div.stage(56,268→56,220) header(56,24→56,80) div.barra-busca(56,156→56,212)
-desktop|alimentador|cpu4       CLS 0.058 0.058/0.0581/0.0551 FCP 312 LCP 5276 span.eyebrow(56,23→56,48) h1(56,42→56,68) details.regra(56,87→56,140) div.stage(56,268→56,220)
-desktop|alimentador|lenta      CLS 0.0551 0.0551/0.0551/0.0551 FCP 880 LCP 7496 ?(56,51→56,48) div.stage(56,268→56,220) header(56,24→56,80) div.barra-busca(56,156→56,212)
-celular|inicio|base            CLS 0 0/0/0 FCP 88 LCP 140 
-celular|inicio|cpu4            CLS 0 0/0/0 FCP 208 LCP 400 
-celular|inicio|lenta           CLS 0.0006 0.0006/0.0006/0.0006 FCP 896 LCP 1328 h1(119,12→125,12) ::after(117,724→130,737) ?(168,300→171,299)
-celular|polos|base             CLS 0 0/0/0 FCP 88 LCP 88 
-celular|polos|cpu4             CLS 0.0002 0.0587/0.0002/0.0002 FCP 188 LCP 188 nav.migalhas(16,24→16,80) header(16,73→16,129) div#polos(16,200→16,256) ::after(16,836→0,0)
-celular|polos|lenta            CLS 0.2938 0.2938/0.2938/0.2938 FCP 868 LCP 868 nav.migalhas(16,24→16,80) header(16,73→16,129) div#polos(16,200→16,256) span(0,0→297,842)
-celular|alimentador|base       CLS 0.0592 0.0621/0.0592/0.0592 FCP 96 LCP 1540 div.stage(16,286→16,290) header(16,24→16,80) div.barra-busca(16,170→16,226)
-celular|alimentador|cpu4       CLS 0.0592 0.0592/0.0592/0.0621 FCP 368 LCP 5624 header(16,24→16,80) div.barra-busca(16,170→16,226) div.stage(16,290→16,346)
-celular|alimentador|lenta      CLS 0.0621 0.0621/0.0621/0.0621 FCP 912 LCP 7464 div.stage(16,286→16,290) header(16,24→16,80) div.barra-busca(16,170→16,226)
+desktop|inicio|base            CLS 0.0591 0.0593/0.0591/0.0591 FCP 148 LCP 148 button(0,786→645,264) header.cab(56,0→56,18) b(0,0→649,18) div.mt-regs-c(20,682→20,746)
+desktop|inicio|cpu4            CLS 0.0591 0.0591/0.0593/0.0591 FCP 276 LCP 292 h1(624,0→629,0) button(0,786→647,264) header.cab(56,0→56,18) a.cab-link(1283,0→1283,22)
+desktop|inicio|lenta           CLS 0.0592 0.0592/0.0592/0.0592 FCP 904 LCP 904 ?(633,0→649,0) button(0,786→647,264) header.cab(56,0→56,18) a.cab-link(1283,0→1283,22)
+desktop|polos|base             CLS 0.0367 0.0367/0.0367/0.0384 FCP 100 LCP 100 span(133,36→126,36) nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261)
+desktop|polos|cpu4             CLS 0.0384 0.0384/0.0367/0.0384 FCP 328 LCP 328 span(133,36→126,36) nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261)
+desktop|polos|lenta            CLS 0.0492 0.0492/0.0492/0.0473 FCP 908 LCP 908 nav.migalhas(56,32→56,96) header(56,76→56,140) div#polos(56,197→56,261) ?(944,843→0,0)
+desktop|alimentador|base       CLS 0.0581 0.0551/0.0581/0.0581 FCP 140 LCP 2324 ?(56,51→56,48) div.stage(56,268→56,220) header(56,24→56,80) div.barra-busca(56,156→56,212)
+desktop|alimentador|cpu4       CLS 0.058 0.0551/0.0581/0.058 FCP 352 LCP 3684 ?(56,51→56,48) div.stage(56,268→56,220) header(56,24→56,80) div.barra-busca(56,156→56,212)
+desktop|alimentador|lenta      CLS 0.0581 0.0551/0.0581/0.0581 FCP 932 LCP 7108 ?(56,51→56,48) div.stage(56,268→56,220) header(56,24→56,80) div.barra-busca(56,156→56,212)
+celular|inicio|base            CLS 0 0/0/0 FCP 128 LCP 180 
+celular|inicio|cpu4            CLS 0 0/0/0 FCP 244 LCP 520 
+celular|inicio|lenta           CLS 0.0006 0.0006/0.0006/0.0006 FCP 916 LCP 1392 h1(119,12→125,12) ::after(117,724→130,737) ?(168,300→171,299)
+celular|polos|base             CLS 0 0/0/0 FCP 80 LCP 80 
+celular|polos|cpu4             CLS 0.0585 0/0.0585/0.0587 FCP 268 LCP 268 nav.migalhas(16,24→16,80) header(16,73→16,129) div#polos(16,200→16,256) ::after(16,836→0,0)
+celular|polos|lenta            CLS 0.2938 0.2938/0.2938/0.2938 FCP 880 LCP 880 nav.migalhas(16,24→16,80) header(16,73→16,129) div#polos(16,200→16,256) span(0,0→297,842)
+celular|alimentador|base       CLS 0.0592 0.0621/0.0592/0.0592 FCP 164 LCP 2052 div.stage(16,286→16,290) header(16,24→16,80) div.barra-busca(16,170→16,226)
+celular|alimentador|cpu4       CLS 0.0621 0.0592/0.0621/0.0621 FCP 480 LCP 7704 header(16,24→16,80) div.barra-busca(16,170→16,226) div.stage(16,290→16,346)
+celular|alimentador|lenta      CLS 0.0621 0.0621/0.0621/0.0621 FCP 992 LCP 12416 div.stage(16,286→16,290) header(16,24→16,80) div.barra-busca(16,170→16,226)

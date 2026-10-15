@@ -1,0 +1,144 @@
+desktop estado paradas: 10 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button "Abrir a Regional Norte, 3.130 NAE"                         
+    5 button "Abrir a Regional Centro, 1.655 NAE"                        
+    6 button "Abrir a Regional Sul, 963 NAE"                             
+    7 path "Palmas"                                                      
+    8 summary "NAE-Vegetação"                                            
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+desktop regional paradas: 12 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-pchip "Paraíso, 588 NAE"                                 
+    6 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    7 button.mt-pchip "Palmas, 434 NAE"                                  
+    8 path "Porto Nacional"                                              
+    9 summary "NAE-Vegetação"                                            
+   10 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   11 a "Relatório de validação"                                         
+   12 a "manifesto.json"                                                 
+   13 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 82 car. Regional Centro: 3 polos, Paraíso, Porto Nacional, Palmas. Esc volta ao Tocantins.
+desktop polo paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 path "Porto Nacional"                                              
+    7 summary "NAE-Vegetação"                                            
+    8 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 73 car. Polo Porto Nacional: 12 municípios, 633 NAE. Esc volta à regional Centro.
+desktop municipio paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 61 car. Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.
+desktop alimentador paradas: 11 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 button.mt-passo "Porto Nacional"                                   
+    8 path "Porto Nacional"                                              
+    9 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   10 a "Relatório de validação"                                         
+   11 a "manifesto.json"                                                 
+   12 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 108 car. Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. Enter abre a página dele. Esc volta ao município.
+celular estado paradas: 10 | problemas: 0 | anúncios: 0
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button "Abrir a Regional Norte, 3.130 NAE"                         
+    5 button "Abrir a Regional Centro, 1.655 NAE"                        
+    6 button "Abrir a Regional Sul, 963 NAE"                             
+    7 path "Palmas"                                                      
+    8 summary "NAE-Vegetação"                                            
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+celular regional paradas: 12 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-pchip "Paraíso, 588 NAE"                                 
+    6 button.mt-pchip "Porto Nacional, 633 NAE"                          
+    7 button.mt-pchip "Palmas, 434 NAE"                                  
+    8 path "Porto Nacional"                                              
+    9 summary "NAE-Vegetação"                                            
+   10 button.mt-volta "Regional Centro. Voltar ao Tocantins"             
+   11 a "Relatório de validação"                                         
+   12 a "manifesto.json"                                                 
+   13 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 82 car. Regional Centro: 3 polos, Paraíso, Porto Nacional, Palmas. Esc volta ao Tocantins.
+celular polo paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 path "Porto Nacional"                                              
+    7 summary "NAE-Vegetação"                                            
+    8 button.mt-volta "Porto Nacional. Voltar à Regional Centro"         
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 73 car. Polo Porto Nacional: 12 municípios, 633 NAE. Esc volta à regional Centro.
+celular municipio paradas: 10 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 path "Porto Nacional"                                              
+    8 button.mt-volta "Porto Nacional. Voltar ao polo Porto Nac"         
+    9 a "Relatório de validação"                                         
+   10 a "manifesto.json"                                                 
+   11 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 61 car. Porto Nacional: 23 alimentadores, 268 NAE. Esc volta ao polo.
+celular alimentador paradas: 11 | problemas: 0 | anúncios: 1
+    1 button.mnu-btn "Menu"                                              
+    2 a.cab-link "Ranking"                                               
+    3 input#ativo-q.busca "Município, alimentador, ativo, OS"            
+    4 button.mt-passo "Tocantins"                                        
+    5 button.mt-passo "Centro"                                           
+    6 button.mt-passo "Porto Nacional"                                   
+    7 button.mt-passo "Porto Nacional"                                   
+    8 path "Porto Nacional"                                              
+    9 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   10 a "Relatório de validação"                                         
+   11 a "manifesto.json"                                                 
+   12 BODY ""                                                            (volta ao começo)
+   live: mt-aviso[polite], mnu-st[polite]
+   anúncio: mt-aviso 108 car. Alimentador AL02057189 em foco, em Porto Nacional: 44 NAE. Enter abre a página dele. Esc volta ao município.

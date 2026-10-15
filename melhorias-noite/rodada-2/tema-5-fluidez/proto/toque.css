@@ -1,0 +1,8 @@
+/* ===== Alvos de toque de 44 px (só telas de toque; no mouse nada muda) ===== */
+@media (pointer:coarse){
+  :root{--alvo:44px}
+  .mt-barra .mt-pchip,.mt-passo,.mt-puxa,.ativo .ir-mapa{min-height:44px}
+  .mt-volta{min-width:44px}
+  .mt-amun{display:inline-flex;align-items:center;min-height:44px}
+  .sug-op{min-height:48px}
+}

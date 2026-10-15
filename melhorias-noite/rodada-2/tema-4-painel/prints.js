@@ -17,7 +17,7 @@ const BASE = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/alimentadores/';
 const ASSETS = 'https://lgrsv.github.io/vera-vegeta-o-back/teste/assets/';
 const OUT = __dirname;
 const rd = f => fs.readFileSync(path.join(OUT, f), 'utf8');
-const VPS = { d: { width: 1440, height: 900 }, m: { width: 390, height: 844 } };
+const VPS = { d: { width: 1440, height: 900 }, m: { width: 390, height: 844 }, t: { width: 1024, height: 768 }, n: { width: 1280, height: 720 }, p: { width: 360, height: 640 } };   // d e m são os pedidos; t, n e p (tablet, notebook, celular pequeno) só conferem o cabeçalho
 const ALIM = ['LD01072001', 'AL03037009', 'LD02022033', 'AL01015049'];
 const cache = {};
 
@@ -29,7 +29,7 @@ const CONJ = {
 
 async function abre(browser, cod, vp, conj) {
   const C = CONJ[conj];
-  const ctx = await browser.newContext({ viewport: VPS[vp], deviceScaleFactor: 1, isMobile: vp === 'm', hasTouch: vp === 'm' });
+  const ctx = await browser.newContext({ viewport: VPS[vp], deviceScaleFactor: 1, isMobile: vp === 'm' || vp === 'p', hasTouch: vp === 'm' || vp === 'p' });
   if (C.claro) await ctx.addInitScript(() => { try { localStorage.setItem('tema', 'claro'); } catch (e) {} });
   const p = await ctx.newPage();
   const lupaJs = C.lupa ? rd(C.lupa) : null, css = C.css ? rd(C.css) : null, js = C.js ? rd(C.js) : null;
@@ -92,6 +92,7 @@ const ESTADOS = {
     if (v) await p.selectOption('#f-mun', v); await p.waitForTimeout(1500);
   },
   'tela-cheia': async p => { await p.click('.tc-btn'); await p.waitForTimeout(1500); },
+  'insp-manut': async p => { await p.evaluate(() => document.querySelector('#ctl-camadas .ctl-mnt').click()); await p.waitForTimeout(900); },
   'tela-cheia-gaveta': async p => {
     await p.click('.tc-btn'); await p.waitForTimeout(1200);
     await p.click('.ctl-cam-b'); await p.waitForTimeout(300);
@@ -108,24 +109,57 @@ const file = (conj, cod, vp, est) => {
   return path.join(dir, `${C.pre}${cod}-${vp}-${est}.jpg`);
 };
 
+// volta a página ao estado inicial sem recarregar (um carregamento por alimentador/viewport em vez de um por print)
+async function reseta(p) {
+  await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
+  await p.evaluate(async () => {
+    const q = document.getElementById('busca');
+    if (q && q.value) { q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); }
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    document.querySelectorAll('.lp-drop,.lp-fdrop').forEach(e => { e.hidden = true; });
+    document.querySelectorAll('.lp-lupa,.lp-fbt').forEach(e => e.setAttribute('aria-expanded', 'false'));
+    if (window.__limpar) window.__limpar();
+    for (const b of document.querySelectorAll('#ctl-camadas .ctl-card > button:not(.tc-painel-m)')) {
+      const faixa = b.classList.contains('ctl-faixa'), on = b.getAttribute('aria-pressed') === 'true';
+      if (faixa !== on) { b.click(); await new Promise(r => setTimeout(r, 250)); }
+    }
+    const sh = document.querySelector('.panel[data-estado]'); if (sh && sh.dataset.estado !== 'peek') document.querySelector('.sheet-h').click();
+    const m = window.__map; if (m && window.L && window.D) m.fitBounds(L.latLngBounds(D.vaos.flatMap(v => [[v[0], v[1]], [v[2], v[3]]])).pad(0.04), { animate: false });
+  });
+  await p.waitForTimeout(900);
+}
+const FRESCO = new Set(['tela-cheia', 'tela-cheia-gaveta', 'municipio', 'gaveta']);   // estados que mexem demais: página nova
+
 async function principal() {
   const args = process.argv.slice(2);
   const conj = args.filter(a => !a.startsWith('--')), only = (args.find(a => a.startsWith('--estados=')) || '').slice(10).split(',').filter(Boolean);
   const alims = (args.find(a => a.startsWith('--alim=')) || '').slice(7).split(',').filter(Boolean);
   const vps = (args.find(a => a.startsWith('--vp=')) || '--vp=d,m').slice(5).split(',');
+  const padrao = ['inicial', 'lupa', 'classe', 'filtros', 'camadas', 'trecho'];
   const browser = await chromium.launch();
   for (const c of conj) {
     for (const cod of (alims.length ? alims : ALIM)) for (const vp of vps) {
-      let estados = (args.find(a => a.startsWith('--estados=')) ? only : ['inicial', 'lupa', 'classe', 'filtros', 'camadas', 'trecho']);
-      for (const est of estados) {
-        if (est === 'gaveta' && (vp === 'd' || c === 'lupa')) continue;
-        const { ctx, p } = await abre(browser, cod, vp, c);
+      const estados = only.length ? only : padrao;
+      const leves = estados.filter(e => !FRESCO.has(e)), pesados = estados.filter(e => FRESCO.has(e));
+      let pg = await abre(browser, cod, vp, c), n = 0;
+      for (const est of leves) {
+        if (n++) await reseta(pg.p);
         try {
-          await ESTADOS[est](p);
-          await p.screenshot({ path: file(c, cod, vp, est), type: 'jpeg', quality: 80 });
-          console.log('ok', c, cod, vp, est, p.__erros.length ? 'ERROS JS: ' + p.__erros.join(' | ') : '');
+          await ESTADOS[est](pg.p);
+          await pg.p.screenshot({ path: file(c, cod, vp, est), type: 'jpeg', quality: 80 });
+          console.log('ok', c, cod, vp, est, pg.p.__erros.length ? 'ERROS JS: ' + pg.p.__erros.join(' | ') : '');
         } catch (e) { console.log('ERRO', c, cod, vp, est, e.message.split('\n')[0]); }
-        await ctx.close();
+      }
+      await pg.ctx.close();
+      for (const est of pesados) {
+        if (est === 'gaveta' && (vp !== 'm' || c === 'lupa')) continue;
+        const q = await abre(browser, cod, vp, c);
+        try {
+          await ESTADOS[est](q.p);
+          await q.p.screenshot({ path: file(c, cod, vp, est), type: 'jpeg', quality: 80 });
+          console.log('ok', c, cod, vp, est, q.p.__erros.length ? 'ERROS JS: ' + q.p.__erros.join(' | ') : '');
+        } catch (e) { console.log('ERRO', c, cod, vp, est, e.message.split('\n')[0]); }
+        await q.ctx.close();
       }
     }
   }

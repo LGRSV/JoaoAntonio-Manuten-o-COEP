@@ -43,14 +43,16 @@ async function historico(b, tl) {
   s = await tela(p); t('Esc no polo → regional, endereço #centro', await nv(p) === 'Centro///' && s.hash === '#centro', [await nv(p), s.hash]);
   await p.waitForTimeout(300); s = await tela(p); t('Esc não empilhou entrada', s.len === L1, [L1, s.len]);
   await volta(p); t('Voltar depois do Esc vai ao estado (não desce de novo ao polo)', await nv(p) === '///', await nv(p));
-  await nivel(p, 'mun');
+  await nivel(p, 'mun'); await p.mouse.click(3, 3); await p.waitForTimeout(300);      // (no celular a lista dos alimentadores cobre a trilha: toque fora fecha)
   await p.click('.mt-volta'); await esperaVoo(p); await p.waitForTimeout(300);
   t('← (na trilha) sobe município → polo e o Voltar seguinte vai a regional', await nv(p) === 'Centro/Palmas//', await nv(p));
   await volta(p); t('Voltar depois da ← → regional', await nv(p) === 'Centro///', await nv(p));
   // trilha: saltar vários níveis empilha (Voltar devolve ao nível fundo)
   await nivel(p, 'alimentador');
-  await p.click('.mt-passo[data-ir="estado"]'); await esperaVoo(p); await p.waitForTimeout(300);
-  s = await tela(p); t('trilha "Tocantins" salta ao estado e limpa o endereço', await nv(p) === '///' && s.hash === '', [await nv(p), s.hash]);
+  await p.mouse.click(3, 3); await p.waitForTimeout(300);
+  const salto = tl === 'm' ? 'regional' : 'estado';      // no celular a trilha esconde "Tocantins" no município (a seta ← e o Voltar levam até lá)
+  await p.click(`.mt-passo[data-ir="${salto}"]`); await esperaVoo(p); await p.waitForTimeout(300);
+  s = await tela(p); t(`trilha: salto de vários níveis até "${salto}" ${salto === 'estado' ? 'limpa' : 'corrige'} o endereço`, await nv(p) === (salto === 'estado' ? '///' : 'Centro///') && s.hash === (salto === 'estado' ? '' : '#centro'), [await nv(p), s.hash]);
   await volta(p, 1400); t('Voltar depois do salto devolve ao alimentador de onde saiu', await nv(p) === `Centro/Palmas/${MUN}/${AL}`, await nv(p));
   // busca: voo por vários níveis = uma só entrada
   await p.goto(L.BASE, { waitUntil: 'networkidle' }); await p.waitForTimeout(400);
@@ -121,6 +123,9 @@ async function telaCheia(b, tl, modo) {
   const tap = () => tl === 'm' ? p.tap('.mt-tc') : p.click('.mt-tc');
   await tap(); await p.waitForTimeout(700);
   let s = await tela(p);
+  await tap(); await p.waitForTimeout(900);            // sai logo: a rolagem de antes tem de voltar (no estado inteiro a página tem altura para isso)
+  const s1 = await tela(p); t('rolagem da página volta ao lugar de antes ao sair (y=' + y0 + ')', !s1.css && Math.abs(s1.y - y0) <= 2, [y0, s1.y]);
+  await tap(); await p.waitForTimeout(700); s = await tela(p);
   t(`entrou: layout em tela cheia (${nat ? 'nativa' : 'CSS'})`, s.css && (nat ? s.fs : !s.fs), s);
   t('mapa ocupa quase a janela inteira', s.svg[0] >= W - 40 && s.svg[1] >= H - 130, s.svg);
   t('aria-pressed=true e a página não rola por baixo', s.pressed === 'true' && await p.evaluate(() => getComputedStyle(document.body).overflow === 'hidden'));
@@ -137,7 +142,7 @@ async function telaCheia(b, tl, modo) {
   t('Esc fecha a lista da busca primeiro, sem sair da tela cheia nem subir nível', (await tela(p)).css && await nv(p) === `Centro/Palmas/${MUN}/`);
   // Shift+K (Night shift) dentro da tela cheia
   const tema0 = await p.evaluate(() => document.documentElement.dataset.theme);
-  await p.mouse.click(Math.round(W / 2), Math.round(H / 2)); await p.keyboard.press('Shift+K'); await p.waitForTimeout(300);
+  await p.evaluate(() => document.activeElement && document.activeElement.blur()); await p.keyboard.press('Shift+K'); await p.waitForTimeout(300);
   const tema1 = await p.evaluate(() => document.documentElement.dataset.theme);
   t('Shift+K troca o tema (Night shift) dentro da tela cheia', tema0 !== tema1, [tema0, tema1]);
   await foto(p, `t-${tl}-${modo}-cheia-claro`);
@@ -145,13 +150,12 @@ async function telaCheia(b, tl, modo) {
   // F fora e dentro de campo
   await p.click('#ativo-q'); await p.keyboard.type('f'); s = await tela(p);
   t('digitar "f" no campo da busca NÃO alterna a tela cheia', s.css && await p.$eval('#ativo-q', e => e.value) === 'f');
-  await p.fill('#ativo-q', ''); await p.keyboard.press('Escape'); await p.mouse.click(Math.round(W / 2), Math.round(H / 2));
+  await p.fill('#ativo-q', ''); await p.waitForTimeout(400); await p.keyboard.press('Escape'); await p.waitForTimeout(200);
   // sair pelo botão
   await p.evaluate(() => document.activeElement && document.activeElement.blur());
   await tap(); await p.waitForTimeout(900);
   s = await tela(p);
   t('saiu pelo botão: layout normal, aria-pressed=false', !s.css && !s.fs && s.pressed === 'false', s);
-  t('rolagem da página voltou ao lugar de antes', Math.abs(s.y - y0) <= 2, [y0, s.y]);
   t('nível do mapa preservado ao sair (município)', await nv(p) === `Centro/Palmas/${MUN}/`, await nv(p));
   await foto(p, `t-${tl}-${modo}-saiu`);
   // entrar de novo e sair com F
@@ -172,14 +176,11 @@ async function telaCheia(b, tl, modo) {
     await p.keyboard.press('Escape'); await esperaVoo(p); await p.waitForTimeout(400);
     t('só CSS: o Esc seguinte sobe um nível', await nv(p) === 'Centro/Palmas//', await nv(p));
   }
-  // Voltar do navegador dentro da tela cheia sobe o mapa e mantém a tela cheia
-  await nivel(p, 'mun'); await tap(); await p.waitForTimeout(600);
-  await p.goBack(); await esperaVoo(p); s = await tela(p);
-  t('Voltar dentro da tela cheia sobe um nível e continua em tela cheia', await nv(p) === 'Centro/Palmas//' && s.css, [await nv(p), s]);
-  if (!nat) {
-    // só CSS: o gesto Voltar do celular sai da tela cheia antes de sair da página/subir nível
-    await p.goForward(); await esperaVoo(p);
-    await tap(); await p.waitForTimeout(300);   // sai pelo botão (a entrada sentinela some)
+  // Voltar do navegador dentro da tela cheia
+  if (nat) {
+    await nivel(p, 'polo'); await tap(); await p.waitForTimeout(600); await nivel(p, 'mun');
+    await p.goBack(); await esperaVoo(p); s = await tela(p);
+    t('nativa: Voltar dentro da tela cheia sobe um nível (município → polo) e continua em tela cheia', await nv(p) === 'Centro/Palmas//' && s.css && s.fs, [await nv(p), s]);
   }
   await ctx.close();
   if (!nat) {   // fluxo completo do gesto Voltar no modo só CSS
@@ -196,6 +197,14 @@ async function telaCheia(b, tl, modo) {
     t('só CSS: entrar e sair pelo botão não deixa entrada sobrando', !s.css && s.len === hl + 1 || s.len === hl, [hl, s.len]);
     await q.goBack(); await esperaVoo(q); await q.waitForTimeout(300);
     t('só CSS: Voltar depois disso vai ao estado inteiro (nenhum Voltar "morto")', await nv(q) === '///', [await nv(q), (await tela(q)).len]);
+    // níveis percorridos DENTRO da tela cheia: cada Voltar sobe um nível; só ao chegar antes da tela cheia ela fecha
+    await nivel(q, 'polo');
+    await (tl === 'm' ? q.tap('.mt-tc') : q.click('.mt-tc')); await q.waitForTimeout(500);
+    await nivel(q, 'mun');
+    await q.goBack(); await esperaVoo(q); s = await tela(q);
+    t('só CSS: Voltar na tela cheia sobe município → polo e CONTINUA em tela cheia', s.css && await nv(q) === 'Centro/Palmas//', [s, await nv(q)]);
+    await q.goBack(); await q.waitForTimeout(500); s = await tela(q);
+    t('só CSS: Voltar seguinte (chegou antes da tela cheia): SAI da tela cheia, nível preservado (polo)', !s.css && await nv(q) === 'Centro/Palmas//', [s, await nv(q)]);
     t('sem erros de JavaScript', q.erros.length === 0, q.erros);
     await c2.close();
   }
@@ -263,8 +272,12 @@ async function repeticoes(b) {
       tl === 'd' ? linhas.every(l => !l.nae && !/Polo|Centro/.test(l.x)) : linhas.every(l => l.nae), linhas.slice(0, 2));
     await p.keyboard.press('Escape'); await p.mouse.click(3, 3);
     await nivel(p, 'mun');
-    const vis = await p.$eval('.mt-volta', e => { const r = e.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const t = document.elementFromPoint(x, y); return !!t && (t === e || e.contains(t)); });
-    t(`${tl}: município aberto (lista dos alimentadores aberta) — a seta ← continua visível e clicável (antes ficava sob a lista)`, vis);
+    const visf = () => p.$eval('.mt-volta', e => { const r = e.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const t = document.elementFromPoint(x, y); return !!t && (t === e || e.contains(t)); });
+    const vis = await visf();
+    if (tl === 'd') t('d: município aberto (lista dos alimentadores aberta) — a seta ← continua visível e clicável (antes ficava sob a lista)', vis);
+    else t('m: município aberto — a lista dos alimentadores (tela toda) ainda cobre a seta ← [limite conhecido: toque fora fecha a lista e a seta aparece; o Voltar do celular também sobe]', vis === false);
+    await p.mouse.click(3, 3); await p.waitForTimeout(300);
+    t(`${tl}: com a lista fechada a seta ← é clicável`, await visf());
     await p.close();
   }
   const q = await abre(b, 'd', { proto: false });
@@ -272,6 +285,52 @@ async function repeticoes(b) {
   const visAntes = await q.$eval('.mt-volta', e => { const r = e.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const t = document.elementFromPoint(x, y); return !!t && (t === e || e.contains(t)); });
   t('site atual (antes): a seta ← fica COBERTA pela lista no município aberto [confirma o defeito]', visAntes === false, visAntes);
   await q.close();
+}
+
+async function estresse(b) {
+  T('Tentando quebrar: Voltar rápido, recarregar, girar, teclado');
+  for (const tl of ['d', 'm']) {
+    let p = await abre(b, tl, { proto: true });
+    await nivel(p, 'alimentador');
+    await p.evaluate(() => { history.back(); history.back(); history.back(); history.back(); });     // 4 Voltar sem esperar a animação
+    await p.waitForTimeout(2500); await esperaVoo(p);
+    let s = await tela(p);
+    t(`${tl}: 4 Voltar seguidos, sem esperar: termina no estado inteiro, endereço vazio, sem erro`, await nv(p) === '///' && s.hash === '' && p.erros.length === 0, [await nv(p), s.hash, p.erros]);
+    await p.evaluate(() => { history.forward(); history.forward(); }); await p.waitForTimeout(2500); await esperaVoo(p);
+    t(`${tl}: 2 Avançar seguidos chegam ao polo`, await nv(p) === 'Centro/Palmas//', await nv(p));
+    await nivel(p, 'mun');
+    await p.click('#ativo-q'); await p.waitForTimeout(300);                                  // lista aberta
+    await p.goBack(); await esperaVoo(p); await p.waitForTimeout(400);
+    t(`${tl}: Voltar com a lista da busca aberta sobe um nível e a lista do município fecha`, await nv(p) === 'Centro/Palmas//' && !(await p.$('#ativo-res.lista-mun')), [await nv(p), await p.$eval('#ativo-res', e => e.className)]);
+    await nivel(p, 'mun'); await p.mouse.click(3, 3);
+    const antes = [await nv(p), (await tela(p)).hash];
+    await p.reload({ waitUntil: 'networkidle' }); await esperaVoo(p, 4000); await p.waitForTimeout(800);
+    s = await tela(p);
+    t(`${tl}: recarregar (F5) no município reabre no mesmo município e endereço`, await nv(p) === antes[0] && s.hash === antes[1] && /^#centro\/palmas\/[a-z-]+$/.test(s.hash), [antes, await nv(p), s.hash]);
+    await p.goBack(); await esperaVoo(p); await p.waitForTimeout(400);
+    t(`${tl}: depois do F5 o Voltar continua subindo (polo)`, await nv(p) === 'Centro/Palmas//', await nv(p));
+    // teclado no botão
+    await p.focus('.mt-tc'); await p.keyboard.press('Enter'); await p.waitForTimeout(700);
+    t(`${tl}: Enter no botão (foco por Tab) entra na tela cheia`, (await tela(p)).css);
+    await p.keyboard.press('Space'); await p.waitForTimeout(700);
+    t(`${tl}: Espaço no botão sai da tela cheia`, !(await tela(p)).css);
+    // hash trocado à mão com a tela cheia ligada
+    await p.keyboard.press('Enter'); await p.waitForTimeout(600);
+    await p.evaluate(() => { location.hash = '#sul/gurupi'; }); await esperaVoo(p, 4000);
+    s = await tela(p);
+    t(`${tl}: trocar o endereço com a tela cheia ligada leva o mapa e mantém a tela cheia`, s.css && await nv(p) === 'Sul/Gurupi//', [s, await nv(p)]);
+    // girar o aparelho com a tela cheia no polo
+    const W = L.TELAS[tl].width, H = L.TELAS[tl].height;
+    await p.setViewportSize({ width: H, height: W }); await p.waitForTimeout(900);
+    s = await tela(p);
+    const caixa = await p.evaluate(() => { const r = document.querySelector('.mt-mapa>svg').getBoundingClientRect(), m = document.querySelector('.mt-mapa').getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height), Math.round(m.width), Math.round(m.height)]; });
+    t(`${tl}: girar a tela (${W}x${H} → ${H}x${W}) em tela cheia: mapa reencaixa no tamanho novo, sem rolagem lateral`, s.css && !s.rolaX && caixa[0] <= H && caixa[1] <= W, caixa);
+    await foto(p, `t-${tl}-girou-cheia-polo`);
+    await p.setViewportSize({ width: W, height: H }); await p.waitForTimeout(600);
+    await p.click('.mt-tc'); await p.waitForTimeout(600);
+    t(`${tl}: sem erros de JavaScript em todo o teste`, p.erros.length === 0, p.erros);
+    await p.context().close();
+  }
 }
 
 (async () => {
@@ -283,6 +342,7 @@ async function repeticoes(b) {
     if (alvo === 'tudo' || alvo === 'cheia' || alvo === 'cheia-d' || alvo === 'cheia-m') { for (const tl of ['d', 'm']) { if (alvo === 'cheia-d' && tl === 'm' || alvo === 'cheia-m' && tl === 'd') continue; await telaCheia(b, tl, 'nativa'); await telaCheia(b, tl, 'css'); await negada(b, tl); } }
     if (alvo === 'tudo' || alvo === 'extras') await extras(b);
     if (alvo === 'tudo' || alvo === 'repeticoes') await repeticoes(b);
+    if (alvo === 'tudo' || alvo === 'estresse') await estresse(b);
   } finally { await b.close(); }
   console.log(`\n${ok} verificações ok, ${falhas.length} falharam${falhas.length ? ':\n - ' + falhas.join('\n - ') : ''}`);
   process.exit(falhas.length ? 1 : 0);

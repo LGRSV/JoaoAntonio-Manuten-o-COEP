@@ -137,9 +137,21 @@
       k.classList.toggle('acd-fechada', !sim);
       const t = k.querySelector(':scope>.limp-top'); if (t) t.setAttribute('aria-expanded', String(sim));
     };
+    // Subtítulo do cartão: "24,2 km de 154,0 km" repetia a extensão total do cabeçalho (em outra precisão): vira "24,2 km (16%)"; e o
+    // "· 3 criadas" só fica com o cartão fechado (aberto, a linha "Criadas · 3 OS" já diz). Só aritmética dos números que a página mostra.
+    const totalM = ((M.resumo || {}).extensao_m) || D.trechos.reduce((x, t) => x + t.ext, 0);
+    const num = x => parseFloat(String(x).replace(/\./g, '').replace(',', '.'));
+    const sub = k => {
+      const sm = k.querySelector(':scope>.limp-top h2 small'); if (!sm || sm.dataset.r2) return;
+      let h = sm.innerHTML;
+      h = h.replace(/([\d.]+,\d+) km de [\d.]+,\d+ km/, (_, a) => { const p = num(a) * 1000 / totalM * 100; return `${a} km (${p > 0 && p < 1 ? '<1' : Math.round(p)}%)`; });
+      h = h.replace(/ · (\d+ criadas?)\s*$/, ' <span class="sub-x">· $1</span>');
+      sm.dataset.r2 = '1'; sm.innerHTML = h;
+    };
     const prep = k => {                                   // o cartão refaz o próprio HTML: o gancho de teclado volta a cada vez
       const t = k.querySelector(':scope>.limp-top');
       if (t && !t.hasAttribute('role')) { t.setAttribute('role', 'button'); t.tabIndex = 0; t.setAttribute('aria-expanded', String(!k.classList.contains('acd-fechada'))); }
+      sub(k);
     };
     cards().forEach(k => {
       prep(k);
@@ -153,8 +165,38 @@
         abre(k, true);
       }).observe(k, { attributes: true, attributeFilter: ['hidden'] });
     });
+    // Insp→manut repete três vezes os mesmos números (subtítulo, linha do alimentador na tabela e as 3 linhas Vencidas/No prazo/Executadas).
+    // Aberto, ficam as 3 linhas (que também ligam e desligam no mapa); o subtítulo some (CSS) e a tabela vira só a linha do polo, o único dado novo.
+    const polo = k => {
+      const tb = k.querySelector(':scope>table.mnt-polo'); if (!tb || tb.dataset.r2) return;
+      const tr = [...tb.rows]; if (tr.length < 3) return;
+      const c = [...tr[tr.length - 1].cells], nome = c[0].childNodes[0] ? c[0].childNodes[0].textContent.trim() : 'polo', alim = (c[0].querySelector('small') || {}).textContent || '';
+      const p = document.createElement('p');
+      p.className = 'mnt-polo-l'; p.dataset.r2 = '1';
+      p.innerHTML = `<span>No ${nome.replace(/^Polo\s+/, 'polo ')}${alim ? ' (' + alim.replace(/\s*alim\.?$/, ' alimentadores') + ')' : ''}:</span>` +
+        `<b>${c[1].textContent}</b> vencidas · <b>${c[2].textContent}</b> no prazo · <b>${c[3].textContent}</b> executadas`;
+      tb.replaceWith(p);
+    };
+    cards().filter(k => k.classList.contains('mnt-card')).forEach(k => { polo(k); new MutationObserver(() => polo(k)).observe(k, { childList: true }); });
     const primeiro = cards().find(k => !k.hidden);
     cards().forEach(k => abre(k, k === primeiro));
+    // com um trecho escolhido, a ficha dele (abas) vem primeiro e os cartões, que são do alimentador inteiro, ficam recolhidos
+    // embaixo, sob um título; ao limpar o trecho, voltam a como estavam
+    const det = $('det');
+    if (!det) return;
+    const tit = document.createElement('p');
+    tit.className = 'al-sec'; tit.hidden = true; tit.textContent = 'Camadas · alimentador inteiro';
+    det.after(tit);
+    let guardado = null;
+    const segue = () => {
+      const tem = !!det.querySelector(':scope>h2');
+      tit.hidden = !tem || !cards().some(k => !k.hidden);
+      if (tem && !guardado) { guardado = cards().filter(k => !k.classList.contains('acd-fechada')); cards().forEach(k => abre(k, false)); }
+      else if (!tem && guardado) { guardado.forEach(k => abre(k, true)); guardado = null; }
+    };
+    new MutationObserver(segue).observe(det, { childList: true });
+    cards().forEach(k => new MutationObserver(segue).observe(k, { attributes: true, attributeFilter: ['hidden'] }));
+    segue();
   }
 
   /* ---------------------------------------------------------------- F · trecho escolhido: ficha + abas */

@@ -1,0 +1,14 @@
+--- extras.js
++++ extras.js
+@@ -4,8 +4,9 @@
+ (function () {
+   const M = D.meta || {};
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+-  const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';
+-  const mil = x => x === '' || x == null ? '' : Number(x).toLocaleString('pt-BR');
++  const __nfx2 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), __nfx0 = new Intl.NumberFormat('pt-BR');
++  const km = m => __nfx2.format(m / 1000) + ' km';
++  const mil = x => x === '' || x == null ? '' : __nfx0.format(Number(x));
+   const muns = M.municipios || [];
+   const mun = muns.find(x => x.slug === new URLSearchParams(location.search).get('m'));
+   const css = document.createElement('style');

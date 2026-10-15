@@ -7,7 +7,7 @@
 .mt-mapa.arrastando{user-select:none}
 .mt-mapa.arrastando>svg,.mt-mapa.arrastando .mun{cursor:grabbing!important}
 /* botões + ⤢ − (e o fator ×N) */
-.mt-zoom{position:absolute;right:0;top:0;z-index:4;display:grid;grid-auto-rows:var(--alvo);justify-items:stretch;
+.mt-zoom{position:absolute;right:0;top:calc(var(--alvo) + var(--s2));z-index:4;display:grid;grid-auto-rows:var(--alvo);justify-items:stretch;
   border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);box-shadow:var(--sh1);overflow:hidden}
 .mt-zoom button{display:grid;place-items:center;width:var(--alvo);padding:0;border:0;border-radius:0;background:none;color:var(--fg);cursor:pointer}
 .mt-zoom button+button,.mt-zoom output+button,.mt-zoom button+output{border-top:1px solid var(--line)}

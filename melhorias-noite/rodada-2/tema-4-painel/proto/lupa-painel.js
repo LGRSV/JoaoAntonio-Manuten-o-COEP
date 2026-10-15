@@ -1,8 +1,7 @@
-// [RODADA 2 · tema 4] Cópia da proposta da outra sessão (proto/original/lupa-painel.orig.js) com 4 acréscimos, todos marcados com "R2:".
+// [RODADA 2 · tema 4] Cópia da proposta da outra sessão (proto/original/lupa-painel.orig.js) com 2 acréscimos, marcados com "R2-a" e "R2-b".
 //   R2-a: com texto no campo, a lista suspensa mostra o resultado (ativos e trechos): a lista de trechos do painel e os achados
 //         soltos sobre o mapa saem (era a mesma lista em dois lugares). Enter abre o 1º resultado; ↓ entra na lista.
 //   R2-b: nota que fecha a conta da NAE (a soma das classes não bate com o total do alimentador).
-//   R2-c: o total do alimentador sai do painel (tabela Classe/Trechos/Extensão): está no resumo do cabeçalho (painel.js).
 // Painel do alimentador: a lupa do ARGOS (como na página inicial) no lugar da busca solta, dos botões T1 T2 T3 e do "Menu"
 // das camadas em cima do mapa. A barra fica: olho do ARGOS · campo "Buscar trecho, ativo ou poste" · botão Filtros.
 // - Olho (ou o campo vazio com foco): lista suspensa com as classes T1, T2 e T3 (trechos, km e NAE no período). Tocar na
@@ -138,11 +137,10 @@
       // R2-b: a soma das classes não fecha com o total do alimentador: entram nas classes as NAE de outros alimentadores cujo ativo hoje está aqui
       // (doExt) e ficam de fora as que a Crítica não consegue pôr num trecho (sem trecho). Dito em uma linha, para o número não parecer erro.
       if (nae && typeof doMes === 'function') {
-        const de = doExt().length, sem = doMes().filter(o => !o.trecho).length, pl = (n, a, b) => n + ' ' + (n === 1 ? a : b);
-        const partes = [];
-        if (de) partes.push(`entram ${pl(de, 'ocorrência de outro alimentador', 'ocorrências de outros alimentadores')} que hoje estão em trechos daqui`);
-        if (sem) partes.push(`${sem === 1 ? 'fica de fora 1 sem trecho' : 'ficam de fora ' + sem + ' sem trecho'}`);
-        if (partes.length) html += `<p class="lp-nota">NAE do alimentador: ${mil(doMes().length)}. Nas classes ${partes.join('; ')}.</p>`;
+        const de = doExt().length, sem = doMes().filter(o => !o.trecho).length, partes = [];
+        if (de) partes.push(de === 1 ? 'entra 1 ocorrência de outro alimentador que hoje está em trecho daqui' : `entram ${de} ocorrências de outros alimentadores que hoje estão em trechos daqui`);
+        if (sem) partes.push(sem === 1 ? 'fica de fora 1 sem trecho' : `ficam de fora ${sem} sem trecho`);
+        if (partes.length) html += `<p class="lp-nota">A soma das classes não é o NAE do alimentador (o selo no alto): ${partes.join('; ')}.</p>`;   // sem repetir o número do selo
       }
       const cams = [...document.querySelectorAll('#ctl-camadas .ctl-card > button:not(.tc-painel-m)')];
       if (cams.length) html += '<p class="lp-t">Camadas</p>' + cams.map((b, i) =>

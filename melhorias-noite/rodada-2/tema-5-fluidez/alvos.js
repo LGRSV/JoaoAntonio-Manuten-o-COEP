@@ -9,7 +9,8 @@ const varre = (page, min) => page.evaluate(min => {
   const sels = 'a[href],button,input:not([type=hidden]),select,textarea,summary,[role=button],[role=option],[tabindex="0"]';
   const out = [], mun = [];
   document.querySelectorAll(sels).forEach(e => {
-    const r = e.getBoundingClientRect(); if (r.width === 0 || r.height === 0) return;
+    let r = e.getBoundingClientRect(); if (r.width === 0 || r.height === 0) return;
+    const pa = getComputedStyle(e, '::after'); if (pa.position === 'absolute' && pa.top === '0px' && pa.left === '0px' && pa.content !== 'none') { const t = e.closest('tr,li'); if (t) r = t.getBoundingClientRect(); }   // link esticado (a linha toda é o alvo)
     let ok = true, op = 1; for (let n = e; n && n.nodeType === 1; n = n.parentElement) { const c = getComputedStyle(n); if (c.display === 'none' || c.visibility === 'hidden') ok = false; op *= parseFloat(c.opacity); }
     if (!ok || op < .05) return;
     if (r.bottom < 0 || r.top > innerHeight * 3) return;

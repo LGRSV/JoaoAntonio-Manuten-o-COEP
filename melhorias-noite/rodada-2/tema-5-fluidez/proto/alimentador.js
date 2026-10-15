@@ -8,10 +8,11 @@ const TR = Object.fromEntries(D.trechos.map(t => [t.nome, t]));
 const TIPO = {DJ:'disjuntor', '79':'religador', '03':'fusível 03', '33':'fusível 33', '02':'chave 02',
               '40':'trip saver 40', '41':'trip saver 41', SEC:'seccionamento',
               FTR:'fusível no tronco (não abre T3)'};
-const km = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' km';
+const __nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}), __nf0 = new Intl.NumberFormat('pt-BR');
+const km = m => m < 1000 ? Math.round(m) + ' m' : __nf2.format(m / 1000) + ' km';
 const nv = q => q + (q === 1 ? ' vão' : ' vãos');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const mil = x => Number(x).toLocaleString('pt-BR');     // 1996 → 1.996
+const mil = x => __nf0.format(Number(x));     // 1996 → 1.996
 const $ = id => document.getElementById(id);
 const FECHA = '<button type="button" class="fecha" id="todos" aria-label="Limpar seleção" title="Limpar seleção">✕</button>';
 

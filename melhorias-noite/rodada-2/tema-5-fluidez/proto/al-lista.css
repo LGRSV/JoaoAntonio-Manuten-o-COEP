@@ -1,0 +1,3 @@
+/* ===== Página do alimentador: a lista de trechos (até ~1.000 linhas, 8.000 nós) não pesa no layout fora da vista ===== */
+.lista>.row,.lista>.grp{content-visibility:auto;contain-intrinsic-size:auto 48px}
+.lista>.grp{contain-intrinsic-size:auto 32px}

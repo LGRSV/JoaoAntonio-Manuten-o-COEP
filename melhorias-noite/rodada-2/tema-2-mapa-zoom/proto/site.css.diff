@@ -1,0 +1,37 @@
+--- orig/site.css	2026-10-15 05:12:34.861065268 +0000
++++ proto/site.css	2026-10-15 05:15:20.128792256 +0000
+@@ -582,3 +582,34 @@
+ .mt-fios line{stroke:var(--cartao-fg);stroke-opacity:.55;stroke-width:1}
+ .mt-fios circle{fill:var(--selo);stroke:var(--cartao);stroke-width:1}
+ :root[data-theme="light"] .mt-fios line{stroke:#1b2024;stroke-opacity:.6}
++
++/* ====== Zoom livre do mapa (rodada 2 · tema 2): acrescentar ao fim de assets/site.css ====== */
++/* um dedo continua rolando a página; a pinça de dois dedos é tratada em mapa-municipios.js (touchmove não passivo) */
++.mt-mapa{touch-action:pan-x pan-y}
++/* aproximado: o mapa usa a largura toda da caixa, recorta o que passa e um dedo arrasta o mapa */
++.mt-mapa.zoomando>svg{touch-action:none;overflow:hidden;cursor:grab;border-radius:var(--r3);outline:1px solid var(--line);outline-offset:-1px}
++.mt-mapa.arrastando{user-select:none}
++.mt-mapa.arrastando>svg,.mt-mapa.arrastando .mun{cursor:grabbing!important}
++/* botões + ⤢ − (e o fator ×N) */
++.mt-zoom{position:absolute;right:0;top:calc(var(--alvo) + var(--s2));z-index:4;display:grid;grid-auto-rows:var(--alvo);justify-items:stretch;
++  border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);box-shadow:var(--sh1);overflow:hidden}
++.mt-zoom button{display:grid;place-items:center;width:var(--alvo);padding:0;border:0;border-radius:0;background:none;color:var(--fg);cursor:pointer}
++.mt-zoom button+button,.mt-zoom output+button,.mt-zoom button+output{border-top:1px solid var(--line)}
++.mt-zoom button:hover:not(:disabled){background:var(--hover);color:var(--accent)}
++.mt-zoom button:disabled{color:var(--muted);opacity:.45;cursor:default}
++.mt-zoom button:focus-visible{outline-offset:-2px}
++.mt-mapa .mt-zoom svg{width:20px;height:20px;min-height:0;max-height:none;margin:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
++.mt-zn{display:grid;place-items:center;font:700 var(--t-xs) var(--f-mono);font-variant-numeric:tabular-nums;color:var(--muted)}
++.mt-zn[hidden]{display:none}
++/* dica "Use Ctrl + rolagem": aparece só quando se rola por cima do mapa sem Ctrl */
++.mt-zdica{position:absolute;left:50%;top:12px;z-index:6;transform:translate(-50%,-6px);padding:8px 14px;border-radius:var(--rp);background:var(--fg);color:var(--paper);
++  box-shadow:var(--sh2);font:500 var(--t-sm)/1.3 var(--f-body);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
++.mt-zdica.on{opacity:1;transform:translate(-50%,0)}
++.mt-zdica kbd{font:600 var(--t-xs) var(--f-mono);padding:1px 6px;border-radius:4px;background:var(--paper);color:var(--fg)}
++/* aproximou bastante: os cartões das regionais e dos polos saem de cena (os municípios já mostram os deles);
++   enquanto o mapa se mexe, os cartões dos municípios somem e voltam já recalculados */
++.mt-regcards button,.mt-selos{transition:opacity .25s}
++.zoom-longe .mt-regcards button,.zoom-longe .mt-selos{opacity:0;pointer-events:none}
++.mt-nomes2{transition:opacity .12s;contain:layout style}
++.mexe .mt-nomes2{opacity:0}
++@media (prefers-reduced-motion:reduce){.mt-zdica,.mt-nomes2,.mt-selos,.mt-regcards button{transition:none}}

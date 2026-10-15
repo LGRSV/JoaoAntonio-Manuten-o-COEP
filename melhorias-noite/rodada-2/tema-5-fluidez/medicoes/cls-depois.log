@@ -1,0 +1,18 @@
+desktop|inicio|base            CLS 0.0002 0.0002/0.0002/0.0003 FCP 184 LCP 184 h1(624,21→629,18) ::after(183,872→170,859) ?(333,797→311,796) span(269,783→261,783)
+desktop|inicio|cpu4            CLS 0.0002 0.0003/0.0002/0.0002 FCP 552 LCP 552 h1(624,21→629,18) ::after(183,872→170,859) ?(680,366→682,363) span(269,783→261,783)
+desktop|inicio|lenta           CLS 0.0003 0.0003/0.0003/0.0003 FCP 952 LCP 952 ?(633,21→649,18) span(269,783→261,783) h1(624,18→629,18) ::after(183,872→170,859)
+desktop|polos|base             CLS 0.0001 0.0001/0.0001/0.0001 FCP 128 LCP 128 span(133,100→126,100) ?(56,474→56,471)
+desktop|polos|cpu4             CLS 0.0001 0.0001/0.0001/0.0001 FCP 212 LCP 212 span(133,100→126,100) ?(56,474→56,471)
+desktop|polos|lenta            CLS 0.0105 0.0105/0.0105/0.0105 FCP 984 LCP 984 ?(56,474→56,471) td(944,745→947,745) div.pl-polos(296,393→268,393)
+desktop|alimentador|base       CLS 0 0/0.0009/0 FCP 128 LCP 1708 ?(56,107→56,104) span.eyebrow(56,79→56,107) h1(56,98→56,126)
+desktop|alimentador|cpu4       CLS 0.0009 0.0009/0.0009/0 FCP 432 LCP 3884 span.eyebrow(56,79→56,107) h1(56,98→56,126) ?(56,107→56,104)
+desktop|alimentador|lenta      CLS 0.0009 0.0009/0/0.0009 FCP 980 LCP 7516 span.eyebrow(56,79→56,107) h1(56,98→56,126) ?(56,107→56,104)
+celular|inicio|base            CLS 0 0/0/0 FCP 124 LCP 172 
+celular|inicio|cpu4            CLS 0 0/0/0 FCP 340 LCP 608 
+celular|inicio|lenta           CLS 0.0006 0.0006/0.0006/0.0006 FCP 928 LCP 1172 h1(119,12→125,12) ?(168,304→171,303) ::after(117,726→130,739)
+celular|polos|base             CLS 0 0/0/0 FCP 72 LCP 72 
+celular|polos|cpu4             CLS 0.0002 0.0002/0.0002/0.0002 FCP 212 LCP 212 ?(16,557→16,554)
+celular|polos|lenta            CLS 0.1437 0.1437/0.1437/0.1437 FCP 952 LCP 952 div.pl-cab(16,606→16,556) div.pl-lista(16,808→16,758) button.pl-pil(167,480→153,430) ?(16,557→16,554)
+celular|alimentador|base       CLS 0 0/0/0 FCP 120 LCP 1324 
+celular|alimentador|cpu4       CLS 0 0.0363/0/0 FCP 284 LCP 3912 div.stage(16,302→16,354)
+celular|alimentador|lenta      CLS 0.0363 0.0363/0.0363/0.0363 FCP 960 LCP 5640 div.stage(16,302→16,354)

@@ -69,12 +69,56 @@
   regs.setAttribute('aria-hidden', 'true');
   Object.values(M.regs || {}).forEach(d => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); regs.append(p); });
   svg.append(regs);
-  const leg = alvo.querySelector('.mt-regs');
-  // legenda: canto inferior esquerdo, já aberta (details open) e recolhível; no celular começa fechada para não cobrir o mapa
-  if (leg && matchMedia('(max-width:860px)').matches) leg.open = false;
-  if (leg) leg.innerHTML = '<summary>NAE-Vegetação</summary><div class="mt-regs-c">' +
-    '<div class="mt-rampa" role="list">' + FAIXAS.map((l, i) => `<span role="listitem" title="${rotFaixa(i)}"><i class="nae-${i}" aria-hidden="true"></i><em aria-hidden="true">${i === 0 ? '0' : i === FAIXAS.length - 1 ? l + '+' : l + '–' + (FAIXAS[i + 1] - 1)}</em><span class="vh">${rotFaixa(i)}</span></span>`).join('') + '</div>' +
-    (M.regs ? '<span class="lim-s"><i class="lim" aria-hidden="true"></i>Limite das regionais</span>' : '') + '</div>';
+  // legenda das faixas de NAE: fixa lá em cima, na barra da lupa (que acompanha a rolagem), logo depois do olho, com o
+  // título "NAE-Vegetação" acima da faixa de cores. Clicar nela (ou arrastar para cima) esconde: sobra só uma orelhinha,
+  // que clicada (ou puxada para baixo) traz de volta. Escondida, os números de NAE saem do mapa em todos os níveis
+  // (cartões das regionais, dos polos e dos municípios, botões da barra, balão do mouse e listas): fica só a cor.
+  // A escolha fica guardada no navegador.
+  let leg = alvo.querySelector('.mt-regs');
+  const barra = alvo.querySelector('.mt-barra');
+  let legAberta = true;
+  try { legAberta = localStorage.getItem('argos-legenda') !== 'fechada'; } catch (e) { /* sem armazenamento: aberta */ }
+  if (leg) {
+    const nova = document.createElement('div');
+    nova.className = 'mt-regs';
+    leg.replaceWith(nova);
+    leg = nova;
+    const cores = FAIXAS.map((l, i) => `<i class="nae-${i}"></i>`).join('');
+    leg.innerHTML = '<div class="mt-regs-c" id="mt-regs-c"><b class="mt-regs-t" aria-hidden="true">NAE-Vegetação</b>' +
+      '<div class="mt-rampa" role="list" aria-label="Faixas de NAE-Vegetação">' + FAIXAS.map((l, i) => `<span role="listitem" title="${rotFaixa(i)}"><i class="nae-${i}" aria-hidden="true"></i>` +
+      `<em aria-hidden="true"><span class="mt-f-l">${i === 0 ? '0' : i === FAIXAS.length - 1 ? l + '+' : l + '–' + (FAIXAS[i + 1] - 1)}</span><span class="mt-f-c">${i === FAIXAS.length - 1 ? l + '+' : l}</span></em>` +
+      `<span class="vh">${rotFaixa(i)}</span></span>`).join('') + '</div></div>' +
+      `<button type="button" class="mt-regs-b" aria-controls="mt-regs-c" aria-label="Legenda NAE-Vegetação"><span class="mt-regs-m" aria-hidden="true">${cores}</span>` +
+      '<span class="mt-regs-o">NAE</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>';
+    (barra || caixa).append(leg);
+  }
+  const legBt = leg && leg.querySelector('.mt-regs-b'), legC = leg && leg.querySelector('.mt-regs-c');
+  function legenda(sim, guarda) {
+    legAberta = sim;
+    alvo.classList.toggle('sem-nae', !sim);
+    if (leg) {
+      leg.classList.toggle('fechada', !sim);
+      legC.hidden = !sim;
+      legBt.setAttribute('aria-expanded', String(sim));
+      leg.title = legBt.title = sim ? 'Esconder a legenda e os números de NAE (clique ou arraste para cima)' : 'Mostrar a legenda e os números de NAE (clique ou puxe para baixo)';
+    }
+    if (!guarda) return;
+    try { localStorage.setItem('argos-legenda', sim ? 'aberta' : 'fechada'); } catch (e) { /* só nesta visita */ }
+    poeNomes();                                         // sem o número os cartões dos municípios encolhem: cabem mais nomes
+  }
+  legenda(legAberta);
+  if (leg) {                                            // clique em qualquer ponto dela, ou arrastar: para cima esconde, para baixo mostra
+    let y0 = null, arrastou = false;
+    leg.addEventListener('pointerdown', e => { if (!e.button) { y0 = e.clientY; arrastou = false; } });
+    document.addEventListener('pointermove', e => {      // no documento: a orelhinha é pequena e o arrasto sai dela
+      if (y0 === null) return;
+      const dy = e.clientY - y0;
+      if (legAberta ? dy < -16 : dy > 16) { y0 = null; arrastou = true; legenda(!legAberta, true); }
+    });
+    document.addEventListener('pointerup', () => { y0 = null; setTimeout(() => { arrastou = false; }, 0); });   // o clique que vem logo depois do arrasto é ignorado
+    document.addEventListener('pointercancel', () => { y0 = null; });
+    leg.addEventListener('click', () => { if (arrastou) { arrastou = false; return; } legenda(!legAberta, true); });
+  }
   // teclado: um só município na ordem do Tab (o escolhido, ou Palmas); as setas andam pelo mapa
   const roda = cod => {
     svg.querySelectorAll('.mun[tabindex="0"]').forEach(p => p.setAttribute('tabindex', '-1'));
@@ -260,6 +304,39 @@
   selos.className = 'mt-selos';
   selos.setAttribute('aria-hidden', 'true');
   caixa.append(selos);
+  // tela cheia: o mapa todo (barra da lupa, legenda e mapa) cobre a tela; o mesmo botão ou Esc voltam. Sem a API de tela
+  // cheia (iPhone, ou dentro de um iframe que não permite) o mapa cobre a janela (classe .mt-cheia no site.css)
+  const tc = document.createElement('button');
+  tc.type = 'button';
+  tc.className = 'mt-tc';
+  const ICO_TC = { abre: 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5', sai: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' };
+  const nativa = () => (document.fullscreenElement || document.webkitFullscreenElement) === alvo;
+  const cheia = () => nativa() || alvo.classList.contains('mt-cheia');
+  const marcaTc = () => {
+    const sim = cheia();
+    tc.setAttribute('aria-label', sim ? 'Sair da tela cheia' : 'Mapa em tela cheia');
+    tc.title = sim ? 'Sair da tela cheia (Esc)' : 'Mapa em tela cheia';
+    tc.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${sim ? ICO_TC.sai : ICO_TC.abre}"/></svg>`;
+  };
+  const cobre = sim => {
+    alvo.classList.toggle('mt-cheia', sim);
+    document.documentElement.classList.toggle('mt-cheia-trava', sim);   // a página atrás não rola
+    marcaTc();
+  };
+  function telaCheia(sim) {
+    if (!sim) {
+      if (alvo.classList.contains('mt-cheia')) cobre(false);
+      else if (nativa()) { const p = (document.exitFullscreen || document.webkitExitFullscreen).call(document); if (p && p.catch) p.catch(() => {}); }
+      return;
+    }
+    const pede = alvo.requestFullscreen || alvo.webkitRequestFullscreen;
+    if (!pede || !(document.fullscreenEnabled || document.webkitFullscreenEnabled)) { cobre(true); return; }
+    try { const p = pede.call(alvo); if (p && p.catch) p.catch(() => cobre(true)); } catch (e) { cobre(true); }
+  }
+  tc.addEventListener('click', () => telaCheia(!cheia()));
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, marcaTc));
+  marcaTc();
+  caixa.append(tc);
   let desl = {};
   // enquadra a regional aberta deixando livre a coluna da legenda (computador) ou o topo para o "← Tocantins" (celular)
   const move = (b, [dx, dy]) => ({ x: b.x + dx, y: b.y + dy, x2: b.x2 + dx, y2: b.y2 + dy });
@@ -272,10 +349,10 @@
     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
     // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
     if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
-    // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
-    // com a busca da barra, a lista do município aberto abre embaixo da logo: o lado esquerdo fica livre para ela
-    const lista = window.ARGOS_BUSCA && mun && !alf ? ((document.querySelector('.mt-barra .ativo') || {}).offsetWidth || 0) : 0;
-    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
+    // a coluna da esquerda (seta e lista de alimentadores) fica livre; a legenda fica na barra, em cima do mapa
+    // com a busca da barra, a lista do município aberto abre embaixo da logo (largura fixa no site.css): o lado esquerdo fica livre para ela
+    const lista = window.ARGOS_BUSCA && mun && !alf ? Math.min(460, innerWidth - 32) : 0;
+    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg && caixa.contains(leg) ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
     const altura = H / k;
     return [x - L1 / k, y - (altura - h) / 2, w + (L1 + L2) / k, altura];
@@ -539,16 +616,17 @@
   const bbMun = {}, tamCartao = {};
   if (document.fonts) document.fonts.addEventListener('loadingdone', () => { for (const k in tamCartao) delete tamCartao[k]; });   // fonte chegou: mede de novo
   const bboxMun = cod => bbMun[cod] || (bbMun[cod] = el[cod].getBBox());
-  const bate = (a, b, f = 8) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
+
+  const bate = (a, b, f = matchMedia('(max-width:860px)').matches ? 4 : 8) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
   function poeNomes() {
     nomes2.innerHTML = '';
     if (mun || anima || (!pol && !Z)) return;                  // ZOOM: no estado/regional só há cartões com o zoom ligado
     const r = svg.getBoundingClientRect(), v = vb(), c0 = caixa.getBoundingClientRect(), ctm = svg.getScreenCTM();
     if (!r.width || !ctm) return;
-    const celular = matchMedia('(max-width:860px)').matches, ocupado = [];   // legenda e seta de voltar também entram na conta
-    // ZOOM: os botões +/− e, enquanto aparecem, os cartões das regionais (estado) ou dos polos (regional) também entram na conta
+    const celular = matchMedia('(max-width:860px)').matches, ocupado = [];   // seta de voltar (e a legenda, se estiver no mapa) também entram na conta
+    // ZOOM: o botão de tela cheia, os botões +/− e, enquanto aparecem, os cartões das regionais (estado) ou dos polos (regional) também entram na conta
     const longe = caixa.classList.contains('zoom-longe'), extra = longe ? [] : !reg ? [...cartoes.children] : !pol ? [...selos.children] : [];
-    [leg, leg && leg.open && leg.querySelector('.mt-regs-c'), volta, ctl, ...extra].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
+    [caixa.contains(leg) ? leg : null, volta, tc, ctl, ...extra].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
     const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
     const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
     const aTela = (x, y) => { pt.x = x; pt.y = y; return pt.matrixTransform(ctm); };
@@ -560,7 +638,7 @@
     // pontos candidatos no próprio município: o centro e anéis em volta (em pixels de tela)
     const ANEIS = [0, 9, 18, 28, 40, 54];
     function* cand(m) {                                         // preguiçoso: só testa o próximo ponto se o anterior não coube
-      const [ox, oy] = offDe(m), bases = [m.c];
+      const p = el[m.cod], [ox, oy] = offDe(m), bases = [m.c];
       if (Z) {                                                  // ZOOM: com o centro fora da tela, procura também em volta do ponto visível mais perto
         const px = Math.min(Math.max(m.c[0] + ox, v[0] + 50 * u), v[0] + v[2] - 50 * u) - ox, py = Math.min(Math.max(m.c[1] + oy, v[1] + 24 * u), v[1] + v[3] - 24 * u) - oy;
         if (Math.hypot(px - m.c[0], py - m.c[1]) > u) bases.push([px, py]);
@@ -571,44 +649,65 @@
         const n = rr ? 12 : 1;
         for (let i = 0; i < n; i++) {
           const a = i / n * 2 * Math.PI + (rr % 2 ? .26 : 0), q = new DOMPoint(cx + Math.cos(a) * rr * u, cy + Math.sin(a) * rr * u * .8);
-          yield q;
+          if (sem || p.isPointInFill(q)) yield q;               // ZOOM (estado/regional): a conta cara fica para depois de checar o espaço (dentro())
         }
       }
     }
-    let nomeados = 0;                                           // celular: só os 10 de maior NAE levam o nome; os demais, o número
+    // 1º: nome DENTRO do município (cartão inteiro; no celular, compacto; depois compacto). 2º: os que não couberam
+    // ganham o nome FORA, ao lado, ligado ao município por um fio fino (ninguém fica sem nome). 3º: só o número dentro.
+    const fios = document.createElementNS(NS, 'svg');
+    fios.setAttribute('class', 'mt-fios');
+    nomes2.append(fios);
+    const caixaR = (s, w, h) => ({ left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 });
+    const folga = celular ? 4 : 8;                              // ZOOM: o padrão de bate() chama matchMedia a cada comparação (centenas de milhares com zoom); aqui vai pronto
+    const cabe = R => !(R.left < livre.left || R.right > livre.right || R.top < livre.top || R.bottom > livre.bottom) && !ocupado.some(o => bate(R, o, folga));
+    const poe = (t, s, R) => { t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px'; ocupado.push(R); };
+    const dentro = (q, m) => q.dentro ?? (q.dentro = el[m.cod].isPointInFill(q));
+    const mede = (t, m, nv) => {                                // ZOOM: o tamanho de cada cartão é medido uma vez só (medir força layout)
+      t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv;
+      const k = `${m.cod}.${nv}.${celular ? 'c' : 'd'}`;
+      if (!tamCartao[k]) { t.style.left = '0px'; t.style.top = '0px'; tamCartao[k] = [t.offsetWidth, t.offsetHeight]; }
+      return tamCartao[k];
+    };
+    const sobra = [], ponta = {};
     ms.forEach(m => {
-      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso, para os 3 níveis
+      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso
       const ponto = k => { while (cache.length <= k) { const r = it.next(); if (r.done) return null; cache.push(r.value); } return cache[k]; };
       if (!ponto(0)) return;
       const [dx, dy] = offDe(m);
+      const tela = q => aTela(q.x + dx, q.y + dy);
+      ponta[m.cod] = { tela, ponto };
       const t = document.createElement('span');
       t.className = 'mt-mn';
       nomes2.append(t);
-      for (let nv = Math.min(celular ? (nomeados < 10 ? 1 : 2) : 0, sem ? 1 : 2); nv < (sem ? 2 : NIVEIS_ROT.length); nv++) {   // celular: já começa no cartão compacto; ZOOM: no estado/regional sempre nome + NAE (nunca só o número)
-        const ch = `${m.cod}.${nv}.${celular ? 'c' : 'd'}`;
-        if (!tamCartao[ch]) {                                   // ZOOM: o tamanho de cada cartão é medido uma vez só (medir força layout)
-          t.innerHTML = NIVEIS_ROT[nv](m);
-          t.dataset.nv = nv;
-          t.style.left = '0px'; t.style.top = '0px';
-          tamCartao[ch] = [t.offsetWidth, t.offsetHeight];
-        }
-        const [w, h] = tamCartao[ch];
-        for (let k = 0, q; (q = ponto(k)); k++) {
-          const s = aTela(q.x + dx, q.y + dy);
-          const R = { left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 };
-          if (R.left < livre.left || R.right > livre.right || R.top < livre.top || R.bottom > livre.bottom) continue;
-          if (ocupado.some(o => bate(R, o))) continue;
-          if (q.dentro === undefined) q.dentro = el[m.cod].isPointInFill(q);   // ZOOM: a conta cara (ponto dentro do município) fica por último
-          if (!q.dentro) continue;
-          t.innerHTML = NIVEIS_ROT[nv](m);
-          t.dataset.nv = nv;
-          t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px';
-          ocupado.push(R);
-          if (nv < 2) nomeados++;
-          return;
-        }
+      for (let nv = celular ? 1 : 0; nv < 2; nv++) {
+        const [w, h] = mede(t, m, nv);
+        for (let k = 0, q; (q = ponto(k)); k++) { const s = tela(q), R = caixaR(s, w, h); if (cabe(R) && (!sem || dentro(q, m))) { poe(t, s, R); return; } }
       }
-      t.remove();
+      sobra.push([m, t]);
+    });
+    if (sem) { sobra.forEach(([, t]) => t.remove()); return; }   // ZOOM: no estado/regional quem não coube fica sem cartão (nada de fios saindo de dezenas de municípios)
+    const ANG = 16, RAIOS = celular ? [30, 42, 56, 72, 90] : [38, 52, 68, 86, 108, 132, 160];
+    const resto = [];
+    const fora = (t, m, w, h) => {                              // põe o cartão ao lado do município, ligado por um fio
+      const s0 = ponta[m.cod].tela(ponta[m.cod].ponto(0));
+      for (const r of RAIOS) for (let i = 0; i < ANG; i++) {
+        const a = i / ANG * 2 * Math.PI - Math.PI / 2, s = { x: s0.x + Math.cos(a) * r, y: s0.y + Math.sin(a) * r * .75 }, R = caixaR(s, w, h);
+        if (!cabe(R)) continue;
+        poe(t, s, R);
+        t.classList.add('fora');
+        const x0 = s0.x - c0.left, y0 = s0.y - c0.top, x1 = s.x - c0.left, y1 = s.y - c0.top;
+        fios.insertAdjacentHTML('beforeend', `<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}"/><circle cx="${x0.toFixed(1)}" cy="${y0.toFixed(1)}" r="2.5"/>`);
+        return true;
+      }
+      return false;
+    };
+    sobra.forEach(([m, t]) => { const [w, h] = mede(t, m, 1); if (!fora(t, m, w, h)) resto.push([m, t]); });
+    resto.forEach(([m, t]) => {                                 // último recurso: só o número, dentro; senão fora, com fio
+      if (!legAberta) { t.remove(); return; }                   // sem NAE (legenda recolhida) não há o rótulo só do número
+      const [w, h] = mede(t, m, 2), { tela, ponto } = ponta[m.cod];
+      for (let k = 0, q; (q = ponto(k)); k++) { const s = tela(q), R = caixaR(s, w, h); if (cabe(R)) { poe(t, s, R); return; } }
+      if (!fora(t, m, w, h)) t.remove();
     });
   }
   // selo de cada polo: no município do polo mais perto do meio dele (o selo sempre cai dentro do polo)
@@ -658,9 +757,9 @@
   }
   const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
   volta.addEventListener('click', sobe);
-  document.addEventListener('keydown', e => {                // ZOOM: com o mapa aproximado, o 1º Esc enquadra de novo; o seguinte sobe um nível
+  document.addEventListener('keydown', e => {                // ZOOM: com o mapa aproximado, o 1º Esc enquadra de novo; o seguinte sobe um nível (ou sai da tela cheia)
     if (e.key !== 'Escape' || e.defaultPrevented) return;
-    if (Z) { e.preventDefault(); enquadraZ(); } else if (reg) sobe();
+    if (Z) { e.preventDefault(); enquadraZ(); } else if (reg) sobe(); else if (alvo.classList.contains('mt-cheia')) cobre(false);
   });
   if (window.ResizeObserver) new ResizeObserver(() => {
     if (Z && Math.abs(caixa.clientWidth - Z.wc) > 1) fimZ();   // ZOOM: a largura mudou de verdade (girou o aparelho, tela cheia): volta ao enquadramento do nível
@@ -688,7 +787,7 @@
     `<button type="button" data-z="mais" aria-label="Aproximar o mapa" title="Aproximar (+ ou ${mac ? '⌘' : 'Ctrl'} + rolagem)">${ic('M12 5v14M5 12h14')}</button>` +
     '<output class="mt-zn" hidden>×1,0</output>' +
     `<button type="button" data-z="menos" aria-label="Afastar o mapa" title="Afastar (−)" disabled>${ic('M5 12h14')}</button>` +
-    `<button type="button" data-z="fit" aria-label="Enquadrar o mapa" title="Enquadrar (0 ou Esc)" hidden>${ic('M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5')}</button>`;
+    `<button type="button" data-z="fit" aria-label="Enquadrar o mapa" title="Enquadrar (0 ou Esc)" hidden>${ic('M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5')}</button>`;   // ↺ (o ⤢ é do botão de tela cheia)
   caixa.append(ctl);
   const [zn, zMenos, zFit] = ['.mt-zn', '[data-z=menos]', '[data-z=fit]'].map(q => ctl.querySelector(q));
   const dicaZ = document.createElement('div');

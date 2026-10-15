@@ -28,7 +28,7 @@
 +  const nf = n => (n || 0).toLocaleString('pt-BR');
 +  const textoNivel = d => {
 +    if (d.al) { const m = porCod[d.mun], a = m.als.find(x => x.cod === d.al) || {}; return `Alimentador ${d.al} em foco, em ${m.nome}: ${nf(a.n)} NAE. Enter abre a página dele. Esc volta ao município.`; }
-+    if (d.mun) { const m = porCod[d.mun]; return `${m.nome}, polo ${m.polo}: ${nAls(m)}, ${nf(m.nae)} NAE. Esc volta ao polo.`; }
++    if (d.mun) { const m = porCod[d.mun]; return `${m.nome}${m.nome === m.polo ? '' : ', polo ' + m.polo}: ${nAls(m)}, ${nf(m.nae)} NAE. Esc volta ao polo.`; }
 +    if (d.pol) { const ms = M.muns.filter(m => m.polo === d.pol); return `Polo ${d.pol}: ${ms.length} municípios, ${nf(ms.reduce((s, m) => s + (m.nae || 0), 0))} NAE. Esc volta à regional ${d.reg}.`; }
 +    if (d.reg) { const ps = polosDe(d.reg).map(([p]) => p); return `Regional ${d.reg}: ${ps.length} polos, ${ps.join(', ')}. Esc volta ao Tocantins.`; }
 +    return `Tocantins inteiro. Regionais: ${Object.keys(M.regs || {}).map(r => r + ' ' + nf(M.muns.filter(m => m.reg === r).reduce((s, m) => s + (m.nae || 0), 0)) + ' NAE').join(', ')}.`;

@@ -1,0 +1,52 @@
+{
+  "tema": "Tema 4 · Painel do alimentador (rodada 2): a lupa do ARGOS e o painel numa proposta só, sem dado repetido",
+  "base": "site /teste/ + proposta da lupa (assets/lupa-painel.js, Artifact F9h14JEhEqGMgZqPrZXV8W, só lida)",
+  "testado_em": ["LD01072001", "AL03037009", "LD02022033 (grande)", "AL01015049 (pequeno)"],
+  "sugestoes": [
+    {
+      "titulo": "Uma linha só no alto, com o resumo do alimentador (199 trechos · 153,98 km · NAE 23); mapa na altura da tela",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["antes/lupa-LD01072001-d-inicial.jpg", "antes/lupa-LD01072001-m-inicial.jpg", "antes/lupa-LD02022033-d-inicial.jpg", "antes/lupa-AL01015049-d-inicial.jpg"],
+      "depois": ["depois/LD01072001-d-inicial.jpg", "depois/LD01072001-m-inicial.jpg", "depois/LD02022033-d-inicial.jpg", "depois/AL01015049-d-inicial.jpg", "depois/AL03037009-d-inicial.jpg", "depois/claro-LD01072001-d-inicial.jpg", "depois/claro-LD01072001-m-inicial.jpg", "depois/LD01072001-n-inicial.jpg", "depois/LD01072001-t-inicial.jpg", "depois/LD01072001-p-inicial.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Cabeçalho, resumo e lupa na mesma linha; o resumo assume o total e o NAE que eram da tabela do painel. Mapa de 924x702 (624 visíveis) para 992x814 inteiro; celular 358x490 para 366x629."
+    },
+    {
+      "titulo": "Painel só com dados: sai o que a lupa e o cabeçalho já dizem; a busca responde dentro da lupa; nota que fecha a conta da NAE",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["antes/lupa-LD01072001-d-sem-faixa.jpg", "antes/lupa-LD01072001-d-lupa.jpg", "antes/lupa-LD01072001-d-inicial.jpg"],
+      "depois": ["depois/LD01072001-d-lupa.jpg", "depois/LD01072001-d-busca.jpg", "depois/LD01072001-m-busca.jpg", "depois/LD01072001-d-sem-faixa.jpg", "depois/LD01072001-d-municipio.jpg", "depois/LD02022033-d-busca.jpg"],
+      "prototipo": ["proto/lupa-painel.js", "proto/lupa-painel.diff", "proto/painel.css", "proto/painel.js"],
+      "descricao": "Tabela de classes, NAE do alimentador, lista de trechos, Ordem e achados soltos saem do painel; modo busca na lista suspensa da lupa (R2-a), nota da NAE (R2-b), município enquadra o mapa."
+    },
+    {
+      "titulo": "Trecho escolhido: ficha curta + abas (NAE · Faixa · Inspeção · Insp→manut · Manutenção); cartões do alimentador recolhidos embaixo",
+      "prioridade": 2,
+      "esforco": "M",
+      "antes": ["antes/lupa-LD01072001-d-trecho.jpg", "antes/lupa-LD01072001-m-trecho.jpg"],
+      "depois": ["depois/LD01072001-d-trecho.jpg", "depois/LD01072001-m-trecho.jpg", "depois/LD02022033-d-trecho.jpg", "depois/AL01015049-d-trecho.jpg", "depois/AL03037009-d-trecho.jpg", "depois/claro-LD01072001-d-trecho.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Rolagem do painel com o T2-A e 4 camadas: 11.409 px para cerca de 1.158 px."
+    },
+    {
+      "titulo": "Camadas em acordeão; legendas em linha e recolhíveis no celular; legenda das classes no mapa só quando aparece; Insp→manut sem a tripla repetição",
+      "prioridade": 3,
+      "esforco": "M",
+      "antes": ["antes/lupa-LD01072001-d-camadas.jpg", "antes/lupa-LD01072001-m-camadas.jpg"],
+      "depois": ["depois/LD01072001-d-camadas.jpg", "depois/LD01072001-m-camadas.jpg", "depois/LD01072001-d-insp-manut.jpg", "depois/AL03037009-d-camadas.jpg", "depois/LD01072001-d-sem-faixa.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Painel com 4 camadas cabe nos 814 px; coluna de legendas de 598 px para 156 px (celular: 386 px para botão de 32 px)."
+    },
+    {
+      "titulo": "Celular: mapa na tela quase inteira e painel numa gaveta inferior (que acompanha a lupa)",
+      "prioridade": 4,
+      "esforco": "G",
+      "antes": ["antes/lupa-LD01072001-m-inicial.jpg", "antes/lupa-LD01072001-m-trecho.jpg", "antes/lupa-LD01072001-m-camadas.jpg"],
+      "depois": ["depois/LD01072001-m-inicial.jpg", "depois/LD01072001-m-gaveta.jpg", "depois/LD01072001-m-trecho.jpg", "depois/LD01072001-m-camadas.jpg", "depois/LD01072001-m-busca.jpg", "depois/LD01072001-m-tela-cheia-gaveta.jpg", "depois/LD02022033-m-trecho.jpg", "depois/claro-LD01072001-m-lupa.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Gaveta de 60 px / 46% / 88%; escolher trecho na lupa sobe a gaveta (menos enquanto digita) e o mapa enquadra o trecho na parte livre."
+    }
+  ]
+}

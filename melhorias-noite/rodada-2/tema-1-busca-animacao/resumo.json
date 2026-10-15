@@ -1,0 +1,34 @@
+{
+  "tema": "Tema 1 · rodada 2: tela cheia do mapa inicial, botão Voltar subindo um nível (hash) e dados repetidos",
+  "base": "https://lgrsv.github.io/vera-vegeta-o-back/teste/ (= alimentador/site/*.js e site.css)",
+  "testes": {"verificacoes": 232, "falhas": 0, "log": "testes.log"},
+  "sugestoes": [
+    {
+      "titulo": "Tela cheia do mapa da página inicial (botão, F, Esc, nativa e só CSS, celular)",
+      "prioridade": 2,
+      "esforco": "P",
+      "antes": ["prints/antes-d-estado.jpg", "prints/antes-m-estado.jpg", "prints/antes-m-polo.jpg"],
+      "depois": ["prints/depois-d-estado.jpg", "prints/depois-d-cheia-estado.jpg", "prints/depois-d-cheia-mun.jpg", "prints/depois-d-cheia-claro-alimentador.jpg", "prints/depois-m-cheia-estado.jpg", "prints/depois-m-cheia-mun.jpg", "prints/depois-m-paisagem-cheia-polo.jpg"],
+      "prototipo": ["proto/mapa-extras.js", "proto/site.css", "proto/site.css.diff"],
+      "descricao": "Botão no canto do mapa leva barra, mapa e legenda para a tela cheia. API nativa com fallback por CSS (iPhone, iframe), Esc sai primeiro nos dois modos, F alterna, no modo só CSS o gesto Voltar sai da tela cheia antes de subir nível. Arquivo novo; nenhum JS existente muda."
+    },
+    {
+      "titulo": "Botão Voltar do navegador / gesto do celular sobe um nível do mapa (hash por nível, link abre no nível certo)",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["prints/antes-d-link-ignorado.jpg"],
+      "depois": ["prints/depois-d-voltar-folha.jpg", "prints/depois-m-voltar-folha.jpg", "prints/depois-d-link-alimentador.jpg", "prints/depois-m-link-polo.jpg"],
+      "prototipo": ["proto/mapa-extras.js"],
+      "descricao": "#centro, #centro/palmas, #centro/palmas/palmas, #centro/palmas/palmas/LD02059122. Descer empilha; Esc, seta e trilha reaproveitam o Voltar; busca que voa por vários níveis é uma entrada só; endereço inválido é corrigido; título da aba acompanha o nível. Usa só ARGOS_MAPA e o evento argos-nivel."
+    },
+    {
+      "titulo": "Remover os dados repetidos que sobraram (cartões x chips, balão, lista da busca, trilha) e a seta ← escondida",
+      "prioridade": 3,
+      "esforco": "P",
+      "antes": ["prints/antes-d-regional-notas.jpg", "prints/antes-d-polo-dica-notas.jpg", "prints/antes-d-busca-polo-notas.jpg", "prints/antes-d-mun-notas.jpg", "prints/antes-m-regional-notas.jpg"],
+      "depois": ["prints/depois-d-regional.jpg", "prints/depois-d-polo-dica.jpg", "prints/depois-d-busca-polo.jpg", "prints/depois-d-mun.jpg", "prints/depois-m-regional.jpg", "prints/depois-m-mun.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mapa-municipios.js.diff", "proto/busca-ativo.js", "proto/busca-ativo.js.diff", "proto/site.css"],
+      "descricao": "Cartões dos polos viram os botões e a barra deixa de repetir os nomes; balão sem nome/NAE/contexto que o mapa e a trilha já mostram; lista da busca vazia sem NAE e sem contexto repetido no computador (no celular a NAE fica); trilha com Polo Palmas; seta ← dentro da trilha."
+    }
+  ]
+}

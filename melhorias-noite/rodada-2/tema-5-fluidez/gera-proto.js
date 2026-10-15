@@ -35,7 +35,7 @@ patch('assets/mapa-municipios.js', 'mapa-municipios.js', [
   const nf = n => (n || 0).toLocaleString('pt-BR');
   const textoNivel = d => {
     if (d.al) { const m = porCod[d.mun], a = m.als.find(x => x.cod === d.al) || {}; return \`Alimentador \${d.al} em foco, em \${m.nome}: \${nf(a.n)} NAE. Enter abre a página dele. Esc volta ao município.\`; }
-    if (d.mun) { const m = porCod[d.mun]; return \`\${m.nome}, polo \${m.polo}: \${nAls(m)}, \${nf(m.nae)} NAE. Esc volta ao polo.\`; }
+    if (d.mun) { const m = porCod[d.mun]; return \`\${m.nome}\${m.nome === m.polo ? '' : ', polo ' + m.polo}: \${nAls(m)}, \${nf(m.nae)} NAE. Esc volta ao polo.\`; }
     if (d.pol) { const ms = M.muns.filter(m => m.polo === d.pol); return \`Polo \${d.pol}: \${ms.length} municípios, \${nf(ms.reduce((s, m) => s + (m.nae || 0), 0))} NAE. Esc volta à regional \${d.reg}.\`; }
     if (d.reg) { const ps = polosDe(d.reg).map(([p]) => p); return \`Regional \${d.reg}: \${ps.length} polos, \${ps.join(', ')}. Esc volta ao Tocantins.\`; }
     return \`Tocantins inteiro. Regionais: \${Object.keys(M.regs || {}).map(r => r + ' ' + nf(M.muns.filter(m => m.reg === r).reduce((s, m) => s + (m.nae || 0), 0)) + ' NAE').join(', ')}.\`;
@@ -71,9 +71,38 @@ patch('assets/menu.js', 'menu.js', [
   document.head.append(css);`],
 ]);
 
+// ---------- limpeza.js e extras.js (página do alimentador): mesmo ajuste do formatador ----------
+patch('assets/limpeza.js', 'limpeza.js', [
+  [`const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';`,
+   `const __nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const km = m => __nf1.format(m / 1000) + ' km';`],
+]);
+patch('assets/extras.js', 'extras.js', [
+  [`const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';`,
+   `const __nfx2 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), __nfx0 = new Intl.NumberFormat('pt-BR');
+  const km = m => __nfx2.format(m / 1000) + ' km';`],
+  [`const mil = x => x === '' || x == null ? '' : Number(x).toLocaleString('pt-BR');`, `const mil = x => x === '' || x == null ? '' : __nfx0.format(Number(x));`],
+]);
+
+// ---------- ranking por polos: o CSS embutido repete os tokens (--alvo:40px) depois do site.css ----------
+patch('assets/ranking-polos.js', 'ranking-polos.js', [
+  [`const nf = (n, d = 0) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });`,
+   `const __nfs = {};   // um Intl.NumberFormat por nº de casas (toLocaleString com opções cria um novo a cada chamada: 186 ms de CPU 4x só aqui)
+  const nf = (n, d = 0) => (__nfs[d] || (__nfs[d] = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }))).format(n);`],
+  [`.wrap{max-width:var(--wrap)}
+#polos{display:grid`, `@media (pointer:coarse){:root{--alvo:44px}}
+.wrap{max-width:var(--wrap)}
+#polos{display:grid`],
+]);
+
 // ---------- página do alimentador: desenho dos vãos ----------
 patch('assets/alimentador.js', 'alimentador.js', [
   // vãos encadeados (o fim de um é o começo do próximo) viram UMA linha: o Leaflet simplifica e desenha menos segmentos
+  // toLocaleString() com opções cria um Intl.NumberFormat a CADA chamada (km e mil rodam ~2x por linha das ~1.000 linhas da lista): formatador criado uma vez
+  [`const km = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' km';`,
+   `const __nf2 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}), __nf0 = new Intl.NumberFormat('pt-BR');
+const km = m => m < 1000 ? Math.round(m) + ' m' : __nf2.format(m / 1000) + ' km';`],
+  [`const mil = x => Number(x).toLocaleString('pt-BR');`, `const mil = x => __nf0.format(Number(x));`],
   [`    const l = L.polyline(vs.map(v => [[v[0], v[1]], [v[2], v[3]]]), {color: t.cor, weight: t.peso, opacity: 1, lineCap: 'round'}).addTo(map);`,
    `    const aneis = []; let cur = null;                       // vãos em sequência (fim = começo do seguinte) formam uma só polilinha
     vs.forEach(v => { if (cur && cur[cur.length - 1][0] === v[0] && cur[cur.length - 1][1] === v[1]) cur.push([v[2], v[3]]); else aneis.push(cur = [[v[0], v[1]], [v[2], v[3]]]); });

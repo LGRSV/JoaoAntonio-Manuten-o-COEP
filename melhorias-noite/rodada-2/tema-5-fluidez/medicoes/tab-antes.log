@@ -49,7 +49,7 @@ desktop polo paradas: 15 | problemas: 4 | anúncios: 0
    15 a "manifesto.json"                                                 
    16 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]
-desktop municipio paradas: 15 | problemas: 3 | anúncios: 7
+desktop municipio paradas: 15 | problemas: 3 | anúncios: 1
     1 button.mnu-btn "Menu"                                              
     2 a.cab-link "Ranking"                                               
     3 button#lupa.lupa "Ir para a busca"                                 
@@ -67,22 +67,25 @@ desktop municipio paradas: 15 | problemas: 3 | anúncios: 7
    15 a "manifesto.json"                                                 
    16 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-desktop alimentador paradas: 8 | problemas: 1 | anúncios: 0
+   anúncio: ativo-res 1112 car. Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 NAEAL030620
+desktop alimentador paradas: 16 | problemas: 3 | anúncios: 0
     1 button.mnu-btn "Menu"                                              
     2 a.cab-link "Ranking"                                               
     3 button#lupa.lupa "Ir para a busca"                                 
     4 input#ativo-q.busca "Município, alimentador, ativo, OS"            
-    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02" INVISIVEL     
+    5 div#ativo-res.lista-mun "Alimentadores de Porto Nacional · 23AL02"     
     6 button.mt-passo "Tocantins"                                        
     7 button.mt-passo "Centro"                                           
     8 button.mt-passo "Porto Nacional"                                   
-    9 button.mt-passo "Porto Nacional"                                   (volta ao começo)
+    9 button.mt-passo "Porto Nacional"                                   
+   10 path "Porto Nacional"                                              
+   11 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   12 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   13 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   14 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   15 a "Relatório de validação"                                         
+   16 a "manifesto.json"                                                 
+   17 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]
 celular estado paradas: 11 | problemas: 0 | anúncios: 0
     1 button.mnu-btn "Menu"                                              
@@ -136,7 +139,7 @@ celular polo paradas: 15 | problemas: 4 | anúncios: 0
    15 a "manifesto.json"                                                 
    16 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]
-celular municipio paradas: 15 | problemas: 3 | anúncios: 24
+celular municipio paradas: 15 | problemas: 3 | anúncios: 1
     1 button.mnu-btn "Menu"                                              
     2 a.cab-link "Ranking"                                               
     3 button#lupa.lupa "Ir para a busca"                                 
@@ -154,13 +157,8 @@ celular municipio paradas: 15 | problemas: 3 | anúncios: 24
    15 a "manifesto.json"                                                 
    16 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-   anúncio: ativo-res: Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 N
-celular alimentador paradas: 8 | problemas: 1 | anúncios: 0
+   anúncio: ativo-res 1112 car. Alimentadores de Porto Nacional · 23AL02057189391,3 km aqui · SE NOVA PINHEIRÓPOLIS44 NAEAL01057189280,5 km aqui · SE NOVA PINHEIRÓPOLIS31 NAEAL030620
+celular alimentador paradas: 16 | problemas: 4 | anúncios: 0
     1 button.mnu-btn "Menu"                                              
     2 a.cab-link "Ranking"                                               
     3 button#lupa.lupa "Ir para a busca"                                 
@@ -169,5 +167,13 @@ celular alimentador paradas: 8 | problemas: 1 | anúncios: 0
     6 button.mt-passo "Tocantins"                                        
     7 button.mt-passo "Centro"                                           
     8 button.mt-passo "Porto Nacional"                                   
-    9 button.mt-passo "Porto Nacional"                                   (volta ao começo)
+    9 button.mt-passo "Porto Nacional"                                   
+   10 path "Porto Nacional"                                              
+   11 button "Abrir a Regional Norte, 3.130 NAE"                     INVISIVEL     
+   12 button "Abrir a Regional Centro, 1.655 NAE"                    INVISIVEL     
+   13 button "Abrir a Regional Sul, 963 NAE"                         INVISIVEL     
+   14 button.mt-volta "AL02057189. Voltar a Porto Nacional"              
+   15 a "Relatório de validação"                                         
+   16 a "manifesto.json"                                                 
+   17 BODY ""                                                            (volta ao começo)
    live: ativo-res[polite], mnu-st[polite]

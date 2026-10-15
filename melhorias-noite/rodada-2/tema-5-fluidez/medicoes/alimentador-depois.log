@@ -1,0 +1,4 @@
+desktop|base     pronto 742 FCP 148 LCP 1168 TBT 590 LT 5 (max 229) CLS 0 KB 740 req 23 nós 9096 heap 47MB DCL 1452 load 1457
+     arrastar       {"fps":57,"pior":150,"p95":16.7,"travados":1,"longtasks":1,"ltMax":159}
+     zoom-roda      {"fps":41.1,"pior":100,"p95":50,"travados":8,"longtasks":3,"ltMax":89}
+     hover-linhas   {"fps":60,"pior":16.8,"p95":16.7,"travados":0,"longtasks":0,"ltMax":0}

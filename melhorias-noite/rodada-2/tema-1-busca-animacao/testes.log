@@ -1,0 +1,290 @@
+######## suíte: historico-d
+
+## Histórico · computador 1440x900
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro
+  ok   polo → #centro/palmas
+  ok   município → #centro/palmas/palmas
+  ok   alimentador → #centro/palmas/palmas/LD02059122
+  ok   cada descida empilhou uma entrada (4 níveis = +4)
+  ok   título da aba acompanha o nível
+  ok   Voltar 1: alimentador → município (mapa e endereço)
+  ok   Voltar 2: município → polo
+  ok   Voltar 3: polo → regional
+  ok   Voltar 4: regional → estado inteiro
+  ok   depois de tudo isso o mapa voltou ao enquadramento do estado (cartões de regionais visíveis)
+  ok   Avançar desce de novo (regional)
+  ok   Avançar ×4 chega ao alimentador
+  ok   sem erros de JavaScript durante Voltar/Avançar
+  ok   Esc no polo → regional, endereço #centro
+  ok   Esc não empilhou entrada
+  ok   Voltar depois do Esc vai ao estado (não desce de novo ao polo)
+  ok   ← (na trilha) sobe município → polo e o Voltar seguinte vai a regional
+  ok   Voltar depois da ← → regional
+  ok   trilha: salto de vários níveis até "estado" limpa o endereço
+  ok   Voltar depois do salto devolve ao alimentador de onde saiu
+  ok   busca "Lagoa da Confusão" leva o mapa ao município
+  ok   o voo da busca (estado → município) empilhou UMA entrada
+  ok   Voltar depois da busca volta ao estado inteiro
+  ok   busca de alimentador abre já com o alimentador em foco e endereço completo
+  ok   ...com uma só entrada nova
+  ok   trocar o hash à mão (#sul) leva o mapa à regional Sul
+
+## Link com endereço · d
+  ok   abrir #norte cai em Norte///
+  ok     #norte: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas cai em Centro/Palmas//
+  ok     #centro/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas cai em Centro/Palmas/1721000/
+  ok     #centro/palmas/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/LD02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/LD02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/ld02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/ld02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/PALMAS/Palmas cai em Centro/Palmas/1721000/
+  ok     #centro/PALMAS/Palmas: sem erros, sem rolagem lateral
+  ok   link inválido #centro/xyz → Centro///, barra #centro
+  ok   link inválido #centro/palmas/xyz → Centro/Palmas//, barra #centro/palmas
+  ok   link inválido #centro/palmas/palmas/ZZ999 → Centro/Palmas/1721000/, barra #centro/palmas/palmas
+  ok   link inválido #sul/palmas → Sul///, barra #sul
+  ok   link inválido #zzz → ///, barra #zzz
+  ok   link #centro/palmas aberto direto: histórico não ganhou entradas extras
+  ok   Voltar num link aberto direto sai do site (comportamento normal do navegador)
+
+48 verificações ok, 0 falharam
+
+######## suíte: historico-m
+
+## Histórico · celular 390x844 (toque)
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro
+  ok   polo → #centro/palmas
+  ok   município → #centro/palmas/palmas
+  ok   alimentador → #centro/palmas/palmas/LD02059122
+  ok   cada descida empilhou uma entrada (4 níveis = +4)
+  ok   título da aba acompanha o nível
+  ok   Voltar 1: alimentador → município (mapa e endereço)
+  ok   Voltar 2: município → polo
+  ok   Voltar 3: polo → regional
+  ok   Voltar 4: regional → estado inteiro
+  ok   depois de tudo isso o mapa voltou ao enquadramento do estado (cartões de regionais visíveis)
+  ok   Avançar desce de novo (regional)
+  ok   Avançar ×4 chega ao alimentador
+  ok   sem erros de JavaScript durante Voltar/Avançar
+  ok   Esc no polo → regional, endereço #centro
+  ok   Esc não empilhou entrada
+  ok   Voltar depois do Esc vai ao estado (não desce de novo ao polo)
+  ok   ← (na trilha) sobe município → polo e o Voltar seguinte vai a regional
+  ok   Voltar depois da ← → regional
+  ok   trilha: salto de vários níveis até "regional" corrige o endereço
+  ok   Voltar depois do salto devolve ao alimentador de onde saiu
+  ok   busca "Lagoa da Confusão" leva o mapa ao município
+  ok   o voo da busca (estado → município) empilhou UMA entrada
+  ok   Voltar depois da busca volta ao estado inteiro
+  ok   busca de alimentador abre já com o alimentador em foco e endereço completo
+  ok   ...com uma só entrada nova
+  ok   trocar o hash à mão (#sul) leva o mapa à regional Sul
+
+## Link com endereço · m
+  ok   abrir #norte cai em Norte///
+  ok     #norte: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas cai em Centro/Palmas//
+  ok     #centro/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas cai em Centro/Palmas/1721000/
+  ok     #centro/palmas/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/LD02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/LD02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/ld02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/ld02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/PALMAS/Palmas cai em Centro/Palmas/1721000/
+  ok     #centro/PALMAS/Palmas: sem erros, sem rolagem lateral
+  ok   link inválido #centro/xyz → Centro///, barra #centro
+  ok   link inválido #centro/palmas/xyz → Centro/Palmas//, barra #centro/palmas
+  ok   link inválido #centro/palmas/palmas/ZZ999 → Centro/Palmas/1721000/, barra #centro/palmas/palmas
+  ok   link inválido #sul/palmas → Sul///, barra #sul
+  ok   link inválido #zzz → ///, barra #zzz
+  ok   link #centro/palmas aberto direto: histórico não ganhou entradas extras
+  ok   Voltar num link aberto direto sai do site (comportamento normal do navegador)
+
+48 verificações ok, 0 falharam
+
+######## suíte: cheia-d
+
+## Tela cheia nativa · computador
+  ok   botão existe, fora da tela cheia: aria-pressed=false e rótulo "Mapa em tela cheia"
+  ok   alvo de toque ≥ 40x40
+  ok   rolagem da página volta ao lugar de antes ao sair (y=120)
+  ok   entrou: layout em tela cheia (nativa)
+  ok   mapa ocupa quase a janela inteira
+  ok   aria-pressed=true e a página não rola por baixo
+  ok   sem rolagem lateral
+  ok   navegar até o município dentro da tela cheia (clique) mantém a tela cheia
+  ok   a lista da busca abre dentro da tela cheia, sem cortar
+  ok   Esc fecha a lista da busca primeiro, sem sair da tela cheia nem subir nível
+  ok   Shift+K troca o tema (Night shift) dentro da tela cheia
+  ok   digitar "f" no campo da busca NÃO alterna a tela cheia
+  ok   saiu pelo botão: layout normal, aria-pressed=false
+  ok   nível do mapa preservado ao sair (município)
+  ok   F entra na tela cheia
+  ok   F sai da tela cheia
+  ok   Esc / saída nativa (exitFullscreen) desfaz o layout e mantém o nível
+  ok   o Esc seguinte (fora da tela cheia) sobe um nível: município → polo
+  ok   nativa: Voltar dentro da tela cheia sobe um nível (município → polo) e continua em tela cheia
+
+## Tela cheia só CSS (sem Fullscreen API, como no iPhone) · computador
+  ok   botão existe, fora da tela cheia: aria-pressed=false e rótulo "Mapa em tela cheia"
+  ok   alvo de toque ≥ 40x40
+  ok   rolagem da página volta ao lugar de antes ao sair (y=120)
+  ok   entrou: layout em tela cheia (CSS)
+  ok   mapa ocupa quase a janela inteira
+  ok   aria-pressed=true e a página não rola por baixo
+  ok   sem rolagem lateral
+  ok   navegar até o município dentro da tela cheia (clique) mantém a tela cheia
+  ok   a lista da busca abre dentro da tela cheia, sem cortar
+  ok   Esc fecha a lista da busca primeiro, sem sair da tela cheia nem subir nível
+  ok   Shift+K troca o tema (Night shift) dentro da tela cheia
+  ok   digitar "f" no campo da busca NÃO alterna a tela cheia
+  ok   saiu pelo botão: layout normal, aria-pressed=false
+  ok   nível do mapa preservado ao sair (município)
+  ok   F entra na tela cheia
+  ok   F sai da tela cheia
+  ok   só CSS: Esc sai da tela cheia primeiro (igual ao nativo), sem subir nível
+  ok   só CSS: o Esc seguinte sobe um nível
+  ok   só CSS: entrar na tela cheia empilha 1 entrada sentinela
+  ok   só CSS: gesto Voltar SAI da tela cheia (não sobe nível nem sai da página)
+  ok   só CSS: entrar e sair pelo botão não deixa entrada sobrando
+  ok   só CSS: Voltar depois disso vai ao estado inteiro (nenhum Voltar "morto")
+  ok   só CSS: Voltar na tela cheia sobe município → polo e CONTINUA em tela cheia
+  ok   só CSS: Voltar seguinte (chegou antes da tela cheia): SAI da tela cheia, nível preservado (polo)
+  ok   sem erros de JavaScript
+
+## Tela cheia negada pelo navegador · d
+  ok   API recusada → continua em tela cheia por CSS
+  ok   e o botão sai normalmente
+  ok   sem erros de JavaScript
+
+47 verificações ok, 0 falharam
+
+######## suíte: cheia-m
+
+## Tela cheia nativa · celular
+  ok   botão existe, fora da tela cheia: aria-pressed=false e rótulo "Mapa em tela cheia"
+  ok   alvo de toque ≥ 40x40
+  ok   rolagem da página volta ao lugar de antes ao sair (y=95)
+  ok   entrou: layout em tela cheia (nativa)
+  ok   mapa ocupa quase a janela inteira
+  ok   aria-pressed=true e a página não rola por baixo
+  ok   sem rolagem lateral
+  ok   navegar até o município dentro da tela cheia (clique) mantém a tela cheia
+  ok   a lista da busca abre dentro da tela cheia, sem cortar
+  ok   Esc fecha a lista da busca primeiro, sem sair da tela cheia nem subir nível
+  ok   Shift+K troca o tema (Night shift) dentro da tela cheia
+  ok   digitar "f" no campo da busca NÃO alterna a tela cheia
+  ok   saiu pelo botão: layout normal, aria-pressed=false
+  ok   nível do mapa preservado ao sair (município)
+  ok   F entra na tela cheia
+  ok   F sai da tela cheia
+  ok   Esc / saída nativa (exitFullscreen) desfaz o layout e mantém o nível
+  ok   o Esc seguinte (fora da tela cheia) sobe um nível: município → polo
+  ok   nativa: Voltar dentro da tela cheia sobe um nível (município → polo) e continua em tela cheia
+
+## Tela cheia só CSS (sem Fullscreen API, como no iPhone) · celular
+  ok   botão existe, fora da tela cheia: aria-pressed=false e rótulo "Mapa em tela cheia"
+  ok   alvo de toque ≥ 40x40
+  ok   rolagem da página volta ao lugar de antes ao sair (y=95)
+  ok   entrou: layout em tela cheia (CSS)
+  ok   mapa ocupa quase a janela inteira
+  ok   aria-pressed=true e a página não rola por baixo
+  ok   sem rolagem lateral
+  ok   navegar até o município dentro da tela cheia (clique) mantém a tela cheia
+  ok   a lista da busca abre dentro da tela cheia, sem cortar
+  ok   Esc fecha a lista da busca primeiro, sem sair da tela cheia nem subir nível
+  ok   Shift+K troca o tema (Night shift) dentro da tela cheia
+  ok   digitar "f" no campo da busca NÃO alterna a tela cheia
+  ok   saiu pelo botão: layout normal, aria-pressed=false
+  ok   nível do mapa preservado ao sair (município)
+  ok   F entra na tela cheia
+  ok   F sai da tela cheia
+  ok   só CSS: Esc sai da tela cheia primeiro (igual ao nativo), sem subir nível
+  ok   só CSS: o Esc seguinte sobe um nível
+  ok   só CSS: entrar na tela cheia empilha 1 entrada sentinela
+  ok   só CSS: gesto Voltar SAI da tela cheia (não sobe nível nem sai da página)
+  ok   só CSS: entrar e sair pelo botão não deixa entrada sobrando
+  ok   só CSS: Voltar depois disso vai ao estado inteiro (nenhum Voltar "morto")
+  ok   só CSS: Voltar na tela cheia sobe município → polo e CONTINUA em tela cheia
+  ok   só CSS: Voltar seguinte (chegou antes da tela cheia): SAI da tela cheia, nível preservado (polo)
+  ok   sem erros de JavaScript
+
+## Tela cheia negada pelo navegador · m
+  ok   API recusada → continua em tela cheia por CSS
+  ok   e o botão sai normalmente
+  ok   sem erros de JavaScript
+
+47 verificações ok, 0 falharam
+
+######## suíte: extras
+
+## Paisagem no celular (844x390) em tela cheia
+  ok   mapa ocupa a janela em paisagem
+
+## Movimento reduzido
+  ok   com movimento reduzido o Voltar sobe sem esperar animação
+  ok   sem erros
+
+## Regressão: o site SEM o protótipo não muda
+  ok   site atual: não há botão de tela cheia e o endereço não muda ao navegar (sem histórico)
+  ok   site atual: sem erros
+
+5 verificações ok, 0 falharam
+
+######## suíte: repeticoes
+
+## Dados repetidos (protótipo)
+  ok   d: regional — sem chips de polo na barra; 3 cartões são botões
+  ok   d: regional — ← é o 1º item da trilha
+  ok   d: clicar no cartão do polo abre o polo
+  ok   d: trilha do polo: "Polo Palmas"
+  ok   d: cartão do polo abre por teclado (Enter)
+  ok   d: lista do campo vazio no polo — sem NAE e sem "Polo Palmas · Centro" nas linhas
+  ok   d: município aberto (lista dos alimentadores aberta) — a seta ← continua visível e clicável (antes ficava sob a lista)
+  ok   d: com a lista fechada a seta ← é clicável
+  ok   m: regional — sem chips de polo na barra; 3 cartões são botões
+  ok   m: regional — ← é o 1º item da trilha
+  ok   m: clicar no cartão do polo abre o polo
+  ok   m: trilha do polo: "Polo Palmas"
+  ok   m: cartão do polo abre por teclado (Enter)
+  ok   m: lista do campo vazio no polo — no celular mantém NAE (a lista cobre o mapa)
+  ok   m: município aberto — a lista dos alimentadores (tela toda) ainda cobre a seta ← [limite conhecido: toque fora fecha a lista e a seta aparece; o Voltar do celular também sobe]
+  ok   m: com a lista fechada a seta ← é clicável
+  ok   site atual (antes): a seta ← fica COBERTA pela lista no município aberto [confirma o defeito]
+
+17 verificações ok, 0 falharam
+
+######## suíte: estresse
+
+## Tentando quebrar: Voltar rápido, recarregar, girar, teclado
+  ok   d: 4 Voltar seguidos, sem esperar: termina no estado inteiro, endereço vazio, sem erro
+  ok   d: 2 Avançar seguidos chegam ao polo
+  ok   d: Voltar com a lista da busca aberta sobe um nível e a lista do município fecha
+  ok   d: recarregar (F5) no município reabre no mesmo município e endereço
+  ok   d: depois do F5 o Voltar continua subindo (polo)
+  ok   d: Enter no botão (foco por Tab) entra na tela cheia
+  ok   d: Espaço no botão sai da tela cheia
+  ok   d: trocar o endereço com a tela cheia ligada leva o mapa e mantém a tela cheia
+  ok   d: girar a tela (1440x900 → 900x1440) em tela cheia: mapa reencaixa no tamanho novo, sem rolagem lateral
+  ok   d: sem erros de JavaScript em todo o teste
+  ok   m: 4 Voltar seguidos, sem esperar: termina no estado inteiro, endereço vazio, sem erro
+  ok   m: 2 Avançar seguidos chegam ao polo
+  ok   m: Voltar com a lista da busca aberta sobe um nível e a lista do município fecha
+  ok   m: recarregar (F5) no município reabre no mesmo município e endereço
+  ok   m: depois do F5 o Voltar continua subindo (polo)
+  ok   m: Enter no botão (foco por Tab) entra na tela cheia
+  ok   m: Espaço no botão sai da tela cheia
+  ok   m: trocar o endereço com a tela cheia ligada leva o mapa e mantém a tela cheia
+  ok   m: girar a tela (390x844 → 844x390) em tela cheia: mapa reencaixa no tamanho novo, sem rolagem lateral
+  ok   m: sem erros de JavaScript em todo o teste
+
+20 verificações ok, 0 falharam
+

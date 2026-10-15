@@ -59,12 +59,15 @@ const esperaVoo = async (p, ms = 2500) => { try { await p.waitForFunction(() => 
 const nivelAtual = p => p.evaluate(() => window.ARGOS_MAPA.nivel());
 // navega por cliques de verdade até o nível pedido (só faz o que falta)
 async function nivel(p, ate) {
+  try { await nivel0(p, ate); } finally { await p.mouse.move(1, 1); await p.waitForTimeout(250); }
+}
+async function nivel0(p, ate) {
   const tem = c => p.$eval('.mt-mapa', (e, c) => e.classList.contains(c), c);
   if (!await tem('aberta')) { await p.click('.mt-regcards button[data-reg="Centro"]'); await esperaVoo(p); }
   if (ate === 'regional') return;
   if (!await tem('polo')) {                                     // protótipo: o cartão do polo no mapa é o botão; site atual: o chip da barra
-    await p.waitForSelector('.mt-selos .mt-pm, .mt-pchip[data-polo]', { timeout: 5000 });
-    await p.click(await p.$('.mt-selos .mt-pm[data-polo="Palmas"]') ? '.mt-selos .mt-pm[data-polo="Palmas"]' : '.mt-pchip[data-polo="Palmas"]'); await esperaVoo(p);
+    await p.waitForSelector('.mt-selos button.mt-pm, .mt-pchip[data-polo]', { timeout: 5000 });
+    await p.click(await p.$('.mt-selos button.mt-pm[data-polo="Palmas"]') ? '.mt-selos button.mt-pm[data-polo="Palmas"]' : '.mt-pchip[data-polo="Palmas"]'); await esperaVoo(p);
   }
   if (ate === 'polo') return;
   if (!await tem('nivel-mun')) { await p.click('.mun.tem[aria-label="Palmas"]', { force: true }); await esperaVoo(p); }
@@ -72,12 +75,13 @@ async function nivel(p, ate) {
   if (!await p.$('#ativo-res .sug-op')) { await p.click('#ativo-q'); await p.waitForTimeout(300); }
   await p.click('#ativo-res .sug-op'); await esperaVoo(p);
 }
+const solta = p => p.mouse.move(1, 1);                 // tira o mouse de cima do mapa (o toque emulado deixa um "hover" que apaga os outros polos)
 const foto = (p, nome, opt = {}) => p.screenshot({ path: path.join(RAIZ, 'prints', nome + '.jpg'), type: 'jpeg', quality: 80, ...opt });
 // caixas tracejadas numeradas sobre elementos (mapa das repetições)
 async function anota(p, grupos) {
   await p.evaluate(g => {
     document.querySelectorAll('.__nota').forEach(e => e.remove());
-    g.forEach(([sel, n]) => document.querySelectorAll(sel).forEach(el => {
+    g.forEach(([sel, n, max]) => [...document.querySelectorAll(sel)].slice(0, max || 999).forEach(el => {
       const r = el.getBoundingClientRect(); if (!r.width || !r.height) return;
       const d = document.createElement('div'); d.className = '__nota';
       d.style.cssText = `position:fixed;left:${r.left - 3}px;top:${r.top - 3}px;width:${r.width + 6}px;height:${r.height + 6}px;border:2px dashed #ffd400;border-radius:6px;z-index:99999;pointer-events:none`;
@@ -88,4 +92,4 @@ async function anota(p, grupos) {
   }, grupos);
 }
 const semNotas = p => p.evaluate(() => document.querySelectorAll('.__nota').forEach(e => e.remove()));
-module.exports = { chromium, abre, nivel, esperaVoo, nivelAtual, foto, anota, semNotas, TELAS, BASE, RAIZ, baixa };
+module.exports = { chromium, abre, nivel, solta, esperaVoo, nivelAtual, foto, anota, semNotas, TELAS, BASE, RAIZ, baixa };
