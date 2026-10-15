@@ -172,8 +172,14 @@ b.mt-atual{font:700 var(--t-sm) var(--f-body);color:var(--fg);padding:0 2px}
 .mt-barra .busca{max-width:none}
 .ativo .lupa{flex:none;display:grid;place-items:center;width:var(--alvo);min-height:var(--alvo);padding:0;border:1px solid var(--line);border-radius:999px;
   background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
-.ativo .lupa svg{width:30px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.ativo .lupa svg .no{fill:var(--paper)}
+.ativo .lupa{width:48px}
+.ativo .lupa img{display:block;width:34px;height:auto}
+/* logo do ARGOS: traço branco sobre transparente (assets/argos.png); no tema claro vira preto */
+.argos-img{pointer-events:none}
+:root[data-theme="light"] .argos-img{filter:invert(1)}
+header.cab h1{display:flex;align-items:center;justify-content:center;gap:var(--s3);flex-wrap:wrap}
+.argos-cab{width:72px;height:auto}
+@media (max-width:860px){.argos-cab{width:52px}}
 .ativo .lupa:hover{filter:none;background:var(--hover);color:var(--accent)}
 .ativo .lupa[aria-expanded=true]{border-color:var(--accent);color:var(--accent)}
 .ativo .busca[hidden]{display:none}
