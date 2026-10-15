@@ -1,0 +1,102 @@
+{
+ "tema": "Fluidez e acabamento (rodada 2): Tab/leitor de tela, CLS, alvos de toque, página do alimentador e ranking",
+ "sugestoes": [
+  {
+   "titulo": "Página do alimentador: carga e zoom mais leves",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/02-antes-cls-alimentador-quadro1-1440.jpg",
+    "prints/02-antes-cls-alimentador-quadro2-1440.jpg"
+   ],
+   "depois": [
+    "prints/02-depois-cls-alimentador-quadro1-1440.jpg",
+    "prints/02-depois-cls-alimentador-quadro2-1440.jpg",
+    "prints/00-resumo-antes-depois.jpg"
+   ],
+   "prototipo": [
+    "proto/al-lista.css",
+    "proto/alimentador.js",
+    "proto/limpeza.js",
+    "proto/inspecao.js",
+    "proto/extras.js"
+   ],
+   "descricao": "content-visibility na lista de 1.019 trechos, vãos encadeados em uma polilinha (52.548 -> 8.104 anéis), papel() com índice e Intl.NumberFormat em cache. Estilo+layout da carga 714 -> 426 ms (CPU 4x: 4.313 -> 2.349), TBT CPU 4x 6,7 s -> 3,8 s, redesenho a cada zoom 149 -> 56 ms (CPU 4x), pinça no celular 30 -> 44 fps."
+  },
+  {
+   "titulo": "Sem salto de 64 px em nenhuma página (reserva do ☰ e cartões escondidos até posicionar)",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [
+    "prints/01-antes-cls-inicio-quadro1-1440.jpg",
+    "prints/01-antes-cls-inicio-quadro1-390.jpg",
+    "prints/03-antes-cls-polos-quadro2-390.jpg"
+   ],
+   "depois": [
+    "prints/01-depois-cls-inicio-quadro1-1440.jpg",
+    "prints/01-depois-cls-inicio-quadro1-390.jpg",
+    "prints/03-depois-cls-polos-quadro1-390.jpg"
+   ],
+   "prototipo": [
+    "proto/cls.css",
+    "proto/al-cls.css",
+    "proto/mapa-municipios.js"
+   ],
+   "descricao": "2 regras de CSS (.wrap::before com a geometria do .mnu; cartões visibility:hidden até data-ok) e 1 linha de JS. CLS início 0,059 -> 0,0002; ranking 0,037 -> 0,0001; alimentador 0,058 -> 0."
+  },
+  {
+   "titulo": "Tab coerente e leitor de tela que sabe o nível do mapa",
+   "prioridade": 3,
+   "esforco": "P",
+   "antes": [
+    "prints/04-antes-tab-regional-1440.jpg",
+    "prints/04-antes-tab-regional-390.jpg",
+    "prints/05-antes-tab-busca-1440.jpg"
+   ],
+   "depois": [
+    "prints/04-depois-tab-regional-1440.jpg",
+    "prints/04-depois-tab-regional-390.jpg",
+    "prints/05-depois-tab-busca-1440.jpg"
+   ],
+   "prototipo": [
+    "proto/foco.css",
+    "proto/mapa-municipios.js",
+    "proto/busca-ativo.js"
+   ],
+   "descricao": "Cartões visibility:hidden quando escondidos e 1º na ordem do Tab, caixa de resultados e lupa fora do Tab, região role=status que anuncia cada nível (73 a 108 caracteres; antes a lista inteira de 1.112 caracteres ao abrir o município). 0 paradas invisíveis; 1 a 5 paradas a menos por nível. Não testado com leitor de tela real."
+  },
+  {
+   "titulo": "Alvos de toque de 44 px em todas as telas",
+   "prioridade": 4,
+   "esforco": "P",
+   "antes": [
+    "prints/06-antes-alvos-regional-390.jpg",
+    "prints/06-antes-alvos-alimentador-390.jpg",
+    "prints/06-antes-alvos-polos-390.jpg"
+   ],
+   "depois": [
+    "prints/06-depois-alvos-regional-390.jpg",
+    "prints/06-depois-alvos-alimentador-390.jpg",
+    "prints/06-depois-alvos-polos-390.jpg"
+   ],
+   "prototipo": [
+    "proto/toque.css",
+    "proto/al-toque.css",
+    "proto/menu.js",
+    "proto/ranking-polos.js"
+   ],
+   "descricao": "@media (pointer:coarse) com --alvo 44 px (site.css, alimentador.css e o :root duplicado do ranking-polos.js), ☰ 44 px no menu.js e overrides na página do alimentador. Alvos < 44 px no celular: 5 a 10 por nível -> 0; ranking 12 -> 0; alimentador 30 -> 1 (atribuição do Leaflet)."
+  },
+  {
+   "titulo": "Ranking por polos: formatador de números em cache",
+   "prioridade": 5,
+   "esforco": "P",
+   "antes": [],
+   "depois": [],
+   "prototipo": [
+    "proto/ranking-polos.js"
+   ],
+   "descricao": "nf() criava um Intl.NumberFormat por número (186 ms de CPU 4x). Latência de clique (CPU 4x) 584 -> 360 ms no computador, 496 -> 464 ms no celular; carga praticamente igual. Ganho pequeno."
+  }
+ ]
+}
