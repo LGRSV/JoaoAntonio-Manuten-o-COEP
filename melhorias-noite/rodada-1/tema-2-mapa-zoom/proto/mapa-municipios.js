@@ -722,7 +722,7 @@
   // vai até um município (busca, atalhos): o município ocupa ~55% da menor dimensão do mapa
   function voaPara(cod, folga = .55) {
     const m = porCod[cod];
-    if (!m || anima || mun || !ligaZ()) return false;
+    if (!m || anima || mun || !doNivel(m) || !ligaZ()) return false;
     const b = (el[cod].getBBox()), [ox, oy] = (reg && desl[m.polo] ? desl[m.polo] : [0, 0]).map((q, i) => q + (pol && mdesl[cod] ? mdesl[cod][i] : 0));
     const asp = Z.base[3] / Z.base[2], w = Math.max(b.width / folga, b.height / folga / asp), cx = b.x + b.width / 2 + ox, cy = b.y + b.height / 2 + oy;
     vai(limita([cx - w / 2, cy - w * asp / 2, w, w * asp]), true);

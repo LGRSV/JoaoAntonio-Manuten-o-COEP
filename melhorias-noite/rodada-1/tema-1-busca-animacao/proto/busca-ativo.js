@@ -58,6 +58,7 @@
       abreCampo(true);
     });
   }
+  if (P('s4') && matchMedia('(max-width:520px)').matches) q.placeholder = 'Município, alimentador, ativo…';   // cabe no celular
   const EX = [['Município', 'Palmas'], ['Alimentador', 'LD01072001'], ['Ativo: chave, trafo ou poste', '7900001071'], ['OS (nº/ano)', '000353/2026']];
   const dicas = () => '<div class="sug-dicas"><p>Busque por</p><div>' +
     EX.map(([t, x]) => `<button type="button" class="sug-ex" data-ex="${x}"><span>${t}</span><b>${x}</b></button>`).join('') + '</div></div>';
@@ -122,8 +123,8 @@
       const nNae = v => (v || 0).toLocaleString('pt-BR');
       res.innerHTML = '<ul class="sug" role="listbox" aria-label="Resultados">' +
         bl('OS', kOS ? [op2(`OS ${esc(txt)}`, 'bases de faixa, inspeção, manutenção e executadas', 'os')] : []) +
-        bl('Municípios', ms.map(m => op2(hl(m.nome, txt), `${m.reg ? 'Regional ' + esc(m.reg) + ' · ' + esc(m.polo) + ' · ' : ''}${nNae(m.nae)} NAE · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`, 'mun', ' class="nome"'))) +
-        bl('Alimentadores', as.map(c => { const o = info[c] || { ms: [] }; return op2(hl(c, txt), `${esc(o.se || '')} · ${nNae(o.n)} NAE · ${esc(o.ms[0] ? o.ms[0][0] : '')}${o.ms.length > 1 ? ' e mais ' + (o.ms.length - 1) : ''}`, 'al'); })) +
+        bl('Municípios', ms.map(m => op2(hl(m.nome, txt), `${m.reg ? esc(m.reg) + ' › ' + esc(m.polo) + ' · ' : ''}${nNae(m.nae)} NAE · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`, 'mun', ' class="nome"'))) +
+        bl('Alimentadores', as.map(c => { const o = info[c] || { ms: [] }; return op2(hl(c, txt), `${esc(o.se || '')} · ${nNae(o.n)} NAE · ${esc(o.ms[0] ? o.ms[0][0] : '')}${o.ms.length > 1 ? ' +' + (o.ms.length - 1) : ''}`, 'al'); })) +
         bl('Ativos', at.map(([c, tipo]) => op2(hl(c, txt), esc(TIPO[tipo] || 'Chave ' + tipo), 'at'))) + '</ul>' +
         (achados.length > at.length ? `<p class="sug-mais">e mais ${(achados.length - at.length).toLocaleString('pt-BR')} ativos: continue digitando</p>` : '') +
         '<p class="sug-teclas" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> navegar · <kbd>Enter</kbd> escolher · <kbd>Esc</kbd> fechar</p>';
@@ -164,13 +165,13 @@
   });
   res.addEventListener('click', e => { const o = e.target.closest('.sug-op'); if (o) escolhe(+o.dataset.i); });
   function escolhe(i) {
-    const to = window.__mapaTO, cod = sug[i].mun || (sug[i].al && to && to.municipioDe(sug[i].al));
+    const s0 = sug[i], to = window.__mapaTO, cod = s0.mun || (s0.al && to && to.municipioDe(s0.al));
     if (P('s5') && to && cod) {                    // o mapa voa até o município/alimentador; "Página do município/alimentador" no painel abre a página
-      const href = sug[i].href;
+      const href = s0.href;
       q.value = ''; res.innerHTML = ''; fechaSug(); abreCampo(false); if (lupa) lupa.focus({ preventScroll: true });
       const raiz = document.getElementById('mapa-to');
       if (raiz) raiz.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-      to.vaiPara(cod, sug[i].al).then(ok => { if (!ok) location.href = href; });
+      to.vaiPara(cod, s0.al).then(ok => { if (!ok) location.href = href; });
       return;
     }
     if (sug[i].href) { location.href = sug[i].href; return; }

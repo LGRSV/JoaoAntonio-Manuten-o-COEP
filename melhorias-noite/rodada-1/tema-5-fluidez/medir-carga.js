@@ -3,7 +3,7 @@ const L = require('./lib.js'), fs = require('fs');
 const rotulo = process.argv[2] || 'antes', N = +(process.env.N || 3);
 const PAGINAS = {
   inicial: { url: '', pronto: `document.querySelectorAll('.mun').length>100`, marca: `document.querySelector('.mt-mapa svg .mun')` },
-  alimentador: { url: 'alimentadores/LD01072001/', pronto: `document.querySelectorAll('.leaflet-overlay-pane path').length>5`, marca: `document.querySelector('.leaflet-overlay-pane path')` },
+  alimentador: { url: 'alimentadores/LD01072001/', pronto: `document.querySelectorAll('#lista > *').length>0 && document.querySelectorAll('.leaflet-tile-loaded').length>3`, marca: `document.querySelector('#lista > *') && document.querySelector('.leaflet-tile-loaded') && document.querySelector('canvas')` },
   polos: { url: 'polos/', pronto: `document.querySelectorAll('table tbody tr, .rank tr, [class*=polo]').length>3`, marca: `document.querySelector('table tbody tr')` },
 };
 const mediana = a => { const s = a.filter(x => x != null).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null; };
@@ -13,7 +13,7 @@ const ini = ({ marca }) => `(() => {
   try { new PerformanceObserver(l => l.getEntries().forEach(e => { if (!e.hadRecentInput) window.__cls += e.value; })).observe({ type: 'layout-shift', buffered: true }); } catch (e) {}
   try { new PerformanceObserver(l => l.getEntries().forEach(e => window.__lcp = e.startTime)).observe({ type: 'largest-contentful-paint', buffered: true }); } catch (e) {}
   const mo = new MutationObserver(() => { if (!window.__t.mapa && (${marca})) { window.__t.mapa = performance.now(); } });
-  const go = () => mo.observe(document, { childList: true, subtree: true }); go();
+  const go = () => mo.observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] }); go();
 })()`;
 (async () => {
   const saida = {};

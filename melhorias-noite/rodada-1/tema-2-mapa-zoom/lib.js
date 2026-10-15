@@ -37,7 +37,9 @@ async function abre(browser, view, proto, opts = {}) {
   await page.goto(URL, { waitUntil: 'load' });
   await page.waitForSelector('.mt-mapa svg path.mun');
   await page.evaluate(() => document.fonts && document.fonts.ready);
-  await page.waitForTimeout(500);
+  for (const f of opts.css || []) await page.addStyleTag({ path: path.join(DIR, f) });
+  for (const f of opts.js || []) await page.addScriptTag({ path: path.join(DIR, f) });
+  await page.waitForTimeout(600);
   return { ctx, page };
 }
 const shot = (page, name, opts = {}) => page.screenshot({ path: path.join(DIR, 'prints', name + '.jpg'), type: 'jpeg', quality: 80, ...opts });

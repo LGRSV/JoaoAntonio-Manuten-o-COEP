@@ -1,0 +1,12 @@
+/* Sugestão 3 (protótipo): a página inicial cabe na primeira tela no computador.
+   Hoje o mapa começa em y≈285 e tem 730 px de altura: no 1440x900 a base (Sul) fica abaixo da dobra e a regional aberta é cortada.
+   Aqui: o menu ☰ vai para a mesma linha do título, o "Ranking" para o canto direito da mesma linha, os espaços entre blocos
+   diminuem e a altura do mapa passa a ser "tela − topo" (em vez de "tela − 170px", que não batia com o topo real). */
+@media (min-width:861px){
+  .wrap{position:relative;padding-top:var(--s4);gap:var(--s2)}
+  .wrap>.mnu{position:absolute;top:var(--s4);left:var(--s4);margin:0;z-index:40}
+  header.cab{position:relative;min-height:53px}
+  header.cab>.cab-link{position:absolute;right:var(--s4);top:50%;transform:translateY(-50%)}
+  .mapa-to{gap:var(--s2)}
+  .mt-mapa svg{height:min(calc(100svh - 137px),1100px)}
+}
