@@ -2,241 +2,241 @@
  "d-antes": [
   {
    "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 97,
+   "quadros": 96,
    "maiorIntervaloMs": 33,
    "tarefasLongas": 0,
    "longaMaxMs": 0
   },
   {
    "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 83,
-   "maiorIntervaloMs": 67,
+   "quadros": 89,
+   "maiorIntervaloMs": 33,
    "tarefasLongas": 0,
    "longaMaxMs": 0
   },
   {
    "nome": "polo → município (clique no município)",
-   "quadros": 56,
-   "maiorIntervaloMs": 167,
-   "tarefasLongas": 6,
-   "longaMaxMs": 156
+   "quadros": 87,
+   "maiorIntervaloMs": 50,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
   },
   {
    "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 73,
-   "maiorIntervaloMs": 267,
-   "tarefasLongas": 8,
-   "longaMaxMs": 268
+   "quadros": 94,
+   "maiorIntervaloMs": 67,
+   "tarefasLongas": 2,
+   "longaMaxMs": 55
   }
  ],
  "d-depois": [
   {
    "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 93,
+   "quadros": 95,
    "maiorIntervaloMs": 33,
    "tarefasLongas": 0,
    "longaMaxMs": 0
   },
   {
    "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 85,
-   "maiorIntervaloMs": 67,
+   "quadros": 89,
+   "maiorIntervaloMs": 33,
    "tarefasLongas": 0,
    "longaMaxMs": 0
   },
   {
    "nome": "polo → município (clique no município)",
-   "quadros": 51,
-   "maiorIntervaloMs": 133,
-   "tarefasLongas": 8,
-   "longaMaxMs": 115
+   "quadros": 87,
+   "maiorIntervaloMs": 50,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
   },
   {
    "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 77,
-   "maiorIntervaloMs": 217,
-   "tarefasLongas": 9,
-   "longaMaxMs": 210
+   "quadros": 92,
+   "maiorIntervaloMs": 67,
+   "tarefasLongas": 2,
+   "longaMaxMs": 59
   }
  ],
  "d-cpu4x-antes": [
   {
    "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 76,
-   "maiorIntervaloMs": 133,
-   "tarefasLongas": 4,
-   "longaMaxMs": 115
+   "quadros": 87,
+   "maiorIntervaloMs": 100,
+   "tarefasLongas": 2,
+   "longaMaxMs": 113
   },
   {
    "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 73,
-   "maiorIntervaloMs": 150,
-   "tarefasLongas": 6,
-   "longaMaxMs": 128
+   "quadros": 84,
+   "maiorIntervaloMs": 100,
+   "tarefasLongas": 1,
+   "longaMaxMs": 105
   },
   {
    "nome": "polo → município (clique no município)",
-   "quadros": 18,
-   "maiorIntervaloMs": 483,
-   "tarefasLongas": 5,
-   "longaMaxMs": 473
+   "quadros": 41,
+   "maiorIntervaloMs": 167,
+   "tarefasLongas": 7,
+   "longaMaxMs": 145
   },
   {
    "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 85,
-   "maiorIntervaloMs": 400,
-   "tarefasLongas": 7,
-   "longaMaxMs": 332
+   "quadros": 109,
+   "maiorIntervaloMs": 117,
+   "tarefasLongas": 3,
+   "longaMaxMs": 109
   }
  ],
  "d-cpu4x-depois": [
   {
    "nome": "estado → regional (clique no cartão da regional)",
    "quadros": 82,
-   "maiorIntervaloMs": 167,
-   "tarefasLongas": 3,
-   "longaMaxMs": 176
-  },
-  {
-   "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 69,
-   "maiorIntervaloMs": 233,
-   "tarefasLongas": 6,
-   "longaMaxMs": 235
-  },
-  {
-   "nome": "polo → município (clique no município)",
-   "quadros": 31,
-   "maiorIntervaloMs": 283,
-   "tarefasLongas": 8,
-   "longaMaxMs": 239
-  },
-  {
-   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 86,
-   "maiorIntervaloMs": 467,
-   "tarefasLongas": 7,
-   "longaMaxMs": 453
-  }
- ],
- "m-antes": [
-  {
-   "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 78,
-   "maiorIntervaloMs": 100,
-   "tarefasLongas": 3,
-   "longaMaxMs": 101
-  },
-  {
-   "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 90,
-   "maiorIntervaloMs": 33,
-   "tarefasLongas": 0,
-   "longaMaxMs": 0
-  },
-  {
-   "nome": "polo → município (clique no município)",
-   "quadros": 51,
-   "maiorIntervaloMs": 183,
-   "tarefasLongas": 8,
-   "longaMaxMs": 203
-  },
-  {
-   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 95,
-   "maiorIntervaloMs": 150,
-   "tarefasLongas": 10,
-   "longaMaxMs": 168
-  }
- ],
- "m-depois": [
-  {
-   "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 90,
-   "maiorIntervaloMs": 50,
-   "tarefasLongas": 2,
-   "longaMaxMs": 62
-  },
-  {
-   "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 88,
-   "maiorIntervaloMs": 50,
-   "tarefasLongas": 0,
-   "longaMaxMs": 0
-  },
-  {
-   "nome": "polo → município (clique no município)",
-   "quadros": 57,
-   "maiorIntervaloMs": 100,
-   "tarefasLongas": 6,
-   "longaMaxMs": 92
-  },
-  {
-   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 92,
    "maiorIntervaloMs": 133,
-   "tarefasLongas": 12,
-   "longaMaxMs": 116
-  }
- ],
- "m-cpu4x-antes": [
-  {
-   "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 75,
-   "maiorIntervaloMs": 233,
-   "tarefasLongas": 4,
-   "longaMaxMs": 238
+   "tarefasLongas": 2,
+   "longaMaxMs": 137
   },
   {
    "nome": "regional → polo (clique no cartão/botão do polo)",
    "quadros": 82,
-   "maiorIntervaloMs": 217,
-   "tarefasLongas": 1,
-   "longaMaxMs": 221
+   "maiorIntervaloMs": 83,
+   "tarefasLongas": 2,
+   "longaMaxMs": 84
   },
   {
    "nome": "polo → município (clique no município)",
-   "quadros": 47,
-   "maiorIntervaloMs": 217,
-   "tarefasLongas": 6,
-   "longaMaxMs": 156
-  },
-  {
-   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 90,
-   "maiorIntervaloMs": 200,
-   "tarefasLongas": 11,
-   "longaMaxMs": 192
-  }
- ],
- "m-cpu4x-depois": [
-  {
-   "nome": "estado → regional (clique no cartão da regional)",
-   "quadros": 81,
-   "maiorIntervaloMs": 217,
-   "tarefasLongas": 3,
-   "longaMaxMs": 223
-  },
-  {
-   "nome": "regional → polo (clique no cartão/botão do polo)",
-   "quadros": 84,
-   "maiorIntervaloMs": 133,
-   "tarefasLongas": 3,
-   "longaMaxMs": 134
-  },
-  {
-   "nome": "polo → município (clique no município)",
-   "quadros": 52,
-   "maiorIntervaloMs": 183,
+   "quadros": 38,
+   "maiorIntervaloMs": 150,
    "tarefasLongas": 5,
    "longaMaxMs": 148
   },
   {
    "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
-   "quadros": 105,
+   "quadros": 102,
+   "maiorIntervaloMs": 150,
+   "tarefasLongas": 5,
+   "longaMaxMs": 140
+  }
+ ],
+ "m-antes": [
+  {
+   "nome": "estado → regional (clique no cartão da regional)",
+   "quadros": 96,
+   "maiorIntervaloMs": 17,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "regional → polo (clique no cartão/botão do polo)",
+   "quadros": 95,
+   "maiorIntervaloMs": 17,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "polo → município (clique no município)",
+   "quadros": 86,
+   "maiorIntervaloMs": 50,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
+   "quadros": 98,
+   "maiorIntervaloMs": 67,
+   "tarefasLongas": 3,
+   "longaMaxMs": 53
+  }
+ ],
+ "m-depois": [
+  {
+   "nome": "estado → regional (clique no cartão da regional)",
+   "quadros": 96,
+   "maiorIntervaloMs": 17,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "regional → polo (clique no cartão/botão do polo)",
+   "quadros": 95,
+   "maiorIntervaloMs": 17,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "polo → município (clique no município)",
+   "quadros": 87,
+   "maiorIntervaloMs": 50,
+   "tarefasLongas": 0,
+   "longaMaxMs": 0
+  },
+  {
+   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
+   "quadros": 98,
+   "maiorIntervaloMs": 67,
+   "tarefasLongas": 1,
+   "longaMaxMs": 51
+  }
+ ],
+ "m-cpu4x-antes": [
+  {
+   "nome": "estado → regional (clique no cartão da regional)",
+   "quadros": 88,
+   "maiorIntervaloMs": 117,
+   "tarefasLongas": 2,
+   "longaMaxMs": 101
+  },
+  {
+   "nome": "regional → polo (clique no cartão/botão do polo)",
+   "quadros": 87,
+   "maiorIntervaloMs": 100,
+   "tarefasLongas": 2,
+   "longaMaxMs": 106
+  },
+  {
+   "nome": "polo → município (clique no município)",
+   "quadros": 42,
+   "maiorIntervaloMs": 183,
+   "tarefasLongas": 6,
+   "longaMaxMs": 170
+  },
+  {
+   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
+   "quadros": 102,
+   "maiorIntervaloMs": 183,
+   "tarefasLongas": 4,
+   "longaMaxMs": 169
+  }
+ ],
+ "m-cpu4x-depois": [
+  {
+   "nome": "estado → regional (clique no cartão da regional)",
+   "quadros": 91,
+   "maiorIntervaloMs": 100,
+   "tarefasLongas": 2,
+   "longaMaxMs": 105
+  },
+  {
+   "nome": "regional → polo (clique no cartão/botão do polo)",
+   "quadros": 88,
+   "maiorIntervaloMs": 83,
+   "tarefasLongas": 2,
+   "longaMaxMs": 82
+  },
+  {
+   "nome": "polo → município (clique no município)",
+   "quadros": 42,
    "maiorIntervaloMs": 217,
-   "tarefasLongas": 11,
-   "longaMaxMs": 224
+   "tarefasLongas": 5,
+   "longaMaxMs": 183
+  },
+  {
+   "nome": "município → alimentador em foco (busca; na base nova clicar na lista abre o painel)",
+   "quadros": 104,
+   "maiorIntervaloMs": 150,
+   "tarefasLongas": 5,
+   "longaMaxMs": 145
   }
  ]
 }

@@ -23,7 +23,7 @@ Base: HEAD e6bca61 (`alimentador/site/` = /teste/ ao vivo, gh-pages f715a31 "map
 | Balão cobrindo o cartão do próprio município | sim | 0 em 26 pontos × 6 municípios |
 | Repetições de informação no mapa/lista | 5 | 0 |
 | Verificações automáticas | — | **278 ok escuro + 278 ok claro, 0 falhas** (inclui 6 de "1 clique abre o painel / Voltar do painel volta ao município" por tema); computador, celular com toque, tela cheia nativa/só CSS/negada, Voltar rápido, F5, girar tela |
-| Fluidez (`medidas.log`, 3 repetições, mediana) | — | **sem diferença acima do ruído**: ex. computador, regional→polo, maior intervalo 67 → 67 ms; município→alimentador 267 → 217 ms; celular polo→município 183 → 100 ms. Com CPU 4x há oscilações nos dois sentidos (custo é o desenho da rede, tema 5) |
+| Fluidez (`medidas.log`, base "mais leve", 3 repetições, mediana) | — | **igual à base**: computador, maior intervalo entre quadros 33 → 33 ms (estado→regional e regional→polo), 50 → 50 ms (polo→município), 67 → 67 ms (município→alimentador), tarefas longas 0/0/0/2 → 0/0/0/2; celular idêntico (17/17/50/67 ms nos dois). Com CPU 4x oscila nos dois sentidos (±50 ms, sem padrão) |
 
 Prints em `prints-finais/` (4 pares, 1440 e 390, escuro): 01 link `#sul/gurupi` (base ignora, depois abre no polo) · 02 município (← coberta × na barra) · 03 regional (chips repetidos × cartão-botão) · 04 balão (repete e cobre × enxuto).
 
