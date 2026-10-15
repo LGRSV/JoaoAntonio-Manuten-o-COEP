@@ -78,3 +78,15 @@ ainda não publicada no /teste/.
     camadas, celular).
   - Tema 5: a fluidez das animações da página inicial está com a outra sessão; foque em Tab/foco, CLS do cabeçalho,
     alvos de toque, página do alimentador e ranking.
+
+## Atualização 03h05 (Tocantins): base da rodada 3
+- Base ATUAL = /teste/ ao vivo (gh-pages 5cdff04f) = /home/user/smartled/alimentador/site/ (Artifact v34): busca só no olho,
+  legenda NAE com título e orelhinha (recolher esconde os números), tela cheia (.mt-tc), bandeirinhas das regionais/polos
+  saindo do contorno, rótulos de TODOS os municípios do polo (dentro, ou ao lado com fio .mt-fios), lista do município
+  embaixo do olho, página sem rodapé (Relatórios no menu ☰). Ranking por polo agora bate com o mapa (polo do município).
+- A outra sessão ("Argos design improvements") continua dona de: legenda, busca, tela cheia, bandeirinhas, lupa do painel.
+  Proponha mudanças nessas partes só como sugestão, sem refazer.
+- Rodada 3 = CONSOLIDAR: um protótipo único por tema, juntando o melhor das rodadas 1 e 2, aplicado sobre a base ATUAL,
+  entregue como patch pronto (proto/*.diff contra /home/user/smartled/alimentador/site/ + arquivos novos), validado
+  em 1440x900 e 390x844, escuro E claro, com medições antes/depois e lista "o que implementar primeiro".
+- Prazo: terminar até 07:30 UTC (04:30 em Tocantins).
