@@ -1,0 +1,11 @@
+CARREGADAS: IBM Plex Mono: 600 | IBM Plex Sans: 400/500/600/700 | IBM Plex Sans Condensed: 600/700 | Plex Sans Fallback: 400 | Plex Cond Fallback: 600 | Plex Mono Fallback: 400
+
+USADOS (família peso -> nº de textos, onde, exemplo)
+ ! IBM Plex Mono 400                     1 ranking code
+   IBM Plex Mono 600                   247 home,polo,mun,ranking .cab-link
+   IBM Plex Sans 400                   586 home,polo,mun,ranking .vh
+   IBM Plex Sans 500                     6 polo,mun .mt-passo
+   IBM Plex Sans 600                    46 home,polo,mun,ranking span
+   IBM Plex Sans 700                    10 home,polo,mun b
+   IBM Plex Sans Condensed 600          12 home,polo .mt-f-l
+   IBM Plex Sans Condensed 700          11 home,polo,mun,ranking b

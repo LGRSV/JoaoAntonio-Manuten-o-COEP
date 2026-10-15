@@ -1,0 +1,137 @@
+{
+ "tema": "Tipografia, cartão preto e espaçamento dos rótulos (rodada 3: consolidação)",
+ "base": "alimentador/site/ no commit 8ab7caf (15/10 06:50 UTC); patch contra ela, git apply --check ok",
+ "patch": "proto/tema-3-rodada-3.diff",
+ "medicao": {
+  "arquivos": [
+   "metricas-antes.json",
+   "metricas-depois.json",
+   "foco-antes.json",
+   "foco-depois.json",
+   "perf.txt",
+   "fontes-cls-antes.txt",
+   "fontes-cls-depois.txt",
+   "fontes-antes.txt",
+   "fontes-depois.txt"
+  ],
+  "celular_390x844": {
+   "so_numero": "35 -> 4",
+   "sem_rotulo": "1 -> 0",
+   "nome_dentro": "72 -> 98",
+   "sobreposicoes": "0 -> 0"
+  },
+  "computador_1440x900": {
+   "so_numero": "2 -> 0",
+   "sem_rotulo": "0 -> 0",
+   "nome_dentro": "128 -> 134",
+   "sobreposicoes": "0 -> 0"
+  },
+  "svg_cortado_com_alimentador_em_foco": {
+   "computador": "8 de 8 -> 0",
+   "notebook": "8 de 8 -> 0"
+  },
+  "cls_ranking_celular": "0,1724 -> 0,0004"
+ },
+ "sugestoes": [
+  {
+   "titulo": "Enquadramento corrigido, afastamento adaptativo e moldura fixa no celular",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/antes-polo-augustinopolis-dark-desk.jpg",
+    "prints/antes-al-foco-dark-desk.jpg",
+    "prints/folha-antes-8polos-dark-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-polo-augustinopolis-dark-desk.jpg",
+    "prints/depois-al-foco-dark-desk.jpg",
+    "prints/folha-depois-8polos-dark-cel.jpg",
+    "prints/folha-cel-antes-depois-dark.jpg",
+    "prints/folha-cel-antes-depois-light.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/mapa-municipios.js.diff"
+   ],
+   "descricao": "ajusta() espalha os municípios só no eixo que sobra tela (teto 1,7x no computador, 3x no celular); no celular o SVG ganha moldura de altura fixa (544 px em 390x844); enquadra() devolve sempre viewBox com a proporção da caixa, o que corrige a rede cortada com o alimentador em foco (SVG a 36-84% da caixa em 8 de 8 polos no computador)."
+  },
+  {
+   "titulo": "Nome curto e ordem de colocação dos rótulos",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-polo-porto-dark-cel.jpg",
+    "prints/antes-polo-guarai-dark-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-polo-porto-dark-cel.jpg",
+    "prints/depois-polo-guarai-dark-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/mapa-municipios.js.diff"
+   ],
+   "descricao": "Cartão compacto sem ' do Tocantins'; poeNomes tenta até 8 ordens só quando a 1ª deixa 'só número', com orçamento de 45 ms e cache de geometria (chamada repetida ~1 ms). Celular: só número 35 -> 4, sem rótulo 1 -> 0."
+  },
+  {
+   "titulo": "Cartão preto no município aberto e no alimentador em foco",
+   "prioridade": 3,
+   "esforco": "M",
+   "antes": [
+    "prints/antes-mun-araguaina-lista-dark-desk.jpg",
+    "prints/antes-al-foco-dark-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-mun-araguaina-lista-dark-desk.jpg",
+    "prints/depois-mun-araguaina-lista-dark-cel.jpg",
+    "prints/depois-al-foco-dark-cel.jpg",
+    "prints/depois-al-foco-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/site.css",
+    "proto/site.css.diff",
+    "proto/busca-ativo.js.diff",
+    "proto/mapa-municipios.js.diff"
+   ],
+   "descricao": "Lista do município em cartão preto com a NAE do município (que sumia nesse nível); cartão .mt-ac do alimentador em foco com código, NAE, subestação, km e 'Abrir a página'."
+  },
+  {
+   "titulo": "Selo Mono 600 e fontes reserva com as métricas do Plex",
+   "prioridade": 4,
+   "esforco": "P",
+   "antes": [
+    "prints/fonte-antes-ranking-cel-reserva.jpg"
+   ],
+   "depois": [
+    "prints/selo-comparacao.png",
+    "prints/fonte-depois-ranking-cel-reserva.jpg"
+   ],
+   "prototipo": [
+    "proto/site.css",
+    "proto/site.css.diff",
+    "proto/ranking-polos.js.diff"
+   ],
+   "descricao": "32 textos usavam Plex Mono 700 sem peso carregado (negrito sintético) -> 600 verdadeiro; 3 @font-face locais com size-adjust e overrides; CLS do ranking no celular 0,1724 -> 0,0004."
+  },
+  {
+   "titulo": "Ranking (polos/) com a mesma linguagem",
+   "prioridade": 5,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-ranking-dark-desk.jpg",
+    "prints/antes-ranking-dark-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-ranking-dark-desk.jpg",
+    "prints/depois-ranking-dark-cel.jpg",
+    "prints/depois-ranking-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/ranking-polos.js",
+    "proto/ranking-polos.js.diff",
+    "proto/gera_trechos.py.diff"
+   ],
+   "descricao": "Marca ARGOS/MANUTENÇÃO (no HTML gerado), escolha de polo com selo da NAE, cartão preto no escolhido, NAE da linha no selo vermelho, cabeçalho da tabela em Plex Mono."
+  }
+ ]
+}

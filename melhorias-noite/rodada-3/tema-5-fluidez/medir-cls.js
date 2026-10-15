@@ -12,7 +12,7 @@ const mediana = a => { const s = a.slice().sort((x, y) => x - y); return s[Math.
     for (const [pg, url] of Object.entries(PAGINAS)) for (const perfil of perfis) {
       const cls = [], quem = {}, fcp = [], lcp = [];
       for (let i = 0; i < N; i++) {
-        const s = await L.abre({ ...cfg, perfil });
+        const s = await L.abre({ ...cfg, perfil, tema: process.env.TEMA || 'escuro' });
         await inj.aplica(s.ctx, s.page);
         await s.ctx.addInitScript(() => {
           window.__ls = []; window.__lcp = 0;
@@ -31,5 +31,5 @@ const mediana = a => { const s = a.slice().sort((x, y) => x - y); return s[Math.
       console.log(k.padEnd(30), 'CLS', R[k].cls, cls.join('/'), 'FCP', R[k].fcp, 'LCP', R[k].lcp, Object.entries(quem).slice(0, 4).map(([a, b]) => `${a}(${b.ex})`).join(' '));
     }
   }
-  fs.writeFileSync(`medicoes/cls-${rotulo}.json`, JSON.stringify(R, null, 1));
+  fs.writeFileSync(`medicoes/cls-${rotulo}${process.env.TEMA === 'claro' ? '-claro' : ''}.json`, JSON.stringify(R, null, 1));
 })();

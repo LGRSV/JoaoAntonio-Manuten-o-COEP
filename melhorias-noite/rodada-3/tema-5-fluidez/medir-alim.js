@@ -29,7 +29,7 @@ const fase = async (p, nome, f) => {
     for (const perfil of perfis) {
       const acc = { pronto: [], fcp: [], lcp: [], tbt: [], lt: [], ltMax: [], cls: [], kb: [], req: [], dcl: [], load: [], nos: [], mem: [] }, fases = {};
       for (let i = 0; i < N; i++) {
-        const s = await L.abre({ ...cfg, perfil }); await inj.aplica(s.ctx, s.page); const p = s.page;
+        const s = await L.abre({ ...cfg, perfil, tema: process.env.TEMA || 'escuro' }); await inj.aplica(s.ctx, s.page); const p = s.page;
         await s.ctx.addInitScript(L.instrumenta); await s.ctx.addInitScript(HOOK);
         await p.goto(L.BASE + URLS[pagina], { waitUntil: 'load' });
         await p.waitForFunction('window.__pronto>0', null, { timeout: 40000 }).catch(() => {});
@@ -56,5 +56,5 @@ const fase = async (p, nome, f) => {
       Object.entries(fs_).forEach(([k, v]) => console.log('    ', k.padEnd(14), JSON.stringify(v)));
     }
   }
-  fs.writeFileSync(`medicoes/${pagina}-${rotulo}.json`, JSON.stringify(R, null, 1));
+  fs.writeFileSync(`medicoes/${pagina}-${rotulo}${process.env.TEMA === 'claro' ? '-claro' : ''}.json`, JSON.stringify(R, null, 1));
 })();

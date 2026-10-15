@@ -1,0 +1,4 @@
+antes  desk sync(ms, mediana) 53.2 | tarefas longas por abertura 5 | maior 260 | soma 627 | n=12
+depois desk sync(ms, mediana) 49.8 | tarefas longas por abertura 5 | maior 190 | soma 620 | n=12
+antes  cel sync(ms, mediana) 51.9 | tarefas longas por abertura 5 | maior 319 | soma 702 | n=12
+depois cel sync(ms, mediana) 40.3 | tarefas longas por abertura 4 | maior 168 | soma 460 | n=12

@@ -1,0 +1,18 @@
+{
+ "desktop|cpu4": {
+  "mostra": 797.2,
+  "filtra": 145.6,
+  "limpa": 209.9,
+  "rolaFps": 15.4,
+  "rolaPior": 316.7,
+  "clique": 478.2
+ },
+ "celular|cpu4": {
+  "mostra": 759.5,
+  "filtra": 409,
+  "limpa": 129,
+  "rolaFps": 58.1,
+  "rolaPior": 66.6,
+  "clique": 641.1
+ }
+}

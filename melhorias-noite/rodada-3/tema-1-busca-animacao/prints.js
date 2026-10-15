@@ -67,7 +67,7 @@ async function cheiaCss(b) {                                   // tela cheia só
     const ctx = await b.newContext({ viewport: L.TELAS[tl], hasTouch: tl === 'm', isMobile: tl === 'm' });
     await ctx.addInitScript(() => { Element.prototype.requestFullscreen = undefined; Element.prototype.webkitRequestFullscreen = undefined; });
     const p = await abre(b, tl, { proto: true, ctx });
-    await nivel(p, 'mun'); await p.click('.mt-tc'); await p.waitForTimeout(600); await foto(p, `depois-${tl}-cheia-css-mun`);
+    await nivel(p, 'mun'); await p.mouse.click(2, 2); await p.waitForTimeout(300); await p.click('.mt-tc'); await p.waitForTimeout(600); await foto(p, `depois-${tl}-cheia-css-mun`);
     await ctx.close();
   }
 }
@@ -78,6 +78,7 @@ async function cheiaCss(b) {                                   // tela cheia só
     if (modo === 'antes' || modo === 'todos') await cenas(b, 'antes');
     if (modo === 'depois' || modo === 'todos') { await cenas(b, 'depois'); await voltar(b, 'd'); await voltar(b, 'm'); await cheiaCss(b); }
     if (modo === 'links' || modo === 'todos') await links(b);
+    if (modo === 'css') await cheiaCss(b);
   } finally { await b.close(); }
   console.log('prints prontos');
 })();

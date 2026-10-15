@@ -13,11 +13,11 @@ const PERFIS = {
 function externo(url) {
   const f = path.join(CACHE, crypto.createHash('md5').update(url).digest('hex'));
   return new Promise(ok => {
-    if (fs.existsSync(f + '.body')) return ok({ f, tipo: fs.readFileSync(f + '.tipo', 'utf8') });
-    execFile('curl', ['-sSL', '-m', '40', '-A', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '-D', f + '.h', '-o', f + '.body', url], err => {
-      if (err || !fs.existsSync(f + '.body')) return ok(null);
-      const h = fs.readFileSync(f + '.h', 'utf8'); const m = [...h.matchAll(/content-type:\s*([^\r\n]+)/gi)].pop();
-      fs.writeFileSync(f + '.tipo', m ? m[1] : 'application/octet-stream'); ok({ f, tipo: m ? m[1] : 'application/octet-stream' });
+    if (fs.existsSync(f + '.body') && fs.existsSync(f + '.tipo')) return ok({ f, tipo: fs.readFileSync(f + '.tipo', 'utf8') });
+    execFile('curl', ['-sSL', '-m', '40', '-A', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '-D', f + '.h' + process.pid, '-o', f + '.body' + process.pid, url], err => {
+      if (err || !fs.existsSync(f + '.body' + process.pid)) return ok(null);
+      const h = fs.readFileSync(f + '.h' + process.pid, 'utf8'); const m = [...h.matchAll(/content-type:\s*([^\r\n]+)/gi)].pop();
+      fs.writeFileSync(f + '.tipo' + process.pid, m ? m[1] : 'application/octet-stream'); fs.renameSync(f + '.body' + process.pid, f + '.body'); fs.renameSync(f + '.tipo' + process.pid, f + '.tipo'); ok({ f, tipo: m ? m[1] : 'application/octet-stream' });
     });
   });
 }
