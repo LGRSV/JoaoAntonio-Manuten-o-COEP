@@ -6,10 +6,10 @@ a marca, o endereço do quadro e os rótulos. A página (index.html) só desenha
 
     python gera_deck.py <saida>                 index.html, artifact.html e img/; textos.js só se ainda não existe
     python gera_deck.py <saida> --refaz-textos  textos.js de novo a partir do roteiro (perde o que foi editado)
+    python gera_deck.py <saida> --artifact      também artifact.html (sem doctype/head, para o Artifact)
 
 O roteiro de origem é ../revisao/README.md (slides, blocos, tempos e a frase de cada bloco); só os prints de computador
-(-d.jpg). index.html é o documento completo (repositório, GitHub Pages ou abrir no navegador); artifact.html é o mesmo
-conteúdo sem doctype/head, para o Artifact.
+(-d.jpg). index.html é o documento completo (repositório, GitHub Pages ou abrir no navegador).
 """
 import html
 import json
@@ -87,7 +87,8 @@ usadas = sorted({Path(i['src']).name for s in dados['slides'] for i in s['imgs']
 for nome in usadas:
     shutil.copyfile(REV / 'prints' / nome, SAIDA / 'img' / nome)
 pag = (AQUI / 'molde.html').read_text(encoding='utf-8')
-(SAIDA / 'artifact.html').write_text(pag, encoding='utf-8')
+if '--artifact' in sys.argv:                                  # cópia sem doctype/head, para publicar como Artifact
+    (SAIDA / 'artifact.html').write_text(pag, encoding='utf-8')
 cab, _, resto = pag.partition('<style>')
 doc = ('<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
