@@ -41,10 +41,10 @@ const CSS_SITE = `
   .mt-volta{min-width:44px}
   .mt-amun{display:inline-flex;align-items:center;min-height:44px}
   .sug-op,.mun-op{min-height:48px}
-  .mt-regcards button{min-height:44px}   /* com a legenda recolhida (.sem-nae) os cartões das regionais caem para 27 px */
+  .mt-regcards button{min-height:44px;align-content:center}   /* com a legenda recolhida (.sem-nae) os cartões das regionais caem para 27 px */
   /* orelhinha da legenda (parte da outra sessão): o visual não muda; só a área de toque desce até 44 px */
   .mt-regs-b::after{content:"";position:absolute;inset:0 -8px -22px}
-  .mt-regs.fechada .mt-regs-b{position:relative}
+  .mt-regs.fechada .mt-regs-b{position:relative;left:auto;top:auto}   /* (a regra de base tem left:50%; sem zerar, a orelha recolhida andaria 50 %) */
   .mt-regs.fechada .mt-regs-b::after{bottom:-14px}
 }
 `;

@@ -1,0 +1,92 @@
+{
+ "tema": "Busca e animação · rodada 3 (consolidação): Voltar do navegador, defeitos e dados repetidos",
+ "sugestoes": [
+  {
+   "titulo": "Voltar do navegador sobe um nível + links #regional/polo/município/AL (mapa-extras.js, com F, Esc primeiro e Voltar na tela cheia só por CSS)",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/antes-d-link-ignorado.jpg",
+    "prints/antes-m-link-ignorado.jpg",
+    "prints/antes-d-cheia-alimentador.jpg"
+   ],
+   "depois": [
+    "prints/depois-d-voltar-folha.jpg",
+    "prints/depois-m-voltar-folha.jpg",
+    "prints/depois-d-link-polo.jpg",
+    "prints/depois-m-link-polo.jpg",
+    "prints/depois-d-cheia-css-mun.jpg",
+    "prints/depois-m-cheia-css-mun.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-extras.js",
+    "proto/gera_trechos.py.diff"
+   ],
+   "descricao": "Arquivo novo que usa ARGOS_MAPA, MUN e o evento argos-nivel: cada nível tem endereço, Voltar/Avançar sobem e descem, ←/Esc/trilha reaproveitam o Voltar, busca que voa vira uma entrada, link abre no nível certo. Extras da tela cheia que a base não tem: tecla F, Esc sai primeiro no modo só CSS, rolagem restaurada, gesto Voltar. 272 verificações em escuro e claro."
+  },
+  {
+   "titulo": "Corrigir os 3 defeitos: seta ← na barra, cartão do polo vira botão, balão que não cobre o cartão",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-d-mun-notas.jpg",
+    "prints/antes-m-mun.jpg",
+    "prints/antes-d-regional-notas.jpg",
+    "prints/antes-d-polo-balao.jpg",
+    "prints/antes-m-polo-balao.jpg"
+   ],
+   "depois": [
+    "prints/depois-d-mun.jpg",
+    "prints/depois-m-mun.jpg",
+    "prints/depois-d-regional.jpg",
+    "prints/depois-m-regional.jpg",
+    "prints/depois-d-polo-balao.jpg",
+    "prints/depois-m-polo-balao.jpg",
+    "prints/depois-d-regional-claro.jpg",
+    "prints/depois-m-mun-claro.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js.diff",
+    "proto/site.css.diff"
+   ],
+   "descricao": "Os 3 defeitos da rodada 2 continuam na base atual (confirmados por teste). ← dentro do grupo da trilha na barra (visível com a lista aberta; no celular a trilha cabe na linha do olho), cartão do polo é <button> com teclado e foco, balão sem nome/NAE/regional quando o cartão já diz e sobe para cima do cartão se o cobrir."
+  },
+  {
+   "titulo": "Tirar os dados repetidos que sobraram (chips dos polos, balão, contexto nas linhas da busca, Palmas › Palmas)",
+   "prioridade": 3,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-d-regional-notas.jpg",
+    "prints/antes-m-regional-notas.jpg",
+    "prints/antes-d-busca-polo.jpg",
+    "prints/antes-m-busca-polo.jpg",
+    "prints/antes-d-mun-notas.jpg"
+   ],
+   "depois": [
+    "prints/depois-d-regional.jpg",
+    "prints/depois-m-regional.jpg",
+    "prints/depois-d-busca-polo.jpg",
+    "prints/depois-m-busca-polo.jpg",
+    "prints/depois-d-mun.jpg",
+    "prints/depois-m-alimentador.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js.diff",
+    "proto/busca-ativo.js.diff",
+    "proto/site.css.diff"
+   ],
+   "descricao": "Chips de polo saem da barra (o cartão é o botão), lista da busca vazia sem 'Polo X · Regional' nas linhas (com NAE mantida; digitando o contexto continua), trilha 'Polo Palmas'. Decisão de produto aberta: manter ou tirar a NAE das linhas."
+  },
+  {
+   "titulo": "Sugestão ao tema do mapa: devolver ao mapa os ~100 px que a seta ← reservava no celular (enquadra())",
+   "prioridade": 4,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-m-regional.jpg"
+   ],
+   "depois": [],
+   "prototipo": [],
+   "descricao": "Com a ← na barra, a reserva de 52 px no topo e no pé do enquadramento móvel deixou de ser necessária; não alterei por mexer nas bandeirinhas."
+  }
+ ]
+}
