@@ -1,10 +1,15 @@
-"""Monta a apresentação do ARGOS em slides (estilo PowerPoint) a partir do roteiro revisado.
+"""Apresentação do ARGOS em slides (estilo PowerPoint), com todos os textos editáveis.
 
-Lê melhorias-noite/apresentacao/revisao/README.md (slides, blocos, tempos e a frase de cada bloco) e usa só os prints
-de computador (-d.jpg). Escreve em <saida>/: index.html (documento completo, para o GitHub Pages), artifact.html (o
-mesmo conteúdo sem doctype/head, para o Artifact) e img/.
+Os textos ficam em <saida>/textos.js (window.ARGOS_TEXTOS): capa, título, bloco, tempo, tópicos e frase de cada slide,
+a marca, o endereço do quadro e os rótulos. A página (index.html) só desenha a partir dele, e o botão "Editar textos"
+(ou a tecla E) deixa cada texto editável ali mesmo (ver molde.html).
 
-    python gera_deck.py <saida>
+    python gera_deck.py <saida>                 index.html, artifact.html e img/; textos.js só se ainda não existe
+    python gera_deck.py <saida> --refaz-textos  textos.js de novo a partir do roteiro (perde o que foi editado)
+
+O roteiro de origem é ../revisao/README.md (slides, blocos, tempos e a frase de cada bloco); só os prints de computador
+(-d.jpg). index.html é o documento completo (repositório, GitHub Pages ou abrir no navegador); artifact.html é o mesmo
+conteúdo sem doctype/head, para o Artifact.
 """
 import html
 import json
@@ -13,9 +18,11 @@ import shutil
 import sys
 from pathlib import Path
 
-REV = Path(__file__).resolve().parent.parent / 'revisao'
 AQUI = Path(__file__).resolve().parent
-SAIDA = Path(sys.argv[1] if len(sys.argv) > 1 else AQUI / 'out')
+REV = AQUI.parent / 'revisao'
+args = [a for a in sys.argv[1:] if not a.startswith('--')]
+SAIDA = Path(args[0] if args else AQUI / 'site')
+REFAZ = '--refaz-textos' in sys.argv
 
 
 def inline(t):
@@ -25,12 +32,12 @@ def inline(t):
     return re.sub(r'(?<![\w*])\*([^*\n]+)\*(?!\*)', r'<em>\1</em>', t)
 
 
-def ler():
+def textos():
     t = (REV / 'README.md').read_text(encoding='utf-8')
     frases = {}
     for linha in t.splitlines():
         m = re.match(r'^\|\s*([^|]+?)\s*\|\s*\d[^|]*\|\s*([^|]+?)\s*\|\s*"?(.+?)"?\s*\|$', linha)
-        if m and m.group(1) not in ('Bloco',):
+        if m and m.group(1) != 'Bloco':
             frases[m.group(1)] = (m.group(2).replace(' a ', '–'), m.group(3))
     corpo = t.split('\n# Slides', 1)[1].split('\n# Glossário', 1)[0]
     slides, bloco = [], None
@@ -46,55 +53,40 @@ def ler():
         titulo = m.group(2).strip()
         opcional = bool(re.search(r'\(se sobrar tempo\)', titulo))
         titulo = re.sub(r'\s*\(se sobrar tempo\)', '', titulo)
-        bullets = [inline(b) for b in re.findall(r'(?m)^- (.+)$', resto)]
-        imgs = [(a, f) for a, f in re.findall(r'!\[([^\]]*)\]\((prints/[^)]+-d\.jpg)\)', resto)]
+        topicos = [inline(b) for b in re.findall(r'(?m)^- (.+)$', resto)]
+        imgs = [dict(src='img/' + Path(f).name, alt=a or titulo)
+                for a, f in re.findall(r'!\[([^\]]*)\]\((prints/[^)]+-d\.jpg)\)', resto)]
         tempo, frase = frases.get(bloco, ('', ''))
-        slides.append(dict(n=int(m.group(1)), titulo=titulo, opcional=opcional, bloco=bloco, tempo=tempo,
-                           frase=frase, bullets=bullets, imgs=imgs))
-    return slides
+        s = dict(titulo=inline(titulo), bloco=html.escape(bloco), tempo=tempo, frase=html.escape(frase), opcional=opcional,
+                 topicos=topicos, imgs=imgs)
+        if not slides:                                   # capa: o 1º tópico vira o subtítulo
+            s['subtitulo'] = topicos[0] if topicos else ''
+            s['topicos'] = topicos[1:]
+        slides.append(s)
+    assert len(slides) == 23, len(slides)
+    return dict(
+        titulo='ARGOS Apresentação',
+        marca=dict(nome='ARGOS', sub='Manutenção'),
+        url='lgrsv.github.io/vera-vegeta-o-back/teste',
+        rotulos=dict(dica='← → ou clique para avançar · F tela cheia · G todos os slides · E editar textos',
+                     grade_titulo='Todos os slides', opcional='se sobrar tempo', pode_pular='pode pular',
+                     reproduzir='Reproduzir', notas='Notas', todos='Todos', tela='Tela cheia', editar='Editar textos',
+                     editando='Editando: clique num texto para mudar. Enter num tópico cria outro; tópico vazio sai ao salvar.'),
+        slides=slides)
 
 
-def slide_html(s, total):
-    capa = s['n'] == 1
-    lazy = '' if s['n'] <= 2 else 'loading="lazy" '
-    figs = ''.join(
-        f'<img class="{"vis" if k == 0 else ""}" src="img/{Path(f).name}" alt="{html.escape(a or s["titulo"])}"'
-        f' width="1440" height="900" {lazy}decoding="async">'
-        for k, (a, f) in enumerate(s['imgs']))
-    pontos = ''.join(f'<i class="{"vis" if k == 0 else ""}"></i>' for k in range(len(s['imgs']))) if len(s['imgs']) > 1 else ''
-    lis = ''.join(f'<li style="--k:{k}">{b}</li>' for k, b in enumerate(s['bullets']))
-    opc = '<span class="opc">se sobrar tempo</span>' if s['opcional'] else ''
-    lis_capa = ''.join(f'<li style="--k:{k}">{b}</li>' for k, b in enumerate(s['bullets'][1:]))
-    pontos_div = f'<div class="pontos">{pontos}</div>' if pontos else ''
-    if capa:
-        texto = (f'<div class="txt"><p class="marca"><b>ARGOS</b><span>Manutenção</span></p>'
-                 f'<h2>{html.escape(s["bullets"][0] if s["bullets"] else s["titulo"])}</h2>'
-                 f'<ul>{lis_capa}</ul></div>')
-    else:
-        texto = (f'<div class="txt"><p class="sobre">{html.escape(s["bloco"])}{opc}</p>'
-                 f'<h2>{inline(s["titulo"])}</h2><ul>{lis}</ul></div>')
-    denso = sum(len(re.sub('<[^>]+>', '', b)) for b in s['bullets']) + 2 * len(s['titulo']) > 520
-    return (f'<section class="slide{" capa" if capa else ""}{" denso" if denso else ""}" id="s{s["n"]}" data-n="{s["n"]}" aria-roledescription="slide" '
-            f'aria-label="{s["n"]} de {total}: {html.escape(s["titulo"])}">'
-            f'{texto}<figure class="quadro"><div class="barra-nav" aria-hidden="true"><i></i><i></i><i></i>'
-            f'<span>lgrsv.github.io/vera-vegeta-o-back/teste</span></div><div class="tela">{figs}</div>'
-            f'{pontos_div}</figure></section>')
-
-
-slides = ler()
-assert len(slides) == 23, len(slides)
-(SAIDA / 'img').mkdir(parents=True, exist_ok=True)
-usadas = sorted({Path(f).name for s in slides for _, f in s['imgs']})
+SAIDA.mkdir(parents=True, exist_ok=True)
+(SAIDA / 'img').mkdir(exist_ok=True)
+arq = SAIDA / 'textos.js'
+novo = REFAZ or not arq.exists()
+if novo:
+    arq.write_text('// Textos da apresentação do ARGOS. Pode editar aqui (mantendo as aspas) ou pelo botão "Editar textos" da página.\n'
+                   'window.ARGOS_TEXTOS = ' + json.dumps(textos(), ensure_ascii=False, indent=1) + ';\n', encoding='utf-8')
+dados = json.loads(arq.read_text(encoding='utf-8').split('=', 1)[1].strip().rstrip(';'))
+usadas = sorted({Path(i['src']).name for s in dados['slides'] for i in s['imgs']})
 for nome in usadas:
     shutil.copyfile(REV / 'prints' / nome, SAIDA / 'img' / nome)
-total = len(slides)
-notas = {s['n']: dict(bloco=s['bloco'], tempo=s['tempo'], frase=s['frase'], opcional=s['opcional']) for s in slides}
-miolo = ''.join(slide_html(s, total) for s in slides)
-grade = ''.join(f'<button class="mini" data-ir="{s["n"]}"><img src="img/{Path(s["imgs"][0][1]).name}" alt="" loading="lazy">'
-                f'<span><b>{s["n"]:02d}</b> {inline(s["titulo"])}</span></button>' for s in slides)
-molde = (AQUI / 'molde.html').read_text(encoding='utf-8')
-pag = (molde.replace('{{SLIDES}}', miolo).replace('{{GRADE}}', grade).replace('{{TOTAL}}', str(total))
-       .replace('{{NOTAS}}', json.dumps(notas, ensure_ascii=False)))
+pag = (AQUI / 'molde.html').read_text(encoding='utf-8')
 (SAIDA / 'artifact.html').write_text(pag, encoding='utf-8')
 cab, _, resto = pag.partition('<style>')
 doc = ('<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
@@ -102,4 +94,4 @@ doc = ('<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
        + cab.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', '') + '<style>' +
        resto.replace('</style>', '</style>\n</head>\n<body>', 1) + '\n</body>\n</html>\n')
 (SAIDA / 'index.html').write_text(doc, encoding='utf-8')
-print(f'{total} slides · {len(usadas)} prints · {sum((SAIDA / "img" / n).stat().st_size for n in usadas) / 1e6:.1f} MB')
+print(f'{len(dados["slides"])} slides · {len(usadas)} prints · textos.js {"novo" if novo else "mantido"}')
