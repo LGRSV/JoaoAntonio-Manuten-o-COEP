@@ -13,7 +13,7 @@ Este arquivo substitui os README dos pacotes p1 a p5 (a versão do fim da noite,
 ## Resumo (a mensagem em 5 linhas)
 
 1. Problema: árvore e eucalipto na rede derrubam alimentadores; de jan a ago/2026 foram 5.748 ocorrências (NAE) no Tocantins e a equipe precisa decidir onde podar primeiro.
-2. O ARGOS põe num mapa só a rede (Daimon), as ocorrências da Crítica por trecho e as OS de limpeza de faixa, inspeção e manutenção.
+2. O ARGOS põe num mapa só a rede (KML do GIS), as ocorrências da Crítica por trecho e as OS de limpeza de faixa, inspeção e manutenção.
 3. Demonstração em ordem: mapa (estado, regional, polo, município, alimentador), busca atrás do olho, página do alimentador (T1/T2/T3, NAE por trecho, camadas, croqui) e ranking por polo.
 4. Ganho: do "quem mais interrompe" ao "qual trecho, entre quais chaves, quantos km sem limpeza", com o croqui Excel pronto para a equipe de campo.
 5. Próximos passos: atualizar a Crítica todo mês pelo menu, piloto com um polo, validar trechos e posição das OS com as equipes.
@@ -90,7 +90,7 @@ Prints: `prints/01-capa-d.jpg` · `prints/01-capa-m.jpg`
 Prints: `prints/02-problema-d.jpg` · `prints/02-problema-m.jpg`
 
 ### Slide 3. O que é o ARGOS
-- Rede de média tensão do Daimon dividida em trechos T1, T2 e T3 (319 alimentadores, 91.534,6 km)
+- Rede de média tensão do GIS (KML) dividida em trechos T1, T2 e T3 (319 alimentadores, 91.534,6 km)
 - Ocorrências da Crítica, cada uma no trecho certo
 - OS de limpeza de faixa, inspeção e manutenção no mesmo mapa
 - Site no navegador, também no celular, sem instalar nada
@@ -176,7 +176,7 @@ Prints: `prints/10-busca-ativo-sugestao-d.jpg` · `prints/10b-busca-ativo-result
 - Menu no canto superior esquerdo de todas as páginas
 - Atualização de dados: arrastar a base; mostra a data da última atualização de cada uma
 - Night shift (Shift+K) e, em Relatórios: legenda T1/T2/T3, Relatório de validação e manifesto.json (municípios e alimentadores em JSON)
-- Script KML → trechos (.zip), 94 KB, divide o KML do Daimon em T1/T2/T3 e vem com LEIA-ME
+- Script KML → trechos (.zip), 94 KB, divide o KML no formato do Daimon em T1/T2/T3 e vem com LEIA-ME
 
 ![Slide 11](prints/11-menu-d.jpg)
 ![Slide 11, atualização de dados](prints/11c-atualizar-bases-d.jpg)
@@ -281,7 +281,7 @@ Prints: `prints/19-nae-por-100km-d.jpg` · `prints/19-nae-por-100km-m.jpg`
 Prints: `prints/20-relatorio-topo-d.jpg` · `prints/20b-relatorio-total-d.jpg` · celular: `-m` (o relatório é texto corrido: no celular, prefira o computador)
 
 ### Slide 21. De onde vem cada número e como atualizar
-- KML do Daimon (rede e chaves, única fonte de T1/T2/T3), Crítica (um arquivo por mês), GIS (trafos e onde o ativo está hoje), planilha de polos (DCMD) e bases de OS
+- KML do GIS (rede e chaves, convertido por camadas; única fonte de T1/T2/T3; também os trafos e onde o ativo está hoje), Crítica (um arquivo por mês), planilha de polos (DCMD) e bases de OS
 - Hoje: limpeza 2.615 OS (03/10), inspeção 2.081 (até 09/10), manutenção da inspeção 5.323 (até 10/10), executadas 215.325 (até 15/10), Crítica jan a ago/2026
 - Atualizar: ☰ › Atualização de dados › arrastar o arquivo; a chave do GitHub é pedida uma vez e fica só no navegador
 - A automação leva uns 5 minutos; se der erro, não publica nada
@@ -333,7 +333,8 @@ Print: `prints/11c-atualizar-bases-d.jpg` (o mesmo do slide 11)
 | **Olho (busca)** | Botão com o olho do ARGOS, acima do mapa. Abre o campo de busca de regional, polo, município, alimentador, ativo ou OS. |
 | **ETO** | Escopo do ranking que reúne os 8 polos (Tocantins inteiro). As equipes de campo são as ETO-RD de cada polo; só OS de limpeza executadas por elas contam no ranking. |
 | **Crítica** | Base mensal de interrupções (arquivos `Critica-CHEIO_MM-AAAA.txt`). Alimenta a NAE, os consumidores e o CHI. No site: jan a ago/2026. |
-| **Daimon** | Sistema de onde sai o export KML da rede de média tensão (chaves e trechos de cada alimentador). É a única fonte das chaves usadas para montar T1, T2 e T3. |
+| **GIS** | Fonte da rede de média tensão do site: o KML de cada alimentador (KMZ_GOOGLE_EARTH2) é convertido por camadas no formato do Daimon, com as chaves de isolação e um DJ na saída da SE. É a única fonte das chaves usadas para montar T1, T2 e T3. |
+| **Daimon** | Sistema cujo export KML (SE-XXXX_Circ-ALxxx.kml) define o formato que o script de trechos lê. |
 | **GIS** | Cadastro de ativos (transformadores e onde cada ativo está hoje). Usado no NAE/100 km. |
 | **CHI (h)** | Consumidor-hora interrompido: consumidores atingidos vezes minutos de interrupção, divididos por 60. |
 | **Faixa / limpeza de faixa** | Faixa de servidão da linha. A limpeza segue a regra T1 a cada 3 anos, T2 a cada 4 e T3 a cada 5; o ranking mostra o percentual no prazo. |
@@ -359,7 +360,7 @@ Dos municípios dele. Exemplo: os 24 municípios do Polo Augustinópolis no mapa
 T2 só existe depois de um religador. O AL03037009, por exemplo, tem T1 de 29,71 km, nenhum T2 e 170 trechos T3: sem religador, o T1 vai até o fim do tronco e o resto abre em fusíveis. A explicação completa da regra está em "Como os trechos são divididos", em Dados, no fim do painel.
 
 **6. Os dados estão atualizados? Como atualizar?**
-Hoje: Crítica de jan a ago/2026 (setembro ainda não carregado); OS de manutenção executadas até 15/10/2026 (215.325 OS); inspeção até 09/10/2026 (2.081); manutenção gerada pela inspeção até 10/10/2026 (5.323); limpeza de faixa com 2.615 OS (processada em 03/10). A rede vem do export do Daimon. Para atualizar: menu ☰, Atualização de dados, arrastar o arquivo (o tipo sai do nome). Na primeira vez pede uma chave do GitHub, guardada só naquele navegador. A automação leva uns 5 minutos e, se der erro, não publica nada.
+Hoje: Crítica de jan a ago/2026 (setembro ainda não carregado); OS de manutenção executadas até 15/10/2026 (215.325 OS); inspeção até 09/10/2026 (2.081); manutenção gerada pela inspeção até 10/10/2026 (5.323); limpeza de faixa com 2.615 OS (processada em 03/10). A rede vem do KML do GIS, convertido no formato do Daimon. Para atualizar: menu ☰, Atualização de dados, arrastar o arquivo (o tipo sai do nome). Na primeira vez pede uma chave do GitHub, guardada só naquele navegador. A automação leva uns 5 minutos e, se der erro, não publica nada.
 
 **7. A posição das OS e da limpeza no mapa é exata?**
 É aproximada. A posição vem das chaves e ativos citados na OS e dos km da descrição. O vencimento da limpeza (em dia, vence em até 12 meses, vencida) é calculado contra a data do dia em que a página é aberta.
