@@ -2,24 +2,24 @@
 
 | Página · dispositivo · perfil | CLS antes | CLS depois | FCP antes (ms) | FCP depois (ms) |
 |---|---|---|---|---|
-| inicio · desktop · base | 0.0591 | 0.0002 | 148 | 184 |
-| inicio · desktop · cpu4 | 0.0591 | 0.0002 | 276 | 552 |
-| inicio · desktop · lenta | 0.0592 | 0.0003 | 904 | 952 |
-| polos · desktop · base | 0.0367 | 0.0001 | 100 | 128 |
-| polos · desktop · cpu4 | 0.0384 | 0.0001 | 328 | 212 |
-| polos · desktop · lenta | 0.0492 | 0.0105 | 908 | 984 |
-| alimentador · desktop · base | 0.0581 | 0.0000 | 140 | 128 |
-| alimentador · desktop · cpu4 | 0.0580 | 0.0009 | 352 | 432 |
-| alimentador · desktop · lenta | 0.0581 | 0.0009 | 932 | 980 |
-| inicio · celular · base | 0.0000 | 0.0000 | 128 | 124 |
-| inicio · celular · cpu4 | 0.0000 | 0.0000 | 244 | 340 |
-| inicio · celular · lenta | 0.0006 | 0.0006 | 916 | 928 |
-| polos · celular · base | 0.0000 | 0.0000 | 80 | 72 |
-| polos · celular · cpu4 | 0.0585 | 0.0002 | 268 | 212 |
-| polos · celular · lenta | 0.2938 | 0.1437 | 880 | 952 |
-| alimentador · celular · base | 0.0592 | 0.0000 | 164 | 120 |
-| alimentador · celular · cpu4 | 0.0621 | 0.0000 | 480 | 284 |
-| alimentador · celular · lenta | 0.0621 | 0.0363 | 992 | 960 |
+| inicio · desktop · base | 0.0591 | 0.0002 | 148 | 136 |
+| inicio · desktop · cpu4 | 0.0591 | 0.0001 | 276 | 300 |
+| inicio · desktop · lenta | 0.0592 | 0.0003 | 904 | 892 |
+| polos · desktop · base | 0.0367 | 0.0001 | 100 | 72 |
+| polos · desktop · cpu4 | 0.0384 | 0.0001 | 328 | 192 |
+| polos · desktop · lenta | 0.0492 | 0.0105 | 908 | 856 |
+| alimentador · desktop · base | 0.0581 | 0.0000 | 140 | 108 |
+| alimentador · desktop · cpu4 | 0.0580 | 0.0000 | 352 | 236 |
+| alimentador · desktop · lenta | 0.0581 | 0.0009 | 932 | 868 |
+| inicio · celular · base | 0.0000 | 0.0000 | 128 | 84 |
+| inicio · celular · cpu4 | 0.0000 | 0.0000 | 244 | 236 |
+| inicio · celular · lenta | 0.0006 | 0.0006 | 916 | 900 |
+| polos · celular · base | 0.0000 | 0.0000 | 80 | 84 |
+| polos · celular · cpu4 | 0.0585 | 0.0002 | 268 | 176 |
+| polos · celular · lenta | 0.2938 | 0.1437 | 880 | 848 |
+| alimentador · celular · base | 0.0592 | 0.0000 | 164 | 108 |
+| alimentador · celular · cpu4 | 0.0621 | 0.0000 | 480 | 204 |
+| alimentador · celular · lenta | 0.0621 | 0.0363 | 992 | 880 |
 
 ## alimentador: carga (mediana de 3)
 
