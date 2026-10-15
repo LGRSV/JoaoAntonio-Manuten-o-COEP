@@ -665,7 +665,7 @@ def ativos_interface(saida):
     (a / 'alimentador.css').write_text(css, encoding='utf-8')
     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
     for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
-              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'argos.png'):
+              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'argos.png'):
         shutil.copyfile(PKG / 'site' / f, a / f)
     pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
     return modelo
@@ -745,7 +745,8 @@ def pagina_alimentador(modelo, c):
                '<script src="executadas.js"></script>\n<script src="../../assets/executadas.js"></script>\n'
                '<script src="../../assets/telacheia.js"></script>\n'
                # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
-               '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>', h, count=1, flags=re.S)
+               '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>\n'
+               '<script src="../../assets/lupa-painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu)
     assert '%%' not in h
     return h
 
