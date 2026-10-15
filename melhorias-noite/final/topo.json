@@ -5,11 +5,18 @@
     "Busca integrada ao mapa atrás do olho; a lista dos alimentadores do município abre embaixo do olho",
     "Legenda NAE com título e orelhinha (recolhida, tira os números do mapa) e tela cheia do mapa",
     "Bandeirinhas das regionais e dos polos saindo do contorno",
-    "Painel do alimentador com a lupa dentro do mapa; 1 clique no alimentador abre o painel",
+    "Painel do alimentador com a lupa dentro do mapa; 1 clique no alimentador abre o painel; divisas dos municípios e ativos de perto",
     "Ranking por polo igual ao mapa: Paraíso 588, Porto Nacional 633, Guaraí 543, Gurupi 702 (total 5.748)",
-    "Insp→manut no painel (INSP nº → MANUT nº) e NAE/100 km com a NAE no alimentador onde o ativo está no GIS"
+    "Insp→manut no painel (INSP nº → MANUT nº) e NAE/100 km com a NAE no alimentador onde o ativo está no GIS",
+    "Mapa da página inicial mais leve (menos travamento ao abrir o polo e dar zoom)"
   ],
-  "recomenda": ["(a definir com a rodada 4)"],
+  "recomenda": [
+    "Painel do alimentador: cabeçalho numa faixa, mapa na altura da tela e painel sem dados repetidos (tema 4; mapa +30% no computador, +48% no celular)",
+    "Fim do salto de tela ao abrir a página (CLS 0,06 → 0,005) e os 3 defeitos achados: seta ← coberta, cartão do polo sem clique, balão sobre o cartão (temas 5 e 1)",
+    "Voltar do navegador sobe um nível (Tocantins → regional → polo → município) e link direto para cada nível; F abre e Esc fecha a tela cheia (tema 1)",
+    "Enquadramento do polo corrigido e rótulos com espaço adaptativo no celular: só número 35 → 4, sem rótulo 1 → 0 (tema 3)",
+    "Zoom livre com Ctrl/⌘ + roda e pinça, cartão com nome e NAE ao aproximar (tema 2; aplicar por último, depois de rebasear na versão atual do mapa)"
+  ],
   "decide": [
     "Manter ou tirar a NAE em cada linha da lista de alimentadores no computador (no celular ela fica)",
     "Página do alimentador: aplicar a lista leve (content-visibility) em todos os aparelhos ou só no celular",

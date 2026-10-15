@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>ARGOS Noite de Melhorias</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +28,7 @@ h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0}
 .marca b{font:700 clamp(30px,5vw,44px)/1 var(--f-display);letter-spacing:.22em}
 .marca span{display:flex;align-items:center;gap:10px;font:600 11px/1 var(--f-body);letter-spacing:.42em;color:var(--muted);text-transform:uppercase}
 .marca span::before{content:"";width:22px;height:1px;background:var(--selo)}
+@media (max-width:480px){.marca span{letter-spacing:.2em;font-size:10px}}
 .lead{max-width:70ch;color:var(--muted);margin:0 0 28px}
 /* resumo do topo: três cartões pretos */
 .resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;margin-bottom:36px}
