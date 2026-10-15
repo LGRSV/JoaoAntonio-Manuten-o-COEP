@@ -499,6 +499,14 @@ def test_redes_mapa():
         assert r['b'] == [x(-48.32), y(-10.20), x(-48.30), y(-10.21)], r['b']
 
 
+def test_chave_os():
+    """Número/ano da OS: com ou sem equipe e zeros à esquerda; a fatia bate com a conta do busca-ativo.js."""
+    for t in ('ETO-RD-PO 002507/2026', '2507/2026', '002507 / 2026'):
+        assert gera_trechos.chave_os(t) == '2507/2026', t
+    assert gera_trechos.chave_os('sem número') is None and gera_trechos.chave_os('2507/26') is None
+    assert gera_trechos.fatia_os('2507/2026') == f'{sum(ord(c) * 31 ** i for i, c in enumerate(reversed("2507/2026"))) % 2 ** 32 % 64:02x}'
+
+
 def test_manutencao_polos():
     cfg = json.loads((gera_trechos.PKG / 'site' / 'polos.json').read_text(encoding='utf-8'))
     pa, pb = cfg['polos'][0], cfg['polos'][1]
@@ -533,5 +541,7 @@ if __name__ == '__main__':
     print('ok test_chaves_js')
     test_redes_mapa()
     print('ok test_redes_mapa')
+    test_chave_os()
+    print('ok test_chave_os')
     test_manutencao_polos()
     print('ok test_manutencao_polos')

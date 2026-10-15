@@ -1206,6 +1206,60 @@ def indice_ativos(saida, dados):
     return len(idx)
 
 
+FATIAS_OS = 64        # poucas fatias: a cópia da página no Artifact tem limite de arquivos
+
+
+def chave_os(s):
+    """'ETO-RD-PO 002507/2026', '2507/2026' e '002507 / 2026' → '2507/2026' (número sem zeros à esquerda + ano)."""
+    m = re.search(r'(\d{1,7})\s*/\s*(\d{4})(?!\d)', str(s))
+    return f'{int(m.group(1))}/{m.group(2)}' if m else None
+
+
+def fatia_os(k):
+    h = 0                                         # mesma conta em assets/busca-ativo.js
+    for ch in k:
+        h = (h * 31 + ord(ch)) & 0xFFFFFFFF
+    return f'{h % FATIAS_OS:02x}'
+
+
+def indice_os(saida, dados):
+    """dados/os/<fatia>.json: número/ano da OS → [[OS completa, alimentador, base, situação ou data, lat, lon], ...].
+
+    Bases (base: f, i, m, e): faixa (limpeza.js), inspeção (inspecao.js), manutenção (manutencao.js) e executadas
+    (executadas.js), lidas dos arquivos de cada alimentador já gerados. lat/lon: onde a OS cai no mapa, com 4 casas
+    (~10 m; null quando a base não diz)."""
+    idx = {}
+    for c in dados:
+        if c['validacao']['status'] == 'falha':
+            continue
+        al, pasta = c['alimentador'], saida / 'alimentadores' / c['alimentador']
+        def poe(os_, base, info, ll):
+            k = chave_os(os_)
+            if k:
+                lat, lon = (round(ll[0], 4), round(ll[1], 4)) if ll else (None, None)
+                idx.setdefault(k, []).append([os_, al, base, info, lat, lon])
+        lp = le_js(pasta / 'limpeza.js') or {}
+        for o in lp.get('os') or []:
+            poe(o.get('os_completa') or o['os'], 'f', o.get('sit') or '', None)
+        ins = le_js(pasta / 'inspecao.js') or {}
+        for o in ins.get('os') or []:
+            poe(o.get('os_completa') or o['os'], 'i', o.get('data') or '', o.get('pe'))
+        mn = le_js(pasta / 'manutencao.js') or {}
+        for o in mn.get('os') or []:
+            poe(o.get('os_completa') or o['os'], 'm', o.get('sit') or '', o.get('ll'))
+        ex = le_js(pasta / 'executadas.js') or {}
+        ats = ex.get('ativos') or []
+        for o in ex.get('os') or []:
+            a = ats[o[1]] if isinstance(o[1], int) and o[1] < len(ats) else None
+            poe(o[0], 'e', o[2] or '', (a[3], a[4]) if a else None)
+    fatias = {}
+    for k, v in idx.items():
+        fatias.setdefault(fatia_os(k), {})[k] = v
+    for f in range(FATIAS_OS):
+        grava_json(saida / 'dados' / 'os' / f'{f:02x}.json', fatias.get(f'{f:02x}', {}))
+    return len(idx)
+
+
 def sugestoes_ativos(saida, nomes):
     """dados/ativos-pref/<2 primeiros caracteres do código>.json: a lista suspensa da busca de ativo da página inicial.
 
@@ -1301,18 +1355,19 @@ def interface(saida, malha=None):
     ranking_polos(saida, dados, man)
     manutencao_polos(saida, dados)
     indice_ativos(saida, dados)
-    corpo = ('<header class="cab"><h1>Trechos por município</h1><a class="cab-link" href="polos/#eto">Ranking</a></header>\n'
+    indice_os(saida, dados)
+    corpo = ('<header class="cab"><h1>Argos Manutenção</h1><a class="cab-link" href="polos/#eto">Ranking</a></header>\n'
              # casca do mapa já no HTML (estilo em assets/site.css; o svg com viewBox reserva a altura do mapa):
              # os scripts só preenchem, e a página não pula ao carregar. Busca única atrás da lupa (busca-ativo.js):
              # ativo, município ou alimentador, com a lista aparecendo enquanto se digita.
              '<div id="mapa-to" class="mapa-to"><div class="mt-barra">'
              '<form class="ativo" id="ativo" role="search"><div class="campo">'
-             '<button type="button" class="lupa" id="lupa" aria-label="Buscar ativo, município ou alimentador" '
+             '<button type="button" class="lupa" id="lupa" aria-label="Buscar ativo, município, alimentador ou OS" '
              'aria-expanded="false" aria-controls="ativo-q"><svg viewBox="0 0 24 24" aria-hidden="true">'
              '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></button>'
-             '<label for="ativo-q" class="vh">Buscar ativo, município ou alimentador</label>'
+             '<label for="ativo-q" class="vh">Buscar ativo, município, alimentador ou OS</label>'
              '<input class="busca" id="ativo-q" type="search" inputmode="search" autocomplete="off" '
-             'placeholder="Ativo, município ou alimentador" enterkeyhint="search" hidden>'
+             'placeholder="Ativo, município, alimentador ou OS" enterkeyhint="search" hidden>'
              '<div id="ativo-res" aria-live="polite"></div></div></form></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
              '<div class="mt-dica" aria-hidden="true"></div>'
@@ -1320,7 +1375,7 @@ def interface(saida, malha=None):
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')
-    (saida / 'index.html').write_text(casca('Trechos por município', corpo, '', rodape=(
+    (saida / 'index.html').write_text(casca('Argos Manutenção', corpo, '', rodape=(
         '<p>T1 do DJ ao 1º religador, T2 de religador a religador (T2-A, T2-B…), T3-A, T3-B… depois de cada fusível.</p>')),
         encoding='utf-8')
     (saida / '.nojekyll').touch()

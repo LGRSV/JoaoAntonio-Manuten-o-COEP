@@ -70,9 +70,8 @@
   const inicial = M.muns.find(m => m.slug && m.busca === 'palmas') || M.muns.find(m => m.slug);
   if (inicial) roda(inicial.cod);
 
-  // nomes: em repouso só as cidades de referência; o escolhido e os achados na busca também aparecem
-  const REF = ['palmas', 'araguaina', 'gurupi', 'porto nacional', 'paraiso do tocantins', 'guarai', 'colinas do tocantins',
-    'miracema do tocantins', 'pedro afonso', 'araguatins', 'tocantinopolis', 'dianopolis', 'natividade', 'formoso do araguaia', 'arraias'];
+  // nomes: no estado inteiro aparecem só as regionais (Norte, Centro, Sul); o município escolhido também aparece
+  const REF = [];
   const g = document.createElementNS(NS, 'g');
   g.setAttribute('class', 'mt-nomes');
   g.setAttribute('aria-hidden', 'true');
@@ -87,6 +86,16 @@
     rot[m.cod] = t;
   });
   svg.append(g);
+  const nomesReg = document.createElementNS(NS, 'g');
+  nomesReg.setAttribute('class', 'mt-nomes-reg');
+  nomesReg.setAttribute('aria-hidden', 'true');
+  regs.querySelectorAll('path').forEach((p, i) => {
+    const b = p.getBBox(), t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', b.x + b.width / 2); t.setAttribute('y', b.y + b.height / 2);
+    t.textContent = Object.keys(M.regs)[i];
+    nomesReg.append(t);
+  });
+  svg.append(nomesReg);
   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
   const X0 = -6, X1 = M.w + 6;
   function desamontoa() {            // os que se cruzam somem (o escolhido e os achados ganham dos outros)
@@ -117,6 +126,7 @@
     const r = svg.getBoundingClientRect();                 // o SVG pode ficar limitado pela altura (max-height)
     if (!r.width || !r.height) return;
     g.style.setProperty('--k', (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));
+    nomesReg.style.setProperty('--k', g.style.getPropertyValue('--k'));
     desamontoa();
   };
   rotulos();
@@ -224,7 +234,7 @@
     else polosDe(reg).forEach(([polo, gp]) => { bb = une(bb, move(caixaDe(gp), desl[polo])); });
     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
     // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
-    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 32 * w / W; return [x, y - t, w, h + t + f]; }
+    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
     // a coluna da esquerda (seta e caixinha) e a legenda da direita ficam livres, cada uma com a sua largura
     const H = svg.clientHeight || 600, L1 = lado.offsetWidth + 24, L2 = (leg ? leg.offsetWidth : 0) + 24;
     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);

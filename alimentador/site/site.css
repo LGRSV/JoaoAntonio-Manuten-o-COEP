@@ -151,7 +151,7 @@ header.cab>.cab-link{justify-self:center}
 .mt-barra{grid-area:barra}.mt-mapa{grid-area:mapa}
 
 /* barra: só a lupa (busca-ativo.js); tocar nela abre o campo da busca única (ativo, município ou alimentador) */
-.mt-barra{display:flex;justify-content:center}
+.mt-barra{display:flex;justify-content:center;position:sticky;top:var(--s2);z-index:30}   /* a lupa fica sempre à mão, em qualquer nível do mapa */
 .mt-barra .ativo{width:min(100%,460px)}
 .mt-barra .ativo .campo{justify-content:center}
 .mt-barra .busca{max-width:none}
@@ -214,7 +214,10 @@ header.cab>.cab-link{justify-self:center}
 .aberta.pronta .mt-poloc{opacity:1}
 .mt-poloc.fundo{stroke:var(--paper);stroke-width:7}
 .mt-regc{transition:opacity .3s}.aberta .mt-regc{opacity:0}
-.aberta .mt-nomes{display:none}
+.aberta .mt-nomes,.aberta .mt-nomes-reg{display:none}
+/* nome das regionais no estado inteiro (no lugar das cidades de referência) */
+.mt-nomes-reg text{font:700 calc(17px * var(--k,1)) var(--f-body);letter-spacing:.06em;text-transform:uppercase;fill:var(--fg);paint-order:stroke;
+  stroke:var(--bg);stroke-width:calc(4px * var(--k,1));stroke-linejoin:round;text-anchor:middle;dominant-baseline:central;pointer-events:none}
 .mt-dica .mt-dica-c{display:block;margin-top:2px;font-size:var(--t-xs)}
 .mt-volta{position:static;justify-self:start;min-height:var(--alvo);padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r2);
   background:var(--paper);color:var(--accent);font:600 var(--t-sm) var(--f-body);cursor:pointer}
@@ -267,7 +270,7 @@ span.mt-pchip{cursor:default}
 @media (max-width:860px){
   .mt-lado{display:contents}
   /* celular: a caixinha dos polos fica presa embaixo do mapa; a seta puxa ela para cima */
-  .mt-lado .mt-polos{position:absolute;left:50%;bottom:0;z-index:3;transform:translateX(-50%);display:grid;justify-items:center;gap:0;width:max-content;max-width:calc(100% - 16px)}
+  .mt-lado .mt-polos{position:absolute;left:50%;bottom:0;z-index:5;transform:translateX(-50%);display:grid;justify-items:center;gap:0;width:max-content;max-width:calc(100% - 16px)}
   .mt-puxa{display:grid;place-items:center;width:48px;height:24px;padding:0;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;
     background:var(--paper);color:var(--muted);cursor:pointer}
   .mt-puxa svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
@@ -306,14 +309,17 @@ span.mt-pchip{cursor:default}
 
 /* município: busca com a lista suspensa de todos os municípios (mapa-municipios.js) */
 /* legenda (faixas de NAE e o limite das regionais): no canto do mapa (computador) ou embaixo dele (celular) */
-.mt-regs{position:absolute;right:0;top:0;z-index:4;margin:0;font-size:var(--t-sm);color:var(--fg);background:var(--paper);
+.mt-regs{position:absolute;right:0;bottom:0;z-index:4;margin:0;font-size:var(--t-sm);color:var(--fg);background:var(--paper);
   border:1px solid var(--line);border-radius:var(--r2);box-shadow:var(--sh1)}
 .mt-regs>summary{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);min-height:var(--alvo);padding:0 var(--s3);
   font:700 var(--t-sm) var(--f-body);cursor:pointer;list-style:none;user-select:none}
 .mt-regs>summary::-webkit-details-marker{display:none}
-.mt-regs>summary::after{content:'';width:7px;height:7px;margin-top:-3px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s}
-.mt-regs[open]>summary::after{transform:rotate(-135deg);margin-top:3px}
-.mt-regs-c{display:grid;gap:var(--s1);padding:0 var(--s3) var(--s3)}
+.mt-regs>summary::after{content:'';width:7px;height:7px;border:solid var(--muted);border-width:0 2px 2px 0;transition:transform .2s}
+.mt-regs>summary::after{transform:rotate(-135deg);margin-top:3px}
+.mt-regs[open]>summary::after{transform:rotate(45deg);margin-top:-3px}
+/* abre para cima: o conteúdo fica em cima do quadrado */
+.mt-regs-c{position:absolute;right:-1px;bottom:calc(100% + 4px);display:grid;gap:var(--s1);min-width:calc(100% + 2px);padding:var(--s3);white-space:nowrap;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r2);box-shadow:var(--sh2)}
 .mt-regs-c>span{display:inline-flex;align-items:center;gap:var(--s2)}
 .mt-regs i{flex:none;width:18px;height:12px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--mt-borda)}
 .mt-regs b{font:700 var(--t-sm) var(--f-body)}.mt-regs small{display:block;margin:-2px 0 var(--s1);font-size:var(--t-xs);color:var(--muted)}
