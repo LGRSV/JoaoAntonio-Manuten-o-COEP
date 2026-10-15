@@ -1,5 +1,5 @@
---- orig/assets/site.css	2026-10-15 04:31:18.711859975 +0000
-+++ proto/site.css	2026-10-15 04:48:44.087836064 +0000
+--- orig-head/site.css	2026-10-15 05:21:06.989634496 +0000
++++ proto/site.css	2026-10-15 05:37:06.673685427 +0000
 @@ -1,5 +1,10 @@
  /* Casca das páginas geradas por scripts/gera_trechos.py: página inicial, município, polos (cabeçalho) e relatório. */
  /* ====== Sistema visual · tokens únicos (mesmos nomes e valores em site.css, mapa_trechos.html e nos CSS embutidos que os usam) ====== */
@@ -24,32 +24,19 @@
    --t-xs:12px; --t-sm:13px; --t-md:14px; --t-base:15px; --t-lg:17px; --t-xl:20px; --t-2xl:24px; --t-kpi:32px;
    --t-h1:clamp(26px,3.4vw,32px);
    /* espaço */
-@@ -432,8 +437,8 @@
- .mt-mn b{font:600 12.5px/1.1 var(--f-body);color:var(--cartao-fg);letter-spacing:.005em}
- .mt-mn i{padding:1px 6px;border-radius:4px;background:var(--selo);color:#fff;font:700 10.5px/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
- .mt-mn i.zero{background:#4a5359;color:#dfe4e6}
--.mt-mn[data-nv="2"]{padding:0;border:0;background:none;box-shadow:none}
--.mt-mn[data-nv="2"] i{box-shadow:0 0 0 1.5px var(--cartao),0 2px 6px rgb(0 0 0 / .5)}
-+.mt-mn[data-nv="3"]{padding:0;border:0;background:none;box-shadow:none}
-+.mt-mn[data-nv="3"] i{box-shadow:0 0 0 1.5px var(--cartao),0 2px 6px rgb(0 0 0 / .5)}
- @media (max-width:860px){
-   .mt-mn{padding:3px 6px 4px;gap:2px;border-radius:7px}
-   .mt-mn b{font-size:10.5px}.mt-mn i{font-size:9.5px;padding:1px 4px}
-@@ -462,8 +467,8 @@
- .mt-al i{padding:1px 6px;border-radius:4px;background:var(--selo);color:#fff;font:700 var(--t-xs)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
- .mt-al em{font:400 var(--t-xs)/1.2 var(--f-body);font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums}
- /* cartão compacto (nível 2 de colisão) e cartão do polo no nível da regional (nome em cima, NAE embaixo, filete na cor do polo) */
--.mt-mn[data-nv="1"]{padding:3px 6px 4px;gap:2px;border-radius:7px}
--.mt-mn[data-nv="1"] b{font-size:10.5px}.mt-mn[data-nv="1"] i{font-size:9.5px;padding:1px 4px}
-+.mt-mn[data-nv="1"],.mt-mn[data-nv="2"]{padding:3px 6px 4px;gap:2px;border-radius:7px}
-+.mt-mn[data-nv="1"] b,.mt-mn[data-nv="2"] b{font-size:10.5px}.mt-mn[data-nv="1"] i,.mt-mn[data-nv="2"] i{font-size:9.5px;padding:1px 4px}
- .mt-selos .mt-mn.mt-pm{z-index:2;padding:6px 12px 7px;gap:4px;border-radius:var(--r2);box-shadow:inset 0 -3px 0 var(--c),0 8px 20px -8px rgb(0 0 0 / .55)}
- .mt-selos .mt-mn.mt-pm b{font:700 var(--t-sm)/1.1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
- .mt-selos .mt-mn.mt-pm i{font-size:var(--t-xs);padding:2px 7px;border-radius:5px}
-@@ -516,3 +521,45 @@
- .sug-op .so-mini path{fill:none;stroke:var(--rede);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
- .sug-op.foco{box-shadow:inset 0 0 0 1px var(--rede)}
- .sug-op.foco .so-x small{color:var(--fg)}
+@@ -565,7 +570,7 @@
+ .mt-barra #ativo-res{right:auto;width:min(460px,calc(100vw - 32px))}
+ /* NAE escondida: só o número sai; nome, cor e posição continuam */
+ .sem-nae .mt-regcards i,.sem-nae .mt-selos .mt-mn i,.sem-nae .mt-nomes2 .mt-mn i,.sem-nae .mt-pchip i,.sem-nae .mt-dica-h i,
+-.sem-nae .mt-al i,.sem-nae #ativo-res .so-n{display:none}
++.sem-nae .mt-al i,.sem-nae #ativo-res .so-n,.sem-nae .mt-ac i{display:none}
+ .sem-nae .mt-nomes2 .mt-mn[data-nv="2"]{display:none}
+ /* botão de tela cheia: canto de cima, à direita do mapa */
+ .mt-tc{position:absolute;top:0;right:0;z-index:5;display:grid;place-items:center;width:var(--alvo);height:var(--alvo);padding:0;
+@@ -585,3 +590,45 @@
+ .mt-fios line{stroke:var(--cartao-fg);stroke-opacity:.55;stroke-width:1}
+ .mt-fios circle{fill:var(--selo);stroke:var(--cartao);stroke-width:1}
+ :root[data-theme="light"] .mt-fios line{stroke:#1b2024;stroke-opacity:.6}
 +
 +/* ====== RODADA 2 · tema 3 ====== */
 +/* cartão do alimentador em foco (mapa-municipios.js: .mt-ac): o mesmo cartão preto dos municípios; abre a página do alimentador */
@@ -91,10 +78,10 @@
 +#ativo-res.lista-mun .so-mini path{stroke:#5aa6ec}
 +#ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px #5aa6ec}
 +/* selos da NAE: o Google Fonts só entrega o Plex Mono 600 (o 700 era "negrito sintético", borrado nos 9–12 px); 600 verdadeiro, sem peso extra de download */
-+.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i{font-weight:600}
---- orig/assets/mapa-municipios.js	2026-10-15 04:31:19.255859962 +0000
-+++ proto/mapa-municipios.js	2026-10-15 05:01:42.506147775 +0000
-@@ -247,7 +247,13 @@
++.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i,.mt-regs-t,#mapa-to .mt-barra .mt-regs-t{font-weight:600}
+--- orig-head/mapa-municipios.js	2026-10-15 05:21:06.992725455 +0000
++++ proto/mapa-municipios.js	2026-10-15 05:21:43.073448516 +0000
+@@ -291,7 +291,13 @@
    // coluna da esquerda do mapa: a seta de voltar e, com o município aberto, os alimentadores dele
    const lado = document.createElement('div');
    lado.className = 'mt-lado';
@@ -109,7 +96,7 @@
    caixa.append(lado);
    // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
    const selos = document.createElement('div');
-@@ -257,6 +263,21 @@
+@@ -334,6 +340,21 @@
    let desl = {};
    // enquadra a regional aberta deixando livre a coluna da legenda (computador) ou o topo para o "← Tocantins" (celular)
    const move = (b, [dx, dy]) => ({ x: b.x + dx, y: b.y + dy, x2: b.x2 + dx, y2: b.y2 + dy });
@@ -119,9 +106,9 @@
 +  const celMq = () => matchMedia('(max-width:860px)').matches;
 +  const alturaCel = () => Math.round(Math.max(380, Math.min(caixa.clientWidth * (M.h + 12) / VW, .78 * innerHeight, innerHeight - 300)));
 +  const PAD_CEL = 52;                                      // px reservados em cima (seta de voltar) e embaixo (seta da lista)
-+  function lateral() {                                     // computador: a coluna da esquerda (seta, lista, legenda) fica livre
-+    const lista = window.ARGOS_BUSCA && mun && !alf ? ((document.querySelector('.mt-barra .ativo') || {}).offsetWidth || 0) : 0;
-+    return Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0, lista) + 24;
++  function lateral() {                                     // computador: a coluna da esquerda (seta e lista) fica livre; a legenda está na barra
++    const lista = window.ARGOS_BUSCA && mun && !alf ? Math.min(460, innerWidth - 32) : 0;
++    return Math.max(lado.offsetWidth, leg && caixa.contains(leg) ? leg.offsetWidth : 0, lista) + 24;
 +  }
 +  function areaPx() {
 +    const W = caixa.clientWidth;
@@ -131,16 +118,16 @@
    function enquadra() {
      let bb = null;
      if (alCaixa) bb = alCaixa;
-@@ -264,15 +285,39 @@
+@@ -341,15 +362,39 @@
      else if (pol) M.muns.forEach(m => { if (m.polo === pol) bb = une(bb, move(caixaDe(el[m.cod]), soma(desl[pol], mdesl[m.cod]))); });
      else polosDe(reg).forEach(([polo, gp]) => { bb = une(bb, move(caixaDe(gp), desl[polo])); });
      const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
 -    // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
 -    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
--    // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
--    // com a busca da barra, a lista do município aberto abre embaixo da logo: o lado esquerdo fica livre para ela
--    const lista = window.ARGOS_BUSCA && mun && !alf ? ((document.querySelector('.mt-barra .ativo') || {}).offsetWidth || 0) : 0;
--    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
+-    // a coluna da esquerda (seta e lista de alimentadores) fica livre; a legenda fica na barra, em cima do mapa
+-    // com a busca da barra, a lista do município aberto abre embaixo da logo (largura fixa no site.css): o lado esquerdo fica livre para ela
+-    const lista = window.ARGOS_BUSCA && mun && !alf ? Math.min(460, innerWidth - 32) : 0;
+-    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg && caixa.contains(leg) ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
 -    const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
 +    if (celMq()) {                                         // moldura fixa: W x alturaCel() px, o conjunto centralizado nela
 +      const H = alturaCel(), k = Math.min(W / w, (H - 2 * PAD_CEL) / h), vw = W / k, vh = H / k;
@@ -179,7 +166,7 @@
    }
    function entra(r, teclado, cod) {
      if (!r || reg === r) return;
-@@ -338,9 +383,14 @@
+@@ -415,9 +460,14 @@
      const b = caixaDe(grp[polo]), pc = [(b.x + b.x2) / 2, (b.y + b.y2) / 2], ms = M.muns.filter(m => m.polo === polo);
      mdesl = {};
      const g0 = Math.hypot(b.x2 - b.x, b.y2 - b.y) * 0.04;         // folga mínima: os do meio do polo também se soltam
@@ -195,7 +182,7 @@
        el[m.cod].style.transform = tr(mdesl[m.cod]);
      });
      polosDe(reg).forEach(([po, gp]) => { gp.classList.toggle('fora', po !== polo); gp.classList.remove('desliga'); });
-@@ -444,6 +494,13 @@
+@@ -521,6 +571,13 @@
      legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('foco', a.dataset.al === al));
      const ab = legAl.querySelector('.mt-amun');
      if (ab) { ab.href = pag(`alimentadores/${encodeURIComponent(al)}/`); ab.textContent = `Abrir ${al} →`; }
@@ -209,7 +196,7 @@
      trilhaMun();
      volta.setAttribute('aria-label', `${al}. Voltar a ${porCod[mun].nome}`);
      volta.title = `Voltar a ${porCod[mun].nome}`;
-@@ -453,6 +510,7 @@
+@@ -530,6 +587,7 @@
      if (!alf) return;
      alf = null;
      alCaixa = null;
@@ -217,85 +204,23 @@
      camada.classList.remove('foco');
      const gf = camada.querySelector('.mt-redes-a');
      if (gf) gf.innerHTML = '';
-@@ -523,18 +581,22 @@
+@@ -600,9 +658,12 @@
    caixa.append(nomes2);
    const fmt = n => (n || 0).toLocaleString('pt-BR');
    const zero = m => m.nae ? '' : ' class="zero"';
-+  // RODADA 2: 4 níveis. 0 cartão cheio, 1 cartão compacto, 2 compacto com o nome CURTO (sem " do Tocantins": nenhum nome fica
-+  // repetido dentro do estado), 3 só o número. O nome completo continua no balão do mouse e no rótulo de acessibilidade.
++  // RODADA 2: o cartão compacto (nível 1) usa o nome CURTO (sem " do Tocantins": nenhum nome fica repetido dentro do estado), que
++  // cabe dentro de mais municípios e deixa o cartão "ao lado" (com fio) menor; o nome completo continua no balão e no cartão cheio.
 +  const curto = n => n.replace(/ do Tocantins$/, '');
    const NIVEIS_ROT = [
--    m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão completo
+     m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão completo
 -    m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão compacto (letra menor, via data-nv)
--    m => `<i${zero(m)}>${fmt(m.nae)}</i>`,                               // só o número
-+    m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,
-+    m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,
-+    m => `<b>${esc(curto(m.nome))}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,
-+    m => `<i${zero(m)}>${fmt(m.nae)}</i>`,
++    m => `<b>${esc(curto(m.nome))}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão compacto (letra menor, via data-nv), nome curto
+     m => `<i${zero(m)}>${fmt(m.nae)}</i>`,                               // só o número
    ];
--  const bate = (a, b, f = 8) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
-+  const bate = (a, b, f = celMq() ? 6 : 8) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
-   function poeNomes() {
-     nomes2.innerHTML = '';
-     if (!pol || mun || anima) return;
-     const r = svg.getBoundingClientRect(), v = vb(), c0 = caixa.getBoundingClientRect(), ctm = svg.getScreenCTM();
-     if (!r.width || !ctm) return;
--    const celular = matchMedia('(max-width:860px)').matches, ocupado = [];   // legenda e seta de voltar também entram na conta
-+    const celular = celMq(), ocupado = [];   // legenda e seta de voltar também entram na conta
-     [leg, volta].forEach(o => { if (o && o.offsetParent) ocupado.push(o.getBoundingClientRect()); });
-     const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
-     const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
-@@ -552,20 +614,30 @@
-         }
-       }
-     }
--    let nomeados = 0;                                           // celular: só os 10 de maior NAE levam o nome; os demais, o número
-+    // RODADA 2 (fluidez): primeiro cria TODOS os cartões no nível inicial e mede todos de uma vez (um só layout); só quem não coube
-+    // troca de nível e é medido de novo. Antes cada município forçava um layout por tentativa (a tarefa longa chegava a 130 ms a 4x de CPU).
-+    const ini = celular ? 1 : 0, cartoes2 = [];
-+    const nivelDe = (t, m, nv) => { t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv; };
-+    const frag = document.createDocumentFragment();
-     ms.forEach(m => {
--      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso, para os 3 níveis
-+      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso, para os 4 níveis
-       const ponto = k => { while (cache.length <= k) { const r = it.next(); if (r.done) return null; cache.push(r.value); } return cache[k]; };
-       if (!ponto(0)) return;
--      const [dx, dy] = soma(desl[pol], mdesl[m.cod]);
-       const t = document.createElement('span');
-       t.className = 'mt-mn';
--      nomes2.append(t);
--      for (let nv = celular ? (nomeados < 10 ? 1 : 2) : 0; nv < NIVEIS_ROT.length; nv++) {      // celular: já começa no cartão compacto
--        t.innerHTML = NIVEIS_ROT[nv](m);
--        t.dataset.nv = nv;
--        t.style.left = '0px'; t.style.top = '0px';
--        const w = t.offsetWidth, h = t.offsetHeight;
-+      nivelDe(t, m, ini);
-+      t.style.left = '0px'; t.style.top = '0px';
-+      frag.append(t);
-+      cartoes2.push({ m, t, ponto });
-+    });
-+    nomes2.append(frag);
-+    cartoes2.forEach(c => { c.w = c.t.offsetWidth; c.h = c.t.offsetHeight; });   // uma leitura só: um layout para todos
-+    cartoes2.forEach(c => {
-+      const { m, t, ponto } = c, [dx, dy] = soma(desl[pol], mdesl[m.cod]);
-+      for (let nv = ini; nv < NIVEIS_ROT.length; nv++) {
-+        if (nv === 2 && curto(m.nome) === m.nome) continue;                // sem nome curto diferente: pula para o número
-+        if (nv !== ini) { nivelDe(t, m, nv); c.w = t.offsetWidth; c.h = t.offsetHeight; }
-+        const w = c.w, h = c.h;
-         for (let k = 0, q; (q = ponto(k)); k++) {
-           const s = aTela(q.x + dx, q.y + dy);
-           const R = { left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 };
-@@ -573,7 +645,6 @@
-           if (ocupado.some(o => bate(R, o))) continue;
-           t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px';
-           ocupado.push(R);
--          if (nv < 2) nomeados++;
-           return;
-         }
-       }
---- orig/assets/busca-ativo.js	2026-10-15 04:31:19.431859958 +0000
-+++ proto/busca-ativo.js	2026-10-15 04:42:06.082749401 +0000
-@@ -89,7 +89,7 @@
+   const bate = (a, b, f = matchMedia('(max-width:860px)').matches ? 4 : 8) => a.left < b.right + f && a.right + f > b.left && a.top < b.bottom + f && a.bottom + f > b.top;
+--- orig-head/busca-ativo.js	2026-10-15 05:21:06.995462768 +0000
++++ proto/busca-ativo.js	2026-10-15 05:21:43.077170659 +0000
+@@ -92,7 +92,7 @@
      let i = 0;
      sug = [];
      const html = blocos.filter(([, itens]) => itens.length).map(([titulo, itens]) =>
@@ -304,17 +229,17 @@
          sug.push(it.s);
          return `<li class="sug-op so-${it.tipo}${it.foco ? ' foco' : ''}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
            (it.mini ? `<span class="so-mini" data-al="${esc(it.mini)}" aria-hidden="true"></span>` :
-@@ -137,7 +137,7 @@
+@@ -140,7 +140,7 @@
    function atalhos() {
      pedido++;
      const nv = nivel(), m = porCod[nv.mun];
 -    if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
-+    if (m) mostra([[{ html: `<b>${esc(m.nome)}</b><i class="so-n">${nf(m.nae)}<span class="vh"> NAE</span></i><small>${plural(m.als.length, 'alimentador', 'alimentadores')} · mais km primeiro</small>` }, m.als.slice().sort((a, b) => b.m - a.m)
++    if (m) mostra([[{ html: `<b>${esc(m.nome)}</b><i class="so-n">${nf(m.nae)}<span class="vh"> NAE</span></i><small>${plural(m.als.length, 'alimentador', 'alimentadores')}</small>` }, m.als.slice().sort((a, b) => b.m - a.m)
        .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
      else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
        [`Alimentadores com mais NAE no polo ${nv.pol}`, topAls(x => x.polo === nv.pol)]]);
---- orig/assets/ranking-polos.js	2026-10-15 04:31:19.610753275 +0000
-+++ proto/ranking-polos.js	2026-10-15 04:48:16.618408604 +0000
+--- orig-head/ranking-polos.js	2026-10-15 05:21:06.998272406 +0000
++++ proto/ranking-polos.js	2026-10-15 05:37:06.667769676 +0000
 @@ -70,6 +70,10 @@
      prazo: { rot: 'Limpeza no prazo', val: a => a.limp.prazo ?? -1 },
      ult: { rot: 'Última limpeza', val: a => a.limp.ult || '' },
@@ -357,7 +282,7 @@
 +/* escolha de escopo: nome + selo da NAE (o selo vermelho do mapa). Aberto/escolhido = cartão preto, como o polo aberto do mapa */
 +.pl-pil{display:inline-flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;border-radius:var(--r2);background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
 +.pl-pil b{font:600 var(--t-md)/1.2 var(--f-body);color:inherit}
-+.pl-pil i,.pl-seg i{font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
++.pl-pil i,.pl-seg i{font:600 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
 +  background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
 +.pl-pil:hover{background:var(--hover)}
 +.pl-pil[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent),0 8px 20px -10px rgb(0 0 0 / .55)}
@@ -371,7 +296,7 @@
 +.pl-sup{letter-spacing:.08em}
 +.pl-kpi dd{font-family:var(--f-display);font-weight:700}
 +/* NAE da linha = o mesmo selo do mapa e da lista de alimentadores */
-+.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:600 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
 +.pl-tab th{font-family:var(--f-mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
 +@media (max-width:900px){
 +  .pl-tab td[data-r=NAE] .pl-nae{font-size:var(--t-md);padding:3px 8px}

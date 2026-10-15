@@ -1,0 +1,51 @@
+{
+  "tema": "Tipografia e design do mapa (rodada 2): espaçamento por polo/tela, município e alimentador em foco no cartão preto, acabamento (fontes, tema claro) e página de ranking",
+  "base": "alimentador/site em 15/10 05:20 (commit da85625), guardada em orig-head/",
+  "sugestoes": [
+    {
+      "titulo": "Afastamento adaptativo e moldura fixa do mapa no celular",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["prints/antes-polo-augustinopolis-dark-desk.jpg", "prints/antes-polo-porto-dark-cel.jpg", "prints/folha-antes-8polos-dark-desk.jpg", "prints/folha-antes-8polos-dark-cel.jpg"],
+      "depois": ["prints/depois-polo-augustinopolis-dark-desk.jpg", "prints/depois-polo-porto-dark-cel.jpg", "prints/folha-depois-8polos-dark-desk.jpg", "prints/folha-cel-antes-depois.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/mudancas.diff"],
+      "descricao": "Depois do afastamento base, espalha os municípios só no eixo em que sobra tela (teto 1,7x no computador, 3x no celular) e dá ao SVG do celular altura fixa. Nome dentro da forma: computador 127→134, notebook 109→125, celular 58→91 de 139; 'só número' no celular 35→14; sem sobreposição. CPU 4x: não piora."
+    },
+    {
+      "titulo": "Nome curto (sem 'do Tocantins') no cartão compacto",
+      "prioridade": 2,
+      "esforco": "P",
+      "antes": ["prints/antes-polo-augustinopolis-dark-cel.jpg"],
+      "depois": ["prints/depois-polo-augustinopolis-dark-cel.jpg"],
+      "prototipo": ["proto/mapa-municipios.js"],
+      "descricao": "37 nomes ganham versão curta (nenhuma repetida no estado) usada no cartão compacto; o cheio e o balão seguem completos."
+    },
+    {
+      "titulo": "Município e alimentador em foco com a linguagem do cartão preto (e correção do corte da rede)",
+      "prioridade": 3,
+      "esforco": "M",
+      "antes": ["prints/antes-mun-araguaina-lista-dark-desk.jpg", "prints/antes-al-foco-dark-desk.jpg", "prints/antes-al-foco-dark-cel.jpg"],
+      "depois": ["prints/depois-mun-araguaina-lista-dark-desk.jpg", "prints/depois-al-foco-dark-desk.jpg", "prints/depois-al-foco-dark-cel.jpg", "prints/depois-al-foco-light-cel.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/busca-ativo.js", "proto/site.css"],
+      "descricao": "Lista embaixo da busca vira cartão preto com o município em Condensed e o selo da NAE do município; o alimentador focado ganha cartão no mapa (código, NAE, subestação, km, Abrir a página); enquadra sempre devolve viewBox com a proporção da caixa, o que elimina o corte reto da rede."
+    },
+    {
+      "titulo": "Página de ranking com a mesma tipografia do mapa",
+      "prioridade": 4,
+      "esforco": "P",
+      "antes": ["prints/antes-ranking-dark-desk.jpg", "prints/antes-ranking-dark-cel.jpg"],
+      "depois": ["prints/depois-ranking-dark-desk.jpg", "prints/depois-ranking-dark-cel.jpg", "prints/depois-ranking-light-cel.jpg"],
+      "prototipo": ["proto/ranking-polos.js"],
+      "descricao": "Marca ARGOS, escolha de polo com nome+selo (escolhido em cartão preto), NAE da linha em selo vermelho, cabeçalhos em Plex Mono."
+    },
+    {
+      "titulo": "Acabamento: Mono 600 nos selos, fontes reserva com métricas do Plex e tema claro",
+      "prioridade": 5,
+      "esforco": "P",
+      "antes": ["prints/selo-comparacao.png"],
+      "depois": ["prints/selo-comparacao.png", "prints/depois-polo-paraiso-light-desk.jpg"],
+      "prototipo": ["proto/site.css", "proto/ranking-polos.js"],
+      "descricao": "O selo pedia Mono 700 (não carregado: negrito sintético em 32 textos) -> 600. Três @font-face locais com size-adjust/overrides reduzem o CLS do ranking no celular com fontes lentas de 0,172 para 0,0007."
+    }
+  ]
+}

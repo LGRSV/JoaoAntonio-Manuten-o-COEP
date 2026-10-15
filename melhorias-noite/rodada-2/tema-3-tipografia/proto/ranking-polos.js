@@ -273,7 +273,7 @@ header h1{letter-spacing:.005em}
 /* escolha de escopo: nome + selo da NAE (o selo vermelho do mapa). Aberto/escolhido = cartão preto, como o polo aberto do mapa */
 .pl-pil{display:inline-flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;border-radius:var(--r2);background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
 .pl-pil b{font:600 var(--t-md)/1.2 var(--f-body);color:inherit}
-.pl-pil i,.pl-seg i{font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
+.pl-pil i,.pl-seg i{font:600 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
   background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
 .pl-pil:hover{background:var(--hover)}
 .pl-pil[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent),0 8px 20px -10px rgb(0 0 0 / .55)}
@@ -287,7 +287,7 @@ header h1{letter-spacing:.005em}
 .pl-sup{letter-spacing:.08em}
 .pl-kpi dd{font-family:var(--f-display);font-weight:700}
 /* NAE da linha = o mesmo selo do mapa e da lista de alimentadores */
-.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
+.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:600 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
 .pl-tab th{font-family:var(--f-mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
 @media (max-width:900px){
   .pl-tab td[data-r=NAE] .pl-nae{font-size:var(--t-md);padding:3px 8px}

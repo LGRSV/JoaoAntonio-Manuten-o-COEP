@@ -1,18 +1,13 @@
-desktop|base     pronto 742 FCP 148 LCP 1168 TBT 590 LT 5 (max 229) CLS 0 KB 740 req 23 nós 9096 heap 47MB DCL 1452 load 1457
-     arrastar       {"fps":57,"pior":150,"p95":16.7,"travados":1,"longtasks":1,"ltMax":159}
-     zoom-roda      {"fps":41.1,"pior":100,"p95":50,"travados":8,"longtasks":3,"ltMax":89}
-     hover-linhas   {"fps":60,"pior":16.8,"p95":16.7,"travados":0,"longtasks":0,"ltMax":0}
-desktop|cpu4     pronto 2229 FCP 224 LCP 2564 TBT 3833 LT 14 (max 920) CLS 0 KB 740 req 23 nós 9096 heap 46MB DCL 5102 load 5127
-     arrastar       {"fps":57.4,"pior":33.4,"p95":16.8,"travados":0,"longtasks":1,"ltMax":119}
-     zoom-roda      {"fps":26,"pior":266.7,"p95":150,"travados":23,"longtasks":13,"ltMax":217}
-     hover-linhas   {"fps":57.5,"pior":50.1,"p95":16.8,"travados":1,"longtasks":0,"ltMax":0}
-desktop|lenta    pronto 5183 FCP 868 LCP 5600 TBT 3931 LT 16 (max 896) CLS 0.0009 KB 740 req 23 nós 9096 heap 45MB DCL 8269 load 8292
-celular|base     pronto 686 FCP 148 LCP 1260 TBT 670 LT 7 (max 240) CLS 0 KB 740 req 23 nós 9087 heap 45MB DCL 1522 load 1528
+desktop|base     pronto 616 FCP 140 LCP 1036 TBT 469 LT 6 (max 239) CLS 0 KB 757 req 23 nós 9096 heap 36MB DCL 1175 load 1180
+     arrastar       {"fps":57.9,"pior":83.3,"p95":16.8,"travados":1,"longtasks":1,"ltMax":73}
+     zoom-roda      {"fps":44,"pior":83.4,"p95":50,"travados":5,"longtasks":0,"ltMax":0}
+     hover-linhas   {"fps":60,"pior":16.8,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
+desktop|cpu4     pronto 2211 FCP 232 LCP 2632 TBT 3774 LT 15 (max 795) CLS 0.0009 KB 757 req 23 nós 9096 heap 35MB DCL 5066 load 5096
+     arrastar       {"fps":53.3,"pior":300,"p95":16.8,"travados":1,"longtasks":1,"ltMax":92}
+     zoom-roda      {"fps":28.2,"pior":283.3,"p95":100,"travados":23,"longtasks":13,"ltMax":169}
+     hover-linhas   {"fps":59,"pior":49.9,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
+desktop|lenta    pronto 5307 FCP 864 LCP 5736 TBT 4134 LT 16 (max 901) CLS 0.0009 KB 757 req 23 nós 9096 heap 28MB DCL 8442 load 8483
+celular|base     pronto 537 FCP 100 LCP 896 TBT 386 LT 6 (max 182) CLS 0 KB 757 req 23 nós 9087 heap 36MB DCL 1079 load 1084
      arrastar       {"fps":60,"pior":16.8,"p95":16.7,"travados":0,"longtasks":0,"ltMax":0}
-     pinca          {"fps":50.5,"pior":266.6,"p95":16.8,"travados":2,"longtasks":3,"ltMax":100}
+     pinca          {"fps":56.7,"pior":83.4,"p95":16.8,"travados":2,"longtasks":1,"ltMax":51}
      hover-linhas   {"fps":60,"pior":16.8,"p95":16.7,"travados":0,"longtasks":0,"ltMax":0}
-celular|cpu4     pronto 2415 FCP 244 LCP 2640 TBT 4699 LT 16 (max 1319) CLS 0 KB 740 req 23 nós 9087 heap 45MB DCL 6005 load 6031
-     arrastar       {"fps":58.5,"pior":33.4,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
-     pinca          {"fps":34,"pior":666.6,"p95":49.9,"travados":2,"longtasks":3,"ltMax":295}
-     hover-linhas   {"fps":58.1,"pior":33.3,"p95":16.8,"travados":0,"longtasks":0,"ltMax":0}
-celular|lenta    pronto 5115 FCP 876 LCP 5564 TBT 4113 LT 16 (max 1156) CLS 0.0363 KB 740 req 23 nós 9087 heap 40MB DCL 8455 load 8497

@@ -631,4 +631,4 @@ html.mt-cheia-trava,html.mt-cheia-trava body{overflow:hidden}
 #ativo-res.lista-mun .so-mini path{stroke:#5aa6ec}
 #ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px #5aa6ec}
 /* selos da NAE: o Google Fonts só entrega o Plex Mono 600 (o 700 era "negrito sintético", borrado nos 9–12 px); 600 verdadeiro, sem peso extra de download */
-.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i{font-weight:600}
+.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i,.mt-regs-t,#mapa-to .mt-barra .mt-regs-t{font-weight:600}
