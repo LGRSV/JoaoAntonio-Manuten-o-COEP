@@ -90,3 +90,14 @@ ainda não publicada no /teste/.
   entregue como patch pronto (proto/*.diff contra /home/user/smartled/alimentador/site/ + arquivos novos), validado
   em 1440x900 e 390x844, escuro E claro, com medições antes/depois e lista "o que implementar primeiro".
 - Prazo: terminar até 07:30 UTC (04:30 em Tocantins).
+
+## Atualização 04h35 (Tocantins): rodada 4 (final)
+- Base = commit atual da branch (alimentador/site/ = /teste/ ao vivo, gh-pages 8f86bf3, com a lupa no painel e 1 clique
+  no alimentador abrindo o painel).
+- Entrega FINAL por tema, na pasta rodada-4/tema-K-.../:
+  - proto/final.diff contra a base (aplica com `git apply --check` na raiz do repositório) + arquivos novos;
+  - prints-finais/: 3 a 4 PARES antes/depois dos momentos mais importantes, em 1440x900 e 390x844 (nomes
+    NN-assunto-antes-1440.jpg / NN-assunto-depois-1440.jpg, idem -390), JPEG qualidade 80;
+  - FINAL.md de 1 página: o que muda (3 a 6 tópicos), números antes→depois, o que implementar primeiro (lista
+    priorizada com esforço), riscos, e "toca nos arquivos/funções" (para eu juntar os 5 temas sem conflito).
+- Prazo rígido: 08:35 UTC (05:35 em Tocantins).
