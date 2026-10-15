@@ -1362,8 +1362,8 @@ def interface(saida, malha=None):
     manutencao_polos(saida, dados)
     indice_ativos(saida, dados)
     indice_os(saida, dados)
-    corpo = ('<header class="cab"><h1><img class="argos-img argos-cab" src="assets/argos.png" alt="" width="72" height="49">'
-             'ARGOS Manutenção</h1><a class="cab-link" href="polos/#eto">Ranking</a></header>\n'
+    corpo = ('<header class="cab"><h1><b>ARGOS</b> <span>MANUTENÇÃO</span></h1>'
+             '<a class="cab-link" href="polos/#eto">Ranking</a></header>\n'
              # casca do mapa já no HTML (estilo em assets/site.css; o svg com viewBox reserva a altura do mapa):
              # os scripts só preenchem, e a página não pula ao carregar. Busca única atrás da lupa (busca-ativo.js):
              # ativo, município ou alimentador, com a lista aparecendo enquanto se digita.
@@ -1378,7 +1378,7 @@ def interface(saida, malha=None):
              '<div id="ativo-res" aria-live="polite"></div></div></form></div>\n'
              f'<div class="mt-mapa"><svg role="group" aria-label="Mapa dos municípios do Tocantins" tabindex="-1" viewBox="{vb}"></svg>'
              '<div class="mt-dica" aria-hidden="true"></div>'
-             '<details class="mt-regs"><summary>NAE-Vegetação</summary></details></div></div>\n'   # legenda: mapa-municipios.js
+             '<details class="mt-regs" open><summary>NAE-Vegetação</summary></details></div></div>\n'   # legenda: mapa-municipios.js
              '<script src="assets/mapa-municipios-dados.js"></script>\n'
              '<script src="assets/mapa-municipios.js"></script>\n'
              '<script src="assets/busca-ativo.js"></script>')
