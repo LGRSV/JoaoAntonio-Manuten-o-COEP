@@ -1,0 +1,57 @@
+
+## Histórico · computador 1440x900
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro
+  ok   polo → #centro/palmas
+  ok   município → #centro/palmas/palmas
+  ok   alimentador → #centro/palmas/palmas/LD02059122
+  ok   cada descida empilhou uma entrada (4 níveis = +4)
+  ok   título da aba acompanha o nível
+  ok   Voltar 1: alimentador → município (mapa e endereço)
+  ok   Voltar 2: município → polo
+  ok   Voltar 3: polo → regional
+  ok   Voltar 4: regional → estado inteiro
+  ok   depois de tudo isso o mapa voltou ao enquadramento do estado (cartões de regionais visíveis)
+  ok   Avançar desce de novo (regional)
+  ok   Avançar ×4 chega ao alimentador
+  ok   sem erros de JavaScript durante Voltar/Avançar
+  ok   Esc no polo → regional, endereço #centro
+  ok   Esc não empilhou entrada
+  ok   Voltar depois do Esc vai ao estado (não desce de novo ao polo)
+  ok   ← (na trilha) sobe município → polo e o Voltar seguinte vai a regional
+  ok   Voltar depois da ← → regional
+  ok   trilha: salto de vários níveis até "estado" limpa o endereço
+  ok   Voltar depois do salto devolve ao alimentador de onde saiu
+  ok   busca "Lagoa da Confusão" leva o mapa ao município
+  ok   o voo da busca (estado → município) empilhou UMA entrada
+  ok   Voltar depois da busca volta ao estado inteiro
+  ok   busca de alimentador abre já com o alimentador em foco e endereço completo
+  ok   ...com uma só entrada nova
+  ok   trocar o hash à mão (#sul) leva o mapa à regional Sul
+
+## Link com endereço · d
+  ok   abrir #norte cai em Norte///
+  ok     #norte: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas cai em Centro/Palmas//
+  ok     #centro/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas cai em Centro/Palmas/1721000/
+  ok     #centro/palmas/palmas: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/LD02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/LD02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/palmas/palmas/ld02059122 cai em Centro/Palmas/1721000/LD02059122
+  ok     #centro/palmas/palmas/ld02059122: sem erros, sem rolagem lateral
+  ok   abrir #centro/PALMAS/Palmas cai em Centro/Palmas/1721000/
+  ok     #centro/PALMAS/Palmas: sem erros, sem rolagem lateral
+  ok   link inválido #centro/xyz → Centro///, barra #centro
+  ok   link inválido #centro/palmas/xyz → Centro/Palmas//, barra #centro/palmas
+  ok   link inválido #centro/palmas/palmas/ZZ999 → Centro/Palmas/1721000/, barra #centro/palmas/palmas
+  ok   link inválido #sul/palmas → Sul///, barra #sul
+  ok   link inválido #zzz → ///, barra #zzz
+  ok   link #centro/palmas aberto direto: histórico não ganhou entradas extras
+  ok   Voltar num link aberto direto sai do site (comportamento normal do navegador)
+
+## Histórico · celular 390x844 (toque)
+  ok   sem erros de JavaScript ao carregar
+  ok   estado inteiro: sem hash
+  ok   regional → #centro

@@ -1,6 +1,6 @@
 --- a/alimentador/site/site.css
 +++ b/alimentador/site/site.css
-@@ -596,3 +596,21 @@
+@@ -596,3 +596,26 @@
    box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
  .voando .mt-bandeiras{display:none}
  @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
@@ -21,6 +21,11 @@
 +  .mt-volta{min-width:44px}
 +  .mt-amun{display:inline-flex;align-items:center;min-height:44px}
 +  .sug-op,.mun-op{min-height:48px}
++  .mt-regcards button{min-height:44px}   /* com a legenda recolhida (.sem-nae) os cartões das regionais caem para 27 px */
++  /* orelhinha da legenda (parte da outra sessão): o visual não muda; só a área de toque desce até 44 px */
++  .mt-regs-b::after{content:"";position:absolute;inset:0 -8px -22px}
++  .mt-regs.fechada .mt-regs-b{position:relative}
++  .mt-regs.fechada .mt-regs-b::after{bottom:-14px}
 +}
 --- a/alimentador/site/mapa-municipios.js
 +++ b/alimentador/site/mapa-municipios.js
@@ -91,7 +96,7 @@
    const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
  
    // ---------- índice dos dados do mapa: regionais e polos (NAE = soma dos municípios, como nos cartões do mapa) e
-@@ -104,6 +107,7 @@
+@@ -103,6 +106,7 @@
      res.className = classe;
      res.innerHTML = `<ul class="sug" role="listbox" aria-label="Resultados">${html}</ul>${rodape}`;
      q.setAttribute('aria-expanded', 'true');

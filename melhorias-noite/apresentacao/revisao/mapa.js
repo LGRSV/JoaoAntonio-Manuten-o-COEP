@@ -30,9 +30,14 @@ async function run(vp) {
   await foto(p, 's06-municipio', vp);
   L('lista', await txt(p, '#ativo-res .sug-op, #ativo-res .sug-t'));
   L('res-html', await p.evaluate(() => document.querySelector('#ativo-res').innerText.replace(/\s+/g,' ').slice(0,300)));
-  await p.locator('#ativo-res .so-al').first().click(); await esp(p, 2500);
+  // foco: escolher o alimentador na busca leva o mapa até ele (regional > polo > município) e aproxima a rede inteira
+  await p.keyboard.press('Escape'); await esp(p, 600);
+  await p.click('#lupa'); await esp(p, 500);
+  { const q = p.locator('#ativo-q'); await q.fill(''); await q.pressSequentially('LD03109039', { delay: 40 }); await esp(p, 1200); }
+  L('busca-al', await p.evaluate(() => document.querySelector('#ativo-res').innerText.replace(/\s+/g, ' ')));
+  await p.locator('#ativo-res .sug-op').first().click(); await esp(p, 3500);
+  L('url-apos-escolher', p.url());
   await foto(p, 's07-foco-alimentador', vp);
-  L('caixa-foco', await txt(p, '.mt-amun'));
   L('barra', await txt(p, '.mt-polos'));
   await p.keyboard.press('Escape'); await esp(p, 2000); await foto(p, 's07b-esc-municipio', vp);
   await p.keyboard.press('Escape'); await esp(p, 2000); await foto(p, 's07c-esc-polo', vp);

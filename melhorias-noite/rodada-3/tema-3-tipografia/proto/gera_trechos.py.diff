@@ -1,0 +1,13 @@
+--- a/scripts/gera_trechos.py
++++ b/scripts/gera_trechos.py
+@@ -1111,7 +1111,9 @@
+                            for p in cfg['polos']])
+     (saida / 'assets' / 'ranking-polos-dados.js').write_text(
+         'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
+-    corpo = (migalhas('../', 'Ranking por polo') +
++    # tema 3: marca ARGOS/MANUTENÇÃO no alto (link para a página inicial), como na página inicial
++    marca = ('<a class="cab-marca" href="../" aria-label="ARGOS Manutenção, página inicial"><b>ARGOS</b><span>MANUTENÇÃO</span></a>\n')
++    corpo = (marca + migalhas('../', 'Ranking por polo') +
+              '<header><h1>Ranking por polo</h1><p>Alimentadores e trechos com mais NAE (árvore/eucalipto na rede) na ETO, '
+              'em cada regional e em cada polo.</p></header>\n<div id="polos"></div>\n'
+              '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')

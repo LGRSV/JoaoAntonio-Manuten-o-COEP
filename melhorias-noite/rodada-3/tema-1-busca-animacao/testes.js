@@ -132,7 +132,7 @@ async function telaCheia(b, tl, modo) {
   const s1 = await tela(p); t('rolagem da página volta ao lugar de antes ao sair (y=' + y0 + ')', !s1.on && Math.abs(s1.y - y0) <= 2, [y0, s1.y]);
   await tap(); await p.waitForTimeout(700); s = await tela(p);
   t(`entrou: layout em tela cheia (${nat ? 'nativa' : 'CSS'})`, s.on && (nat ? s.fs : !s.fs), s);
-  t('mapa ocupa quase a janela inteira', s.svg[0] >= W - 40 && s.svg[1] >= H - 130, s.svg);
+  t('mapa ocupa quase a altura da janela (o desenho mantém a proporção, então a largura é menor)', s.svg[1] >= H - 130, s.svg);
   t('rótulo vira "Sair da tela cheia" e a página não rola por baixo', s.pressed === 'true' && (nat || await p.evaluate(() => getComputedStyle(document.body).overflow === 'hidden')));
   t('sem rolagem lateral', !s.rolaX);
   await foto(p, `t-${tl}-${modo}-cheia`);

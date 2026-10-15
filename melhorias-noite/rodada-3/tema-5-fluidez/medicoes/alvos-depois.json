@@ -1,0 +1,101 @@
+{
+ "estado": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 48,
+    "h": 22
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "regional": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 48,
+    "h": 22
+   }
+  ],
+  "municipiosPaths": 40,
+  "municipiosMenoresQue44": 34
+ },
+ "polo": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 48,
+    "h": 22
+   }
+  ],
+  "municipiosPaths": 12,
+  "municipiosMenoresQue44": 10
+ },
+ "municipio": {
+  "pequenos": [],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador": {
+  "pequenos": [],
+  "municipiosPaths": 1,
+  "municipiosMenoresQue44": 0
+ },
+ "busca-aberta": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 48,
+    "h": 22
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "legenda-recolhida": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 104,
+    "h": 30
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "menu-aberto": {
+  "pequenos": [
+   {
+    "n": "button.mt-regs-b",
+    "nome": "Legenda NAE-Vegetação",
+    "w": 104,
+    "h": 30
+   }
+  ],
+  "municipiosPaths": 139,
+  "municipiosMenoresQue44": 111
+ },
+ "polos": {
+  "pequenos": [],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ },
+ "alimentador-pagina": {
+  "pequenos": [
+   {
+    "n": "a",
+    "nome": "Leaflet",
+    "w": 49,
+    "h": 14
+   }
+  ],
+  "municipiosPaths": 0,
+  "municipiosMenoresQue44": 0
+ }
+}

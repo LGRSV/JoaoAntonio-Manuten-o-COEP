@@ -1,0 +1,487 @@
+--- a/alimentador/site/site.css
++++ b/alimentador/site/site.css
+@@ -1,5 +1,10 @@
+ /* Casca das páginas geradas por scripts/gera_trechos.py: página inicial, município, polos (cabeçalho) e relatório. */
+ /* ====== Sistema visual · tokens únicos (mesmos nomes e valores em site.css, mapa_trechos.html e nos CSS embutidos que os usam) ====== */
++/* tema 3 · fontes reserva com as métricas do IBM Plex (size-adjust e overrides medidos): enquanto o Google Fonts não entrega
++   os woff2, o texto ocupa o mesmo espaço e a troca não desloca o layout (CLS da página de ranking no celular: 0,17 → ver README) */
++@font-face{font-family:"Plex Sans Fallback";src:local("Arial"),local("Helvetica Neue"),local("Liberation Sans"),local("Arimo");font-weight:400 700;size-adjust:98%;ascent-override:104%;descent-override:28%;line-gap-override:0%}
++@font-face{font-family:"Plex Cond Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Helvetica Neue Bold"),local("Liberation Sans Bold");font-weight:600 700;size-adjust:88.9%;ascent-override:116%;descent-override:31.5%;line-gap-override:0%}
++@font-face{font-family:"Plex Mono Fallback";src:local("Courier New"),local("Menlo"),local("Liberation Mono"),local("Cousine");font-weight:400 700;size-adjust:100%;ascent-override:114%;descent-override:36%;line-gap-override:0%}
+ :root{
+   color-scheme:light;
+   /* cor */
+@@ -17,9 +22,9 @@
+   /* sobre o mapa/satélite (iguais nos dois temas) */
+   --vidro:rgba(15,20,23,.82); --vidro-borda:rgba(255,255,255,.12); --vidro-fg:#f3f4f4; --vidro-hover:rgba(255,255,255,.10); --foco-mapa:#fde047;
+   /* tipografia */
+-  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+-  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
++  --f-display:"IBM Plex Sans Condensed","Plex Cond Fallback","Arial Narrow",system-ui,sans-serif;
++  --f-body:"IBM Plex Sans","Plex Sans Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
++  --f-mono:"IBM Plex Mono","Plex Mono Fallback",ui-monospace,Menlo,Consolas,monospace;
+   --t-xs:12px; --t-sm:13px; --t-md:14px; --t-base:15px; --t-lg:17px; --t-xl:20px; --t-2xl:24px; --t-kpi:32px;
+   --t-h1:clamp(26px,3.4vw,32px);
+   /* espaço */
+@@ -565,7 +570,7 @@
+ .mt-barra #ativo-res{right:auto;width:min(460px,calc(100vw - 32px))}
+ /* NAE escondida: só o número sai; nome, cor e posição continuam */
+ .sem-nae .mt-regcards i,.sem-nae .mt-selos .mt-mn i,.sem-nae .mt-nomes2 .mt-mn i,.sem-nae .mt-pchip i,.sem-nae .mt-dica-h i,
+-.sem-nae .mt-al i,.sem-nae #ativo-res .so-n{display:none}
++.sem-nae .mt-al i,.sem-nae #ativo-res .so-n,.sem-nae .mt-ac i{display:none}
+ .sem-nae .mt-nomes2 .mt-mn[data-nv="2"]{display:none}
+ /* botão de tela cheia: canto de cima, à direita do mapa */
+ .mt-tc{position:absolute;top:0;right:0;z-index:5;display:grid;place-items:center;width:var(--alvo);height:var(--alvo);padding:0;
+@@ -596,3 +601,45 @@
+   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
+ .voando .mt-bandeiras{display:none}
+ @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
++
++/* ====== tema 3 (tipografia) ====== */
++/* cartão do alimentador em foco (mapa-municipios.js: .mt-ac): o mesmo cartão preto dos municípios; abre a página do alimentador */
++.mt-ac{display:grid;gap:5px;width:max-content;max-width:min(300px,100%);padding:10px 12px 11px;border:1px solid var(--cartao-borda);border-radius:var(--r2);
++  background:var(--cartao);color:var(--cartao-fg);text-decoration:none;box-shadow:0 10px 24px -8px rgb(0 0 0 / .6);animation:mt-surge .3s ease-out}
++.mt-ac[hidden]{display:none}
++.mt-ac:hover{background:var(--cartao-2);border-color:var(--selo)}
++.mt-ac:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:2px}
++.mt-ac-h{display:flex;align-items:center;gap:12px}
++.mt-ac b{font:600 var(--t-md)/1.2 var(--f-mono);letter-spacing:.01em}
++.mt-ac i{margin-left:auto;padding:2px 6px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++.mt-ac small{font:400 var(--t-xs)/1.35 var(--f-body);color:var(--cartao-mute);font-variant-numeric:tabular-nums}
++.mt-ac-ir{margin-top:2px;padding-top:7px;border-top:1px solid var(--cartao-borda);font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cartao-fg)}
++.mt-ac-ir span{color:#f08a5d}
++@media (max-width:860px){
++  .mt-lado .mt-ac{position:absolute;left:50%;bottom:6px;z-index:5;transform:translateX(-50%);width:calc(100% - 16px);max-width:340px}
++}
++/* lista dos alimentadores do município, embaixo da busca (busca-ativo.js, #ativo-res.lista-mun): também é um cartão preto nos dois temas.
++   Cabeçalho: município em Plex Sans Condensed 700 + selo da NAE do município + "N alimentadores" em mono; linhas: código em mono,
++   km e subestação em cinza, selo da NAE à direita (o mesmo selo dos cartões do mapa). */
++#ativo-res.lista-mun{background:var(--cartao);color:var(--cartao-fg);border:1px solid var(--cartao-borda);box-shadow:0 14px 30px -10px rgb(0 0 0 / .65);padding:0 var(--s1) var(--s1)}
++#ativo-res.lista-mun li+li{border-top:1px solid var(--cartao-borda)}
++#ativo-res.lista-mun .sug-t{position:sticky;top:0;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:var(--s3);row-gap:2px;
++  padding:var(--s3) var(--s3) var(--s2);background:var(--cartao);border:0;border-bottom:1px solid var(--cartao-borda);text-transform:none;letter-spacing:0;color:var(--cartao-fg)}
++#ativo-res.lista-mun .sug-t b{font:700 var(--t-xl)/1.1 var(--f-display);letter-spacing:.01em}
++#ativo-res.lista-mun .sug-t small{grid-column:1/-1;font:600 var(--t-xs)/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cartao-mute)}
++#ativo-res.lista-mun .sug-op:hover,#ativo-res.lista-mun .sug-op.marcado{background:var(--cartao-2)}
++#ativo-res.lista-mun .sug-op .so-x{color:var(--cartao-fg)}
++#ativo-res.lista-mun .so-x b{font:600 var(--t-md)/1.2 var(--f-mono);letter-spacing:.01em}
++#ativo-res.lista-mun .so-x small{color:var(--cartao-mute);font-variant-numeric:tabular-nums}
++#ativo-res.lista-mun .so-mini{background:#000;box-shadow:inset 0 0 0 1px var(--cartao-borda)}
++#ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px var(--rede);background:var(--cartao-2)}
++#ativo-res.lista-mun .sug-op.foco .so-x small{color:var(--cartao-fg)}
++#ativo-res.lista-mun .sug-op:hover .so-x b,#ativo-res.lista-mun .sug-op.marcado .so-x b{color:#f08a5d}
++#ativo-res.lista-mun .so-n{background:var(--selo)}
++#ativo-res.lista-mun .sug-t .so-n{font-size:var(--t-sm)}
++#ativo-res.lista-mun .sug-t .so-n{display:inline-block;margin:0;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++#ativo-res.lista-mun .sug-t .so-n .vh{position:static;width:auto;height:auto;overflow:visible;clip:auto;margin-left:3px;font-weight:700}
++#ativo-res.lista-mun .so-mini path{stroke:#5aa6ec}
++#ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px #5aa6ec}
++/* selos da NAE: o Google Fonts só entrega o Plex Mono 600 (o 700 era "negrito sintético", borrado nos 9–12 px); 600 verdadeiro, sem peso extra de download */
++.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i,.mt-regs-t,#mapa-to .mt-barra .mt-regs-t{font-weight:600}
+--- a/alimentador/site/mapa-municipios.js
++++ b/alimentador/site/mapa-municipios.js
+@@ -359,7 +359,13 @@
+   // coluna da esquerda do mapa: a seta de voltar e, com o município aberto, os alimentadores dele
+   const lado = document.createElement('div');
+   lado.className = 'mt-lado';
+-  lado.append(volta, legAl);
++  // tema 3: cartão preto do alimentador em foco (código, NAE, km, subestação e o convite a abrir a página): é a mesma
++  // linguagem dos cartões do mapa e deixa claro que o 2º clique abre a página. Computador: coluna da esquerda, embaixo da seta;
++  // celular: preso embaixo do mapa.
++  const cartaoAl = document.createElement('a');
++  cartaoAl.className = 'mt-ac';
++  cartaoAl.hidden = true;
++  lado.append(volta, legAl, cartaoAl);
+   caixa.append(lado);
+   // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
+   const selos = document.createElement('div');
+@@ -402,6 +408,21 @@
+   let desl = {};
+   // enquadra a regional aberta deixando livre a coluna da legenda (computador) ou o topo para o "← Tocantins" (celular)
+   const move = (b, [dx, dy]) => ({ x: b.x + dx, y: b.y + dy, x2: b.x2 + dx, y2: b.y2 + dy });
++  // tema 3: área útil do mapa em pixels (a mesma conta do enquadra) e altura FIXA do mapa no celular. No celular o SVG tinha a
++  // altura da caixa justa dos municípios (Porto Nacional ficava com ~150 px numa tela de 844): agora a moldura é sempre a mesma
++  // (a do estado inteiro, sem passar da tela) e o polo se espalha para preenchê-la; a página também não pula de altura entre níveis.
++  const celMq = () => matchMedia('(max-width:860px)').matches;
++  const alturaCel = () => Math.round(Math.max(380, Math.min(caixa.clientWidth * (M.h + 12) / VW, .78 * innerHeight, innerHeight - 300)));
++  const PAD_CEL = 52;                                      // px reservados em cima (seta de voltar) e embaixo (seta da lista)
++  function lateral() {                                     // computador: a coluna da esquerda (seta e lista) fica livre; a legenda está na barra
++    const lista = window.ARGOS_BUSCA && mun && !alf ? Math.min(460, innerWidth - 32) : 0;
++    return Math.max(lado.offsetWidth, leg && caixa.contains(leg) ? leg.offsetWidth : 0, lista) + 24;
++  }
++  function areaPx() {
++    const W = caixa.clientWidth;
++    if (celMq()) return { W, H: alturaCel() - 2 * PAD_CEL, cel: true };
++    return { W: Math.max(1, W - lateral() - 24), H: svg.clientHeight || 600, cel: false };
++  }
+   function enquadra() {
+     let bb = null;
+     if (alCaixa) bb = alCaixa;
+@@ -409,17 +430,41 @@
+     else if (pol) M.muns.forEach(m => { if (m.polo === pol) bb = une(bb, move(caixaDe(el[m.cod]), soma(desl[pol], mdesl[m.cod]))); });
+     else polosDe(reg).forEach(([polo, gp]) => { bb = une(bb, move(caixaDe(gp), desl[polo])); });
+     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
+-    // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
+-    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
+-    // a coluna da esquerda (seta e lista de alimentadores) fica livre; a legenda fica na barra, em cima do mapa
+-    // com a busca da barra, a lista do município aberto abre embaixo da logo (largura fixa no site.css): o lado esquerdo fica livre para ela
+-    const lista = window.ARGOS_BUSCA && mun && !alf ? Math.min(460, innerWidth - 32) : 0;
+-    // na regional sobra uma faixa em cima e um pouco à direita para as bandeirinhas dos polos
++    if (celMq()) {                                         // moldura fixa: W x alturaCel() px, o conjunto centralizado nela
++      const H = alturaCel(), k = Math.min(W / w, (H - 2 * PAD_CEL) / h), vw = W / k, vh = H / k;
++      return [x - (vw - w) / 2, y - (vh - h) / 2, vw, vh];
++    }
++    // o viewBox sempre tem a proporção da caixa inteira (W x H): antes, quando o polo/alimentador era limitado pela altura, o
++    // viewBox ficava mais estreito que a caixa, o SVG (width:auto) encolhia e cortava a rede/os municípios numa borda reta
++    // na regional sobra uma faixa em cima (T) e um pouco à direita (L2) para as bandeirinhas dos polos
+     const T = reg && !pol && !mun && !alf ? 56 : 0;
+-    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg && caixa.contains(leg) ? leg.offsetWidth : 0, lista) + 24, L2 = T ? 120 : 24;
+-    const k = Math.min((H - T) / h, Math.max(1e-3, W - L1 - L2) / w);
++    const H = svg.clientHeight || 600, L1 = lateral(), L2 = T ? 120 : 24, Wf = Math.max(1e-3, W - L1 - L2);
++    const k = Math.min((H - T) / h, Wf / w);
+     const altura = H / k;
+-    return [x - L1 / k, y - T / k - ((H - T) / k - h) / 2, w + (L1 + L2) / k, altura];
++    return [x - L1 / k - (Wf / k - w) / 2, y - T / k - ((H - T) / k - h) / 2, W / k, altura];
++  }
++  // afastamento adaptativo: depois do afastamento base (AFASTA_MUN), espalha os centros dos municípios SÓ no eixo em que o
++  // polo sobra na tela (polo alto em tela larga: espalha na horizontal; polo largo no celular: espalha na vertical) até o
++  // conjunto ter a proporção da área útil. Não custa tamanho (o eixo que limita não muda) e dá lugar real aos cartões.
++  const MAX_ESP = { pc: 1.7, cel: 3.0 };
++  // deslocamento = a posição relativa ao centro do polo ampliada por (1+f)*s e menos a posição original (s = 1: o afastamento base)
++  const deslDe = ([dx, dy, f], sx, sy) => [dx * ((1 + f) * sx - 1), dy * ((1 + f) * sy - 1)];
++  function ajusta(ms, base) {
++    const { W, H, cel } = areaPx(), alvoA = W / H, cb = {};
++    ms.forEach(m => { cb[m.cod] = caixaDe(el[m.cod]); });
++    const asp = (sx, sy) => {
++      let bb = null;
++      ms.forEach(m => { const d = deslDe(base[m.cod], sx, sy); bb = une(bb, move(cb[m.cod], [desl[pol][0] + d[0], desl[pol][1] + d[1]])); });
++      return (bb.x2 - bb.x) / (bb.y2 - bb.y);
++    };
++    const a0 = asp(1, 1), mx = cel ? MAX_ESP.cel : MAX_ESP.pc;
++    if (Math.abs(a0 / alvoA - 1) < .04) return [1, 1];
++    const largo = a0 > alvoA;                              // largo demais: espalha na vertical; alto demais: na horizontal
++    const f = s => largo ? asp(1, s) : asp(s, 1);
++    let lo = 1, hi = mx;
++    if (largo ? f(hi) > alvoA : f(hi) < alvoA) return largo ? [1, hi] : [hi, 1];
++    for (let i = 0; i < 18; i++) { const mid = (lo + hi) / 2; if (largo ? f(mid) > alvoA : f(mid) < alvoA) lo = mid; else hi = mid; }
++    return largo ? [1, hi] : [hi, 1];
+   }
+   function entra(r, teclado, cod) {
+     if (!r || reg === r) return;
+@@ -485,9 +530,14 @@
+     const b = caixaDe(grp[polo]), pc = [(b.x + b.x2) / 2, (b.y + b.y2) / 2], ms = M.muns.filter(m => m.polo === polo);
+     mdesl = {};
+     const g0 = Math.hypot(b.x2 - b.x, b.y2 - b.y) * 0.04;         // folga mínima: os do meio do polo também se soltam
++    const base = {};
+     ms.forEach(m => {
+       const c = cen(m.cod), dx = c[0] - pc[0], dy = c[1] - pc[1], d = Math.hypot(dx, dy) || 1, f = AFASTA_MUN + g0 / d;
+-      mdesl[m.cod] = [dx * f, dy * f];
++      base[m.cod] = [dx, dy, f];                                   // posição relativa ao centro do polo e fator de afastamento
++    });
++    const [ex, ey] = ajusta(ms, base);                             // tema 3: espalha no eixo que sobra
++    ms.forEach(m => {
++      mdesl[m.cod] = deslDe(base[m.cod], ex, ey);
+       el[m.cod].style.transform = tr(mdesl[m.cod]);
+     });
+     polosDe(reg).forEach(([po, gp]) => { gp.classList.toggle('fora', po !== polo); gp.classList.remove('desliga'); });
+@@ -591,6 +641,13 @@
+     legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('foco', a.dataset.al === al));
+     const ab = legAl.querySelector('.mt-amun');
+     if (ab) { ab.href = pag(`alimentadores/${encodeURIComponent(al)}/`); ab.textContent = `Abrir ${al} →`; }
++    const ma = porCod[mun], aa = ma.als.find(x => x.cod === al) || {};
++    cartaoAl.href = pag(`alimentadores/${encodeURIComponent(al)}/`);
++    if (alvoA) { cartaoAl.target = '_blank'; cartaoAl.rel = 'noopener'; }
++    cartaoAl.setAttribute('aria-label', `Abrir a página do alimentador ${al}`);
++    cartaoAl.innerHTML = `<span class="mt-ac-h"><b>${esc(al)}</b><i>${(aa.n || 0).toLocaleString('pt-BR')} NAE</i></span>` +
++      `<small>${esc(aa.se || '')} · ${km(aa.m || 0)} em ${esc(ma.nome)}</small><span class="mt-ac-ir">Abrir a página <span aria-hidden="true">→</span></span>`;
++    cartaoAl.hidden = false;
+     trilhaMun();
+     volta.setAttribute('aria-label', `${al}. Voltar a ${porCod[mun].nome}`);
+     volta.title = `Voltar a ${porCod[mun].nome}`;
+@@ -600,6 +657,7 @@
+     if (!alf) return;
+     alf = null;
+     alCaixa = null;
++    cartaoAl.hidden = true;
+     camada.classList.remove('foco');
+     const gf = camada.querySelector('.mt-redes-a');
+     if (gf) gf.innerHTML = '';
+@@ -670,9 +728,12 @@
+   caixa.append(nomes2);
+   const fmt = n => (n || 0).toLocaleString('pt-BR');
+   const zero = m => m.nae ? '' : ' class="zero"';
++  // tema 3: o cartão compacto (nível 1) usa o nome CURTO (sem " do Tocantins": nenhum nome fica repetido dentro do estado), que
++  // cabe dentro de mais municípios e deixa o cartão "ao lado" (com fio) menor; o nome completo continua no balão e no cartão cheio.
++  const curto = n => n.replace(/ do Tocantins$/, '');
+   const NIVEIS_ROT = [
+     m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão completo
+-    m => `<b>${esc(m.nome)}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão compacto (letra menor, via data-nv)
++    m => `<b>${esc(curto(m.nome))}</b><i${zero(m)}>${fmt(m.nae)} NAE</i>`,      // cartão compacto (letra menor, via data-nv), nome curto
+     m => `<i${zero(m)}>${fmt(m.nae)}</i>`,                               // só o número
+   ];
+   const FOLGA_ROT = () => (matchMedia('(max-width:860px)').matches ? 4 : 8);   // folga entre rótulos (menor no celular)
+@@ -689,7 +750,8 @@
+     const livre = { left: Math.max(r.left, c0.left) + 2, top: Math.max(r.top, c0.top) + 2, right: Math.min(r.right, c0.right) - 2, bottom: Math.min(r.bottom, c0.bottom) - 2 };
+     const pt = svg.createSVGPoint(), u = Math.max(v[2] / r.width, v[3] / r.height);   // unidades do mapa por pixel de tela
+     const aTela = (x, y) => { pt.x = x; pt.y = y; return pt.matrixTransform(ctm); };
+-    const ms = M.muns.filter(m => m.polo === pol).sort((a, b) => (b.nae || 0) - (a.nae || 0));
++    const todos = M.muns.filter(m => m.polo === pol), base = ocupado.slice();
++    const porNae = todos.slice().sort((a, b) => (b.nae || 0) - (a.nae || 0));
+     // pontos candidatos no próprio município: o centro e anéis em volta (em pixels de tela)
+     const ANEIS = [0, 9, 18, 28, 40, 54];
+     function* cand(m) {                                         // preguiçoso: só testa o próximo ponto se o anterior não coube
+@@ -702,54 +764,80 @@
+         }
+       }
+     }
+-    // 1º: nome DENTRO do município (cartão inteiro; no celular, compacto; depois compacto). 2º: os que não couberam
+-    // ganham o nome FORA, ao lado, ligado ao município por um fio fino (ninguém fica sem nome). 3º: só o número dentro.
+-    const fios = document.createElementNS(NS, 'svg');
+-    fios.setAttribute('class', 'mt-fios');
+-    nomes2.append(fios);
+-    const caixaR = (s, w, h) => ({ left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 });
+-    const cabe = R => !(R.left < livre.left || R.right > livre.right || R.top < livre.top || R.bottom > livre.bottom) && !ocupado.some(o => bate(R, o));
+-    const poe = (t, s, R) => { t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px'; ocupado.push(R); };
+-    const mede = (t, m, nv) => { t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv; t.style.left = '0px'; t.style.top = '0px'; return [t.offsetWidth, t.offsetHeight]; };
+-    const sobra = [], ponta = {};
+-    ms.forEach(m => {
+-      const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso
+-      const ponto = k => { while (cache.length <= k) { const r = it.next(); if (r.done) return null; cache.push(r.value); } return cache[k]; };
+-      if (!ponto(0)) return;
+-      const [dx, dy] = soma(desl[pol], mdesl[m.cod]);
+-      const tela = q => aTela(q.x + dx, q.y + dy);
+-      ponta[m.cod] = { tela, ponto };
+-      const t = document.createElement('span');
+-      t.className = 'mt-mn';
+-      nomes2.append(t);
+-      for (let nv = celular ? 1 : 0; nv < 2; nv++) {
+-        const [w, h] = mede(t, m, nv);
++    const tenta = ms => {
++      // 1º: nome DENTRO do município (cartão inteiro; no celular, compacto; depois compacto). 2º: os que não couberam
++      // ganham o nome FORA, ao lado, ligado ao município por um fio fino (ninguém fica sem nome). 3º: só o número dentro.
++      nomes2.innerHTML = ''; ocupado.length = 0; ocupado.push(...base);
++      const fios = document.createElementNS(NS, 'svg');
++      fios.setAttribute('class', 'mt-fios');
++      nomes2.append(fios);
++      const caixaR = (s, w, h) => ({ left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 });
++      const cabe = R => !(R.left < livre.left || R.right > livre.right || R.top < livre.top || R.bottom > livre.bottom) && !ocupado.some(o => bate(R, o));
++      const poe = (t, s, R) => { t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px'; ocupado.push(R); };
++      const mede = (t, m, nv) => { t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv; t.style.left = '0px'; t.style.top = '0px'; return [t.offsetWidth, t.offsetHeight]; };
++      const sobra = [], ponta = {};
++      ms.forEach(m => {
++        const it = cand(m), cache = [];                           // pontos em cache e gerados só quando preciso
++        const ponto = k => { while (cache.length <= k) { const r = it.next(); if (r.done) return null; cache.push(r.value); } return cache[k]; };
++        if (!ponto(0)) return;
++        const [dx, dy] = soma(desl[pol], mdesl[m.cod]);
++        const tela = q => aTela(q.x + dx, q.y + dy);
++        ponta[m.cod] = { tela, ponto };
++        const t = document.createElement('span');
++        t.className = 'mt-mn';
++        nomes2.append(t);
++        for (let nv = celular ? 1 : 0; nv < 2; nv++) {
++          const [w, h] = mede(t, m, nv);
++          for (let k = 0, q; (q = ponto(k)); k++) { const s = tela(q), R = caixaR(s, w, h); if (cabe(R)) { poe(t, s, R); return; } }
++        }
++        sobra.push([m, t]);
++      });
++      const ANG = 16, RAIOS = celular ? [30, 42, 56, 72, 90, 112, 136] : [38, 52, 68, 86, 108, 132, 160];
++      const resto = [];
++      const fora = (t, m, w, h) => {                              // põe o cartão ao lado do município, ligado por um fio
++        const s0 = ponta[m.cod].tela(ponta[m.cod].ponto(0));
++        for (const r of RAIOS) for (let i = 0; i < ANG; i++) {
++          const a = i / ANG * 2 * Math.PI - Math.PI / 2, s = { x: s0.x + Math.cos(a) * r, y: s0.y + Math.sin(a) * r * .75 }, R = caixaR(s, w, h);
++          if (!cabe(R)) continue;
++          poe(t, s, R);
++          t.classList.add('fora');
++          const x0 = s0.x - c0.left, y0 = s0.y - c0.top, x1 = s.x - c0.left, y1 = s.y - c0.top;
++          fios.insertAdjacentHTML('beforeend', `<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}"/><circle cx="${x0.toFixed(1)}" cy="${y0.toFixed(1)}" r="2.5"/>`);
++          return true;
++        }
++        return false;
++      };
++      sobra.forEach(([m, t]) => { const [w, h] = mede(t, m, 1); if (!fora(t, m, w, h)) resto.push([m, t]); });
++      resto.forEach(([m, t]) => {                                 // último recurso: só o número, dentro; senão fora, com fio
++        if (!legAberta) { t.remove(); return; }                   // sem NAE (legenda recolhida) não há o rótulo só do número
++        const [w, h] = mede(t, m, 2), { tela, ponto } = ponta[m.cod];
+         for (let k = 0, q; (q = ponto(k)); k++) { const s = tela(q), R = caixaR(s, w, h); if (cabe(R)) { poe(t, s, R); return; } }
+-      }
+-      sobra.push([m, t]);
+-    });
+-    const ANG = 16, RAIOS = celular ? [30, 42, 56, 72, 90] : [38, 52, 68, 86, 108, 132, 160];
+-    const resto = [];
+-    const fora = (t, m, w, h) => {                              // põe o cartão ao lado do município, ligado por um fio
+-      const s0 = ponta[m.cod].tela(ponta[m.cod].ponto(0));
+-      for (const r of RAIOS) for (let i = 0; i < ANG; i++) {
+-        const a = i / ANG * 2 * Math.PI - Math.PI / 2, s = { x: s0.x + Math.cos(a) * r, y: s0.y + Math.sin(a) * r * .75 }, R = caixaR(s, w, h);
+-        if (!cabe(R)) continue;
+-        poe(t, s, R);
+-        t.classList.add('fora');
+-        const x0 = s0.x - c0.left, y0 = s0.y - c0.top, x1 = s.x - c0.left, y1 = s.y - c0.top;
+-        fios.insertAdjacentHTML('beforeend', `<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}"/><circle cx="${x0.toFixed(1)}" cy="${y0.toFixed(1)}" r="2.5"/>`);
+-        return true;
+-      }
+-      return false;
++        if (!fora(t, m, w, h)) t.remove();
++      });
+     };
+-    sobra.forEach(([m, t]) => { const [w, h] = mede(t, m, 1); if (!fora(t, m, w, h)) resto.push([m, t]); });
+-    resto.forEach(([m, t]) => {                                 // último recurso: só o número, dentro; senão fora, com fio
+-      if (!legAberta) { t.remove(); return; }                   // sem NAE (legenda recolhida) não há o rótulo só do número
+-      const [w, h] = mede(t, m, 2), { tela, ponto } = ponta[m.cod];
+-      for (let k = 0, q; (q = ponto(k)); k++) { const s = tela(q), R = caixaR(s, w, h); if (cabe(R)) { poe(t, s, R); return; } }
+-      if (!fora(t, m, w, h)) t.remove();
+-    });
++    // tema 3: se a ordem por NAE deixa município só com o número (ou sem rótulo), tenta outras ordens (os pequenos primeiro, os de nome
++    // mais longo, os mais apertados por letra, NAE ao contrário, de cima para baixo) e fica com a melhor. No computador quase nunca roda; no celular acha lugar para mais nomes.
++    let pior = 0;                                                 // município sem rótulo (100) ou só com o número (10)
++    const nota = () => { const n = nomes2.querySelectorAll('.mt-mn'); let so = 0, fo = 0; n.forEach(t => { if (t.dataset.nv === '2') so++; if (t.classList.contains('fora')) fo++; });
++      pior = (todos.length - n.length) * 100 + so * 10; return pior + fo; };
++    const area = m => { const q = el[m.cod].getBoundingClientRect(); return q.width * q.height; };
++    const folgaM = m => area(m) / (curto(m.nome).length + 4);       // área do município por letra do nome: os mais apertados primeiro
++    const ordens = [porNae, todos.slice().sort((a, b) => area(a) - area(b)), todos.slice().sort((a, b) => b.nome.length - a.nome.length),
++      todos.slice().sort((a, b) => folgaM(a) - folgaM(b)), porNae.slice().reverse(), todos.slice().sort((a, b) => a.c[1] - b.c[1] || a.c[0] - b.c[0])];
++    for (let q = 1, z = 7; q <= 6; q++) {                         // mais 6 embaralhadas (sempre as mesmas: semente fixa)
++      const o = porNae.slice();
++      for (let i = o.length - 1; i > 0; i--) { z = (z * 1103515245 + 12345) % 2147483648; const j = z % (i + 1); [o[i], o[j]] = [o[j], o[i]]; }
++      ordens.push(o);
++    }
++    let melhor = 0, nm = Infinity, ultima = 0;
++    for (let i = 0; i < ordens.length; i++) {
++      tenta(ordens[i]);
++      ultima = i;
++      const n = nota();
++      if (n < nm) { nm = n; melhor = i; }
++      if (!pior) break;                                           // ninguém só com o número: a ordem serve
++    }
++    if (melhor !== ultima) tenta(ordens[melhor]);
+   }
+   // cartão de cada polo: bandeirinha logo acima do contorno do polo, com o fio na cor dele
+   function poeSelos() {
+--- a/alimentador/site/busca-ativo.js
++++ b/alimentador/site/busca-ativo.js
+@@ -92,7 +92,7 @@
+     let i = 0;
+     sug = [];
+     const html = blocos.filter(([, itens]) => itens.length).map(([titulo, itens]) =>
+-      `<li class="sug-t" role="presentation">${esc(titulo)}</li>` + itens.map(it => {
++      `<li class="sug-t" role="presentation">${titulo && titulo.html ? titulo.html : esc(titulo)}</li>` + itens.map(it => {
+         sug.push(it.s);
+         return `<li class="sug-op so-${it.tipo}${it.foco ? ' foco' : ''}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
+           (it.mini ? `<span class="so-mini" data-al="${esc(it.mini)}" aria-hidden="true"></span>` :
+@@ -140,7 +140,7 @@
+   function atalhos() {
+     pedido++;
+     const nv = nivel(), m = porCod[nv.mun];
+-    if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
++    if (m) mostra([[{ html: `<b>${esc(m.nome)}</b><i class="so-n">${nf(m.nae)}<span class="vh"> NAE</span></i><small>${plural(m.als.length, 'alimentador', 'alimentadores')}</small>` }, m.als.slice().sort((a, b) => b.m - a.m)
+       .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
+     else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
+       [`Alimentadores com mais NAE no polo ${nv.pol}`, topAls(x => x.polo === nv.pol)]]);
+--- a/alimentador/site/ranking-polos.js
++++ b/alimentador/site/ranking-polos.js
+@@ -70,6 +70,10 @@
+     prazo: { rot: 'Limpeza no prazo', val: a => a.limp.prazo ?? -1 },
+     ult: { rot: 'Última limpeza', val: a => a.limp.ult || '' },
+   };
++  if (!document.querySelector('.cab-marca')) {   // o link normalmente vem no HTML gerado (scripts/gera_trechos.py); aqui é só reserva
++    const a = document.createElement('a'); a.className = 'cab-marca'; a.href = '../'; a.setAttribute('aria-label', 'ARGOS Manutenção, página inicial');
++    a.innerHTML = '<b>ARGOS</b><span>MANUTENÇÃO</span>'; const w = document.querySelector('.wrap'); if (w) w.prepend(a);
++  }
+   const cel = matchMedia('(max-width:900px)');             // o seletor de escopo muda de forma no celular
+   const seta = c => `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23${c}' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`;
+   const css = document.createElement('style');
+@@ -77,7 +81,7 @@
+ /* tokens do sistema visual usados aqui (mesmos nomes e valores de site.css) */
+ :root{
+   --on-accent:#ffffff; --line-forte:#8c948f; --sel:#f4e6df; --hover:rgb(27 32 36 / .05); --sem:#dfe3df;
+-  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
++  --f-display:"IBM Plex Sans Condensed","Plex Cond Fallback","Arial Narrow",system-ui,sans-serif;
+   --t-xs:12px; --t-sm:13px; --t-md:14px; --t-base:15px; --t-lg:17px; --t-xl:20px; --t-2xl:24px; --t-kpi:32px;
+   --t-h1:clamp(26px,3.4vw,32px);
+   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+@@ -252,7 +256,44 @@
+   .pl-np{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none}
+ }
+ @media (max-width:900px) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pl-ord select{background-image:${seta('9aa4ab')}}}
+-@media (max-width:900px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}`;
++@media (max-width:900px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}
++/* ===== tema 3 (tipografia): a mesma tipografia e o mesmo cartão do mapa ===== */
++/* marca ARGOS no alto, na linha do menu (igual à página inicial) */
++.wrap{position:relative}
++.cab-marca{position:absolute;top:var(--s5);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--fg);z-index:1}
++@media (min-width:861px){.cab-marca{top:var(--s6)}}
++.cab-marca b{font:700 clamp(24px,3vw,32px)/1 var(--f-display);letter-spacing:.22em;margin-right:-.22em}
++.cab-marca span{display:flex;align-items:center;gap:10px;margin-top:8px;font:600 10px/1 var(--f-body);letter-spacing:.46em;color:var(--muted)}
++.cab-marca span::before,.cab-marca span::after{content:"";width:18px;height:1px;background:var(--mt-lim,#b8431f)}
++.cab-marca span::after{margin-left:-.46em}
++.cab-marca:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:4px}
++@media (max-width:480px){.cab-marca b{font-size:22px;letter-spacing:.18em;margin-right:-.18em}.cab-marca span{letter-spacing:.38em;font-size:9.5px;gap:7px}.cab-marca span::before,.cab-marca span::after{width:10px}}
++/* título da página em Plex Sans Condensed, como o nome do município no cartão */
++header h1{letter-spacing:.005em}
++/* escolha de escopo: nome + selo da NAE (o selo vermelho do mapa). Aberto/escolhido = cartão preto, como o polo aberto do mapa */
++.pl-pil{display:inline-flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;border-radius:var(--r2);background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
++.pl-pil b{font:600 var(--t-md)/1.2 var(--f-body);color:inherit}
++.pl-pil i,.pl-seg i{font:600 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
++  background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
++.pl-pil:hover{background:var(--hover)}
++.pl-pil[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent),0 8px 20px -10px rgb(0 0 0 / .55)}
++.pl-pil[aria-pressed=true] i{background:var(--selo);color:#fff;box-shadow:none}
++.pl-seg button{display:grid;justify-items:center;gap:3px;color:var(--fg)}
++.pl-seg button b{font:700 var(--t-sm)/1.1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
++.pl-seg button[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent)}
++.pl-seg button[aria-pressed=true] i{background:var(--selo);color:#fff;box-shadow:none}
++.pl-seg.pl-cl button{display:inline-block}   /* classe do trecho (T1/T2/T3): continua simples */
++/* cabeçalho do escopo: selo no título e números em Plex Sans Condensed */
++.pl-sup{letter-spacing:.08em}
++.pl-kpi dd{font-family:var(--f-display);font-weight:700}
++/* NAE da linha = o mesmo selo do mapa e da lista de alimentadores */
++.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:600 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++.pl-tab th{font-family:var(--f-mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
++@media (max-width:900px){
++  .pl-tab td[data-r=NAE] .pl-nae{font-size:var(--t-md);padding:3px 8px}
++  .pl-polos .pl-pil{padding:3px 5px 3px 11px}
++}
++`;
+   document.head.append(css);
+ 
+   // endereço: #<polo|regional-x|eto>[/trechos][/T1|T2|T3]
+@@ -273,14 +314,14 @@
+     const kmPolo = sel.polos.reduce((s, p) => s + p.als.reduce((t, a) => t + a.km, 0), 0), nae = naeEsc(sel);
+     const nMuns = sel.polos.reduce((s, p) => s + p.n_muns, 0), nTr = sel.trs.length;
+     const nCl = c => sel.trs.filter(a => a.t.split('-')[0] === c).length;
+-    const pil = (id, nome, n) => `<button type="button" class="pl-pil" data-p="${id}" aria-pressed="${sel.id === id}">${esc(nome)} <small>${nf(n)} NAE</small></button>`;
++    const pil = (id, nome, n) => `<button type="button" class="pl-pil" data-p="${id}" aria-pressed="${sel.id === id}"><b>${esc(nome)}</b><i>${nf(n)} NAE</i></button>`;
+     const th = (k, cls = '') => `<th scope="col" class="${cls}"${k === ord ? ` aria-sort="${desc ? 'descending' : 'ascending'}"` : ''}><button type="button" data-o="${k}">${k === 'km' ? rotKm : COLS[k].rot}</button></th>`;
+     const vis = als.slice(0, mostra);
+     // seletor: no computador, uma linha por regional (a regional e os polos dela); no celular, ETO/regionais em segmentos e os polos numa nuvem
+     const seletor = cel.matches
+       ? `<div class="pl-seg pl-topo">${[['eto', 'ETO', 'ETO · Tocantins'], ...regs.map(r => [regId(r), r, ''])].map(([id, rot, nome]) => {
+           const n = nf(naeEsc(ESC[id]));
+-          return `<button type="button" data-p="${id}" aria-pressed="${sel.id === id}"${nome ? ` aria-label="${esc(nome)} · ${n} NAE"` : ''}>${esc(rot)} <small>${n} NAE</small></button>`;
++          return `<button type="button" data-p="${id}" aria-pressed="${sel.id === id}"${nome ? ` aria-label="${esc(nome)} · ${n} NAE"` : ''}><b>${esc(rot)}</b><i>${n} NAE</i></button>`;
+         }).join('')}</div>
+         <div class="pl-polos">${regs.flatMap(polosDe).map(p => pil(p.id, p.nome, totNae(p))).join('')}</div>`
+       : `${pil('eto', 'ETO · Tocantins', naeEsc(ESC.eto))}<span aria-hidden="true"></span>${regs.map(r =>
+@@ -309,7 +350,7 @@
+             + (muns.length ? ' · ' + muns.slice(0, 4).join(', ') + (muns.length > 4 ? ` e mais ${muns.length - 4}` : '') : ''));
+           return `<tr><td class="n">${i + 1}º</td>
+             <td class="al t"><a href="${href}" data-pos="${i + 1}">${esc(tr ? a.t : a.al)}</a>${tr ? `<span class="al-cod">${esc(a.al)}</span>` : ''}<span class="det" title="${det}">${det}</span></td>
+-            <td data-r="NAE"><b>${nf(a.nae)}</b>${a.sem ? `<small>${nf(a.sem)} sem trecho</small>` : ''}</td>
++            <td data-r="NAE"><i class="pl-nae">${nf(a.nae)}</i>${a.sem ? `<small>${nf(a.sem)} sem trecho</small>` : ''}</td>
+             <td data-r="Consumidores">${nf(a.cons)}</td>
+             <td data-r="CHI (h)">${nf(a.chi)}</td>
+             <td data-r="${rotKm}">${km(a.km)}${a.km_total > a.km + 50 ? `<small>de ${km(a.km_total)} km</small>` : ''}</td>
+--- a/scripts/gera_trechos.py
++++ b/scripts/gera_trechos.py
+@@ -1111,7 +1111,9 @@
+                            for p in cfg['polos']])
+     (saida / 'assets' / 'ranking-polos-dados.js').write_text(
+         'window.POLOS=' + json.dumps(dados_js, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
+-    corpo = (migalhas('../', 'Ranking por polo') +
++    # tema 3: marca ARGOS/MANUTENÇÃO no alto (link para a página inicial), como na página inicial
++    marca = ('<a class="cab-marca" href="../" aria-label="ARGOS Manutenção, página inicial"><b>ARGOS</b><span>MANUTENÇÃO</span></a>\n')
++    corpo = (marca + migalhas('../', 'Ranking por polo') +
+              '<header><h1>Ranking por polo</h1><p>Alimentadores e trechos com mais NAE (árvore/eucalipto na rede) na ETO, '
+              'em cada regional e em cada polo.</p></header>\n<div id="polos"></div>\n'
+              '<script src="../assets/ranking-polos-dados.js"></script>\n<script src="../assets/ranking-polos.js"></script>')

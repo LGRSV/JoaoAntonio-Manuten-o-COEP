@@ -1,0 +1,12 @@
+desktop|inicio|base            CLS 0.0079 0.0079/0.0079/0.002 FCP 96 LCP 96 h1(624,21→629,18) div.mt-mapa(56,219→56,223) div.mt-regs(578,126→589,126) ?(830,401→833,400)
+desktop|inicio|cpu4            CLS 0.0079 0.0079/0.0021/0.008 FCP 268 LCP 268 h1(624,21→629,18) div.mt-mapa(56,219→56,223) div.mt-regs(578,126→589,126) ?(657,126→666,126)
+desktop|polos|base             CLS 0.0001 0.0001/0.0001/0.0001 FCP 128 LCP 128 span(133,100→126,100) ?(56,474→56,471)
+desktop|polos|cpu4             CLS 0.0001 0.0001/0.0001/0.0001 FCP 224 LCP 224 span(133,100→126,100) ?(56,474→56,471)
+desktop|alimentador|base       CLS 0 0/0/0 FCP 160 LCP 1332 ?(56,107→56,104)
+desktop|alimentador|cpu4       CLS 0.0009 0.0009/0.0009/0 FCP 568 LCP 2768 span.eyebrow(56,79→56,107) h1(56,98→56,126) ?(56,107→56,104)
+celular|inicio|base            CLS 0 0/0/0 FCP 304 LCP 304 
+celular|inicio|cpu4            CLS 0 0/0.0004/0 FCP 404 LCP 404 div.mt-regs(111,106→118,106)
+celular|polos|base             CLS 0 0/0/0 FCP 116 LCP 116 
+celular|polos|cpu4             CLS 0 0/0/0 FCP 304 LCP 304 
+celular|alimentador|base       CLS 0 0/0.0363/0 FCP 172 LCP 1388 div.stage(16,302→16,354)
+celular|alimentador|cpu4       CLS 0 0.0363/0/0 FCP 400 LCP 3644 div.stage(16,302→16,354)

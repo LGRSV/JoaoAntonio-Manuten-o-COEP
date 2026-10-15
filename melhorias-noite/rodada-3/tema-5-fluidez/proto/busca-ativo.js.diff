@@ -21,7 +21,7 @@
    const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
  
    // ---------- índice dos dados do mapa: regionais e polos (NAE = soma dos municípios, como nos cartões do mapa) e
-@@ -104,6 +107,7 @@
+@@ -103,6 +106,7 @@
      res.className = classe;
      res.innerHTML = `<ul class="sug" role="listbox" aria-label="Resultados">${html}</ul>${rodape}`;
      q.setAttribute('aria-expanded', 'true');

@@ -1,0 +1,94 @@
+--- a/alimentador/site/ranking-polos.js
++++ b/alimentador/site/ranking-polos.js
+@@ -70,6 +70,10 @@
+     prazo: { rot: 'Limpeza no prazo', val: a => a.limp.prazo ?? -1 },
+     ult: { rot: 'Última limpeza', val: a => a.limp.ult || '' },
+   };
++  if (!document.querySelector('.cab-marca')) {   // o link normalmente vem no HTML gerado (scripts/gera_trechos.py); aqui é só reserva
++    const a = document.createElement('a'); a.className = 'cab-marca'; a.href = '../'; a.setAttribute('aria-label', 'ARGOS Manutenção, página inicial');
++    a.innerHTML = '<b>ARGOS</b><span>MANUTENÇÃO</span>'; const w = document.querySelector('.wrap'); if (w) w.prepend(a);
++  }
+   const cel = matchMedia('(max-width:900px)');             // o seletor de escopo muda de forma no celular
+   const seta = c => `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23${c}' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`;
+   const css = document.createElement('style');
+@@ -77,7 +81,7 @@
+ /* tokens do sistema visual usados aqui (mesmos nomes e valores de site.css) */
+ :root{
+   --on-accent:#ffffff; --line-forte:#8c948f; --sel:#f4e6df; --hover:rgb(27 32 36 / .05); --sem:#dfe3df;
+-  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
++  --f-display:"IBM Plex Sans Condensed","Plex Cond Fallback","Arial Narrow",system-ui,sans-serif;
+   --t-xs:12px; --t-sm:13px; --t-md:14px; --t-base:15px; --t-lg:17px; --t-xl:20px; --t-2xl:24px; --t-kpi:32px;
+   --t-h1:clamp(26px,3.4vw,32px);
+   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+@@ -252,7 +256,44 @@
+   .pl-np{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none}
+ }
+ @media (max-width:900px) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pl-ord select{background-image:${seta('9aa4ab')}}}
+-@media (max-width:900px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}`;
++@media (max-width:900px){:root[data-theme="dark"] .pl-ord select{background-image:${seta('9aa4ab')}}}
++/* ===== tema 3 (tipografia): a mesma tipografia e o mesmo cartão do mapa ===== */
++/* marca ARGOS no alto, na linha do menu (igual à página inicial) */
++.wrap{position:relative}
++.cab-marca{position:absolute;top:var(--s5);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--fg);z-index:1}
++@media (min-width:861px){.cab-marca{top:var(--s6)}}
++.cab-marca b{font:700 clamp(24px,3vw,32px)/1 var(--f-display);letter-spacing:.22em;margin-right:-.22em}
++.cab-marca span{display:flex;align-items:center;gap:10px;margin-top:8px;font:600 10px/1 var(--f-body);letter-spacing:.46em;color:var(--muted)}
++.cab-marca span::before,.cab-marca span::after{content:"";width:18px;height:1px;background:var(--mt-lim,#b8431f)}
++.cab-marca span::after{margin-left:-.46em}
++.cab-marca:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:4px}
++@media (max-width:480px){.cab-marca b{font-size:22px;letter-spacing:.18em;margin-right:-.18em}.cab-marca span{letter-spacing:.38em;font-size:9.5px;gap:7px}.cab-marca span::before,.cab-marca span::after{width:10px}}
++/* título da página em Plex Sans Condensed, como o nome do município no cartão */
++header h1{letter-spacing:.005em}
++/* escolha de escopo: nome + selo da NAE (o selo vermelho do mapa). Aberto/escolhido = cartão preto, como o polo aberto do mapa */
++.pl-pil{display:inline-flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;border-radius:var(--r2);background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
++.pl-pil b{font:600 var(--t-md)/1.2 var(--f-body);color:inherit}
++.pl-pil i,.pl-seg i{font:600 var(--t-xs)/1.2 var(--f-mono);font-style:normal;padding:2px 6px;border-radius:5px;font-variant-numeric:tabular-nums;
++  background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-forte)}
++.pl-pil:hover{background:var(--hover)}
++.pl-pil[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent),0 8px 20px -10px rgb(0 0 0 / .55)}
++.pl-pil[aria-pressed=true] i{background:var(--selo);color:#fff;box-shadow:none}
++.pl-seg button{display:grid;justify-items:center;gap:3px;color:var(--fg)}
++.pl-seg button b{font:700 var(--t-sm)/1.1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
++.pl-seg button[aria-pressed=true]{background:var(--cartao);color:var(--cartao-fg);box-shadow:inset 0 -3px 0 var(--accent)}
++.pl-seg button[aria-pressed=true] i{background:var(--selo);color:#fff;box-shadow:none}
++.pl-seg.pl-cl button{display:inline-block}   /* classe do trecho (T1/T2/T3): continua simples */
++/* cabeçalho do escopo: selo no título e números em Plex Sans Condensed */
++.pl-sup{letter-spacing:.08em}
++.pl-kpi dd{font-family:var(--f-display);font-weight:700}
++/* NAE da linha = o mesmo selo do mapa e da lista de alimentadores */
++.pl-tab td .pl-nae{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:600 var(--t-sm)/1.25 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++.pl-tab th{font-family:var(--f-mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
++@media (max-width:900px){
++  .pl-tab td[data-r=NAE] .pl-nae{font-size:var(--t-md);padding:3px 8px}
++  .pl-polos .pl-pil{padding:3px 5px 3px 11px}
++}
++`;
+   document.head.append(css);
+ 
+   // endereço: #<polo|regional-x|eto>[/trechos][/T1|T2|T3]
+@@ -273,14 +314,14 @@
+     const kmPolo = sel.polos.reduce((s, p) => s + p.als.reduce((t, a) => t + a.km, 0), 0), nae = naeEsc(sel);
+     const nMuns = sel.polos.reduce((s, p) => s + p.n_muns, 0), nTr = sel.trs.length;
+     const nCl = c => sel.trs.filter(a => a.t.split('-')[0] === c).length;
+-    const pil = (id, nome, n) => `<button type="button" class="pl-pil" data-p="${id}" aria-pressed="${sel.id === id}">${esc(nome)} <small>${nf(n)} NAE</small></button>`;
++    const pil = (id, nome, n) => `<button type="button" class="pl-pil" data-p="${id}" aria-pressed="${sel.id === id}"><b>${esc(nome)}</b><i>${nf(n)} NAE</i></button>`;
+     const th = (k, cls = '') => `<th scope="col" class="${cls}"${k === ord ? ` aria-sort="${desc ? 'descending' : 'ascending'}"` : ''}><button type="button" data-o="${k}">${k === 'km' ? rotKm : COLS[k].rot}</button></th>`;
+     const vis = als.slice(0, mostra);
+     // seletor: no computador, uma linha por regional (a regional e os polos dela); no celular, ETO/regionais em segmentos e os polos numa nuvem
+     const seletor = cel.matches
+       ? `<div class="pl-seg pl-topo">${[['eto', 'ETO', 'ETO · Tocantins'], ...regs.map(r => [regId(r), r, ''])].map(([id, rot, nome]) => {
+           const n = nf(naeEsc(ESC[id]));
+-          return `<button type="button" data-p="${id}" aria-pressed="${sel.id === id}"${nome ? ` aria-label="${esc(nome)} · ${n} NAE"` : ''}>${esc(rot)} <small>${n} NAE</small></button>`;
++          return `<button type="button" data-p="${id}" aria-pressed="${sel.id === id}"${nome ? ` aria-label="${esc(nome)} · ${n} NAE"` : ''}><b>${esc(rot)}</b><i>${n} NAE</i></button>`;
+         }).join('')}</div>
+         <div class="pl-polos">${regs.flatMap(polosDe).map(p => pil(p.id, p.nome, totNae(p))).join('')}</div>`
+       : `${pil('eto', 'ETO · Tocantins', naeEsc(ESC.eto))}<span aria-hidden="true"></span>${regs.map(r =>
+@@ -309,7 +350,7 @@
+             + (muns.length ? ' · ' + muns.slice(0, 4).join(', ') + (muns.length > 4 ? ` e mais ${muns.length - 4}` : '') : ''));
+           return `<tr><td class="n">${i + 1}º</td>
+             <td class="al t"><a href="${href}" data-pos="${i + 1}">${esc(tr ? a.t : a.al)}</a>${tr ? `<span class="al-cod">${esc(a.al)}</span>` : ''}<span class="det" title="${det}">${det}</span></td>
+-            <td data-r="NAE"><b>${nf(a.nae)}</b>${a.sem ? `<small>${nf(a.sem)} sem trecho</small>` : ''}</td>
++            <td data-r="NAE"><i class="pl-nae">${nf(a.nae)}</i>${a.sem ? `<small>${nf(a.sem)} sem trecho</small>` : ''}</td>
+             <td data-r="Consumidores">${nf(a.cons)}</td>
+             <td data-r="CHI (h)">${nf(a.chi)}</td>
+             <td data-r="${rotKm}">${km(a.km)}${a.km_total > a.km + 50 ? `<small>de ${km(a.km_total)} km</small>` : ''}</td>

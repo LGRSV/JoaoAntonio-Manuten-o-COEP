@@ -60,6 +60,10 @@
   let saiuEm = -1e9, porPop = false, cssAntes = soCss();
   const sentinela = () => !!(history.state && history.state.sentinela);
   const alterna = () => { if (tc) tc.click(); };
+  // a rolagem da página volta ao lugar de antes ao sair (a saída nativa a leva ao topo)
+  let yAntes = 0;
+  const poeY = () => { requestAnimationFrame(() => window.scrollTo(0, yAntes)); setTimeout(() => window.scrollTo(0, yAntes), 150); };
+  if (tc) tc.addEventListener('click', () => { if (!cheia()) yAntes = window.scrollY; }, true);
   // Esc: só CSS → sai da tela cheia antes de subir um nível (lista da busca aberta ou campo aberto: eles tratam o Esc primeiro).
   // Nativo: o navegador consome o Esc; se ele chegar logo depois da saída, é engolido (senão subiria um nível junto).
   document.addEventListener('keydown', e => {
@@ -74,14 +78,14 @@
     e.preventDefault();
     alterna();
   });
-  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!nativa()) saiuEm = performance.now(); }));
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!nativa()) { saiuEm = performance.now(); poeY(); } }));
   // só CSS: ao ligar fica uma entrada "sentinela" no histórico (o Voltar do celular a consome e sai da tela cheia); ao sair pelo botão ela é devolvida
   if (window.MutationObserver) new MutationObserver(() => {
     const css = soCss();
     if (css === cssAntes) return;
     cssAntes = css;
     if (css) { if (!sentinela()) seguro(() => history.pushState({ prev: ultimo, tc: true, sentinela: true }, '', location.href)); }
-    else if (!porPop && sentinela()) seguro(() => history.back());
+    else { poeY(); if (!porPop && sentinela()) seguro(() => history.back()); }
     porPop = false;
   }).observe(raiz, { attributes: true, attributeFilter: ['class'] });
 

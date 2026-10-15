@@ -1,0 +1,324 @@
+{
+ "carga_media_1min": 14.4,
+ "nucleos": 4,
+ "original": {
+  "abrir_regional_voa_mediana": {
+   "quadros": 88,
+   "medio_ms": 20.5,
+   "p95_ms": 33.4,
+   "max_ms": 83.3,
+   "fps_medio": 48.9,
+   "tarefas_longas": 3,
+   "tarefa_longa_max_ms": 70
+  },
+  "repeticoes_fps": [
+   48.9,
+   37.4,
+   51.1,
+   49.6
+  ],
+  "repeticoes_tarefa_longa_max_ms": [
+   70,
+   100,
+   90,
+   68
+  ]
+ },
+ "prototipo": {
+  "abrir_regional_voa_mediana": {
+   "quadros": 79,
+   "medio_ms": 19.6,
+   "p95_ms": 33.4,
+   "max_ms": 66.7,
+   "fps_medio": 51,
+   "tarefas_longas": 2,
+   "tarefa_longa_max_ms": 70
+  },
+  "repeticoes_fps": [
+   58.1,
+   50.3,
+   51,
+   51.5
+  ],
+  "repeticoes_tarefa_longa_max_ms": [
+   0,
+   0,
+   70,
+   72
+  ],
+  "ctrl_roda_x10": {
+   "quadros": 130,
+   "medio_ms": 21.4,
+   "p95_ms": 33.4,
+   "max_ms": 66.7,
+   "fps_medio": 46.7,
+   "tarefas_longas": 1,
+   "tarefa_longa_max_ms": 64
+  },
+  "cartoes_estado_zoom_alto_1a_vez": {
+   "vezes": 1,
+   "mediana_ms": 14.8,
+   "max_ms": 14.8
+  },
+  "arrastar_40_passos": {
+   "quadros": 188,
+   "medio_ms": 18.8,
+   "p95_ms": 33.3,
+   "max_ms": 83.3,
+   "fps_medio": 53.2,
+   "tarefas_longas": 2,
+   "tarefa_longa_max_ms": 80
+  },
+  "cartoes_depois_de_arrastar": {
+   "vezes": 1,
+   "mediana_ms": 11,
+   "max_ms": 11
+  },
+  "cartoes_estado_zoom_medio_1a_vez": {
+   "vezes": 1,
+   "mediana_ms": 174.4,
+   "max_ms": 174.4
+  },
+  "cartoes_estado_zoom_medio_2a_vez": {
+   "vezes": 1,
+   "mediana_ms": 50.6,
+   "max_ms": 50.6
+  }
+ },
+ "recalculo_desktop": {
+  "estado_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 45.4,
+     "mediana": 75.9,
+     "max": 129.2
+    },
+    "bandeirinhas": {
+     "min": 17.9,
+     "mediana": 23.3,
+     "max": 70.9
+    },
+    "cartoes": {
+     "min": 27.5,
+     "mediana": 44,
+     "max": 79.8
+    },
+    "cartoes_na_tela": 33
+   },
+   "quadros": 98,
+   "medio_ms": 22.3,
+   "p95_ms": 50,
+   "max_ms": 133.4,
+   "fps_medio": 44.9,
+   "tarefas_longas": 6,
+   "tarefa_longa_max_ms": 1166
+  },
+  "estado_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 16.6,
+     "mediana": 21,
+     "max": 33
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0
+    },
+    "cartoes": {
+     "min": 16.6,
+     "mediana": 21,
+     "max": 33
+    },
+    "cartoes_na_tela": 39
+   }
+  },
+  "regional_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 28.7,
+     "mediana": 44.9,
+     "max": 118.1
+    },
+    "bandeirinhas": {
+     "min": 12.1,
+     "mediana": 16.4,
+     "max": 85.2
+    },
+    "cartoes": {
+     "min": 16.6,
+     "mediana": 25.9,
+     "max": 100.9
+    },
+    "cartoes_na_tela": 32
+   }
+  },
+  "regional_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 3.7,
+     "mediana": 7.7,
+     "max": 18.6
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 3.6,
+     "mediana": 7.7,
+     "max": 18.6
+    },
+    "cartoes_na_tela": 9
+   }
+  },
+  "polo_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 6.8,
+     "mediana": 10.1,
+     "max": 23.3
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 6.8,
+     "mediana": 10.1,
+     "max": 23.3
+    },
+    "cartoes_na_tela": 18
+   }
+  }
+ },
+ "recalculo_celular_cpu_4x": {
+  "estado_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 63,
+     "mediana": 172.3,
+     "max": 290.3
+    },
+    "bandeirinhas": {
+     "min": 22.1,
+     "mediana": 61.7,
+     "max": 133.7
+    },
+    "cartoes": {
+     "min": 40.9,
+     "mediana": 111,
+     "max": 185.4
+    },
+    "cartoes_na_tela": 23
+   },
+   "quadros": 86,
+   "medio_ms": 24.2,
+   "p95_ms": 49.9,
+   "max_ms": 399.9,
+   "fps_medio": 41.3,
+   "tarefas_longas": 5,
+   "tarefa_longa_max_ms": 2738
+  },
+  "estado_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 21.3,
+     "mediana": 54.6,
+     "max": 153.6
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 21.3,
+     "mediana": 54.6,
+     "max": 153.5
+    },
+    "cartoes_na_tela": 19
+   }
+  },
+  "regional_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 46.1,
+     "mediana": 112.1,
+     "max": 155.9
+    },
+    "bandeirinhas": {
+     "min": 30.3,
+     "mediana": 44.7,
+     "max": 67.1
+    },
+    "cartoes": {
+     "min": 10.4,
+     "mediana": 62,
+     "max": 97.6
+    },
+    "cartoes_na_tela": 9
+   }
+  },
+  "regional_zoom_alto": {
+   "ms_recalculo": {
+    "total": {
+     "min": 12.1,
+     "mediana": 22.2,
+     "max": 41.6
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0.1
+    },
+    "cartoes": {
+     "min": 12.1,
+     "mediana": 22.2,
+     "max": 41.5
+    },
+    "cartoes_na_tela": 5
+   }
+  },
+  "polo_x1_7": {
+   "ms_recalculo": {
+    "total": {
+     "min": 29.3,
+     "mediana": 56.5,
+     "max": 99.4
+    },
+    "bandeirinhas": {
+     "min": 0,
+     "mediana": 0,
+     "max": 0
+    },
+    "cartoes": {
+     "min": 29.3,
+     "mediana": 56.5,
+     "max": 99.4
+    },
+    "cartoes_na_tela": 16
+   }
+  }
+ },
+ "original_celular_cpu_4x_abrir_regional": {
+  "quadros": 120,
+  "medio_ms": 21.5,
+  "p95_ms": 66.6,
+  "max_ms": 133.4,
+  "fps_medio": 46.5,
+  "tarefas_longas": 6,
+  "tarefa_longa_max_ms": 143
+ },
+ "prototipo_celular_cpu_4x_abrir_regional": {
+  "quadros": 126,
+  "medio_ms": 19,
+  "p95_ms": 33.3,
+  "max_ms": 166.7,
+  "fps_medio": 52.5,
+  "tarefas_longas": 2,
+  "tarefa_longa_max_ms": 163
+ }
+}

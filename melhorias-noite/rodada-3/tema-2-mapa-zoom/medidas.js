@@ -57,7 +57,11 @@ const mediana = a => { const q = a.slice().sort((x, y) => x - y); return q.lengt
     if (lento > 1) { const c = await ctx.newCDPSession(page); await c.send('Emulation.setCPUThrottlingRate', { rate: lento }); }
     const xc = view === 'desk' ? 720 : 195, yc = view === 'desk' ? 560 : 400;
     const gesto = async n => { if (view === 'desk') { await page.mouse.move(xc, yc); await page.keyboard.down('Control'); for (let i = 0; i < n; i++) { await page.mouse.wheel(0, -120); await esp(page, 60); } await page.keyboard.up('Control'); } else { for (let i = 0; i < n / 2; i++) { await page.tap('.mt-zoom [data-z=mais]'); await esp(page, 400); } } await esp(page, 1500); };
-    const med = () => page.evaluate(() => { const m = window.ARGOS_MAPA.zoom.medidas(); return m[m.length - 1]; });
+    const med = () => page.evaluate(() => {      // refaz o recálculo 15 vezes (a máquina é compartilhada: a mínima se aproxima da máquina quieta) e devolve mínima e mediana
+      const z = window.ARGOS_MAPA.zoom, n0 = z.medidas().length; for (let i = 0; i < 15; i++) z.refaz();
+      const q = z.medidas().slice(-15), md = k => q.map(x => x[k]).sort((a, b) => a - b), mm = k => ({ min: md(k)[0], mediana: md(k)[7], max: md(k)[14] });
+      return { total: mm('total'), bandeirinhas: mm('bandeirinhas'), cartoes: mm('cartoes'), cartoes_na_tela: document.querySelectorAll('.mt-nomes2 .mt-mn').length };
+    });
     const r = {};
     await inicia(page); await gesto(2); r.estado_x1_7 = { ms_recalculo: await med(), ...await para(page) };
     await page.click('.mt-zoom [data-z=fit]'); await esp(page, 1500);
@@ -69,7 +73,6 @@ const mediana = a => { const q = a.slice().sort((x, y) => x - y); return q.lengt
     await page.click('.mt-zoom [data-z=fit]'); await esp(page, 1500);
     await page.click('.mt-barra .mt-pchip'); await esp(page, 2000);
     await gesto(2); r.polo_x1_7 = { ms_recalculo: await med() };
-    r.todas_as_medidas_ms = await page.evaluate(() => window.ARGOS_MAPA.zoom.medidas());
     out['recalculo_' + nome] = r;
     await ctx.close();
   }

@@ -156,7 +156,7 @@
   const fio = (ax, ay, bx, by, cor) => `<i class="mt-fio" style="left:${ax.toFixed(1)}px;top:${ay.toFixed(1)}px;width:${Math.hypot(bx - ax, by - ay).toFixed(1)}px;` +
     `transform:rotate(${Math.atan2(by - ay, bx - ax).toFixed(4)}rad)${cor ? ';--c:' + cor : ''}"></i><i class="mt-pino" style="left:${ax.toFixed(1)}px;top:${ay.toFixed(1)}px${cor ? ';--c:' + cor : ''}"></i>`;
   const rel = r => { const c = caixa.getBoundingClientRect(); return { left: r.left - c.left, right: r.right - c.left, top: r.top - c.top, bottom: r.bottom - c.top }; };
-  const p2d = {};
+  const p2d = {}, bbMask = {};
   let bandFios = [];                                       // ZOOM: onde ficaram os fios das bandeirinhas (px da caixa): os cartões dos municípios desviam deles
   function mascara(ms) {                                   // o que está desenhado na tela (px da caixa, de 2 em 2 px)
     const c = caixa.getBoundingClientRect(), E = 2, W = Math.max(1, Math.ceil(c.width / E)), H = Math.max(1, Math.ceil(c.height / E));
@@ -166,16 +166,29 @@
     ms.forEach(m => {
       const t = el[m.cod].getScreenCTM();
       if (!t) return;
+      if (Z) {                                             // ZOOM: município todo fora da caixa não precisa ser desenhado (a máscara era o maior custo do recálculo)
+        const b = bbMask[m.cod] || (bbMask[m.cod] = el[m.cod].getBBox()), xs = [b.x, b.x + b.width], ys = [b.y, b.y + b.height], X = [], Y = [];
+        xs.forEach(x => ys.forEach(y => { X.push(t.a * x + t.c * y + t.e - c.left); Y.push(t.b * x + t.d * y + t.f - c.top); }));
+        if (Math.max(...X) < 0 || Math.min(...X) > c.width || Math.max(...Y) < 0 || Math.min(...Y) > c.height) return;
+      }
       g2.setTransform(t.a / E, t.b / E, t.c / E, t.d / E, (t.e - c.left) / E, (t.f - c.top) / E);
       g2.fill(p2d[m.cod] || (p2d[m.cod] = new Path2D(m.d)));
     });
     const px = g2.getImageData(0, 0, W, H).data;
     return (x, y) => { const i = x / E | 0, j = y / E | 0; return i >= 0 && j >= 0 && i < W && j < H && px[(j * W + i) * 4 + 3] > 0; };
   }
+  const ptsContorno = new Map();                           // pontos do contorno em coordenadas do mapa (o desenho não muda; getPointAtLength é caro e o zoom pede de novo a cada gesto)
   function contorno(path, n) {                             // n pontos ao longo do contorno, em px da caixa
-    const t = path && path.getScreenCTM(), c = caixa.getBoundingClientRect(), L = path ? path.getTotalLength() : 0, out = [];
-    if (!t || !L) return out;
-    for (let i = 0; i < n; i++) { const q = path.getPointAtLength(L * (i + .5) / n); out.push({ x: t.a * q.x + t.c * q.y + t.e - c.left, y: t.b * q.x + t.d * q.y + t.f - c.top }); }
+    const t = path && path.getScreenCTM(), c = caixa.getBoundingClientRect(), out = [];
+    if (!t) return out;
+    let loc = ptsContorno.get(path);
+    if (!loc || loc.n !== n) {
+      const L = path.getTotalLength();
+      loc = { n, p: [] };
+      if (L) for (let i = 0; i < n; i++) { const q = path.getPointAtLength(L * (i + .5) / n); loc.p.push([q.x, q.y]); }
+      ptsContorno.set(path, loc);
+    }
+    for (const [x, y] of loc.p) out.push({ x: t.a * x + t.c * y + t.e - c.left, y: t.b * x + t.d * y + t.f - c.top });
     return out;
   }
   // melhor lugar para um cartão w×h em cima de um ponto do contorno, com o fio de 14 a 40 px: o que menos cobre o mapa,
@@ -688,7 +701,7 @@
   ];
   const offDe = m => soma((reg && desl[m.polo]) || [0, 0], (pol && mdesl[m.cod]) || [0, 0]);   // deslocamento do município (polo afastado + município afastado)
   const doNivel = m => (!reg || m.reg === reg) && (!pol || m.polo === pol);
-  const bbMun = {}, tamCartao = {};
+  const bbMun = {}, tamCartao = {}, dentroC = {};
   if (document.fonts) document.fonts.addEventListener('loadingdone', () => { for (const k in tamCartao) delete tamCartao[k]; });   // fonte chegou: mede de novo
   const bboxMun = cod => bbMun[cod] || (bbMun[cod] = el[cod].getBBox());
 
@@ -728,6 +741,7 @@
         const n = rr ? 12 : 1;
         for (let i = 0; i < n; i++) {
           const a = i / n * 2 * Math.PI + (rr % 2 ? .26 : 0), q = new DOMPoint(cx + Math.cos(a) * rr * u, cy + Math.sin(a) * rr * u * .8);
+          if (!rr && cx === m.c[0] && cy === m.c[1]) q.c0 = true;
           if (sem || p.isPointInFill(q)) yield q;               // ZOOM (estado/regional): a conta cara fica para depois de checar o espaço (dentro())
         }
       }
@@ -740,7 +754,7 @@
     const caixaR = (s, w, h) => ({ left: s.x - w / 2, right: s.x + w / 2, top: s.y - h / 2, bottom: s.y + h / 2 });
     const cabe = R => !(R.left < livre.left || R.right > livre.right || R.top < livre.top || R.bottom > livre.bottom) && !ocupado.some(o => bate(R, o));
     const poe = (t, s, R) => { t.style.left = (s.x - c0.left).toFixed(1) + 'px'; t.style.top = (s.y - c0.top).toFixed(1) + 'px'; ocupado.push(R); };
-    const dentro = (q, m) => q.dentro ?? (q.dentro = el[m.cod].isPointInFill(q));
+    const dentro = (q, m) => q.c0 ? (dentroC[m.cod] ??= el[m.cod].isPointInFill(q)) : (q.dentro ??= el[m.cod].isPointInFill(q));   // o centro de cada município (o 1º ponto de cand) é sempre o mesmo: guarda a resposta
     const mede = (t, m, nv) => {                                // ZOOM: o tamanho de cada cartão é medido uma vez só (medir força layout)
       t.innerHTML = NIVEIS_ROT[nv](m); t.dataset.nv = nv;
       const k = `${m.cod}.${nv}.${celular ? 'c' : 'd'}.${legAberta ? 'n' : 's'}`;     // sem NAE (legenda recolhida) o cartão encolhe: outro tamanho
@@ -852,7 +866,7 @@
   const mac = /Mac|iPhone|iPad/.test(navigator.platform || '');
   const ehToque = matchMedia('(pointer:coarse)').matches;
   let alvoZ = null, rafZ = 0, tRot = 0, arrastou = 0, dr = null, tp = null;
-  const zMed = [];                                         // ms do último recálculo depois de cada gesto (window.ARGOS_MAPA.zoom.medidas)
+  const zMed = [];                                         // tempos (ms) do recálculo depois de cada gesto (window.ARGOS_MAPA.zoom.medidas)
   const uPorPx = () => { const r = svg.getBoundingClientRect(), v = vb(); return Math.max(v[2] / r.width, v[3] / r.height); };
   const ic = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
   const ctl = document.createElement('div');
@@ -927,11 +941,12 @@
     if (caixa.classList.contains('zoom-longe')) { fios.innerHTML = ''; bandFios = []; if (reg && !pol) selos.innerHTML = ''; }
     else if (!reg) poeCartoes();
     else if (!pol) poeSelos();
+    const t1 = performance.now();
     if (achou.size || foco) desamontoa();
     poeNomes();
     caixa.classList.remove('mexe');
-    zMed.push(+(performance.now() - t0).toFixed(1));
-    if (zMed.length > 50) zMed.shift();
+    zMed.push({ total: +(performance.now() - t0).toFixed(1), bandeirinhas: +(t1 - t0).toFixed(1), cartoes: +(performance.now() - t1).toFixed(1) });
+    if (zMed.length > 60) zMed.shift();
   }
   function limita(v) {                                       // nunca menos zoom que o nível, nunca mais que ZPPU; arrastar não sai do enquadramento
     const [bx, by, bw, bh] = Z.base, asp = bh / bw;
@@ -1195,5 +1210,5 @@
   }
   // rede do alimentador (para a miniatura na lista da busca) e o destaque dela no mapa com o município aberto
   const redeDe = al => { const m = porCod[mun] || M.muns.find(x => x.als.some(a => a.cod === al)); return m ? rede(al, m.polo) : Promise.resolve(null); };
-  window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), zoom: { ativo: () => !!Z, fator: () => Z ? Z.base[2] / vb()[2] : 1, enquadra: enquadraZ, solta: fimZ, medidas: () => zMed.slice() }, vai, previa, rede: redeDe, realceAl: al => { if (mun) realceAl(al); } };
+  window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), zoom: { ativo: () => !!Z, fator: () => Z ? Z.base[2] / vb()[2] : 1, enquadra: enquadraZ, solta: fimZ, refaz: recalcZ, medidas: () => zMed.slice() }, vai, previa, rede: redeDe, realceAl: al => { if (mun) realceAl(al); } };
 })();

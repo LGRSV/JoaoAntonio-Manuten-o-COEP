@@ -19,7 +19,13 @@ const varre = (page, min) => page.evaluate(min => {
     const item = { n: e.tagName.toLowerCase() + (e.id ? '#' + e.id : '') + (typeof e.className === 'string' && e.className ? '.' + e.className.trim().split(/\s+/)[0] : ''), nome, w, h };
     if (isMun) { mun.push(item); return; }
     // alvo efetivo: o elemento ou, se menor, o espaço livre até os vizinhos não conta; aqui só o retângulo do próprio elemento
-    if (w < min || h < min) out.push(item);
+    if (w < min || h < min) {
+      // área de toque efetiva: um ::after invisível pode esticar o clique além da caixa; confere se os pontos a 22 px do centro ainda acertam o próprio elemento
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2, pts = [];
+      if (w < min) pts.push([cx - 21, cy], [cx + 21, cy]); if (h < min) pts.push([cx, cy - 21], [cx, cy + 21]);
+      const acerta = pts.every(([x, y]) => { const t = document.elementFromPoint(x, y); return t && (e === t || e.contains(t)); });
+      if (!acerta) out.push(item); else item.efetivo = true;
+    }
   });
   return { pequenos: out, municipiosPaths: mun.length, municipiosMenoresQue44: mun.filter(x => x.w < min || x.h < min).length };
 }, min);

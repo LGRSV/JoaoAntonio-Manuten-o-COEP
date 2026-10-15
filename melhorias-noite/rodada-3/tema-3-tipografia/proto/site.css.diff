@@ -1,0 +1,81 @@
+--- a/alimentador/site/site.css
++++ b/alimentador/site/site.css
+@@ -1,5 +1,10 @@
+ /* Casca das páginas geradas por scripts/gera_trechos.py: página inicial, município, polos (cabeçalho) e relatório. */
+ /* ====== Sistema visual · tokens únicos (mesmos nomes e valores em site.css, mapa_trechos.html e nos CSS embutidos que os usam) ====== */
++/* tema 3 · fontes reserva com as métricas do IBM Plex (size-adjust e overrides medidos): enquanto o Google Fonts não entrega
++   os woff2, o texto ocupa o mesmo espaço e a troca não desloca o layout (CLS da página de ranking no celular: 0,17 → ver README) */
++@font-face{font-family:"Plex Sans Fallback";src:local("Arial"),local("Helvetica Neue"),local("Liberation Sans"),local("Arimo");font-weight:400 700;size-adjust:98%;ascent-override:104%;descent-override:28%;line-gap-override:0%}
++@font-face{font-family:"Plex Cond Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Helvetica Neue Bold"),local("Liberation Sans Bold");font-weight:600 700;size-adjust:88.9%;ascent-override:116%;descent-override:31.5%;line-gap-override:0%}
++@font-face{font-family:"Plex Mono Fallback";src:local("Courier New"),local("Menlo"),local("Liberation Mono"),local("Cousine");font-weight:400 700;size-adjust:100%;ascent-override:114%;descent-override:36%;line-gap-override:0%}
+ :root{
+   color-scheme:light;
+   /* cor */
+@@ -17,9 +22,9 @@
+   /* sobre o mapa/satélite (iguais nos dois temas) */
+   --vidro:rgba(15,20,23,.82); --vidro-borda:rgba(255,255,255,.12); --vidro-fg:#f3f4f4; --vidro-hover:rgba(255,255,255,.10); --foco-mapa:#fde047;
+   /* tipografia */
+-  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+-  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
++  --f-display:"IBM Plex Sans Condensed","Plex Cond Fallback","Arial Narrow",system-ui,sans-serif;
++  --f-body:"IBM Plex Sans","Plex Sans Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
++  --f-mono:"IBM Plex Mono","Plex Mono Fallback",ui-monospace,Menlo,Consolas,monospace;
+   --t-xs:12px; --t-sm:13px; --t-md:14px; --t-base:15px; --t-lg:17px; --t-xl:20px; --t-2xl:24px; --t-kpi:32px;
+   --t-h1:clamp(26px,3.4vw,32px);
+   /* espaço */
+@@ -565,7 +570,7 @@
+ .mt-barra #ativo-res{right:auto;width:min(460px,calc(100vw - 32px))}
+ /* NAE escondida: só o número sai; nome, cor e posição continuam */
+ .sem-nae .mt-regcards i,.sem-nae .mt-selos .mt-mn i,.sem-nae .mt-nomes2 .mt-mn i,.sem-nae .mt-pchip i,.sem-nae .mt-dica-h i,
+-.sem-nae .mt-al i,.sem-nae #ativo-res .so-n{display:none}
++.sem-nae .mt-al i,.sem-nae #ativo-res .so-n,.sem-nae .mt-ac i{display:none}
+ .sem-nae .mt-nomes2 .mt-mn[data-nv="2"]{display:none}
+ /* botão de tela cheia: canto de cima, à direita do mapa */
+ .mt-tc{position:absolute;top:0;right:0;z-index:5;display:grid;place-items:center;width:var(--alvo);height:var(--alvo);padding:0;
+@@ -596,3 +601,45 @@
+   box-shadow:0 0 0 2px var(--cartao),0 1px 4px rgb(0 0 0 / .5);animation:mt-surge .3s ease-out}
+ .voando .mt-bandeiras{display:none}
+ @media (prefers-reduced-motion:reduce){.mt-fio,.mt-pino{animation:none}}
++
++/* ====== tema 3 (tipografia) ====== */
++/* cartão do alimentador em foco (mapa-municipios.js: .mt-ac): o mesmo cartão preto dos municípios; abre a página do alimentador */
++.mt-ac{display:grid;gap:5px;width:max-content;max-width:min(300px,100%);padding:10px 12px 11px;border:1px solid var(--cartao-borda);border-radius:var(--r2);
++  background:var(--cartao);color:var(--cartao-fg);text-decoration:none;box-shadow:0 10px 24px -8px rgb(0 0 0 / .6);animation:mt-surge .3s ease-out}
++.mt-ac[hidden]{display:none}
++.mt-ac:hover{background:var(--cartao-2);border-color:var(--selo)}
++.mt-ac:focus-visible{outline:2px solid var(--foco-mapa);outline-offset:2px}
++.mt-ac-h{display:flex;align-items:center;gap:12px}
++.mt-ac b{font:600 var(--t-md)/1.2 var(--f-mono);letter-spacing:.01em}
++.mt-ac i{margin-left:auto;padding:2px 6px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++.mt-ac small{font:400 var(--t-xs)/1.35 var(--f-body);color:var(--cartao-mute);font-variant-numeric:tabular-nums}
++.mt-ac-ir{margin-top:2px;padding-top:7px;border-top:1px solid var(--cartao-borda);font:600 var(--t-xs)/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cartao-fg)}
++.mt-ac-ir span{color:#f08a5d}
++@media (max-width:860px){
++  .mt-lado .mt-ac{position:absolute;left:50%;bottom:6px;z-index:5;transform:translateX(-50%);width:calc(100% - 16px);max-width:340px}
++}
++/* lista dos alimentadores do município, embaixo da busca (busca-ativo.js, #ativo-res.lista-mun): também é um cartão preto nos dois temas.
++   Cabeçalho: município em Plex Sans Condensed 700 + selo da NAE do município + "N alimentadores" em mono; linhas: código em mono,
++   km e subestação em cinza, selo da NAE à direita (o mesmo selo dos cartões do mapa). */
++#ativo-res.lista-mun{background:var(--cartao);color:var(--cartao-fg);border:1px solid var(--cartao-borda);box-shadow:0 14px 30px -10px rgb(0 0 0 / .65);padding:0 var(--s1) var(--s1)}
++#ativo-res.lista-mun li+li{border-top:1px solid var(--cartao-borda)}
++#ativo-res.lista-mun .sug-t{position:sticky;top:0;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:var(--s3);row-gap:2px;
++  padding:var(--s3) var(--s3) var(--s2);background:var(--cartao);border:0;border-bottom:1px solid var(--cartao-borda);text-transform:none;letter-spacing:0;color:var(--cartao-fg)}
++#ativo-res.lista-mun .sug-t b{font:700 var(--t-xl)/1.1 var(--f-display);letter-spacing:.01em}
++#ativo-res.lista-mun .sug-t small{grid-column:1/-1;font:600 var(--t-xs)/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cartao-mute)}
++#ativo-res.lista-mun .sug-op:hover,#ativo-res.lista-mun .sug-op.marcado{background:var(--cartao-2)}
++#ativo-res.lista-mun .sug-op .so-x{color:var(--cartao-fg)}
++#ativo-res.lista-mun .so-x b{font:600 var(--t-md)/1.2 var(--f-mono);letter-spacing:.01em}
++#ativo-res.lista-mun .so-x small{color:var(--cartao-mute);font-variant-numeric:tabular-nums}
++#ativo-res.lista-mun .so-mini{background:#000;box-shadow:inset 0 0 0 1px var(--cartao-borda)}
++#ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px var(--rede);background:var(--cartao-2)}
++#ativo-res.lista-mun .sug-op.foco .so-x small{color:var(--cartao-fg)}
++#ativo-res.lista-mun .sug-op:hover .so-x b,#ativo-res.lista-mun .sug-op.marcado .so-x b{color:#f08a5d}
++#ativo-res.lista-mun .so-n{background:var(--selo)}
++#ativo-res.lista-mun .sug-t .so-n{font-size:var(--t-sm)}
++#ativo-res.lista-mun .sug-t .so-n{display:inline-block;margin:0;padding:2px 7px;border-radius:5px;background:var(--selo);color:#fff;font:700 var(--t-xs)/1.2 var(--f-mono);font-style:normal;font-variant-numeric:tabular-nums}
++#ativo-res.lista-mun .sug-t .so-n .vh{position:static;width:auto;height:auto;overflow:visible;clip:auto;margin-left:3px;font-weight:700}
++#ativo-res.lista-mun .so-mini path{stroke:#5aa6ec}
++#ativo-res.lista-mun .sug-op.foco{box-shadow:inset 0 0 0 1px #5aa6ec}
++/* selos da NAE: o Google Fonts só entrega o Plex Mono 600 (o 700 era "negrito sintético", borrado nos 9–12 px); 600 verdadeiro, sem peso extra de download */
++.mt-regcards i,.mt-pchip i,.mt-selos span,.mt-mn i,.mt-dica i,.mt-ac i,.sug-op .so-n,.mt-al i,#ativo-res.lista-mun .sug-t .so-n,.pl-tab td .pl-nae,.pl-pil i,.pl-seg i,.mt-regs-t,#mapa-to .mt-barra .mt-regs-t{font-weight:600}

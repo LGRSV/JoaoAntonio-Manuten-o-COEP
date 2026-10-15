@@ -1,0 +1,406 @@
+{
+ "lupa": {
+  "LD01072001-d": {
+   "mapa": {
+    "x": 56,
+    "y": 224,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 676,
+   "topoAteMapa": 224,
+   "areaVisivelPx2": 624624,
+   "areaVisivelPct": 48.2,
+   "cabecalhoAlt": 200,
+   "rolagemPagina": 58,
+   "painel": {
+    "x": 1004,
+    "y": 224,
+    "w": 380,
+    "h": 626
+   },
+   "painelConteudoPx": 626,
+   "painel4camadasPx": 1528,
+   "legendaAltura": 598,
+   "detalheT2A_px": 11409,
+   "erros": []
+  },
+  "LD01072001-m": {
+   "mapa": {
+    "x": 16,
+    "y": 226,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 226,
+   "areaVisivelPx2": 175420,
+   "areaVisivelPct": 53.3,
+   "cabecalhoAlt": 202,
+   "rolagemPagina": 526,
+   "painel": {
+    "x": 16,
+    "y": 739,
+    "w": 358,
+    "h": 598
+   },
+   "painelConteudoPx": 598,
+   "painel4camadasPx": 1500,
+   "legendaAltura": 386,
+   "detalheT2A_px": 11965,
+   "erros": []
+  },
+  "AL03037009-d": {
+   "mapa": {
+    "x": 56,
+    "y": 224,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 676,
+   "topoAteMapa": 224,
+   "areaVisivelPx2": 624624,
+   "areaVisivelPct": 48.2,
+   "cabecalhoAlt": 200,
+   "rolagemPagina": 58,
+   "painel": {
+    "x": 1004,
+    "y": 224,
+    "w": 380,
+    "h": 666
+   },
+   "painelConteudoPx": 666,
+   "painel4camadasPx": 1267,
+   "legendaAltura": 434,
+   "detalheT2A_px": 7576,
+   "erros": []
+  },
+  "AL03037009-m": {
+   "mapa": {
+    "x": 16,
+    "y": 226,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 226,
+   "areaVisivelPx2": 175420,
+   "areaVisivelPct": 53.3,
+   "cabecalhoAlt": 202,
+   "rolagemPagina": 566,
+   "painel": {
+    "x": 16,
+    "y": 739,
+    "w": 358,
+    "h": 638
+   },
+   "painelConteudoPx": 638,
+   "painel4camadasPx": 1239,
+   "legendaAltura": 386,
+   "detalheT2A_px": 8112,
+   "erros": []
+  },
+  "LD02022033-d": {
+   "mapa": {
+    "x": 56,
+    "y": 224,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 676,
+   "topoAteMapa": 224,
+   "areaVisivelPx2": 624624,
+   "areaVisivelPct": 48.2,
+   "cabecalhoAlt": 200,
+   "rolagemPagina": 58,
+   "painel": {
+    "x": 1004,
+    "y": 224,
+    "w": 380,
+    "h": 666
+   },
+   "painelConteudoPx": 666,
+   "painel4camadasPx": 1539,
+   "legendaAltura": 598,
+   "detalheT2A_px": 2115,
+   "erros": []
+  },
+  "LD02022033-m": {
+   "mapa": {
+    "x": 16,
+    "y": 226,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 226,
+   "areaVisivelPx2": 175420,
+   "areaVisivelPct": 53.3,
+   "cabecalhoAlt": 202,
+   "rolagemPagina": 566,
+   "painel": {
+    "x": 16,
+    "y": 739,
+    "w": 358,
+    "h": 638
+   },
+   "painelConteudoPx": 638,
+   "painel4camadasPx": 1511,
+   "legendaAltura": 386,
+   "detalheT2A_px": 2126,
+   "erros": []
+  },
+  "AL01015049-d": {
+   "mapa": {
+    "x": 56,
+    "y": 224,
+    "w": 924,
+    "h": 702
+   },
+   "mapaVisivelH": 676,
+   "topoAteMapa": 224,
+   "areaVisivelPx2": 624624,
+   "areaVisivelPct": 48.2,
+   "cabecalhoAlt": 200,
+   "rolagemPagina": 58,
+   "painel": {
+    "x": 1004,
+    "y": 224,
+    "w": 380,
+    "h": 542
+   },
+   "painelConteudoPx": 542,
+   "painel4camadasPx": 1143,
+   "legendaAltura": 306,
+   "detalheT2A_px": 1598,
+   "erros": []
+  },
+  "AL01015049-m": {
+   "mapa": {
+    "x": 16,
+    "y": 226,
+    "w": 358,
+    "h": 490
+   },
+   "mapaVisivelH": 490,
+   "topoAteMapa": 226,
+   "areaVisivelPx2": 175420,
+   "areaVisivelPct": 53.3,
+   "cabecalhoAlt": 202,
+   "rolagemPagina": 442,
+   "painel": {
+    "x": 16,
+    "y": 739,
+    "w": 358,
+    "h": 514
+   },
+   "painelConteudoPx": 514,
+   "painel4camadasPx": 1144,
+   "legendaAltura": 238,
+   "detalheT2A_px": 1600,
+   "erros": []
+  }
+ },
+ "consolidado": {
+  "LD01072001-d": {
+   "mapa": {
+    "x": 16,
+    "y": 64,
+    "w": 992,
+    "h": 820
+   },
+   "mapaVisivelH": 820,
+   "topoAteMapa": 64,
+   "areaVisivelPx2": 813440,
+   "areaVisivelPct": 62.8,
+   "cabecalhoAlt": 52,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 64,
+    "w": 400,
+    "h": 820
+   },
+   "painelConteudoPx": 820,
+   "painel4camadasPx": 820,
+   "legendaAltura": 156,
+   "detalheT2A_px": 1158,
+   "erros": []
+  },
+  "LD01072001-m": {
+   "mapa": {
+    "x": 12,
+    "y": 66,
+    "w": 366,
+    "h": 710
+   },
+   "mapaVisivelH": 710,
+   "topoAteMapa": 66,
+   "areaVisivelPx2": 259860,
+   "areaVisivelPct": 78.9,
+   "cabecalhoAlt": 58,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 1310,
+   "erros": []
+  },
+  "AL03037009-d": {
+   "mapa": {
+    "x": 16,
+    "y": 64,
+    "w": 992,
+    "h": 820
+   },
+   "mapaVisivelH": 820,
+   "topoAteMapa": 64,
+   "areaVisivelPx2": 813440,
+   "areaVisivelPct": 62.8,
+   "cabecalhoAlt": 52,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 64,
+    "w": 400,
+    "h": 820
+   },
+   "painelConteudoPx": 820,
+   "painel4camadasPx": 820,
+   "legendaAltura": 114,
+   "detalheT2A_px": 1094,
+   "erros": []
+  },
+  "AL03037009-m": {
+   "mapa": {
+    "x": 12,
+    "y": 66,
+    "w": 366,
+    "h": 710
+   },
+   "mapaVisivelH": 710,
+   "topoAteMapa": 66,
+   "areaVisivelPx2": 259860,
+   "areaVisivelPct": 78.9,
+   "cabecalhoAlt": 58,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 1251,
+   "erros": []
+  },
+  "LD02022033-d": {
+   "mapa": {
+    "x": 16,
+    "y": 64,
+    "w": 992,
+    "h": 820
+   },
+   "mapaVisivelH": 820,
+   "topoAteMapa": 64,
+   "areaVisivelPx2": 813440,
+   "areaVisivelPct": 62.8,
+   "cabecalhoAlt": 52,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 64,
+    "w": 400,
+    "h": 820
+   },
+   "painelConteudoPx": 820,
+   "painel4camadasPx": 820,
+   "legendaAltura": 156,
+   "detalheT2A_px": 820,
+   "erros": []
+  },
+  "LD02022033-m": {
+   "mapa": {
+    "x": 12,
+    "y": 66,
+    "w": 366,
+    "h": 710
+   },
+   "mapaVisivelH": 710,
+   "topoAteMapa": 66,
+   "areaVisivelPx2": 259860,
+   "areaVisivelPct": 78.9,
+   "cabecalhoAlt": 58,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 824,
+   "erros": []
+  },
+  "AL01015049-d": {
+   "mapa": {
+    "x": 16,
+    "y": 64,
+    "w": 992,
+    "h": 820
+   },
+   "mapaVisivelH": 820,
+   "topoAteMapa": 64,
+   "areaVisivelPx2": 813440,
+   "areaVisivelPct": 62.8,
+   "cabecalhoAlt": 52,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 1024,
+    "y": 64,
+    "w": 400,
+    "h": 820
+   },
+   "painelConteudoPx": 820,
+   "painel4camadasPx": 820,
+   "legendaAltura": 112,
+   "detalheT2A_px": 847,
+   "erros": []
+  },
+  "AL01015049-m": {
+   "mapa": {
+    "x": 12,
+    "y": 66,
+    "w": 366,
+    "h": 710
+   },
+   "mapaVisivelH": 710,
+   "topoAteMapa": 66,
+   "areaVisivelPx2": 259860,
+   "areaVisivelPct": 78.9,
+   "cabecalhoAlt": 58,
+   "rolagemPagina": 0,
+   "painel": {
+    "x": 0,
+    "y": 784,
+    "w": 390,
+    "h": 743
+   },
+   "painelConteudoPx": 743,
+   "painel4camadasPx": 743,
+   "legendaAltura": 32,
+   "detalheT2A_px": 973,
+   "erros": []
+  }
+ }
+}
