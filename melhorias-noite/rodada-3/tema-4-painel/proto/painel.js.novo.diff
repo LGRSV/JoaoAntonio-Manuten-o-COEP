@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/alimentador/site/painel.js
-@@ -0,0 +1,373 @@
+@@ -0,0 +1,374 @@
 +/* ============================================================================================
 +   PROTÓTIPO CONSOLIDADO · Painel do alimentador (tema 4, rodada 3) — parte JS
 +   Roda depois de proto/lupa-painel.js (a lupa do ARGOS), com window.D. Não altera dado nenhum: só reorganiza o que a página já
@@ -369,6 +369,7 @@
 +    if (liga('f')) f();
 +    if (liga('g')) g();
 +    if (liga('h')) hh();
++    if (document.querySelector('.wrap > .barra-busca')) root.classList.add('p-sem-lupa');   // a lupa não carregou: a barra antiga volta a aparecer
 +    if (window.__map) window.__map.invalidateSize();
 +    root.classList.add('proto-pronto');
 +  }

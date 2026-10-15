@@ -220,7 +220,7 @@ O HTML da página do alimentador é reescrito na resposta (`page.route`): ganha 
 Arquivos: `antes/` (site + lupa atual; prefixo `lupa-`, `claro-lupa-`), `depois/` (protótipo; prefixo `claro-` = tema claro), `proto/painel.css`, `proto/painel.js`, `proto/lupa-painel.js` (lupa atual + a nota), `proto/original/lupa-painel.artifact.js` (a lupa como lida), `proto/*.diff`, `proto/rodada-3.patch`, `prints.js`, `metricas.js`/`metricas.json`, `repeticoes.js`/`repeticoes.json`, `testes.js`/`testes-*.json`, `resume-medidas.py`, `resumo.json`.
 
 ## Limites
-- Medi o que cabe na janela de 1440×900 e 390×844 (e conferi 1024, 1280 e 360×640 na rodada 2, antes do rebase; nesta rodada só os dois pedidos). Não testei aparelho real (arrastar da gaveta, barra de endereço do iOS).
+- Medi 1440×900 e 390×844; o cabeçalho foi conferido também em 1024×768, 1280×720 e 360×640 (`depois/LD01072001-t-inicial.jpg`, `-n-inicial.jpg`, `-p-inicial.jpg`; só o `LD01072001`, de SE curta: uma SE de nome longo ainda não foi vista, o texto da SE corta com reticências). Não testei aparelho real (arrastar da gaveta, barra de endereço do iOS).
 - A contagem de repetições é um olhar automático sobre o texto visível: não vê o que está só no mapa (rótulos, selos), e dá falso positivo quando dois números coincidem (caso do `LD02022033`).
 - A lupa é da outra sessão: a nota é a única mudança proposta nela; o resto é encaixe em volta dela. Se ela mudar os nomes das classes citadas no contrato, o `painel.js` precisa acompanhar.
 - Números do site (OS, NAE, km) são os da página no dia 15/10/2026; mudam quando as bases são atualizadas.

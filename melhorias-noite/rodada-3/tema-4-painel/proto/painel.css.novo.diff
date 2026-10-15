@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/alimentador/site/painel.css
-@@ -0,0 +1,192 @@
+@@ -0,0 +1,195 @@
 +/* ============================================================================================
 +   PROTÓTIPO CONSOLIDADO · Painel do alimentador (tema 4, rodada 3) — parte CSS
 +   Entra por cima de assets/alimentador.css e do CSS que proto/lupa-painel.js injeta. Tudo escopado em html.p-r3 (a classe que o
@@ -17,6 +17,8 @@
 +
 +/* ---------------------------------------------------------------- 1 · uma linha só no alto (a lupa já mora no canto do mapa) */
 +html.p-r3 body:not(.tela-cheia) .mnu{margin:0}
++/* a barra antiga (extras.js) fica escondida até a lupa a levar para dentro do mapa: sem isso ela ocupa uma célula da grade e empurra o mapa quando sai */
++html.p-r3:not(.p-sem-lupa) body:not(.tela-cheia) .wrap>.barra-busca{display:none}
 +html.p-r3 body:not(.tela-cheia) header{display:flex;align-items:center;gap:0 var(--s3);min-width:0;max-width:none}
 +html.p-r3 body:not(.tela-cheia) .migalhas{order:1;flex:none;flex-wrap:nowrap;min-height:0;white-space:nowrap;font-size:var(--t-sm);gap:0 var(--s2)}
 +html.p-r3 body:not(.tela-cheia) .migalhas .mig-t{display:none}        /* o trecho escolhido já está na ficha do painel (e na gaveta, no celular) */
@@ -184,6 +186,7 @@
 +  html.p-r3 .panel:not([data-estado="peek"]) .sheet-h .sh-s{transform:rotate(135deg)}
 +  html.p-r3 body:not(.tela-cheia) .panel>:not(.sheet-h){min-width:0}
 +  html.p-r3 body:not(.tela-cheia) .panel>.det{padding-top:var(--s2)}
++  html.p-r3 body:not(.tela-cheia) .det-abas{top:calc(var(--sheet-peek,60px) - 1px);background:var(--paper);margin-inline:calc(-1 * var(--s4));padding-inline:var(--s4)}   /* as abas grudam embaixo da linha da gaveta (que também é sticky) */
 +  html.p-r3 body:not(.tela-cheia) .ctl-lgs{max-height:calc(100% - 28px - 76px)}
 +}
 +@media (max-width:640px){

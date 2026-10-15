@@ -300,3 +300,7 @@
   ok   m: Enter no botão (foco por Tab) entra na tela cheia
   ok   m: Espaço no botão sai da tela cheia
   ok   m: trocar o endereço com a tela cheia ligada leva o mapa e mantém a tela cheia
+  ok   m: girar a tela (390x844 → 844x390) em tela cheia: mapa reencaixa no tamanho novo, sem rolagem lateral
+  ok   m: sem erros de JavaScript em todo o teste
+
+272 verificações ok, 0 falharam
