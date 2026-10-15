@@ -1,0 +1,107 @@
+--- live/site.css	2026-10-15 02:45:54.999055994 +0000
++++ proto/site.css	2026-10-15 03:09:52.281202983 +0000
+@@ -386,3 +386,104 @@
+   .mun{transition:fill var(--dur) var(--ease)}
+   #ativo-res:not(:empty){animation:entra var(--dur) var(--ease)}
+ }
++
++/* ================================================================================================
++   PROTÓTIPO · rodada 1 · tema 1 (busca e animação). Tudo abaixo só vale com <html data-proto="s1 s2 s3 s4 s5">.
++   s1 painel esquerdo · s2 sem repetição (só texto, em JS) · s3 tela cheia · s4 busca renovada · s5 transições
++   ================================================================================================ */
++
++/* ---- s1: legenda e lista de alimentadores no lado esquerdo ---- */
++html[data-proto~="s1"] .mt-lado{gap:var(--s3)}
++html[data-proto~="s1"] .mt-regs{position:static;width:max-content;min-width:176px}
++html[data-proto~="s1"] .mt-regs .rampa{display:none}
++html[data-proto~="s1"] .mt-regs-c{position:static;min-width:0;padding:0 var(--s3) var(--s3);border:0;background:none;box-shadow:none}
++html[data-proto~="s1"] .nivel-mun .mt-regs{display:none}   /* com o município aberto as cores da NAE não aparecem: a legenda sai e a lista fica sozinha */
++@media (max-width:860px){
++  /* legenda: régua de cores na beira esquerda; tocar abre os rótulos ao lado */
++  html[data-proto~="s1"] .mt-regs{position:absolute;left:0;top:50%;bottom:auto;transform:translateY(-50%);width:auto;min-width:0;z-index:4;border-left:0;border-radius:0 var(--r2) var(--r2) 0}
++  html[data-proto~="s1"] .mt-regs>summary{display:grid;gap:3px;min-height:0;padding:8px 6px 8px 4px}
++  html[data-proto~="s1"] .mt-regs>summary::after{display:none}
++  html[data-proto~="s1"] .mt-regs .rampa{display:grid;gap:2px}
++  html[data-proto~="s1"] .mt-regs .rampa i{width:12px;height:22px;border-radius:2px}
++  html[data-proto~="s1"] .mt-regs .rt{display:none}
++  html[data-proto~="s1"] .mt-regs:not([open])::details-content{display:none}
++  html[data-proto~="s1"] .mt-regs-c{position:absolute;left:calc(100% + 4px);top:50%;bottom:auto;transform:translateY(-50%);padding:var(--s3);border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);box-shadow:var(--sh2)}
++  /* alimentadores: gaveta que sai da esquerda; a aba com a contagem fica na beira */
++  html[data-proto~="s1"] .mt-lado .mt-als{position:absolute;left:0;top:52px;bottom:0;transform:translateX(-100%);width:min(88%,336px);max-width:none;max-height:none;display:block;z-index:6}
++  html[data-proto~="s1"] .mt-lado .mt-als.aberta{transform:none}
++  html[data-proto~="s1"] .mt-lado .mt-als .mt-polos-c{display:grid;align-content:start;justify-content:stretch;justify-items:stretch;width:100%;height:100%;max-height:none;overflow:auto;overscroll-behavior:contain;
++    padding:var(--s3);border:1px solid var(--line);border-left:0;border-radius:0 var(--r2) var(--r2) 0;background:var(--paper);box-shadow:var(--sh2)}
++  html[data-proto~="s1"] .mt-lado .mt-als:not(.aberta) .mt-polos-c{visibility:hidden;box-shadow:none}
++  html[data-proto~="s1"] .mt-lado .mt-als .mt-polos-t{text-align:left}
++  html[data-proto~="s1"] .nivel-mun .mt-polos-c .mt-amun{text-align:left}
++  html[data-proto~="s1"] .mt-lado .mt-als .mt-puxa{position:absolute;left:100%;top:8px;width:34px;height:auto;padding:10px 0;display:grid;gap:8px;justify-items:center;align-content:start;
++    border:1px solid var(--line);border-left:0;border-radius:0 10px 10px 0;background:var(--paper);color:var(--fg);box-shadow:var(--sh1)}
++  html[data-proto~="s1"] .mt-lado .mt-als .mt-puxa svg{transform:rotate(90deg)}
++  html[data-proto~="s1"] .mt-lado .mt-als.aberta .mt-puxa svg{transform:rotate(-90deg)}
++  html[data-proto~="s1"] .mt-puxa-t{writing-mode:vertical-rl;font:600 var(--t-xs) var(--f-body);white-space:nowrap}
++}
++@media (max-width:860px) and (prefers-reduced-motion:no-preference){
++  html[data-proto~="s1"] .mt-lado .mt-als{transition:transform .28s var(--ease)}
++  html[data-proto~="s1"] .mt-lado .mt-als:not(.aberta) .mt-polos-c{transition:visibility 0s .28s}
++}
++
++/* ---- s3: tela cheia do mapa da página inicial ---- */
++.mt-tc{position:absolute;top:0;right:0;z-index:6;width:var(--alvo);height:var(--alvo);display:none;place-items:center;padding:0;border:1px solid var(--line);border-radius:var(--r2);
++  background:var(--paper);color:var(--fg);cursor:pointer;box-shadow:var(--sh1)}
++html[data-proto~="s3"] .mt-tc{display:grid}
++.mt-tc:hover{background:var(--hover);color:var(--accent)}
++.mt-tc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
++.mt-mapa .mt-tc svg{display:block;width:20px;height:20px;min-height:0;max-height:none;margin:0;pointer-events:none}
++.mt-mapa .mt-tc .sai,.mt-mapa .mt-tc[aria-pressed="true"] .abre{display:none}
++.mt-mapa .mt-tc[aria-pressed="true"] .sai{display:block}
++body.tc-mapa{overflow:hidden}
++#mapa-to.tc-mapa{position:fixed;inset:0;z-index:1000;background:var(--bg);padding:max(12px,env(safe-area-inset-top)) 16px max(12px,env(safe-area-inset-bottom));
++  grid-template-rows:auto minmax(0,1fr);gap:var(--s2);overflow:hidden}
++#mapa-to.tc-mapa .mt-mapa{height:100%;min-height:0}
++#mapa-to.tc-mapa .mt-mapa svg{width:100%;height:100%;min-height:0;max-height:none}
++body.tc-mapa .mnu{visibility:hidden}
++
++/* ---- s4: busca renovada ---- */
++html[data-proto~="s4"] .ativo .lupa.com-rotulo{width:auto;gap:var(--s2);padding:0 var(--s3) 0 var(--s2);display:flex;align-items:center}
++html[data-proto~="s4"] .ativo .lupa.com-rotulo .lupa-t{font:600 var(--t-md) var(--f-body)}
++html[data-proto~="s4"] .ativo .lupa.com-rotulo .lupa-k{font:600 var(--t-xs) var(--f-mono);padding:1px 6px;border:1px solid var(--line);border-radius:5px;color:var(--muted);background:var(--bg)}
++html[data-proto~="s4"] .ativo .lupa[aria-expanded="true"]{width:48px;padding:0;display:grid}
++html[data-proto~="s4"] .ativo .lupa[aria-expanded="true"] .lupa-t,html[data-proto~="s4"] .ativo .lupa[aria-expanded="true"] .lupa-k{display:none}
++@media (hover:none){html[data-proto~="s4"] .ativo .lupa .lupa-k,html[data-proto~="s4"] .sug-teclas{display:none}}
++html[data-proto~="s4"] .sug-dicas{padding:var(--s3)}
++html[data-proto~="s4"] .sug-dicas>p{padding:0 0 var(--s2);max-width:none;font:700 var(--t-xs) var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
++html[data-proto~="s4"] .sug-dicas>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
++html[data-proto~="s4"] .sug-ex{display:grid;gap:2px;justify-items:start;min-height:var(--alvo);padding:var(--s2) var(--s3);border:1px solid var(--line);border-radius:var(--r2);background:var(--bg);color:var(--fg);text-align:left;cursor:pointer;font:inherit}
++html[data-proto~="s4"] .sug-ex:hover{border-color:var(--accent)}
++html[data-proto~="s4"] .sug-ex span{font:400 var(--t-xs) var(--f-body);color:var(--muted)}
++html[data-proto~="s4"] .sug-ex b{font:600 var(--t-md) var(--f-mono)}
++html[data-proto~="s4"] #ativo-res .sug-t{display:flex;align-items:center;gap:var(--s2)}
++html[data-proto~="s4"] #ativo-res .sug-t i{font:600 var(--t-xs) var(--f-mono);font-style:normal;padding:0 6px;border-radius:999px;background:var(--hover);color:var(--muted)}
++html[data-proto~="s4"] .sug-op.s4{display:grid;grid-template-columns:32px minmax(0,1fr) 16px;align-items:center;justify-content:stretch;gap:var(--s3);min-height:56px}
++html[data-proto~="s4"] .sug-ic{width:32px;height:32px;padding:7px;border-radius:999px;background:var(--hover);fill:none;stroke:var(--muted);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
++html[data-proto~="s4"] .sug-op.s4.marcado .sug-ic,html[data-proto~="s4"] .sug-op.s4:hover .sug-ic{stroke:var(--accent)}
++html[data-proto~="s4"] .sug-go{width:16px;height:16px;fill:none;stroke:var(--muted);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
++html[data-proto~="s4"] .sug-tx{display:grid;gap:1px;min-width:0;text-align:left}
++html[data-proto~="s4"] .sug-tx>b{text-align:left}
++html[data-proto~="s4"] .sug-tx>span{text-align:left;font-size:var(--t-xs);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
++html[data-proto~="s4"] .sug-tx mark{background:none;color:var(--accent);font-weight:700}
++html[data-proto~="s4"] #ativo-res .res-n{padding:var(--s3) var(--s3) var(--s1);font:700 var(--t-xs) var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
++html[data-proto~="s4"] .sug-teclas{padding:var(--s2) var(--s3);border-top:1px solid var(--line);font-size:var(--t-xs);color:var(--muted)}
++html[data-proto~="s4"] .sug-teclas kbd{font:600 11px var(--f-mono);padding:0 5px;margin:0 2px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
++html[data-proto~="s4"] .sug-sk{display:grid;gap:var(--s2);padding:var(--s3)}
++html[data-proto~="s4"] .sug-sk i{display:block;height:44px;border-radius:var(--r1);background:linear-gradient(90deg,var(--hover),color-mix(in srgb,var(--fg) 10%,transparent),var(--hover));background-size:200% 100%}
++@media (prefers-reduced-motion:no-preference){html[data-proto~="s4"] .sug-sk i{animation:mt-brilho 1.1s linear infinite}}
++@keyframes mt-brilho{to{background-position:-200% 0}}
++@media (max-width:520px){html[data-proto~="s4"] .sug-dicas>div{grid-template-columns:minmax(0,1fr)}html[data-proto~="s4"] .sug-tx>span{white-space:normal}}
++
++/* ---- s5: durante o voo da câmera as redes de fundo (milhares de traços com vector-effect) ficam escondidas e voltam com um fade
++   ao pousar: nas medições, polo→município passou de 14 para ~45 quadros e alimentador→município de 4 para ~30 ---- */
++html[data-proto~="s5"] .voando .mt-redes-f,html[data-proto~="s5"] .voando .mt-redes-d{visibility:hidden}
++@media (prefers-reduced-motion:no-preference){html[data-proto~="s5"] .mt-mapa:not(.voando) .mt-redes-f,html[data-proto~="s5"] .mt-mapa:not(.voando) .mt-redes-d{animation:mt-surge .3s ease-out}}
++/* ---- s5: transições coordenadas (o painel entra da esquerda, item a item; a trilha e os chips surgem de leve) ---- */
++@keyframes mt-esq{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
++@media (prefers-reduced-motion:no-preference){
++  html[data-proto~="s5"] .mt-als:not([hidden]) .mt-polos-c>*{animation:mt-esq .34s var(--ease) both;animation-delay:calc(min(var(--i,0),9) * 30ms)}
++  html[data-proto~="s5"] .mt-polos>*{animation:mt-esq .28s var(--ease) both}
++  html[data-proto~="s5"] .mt-regs{animation:mt-esq .3s var(--ease) both}
++}

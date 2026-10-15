@@ -1,5 +1,6 @@
 // Carga: tempo até o mapa aparecer, bytes, requisições, long tasks, CLS. Uso: node medir-carga.js [rotulo] (BASE=... para outra origem)
-const L = require('./lib.js'), fs = require('fs');
+const L = require('./lib.js'), fs = require('fs'), inj = require('./injeta.js');
+const SO = (process.env.PAGINAS || 'inicial,alimentador,polos').split(',');
 const rotulo = process.argv[2] || 'antes', N = +(process.env.N || 3);
 const PAGINAS = {
   inicial: { url: '', pronto: `document.querySelectorAll('.mun').length>100`, marca: `document.querySelector('.mt-mapa svg .mun')` },
@@ -19,10 +20,10 @@ const ini = ({ marca }) => `(() => {
   const saida = {};
   for (const [vp, cfg] of Object.entries({ desktop: { w: 1440, h: 900 }, celular: { w: 390, h: 844, mobile: true } })) {
     for (const perfil of ['base', 'cpu4', 'lenta']) {
-      for (const [pg, P] of Object.entries(PAGINAS)) {
+      for (const [pg, P] of Object.entries(PAGINAS).filter(([k]) => SO.includes(k))) {
         const runs = [];
         for (let i = 0; i < N; i++) {
-          const s = await L.abre({ ...cfg, perfil });
+          const s = await L.abre({ ...cfg, perfil }); await inj.aplica(s.ctx, s.page);
           await s.ctx.addInitScript(ini(P));
           const t0 = Date.now();
           await s.page.goto(L.BASE + P.url, { waitUntil: 'commit' });
@@ -49,7 +50,7 @@ const ini = ({ marca }) => `(() => {
         const key = `${vp}|${perfil}|${pg}`;
         const agg = {}; Object.keys(runs[0]).forEach(k => { if (typeof runs[0][k] === 'number' || runs[0][k] == null) agg[k] = mediana(runs.map(r => r[k])); });
         agg.top = runs[0].top; agg.errosTxt = runs[0].errosTxt; agg.falhas = runs[0].falhas;
-        saida[key] = agg; console.log(key, JSON.stringify({ mapa: agg.mapa && Math.round(agg.mapa), fcp: agg.fcp && Math.round(agg.fcp), lcp: Math.round(agg.lcp), load: Math.round(agg.load), kb: Math.round(agg.bytes_local / 1024), reqs: agg.reqs_local, lt: agg.lt_n, tbt: agg.tbt, cls: agg.cls, ext: Math.round(agg.bytes_ext / 1024) }));
+        saida[key] = agg; fs.writeFileSync(`medicoes/carga-${rotulo}.json`, JSON.stringify(saida, null, 1)); console.log(key, JSON.stringify({ mapa: agg.mapa && Math.round(agg.mapa), fcp: agg.fcp && Math.round(agg.fcp), lcp: Math.round(agg.lcp), load: Math.round(agg.load), kb: Math.round(agg.bytes_local / 1024), reqs: agg.reqs_local, lt: agg.lt_n, tbt: agg.tbt, cls: agg.cls, ext: Math.round(agg.bytes_ext / 1024) }));
       }
     }
   }

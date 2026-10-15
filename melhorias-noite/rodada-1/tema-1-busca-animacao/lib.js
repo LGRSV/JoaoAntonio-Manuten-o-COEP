@@ -59,11 +59,12 @@ async function anota(p, grupos) {                 // grupos: [[seletor, número]
 }
 // folha de contato: junta imagens lado a lado (sequência de quadros da animação)
 async function folha(browser, arquivos, saida, rotulos = []) {
-  const p = await browser.newPage({ viewport: { width: 1600, height: 900 } });
+  const m = arquivos[0].includes('-m-'), w = m ? 240 : 490;          // celular: 6 por linha; computador: 3 por linha
+  const p = await browser.newPage({ viewport: { width: 1500, height: 900 } });
   const im = arquivos.map(f => 'data:image/jpeg;base64,' + fs.readFileSync(path.join(RAIZ, 'prints', f + '.jpg')).toString('base64'));
-  await p.setContent(`<body style="margin:0;background:#222;display:flex;gap:6px;padding:6px;align-items:flex-start">${im.map((s, i) => `<figure style="margin:0;color:#fff;font:600 13px sans-serif"><img src="${s}" style="height:${arquivos[0].includes('-m-') ? 700 : 520}px;display:block"><figcaption style="padding:4px 2px">${rotulos[i] || ''}</figcaption></figure>`).join('')}</body>`);
-  const bb = await p.evaluate(() => [document.body.scrollWidth, document.body.scrollHeight]);
-  await p.setViewportSize({ width: bb[0], height: bb[1] });
+  await p.setContent(`<body style="margin:0;background:#222;width:1500px;display:flex;flex-wrap:wrap;gap:6px;padding:6px;box-sizing:border-box;align-items:flex-start">${im.map((s, i) => `<figure style="margin:0;color:#fff;font:600 13px sans-serif"><img src="${s}" style="width:${w}px;display:block;border:1px solid #444"><figcaption style="padding:4px 2px">${rotulos[i] || ''}</figcaption></figure>`).join('')}</body>`);
+  const h = await p.evaluate(() => document.body.scrollHeight);
+  await p.setViewportSize({ width: 1500, height: h });
   await p.screenshot({ path: path.join(RAIZ, 'prints', saida + '.jpg'), type: 'jpeg', quality: 80 });
   await p.close();
 }

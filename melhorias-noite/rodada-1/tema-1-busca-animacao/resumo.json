@@ -1,0 +1,123 @@
+{
+ "tema": "Busca e animação (rodada 1)",
+ "sugestoes": [
+  {
+   "titulo": "Painel esquerdo único: legenda NAE e lista de alimentadores no lado esquerdo (gaveta no celular)",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/s1-antes-d-mun.jpg",
+    "prints/s1-antes-d-primeira-tela.jpg",
+    "prints/s1-antes-m-mun.jpg",
+    "prints/s1-antes-m-mun-aberta.jpg"
+   ],
+   "depois": [
+    "prints/s1-depois-d-estado.jpg",
+    "prints/s1-depois-d-mun.jpg",
+    "prints/s1-depois-m-mun.jpg",
+    "prints/s1-depois-m-mun-aberta.jpg",
+    "prints/s1-depois-d-claro-mun.jpg"
+   ],
+   "prototipo": [
+    "proto/site.css",
+    "proto/mapa-municipios.js"
+   ],
+   "descricao": "O elemento de baixo é a legenda NAE-Vegetação (cobre a lista no município e fica fora da primeira tela) e, no celular, a caixa de alimentadores. Vai para a coluna esquerda; legenda some no município; no celular a lista vira gaveta da esquerda."
+  },
+  {
+   "titulo": "Botão de tela cheia no mapa da página inicial",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [
+    "prints/s3-antes-d-primeira-tela.jpg",
+    "prints/s3-antes-m-primeira-tela.jpg"
+   ],
+   "depois": [
+    "prints/s3-depois-d-cheia-estado.jpg",
+    "prints/s3-depois-d-cheia-mun.jpg",
+    "prints/s3-depois-m-cheia-estado.jpg",
+    "prints/s3-depois-m-cheia-mun.jpg",
+    "prints/s3-depois-d-claro-cheia-estado.jpg"
+   ],
+   "prototipo": [
+    "proto/tela-cheia-mapa.js",
+    "proto/site.css"
+   ],
+   "descricao": "Mesma lógica do telacheia.js (nativa + fallback CSS), mas o arquivo depende do Leaflet; extrair função comum. Testado: botão, ←, Esc, saída do sistema, fallback sem API."
+  },
+  {
+   "titulo": "Nenhum dado repetido no mapa e na busca (6 repetições mapeadas)",
+   "prioridade": 3,
+   "esforco": "P",
+   "antes": [
+    "prints/s2-antes-d-regional.jpg",
+    "prints/s2-antes-d-mun.jpg",
+    "prints/s2-antes-d-alimentador.jpg",
+    "prints/s2-antes-m-alimentador.jpg",
+    "prints/s2-antes-d-regional-dica.jpg",
+    "prints/s4-antes-d-ativo-resultado.jpg",
+    "prints/s4-antes-d-os-resultado.jpg"
+   ],
+   "depois": [
+    "prints/s2-depois-d-regional.jpg",
+    "prints/s2-depois-d-mun.jpg",
+    "prints/s2-depois-d-alimentador.jpg",
+    "prints/s2-depois-m-alimentador.jpg",
+    "prints/s4-depois-d-ativo-resultado.jpg",
+    "prints/s4-depois-d-os-resultado.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/busca-ativo.js"
+   ],
+   "descricao": "NAE do polo no chip e no selo; Palmas 4x no município; código do alimentador 3x; dica repetindo regional/polo; busca repetindo o termo. Só texto."
+  },
+  {
+   "titulo": "Busca renovada: rótulo Buscar, atalho /, exemplos, linhas com contexto e destaque",
+   "prioridade": 4,
+   "esforco": "M",
+   "antes": [
+    "prints/s4-antes-d-fechada.jpg",
+    "prints/s4-antes-d-aberta.jpg",
+    "prints/s4-antes-d-municipios.jpg",
+    "prints/s4-antes-m-municipios.jpg"
+   ],
+   "depois": [
+    "prints/s4-depois-d-fechada.jpg",
+    "prints/s4-depois-d-aberta.jpg",
+    "prints/s4-depois-d-municipios.jpg",
+    "prints/s4-depois-d-alimentadores.jpg",
+    "prints/s4-depois-m-municipios.jpg",
+    "prints/s4-depois-m-aberta.jpg",
+    "prints/s4-depois-d-claro-municipios.jpg"
+   ],
+   "prototipo": [
+    "proto/busca-ativo.js",
+    "proto/site.css"
+   ],
+   "descricao": "Botão com olho + 'Buscar' + '/', exemplos clicáveis, linhas com regional › polo, NAE, SE, destaque do digitado, esqueleto de carregamento, estado vazio com exemplos."
+  },
+  {
+   "titulo": "A busca voa no mapa e transições mais fluidas",
+   "prioridade": 5,
+   "esforco": "M",
+   "antes": [
+    "prints/s5-antes-d-pagina-municipio.jpg",
+    "prints/s5-antes-m-pagina-municipio.jpg",
+    "prints/s5-antes-d-trans-folha.jpg"
+   ],
+   "depois": [
+    "prints/s5-depois-d-voo-folha.jpg",
+    "prints/s5-depois-m-voo-folha.jpg",
+    "prints/s5-depois-d-trans-folha.jpg",
+    "prints/s5-depois-m-voo-gaveta.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/busca-ativo.js",
+    "proto/site.css"
+   ],
+   "descricao": "window.__mapaTO.vaiPara faz um único voo até município/alimentador a partir de qualquer estado; duração proporcional; redes escondidas durante o voo (polo→município 13→32 quadros)."
+  }
+ ]
+}

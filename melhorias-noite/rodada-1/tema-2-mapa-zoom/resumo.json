@@ -1,0 +1,50 @@
+{
+  "tema": "Mapa: visualização, layout e zoom interativo",
+  "sugestoes": [
+    {
+      "titulo": "Zoom livre no mapa (Ctrl+roda, pinça, arrastar, botões +/−/enquadrar, Esc)",
+      "prioridade": 1,
+      "esforco": "M",
+      "antes": ["prints/s1-antes-desk.jpg", "prints/s1-antes-mob.jpg"],
+      "depois": ["prints/s1-sequencia-desk.jpg", "prints/s1-sequencia-mob.jpg", "prints/s1-depois-desk-3-zoom5.jpg", "prints/s1-depois-desk-5-clique-regional.jpg", "prints/s1-depois-mob-3-pinca-mais.jpg", "prints/s1-depois-desk-claro.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/zoom.css", "proto/site.css", "proto/mapa-municipios.diff", "teste-zoom.js", "teste-zoom-celular.js"],
+      "descricao": "O zoom mexe no viewBox dentro do enquadramento de cada nível (nivelVb); navegação, voltar e Esc partem do zoom atual e restauram o enquadramento. Ctrl/⌘+roda (e pinça de trackpad) no cursor, sem Ctrl a página rola e aparece um aviso; celular: um dedo rola a página e dois dedos fazem pinça; arrastar com o mouse (sem disparar clique); botões, teclas + − 0; 1º Esc enquadra, o seguinte sobe um nível. Testado: clique em município depois do zoom abre regional/polo/município; 43 verificações automáticas passam (30 desktop, 13 celular)."
+    },
+    {
+      "titulo": "Zoom semântico: nomes + NAE e prévia das redes ao aproximar",
+      "prioridade": 2,
+      "esforco": "P",
+      "antes": ["prints/s2-antes-desk.jpg", "prints/s2-antes-mob.jpg"],
+      "depois": ["prints/s2-depois-desk-2-nomes-e-nae.jpg", "prints/s2-depois-desk-3-previa-palmas.jpg", "prints/s2-depois-desk-4-previa-palmas-claro.jpg", "prints/s2-depois-mob-1-nomes-e-nae.jpg", "prints/s2-depois-mob-2-previa.jpg"],
+      "prototipo": ["proto/mapa-municipios.js", "proto/zoom.css"],
+      "descricao": "Município com ≥40 px na tela mostra o nome; ≥70 px mostra também a NAE embaixo; os que se cruzam somem; ≥180 px mostra dentro dele a rede dos alimentadores (16 maiores, até 4 municípios). Cartões das regionais e selos saem de cena acima de 1,8×."
+    },
+    {
+      "titulo": "O mapa cabe na primeira tela no computador (cabeçalho compacto)",
+      "prioridade": 3,
+      "esforco": "P",
+      "antes": ["prints/s3-antes-desk-1-estado.jpg", "prints/s3-antes-desk-2-regional.jpg", "prints/s3-antes-mob.jpg"],
+      "depois": ["prints/s3-depois-desk-1-estado.jpg", "prints/s3-depois-desk-2-regional.jpg", "prints/s3-depois-mob.jpg"],
+      "prototipo": ["proto/layout-cabe.css"],
+      "descricao": "No 1440x900 o mapa começa em y=285 com 730 px e a base (Sul) fica abaixo da dobra. Menu na linha do título, Ranking à direita, espaços menores e altura 100svh−137px: mapa em y=125, base em 888. CSS puro, só ≥861 px."
+    },
+    {
+      "titulo": "Voar até: lista Maiores NAE e busca que aproxima no município",
+      "prioridade": 4,
+      "esforco": "M",
+      "antes": ["prints/s4-antes-desk.jpg"],
+      "depois": ["prints/s4-depois-desk-1-lista.jpg", "prints/s4-depois-desk-3-voou.jpg", "prints/s4-depois-desk-4-busca.jpg"],
+      "prototipo": ["proto/voar-ate.js"],
+      "descricao": "ARGOSMapa.voaPara(cod) aproxima o mapa num município. Lista dos 8 municípios com maior NAE à esquerda (hover acende, clique aproxima) e a busca da lupa que, ao digitar ou marcar um município, já leva o mapa até ele; Enter continua abrindo a página."
+    },
+    {
+      "titulo": "Mini-mapa de orientação com zoom",
+      "prioridade": 5,
+      "esforco": "P",
+      "antes": ["prints/s1-antes-desk.jpg"],
+      "depois": ["prints/s5-depois-desk-1-zoom.jpg", "prints/s5-depois-desk-2-clique-no-mini.jpg", "prints/s5-depois-mob-1-zoom.jpg", "prints/s5-depois-mob-2-clique-no-mini.jpg"],
+      "prototipo": ["proto/minimapa.js"],
+      "descricao": "Com zoom ≥1,5× no estado inteiro aparece o contorno do Tocantins com um retângulo do que está na tela; clicar ou arrastar leva o mapa até lá."
+    }
+  ]
+}

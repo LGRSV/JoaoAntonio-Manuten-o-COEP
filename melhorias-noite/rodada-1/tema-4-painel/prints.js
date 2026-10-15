@@ -71,7 +71,7 @@ const ESTADOS = {
   camadas: async p => { await ligaCamadas(p); },
   trecho: async (p, vp, depois) => {
     await ligaCamadas(p);
-    await p.evaluate(() => window.__sel('T2-A', true)); await p.waitForTimeout(2200);
+    await p.evaluate(() => window.__sel(window.D.trechos.some(t => t.nome === 'T2-A') ? 'T2-A' : 'T1', true)); await p.waitForTimeout(2200);
     if (vp === 'm' && !depois) await p.evaluate(() => { const m = document.querySelector('.mapbox').getBoundingClientRect(); window.scrollBy(0, m.top); });
     await p.waitForTimeout(500);
   },

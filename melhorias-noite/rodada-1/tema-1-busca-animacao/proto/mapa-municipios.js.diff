@@ -1,0 +1,214 @@
+--- live/mapa-municipios.js	2026-10-15 02:45:55.199055989 +0000
++++ proto/mapa-municipios.js	2026-10-15 02:54:10.623170539 +0000
+@@ -4,9 +4,14 @@
+ // A busca de município (#busca) abre a lista suspensa de todos os municípios (#mun-lista) e acende os achados no mapa.
+ // A casca (#mapa-to com a barra e o svg com viewBox) vem pronta no HTML de scripts/gera_trechos.py
+ // e todo o estilo está em assets/site.css: este script só preenche, nada muda de tamanho nem de lugar ao carregar.
++// PROTÓTIPO (rodada 1, tema 1): cada sugestão liga por <html data-proto="s1 s2 s3 s4 s5">; sem o atributo o comportamento é o do site.
++//  s1 = painel esquerdo (legenda + alimentadores; gaveta à esquerda no celular)   s2 = sem dados repetidos
++//  s5 = a busca voa no mapa (window.__mapaTO.vaiPara) e transições mais suaves
+ (function () {
+   const M = window.MUN, alvo = document.getElementById('mapa-to');
+   if (!M || !alvo || !alvo.querySelector('.mt-mapa svg')) return;
++  const P = k => (document.documentElement.dataset.proto || '').split(' ').includes(k);
++  const estreito = () => matchMedia('(max-width:860px)').matches;
+   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+   const km = m => (m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km';
+   const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+@@ -60,7 +65,9 @@
+   const leg = alvo.querySelector('.mt-regs');
+   // legenda: canto inferior esquerdo, já aberta (details open) e recolhível; no celular começa fechada para não cobrir o mapa
+   if (leg && matchMedia('(max-width:860px)').matches) leg.open = false;
+-  if (leg) leg.innerHTML = '<summary>NAE-Vegetação</summary><div class="mt-regs-c">' +
++  if (leg) leg.innerHTML = (P('s1')
++    ? '<summary aria-label="Legenda NAE-Vegetação"><span class="rampa" aria-hidden="true">' + FAIXAS.map((l, i) => `<i class="nae-${i}"></i>`).join('') + '</span><span class="rt">NAE-Vegetação</span></summary>'
++    : '<summary>NAE-Vegetação</summary>') + '<div class="mt-regs-c">' +
+     FAIXAS.map((l, i) => `<span><i class="nae-${i}" aria-hidden="true"></i>${rotFaixa(i)}</span>`).join('') +
+     (M.regs ? '<span class="lim-s"><i class="lim" aria-hidden="true"></i>Limite das regionais</span>' : '') + '</div>';
+   // teclado: um só município na ordem do Tab (o escolhido, ou Palmas); as setas andam pelo mapa
+@@ -159,7 +166,7 @@
+     if (rd) {
+       const m = porCod[mun], a = m.als.find(x => x.cod === rd.dataset.al), r = caixa.getBoundingClientRect();
+       realceAl(a.cod);
+-      dica.innerHTML = `${esc(a.cod)} <small>· ${esc(a.se)} · ${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} em ${esc(m.nome)}</small>` +
++      dica.innerHTML = `${esc(a.cod)} <small>· ${esc(a.se)} · ${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)}${P('s2') ? '' : ' em ' + esc(m.nome)}</small>` +
+         `<small class="mt-dica-c">${alf === a.cod ? 'Clique para abrir o alimentador' : 'Clique para dar zoom no alimentador'}</small>`;
+       dica.style.left = (e.clientX - r.left) + 'px'; dica.style.top = (e.clientY - r.top) + 'px'; dica.style.display = 'block';
+       return;
+@@ -169,7 +176,8 @@
+     if (!p) { dica.style.display = 'none'; return; }
+     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
+     if (!reg) realca(m.reg); else if (!pol) realcaPolo(m.reg === reg ? m.polo : null);
+-    dica.innerHTML = `${esc(m.nome)} <small>· ${(m.nae || 0).toLocaleString('pt-BR')} NAE${m.reg ? ` · Regional ${esc(m.reg)} · ${esc(m.polo)}` : ''}${m.slug ? ` · ${nAls(m)} · ${km(kmTot(m))}` : ' · sem dados ainda'}</small>` +
++    const ctxD = !m.reg ? '' : P('s2') && pol ? '' : P('s2') && reg ? ` · ${esc(m.polo)}` : ` · Regional ${esc(m.reg)} · ${esc(m.polo)}`;   // s2: não repete o que a trilha já diz
++    dica.innerHTML = `${esc(m.nome)} <small>· ${(m.nae || 0).toLocaleString('pt-BR')} NAE${ctxD}${m.slug ? ` · ${nAls(m)} · ${km(kmTot(m))}` : ' · sem dados ainda'}</small>` +
+       (!reg && m.reg ? `<small class="mt-dica-c">Clique para ver os polos da Regional ${esc(m.reg)}</small>` :
+         reg && !pol && m.reg === reg ? `<small class="mt-dica-c">Clique para ver os municípios de ${esc(m.polo)}</small>` :
+         pol && !mun && m.polo === pol && m.slug ? '<small class="mt-dica-c">Clique para ver os alimentadores</small>' : '');
+@@ -202,9 +210,14 @@
+     cancelAnimationFrame(anima);
+     caixa.classList.remove('pronta');
+     caixa.classList.add('voando');
+-    const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR;
++    const de = vb(), t0 = performance.now();
++    // s5: duração proporcional ao tamanho do voo (zoom e deslocamento), de 420 a 900 ms, com curva cúbica
++    const dur = calmo() ? 0 : P('s5')
++      ? Math.round(Math.min(900, 380 + 260 * Math.abs(Math.log2(de[2] / alvoVb[2])) + 220 * Math.min(1.5, Math.hypot(de[0] - alvoVb[0], de[1] - alvoVb[1]) / Math.max(alvoVb[2], 1))))
++      : DUR;
+     const passo = agora => {
+-      const t = dur ? Math.min(1, (agora - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
++      const t = dur ? Math.min(1, (agora - t0) / dur) : 1,
++        e = P('s5') ? (t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2) : (t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+       svg.setAttribute('viewBox', de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2)).join(' '));
+       if (t < 1) anima = requestAnimationFrame(passo); else { anima = 0; caixa.classList.remove('voando'); caixa.classList.toggle('pronta', !!reg); poeNomes(); poeSelos(); }
+     };
+@@ -229,6 +242,9 @@
+   legAl.setAttribute('role', 'group');
+   legAl.hidden = true;
+   let puxada = false;
++  const tituloAls = m => P('s2') ? `${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}` : `${esc(m.nome)} · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`;
++  const abreMunTxt = m => P('s2') ? 'Página do município →' : `Abrir ${m.nome} →`;
++  const abreAlTxt = al => P('s2') ? 'Página do alimentador →' : `Abrir ${al} →`;
+   const caixaPolos = (titulo, chips) => `<button type="button" class="mt-puxa" aria-expanded="${puxada}" aria-label="${puxada ? 'Esconder' : 'Mostrar'} os alimentadores">` +
+     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>' +
+     `<span class="mt-polos-c"><b class="mt-polos-t">${titulo}</b>${chips}</span>`;
+@@ -237,6 +253,13 @@
+   lado.className = 'mt-lado';
+   lado.append(volta, legAl);
+   caixa.append(lado);
++  if (P('s1') && leg) lado.append(leg);          // legenda no lado esquerdo (antes ficava no canto de baixo e cobria a lista)
++  const setPuxada = v => {                        // gaveta da esquerda (celular)
++    puxada = v;
++    legAl.classList.toggle('aberta', v);
++    const px = legAl.querySelector('.mt-puxa');
++    if (px) { px.setAttribute('aria-expanded', String(v)); px.setAttribute('aria-label', `${v ? 'Esconder' : 'Mostrar'} os alimentadores`); }
++  };
+   // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
+   const selos = document.createElement('div');
+   selos.className = 'mt-selos';
+@@ -253,7 +276,7 @@
+     else polosDe(reg).forEach(([polo, gp]) => { bb = une(bb, move(caixaDe(gp), desl[polo])); });
+     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
+     // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
+-    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
++    if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = (P('s1') ? 8 : 52) * w / W; return [x, y - t, w, h + t + f]; }
+     // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
+     const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0) + 24, L2 = 24;
+     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
+@@ -311,7 +334,7 @@
+     legPolos.setAttribute('aria-label', `Polos da Regional ${reg}`);
+     legPolos.innerHTML = passo('estado', 'Tocantins') + atual(esc(reg)) + '<span class="mt-sep" aria-hidden="true">·</span>' + psReg.map(p =>
+       `<button type="button" class="mt-pchip" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
+-      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b>${nae(p.nae)}</button>`).join('');
++      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b>${P('s2') ? '' : nae(p.nae)}</button>`).join('');
+     volta.setAttribute('aria-label', `Regional ${reg}. Voltar ao Tocantins`);
+     volta.title = 'Voltar ao Tocantins';
+   }
+@@ -380,11 +403,14 @@
+     trilhaMun();
+     legAl.setAttribute('aria-label', `Alimentadores de ${m.nome}`);
+     legAl.hidden = false;
+-    legAl.innerHTML = caixaPolos(`${esc(m.nome)} · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`,
+-      `<a class="mt-amun" href="municipios/${esc(m.slug)}/">Abrir ${esc(m.nome)} →</a>` + als.map(a =>
++    legAl.innerHTML = caixaPolos(tituloAls(m),
++      `<a class="mt-amun" href="municipios/${esc(m.slug)}/">${esc(abreMunTxt(m))}</a>` + als.map(a =>
+         `<button type="button" class="mt-al" data-al="${esc(a.cod)}" title="Clique para dar zoom; clique de novo para abrir"><span class="mt-al-m" aria-hidden="true"></span>` +
+         `<b>${esc(a.cod)}</b><span>${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} aqui</span></button>`).join(''));
+     legAl.classList.toggle('aberta', puxada);
++    if (P('s1')) { const px = legAl.querySelector('.mt-puxa'); if (px) px.insertAdjacentHTML('beforeend', `<span class="mt-puxa-t">${m.als.length} alimentadores</span>`); }
++    legAl.style.setProperty('--n', als.length);
++    [...legAl.querySelectorAll('.mt-polos-c > *')].forEach((e, i) => e.style.setProperty('--i', i));   // s5: entrada escalonada
+     volta.setAttribute('aria-label', `${m.nome}. Voltar ao polo ${pol}`);
+     volta.title = `Voltar ao polo ${pol}`;
+     voa(enquadra());
+@@ -409,6 +435,14 @@
+   const abreAl = al => { location.href = `alimentadores/${encodeURIComponent(al)}/`; };
+   function trilhaMun() {
+     const m = porCod[mun];
++    if (P('s2')) {                                   // polo e município com o mesmo nome (Palmas › Palmas): o polo leva "Polo"; no celular só os dois últimos passos
++      const poloP = passo('polo', 'Polo ' + esc(pol));
++      legPolos.innerHTML = estreito()
++        ? '<button type="button" class="mt-passo" data-ir="estado" aria-label="Voltar ao Tocantins" title="Voltar ao Tocantins">…</button><span class="mt-sep" aria-hidden="true">›</span>' +
++          (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : poloP + atual(esc(m.nome)))
++        : passo('estado', 'Tocantins') + passo('regional', esc(reg)) + poloP + (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome)));
++      return;
++    }
+     legPolos.innerHTML = passo('estado', 'Tocantins') + passo('regional', esc(reg)) + passo('polo', esc(pol)) +
+       (alf ? passo('mun', esc(m.nome)) + atual(esc(alf)) : atual(esc(m.nome)));
+   }
+@@ -429,7 +463,7 @@
+     gf.append(pa);
+     legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('foco', a.dataset.al === al));
+     const ab = legAl.querySelector('.mt-amun');
+-    if (ab) { ab.href = `alimentadores/${encodeURIComponent(al)}/`; ab.textContent = `Abrir ${al} →`; }
++    if (ab) { ab.href = `alimentadores/${encodeURIComponent(al)}/`; ab.textContent = abreAlTxt(al); }
+     trilhaMun();
+     volta.setAttribute('aria-label', `${al}. Voltar a ${porCod[mun].nome}`);
+     volta.title = `Voltar a ${porCod[mun].nome}`;
+@@ -446,7 +480,7 @@
+     const m = porCod[mun];
+     legAl.querySelectorAll('.mt-al.foco').forEach(a => a.classList.remove('foco'));
+     const ab = legAl.querySelector('.mt-amun');
+-    if (ab) { ab.href = `municipios/${m.slug}/`; ab.textContent = `Abrir ${m.nome} →`; }
++    if (ab) { ab.href = `municipios/${m.slug}/`; ab.textContent = abreMunTxt(m); }
+     trilhaMun();
+     volta.setAttribute('aria-label', `${m.nome}. Voltar ao polo ${pol}`);
+     volta.title = `Voltar ao polo ${pol}`;
+@@ -475,13 +509,14 @@
+   legAl.addEventListener('focusin', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
+   legAl.addEventListener('click', e => {
+     const al = e.target.closest('.mt-al');
+-    if (al) { if (alf === al.dataset.al) abreAl(al.dataset.al); else focaAl(al.dataset.al); return; }
++    if (al) {
++      if (alf === al.dataset.al) abreAl(al.dataset.al); else focaAl(al.dataset.al);
++      if (P('s1') && estreito()) setPuxada(false);           // celular: escolheu, a gaveta recolhe e o mapa aparece inteiro
++      return;
++    }
+     const px = e.target.closest('.mt-puxa');
+     if (!px) return;
+-    puxada = !puxada;
+-    legAl.classList.toggle('aberta', puxada);
+-    px.setAttribute('aria-expanded', String(puxada));
+-    px.setAttribute('aria-label', `${puxada ? 'Esconder' : 'Mostrar'} os alimentadores`);
++    setPuxada(!puxada);
+   });
+   function saiPolo(animar = true) {
+     if (!pol) return;
+@@ -565,7 +600,11 @@
+   }
+   const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
+   volta.addEventListener('click', sobe);
+-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && reg && !e.defaultPrevented) sobe(); });
++  document.addEventListener('keydown', e => {
++    if (e.key !== 'Escape' || !reg || e.defaultPrevented) return;
++    if (P('s1') && puxada && mun && estreito()) { setPuxada(false); return; }
++    sobe();
++  });
+   if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { svg.setAttribute('viewBox', enquadra().join(' ')); poeNomes(); poeSelos(); } }).observe(caixa);
+ 
+   // no estado inteiro, escolher um município abre a regional dele; com a regional aberta, abre o polo dele; com o polo
+@@ -619,6 +658,24 @@
+   });
+   svg.addEventListener('focusout', () => { if (foco) traz(el[foco]); });
+ 
++  // s5: a busca da lupa chama isto: vai direto ao município (regional → polo → município numa só animação) e, se vier, foca o alimentador
++  window.__mapaTO = {
++    async vaiPara(cod, al) {
++      const m = porCod[cod];
++      if (!m || !m.slug || !m.reg || !m.polo) return false;
++      if (mun === cod) { if (al) focaAl(al); return true; }
++      if (mun) saiMun(false);
++      if (pol && pol !== m.polo) saiPolo(false);
++      if (reg && reg !== m.reg) sai();
++      if (!reg) entra(m.reg, false, cod);
++      if (!pol) entraPolo(m.polo, false, cod);
++      entraMun(cod, false);
++      if (al) await new Promise(r => setTimeout(r, 120)), focaAl(al);
++      return true;
++    },
++    municipioDe: al => { let b = null; M.muns.forEach(m => { const a = m.slug && m.als.find(x => x.cod === al); if (a && (!b || a.m > b.a.m)) b = { m, a }; }); return b && b.m.cod; },
++  };
++
+   // município: o campo #busca abre a lista suspensa (#mun-lista) com todos os municípios, filtrada pelo que se digita;
+   // os achados acendem no mapa. Setas andam na lista, Enter abre o município (ou o único achado), Esc fecha.
+   const busca = document.getElementById('busca'), lista = document.getElementById('mun-lista');

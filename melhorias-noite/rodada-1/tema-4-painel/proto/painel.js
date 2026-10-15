@@ -112,7 +112,7 @@
       if (!bar) { bar = document.createElement('div'); bar.className = 'det-abas'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Dados do trecho'); }
       if (bar.dataset.sig !== sig) {
         bar.dataset.sig = sig;
-        bar.innerHTML = abas.map(a => `<button type="button" role="tab" class="tab-${a.id}" data-aba="${a.id}">${a.rot}<em>${nf(a.n)}</em></button>`).join('');
+        bar.innerHTML = abas.map(a => `<button type="button" role="tab" class="tab-${a.id}${a.n ? '' : ' vazia'}" data-aba="${a.id}">${a.rot}<em>${nf(a.n)}</em></button>`).join('');
       }
       const antes = secs[0] || null;                                                      // ordem: ficha, abas, conteúdo da aba
       if (bar.parentElement !== det) { if (antes) det.insertBefore(bar, antes); else det.append(bar); }

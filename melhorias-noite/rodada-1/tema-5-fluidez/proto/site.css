@@ -386,3 +386,21 @@ span.mt-pchip{cursor:default}
   .mun{transition:fill var(--dur) var(--ease)}
   #ativo-res:not(:empty){animation:entra var(--dur) var(--ease)}
 }
+
+/* ====== [tema 5 · fluidez e acabamento] protótipo — tudo abaixo é novo ====== */
+/* 1 · animação: as redes dos alimentadores (milhares de vértices com traço non-scaling-stroke) apagam enquanto o mapa voa e voltam com fade ao pousar */
+.mt-redes{transition:opacity .25s .05s}
+.voando .mt-redes{opacity:0;transition:none}
+/* 2 · foco: os cartões das regionais, escondidos (opacity:0), saíam da ordem do Tab como paradas invisíveis; agora também saem do foco */
+.mt-regcards button{transition:opacity .3s,border-color .15s,visibility 0s}
+.aberta .mt-regcards button,.voando .mt-regcards button{visibility:hidden;transition:opacity .3s,border-color .15s,visibility 0s .3s}
+/* 3 · sem salto: os cartões só aparecem depois de posicionados pelo JS, e a linha do ☰ já está reservada antes de o menu.js montá-lo */
+.mt-regcards:not([data-ok]) button{visibility:hidden}
+.wrap:not(:has(>.mnu))::before{content:"";display:block;min-height:40px;margin-bottom:calc(var(--s2) * -1)}
+/* 4 · toque: alvos de 44 px em telas de toque (o --alvo do site é 40 px) */
+@media (pointer:coarse){
+  :root{--alvo:44px}
+  .mnu .mnu-btn,.mnu .mnu-x{width:44px;height:44px}
+  .mt-barra .mt-pchip,.mt-passo{min-height:44px}
+  .wrap:not(:has(>.mnu))::before{min-height:44px}
+}

@@ -25,10 +25,15 @@ async function abre({ w = 1440, h = 900, perfil = 'base', mobile = false, tema =
   const browser = await chromium.launch({ args: ['--enable-precise-memory-info'] });
   const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: mobile ? 2 : 1, isMobile: mobile, hasTouch: mobile, locale: 'pt-BR' });
   const ext = { bytes: 0, n: 0 };
+  const vistos = new Set();
   await ctx.route(u => !/^http:\/\/localhost/.test(u.toString()) && /^https?:/.test(u.toString()), async r => {
     const e = await externo(r.request().url());
     if (!e) return r.abort();
     const body = fs.readFileSync(e.f + '.body'); ext.bytes += body.length; ext.n++;
+    // o CDP não limita o que o Playwright atende por route: modela a rede lenta nos hosts externos (1ª conexão = DNS+TCP+TLS ≈ 3 RTT; depois 1 RTT + bytes/banda)
+    const R = PERFIS[perfil].rede;
+    if (R) { const host = new URL(r.request().url()).host, primeira = !vistos.has(host); vistos.add(host);
+      await new Promise(ok => setTimeout(ok, (primeira ? 3 : 1) * R.latency + body.length / R.downloadThroughput * 1000)); }
     r.fulfill({ status: 200, body, contentType: e.tipo, headers: { 'access-control-allow-origin': '*' } });
   });
   if (tema === 'claro') await ctx.addInitScript(() => { try { localStorage.setItem('tema', 'claro'); } catch (e) {} });

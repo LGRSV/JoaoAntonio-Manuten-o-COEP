@@ -16,8 +16,6 @@
 
   const svg = alvo.querySelector('.mt-mapa svg'), dica = alvo.querySelector('.mt-dica'), caixa = svg.parentNode;
   const VW = M.w + 12;
-  const PX = window.__PX || {};   // PROTÓTIPO: chaves ligadas pelo script de teste (ver exp-voando2.js)
-  const poeU = (r, v) => { const u = Math.max(v[2] / r.width, v[3] / r.height).toFixed(5); if (PX.u) camada.style.setProperty('--u', u); if (PX.um) svg.style.setProperty('--u', u); };
   svg.setAttribute('viewBox', `-6 -6 ${VW} ${M.h + 12}`);
   const NS = 'http://www.w3.org/2000/svg', el = {}, rot = {};
   let foco = null, achou = new Set();
@@ -105,6 +103,7 @@
   const poeCartoes = () => {                                // posição pelo viewBox do estado inteiro (-6 -6 VW M.h+12)
     const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), H = M.h + 12;
     if (!r.width) return;
+    cartoes.dataset.ok = '1';                                 // [tema 5] só depois de posicionados: sem salto de (0,0) para o lugar
     const k = Math.min(r.width / VW, r.height / H), oy = (r.height - H * k) / 2;
     [...cartoes.children].forEach((e, i) => {
       e.style.left = (r.left - c.left + r.width / 2).toFixed(0) + 'px';
@@ -200,16 +199,35 @@
   }
   const soma = (a, b) => [a[0] + b[0], a[1] + b[1]];
   const tr = d => `translate(${d[0].toFixed(1)}px,${d[1].toFixed(1)}px)`;
+  // [tema 5] Voltar do navegador (e o gesto de voltar do celular) sobe um nível em vez de sair do mapa.
+  // Cada nível aberto empilha uma entrada no histórico; subir pela interface (Esc, ←, trilha) desempilha; popstate sobe o que faltar.
+  let hd = 0, emPop = false;
+  const fundura = () => (reg ? 1 : 0) + (pol ? 1 : 0) + (mun ? 1 : 0) + (alf ? 1 : 0);
+  try { history.replaceState({ argos: 0 }, ''); } catch (e) {}
+  function sinc() {
+    if (emPop) return;
+    const d = fundura();
+    try {
+      if (d > hd) for (let i = hd; i < d; i++) history.pushState({ argos: i + 1 }, '');
+      else if (d < hd) history.go(d - hd);
+    } catch (e) {}
+    hd = d;
+  }
+  window.addEventListener('popstate', e => {
+    const alvo = (e.state && e.state.argos) || 0;
+    if (alvo >= fundura()) { hd = fundura(); return; }
+    emPop = true;
+    try { while (fundura() > alvo) sobe(); } finally { emPop = false; hd = fundura(); }
+  });
   function voa(alvoVb) {             // anima o viewBox até o alvo
+    sinc();
     cancelAnimationFrame(anima);
     caixa.classList.remove('pronta');
     caixa.classList.add('voando');
-    const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR, rr = (PX.u || PX.um) ? svg.getBoundingClientRect() : null;
+    const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR;
     const passo = agora => {
       const t = dur ? Math.min(1, (agora - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
-      const nv = de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2));
-      svg.setAttribute('viewBox', nv.join(' '));
-      if (rr) poeU(rr, nv);
+      svg.setAttribute('viewBox', de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2)).join(' '));
       if (t < 1) anima = requestAnimationFrame(passo); else { anima = 0; caixa.classList.remove('voando'); caixa.classList.toggle('pronta', !!reg); poeNomes(); poeSelos(); }
     };
     selos.innerHTML = '';
@@ -570,7 +588,7 @@
   const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
   volta.addEventListener('click', sobe);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && reg && !e.defaultPrevented) sobe(); });
-  if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { const nv = enquadra(); svg.setAttribute('viewBox', nv.join(' ')); if (PX.u || PX.um) poeU(svg.getBoundingClientRect(), nv); poeNomes(); poeSelos(); } }).observe(caixa);
+  if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { svg.setAttribute('viewBox', enquadra().join(' ')); poeNomes(); poeSelos(); } }).observe(caixa);
 
   // no estado inteiro, escolher um município abre a regional dele; com a regional aberta, abre o polo dele; com o polo
   // aberto, abre o município (a rede dos alimentadores); com o município aberto, abre a página dele

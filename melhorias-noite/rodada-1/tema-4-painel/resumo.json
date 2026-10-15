@@ -1,0 +1,50 @@
+{
+  "tema": "Painel (página do alimentador): encaixe, ordem e zero repetição",
+  "sugestoes": [
+    {
+      "titulo": "Cabeçalho e barra numa linha só; mapa na altura da tela",
+      "prioridade": 1,
+      "esforco": "P",
+      "antes": ["antes/LD01072001-d-inicial.jpg", "antes/LD01072001-m-inicial.jpg", "antes/LD02022033-d-inicial.jpg", "antes/AL01015049-d-inicial.jpg"],
+      "depois": ["depois/s1-LD01072001-d-inicial.jpg", "depois/s1-LD01072001-m-inicial.jpg", "depois/s1-LD02022033-d-inicial.jpg", "depois/s1-AL01015049-d-inicial.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Hoje 276 px de 900 são cabeçalho e barra e o mapa (924x702) sai da tela. Grade de uma linha (menu, caminho, código + SE, busca, município, meses), página com a altura da janela: mapa 992x814 inteiro (+40% de área visível). No celular o mapa começa em y=221 em vez de 346. Achados da busca viram lista solta sobre o mapa."
+    },
+    {
+      "titulo": "Um resumo só: classes nos botões do mapa, total no cabeçalho, NAE junto dos meses",
+      "prioridade": 2,
+      "esforco": "M",
+      "antes": ["antes/LD01072001-d-inicial.jpg", "antes/LD01072001-d-sem-faixa.jpg"],
+      "depois": ["depois/s2-LD01072001-d-inicial.jpg", "depois/s2-LD01072001-d-sem-faixa.jpg", "depois/s2-LD01072001-m-inicial.jpg", "depois/todas-LD02022033-m-inicial.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Tabela Classe/Trechos/Extensão, legenda de cores T1/T2/T3 e botões do mapa dizem a mesma coisa; o total de km aparece em 5 lugares; o NAE do alimentador fica longe do filtro de meses. T1/T2/T3 passam a levar nº e km, o total vai ao cabeçalho e o NAE vira selo no botão dos meses. Nenhum dado some."
+    },
+    {
+      "titulo": "Camadas em acordeão no painel e legenda do mapa em linha",
+      "prioridade": 3,
+      "esforco": "M",
+      "antes": ["antes/LD01072001-d-camadas.jpg", "antes/LD01072001-d-painel-longo.jpg", "antes/LD01072001-m-camadas.jpg"],
+      "depois": ["depois/s3-LD01072001-d-camadas.jpg", "depois/todas-LD01072001-d-camadas.jpg", "depois/todas-LD01072001-m-camadas.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Quatro cartões abertos somam 1.528 px; a legenda do mapa (598 px) repete cor, ano e contagens do cartão (ex.: '153 no prazo' 4 vezes). Cada camada vira uma linha de acordeão com o resumo que já existe, e a legenda do mapa vira uma linha por camada sem os números (156 px)."
+    },
+    {
+      "titulo": "Trecho escolhido: ficha curta + abas (NAE, Faixa, Inspeção, Insp→manut, Manutenção)",
+      "prioridade": 4,
+      "esforco": "M",
+      "antes": ["antes/LD01072001-d-trecho.jpg", "antes/LD01072001-m-trecho.jpg"],
+      "depois": ["depois/s4-LD01072001-d-trecho.jpg", "depois/s4-LD01072001-m-trecho.jpg", "depois/todas-AL01015049-d-trecho.jpg", "depois/todas-claro-LD01072001-d-trecho.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "Com o T2-A e as 4 camadas ligadas o painel tem 9.329 px de rolagem. Ficha fixa + abas com contagem mostram uma lista por vez: 792 px. Unifica os nomes das camadas (hoje 4 nomes por camada, e 'Manutenção' designa duas)."
+    },
+    {
+      "titulo": "Celular: mapa na tela quase inteira e painel numa gaveta inferior",
+      "prioridade": 5,
+      "esforco": "G",
+      "antes": ["antes/LD01072001-m-inicial.jpg", "antes/LD01072001-m-trecho.jpg", "antes/LD01072001-m-painel-longo.jpg"],
+      "depois": ["depois/s5-LD01072001-m-inicial.jpg", "depois/s5-LD01072001-m-gaveta.jpg", "depois/todas-LD01072001-m-trecho.jpg", "depois/todas-claro-LD01072001-m-trecho.jpg"],
+      "prototipo": ["proto/painel.css", "proto/painel.js"],
+      "descricao": "A página tem a altura da tela; o mapa ocupa tudo menos uma faixa de 60 px, a gaveta (peek/46%/88%), que sobe sozinha ao escolher um trecho. Depende da sugestão 1. Arrastar por dedo não foi testado em aparelho real."
+    }
+  ]
+}
