@@ -508,3 +508,11 @@ header.cab>.cab-link:hover{background:var(--hover);text-decoration:none}
 .ativo .ir-mapa{min-height:36px;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--rp);background:var(--paper);color:var(--fg);
   font:600 var(--t-xs) var(--f-body);white-space:nowrap;cursor:pointer}
 .ativo .ir-mapa:hover{filter:none;border-color:var(--accent);color:var(--accent)}
+/* lista dos alimentadores do município aberto: abre embaixo da logo (busca-ativo.js), com a miniatura da rede de cada um;
+   passar o mouse acende a rede no mapa, o 1º toque dá zoom e tocar no que está em foco abre a página dele */
+#ativo-res.lista-mun{max-height:min(45svh,440px)}
+.sug-op .so-mini{flex:none;width:56px;height:40px;border-radius:6px;background:var(--bg);overflow:hidden}
+.sug-op .so-mini svg{display:block;width:100%;height:100%}
+.sug-op .so-mini path{fill:none;stroke:var(--rede);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.sug-op.foco{box-shadow:inset 0 0 0 1px var(--rede)}
+.sug-op.foco .so-x small{color:var(--fg)}

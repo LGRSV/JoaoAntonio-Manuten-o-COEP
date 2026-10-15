@@ -17,6 +17,7 @@
   const barra = document.querySelector('.mt-barra');     // página de versão antiga, com o formulário fora da barra
   if (barra && !barra.contains(form)) barra.prepend(form);
   q.hidden = false;                                      // o campo fica sempre à vista; a lupa só leva o foco até ele
+  window.ARGOS_BUSCA = true;                             // mapa-municipios.js: a lista do município aberto fica aqui, embaixo da logo
   const mapa = () => window.ARGOS_MAPA || null;
   const P = window.ARGOS_PAG || { url: p => p, alvo: '', abre: p => { location.href = p; } };
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -77,44 +78,58 @@
     polo: (p, n) => ({ s: { polo: p.nome }, tipo: 'polo', t: realce(p.nome, n), c: `Regional ${esc(p.reg)} · ${plural(p.muns.length, 'município', 'municípios')}`, nae: p.nae }),
     mun: (m, n) => ({ s: { cod: m.cod }, tipo: 'mun', t: realce(m.nome, n), c: `Polo ${esc(m.polo)} · ${esc(m.reg)} · ${plural(m.als.length, 'alimentador', 'alimentadores')}`, nae: m.nae }),
     al: (a, n, k) => ({ s: { al: a.cod }, tipo: 'al', t: realce(a.cod, k), c: `${realce(a.se, n)} · ${plural(a.muns.length, 'município', 'municípios')} · ${kmTxt(a.m)}`, nae: a.nae }),
+    // alimentador do município aberto (a lista que ficava ao lado do mapa): miniatura da rede, km no município e NAE
+    almun: (a, m, foco) => ({ s: { almun: a.cod }, tipo: 'al', mini: a.cod, foco, t: esc(a.cod), nae: a.n || 0,
+      c: foco ? 'Em foco no mapa · toque de novo para abrir a página' : `${(a.m / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km aqui · ${esc(a.se)}` }),
     ativo: ([c, tipo], k) => ({ s: { ativo: c }, tipo: 'ativo', t: realce(c, k), c: esc(TIPO[tipo] || 'Chave ' + tipo) }),
     os: txt => ({ s: { os: txt }, tipo: 'os', t: `OS ${esc(txt)}`, c: 'buscar nas bases de faixa, inspeção, manutenção e executadas' })
   };
   let sug = [], marcado = -1, pedido = 0;
-  function mostra(blocos, rodape = '') {
+  function mostra(blocos, rodape = '', classe = '') {
     let i = 0;
     sug = [];
     const html = blocos.filter(([, itens]) => itens.length).map(([titulo, itens]) =>
       `<li class="sug-t" role="presentation">${esc(titulo)}</li>` + itens.map(it => {
         sug.push(it.s);
-        return `<li class="sug-op so-${it.tipo}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
-          `<svg class="so-i" viewBox="0 0 24 24" aria-hidden="true">${ICO[it.tipo]}</svg>` +
+        return `<li class="sug-op so-${it.tipo}${it.foco ? ' foco' : ''}" role="option" id="ativo-sug-${i}" data-i="${i++}">` +
+          (it.mini ? `<span class="so-mini" data-al="${esc(it.mini)}" aria-hidden="true"></span>` :
+            `<svg class="so-i" viewBox="0 0 24 24" aria-hidden="true">${ICO[it.tipo]}</svg>`) +
           `<span class="so-x"><b>${it.t}</b>${it.c ? `<small>${it.c}</small>` : ''}</span>` +
           (it.nae != null ? `<i class="so-n">${nf(it.nae)}<span class="vh"> NAE</span></i>` : '') + '</li>';
       }).join('')).join('');
+    res.className = classe;
     res.innerHTML = `<ul class="sug" role="listbox" aria-label="Resultados">${html}</ul>${rodape}`;
     q.setAttribute('aria-expanded', 'true');
     marca(-1);
+    // miniatura da rede de cada alimentador (a mesma que o mapa desenha, dados/redes/)
+    if (mapa() && mapa().rede) res.querySelectorAll('.so-mini').forEach(el => mapa().rede(el.dataset.al).then(r => {
+      if (!r || !el.isConnected) return;
+      const [x0, y0, x1, y1] = r.b, w = Math.max(x1 - x0, .05), h = Math.max(y1 - y0, .05), f = Math.max(w, h) * .08;
+      el.innerHTML = `<svg viewBox="${x0 - f} ${y0 - f} ${w + 2 * f} ${h + 2 * f}"><path d="${esc(r.d)}"/></svg>`;
+    }));
   }
 
   q.setAttribute('role', 'combobox');
   q.setAttribute('aria-autocomplete', 'list');
   q.setAttribute('aria-controls', 'ativo-res');
   q.setAttribute('aria-expanded', 'false');
-  const alvoMapa = s => s && (s.reg ? { reg: s.reg } : s.polo ? { polo: s.polo } : s.cod ? { cod: s.cod } : s.al && AL[s.al] ? { al: s.al } : null);
+  const alvoMapa = s => s && (s.reg ? { reg: s.reg } : s.polo ? { polo: s.polo } : s.cod ? { cod: s.cod } : (s.al || s.almun) && AL[s.al || s.almun] ? { al: s.al || s.almun } : null);
   const previa = a => { if (mapa()) mapa().previa(a); };
+  const realceAl = al => { if (mapa() && mapa().realceAl) mapa().realceAl(al); };
   const fechaSug = () => {
     sug = []; marcado = -1;
     q.setAttribute('aria-expanded', 'false'); q.removeAttribute('aria-activedescendant');
-    previa(null);
+    previa(null); realceAl(null);
   };
-  const fecha = () => { res.innerHTML = ''; fechaSug(); };
+  const fecha = () => { res.innerHTML = ''; res.className = ''; fechaSug(); };
   const marca = i => {
     marcado = i;
     res.querySelectorAll('.sug-op').forEach((o, k) => o.classList.toggle('marcado', k === i));
     const o = res.querySelector(`#ativo-sug-${i}`);
     if (o) { q.setAttribute('aria-activedescendant', o.id); o.scrollIntoView({ block: 'nearest' }); } else q.removeAttribute('aria-activedescendant');
-    previa(alvoMapa(sug[i]));
+    const s = sug[i];
+    if (s && s.almun) { previa(null); realceAl(s.almun); }   // alimentador do município aberto: a rede dele acende no mapa
+    else { realceAl(null); previa(alvoMapa(s)); }
   };
 
   // ---------- campo vazio: o próximo nível do mapa ----------
@@ -122,7 +137,8 @@
   function atalhos() {
     pedido++;
     const nv = nivel(), m = porCod[nv.mun];
-    if (m) mostra([[`Alimentadores de ${m.nome}`, m.als.map(a => AL[a.cod]).sort(porNae).map(a => item.al(a))]]);
+    if (m) mostra([[`Alimentadores de ${m.nome} · ${m.als.length}`, m.als.slice().sort((a, b) => b.m - a.m)
+      .map(a => item.almun({ ...a, se: (AL[a.cod] || {}).se || a.se }, m, a.cod === nv.al))]], '', 'lista-mun');
     else if (nv.pol && POL[nv.pol]) mostra([[`Municípios do polo ${nv.pol}`, POL[nv.pol].muns.slice().sort(porNae).map(x => item.mun(x))],
       [`Alimentadores com mais NAE no polo ${nv.pol}`, topAls(x => x.polo === nv.pol)]]);
     else if (nv.reg && REG[nv.reg]) mostra([[`Polos da Regional ${nv.reg}`, polos.filter(p => p.reg === nv.reg).sort(porNae).map(p => item.polo(p))],
@@ -175,7 +191,7 @@
     achados.length > at.length ? `<p class="sug-mais">e mais ${(achados.length - at.length).toLocaleString('pt-BR')} ativos: continue digitando</p>` : '');
   }
   let espera = 0;
-  q.addEventListener('input', () => { clearTimeout(espera); espera = setTimeout(sugere, 120); });
+  q.addEventListener('input', () => { res.classList.remove('lista-mun'); clearTimeout(espera); espera = setTimeout(sugere, 120); });
   q.addEventListener('focus', () => { if (!q.value.trim() && !res.innerHTML) atalhos(); });
   q.addEventListener('keydown', e => {
     if (!sug.length || (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Enter')) return;
@@ -197,16 +213,20 @@
     const b = e.target.closest('.ir-mapa');
     if (b) vaiNoMapa({ al: b.dataset.al });
   });
+  let indoAl = null;                                     // a caminho de um alimentador: a lista do município não abre no meio
   function vaiNoMapa(alvo) {
     q.value = '';
     fecha();
     q.blur();
-    mapa().vai(alvo);
+    indoAl = alvo.al || null;
+    Promise.resolve(mapa().vai(alvo)).finally(() => { indoAl = null; });
   }
   function escolhe(i) {
     const s = sug[i];
     if (!s) return;
     if (s.os) { buscaOS(s.os); return; }
+    // alimentador do município aberto: 1º toque dá zoom na rede; tocar no que já está em foco abre a página dele
+    if (s.almun && mapa() && mapa().nivel().al === s.almun) { fecha(); P.abre(`alimentadores/${encodeURIComponent(s.almun)}/`); return; }
     if (s.ativo) {
       q.value = s.ativo;
       fechaSug();
@@ -281,8 +301,17 @@
     e.preventDefault();
     q.focus();
   });
-  // a lista do campo vazio acompanha o mapa quando ele muda de nível com a lista aberta
-  document.addEventListener('argos-nivel', () => { if (document.activeElement === q && !q.value.trim() && sug.length) atalhos(); });
+  // a lista acompanha o mapa: abrir um município abre embaixo da logo a lista dos alimentadores dele (no lugar da caixa que
+  // ficava ao lado do mapa); ao dar zoom num alimentador ela fecha para mostrar o mapa; com o campo em uso, só atualiza
+  let munAberto = null;
+  document.addEventListener('argos-nivel', e => {
+    const d = e.detail || {}, livre = !q.value.trim(), usando = document.activeElement === q;
+    if (d.mun && d.mun !== munAberto && !d.al) { munAberto = d.mun; if (livre && !indoAl) atalhos(); return; }
+    if (!d.mun) munAberto = null;
+    if (!livre) return;
+    if (usando && sug.length) atalhos();
+    else if (res.classList.contains('lista-mun') && (d.al || !d.mun)) fecha();
+  });
   // fecha a lista: Esc (no campo ou na lista; o foco volta ao campo), clique fora do formulário ou o foco saindo dele
   form.addEventListener('keydown', e => {
     if (e.key !== 'Escape' || !res.innerHTML) return;
@@ -290,6 +319,7 @@
     fecha();
     q.focus();
   });
-  form.addEventListener('focusout', () => setTimeout(() => { if (!form.contains(document.activeElement) && sug.length) fecha(); }, 0));
+  // (só a lista que já estava aberta quando o foco saiu: a do município abre logo depois de escolher, com o campo sem foco)
+  form.addEventListener('focusout', () => { if (!sug.length) return; const era = res.firstChild; setTimeout(() => { if (!form.contains(document.activeElement) && sug.length && res.firstChild === era) fecha(); }, 0); });
   document.addEventListener('pointerdown', e => { if (res.innerHTML && !form.contains(e.target)) fecha(); });
 })();

@@ -267,7 +267,9 @@
     // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
     if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
     // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
-    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0) + 24, L2 = 24;
+    // com a busca da barra, a lista do município aberto abre embaixo da logo: o lado esquerdo fica livre para ela
+    const lista = window.ARGOS_BUSCA && mun && !alf ? ((document.querySelector('.mt-barra .ativo') || {}).offsetWidth || 0) : 0;
+    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0, lista) + 24, L2 = 24;
     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
     const altura = H / k;
     return [x - L1 / k, y - (altura - h) / 2, w + (L1 + L2) / k, altura];
@@ -391,9 +393,9 @@
     const als = m.als.slice().sort((a, b) => b.m - a.m);
     trilhaMun();
     legAl.setAttribute('aria-label', `Alimentadores de ${m.nome}`);
-    legAl.hidden = false;
+    legAl.hidden = !!window.ARGOS_BUSCA;                // com a busca da barra, a lista abre embaixo da logo (busca-ativo.js)
     legAl.innerHTML = caixaPolos(`<span class="mt-lh"><b>${esc(m.nome)}</b><small>${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}</small></span>`,
-      `<a class="mt-amun" href="${esc(pag(`municipios/${m.slug}/`))}"${alvoA}>Abrir ${esc(m.nome)} →</a>` + als.map(a =>
+      als.map(a =>
         `<button type="button" class="mt-al" data-al="${esc(a.cod)}" title="Clique para dar zoom; clique de novo para abrir"><span class="mt-al-m" aria-hidden="true"></span>` +
         `<b>${esc(a.cod)}</b><span><i>${(a.n || 0).toLocaleString('pt-BR')} NAE</i><em>${km(a.m)} aqui</em></span></button>`).join(''));
     legAl.classList.toggle('aberta', puxada);
@@ -772,5 +774,7 @@
     acesos.forEach(c => { el[c].classList.add('acende'); if (acesos.length === 1) traz(el[c]); });
     if (!reg && (a.cod || a.al)) { achou = new Set(acesos); rotulos(); }   // no estado inteiro aparecem os nomes
   }
-  window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), vai, previa };
+  // rede do alimentador (para a miniatura na lista da busca) e o destaque dela no mapa com o município aberto
+  const redeDe = al => { const m = porCod[mun] || M.muns.find(x => x.als.some(a => a.cod === al)); return m ? rede(al, m.polo) : Promise.resolve(null); };
+  window.ARGOS_MAPA = { nivel: () => ({ reg, pol, mun, al: alf }), vai, previa, rede: redeDe, realceAl: al => { if (mun) realceAl(al); } };
 })();
