@@ -58,3 +58,10 @@ P3. Página do alimentador: trechos T1/T2/T3, NAE por trecho, camadas Faixa/Insp
 P4. Ranking por polos, NAE/100 km, relatório de validação, de onde vêm os dados e como atualizar.
 P5. Roteiro de apresentação de 10 minutos + glossário (NAE, T1/T2/T3, OS, polo, regional) + perguntas frequentes.
 Entrega: README.md com o texto pronto para slide (título + 3–5 tópicos curtos por slide) + prints numerados.
+
+## Atualização 00h30 (Tocantins): tema 3 aprovado e publicado
+O usuário aprovou o design do tema 3 (rodada 1) e ele já está no /teste/: cartão preto nos municípios com a NAE embaixo,
+cartões dos polos com nome e NAE, título ARGOS em wordmark com o Ranking em botão, legenda em faixa horizontal e
+municípios mais espaçados. As rodadas seguintes partem DESTA versão (o "antes" agora é ela). Pedido do usuário: espaçar
+ainda mais as cidades onde ficar apertado. No Artifact existe também uma busca integrada ao mapa (outra sessão),
+ainda não publicada no /teste/.
