@@ -2,7 +2,7 @@
 // feitas com curl (que usa a CA do proxy) e entregues ao Chromium via page.route; cache em ./cache.
 const { execFileSync } = require('child_process');
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
-const CACHE = path.join(__dirname, 'cache');
+const CACHE = path.join(__dirname, 'cache'); fs.mkdirSync(CACHE, { recursive: true });
 function baixa(url) {
   const h = crypto.createHash('md5').update(url).digest('hex'), f = path.join(CACHE, h), m = f + '.ct';
   if (!fs.existsSync(f)) {

@@ -1,0 +1,138 @@
+{
+ "tema": "Tipografia e design do mapa (card preto como linguagem, NAE embaixo dos municípios)",
+ "sugestoes": [
+  {
+   "titulo": "Município com mini-cartão e NAE embaixo, sem sobreposição",
+   "prioridade": 1,
+   "esforco": "M",
+   "antes": [
+    "prints/antes-3-polo-dark-desk.jpg",
+    "prints/antes-3-polo-dark-cel.jpg",
+    "prints/antes-3-polo-light-desk.jpg",
+    "prints/antes-3-polo-light-cel.jpg",
+    "prints/antes-3b-polo-denso-dark-desk.jpg",
+    "prints/antes-3b-polo-denso-dark-cel.jpg",
+    "prints/antes-3b-polo-denso-light-desk.jpg",
+    "prints/antes-3b-polo-denso-light-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-3-polo-dark-desk.jpg",
+    "prints/depois-3-polo-dark-cel.jpg",
+    "prints/depois-3-polo-light-desk.jpg",
+    "prints/depois-3-polo-light-cel.jpg",
+    "prints/depois-3b-polo-denso-dark-desk.jpg",
+    "prints/depois-3b-polo-denso-dark-cel.jpg",
+    "prints/depois-3b-polo-denso-light-desk.jpg",
+    "prints/depois-3b-polo-denso-light-cel.jpg",
+    "prints/depois-3c-polo-pequeno-dark-desk.jpg",
+    "prints/depois-3c-polo-pequeno-dark-cel.jpg",
+    "prints/depois-3c-polo-pequeno-light-desk.jpg",
+    "prints/depois-3c-polo-pequeno-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/site.css"
+   ],
+   "descricao": "Cada município do polo aberto ganha um cartão preto (nome + selo vermelho com a NAE embaixo). Anti-colisão em 3 níveis (cartão cheio, compacto, só número) com ponto livre dentro do próprio município; celular limita a 10 nomes."
+  },
+  {
+   "titulo": "Cartão preto como linguagem única nos dois temas (regionais, polos, balão)",
+   "prioridade": 2,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-1-estado-dark-desk.jpg",
+    "prints/antes-1-estado-dark-cel.jpg",
+    "prints/antes-1-estado-light-desk.jpg",
+    "prints/antes-1-estado-light-cel.jpg",
+    "prints/antes-2-regional-dark-desk.jpg",
+    "prints/antes-2-regional-dark-cel.jpg",
+    "prints/antes-2-regional-light-desk.jpg",
+    "prints/antes-2-regional-light-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-1-estado-dark-desk.jpg",
+    "prints/depois-1-estado-dark-cel.jpg",
+    "prints/depois-1-estado-light-desk.jpg",
+    "prints/depois-1-estado-light-cel.jpg",
+    "prints/depois-2-regional-dark-desk.jpg",
+    "prints/depois-2-regional-dark-cel.jpg",
+    "prints/depois-2-regional-light-desk.jpg",
+    "prints/depois-2-regional-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/site.css",
+    "proto/mapa-municipios.js"
+   ],
+   "descricao": "Tokens --cartao/--selo; cartão do polo no mapa com nome e NAE; chips da barra só com o nome (sem repetir NAE); balão do mouse em minicartão; cartão preto também no tema claro."
+  },
+  {
+   "titulo": "Título ARGOS/MANUTENÇÃO como wordmark e Ranking como botão na linha do menu",
+   "prioridade": 3,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-1-estado-dark-desk.jpg",
+    "prints/antes-1-estado-dark-cel.jpg",
+    "prints/antes-1-estado-light-desk.jpg",
+    "prints/antes-1-estado-light-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-1-estado-dark-desk.jpg",
+    "prints/depois-1-estado-dark-cel.jpg",
+    "prints/depois-1-estado-light-desk.jpg",
+    "prints/depois-1-estado-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/site.css"
+   ],
+   "descricao": "ARGOS espaçado (Condensed 700), MANUTENÇÃO pequeno entre filetes vermelhos; cabeçalho sobe para a linha do ☰ e libera ~97 px, o mapa cabe em 1440x900. Corrige o peso 600 involuntário do subtítulo."
+  },
+  {
+   "titulo": "Legenda em rampa horizontal, escondida no nível município",
+   "prioridade": 4,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-4-municipio-dark-desk.jpg",
+    "prints/antes-4-municipio-dark-cel.jpg",
+    "prints/antes-4-municipio-light-desk.jpg",
+    "prints/antes-4-municipio-light-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-4-municipio-dark-desk.jpg",
+    "prints/depois-4-municipio-dark-cel.jpg",
+    "prints/depois-4-municipio-light-desk.jpg",
+    "prints/depois-4-municipio-light-cel.jpg",
+    "prints/depois-1-estado-dark-desk.jpg",
+    "prints/depois-1-estado-dark-cel.jpg",
+    "prints/depois-1-estado-light-desk.jpg",
+    "prints/depois-1-estado-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/site.css"
+   ],
+   "descricao": "Seis faixas coladas com a faixa escrita embaixo numa só linha; some no município (escala não se aplica) e libera a lista de alimentadores."
+  },
+  {
+   "titulo": "Lista de alimentadores com hierarquia tipográfica",
+   "prioridade": 5,
+   "esforco": "P",
+   "antes": [
+    "prints/antes-4b-municipio-lista-dark-desk.jpg",
+    "prints/antes-4b-municipio-lista-dark-cel.jpg",
+    "prints/antes-4b-municipio-lista-light-desk.jpg",
+    "prints/antes-4b-municipio-lista-light-cel.jpg"
+   ],
+   "depois": [
+    "prints/depois-4b-municipio-lista-dark-desk.jpg",
+    "prints/depois-4b-municipio-lista-dark-cel.jpg",
+    "prints/depois-4b-municipio-lista-light-desk.jpg",
+    "prints/depois-4b-municipio-lista-light-cel.jpg"
+   ],
+   "prototipo": [
+    "proto/mapa-municipios.js",
+    "proto/site.css"
+   ],
+   "descricao": "Nome do município em Condensed 700, contagem em mono caixa alta, código em mono, NAE em selo vermelho e km em cinza."
+  }
+ ]
+}
