@@ -127,5 +127,24 @@ const LADOS = [['antes', ''], ['depois', null]];          // null = com o protó
       }
     }
   }
+  // ---------- TODAS juntas (s1+s2+s3+s4+s5): o protótipo completo ----------
+  if (quer('todas')) {
+    const T = 's1 s2 s3 s4 s5';
+    for (const t of ['d', 'm']) {
+      const p = await abre(b, t, T);
+      await mapaNoTopo(p); await foto(p, `todas-${t}-estado`);
+      await nivel(p, 'regional'); await mapaNoTopo(p); await foto(p, `todas-${t}-regional`);
+      await nivel(p, 'mun'); await mapaNoTopo(p); await foto(p, `todas-${t}-mun`);
+      if (t === 'm') { await p.click('.mt-puxa'); await p.waitForTimeout(500); await foto(p, 'todas-m-mun-gaveta'); await p.click('.mt-al'); await esperaVoo(p); await foto(p, 'todas-m-alimentador'); }
+      else { await p.click('.mt-al'); await esperaVoo(p); await foto(p, 'todas-d-alimentador'); }
+      await p.click('.mt-tc'); await p.waitForTimeout(900); await foto(p, `todas-${t}-cheia-alimentador`);
+      await p.click('.mt-tc'); await p.waitForTimeout(600);
+      await p.context().close();
+    }
+    const c = await abre(b, 'd', T, {}, true);
+    await nivel(c, 'mun'); await mapaNoTopo(c); await foto(c, 'todas-d-claro-mun');
+    await c.click('.mt-tc'); await c.waitForTimeout(800); await foto(c, 'todas-d-claro-cheia-mun');
+    await c.context().close();
+  }
   await b.close();
 })();

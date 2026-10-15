@@ -476,6 +476,10 @@ html[data-proto~="s4"] .sug-sk i{display:block;height:44px;border-radius:var(--r
 @keyframes mt-brilho{to{background-position:-200% 0}}
 @media (max-width:520px){html[data-proto~="s4"] .sug-dicas>div{grid-template-columns:minmax(0,1fr)}html[data-proto~="s4"] .sug-tx>span{white-space:normal}}
 
+/* ---- s5: durante o voo da câmera as redes de fundo (milhares de traços com vector-effect) ficam escondidas e voltam com um fade
+   ao pousar: nas medições, polo→município passou de 14 para ~45 quadros e alimentador→município de 4 para ~30 ---- */
+html[data-proto~="s5"] .voando .mt-redes-f,html[data-proto~="s5"] .voando .mt-redes-d{visibility:hidden}
+@media (prefers-reduced-motion:no-preference){html[data-proto~="s5"] .mt-mapa:not(.voando) .mt-redes-f,html[data-proto~="s5"] .mt-mapa:not(.voando) .mt-redes-d{animation:mt-surge .3s ease-out}}
 /* ---- s5: transições coordenadas (o painel entra da esquerda, item a item; a trilha e os chips surgem de leve) ---- */
 @keyframes mt-esq{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:no-preference){

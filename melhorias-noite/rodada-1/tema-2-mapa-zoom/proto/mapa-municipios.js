@@ -868,7 +868,7 @@
       gm.setAttribute('clip-path', `url(#mt-pv-${m.cod})`);
       gm.innerHTML = `<defs><clipPath id="mt-pv-${m.cod}"><path d="${m.d}"/></clipPath></defs>`;
       previa.append(gm);
-      m.als.forEach(a => rede(a.cod, m.polo).then(rd => {
+      m.als.slice().sort((a, b) => b.m - a.m).slice(0, 16).forEach(a => rede(a.cod, m.polo).then(rd => {   // prévia: os 16 maiores alimentadores (Palmas tem 46)
         if (!rd || !gm.isConnected) return;
         ['h', 'l'].forEach(cl => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', rd.d); p.setAttribute('class', cl); gm.append(p); });
       }));

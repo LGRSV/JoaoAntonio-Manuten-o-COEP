@@ -1,0 +1,407 @@
+--- orig/mapa-municipios.js	2026-10-15 02:45:46.755056182 +0000
++++ proto/mapa-municipios.js	2026-10-15 03:11:30.978156013 +0000
+@@ -2,6 +2,7 @@
+ // Cada município pintado pela NAE dele (faixas), com o contorno das regionais por cima. Clicar numa regional aproxima
+ // nela e separa os polos (cada polo controla um grupo de municípios); aí clicar num município abre a página dele.
+ // A busca de município (#busca) abre a lista suspensa de todos os municípios (#mun-lista) e acende os achados no mapa.
++// [PROTÓTIPO tema 2 · zoom livre] as partes novas estão entre os marcadores ZOOM LIVRE; o resto é o arquivo original.
+ // A casca (#mapa-to com a barra e o svg com viewBox) vem pronta no HTML de scripts/gera_trechos.py
+ // e todo o estilo está em assets/site.css: este script só preenche, nada muda de tamanho nem de lugar ao carregar.
+ (function () {
+@@ -100,13 +101,13 @@
+     `<b>${esc(i.r)}</b><i>${i.nae.toLocaleString('pt-BR')} NAE</i></button>`).join('');
+   caixa.append(cartoes);
+   cartoes.addEventListener('click', e => { const b = e.target.closest('button'); if (b) entra(b.dataset.reg, e.detail === 0); });
+-  const poeCartoes = () => {                                // posição pelo viewBox do estado inteiro (-6 -6 VW M.h+12)
+-    const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), H = M.h + 12;
++  const poeCartoes = () => {                                // ZOOM LIVRE: posição pelo viewBox atual (no estado inteiro é o mesmo de antes)
++    const r = svg.getBoundingClientRect(), c = caixa.getBoundingClientRect(), v = vb();
+     if (!r.width) return;
+-    const k = Math.min(r.width / VW, r.height / H), oy = (r.height - H * k) / 2;
++    const k = Math.min(r.width / v[2], r.height / v[3]), ox = (r.width - v[2] * k) / 2, oy = (r.height - v[3] * k) / 2;
+     [...cartoes.children].forEach((e, i) => {
+-      e.style.left = (r.left - c.left + r.width / 2).toFixed(0) + 'px';
+-      e.style.top = (r.top - c.top + oy + (regInfo[i].y + 6) * k).toFixed(0) + 'px';
++      e.style.left = (r.left - c.left + ox + (M.w / 2 - v[0]) * k).toFixed(0) + 'px';
++      e.style.top = (r.top - c.top + oy + (regInfo[i].y - v[1]) * k).toFixed(0) + 'px';
+     });
+   };
+   const prio = t => t.dataset.cod === foco ? 2 : achou.has(t.dataset.cod) ? 1 : 0;
+@@ -138,7 +139,7 @@
+   const escala = () => {
+     const r = svg.getBoundingClientRect();                 // o SVG pode ficar limitado pela altura (max-height)
+     if (!r.width || !r.height) return;
+-    g.style.setProperty('--k', (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));
++    g.style.setProperty('--k', Z ? uPorPx().toFixed(4) : (1 / Math.min(r.width / VW, r.height / (M.h + 12))).toFixed(3));   // ZOOM LIVRE: com zoom a letra segue o viewBox atual
+     poeCartoes();
+     desamontoa();
+   };
+@@ -155,6 +156,7 @@
+   };
+ 
+   svg.addEventListener('mousemove', e => {
++    if (dr && dr.on) return;                                  // ZOOM LIVRE: arrastando o mapa não mostra a dica
+     const rd = e.target.closest('.mt-redes path[data-al]');
+     if (rd) {
+       const m = porCod[mun], a = m.als.find(x => x.cod === rd.dataset.al), r = caixa.getBoundingClientRect();
+@@ -168,7 +170,7 @@
+     const p = e.target.closest('.mun');
+     if (!p) { dica.style.display = 'none'; return; }
+     const m = porCod[p.dataset.cod], r = caixa.getBoundingClientRect();
+-    if (!reg) realca(m.reg); else if (!pol) realcaPolo(m.reg === reg ? m.polo : null);
++    if (!reg) realca(Z ? null : m.reg); else if (!pol) realcaPolo(m.reg === reg ? m.polo : null);
+     dica.innerHTML = `${esc(m.nome)} <small>· ${(m.nae || 0).toLocaleString('pt-BR')} NAE${m.reg ? ` · Regional ${esc(m.reg)} · ${esc(m.polo)}` : ''}${m.slug ? ` · ${nAls(m)} · ${km(kmTot(m))}` : ' · sem dados ainda'}</small>` +
+       (!reg && m.reg ? `<small class="mt-dica-c">Clique para ver os polos da Regional ${esc(m.reg)}</small>` :
+         reg && !pol && m.reg === reg ? `<small class="mt-dica-c">Clique para ver os municípios de ${esc(m.polo)}</small>` :
+@@ -184,7 +186,9 @@
+   // Polo aberto (clicar num polo da regional aberta): do mesmo jeito, o mapa aproxima no polo e os municípios dele se
+   // afastam um do outro, com o nome de cada um; aí clicar num município abre a página dele. "← Regional" ou Esc voltam.
+   let reg = null, pol = null, anima = 0, mdesl = {}, corDe = {};
++  let Z = null;                         // ZOOM LIVRE: {base, wc, hs} enquanto o zoom livre está ligado (null = enquadramento do nível)
+   const TODO = [-6, -6, VW, M.h + 12], AFASTA = 0.32, AFASTA_MUN = 0.22, DUR = 650, CORES = ['a', 'b', 'c', 'd'];
++  let nivelVb = TODO.slice();         // ZOOM LIVRE: enquadramento do nível atual (o último destino de voa)
+   const calmo = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+   const vb = () => svg.getAttribute('viewBox').split(' ').map(Number);
+   const une = (a, b) => !a ? b : { x: Math.min(a.x, b.x), y: Math.min(a.y, b.y), x2: Math.max(a.x2, b.x2), y2: Math.max(a.y2, b.y2) };
+@@ -202,11 +206,13 @@
+     cancelAnimationFrame(anima);
+     caixa.classList.remove('pronta');
+     caixa.classList.add('voando');
++    nivelVb = alvoVb.slice();         // ZOOM LIVRE: o nível novo vira a referência; limpa nomes/prévias do zoom
++    zLimpa();
+     const de = vb(), t0 = performance.now(), dur = calmo() ? 0 : DUR;
+     const passo = agora => {
+       const t = dur ? Math.min(1, (agora - t0) / dur) : 1, e = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+       svg.setAttribute('viewBox', de.map((v, i) => +(v + (alvoVb[i] - v) * e).toFixed(2)).join(' '));
+-      if (t < 1) anima = requestAnimationFrame(passo); else { anima = 0; caixa.classList.remove('voando'); caixa.classList.toggle('pronta', !!reg); poeNomes(); poeSelos(); }
++      if (t < 1) anima = requestAnimationFrame(passo); else { anima = 0; caixa.classList.remove('voando'); caixa.classList.toggle('pronta', !!reg); if (Z) fimZ(); poeNomes(); poeSelos(); }
+     };
+     selos.innerHTML = '';
+     anima = requestAnimationFrame(passo);
+@@ -505,7 +511,7 @@
+   svg.append(nomes2);
+   function poeNomes() {
+     nomes2.innerHTML = '';
+-    if (!pol || mun || anima) return;
++    if (!pol || mun || anima || Z) return;                    // ZOOM LIVRE: com zoom quem desenha os nomes é nomesDoZoom()
+     const r = svg.getBoundingClientRect(), v = vb();
+     if (!r.width) return;
+     nomes2.style.setProperty('--k', Math.max(v[2] / r.width, v[3] / r.height).toFixed(4));
+@@ -565,8 +571,315 @@
+   }
+   const sobe = () => (alf ? saiAl() : mun ? saiMun() : pol ? saiPolo() : sai());
+   volta.addEventListener('click', sobe);
+-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && reg && !e.defaultPrevented) sobe(); });
+-  if (window.ResizeObserver) new ResizeObserver(() => { if (reg && !anima) { svg.setAttribute('viewBox', enquadra().join(' ')); poeNomes(); poeSelos(); } }).observe(caixa);
++  // ZOOM LIVRE: com o mapa aproximado, o primeiro Esc enquadra de novo; o seguinte sobe um nível, como antes
++  document.addEventListener('keydown', e => {
++    if (e.key !== 'Escape' || e.defaultPrevented) return;
++    if (Z) { e.preventDefault(); enquadraZ(); } else if (reg) sobe();
++  });
++  if (window.ResizeObserver) new ResizeObserver(() => {
++    if (Z && Math.abs(caixa.clientWidth - Z.wc) > 1) fimZ();  // largura mudou de verdade: volta ao enquadramento do nível
++    if (reg && !anima && !Z) { nivelVb = enquadra(); svg.setAttribute('viewBox', nivelVb.join(' ')); poeNomes(); poeSelos(); }
++  }).observe(caixa);
++
++  // ===================================== ZOOM LIVRE (protótipo · tema 2) =====================================
++  // O viewBox continua sendo a única fonte da verdade. voa() anima até o enquadramento do nível (nivelVb); o zoom livre só
++  // mexe no viewBox DENTRO desse enquadramento (Z.base = nivelVb "alargado" até a caixa inteira, para o mapa poder crescer
++  // para os lados). Qualquer clique de navegação chama voa(), que parte do viewBox atual (aproximado ou não) e, ao chegar,
++  // desliga o zoom (fimZ). Entradas: Ctrl/⌘ + roda (e pinça do trackpad), pinça de dois dedos, arrastar, botões + − ⤢,
++  // teclas + − 0 e Esc. Sem Ctrl a roda rola a página; no celular um dedo rola a página e dois dedos mexem no mapa.
++  const ZPPU = 26, ZFATOR = 1.6;                           // máximo de px de tela por unidade do mapa; passo dos botões
++  const mac = /Mac|iPhone|iPad/.test(navigator.platform || '');
++  const ehToque = matchMedia('(pointer:coarse)').matches;
++  const fmt1 = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
++  let alvoZ = null, rafZ = 0, tRot = 0, arrastou = 0, dr = null, tp = null;
++  const uPorPx = () => { const r = svg.getBoundingClientRect(), v = vb(); return Math.max(v[2] / r.width, v[3] / r.height); };
++
++  const nomesZ = document.createElementNS(NS, 'g');          // nomes (e NAE) que aparecem conforme o zoom
++  nomesZ.setAttribute('class', 'mt-nomesz');
++  nomesZ.setAttribute('aria-hidden', 'true');
++  const previa = document.createElementNS(NS, 'g');          // prévia das redes dos municípios que ficaram grandes na tela
++  previa.setAttribute('class', 'mt-previa');
++  previa.setAttribute('aria-hidden', 'true');
++  svg.insertBefore(previa, g);                               // depois do contorno das regionais, antes dos nomes
++  svg.append(nomesZ);
++
++  const ic = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
++  const ctl = document.createElement('div');
++  ctl.className = 'mt-zoom';
++  ctl.setAttribute('role', 'group');
++  ctl.setAttribute('aria-label', 'Zoom do mapa');
++  ctl.innerHTML =
++    `<button type="button" data-z="mais" aria-label="Aproximar o mapa" title="Aproximar (+ ou ${mac ? '⌘' : 'Ctrl'} + rolagem)">${ic('M12 5v14M5 12h14')}</button>` +
++    `<output class="mt-zn" hidden>×1,0</output>` +
++    `<button type="button" data-z="menos" aria-label="Afastar o mapa" title="Afastar (−)" disabled>${ic('M5 12h14')}</button>` +
++    `<button type="button" data-z="fit" aria-label="Enquadrar o mapa" title="Enquadrar (0 ou Esc)" hidden>${ic('M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5')}</button>`;
++  caixa.append(ctl);
++  const dicaZ = document.createElement('div');
++  dicaZ.className = 'mt-zdica';
++  dicaZ.setAttribute('role', 'status');
++  caixa.append(dicaZ);
++  let tDica = 0;
++  function dicaZoom() {                                      // "use Ctrl + rolagem": só aparece quando a pessoa rola por cima do mapa
++    dicaZ.innerHTML = ehToque ? 'Use <b>dois dedos</b> para aproximar o mapa' : `Use <kbd>${mac ? '⌘' : 'Ctrl'}</kbd> + rolagem para dar zoom`;
++    dicaZ.classList.add('on');
++    clearTimeout(tDica);
++    tDica = setTimeout(() => dicaZ.classList.remove('on'), 1700);
++  }
++
++  const widen = (B, wc, hs) => { const s = Math.min(wc / B[2], hs / B[3]), w = wc / s, h = hs / s; return [B[0] + B[2] / 2 - w / 2, B[1] + B[3] / 2 - h / 2, w, h]; };
++  function ligaZ() {                                         // zoom livre ligado: o mapa passa a usar a largura toda da caixa
++    if (Z) return true;
++    if (anima) return false;
++    const hs = svg.getBoundingClientRect().height, wc = caixa.clientWidth;
++    if (!wc || !hs) return false;
++    svg.style.width = '100%'; svg.style.height = hs + 'px';
++    Z = { base: widen(vb(), wc, hs), wc, hs };
++    caixa.classList.add('zoomando');
++    if (!reg) realca(null);                                  // o destaque da regional sob o mouse não vale com o mapa aproximado
++    nomes2.innerHTML = ''; dica.style.display = 'none';
++    alvoZ = Z.base.slice();
++    aplica(alvoZ);
++    return true;
++  }
++  function fimZ() {                                          // volta ao enquadramento do nível (visualmente igual ao zoom 1×)
++    if (!Z) return;
++    cancelAnimationFrame(rafZ); rafZ = 0; clearTimeout(tRot);
++    Z = null; alvoZ = null; dr = null; tp = null;
++    caixa.classList.remove('zoomando', 'zoom-longe', 'arrastando', 'mexe');
++    svg.style.width = svg.style.height = '';
++    svg.setAttribute('viewBox', nivelVb.map(n => +n.toFixed(3)).join(' '));
++    nomesZ.innerHTML = ''; previa.innerHTML = '';
++    ctl.querySelector('.mt-zn').hidden = ctl.querySelector('[data-z=fit]').hidden = true;
++    ctl.querySelector('[data-z=menos]').disabled = true;
++    escala(); poeCartoes();
++    if (!anima) { poeNomes(); poeSelos(); }
++  }
++  function zLimpa() {                                        // chamado por voa(): uma animação de nível não convive com nomes/prévias do zoom
++    clearTimeout(tRot); cancelAnimationFrame(rafZ); rafZ = 0;
++    nomesZ.innerHTML = ''; previa.innerHTML = '';
++  }
++  function aplica(v) { svg.setAttribute('viewBox', v.map(n => +n.toFixed(3)).join(' ')); sync(); }
++  function sync() {                                          // tudo o que depende do enquadramento atual
++    const r = svg.getBoundingClientRect(), v = vb();
++    if (!r.width || !Z) return;
++    const u = uPorPx().toFixed(4), z = Z.base[2] / v[2];
++    g.style.setProperty('--k', u); nomesZ.style.setProperty('--k', u);
++    caixa.classList.toggle('zoom-longe', z > 1.8);
++    const zn = ctl.querySelector('.mt-zn');
++    zn.hidden = ctl.querySelector('[data-z=fit]').hidden = z < 1.02;
++    zn.textContent = '×' + fmt1(z);
++    ctl.querySelector('[data-z=menos]').disabled = z < 1.02;
++    poeCartoes(); moveSelos();
++    clearTimeout(tRot);
++    caixa.classList.add('mexe');                             // enquanto mexe, a prévia das redes (pesada de desenhar) fica escondida
++    tRot = setTimeout(() => {
++      caixa.classList.remove('mexe');
++      if (Z && !anima && !mun) { nomesDoZoom(); tRot = setTimeout(() => { if (Z && !anima && !mun) previaDoZoom(); }, 60); }   // nomes primeiro, prévia no quadro seguinte (tarefas curtas)
++    }, 110);
++  }
++  function moveSelos() {                                     // os selos de NAE dos polos acompanham o mapa
++    if (!reg || pol || anima || !selos.children.length) return;
++    const ctm = svg.getScreenCTM(), cx = caixa.getBoundingClientRect();
++    psReg.forEach(p => {
++      const sp = selos.querySelector(`[data-polo="${CSS.escape(p.polo)}"]`);
++      if (!sp) return;
++      const mx = p.ms.reduce((s, m) => s + m.c[0], 0) / p.ms.length, my = p.ms.reduce((s, m) => s + m.c[1], 0) / p.ms.length;
++      const m = p.ms.reduce((a, b) => Math.hypot(b.c[0] - mx, b.c[1] - my) < Math.hypot(a.c[0] - mx, a.c[1] - my) ? b : a);
++      const pt = svg.createSVGPoint();
++      [pt.x, pt.y] = soma(m.c, desl[p.polo]);
++      const s = pt.matrixTransform(ctm);
++      sp.style.left = (s.x - cx.left).toFixed(0) + 'px'; sp.style.top = (s.y - cx.top).toFixed(0) + 'px';
++    });
++  }
++  function limita(v) {                                       // nunca menos zoom que o nível, nunca mais que ZPPU; arrastar não sai do enquadramento
++    const [bx, by, bw, bh] = Z.base, asp = bh / bw;
++    const w = Math.min(bw, Math.max(Z.wc / ZPPU, v[2])), h = w * asp, s = .12 * w * (1 - w / bw);
++    return [Math.min(Math.max(v[0], bx - s), bx + bw - w + s), Math.min(Math.max(v[1], by - s * asp), by + bh - h + s * asp), w, h];
++  }
++  function terminouZ() { if (Z && vb()[2] >= Z.base[2] * .995 && (!alvoZ || alvoZ[2] >= Z.base[2] * .995)) fimZ(); }
++  function vai(n, suave) {                                   // vai ao viewBox n: direto (arrastar, pinça) ou com suavização (roda, botões)
++    alvoZ = n;
++    if (!suave || calmo()) { cancelAnimationFrame(rafZ); rafZ = 0; aplica(n); return; }
++    if (rafZ) return;
++    let t0 = performance.now();
++    const passo = t => {
++      const a = 1 - Math.exp(-Math.min(64, t - t0) / 70); t0 = t;
++      const v = vb(), nv = v.map((x, i) => x + (alvoZ[i] - x) * a);
++      if (Math.abs(alvoZ[2] - nv[2]) < alvoZ[2] * .0008 && Math.abs(alvoZ[0] - nv[0]) < alvoZ[2] * .0008) { rafZ = 0; aplica(alvoZ); terminouZ(); return; }
++      aplica(nv);
++      rafZ = requestAnimationFrame(passo);
++    };
++    rafZ = requestAnimationFrame(passo);
++  }
++  function zoomaF(f, px, py, suave) {                        // multiplica o zoom por f mantendo o ponto (px,py) da tela no mesmo lugar
++    if (anima || !ligaZ()) return;
++    const r = svg.getBoundingClientRect(), v = alvoZ || vb(), asp = Z.base[3] / Z.base[2];
++    const fx = (px - r.left) / r.width, fy = (py - r.top) / r.height, w = v[2] / f;
++    vai(limita([v[0] + fx * v[2] - fx * w, v[1] + fy * v[3] - fy * w * asp, w, w * asp]), suave);
++    if (!suave) terminouZ();
++  }
++  function enquadraZ() {                                     // "enquadrar" / Esc: anima de volta ao enquadramento do nível
++    if (!Z) return;
++    cancelAnimationFrame(rafZ); rafZ = 0;
++    if (Math.abs(vb()[2] - Z.base[2]) < Z.base[2] * .004) fimZ(); else voa(nivelVb.slice());
++  }
++  // vai até um município (busca, atalhos): o município ocupa ~55% da menor dimensão do mapa
++  function voaPara(cod, folga = .55) {
++    const m = porCod[cod];
++    if (!m || anima || mun || !doNivel(m) || !ligaZ()) return false;
++    const b = (el[cod].getBBox()), [ox, oy] = (reg && desl[m.polo] ? desl[m.polo] : [0, 0]).map((q, i) => q + (pol && mdesl[cod] ? mdesl[cod][i] : 0));
++    const asp = Z.base[3] / Z.base[2], w = Math.max(b.width / folga, b.height / folga / asp), cx = b.x + b.width / 2 + ox, cy = b.y + b.height / 2 + oy;
++    vai(limita([cx - w / 2, cy - w * asp / 2, w, w * asp]), true);
++    return true;
++  }
++
++  ctl.addEventListener('click', e => {
++    const b = e.target.closest('button');
++    if (!b || b.disabled) return;
++    const r = svg.getBoundingClientRect(), z = b.dataset.z;
++    if (z === 'fit') enquadraZ();
++    else zoomaF(z === 'mais' ? ZFATOR : 1 / ZFATOR, r.left + r.width / 2, r.top + r.height / 2, true);
++  });
++  caixa.addEventListener('wheel', e => {                     // Ctrl/⌘ + roda (e pinça do trackpad, que chega como Ctrl + roda) dá zoom; sem Ctrl a página rola
++    if (e.ctrlKey || e.metaKey) {
++      e.preventDefault();
++      const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
++      zoomaF(Math.exp(-dy * (Math.abs(dy) >= 50 ? .0022 : .009)), e.clientX, e.clientY, true);
++    } else if (!Z && !e.target.closest('.mt-lado')) dicaZoom();
++  }, { passive: false });
++  caixa.addEventListener('keydown', e => {
++    if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input,textarea')) return;
++    const r = svg.getBoundingClientRect();
++    if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomaF(ZFATOR, r.left + r.width / 2, r.top + r.height / 2, true); }
++    else if (e.key === '-' || e.key === '_') { e.preventDefault(); zoomaF(1 / ZFATOR, r.left + r.width / 2, r.top + r.height / 2, true); }
++    else if (e.key === '0' && Z) { e.preventDefault(); enquadraZ(); }
++  });
++
++  // arrastar com o mouse (só com o mapa aproximado; passou de 5 px é arrasto e o clique seguinte é ignorado)
++  svg.addEventListener('pointerdown', e => {
++    if (e.pointerType !== 'mouse' || e.button !== 0 || !Z || anima) return;
++    dr = { id: e.pointerId, x: e.clientX, y: e.clientY, v: alvoZ || vb(), on: false };
++  });
++  svg.addEventListener('pointermove', e => {
++    if (!dr || e.pointerId !== dr.id) return;
++    const dx = e.clientX - dr.x, dy = e.clientY - dr.y;
++    if (!dr.on) {
++      if (Math.hypot(dx, dy) < 5) return;
++      dr.on = true; svg.setPointerCapture(e.pointerId); caixa.classList.add('arrastando'); dica.style.display = 'none';
++    }
++    const r = svg.getBoundingClientRect(), v = dr.v;
++    vai(limita([v[0] - dx * v[2] / r.width, v[1] - dy * v[3] / r.height, v[2], v[3]]), false);
++  });
++  const fimArrasto = e => {
++    if (!dr || e.pointerId !== dr.id) return;
++    if (dr.on) { arrastou = performance.now(); try { svg.releasePointerCapture(e.pointerId); } catch (_) {} caixa.classList.remove('arrastando'); }
++    dr = null;
++  };
++  svg.addEventListener('pointerup', fimArrasto);
++  svg.addEventListener('pointercancel', fimArrasto);
++  svg.addEventListener('click', e => { if (performance.now() - arrastou < 350) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
++
++  // celular: um dedo rola a página (touch-action: pan-x pan-y); dois dedos fazem pinça + arrastar; com o mapa aproximado um dedo arrasta
++  const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
++  const meio = t => [(t[0].clientX + t[1].clientX) / 2, (t[0].clientY + t[1].clientY) / 2];
++  svg.addEventListener('touchstart', e => {
++    tp = null;
++    if (anima) return;
++    if (e.touches.length === 2) {
++      if (!ligaZ()) return;
++      cancelAnimationFrame(rafZ); rafZ = 0;
++      tp = { pinca: true, d: dist(e.touches), c: meio(e.touches), v: alvoZ || vb() };
++    } else if (e.touches.length === 1 && Z) tp = { pinca: false, moveu: false, c: [e.touches[0].clientX, e.touches[0].clientY], v: alvoZ || vb() };
++  }, { passive: true });
++  svg.addEventListener('touchmove', e => {
++    if (!tp) { if (!Z && e.touches.length === 1) dicaZoom(); return; }
++    const r = svg.getBoundingClientRect(), v = tp.v, asp = Z.base[3] / Z.base[2];
++    if (tp.pinca && e.touches.length >= 2) {
++      if (e.cancelable) e.preventDefault();
++      const f = dist(e.touches) / tp.d, c = meio(e.touches), w = v[2] / f;
++      const fx0 = (tp.c[0] - r.left) / r.width, fy0 = (tp.c[1] - r.top) / r.height, fx = (c[0] - r.left) / r.width, fy = (c[1] - r.top) / r.height;
++      vai(limita([v[0] + fx0 * v[2] - fx * w, v[1] + fy0 * v[3] - fy * w * asp, w, w * asp]), false);
++    } else if (!tp.pinca && e.touches.length === 1) {
++      if (e.cancelable) e.preventDefault();
++      const t = e.touches[0], dx = t.clientX - tp.c[0], dy = t.clientY - tp.c[1];
++      if (Math.hypot(dx, dy) > 6) tp.moveu = true;
++      vai(limita([v[0] - dx * v[2] / r.width, v[1] - dy * v[3] / r.height, v[2], v[3]]), false);
++    }
++  }, { passive: false });
++  const fimToque = e => {
++    if (e.touches.length === 0) { if (tp && tp.moveu !== false) arrastou = performance.now(); tp = null; terminouZ(); }
++    else if (e.touches.length === 1 && tp && tp.pinca) tp = { pinca: false, moveu: true, c: [e.touches[0].clientX, e.touches[0].clientY], v: alvoZ || vb() };   // soltou um dedo: o outro segue arrastando
++  };
++  svg.addEventListener('touchend', fimToque);
++  svg.addEventListener('touchcancel', fimToque);
++
++  // nomes e NAE conforme o zoom: só os municípios que já têm tamanho para isso na tela, os maiores primeiro; os que se cruzam somem
++  const bbMun = {};
++  const bboxMun = cod => bbMun[cod] || (bbMun[cod] = el[cod].getBBox());
++  const offDe = m => { const a = reg && desl[m.polo] || [0, 0], b = pol && mdesl[m.cod] || [0, 0]; return [a[0] + b[0], a[1] + b[1]]; };
++  const doNivel = m => (!reg || m.reg === reg) && (!pol || m.polo === pol);
++  const sobrepoe = (q, o) => q.x < o.x + o.width + 2 && q.x + q.width + 2 > o.x && q.y < o.y + o.height && q.y + q.height > o.y;
++  function nomesDoZoom() {
++    nomesZ.innerHTML = '';
++    const r = svg.getBoundingClientRect(), v = vb(), ppu = r.width / v[2], marg = 24 / ppu, cand = [];
++    M.muns.filter(doNivel).forEach(m => {
++      const b = bboxMun(m.cod), [ox, oy] = offDe(m), x = m.c[0] + ox, y = m.c[1] + oy;
++      if (x < v[0] - marg || x > v[0] + v[2] + marg || y < v[1] - marg || y > v[1] + v[3] + marg) return;
++      const tam = Math.max(b.width, b.height) * ppu;
++      if (tam >= 40) cand.push({ m, x, y, tam, larg: b.width * ppu });
++    });
++    cand.sort((a, b) => (prio({ dataset: { cod: b.m.cod } }) - prio({ dataset: { cod: a.m.cod } })) || b.tam - a.tam);
++    const ts = cand.slice(0, 80).map(c => {
++      const dois = c.tam >= 70, t = document.createElementNS(NS, 'text'), a = document.createElementNS(NS, 'tspan');
++      t.setAttribute('class', 'mt-rot' + (c.m.slug ? '' : ' sem'));
++      t.setAttribute('x', c.x); t.setAttribute('y', c.y);
++      a.setAttribute('x', c.x); if (dois) a.setAttribute('dy', '-.6em');
++      a.textContent = c.m.nome; t.append(a);
++      if (dois) {
++        const n = document.createElementNS(NS, 'tspan');
++        n.setAttribute('x', c.x); n.setAttribute('dy', '1.35em'); n.setAttribute('class', 'mz-n');
++        n.textContent = c.m.nae ? `${c.m.nae.toLocaleString('pt-BR')} NAE` : 'Sem NAE';
++        t.append(n);
++      }
++      nomesZ.append(t);
++      return { t, c };
++    });
++    const qs = ts.map(o => o.t.getBBox()), ok = [];           // medir tudo de uma vez (um só layout), depois decidir quem fica
++    ts.forEach((o, i) => {
++      const q = qs[i];
++      if (q.width * ppu > Math.max(o.c.larg * 1.6, 96) || ok.some(r => sobrepoe(q, r))) o.t.remove(); else ok.push(q);
++    });
++  }
++  // prévia das redes: município que ocupa bastante da tela mostra, dentro dele, a rede de cada alimentador (mesmos dados do município aberto)
++  function previaDoZoom() {
++    const r = svg.getBoundingClientRect(), v = vb(), ppu = r.width / v[2], cx = v[0] + v[2] / 2, cy = v[1] + v[3] / 2;
++    const alvos = M.muns.filter(m => {
++      if (!m.slug || !doNivel(m)) return false;
++      const b = bboxMun(m.cod), [ox, oy] = offDe(m);
++      return Math.max(b.width, b.height) * ppu >= 180 && b.x + ox < v[0] + v[2] && b.x + ox + b.width > v[0] && b.y + oy < v[1] + v[3] && b.y + oy + b.height > v[1];
++    }).sort((a, b) => Math.hypot(a.c[0] - cx, a.c[1] - cy) - Math.hypot(b.c[0] - cx, b.c[1] - cy)).slice(0, 4);
++    const cods = new Set(alvos.map(m => m.cod));
++    [...previa.children].forEach(c => { if (!cods.has(c.dataset.cod)) c.remove(); });
++    alvos.forEach(m => {
++      if (previa.querySelector(`[data-cod="${m.cod}"]`)) return;
++      const gm = document.createElementNS(NS, 'g'), [ox, oy] = offDe(m);
++      gm.dataset.cod = m.cod;
++      gm.style.transform = tr([ox, oy]);
++      gm.setAttribute('clip-path', `url(#mt-pv-${m.cod})`);
++      gm.innerHTML = `<defs><clipPath id="mt-pv-${m.cod}"><path d="${m.d}"/></clipPath></defs>`;
++      previa.append(gm);
++      m.als.slice().sort((a, b) => b.m - a.m).slice(0, 16).forEach(a => rede(a.cod, m.polo).then(rd => {   // prévia: os 16 maiores alimentadores (Palmas tem 46)
++        if (!rd || !gm.isConnected) return;
++        ['h', 'l'].forEach(cl => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', rd.d); p.setAttribute('class', cl); gm.append(p); });
++      }));
++    });
++  }
++  window.ARGOSMapa = {                                       // ganchos para a busca e para o mini-mapa
++    voaPara, enquadra: enquadraZ, vista: () => vb(), ativo: () => !!Z, zoom: () => Z ? Z.base[2] / vb()[2] : 1,
++    centraEm(ux, uy) { if (!ligaZ()) return; const v = alvoZ || vb(); vai(limita([ux - v[2] / 2, uy - v[3] / 2, v[2], v[3]]), true); },
++    aoMudar(fn) { new MutationObserver(fn).observe(svg, { attributes: true, attributeFilter: ['viewBox'] }); },
++  };
++  // ================================== fim do ZOOM LIVRE ==================================
+ 
+   // no estado inteiro, escolher um município abre a regional dele; com a regional aberta, abre o polo dele; com o polo
+   // aberto, abre o município (a rede dos alimentadores); com o município aberto, abre a página dele

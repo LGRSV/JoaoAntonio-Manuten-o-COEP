@@ -1,5 +1,5 @@
 const L=require('../lib.js');
-const variantes={ base:'', esconde:'.voando .mt-redes-f{visibility:hidden}', escondeTudo:'.voando .mt-redes-f,.voando .mt-redes-d{visibility:hidden}', semNaoEscala:'.voando .mt-redes path{vector-effect:none!important}' };
+const variantes={ base:'', };
 (async()=>{
  const b=await L.chromium.launch();
  for (const [nome,css] of Object.entries(variantes)) {

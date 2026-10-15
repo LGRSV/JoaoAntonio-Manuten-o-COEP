@@ -56,17 +56,17 @@ PASSOU  [m] sair: volta ao layout normal, rolagem restaurada (174 → 0; máximo
 PASSOU  [m] Esc/saída do sistema (exitFullscreen) também desfaz o layout
 PASSOU  [m] sem erros de JavaScript []
 --- S3 · tela cheia · sem API nativa (iPhone): só CSS
-FALHOU  sem Fullscreen API: o mapa ocupa a janela por CSS
+PASSOU  sem Fullscreen API: o mapa ocupa a janela por CSS
 PASSOU  Esc (CSS): primeiro sobe um nível do mapa (continua em tela cheia)
 PASSOU  Esc: sobe de novo até o estado inteiro
-FALHOU  Esc no estado inteiro: sai da tela cheia
+PASSOU  Esc no estado inteiro: sai da tela cheia
 --- S4 · busca renovada
 PASSOU  [d] botão com o olho tem o rótulo "Buscar"
 PASSOU  [d] atalho "/" abre o campo e foca
 PASSOU  [d] campo vazio mostra 4 exemplos (município, alimentador, ativo, OS)
 PASSOU  [d] tocar no exemplo preenche e já busca
 PASSOU  [d] "/" dentro do campo continua digitando normal
-FALHOU  [d] Esc com o campo vazio (só exemplos) fecha tudo
+PASSOU  [d] Esc com o campo vazio (só exemplos) fecha tudo
 PASSOU  [d] setas navegam na lista
 PASSOU  [d] resultado do ativo: cabeçalho sem repetir o código digitado
 PASSOU  [d] OS: "1 OS" (antes: "1 OS com o número 353/2026:")
@@ -78,7 +78,7 @@ PASSOU  [m] atalho "/" abre o campo e foca
 PASSOU  [m] campo vazio mostra 4 exemplos (município, alimentador, ativo, OS)
 PASSOU  [m] tocar no exemplo preenche e já busca
 PASSOU  [m] "/" dentro do campo continua digitando normal
-FALHOU  [m] Esc com o campo vazio (só exemplos) fecha tudo
+PASSOU  [m] Esc com o campo vazio (só exemplos) fecha tudo
 PASSOU  [m] setas navegam na lista
 PASSOU  [m] resultado do ativo: cabeçalho sem repetir o código digitado
 PASSOU  [m] OS: "1 OS" (antes: "1 OS com o número 353/2026:")
@@ -95,20 +95,20 @@ PASSOU  busca estando no estado inteiro, outro município (Palmeirante)
 PASSOU  depois do voo, ← ← volta passo a passo (município → polo → regional)
 PASSOU  sem erros de JavaScript []
 --- S5 · duração dos voos (antes 650 ms fixos) e jank
-  antes  estado → regional      duração 667 ms · 38 quadros · maior intervalo entre quadros 33 ms
-  antes  regional → polo        duração 650 ms · 22 quadros · maior intervalo entre quadros 150 ms
-  antes  polo → município       duração 750 ms · 14 quadros · maior intervalo entre quadros 133 ms
-  antes  município → alimentador duração 983 ms · 6 quadros · maior intervalo entre quadros 250 ms
-  antes  alimentador → município duração 950 ms · 8 quadros · maior intervalo entre quadros 200 ms
-  depois estado → regional      duração 583 ms · 33 quadros · maior intervalo entre quadros 33 ms
-  depois regional → polo        duração 817 ms · 39 quadros · maior intervalo entre quadros 67 ms
-  depois polo → município       duração 1133 ms · 14 quadros · maior intervalo entre quadros 250 ms
-  depois município → alimentador duração 717 ms · 4 quadros · maior intervalo entre quadros 533 ms
-  depois alimentador → município duração 700 ms · 8 quadros · maior intervalo entre quadros 150 ms
+  antes  estado → regional      duração 667 ms · 23 quadros · maior intervalo entre quadros 83 ms
+  antes  regional → polo        duração 650 ms · 28 quadros · maior intervalo entre quadros 67 ms
+  antes  polo → município       duração 683 ms · 13 quadros · maior intervalo entre quadros 100 ms
+  antes  município → alimentador duração 833 ms · 8 quadros · maior intervalo entre quadros 200 ms
+  antes  alimentador → município duração 783 ms · 6 quadros · maior intervalo entre quadros 200 ms
+  depois estado → regional      duração 633 ms · 18 quadros · maior intervalo entre quadros 150 ms
+  depois regional → polo        duração 800 ms · 36 quadros · maior intervalo entre quadros 83 ms
+  depois polo → município       duração 867 ms · 32 quadros · maior intervalo entre quadros 83 ms
+  depois município → alimentador duração 633 ms · 7 quadros · maior intervalo entre quadros 133 ms
+  depois alimentador → município duração 367 ms · 15 quadros · maior intervalo entre quadros 83 ms
 --- S5 · movimento reduzido
 PASSOU  prefers-reduced-motion: navegação funciona (sem animação)
 --- Regressão: com o atributo data-proto ausente o site continua igual (protótipo injetado sem flags)
 PASSOU  sem flags: título e legenda como no site ao vivo
 PASSOU  sem erros de JavaScript []
 
-4 FALHA(S)
+TUDO PASSOU

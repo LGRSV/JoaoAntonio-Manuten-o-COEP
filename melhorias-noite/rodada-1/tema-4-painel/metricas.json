@@ -1,0 +1,70 @@
+{
+ "antes-d": {
+  "mapa": {
+   "w": 924,
+   "h": 702,
+   "topo": 276,
+   "visivelH": 624
+  },
+  "painelTodasCamadas": {
+   "alturaConteudo": 1528
+  },
+  "legendaMapaAltura": 598,
+  "detalheT2A": {
+   "alturaConteudo": 9329,
+   "alturaVisivel": 9329
+  },
+  "scrollPagina": 112
+ },
+ "antes-m": {
+  "mapa": {
+   "w": 358,
+   "h": 490,
+   "topo": 346,
+   "visivelH": 490
+  },
+  "painelTodasCamadas": {
+   "alturaConteudo": 1500
+  },
+  "legendaMapaAltura": 386,
+  "detalheT2A": {
+   "alturaConteudo": 9913,
+   "alturaVisivel": 9913
+  },
+  "scrollPagina": 11232
+ },
+ "todas-d": {
+  "mapa": {
+   "w": 992,
+   "h": 814,
+   "topo": 70,
+   "visivelH": 814
+  },
+  "painelTodasCamadas": {
+   "alturaConteudo": 814
+  },
+  "legendaMapaAltura": 156,
+  "detalheT2A": {
+   "alturaConteudo": 792,
+   "alturaVisivel": 792
+  },
+  "scrollPagina": 0
+ },
+ "todas-m": {
+  "mapa": {
+   "w": 366,
+   "h": 555,
+   "topo": 221,
+   "visivelH": 555
+  },
+  "painelTodasCamadas": {
+   "alturaConteudo": 743
+  },
+  "legendaMapaAltura": 216,
+  "detalheT2A": {
+   "alturaConteudo": 888,
+   "alturaVisivel": 888
+  },
+  "scrollPagina": 0
+ }
+}

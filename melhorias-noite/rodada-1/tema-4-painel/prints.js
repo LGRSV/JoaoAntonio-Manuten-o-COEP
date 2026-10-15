@@ -72,7 +72,7 @@ const ESTADOS = {
   trecho: async (p, vp, depois) => {
     await ligaCamadas(p);
     await p.evaluate(() => window.__sel('T2-A', true)); await p.waitForTimeout(2200);
-    if (vp === 'm' && !depois) await p.evaluate(() => { const m = document.querySelector('.mapbox').getBoundingClientRect(), pn = document.querySelector('.panel').getBoundingClientRect(); window.scrollBy(0, pn.top - m.bottom - 4); });
+    if (vp === 'm' && !depois) await p.evaluate(() => { const m = document.querySelector('.mapbox').getBoundingClientRect(); window.scrollBy(0, m.top); });
     await p.waitForTimeout(500);
   },
   'sem-faixa': async p => { await menuMapa(p, true); await p.click('#ctl-camadas .ctl-faixa'); await p.waitForTimeout(500); await menuMapa(p, false); await p.waitForTimeout(500); },
