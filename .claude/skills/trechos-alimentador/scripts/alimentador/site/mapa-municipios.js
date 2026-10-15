@@ -89,10 +89,10 @@
   const nomesReg = document.createElementNS(NS, 'g');
   nomesReg.setAttribute('class', 'mt-nomes-reg');
   nomesReg.setAttribute('aria-hidden', 'true');
-  regs.querySelectorAll('path').forEach((p, i) => {
-    const b = p.getBBox(), t = document.createElementNS(NS, 'text');
-    t.setAttribute('x', b.x + b.width / 2); t.setAttribute('y', b.y + b.height / 2);
-    t.textContent = Object.keys(M.regs)[i];
+  Object.keys(M.regs || {}).forEach(r => {                 // no meio dos municípios da regional (média dos centros)
+    const ms = M.muns.filter(m => m.reg === r), t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', ms.reduce((s, m) => s + m.c[0], 0) / ms.length); t.setAttribute('y', ms.reduce((s, m) => s + m.c[1], 0) / ms.length);
+    t.textContent = r;
     nomesReg.append(t);
   });
   svg.append(nomesReg);
@@ -203,21 +203,26 @@
   volta.className = 'mt-volta';
   volta.hidden = true;
   volta.textContent = '←';
+  // polos da regional aberta: lá em cima, na barra da lupa (economiza o espaço do mapa)
   const legPolos = document.createElement('span');
   legPolos.className = 'mt-polos';
   legPolos.setAttribute('role', 'group');
   legPolos.hidden = true;
-  // a caixinha dos polos: no computador fica na coluna da esquerda; no celular fica presa embaixo do mapa, fechada,
-  // e uma seta discreta puxa ela para cima (site.css)
+  (document.querySelector('.mt-barra') || caixa).append(legPolos);
+  // alimentadores do município aberto: no computador na coluna da esquerda; no celular presos embaixo do mapa, numa
+  // caixinha fechada que uma seta discreta puxa para cima (site.css)
+  const legAl = document.createElement('span');
+  legAl.className = 'mt-als';
+  legAl.setAttribute('role', 'group');
+  legAl.hidden = true;
   let puxada = false;
-  const caixaPolos = (titulo, chips) => `<button type="button" class="mt-puxa" aria-expanded="${puxada}" aria-label="${puxada ? 'Esconder' : 'Mostrar'} os polos">` +
+  const caixaPolos = (titulo, chips) => `<button type="button" class="mt-puxa" aria-expanded="${puxada}" aria-label="${puxada ? 'Esconder' : 'Mostrar'} os alimentadores">` +
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>' +
     `<span class="mt-polos-c"><b class="mt-polos-t">${titulo}</b>${chips}</span>`;
-  // coluna da esquerda do mapa (regional ou polo aberto): "← volta" e a legenda dos polos; no celular a legenda dos polos
-  // vai para baixo do mapa e o "← volta" fica no canto do mapa (site.css)
+  // coluna da esquerda do mapa: a seta de voltar e, com o município aberto, os alimentadores dele
   const lado = document.createElement('div');
   lado.className = 'mt-lado';
-  lado.append(volta, legPolos);
+  lado.append(volta, legAl);
   caixa.append(lado);
   // NAE de cada polo num selo vermelho no meio dele (regional aberta, depois da animação)
   const selos = document.createElement('div');
@@ -235,8 +240,8 @@
     const x = bb.x - 12, y = bb.y - 12, w = bb.x2 - bb.x + 24, h = bb.y2 - bb.y + 24, W = caixa.clientWidth;
     // celular (mesmo corte do site.css): sobra o topo para a seta de voltar e o pé para a seta dos polos
     if (matchMedia('(max-width:860px)').matches) { const t = 52 * w / W, f = 52 * w / W; return [x, y - t, w, h + t + f]; }
-    // a coluna da esquerda (seta e caixinha) e a legenda da direita ficam livres, cada uma com a sua largura
-    const H = svg.clientHeight || 600, L1 = lado.offsetWidth + 24, L2 = (leg ? leg.offsetWidth : 0) + 24;
+    // a coluna da esquerda (seta, lista de alimentadores e, embaixo, a legenda) fica livre
+    const H = svg.clientHeight || 600, L1 = Math.max(lado.offsetWidth, leg ? leg.offsetWidth : 0) + 24, L2 = 24;
     const k = Math.min(H / h, Math.max(1e-3, W - L1 - L2) / w);
     const altura = H / k;
     return [x - L1 / k, y - (altura - h) / 2, w + (L1 + L2) / k, altura];
@@ -279,10 +284,9 @@
   function legendaRegional(ps) {
     if (ps) psReg = ps;
     legPolos.setAttribute('aria-label', `Polos da Regional ${reg}`);
-    legPolos.innerHTML = caixaPolos(`Regional ${esc(reg)}`, psReg.map(p =>
+    legPolos.innerHTML = `<b class="mt-polos-t">${esc(reg)}</b>` + psReg.map(p =>
       `<button type="button" class="mt-pchip" aria-pressed="true" data-polo="${esc(p.polo)}" style="--c:${corDe[p.polo]}" ` +
-      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b></button>`).join(''));
-    legPolos.classList.toggle('aberta', puxada);
+      `aria-label="${esc(p.polo)}, ${numeros(p.ms, p.nae)}"><b>${esc(p.polo)}</b></button>`).join('');
     volta.setAttribute('aria-label', `Regional ${reg}. Voltar ao Tocantins`);
     volta.title = 'Voltar ao Tocantins';
   }
@@ -310,9 +314,8 @@
   function legendaPolo() {
     const ms = M.muns.filter(m => m.polo === pol), nae = ms.reduce((s, m) => s + (m.nae || 0), 0);
     legPolos.setAttribute('aria-label', `Polo ${pol}`);
-    legPolos.innerHTML = caixaPolos(`Regional ${esc(reg)} › ${esc(pol)}`,
-      `<span class="mt-pchip" style="--c:${corDe[pol]}" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b></span>`);
-    legPolos.classList.toggle('aberta', puxada);
+    legPolos.innerHTML = `<b class="mt-polos-t">${esc(reg)} ›</b>` +
+      `<span class="mt-pchip" style="--c:${corDe[pol]}" aria-label="${esc(pol)}, ${numeros(ms, nae)}"><b>${esc(pol)}</b></span>`;
     volta.setAttribute('aria-label', `${pol}. Voltar à Regional ${reg}`);
     volta.title = `Voltar à Regional ${reg}`;
   }
@@ -332,7 +335,7 @@
   const realceAl = al => {
     camada.classList.toggle('realce', !!al);
     camada.querySelectorAll('path[data-al]').forEach(p => p.classList.toggle('on', p.dataset.al === al));
-    legPolos.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('on', a.dataset.al === al));
+    legAl.querySelectorAll('.mt-al').forEach(a => a.classList.toggle('on', a.dataset.al === al));
   };
   function entraMun(cod, teclado) {
     const m = porCod[cod];
@@ -348,12 +351,14 @@
     camada.style.transform = tr(mdesl[cod]);
     grp[pol].append(camada);
     const als = m.als.slice().sort((a, b) => b.m - a.m);
-    legPolos.setAttribute('aria-label', `Alimentadores de ${m.nome}`);
-    legPolos.innerHTML = caixaPolos(`${esc(pol)} › ${esc(m.nome)}`,
+    legPolos.querySelector('.mt-pchip').insertAdjacentHTML('afterend', `<b class="mt-polos-t mt-mun-t">› ${esc(m.nome)}</b>`);
+    legAl.setAttribute('aria-label', `Alimentadores de ${m.nome}`);
+    legAl.hidden = false;
+    legAl.innerHTML = caixaPolos(`${esc(m.nome)} · ${m.als.length} alimentador${m.als.length > 1 ? 'es' : ''}`,
       `<a class="mt-amun" href="municipios/${esc(m.slug)}/">Abrir ${esc(m.nome)} →</a>` + als.map(a =>
         `<a class="mt-al" href="alimentadores/${encodeURIComponent(a.cod)}/" data-al="${esc(a.cod)}"><span class="mt-al-m" aria-hidden="true"></span>` +
         `<b>${esc(a.cod)}</b><span>${(a.n || 0).toLocaleString('pt-BR')} NAE · ${km(a.m)} aqui</span></a>`).join(''));
-    legPolos.classList.toggle('aberta', puxada);
+    legAl.classList.toggle('aberta', puxada);
     volta.setAttribute('aria-label', `${m.nome}. Voltar ao polo ${pol}`);
     volta.title = `Voltar ao polo ${pol}`;
     voa(enquadra());
@@ -367,7 +372,7 @@
         if (al) p.dataset.al = al;
         camada.querySelector(g).append(p);
       });
-      const mini = legPolos.querySelector(`.mt-al[data-al="${a.cod}"] .mt-al-m`), [x0, y0, x1, y1] = r.b;
+      const mini = legAl.querySelector(`.mt-al[data-al="${a.cod}"] .mt-al-m`), [x0, y0, x1, y1] = r.b;
       const w = Math.max(x1 - x0, .05), h = Math.max(y1 - y0, .05), f = Math.max(w, h) * .08;
       if (mini) mini.innerHTML = `<svg viewBox="${x0 - f} ${y0 - f} ${w + 2 * f} ${h + 2 * f}"><path d="${r.d}"/></svg>`;
     }));
@@ -376,8 +381,10 @@
     if (!mun) return;
     const cod = mun;
     mun = null;
-    const tinha = document.activeElement === volta || legPolos.contains(document.activeElement);
+    const tinha = document.activeElement === volta || legAl.contains(document.activeElement);
     caixa.classList.remove('nivel-mun');
+    legAl.hidden = true;
+    legAl.innerHTML = '';
     M.muns.forEach(x => el[x.cod].classList.remove('fora-m', 'aberto-m'));
     camada.remove();
     camada.innerHTML = '';
@@ -387,9 +394,17 @@
     voa(enquadra());
     if (tinha) { roda(cod); el[cod].focus({ preventScroll: true }); }
   }
-  legPolos.addEventListener('mouseover', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
-  legPolos.addEventListener('mouseleave', () => realceAl(null));
-  legPolos.addEventListener('focusin', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
+  legAl.addEventListener('mouseover', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
+  legAl.addEventListener('mouseleave', () => realceAl(null));
+  legAl.addEventListener('focusin', e => { const a = e.target.closest('.mt-al'); realceAl(a ? a.dataset.al : null); });
+  legAl.addEventListener('click', e => {
+    const px = e.target.closest('.mt-puxa');
+    if (!px) return;
+    puxada = !puxada;
+    legAl.classList.toggle('aberta', puxada);
+    px.setAttribute('aria-expanded', String(puxada));
+    px.setAttribute('aria-label', `${puxada ? 'Esconder' : 'Mostrar'} os alimentadores`);
+  });
   function saiPolo(animar = true) {
     if (!pol) return;
     saiMun(false);
@@ -444,14 +459,6 @@
     }).join('');
   }
   legPolos.addEventListener('click', e => {
-    const px = e.target.closest('.mt-puxa');
-    if (px) {
-      puxada = !puxada;
-      legPolos.classList.toggle('aberta', puxada);
-      px.setAttribute('aria-expanded', String(puxada));
-      px.setAttribute('aria-label', `${puxada ? 'Esconder' : 'Mostrar'} os polos`);
-      return;
-    }
     const bt = e.target.closest('.mt-pchip');
     if (!bt || bt.tagName !== 'BUTTON') return;
     const liga = bt.getAttribute('aria-pressed') !== 'true';
