@@ -19,7 +19,7 @@ for al in ['LD01072001', 'AL03037009', 'LD02022033', 'AL01015049']:
     c = dict(alimentador=al, se=se, se_nome=se_nome, resumo=meta['resumo'], nae=D.get('nae'), origem=meta.get('origem') or {})
     # o gerador escreve estas duas linhas no <head>/<body> antes de chamar cabecalho_painel: simula-as
     h = h.replace('<link rel="stylesheet" href="../../assets/alimentador.css">', '<link rel="stylesheet" href="../../assets/alimentador.css">\n<link rel="stylesheet" href="../../assets/painel.css">', 1)
-    h = h.replace('<script src="../../assets/lupa-painel.js"></script>', '<script src="../../assets/lupa-painel.js"></script>\n<script src="../../assets/painel.js"></script>', 1)
+    h = h.replace('</body>', '<script src="../../assets/painel.js"></script>\n</body>', 1)
     h = gt.cabecalho_painel(h, c)
     (AQUI / f'tmp/depois/{al}.html').write_text(h, encoding='utf-8')
     print(al, 'ok', meta['resumo']['trechos'], meta['resumo']['extensao_m'], 'nae oc', len((D.get('nae') or {}).get('oc', [])), 'meses', bool((D.get('nae') or {}).get('meses')), meta.get('origem', {}).get('nae_filtro'))

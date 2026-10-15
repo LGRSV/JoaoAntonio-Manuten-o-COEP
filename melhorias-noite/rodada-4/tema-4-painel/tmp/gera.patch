@@ -1,0 +1,66 @@
+--- gera_trechos.orig.py	2026-10-15 07:42:42.960246719 +0000
++++ repo/scripts/gera_trechos.py	2026-10-15 08:08:16.771369437 +0000
+@@ -664,6 +664,8 @@
+         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
+     (a / 'alimentador.css').write_text(css, encoding='utf-8')
+     (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
++    for f in ('painel.js', 'painel.css'):                 # painel do alimentador: cabeçalho numa faixa, mapa na altura da tela, abas e gaveta (tema 4)
++        shutil.copyfile(PKG / 'site' / f, a / f)
+     for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
+               'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'argos.png'):
+         shutil.copyfile(PKG / 'site' / f, a / f)
+@@ -711,6 +713,35 @@
+     return destino
+ 
+ 
++def cabecalho_painel(h, c):
++    """Cabeçalho do painel já no HTML (tema 4): classe no <html>, caminho com a seta ←, SE, código, resumo (trechos, km e o selo da NAE) e o
++    marcador 'pronto'. Antes disso o 1º script do cabeçalho trocava o texto do h1/eyebrow e o extras.js montava o resumo depois dos dados, e o
++    mapa pulava. O painel.js só completa (NAE por mês, município no caminho)."""
++    al, r = c['alimentador'], c['resumo']
++    se = html.escape(f'{c["se"]} {c["se_nome"]}')
++    ant = f'<span class="eyebrow">{se} · Alimentador {html.escape(al)}</span>\n    <h1>Trechos por ativo</h1>\n'
++    assert h.count(ant) == 1 and h.count('<html lang="pt-BR">') == 1
++    nav = ('<nav class="migalhas" aria-label="Caminho"><a class="lp-voltar-ph" href="../../" title="Voltar a Municípios" aria-label="Voltar a Municípios">←</a>'
++           '<a href="../../">Municípios</a><span class="mig-mun"></span><span class="mig-t" id="mig-trecho"></span></nav>\n    ')
++    h = h.replace(ant, f'{nav}<span class="eyebrow">{se}</span>\n    <h1>{html.escape(al)}</h1>\n    <p class="sub">Trechos por ativo</p>\n')
++    km = f'{r["extensao_m"] / 1000:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
++    nt = f'{r["trechos"]:,}'.replace(',', '.')
++    nae = c.get('nae') or {}
++    sel = ''
++    if nae.get('meses'):
++        suf = 'vegetação · ' if (c.get('origem') or {}).get('nae_filtro') == 'arvore' else ''
++        sel = (f'<button type="button" class="r-i r-nae" data-ph aria-haspopup="true"><b><span class="r-nr">NAE</span> <span class="r-nn">{len(nae.get("oc", []))}</span></b>'
++               f'<small class="r-np">{suf}todos os meses</small></button>')
++    res = (f'\n  <div class="al-res" role="group" aria-label="Resumo do alimentador"><span class="r-i r-t"><b>{nt}</b><small>{"trecho" if r["trechos"] == 1 else "trechos"}</small></span>'
++           f'<span class="r-i r-k"><b>{km}</b><small>km</small></span>{sel}</div>')
++    h = h.replace('</header>', '</header>' + res, 1)
++    h = h.replace('<html lang="pt-BR">', '<html lang="pt-BR" class="al-site al-painel">', 1)      # a classe no HTML: o mapa já nasce no tamanho final
++    h, n = re.subn(r'  <script>\n  // Página do site \(CSS em assets/\).*?</script>',
++                   "  <script>document.addEventListener('DOMContentLoaded', function () { document.documentElement.classList.add('al-pronto'); });</script>", h, count=1, flags=re.S)
++    assert n == 1
++    return h
++
++
+ def pagina_alimentador(modelo, c):
+     al = c['alimentador']
+     cdn = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/'
+@@ -726,7 +757,7 @@
+             ('Chaves 88 não aparecem.', 'Chaves que não dividem trecho (88, faca e outras) só aparecem com o mapa de perto.')]:
+         assert h.count(x) == 1, x[:50]
+         h = h.replace(x, y)
+-    h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">', h, count=1, flags=re.S)
++    h = re.sub(r'<style>\n.*?</style>', '<link rel="stylesheet" href="../../assets/alimentador.css">\n<link rel="stylesheet" href="../../assets/painel.css">', h, count=1, flags=re.S)
+     h = re.sub(r'<script>\nconst D = %%DADOS%%;\n.*?</script>',
+                '<script src="dados.js"></script>\n<script src="../../assets/alimentador.js"></script>\n'
+                '<script src="../../assets/extras.js"></script>\n'
+@@ -746,7 +777,8 @@
+                '<script src="../../assets/telacheia.js"></script>\n'
+                # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
+                '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>\n'
+-               '<script src="../../assets/lupa-painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu)
++               '<script src="../../assets/lupa-painel.js"></script>\n<script src="../../assets/painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu); painel.js: layout, abas, gaveta
++    h = cabecalho_painel(h, c)
+     assert '%%' not in h
+     return h
+ 

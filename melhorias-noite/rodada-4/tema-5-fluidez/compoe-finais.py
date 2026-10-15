@@ -20,8 +20,8 @@ for vp in ['1440', '390']:
     w = 760 if vp == '1440' else 390   # 1440: cada quadro a ~53 %; 390 (DPR 2): metade
     for t, cor in [('antes', ANTES), ('depois', DEPOIS)]:
         L = t.upper()
-        compoe([f'01-{t}-A-{vp}.jpg', f'01-{t}-B-{vp}.jpg'], [f'{L} · quadro antes da lupa chegar (a barra de busca ainda está na página)' if t == 'antes' else f'{L} · mesmo momento: o mapa já está no lugar final', f'{L} · pronto (lupa no mapa)'], f'{O}01-cls-alimentador-{t}-{vp}.jpg', w, cor)
+        compoe([f'01-{t}-A-{vp}.jpg', f'01-{t}-B-{vp}.jpg'], [f'{L} · barra de busca na página' if t == 'antes' else f'{L} · mesmo momento, mapa no lugar', f'{L} · pronto (lupa no mapa)'], f'{O}01-cls-alimentador-{t}-{vp}.jpg', w, cor)
         compoe([f'02-{t}-A-{vp}.jpg', f'02-{t}-B-{vp}.jpg'], [f'{L} · 1º quadro (☰ e cartões chegam depois)', f'{L} · quadro seguinte'], f'{O}02-cls-inicio-{t}-{vp}.jpg', w, cor)
         compoe([f'03-{t}-A-{vp}.jpg'], [f'{L} · Tab com a regional Centro aberta'], f'{O}03-tab-regional-{t}-{vp}.jpg', 1100 if vp == '1440' else 780, cor)
         qs = [f'04-{t}-A-{vp}.jpg'] + ([f'04-{t}-B-{vp}.jpg'] if vp == '390' else [])
-        compoe(qs, [f'{L} · alvos de toque (vermelho < 44 px)', f'{L} · painel'][:len(qs)], f'{O}04-alvos-alimentador-{t}-{vp}.jpg', 1100 if vp == '1440' else 390, cor)
+        compoe(qs, [f'{L} · alvos (vermelho < 44 px)', f'{L} · painel'][:len(qs)], f'{O}04-alvos-alimentador-{t}-{vp}.jpg', 1100 if vp == '1440' else 390, cor)

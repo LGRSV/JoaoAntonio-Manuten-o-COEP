@@ -17,9 +17,9 @@ async function uma(vp, proto) {
 }
 (async () => {
   const R = {};
-  for (const vp of ['desktop', 'celular']) { const acc = { antes: [], depois: [] };
+  for (const vp of (process.env.VPS || 'desktop,celular').split(',')) { const acc = { antes: [], depois: [] };
     for (let i = 0; i < N; i++) for (const v of (i % 2 ? ['depois', 'antes'] : ['antes', 'depois'])) { acc[v].push(await uma(vp, v === 'depois')); }
     R[vp] = {}; for (const v of ['antes', 'depois']) R[vp][v] = Object.fromEntries(['pronto', 'tbt', 'ltMax', 'cls'].map(k => [k, { med: med(acc[v].map(x => x[k])), min: Math.min(...acc[v].map(x => x[k])), max: Math.max(...acc[v].map(x => x[k])) }]));
     console.log(vp, CPU, JSON.stringify(R[vp])); }
-  fs.writeFileSync(`medicoes/ab-carga${CPU === 'base' ? '-base' : ''}.json`, JSON.stringify(R, null, 1));
+  fs.writeFileSync(`medicoes/ab-carga-${CPU}-${process.env.ROT || 'x'}.json`, JSON.stringify(R, null, 1));
 })();

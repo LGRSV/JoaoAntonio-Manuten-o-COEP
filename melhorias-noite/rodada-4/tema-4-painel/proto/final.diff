@@ -620,16 +620,16 @@ new file mode 100644
 diff --git a/scripts/gera_trechos.py b/scripts/gera_trechos.py
 --- a/scripts/gera_trechos.py
 +++ b/scripts/gera_trechos.py
-@@ -665,7 +665,7 @@
+@@ -664,6 +664,8 @@
+         shutil.copyfile(PKG / 'leaflet' / f, a / 'leaflet' / f)
      (a / 'alimentador.css').write_text(css, encoding='utf-8')
      (a / 'alimentador.js').write_text('const D = window.D;\n' + js, encoding='utf-8')
++    for f in ('painel.js', 'painel.css'):                 # painel do alimentador: cabeçalho numa faixa, mapa na altura da tela, abas e gaveta (tema 4)
++        shutil.copyfile(PKG / 'site' / f, a / f)
      for f in ('extras.js', 'municipios.js', 'chaves.js', 'site.css', 'mapa-municipios.js', 'limpeza.js', 'inspecao.js', 'manutencao.js', 'executadas.js',
--              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'ativos-zoom.js', 'argos.png'):
-+              'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'painel.js', 'painel.css', 'argos.png'):
+               'telacheia.js', 'busca-ativo.js', 'ranking-polos.js', 'croqui.js', 'croqui-modelo.js', 'menu.js', 'lupa-painel.js', 'ativos-zoom.js', 'argos.png'):
          shutil.copyfile(PKG / 'site' / f, a / f)
-     pacote_trechos(a / 'scripts' / 'trechos-kml.zip')
-     return modelo
-@@ -711,6 +711,35 @@
+@@ -711,6 +713,35 @@
      return destino
  
  
@@ -665,7 +665,7 @@ diff --git a/scripts/gera_trechos.py b/scripts/gera_trechos.py
  def pagina_alimentador(modelo, c):
      al = c['alimentador']
      cdn = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/'
-@@ -726,14 +755,12 @@
+@@ -726,7 +757,7 @@
              ('Chaves 88 não aparecem.', 'Chaves que não dividem trecho (88, faca e outras) só aparecem com o mapa de perto.')]:
          assert h.count(x) == 1, x[:50]
          h = h.replace(x, y)
@@ -674,22 +674,13 @@ diff --git a/scripts/gera_trechos.py b/scripts/gera_trechos.py
      h = re.sub(r'<script>\nconst D = %%DADOS%%;\n.*?</script>',
                 '<script src="dados.js"></script>\n<script src="../../assets/alimentador.js"></script>\n'
                 '<script src="../../assets/extras.js"></script>\n'
-                # divisas dos municípios em tracejado: municipios.js do alimentador sai da interface, com a malha
--               # divisas.js do alimentador e dados/tocantins.js (contorno do estado) saem de scripts/divisas.py
--               '<script src="divisas.js"></script>\n<script src="../../dados/tocantins.js"></script>\n'
--               '<script src="../../assets/municipios.js"></script>\n'
-+               '<script src="municipios.js"></script>\n<script src="../../assets/municipios.js"></script>\n'
-                # chaves que não dividem trecho (88, faca…): chaves.js do alimentador sai da interface, dos dados do site
-                '<script src="chaves.js"></script>\n<script src="../../assets/chaves.js"></script>\n'
-                # limpeza de faixa: limpeza.js do alimentador vem de scripts/limpeza_faixa.py (sem ele, a camada não aparece)
-@@ -748,8 +775,8 @@
-                '<script src="../../assets/telacheia.js"></script>\n'
+@@ -749,7 +780,8 @@
                 # croqui de limpeza de faixa (o modelo, assets/croqui-modelo.js, só carrega quando pedido)
                 '<script src="../../assets/croqui.js"></script>\n<script src="../../assets/menu.js"></script>\n'
--               '<script src="../../assets/lupa-painel.js"></script>\n'
+                '<script src="../../assets/lupa-painel.js"></script>\n'
 -               '<script src="../../assets/ativos-zoom.js"></script>', h, count=1, flags=re.S)   # ativos de perto (ativos.js do alimentador, scripts/ativos_js.py)   # lupa do ARGOS no painel (depois do menu)
-+               '<script src="../../assets/lupa-painel.js"></script>\n<script src="../../assets/painel.js"></script>', h, count=1, flags=re.S)   # lupa do ARGOS no painel (depois do menu); painel.js: layout, abas, gaveta
-+    h = cabecalho_painel(h, c)
++               '<script src="../../assets/ativos-zoom.js"></script>\n<script src="../../assets/painel.js"></script>', h, count=1, flags=re.S)   # ativos de perto (ativos.js do alimentador, scripts/ativos_js.py)   # lupa do ARGOS no painel (depois do menu)
++    h = cabecalho_painel(h, c)                    # painel.js (acima) e painel.css (no <head>): tema 4
      assert '%%' not in h
      return h
  

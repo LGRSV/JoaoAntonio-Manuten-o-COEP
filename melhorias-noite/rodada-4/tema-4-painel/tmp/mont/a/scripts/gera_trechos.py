@@ -148,11 +148,11 @@ def carregar_malha(arquivo, cache):
 
 def malha_salva(arquivo, cache, saida):
     """--so-interface: a malha de --malha ou a do cache. Baixa do IBGE só se alguma página medida com a malha do IBGE
-    ainda está sem as divisas (municipios.js); sem internet, segue sem elas (as já gravadas ficam como estão)."""
+    ainda está sem as divisas (divisas.js); sem internet, segue sem elas (as já gravadas ficam como estão)."""
     if arquivo or all((Path(cache) / f).exists() for f in ('malha-TO.geojson', 'municipios-TO.json')):
         return carregar_malha(arquivo, cache)
-    sem = lambda al: not (saida / 'alimentadores' / al / 'municipios.js').exists() or \
-        (saida / 'alimentadores' / al / 'municipios.js').read_text(encoding='utf-8') == 'window.MUNICIPIOS = null;\n'
+    sem = lambda al: not (saida / 'alimentadores' / al / 'divisas.js').exists() or \
+        (saida / 'alimentadores' / al / 'divisas.js').read_text(encoding='utf-8') == 'window.MUNICIPIOS = null;\n'
     if not any(c['validacao']['status'] != 'falha' and c['origem'].get('malha') == IBGE_ORIGEM and sem(c['alimentador'])
                for c in carregar_dados(saida)):
         return None
@@ -1319,12 +1319,29 @@ def chaves_js(c):
 
 
 def grava_divisas(arq, c, malha):
-    """municipios.js do alimentador (divisas no mapa). Só com a mesma malha que mediu os municípios dele; sem ela, fica o
-    arquivo que já existe (ou null: a página fica sem as divisas)."""
+    """divisas.js do alimentador (divisas no mapa, como scripts/divisas.py). Só com a mesma malha que mediu os municípios
+    dele; sem ela, fica o arquivo que já existe (ou null: a página fica sem as divisas)."""
     if malha and c['origem'].get('malha') == malha.origem:
         arq.write_text(divisas_js(malha, c), encoding='utf-8')
     elif not arq.exists():
         arq.write_text('window.MUNICIPIOS = null;\n', encoding='utf-8')
+
+
+def grava_tocantins(saida, cache):
+    """dados/tocantins.js: window.TOCANTINS = [[[lat, lon], ...], ...], o contorno do estado (uf-TO.geojson do cache, malha
+    do IBGE do estado em qualidade intermediária), que o mapa do alimentador desenha com o traço-ponto da divisa do TO.
+    Sem o arquivo no cache, fica o que já existe (ou null)."""
+    arq, fonte = saida / 'dados' / 'tocantins.js', Path(cache) / 'uf-TO.geojson'
+    arq.parent.mkdir(parents=True, exist_ok=True)
+    if fonte.exists():
+        aneis = []
+        for f in json.loads(fonte.read_text(encoding='utf-8'))['features']:
+            geom = f['geometry']
+            for pol in (geom['coordinates'] if geom['type'] == 'MultiPolygon' else [geom['coordinates']]):
+                aneis += [[[round(y, 4), round(x, 4)] for x, y, *_ in anel] for anel in pol[:1]]   # só o anel de fora
+        arq.write_text('window.TOCANTINS = ' + json.dumps(aneis, separators=(',', ':')) + ';\n', encoding='utf-8')
+    elif not arq.exists():
+        arq.write_text('window.TOCANTINS = null;\n', encoding='utf-8')
 
 
 def interface(saida, malha=None):
@@ -1348,7 +1365,7 @@ def interface(saida, malha=None):
             exe = saida / 'alimentadores' / c['alimentador'] / 'executadas.js'
             if not exe.exists():                       # até rodar scripts/executadas.py: página sem o card Manutenção
                 exe.write_text('window.EXECUTADAS = null;\n', encoding='utf-8')
-            grava_divisas(saida / 'alimentadores' / c['alimentador'] / 'municipios.js', c, malha)
+            grava_divisas(saida / 'alimentadores' / c['alimentador'] / 'divisas.js', c, malha)
             (saida / 'alimentadores' / c['alimentador'] / 'chaves.js').write_text(chaves_js(c), encoding='utf-8')
     for m in man['municipios']:
         linhas = []
@@ -1554,6 +1571,7 @@ def main(argv=None):
         return 0 if validar_saida(saida) else 1
     if a.so_interface:
         interface(saida, malha_salva(a.malha, a.cache, saida))
+        grava_tocantins(saida, a.cache)
         return 0 if validar_saida(saida) else 1
     if a.comparar:
         comparar(saida, a.comparar)
@@ -1578,6 +1596,7 @@ def main(argv=None):
         print(f'{al}: {c["validacao"]["status"]}' + (f' · {r["trechos"]} trechos · {km(r["extensao_m"])} km · '
               + ', '.join(f'{m["nome"]} {km(m["m"])} km' for m in c['municipios']) if r else f' · {c.get("erro")}'))
     dados, man = interface(saida, malha)
+    grava_tocantins(saida, a.cache)
     relatorio(saida, dados, man, sem_kml)
     ok = validar_saida(saida)
     print(f'{len(man["municipios"])} município(s) · {sum(c["validacao"]["status"] != "falha" for c in dados)} alimentador(es) '
