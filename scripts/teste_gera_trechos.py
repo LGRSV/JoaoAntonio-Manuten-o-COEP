@@ -324,6 +324,12 @@ def executadas_no_site(d):
     assert est['executadas']['arquivo'] == 'OS_STATUS_Executadas_teste.zip' and est['executadas']['nome'] == 'OS de manutenção executadas'
     pag = (site / 'alimentadores' / 'ALTESTE' / 'index.html').read_text(encoding='utf-8')
     assert '<script src="executadas.js"></script>' in pag and (site / 'assets' / 'executadas.js').exists()
+    def busca_os(os_):                              # índice da busca de OS: posição do ativo da OS, não do tipo
+        k = gera_trechos.chave_os(os_)
+        fx = json.loads((site / 'dados' / 'os' / f'{gera_trechos.fatia_os(k)}.json').read_text(encoding='utf-8'))
+        return next(e for e in fx[k] if e[2] == 'e')
+    assert busca_os('ETO-RD-PA 000001/2025')[4:] == [-7.1985, -48.2], busca_os('ETO-RD-PA 000001/2025')
+    assert busca_os('ETO-RD-PA 000006/2023')[4:] == [None, None], 'sem posição na busca também'
     print('ok executadas_no_site')
 
 

@@ -1,0 +1,882 @@
+{
+ "_sobre": "Chaves dos alimentadores cujo GIS veio sem o Fechado.kmz (ver SEM_CHAVES no gera_trechos.py). Religador (79) no ponto do by-pass NA do GIS com o mesmo número (80/88/31 + sufixo); fusíveis (03/33/02/40) e religadores das OS (inspeção, manutenção, executadas) no poste da ESTRUTURA; religador com coordenada na BASE SS_OS (GESTÃO DE EQUIPAMENTOS). lonlat é o nó da rede onde a chave corta. fases: metros por fase de cada trecho, pelo FaseConcat do Vaos_MT do GIS casado com os vãos pela geometria.",
+ "AL01102271": {
+  "chaves": [
+   {
+    "nome": "0300732001",
+    "tipo": "03",
+    "lonlat": [
+     -48.597473,
+     -10.230027
+    ],
+    "poste": "N733",
+    "origem": "poste 215348 das OS"
+   },
+   {
+    "nome": "0301585013",
+    "tipo": "03",
+    "lonlat": [
+     -48.653229,
+     -10.338838
+    ],
+    "poste": "215378",
+    "origem": "poste 215378 das OS"
+   },
+   {
+    "nome": "0301847013",
+    "tipo": "03",
+    "lonlat": [
+     -48.618835,
+     -10.240814
+    ],
+    "poste": "215435",
+    "origem": "poste 215435 das OS"
+   },
+   {
+    "nome": "0301984013",
+    "tipo": "03",
+    "lonlat": [
+     -48.677264,
+     -10.260814
+    ],
+    "poste": "415951",
+    "origem": "poste 415951 das OS"
+   },
+   {
+    "nome": "0302078007",
+    "tipo": "03",
+    "lonlat": [
+     -48.700244,
+     -10.02064
+    ],
+    "poste": "1097372",
+    "origem": "poste 1097372 das OS"
+   },
+   {
+    "nome": "0302301013",
+    "tipo": "03",
+    "lonlat": [
+     -48.756863,
+     -10.121172
+    ],
+    "poste": "878536",
+    "origem": "poste 878536 das OS"
+   },
+   {
+    "nome": "0303644001",
+    "tipo": "03",
+    "lonlat": [
+     -48.541522,
+     -10.189098
+    ],
+    "poste": "409537",
+    "origem": "poste 409537 das OS"
+   },
+   {
+    "nome": "0304242001",
+    "tipo": "03",
+    "lonlat": [
+     -48.571413,
+     -10.186857
+    ],
+    "poste": "416281",
+    "origem": "poste 17413632 das OS"
+   },
+   {
+    "nome": "0304642001",
+    "tipo": "03",
+    "lonlat": [
+     -48.614457,
+     -10.343135
+    ],
+    "poste": "N2961",
+    "origem": "poste 160562 das OS"
+   },
+   {
+    "nome": "0304676001",
+    "tipo": "03",
+    "lonlat": [
+     -48.562076,
+     -10.181937
+    ],
+    "poste": "N317",
+    "origem": "poste 1403882 das OS"
+   },
+   {
+    "nome": "0308187013",
+    "tipo": "03",
+    "lonlat": [
+     -48.773413,
+     -10.187693
+    ],
+    "poste": "1113538",
+    "origem": "poste 1113538 das OS"
+   },
+   {
+    "nome": "0310777013",
+    "tipo": "03",
+    "lonlat": [
+     -48.71074,
+     -10.221256
+    ],
+    "poste": "415962",
+    "origem": "poste 415962 das OS"
+   },
+   {
+    "nome": "0358090007",
+    "tipo": "03",
+    "lonlat": [
+     -48.681941,
+     -10.14043
+    ],
+    "poste": "411523",
+    "origem": "poste 411523 das OS"
+   },
+   {
+    "nome": "3302754013",
+    "tipo": "33",
+    "lonlat": [
+     -48.750569,
+     -10.128625
+    ],
+    "poste": "414240",
+    "origem": "poste 414240 das OS"
+   },
+   {
+    "nome": "4004180001",
+    "tipo": "40",
+    "lonlat": [
+     -48.545649,
+     -10.162741
+    ],
+    "poste": "413590",
+    "origem": "poste 413590 das OS"
+   },
+   {
+    "nome": "7926789001",
+    "tipo": "79",
+    "lonlat": [
+     -48.684635,
+     -10.186827
+    ],
+    "poste": "N1578",
+    "origem": "by-pass 3126789001 do GIS"
+   },
+   {
+    "nome": "7927169001",
+    "tipo": "79",
+    "lonlat": [
+     -48.571555,
+     -10.191297
+    ],
+    "poste": "N194",
+    "origem": "coordenada da SS (gestão)"
+   },
+   {
+    "nome": "7942460001",
+    "tipo": "79",
+    "lonlat": [
+     -48.666789,
+     -10.188701
+    ],
+    "poste": "N1300",
+    "origem": "by-pass 8042460001 do GIS"
+   }
+  ],
+  "fases": {
+   "T1": {
+    "não informado": 26.6,
+    "ABC": 9267.4
+   },
+   "T2": {
+    "não informado": 560.3,
+    "A": 13495.9,
+    "ABC": 76343.9,
+    "B": 23495.5,
+    "C": 20494.4
+   },
+   "T2-A": {
+    "não informado": 298.1,
+    "A": 4523.8,
+    "ABC": 32169.8,
+    "B": 12794.3,
+    "C": 6885.8
+   },
+   "T2-B": {
+    "não informado": 677.8,
+    "ABC": 25464.9,
+    "B": 89238.4
+   },
+   "T3-A": {
+    "não informado": 33.6,
+    "A": 2058.5,
+    "ABC": 12845.2,
+    "B": 5827.2,
+    "C": 690.3
+   },
+   "T3-B": {
+    "não informado": 3.7,
+    "ABC": 510.2
+   },
+   "T3-C": {
+    "ABC": 796.7
+   },
+   "T3-D": {
+    "não informado": 3.6,
+    "C": 1289.5
+   },
+   "T3-E": {
+    "ABC": 941.4
+   },
+   "T3-F": {
+    "não informado": 82.0,
+    "A": 8036.6,
+    "ABC": 5960.6,
+    "B": 956.2
+   },
+   "T3-G": {
+    "não informado": 42.1,
+    "ABC": 2875.2,
+    "B": 5062.0
+   },
+   "T3-H": {
+    "não informado": 117.8,
+    "C": 9620.0
+   },
+   "T3-I": {
+    "A": 18.6
+   },
+   "T3-J": {
+    "A": 260.4
+   },
+   "T3-K": {
+    "ABC": 26.5
+   },
+   "T3-L": {
+    "não informado": 17.7,
+    "B": 1397.1
+   },
+   "T3-M": {
+    "não informado": 3.8,
+    "C": 522.8
+   },
+   "T3-N": {
+    "não informado": 30.1,
+    "B": 8159.6
+   },
+   "T3-O": {
+    "não informado": 3.6,
+    "B": 469.4
+   }
+  }
+ },
+ "LD01414015": {
+  "chaves": [
+   {
+    "nome": "0301084015",
+    "tipo": "03",
+    "lonlat": [
+     -48.231197,
+     -9.126651
+    ],
+    "poste": "N1677",
+    "origem": "poste 963352 das OS"
+   },
+   {
+    "nome": "0310090015",
+    "tipo": "03",
+    "lonlat": [
+     -47.961146,
+     -9.202417
+    ],
+    "poste": "N2054",
+    "origem": "poste 17410936 das OS"
+   },
+   {
+    "nome": "0310193015",
+    "tipo": "03",
+    "lonlat": [
+     -48.115993,
+     -9.198466
+    ],
+    "poste": "N377",
+    "origem": "poste 17396188 das OS"
+   },
+   {
+    "nome": "0345794005",
+    "tipo": "03",
+    "lonlat": [
+     -47.942203,
+     -9.215161
+    ],
+    "poste": "N2240",
+    "origem": "poste 106815 das OS"
+   },
+   {
+    "nome": "3300525015",
+    "tipo": "33",
+    "lonlat": [
+     -47.942136,
+     -9.292107
+    ],
+    "poste": "N2910",
+    "origem": "poste 295048 das OS"
+   },
+   {
+    "nome": "3300535015",
+    "tipo": "33",
+    "lonlat": [
+     -47.943224,
+     -9.21308
+    ],
+    "poste": "N2244",
+    "origem": "poste 978085 das OS"
+   },
+   {
+    "nome": "3310125015",
+    "tipo": "33",
+    "lonlat": [
+     -47.899659,
+     -9.061356
+    ],
+    "poste": "N4171",
+    "origem": "poste 17410942 das OS"
+   },
+   {
+    "nome": "7925733015",
+    "tipo": "79",
+    "lonlat": [
+     -48.147951,
+     -9.17964
+    ],
+    "poste": "N82",
+    "origem": "by-pass 8025733015 do GIS"
+   },
+   {
+    "nome": "7936096015",
+    "tipo": "79",
+    "lonlat": [
+     -47.942732,
+     -9.214637
+    ],
+    "poste": "N2225",
+    "origem": "by-pass 8036096015 do GIS"
+   },
+   {
+    "nome": "7943319015",
+    "tipo": "79",
+    "lonlat": [
+     -47.882102,
+     -9.198478
+    ],
+    "poste": "N2848",
+    "origem": "by-pass 8043319015 do GIS"
+   }
+  ],
+  "fases": {
+   "T1": {
+    "não informado": 316.7,
+    "A": 24469.0,
+    "ABC": 47672.2,
+    "B": 14753.9,
+    "C": 24981.4
+   },
+   "T2": {
+    "não informado": 349.0,
+    "A": 39162.4,
+    "ABC": 54509.2,
+    "B": 3918.8
+   },
+   "T2-A": {
+    "não informado": 199.6,
+    "A": 21423.2,
+    "ABC": 28795.4,
+    "B": 40.5,
+    "C": 2274.0
+   },
+   "T2-B": {
+    "não informado": 1571.6,
+    "A": 245108.9,
+    "ABC": 38418.1,
+    "B": 633.7
+   },
+   "T3-A": {
+    "ABC": 640.4,
+    "C": 109.1
+   },
+   "T3-B": {
+    "A": 908.4
+   },
+   "T3-C": {
+    "ABC": 13.3
+   },
+   "T3-D": {
+    "não informado": 26.5,
+    "A": 6318.7
+   },
+   "T3-E": {
+    "ABC": 1.5
+   },
+   "T3-F": {
+    "não informado": 39.6,
+    "A": 6952.1
+   }
+  }
+ },
+ "LD02424015": {
+  "chaves": [
+   {
+    "nome": "0300070015",
+    "tipo": "03",
+    "lonlat": [
+     -48.209735,
+     -9.310254
+    ],
+    "poste": "N621",
+    "origem": "poste 17411010 das OS"
+   },
+   {
+    "nome": "0300509070",
+    "tipo": "03",
+    "lonlat": [
+     -47.740493,
+     -9.42537
+    ],
+    "poste": "N11900",
+    "origem": "poste 974263 das OS"
+   },
+   {
+    "nome": "0301080015",
+    "tipo": "03",
+    "lonlat": [
+     -48.078167,
+     -9.269375
+    ],
+    "poste": "N1198",
+    "origem": "poste 17396084 das OS"
+   },
+   {
+    "nome": "0301090015",
+    "tipo": "03",
+    "lonlat": [
+     -48.108816,
+     -9.349571
+    ],
+    "poste": "N2657",
+    "origem": "poste 17377584 das OS"
+   },
+   {
+    "nome": "0310298015",
+    "tipo": "03",
+    "lonlat": [
+     -48.105486,
+     -9.286836
+    ],
+    "poste": "N1609",
+    "origem": "poste 17368473 das OS"
+   },
+   {
+    "nome": "0332981070",
+    "tipo": "03",
+    "lonlat": [
+     -47.742857,
+     -9.533006
+    ],
+    "poste": "N7199",
+    "origem": "poste 1374736 das OS"
+   },
+   {
+    "nome": "0345424082",
+    "tipo": "03",
+    "lonlat": [
+     -46.925972,
+     -9.779996
+    ],
+    "poste": "N17277",
+    "origem": "poste 27838062 das OS"
+   },
+   {
+    "nome": "0347858070",
+    "tipo": "03",
+    "lonlat": [
+     -47.413802,
+     -9.386018
+    ],
+    "poste": "N13545",
+    "origem": "poste 30217126 das OS"
+   },
+   {
+    "nome": "0347859070",
+    "tipo": "03",
+    "lonlat": [
+     -47.407019,
+     -9.407179
+    ],
+    "poste": "N13382",
+    "origem": "poste 30217103 das OS"
+   },
+   {
+    "nome": "0350552082",
+    "tipo": "03",
+    "lonlat": [
+     -46.981306,
+     -9.430802
+    ],
+    "poste": "N16352",
+    "origem": "poste 47195462 das OS"
+   },
+   {
+    "nome": "0350977070",
+    "tipo": "03",
+    "lonlat": [
+     -47.523527,
+     -9.371043
+    ],
+    "poste": "N12152",
+    "origem": "poste 73951328 das OS"
+   },
+   {
+    "nome": "0357179070",
+    "tipo": "03",
+    "lonlat": [
+     -47.252055,
+     -9.465592
+    ],
+    "poste": "N14340",
+    "origem": "poste 28125862 das OS"
+   },
+   {
+    "nome": "3300069015",
+    "tipo": "33",
+    "lonlat": [
+     -48.195695,
+     -9.306789
+    ],
+    "poste": "N492",
+    "origem": "poste 17377581 das OS"
+   },
+   {
+    "nome": "3300077082",
+    "tipo": "33",
+    "lonlat": [
+     -47.048003,
+     -9.207694
+    ],
+    "poste": "N19088",
+    "origem": "poste 1351979 das OS"
+   },
+   {
+    "nome": "3300337070",
+    "tipo": "33",
+    "lonlat": [
+     -47.63956,
+     -9.533209
+    ],
+    "poste": "N8771",
+    "origem": "poste 970345 das OS"
+   },
+   {
+    "nome": "3300730070",
+    "tipo": "33",
+    "lonlat": [
+     -47.813732,
+     -9.411433
+    ],
+    "poste": "N4668",
+    "origem": "poste 973433 das OS"
+   },
+   {
+    "nome": "3310081082",
+    "tipo": "33",
+    "lonlat": [
+     -46.859705,
+     -9.750613
+    ],
+    "poste": "N16519",
+    "origem": "poste 17396079 das OS"
+   },
+   {
+    "nome": "3310156015",
+    "tipo": "33",
+    "lonlat": [
+     -48.135416,
+     -9.406648
+    ],
+    "poste": "N3511",
+    "origem": "poste 17411004 das OS"
+   },
+   {
+    "nome": "3333710070",
+    "tipo": "33",
+    "lonlat": [
+     -47.804673,
+     -9.5597
+    ],
+    "poste": "N8699",
+    "origem": "poste 1420004 das OS"
+   },
+   {
+    "nome": "3337710070",
+    "tipo": "33",
+    "lonlat": [
+     -47.551744,
+     -9.502227
+    ],
+    "poste": "N10139",
+    "origem": "poste 1337094 das OS"
+   },
+   {
+    "nome": "4000757070",
+    "tipo": "40",
+    "lonlat": [
+     -47.683266,
+     -9.38516
+    ],
+    "poste": "N7233",
+    "origem": "poste 974197 das OS"
+   },
+   {
+    "nome": "4010107070",
+    "tipo": "40",
+    "lonlat": [
+     -47.638468,
+     -9.417653
+    ],
+    "poste": "N10383",
+    "origem": "poste 938977 das OS"
+   },
+   {
+    "nome": "7910231015",
+    "tipo": "79",
+    "lonlat": [
+     -48.026538,
+     -9.290944
+    ],
+    "poste": "N1635",
+    "origem": "by-pass 3110231015 do GIS"
+   },
+   {
+    "nome": "7925717015",
+    "tipo": "79",
+    "lonlat": [
+     -48.077143,
+     -9.251684
+    ],
+    "poste": "N1009",
+    "origem": "by-pass 8025717015 do GIS"
+   },
+   {
+    "nome": "7926787082",
+    "tipo": "79",
+    "lonlat": [
+     -47.24828,
+     -9.513995
+    ],
+    "poste": "N14408",
+    "origem": "by-pass 8026787082 do GIS"
+   },
+   {
+    "nome": "7929000070",
+    "tipo": "79",
+    "lonlat": [
+     -47.633029,
+     -9.475243
+    ],
+    "poste": "N9628",
+    "origem": "by-pass 8029000070 do GIS"
+   },
+   {
+    "nome": "7929534082",
+    "tipo": "79",
+    "lonlat": [
+     -46.863987,
+     -9.672143
+    ],
+    "poste": "N15852",
+    "origem": "by-pass 8029534082 do GIS"
+   },
+   {
+    "nome": "7930264015",
+    "tipo": "79",
+    "lonlat": [
+     -48.161341,
+     -9.195378
+    ],
+    "poste": "N24",
+    "origem": "by-pass 8030264015 do GIS"
+   },
+   {
+    "nome": "7940411082",
+    "tipo": "79",
+    "lonlat": [
+     -46.963206,
+     -9.600289
+    ],
+    "poste": "N15275",
+    "origem": "by-pass 8040411082 do GIS"
+   },
+   {
+    "nome": "7947203070",
+    "tipo": "79",
+    "lonlat": [
+     -47.743094,
+     -9.495931
+    ],
+    "poste": "N6460",
+    "origem": "poste 952361 das OS"
+   }
+  ],
+  "fases": {
+   "T1": {
+    "ABC": 497.3
+   },
+   "T2": {
+    "não informado": 388.0,
+    "ABC": 31705.4,
+    "B": 70436.5,
+    "C": 790.8
+   },
+   "T2-A": {
+    "não informado": 2191.4,
+    "A": 112142.4,
+    "ABC": 68486.8,
+    "B": 24469.4,
+    "C": 165342.5
+   },
+   "T2-B": {
+    "não informado": 319.3,
+    "A": 56006.3,
+    "ABC": 48705.5,
+    "B": 1310.5,
+    "C": 2058.5
+   },
+   "T2-C": {
+    "não informado": 558.7,
+    "A": 13550.9,
+    "ABC": 26639.2,
+    "B": 82735.3
+   },
+   "T2-D": {
+    "não informado": 3632.0,
+    "A": 162835.0,
+    "ABC": 67579.0,
+    "B": 137.9,
+    "C": 4196.3
+   },
+   "T2-E": {
+    "não informado": 964.1,
+    "A": 19149.3,
+    "ABC": 51148.6,
+    "B": 6066.8,
+    "C": 906.7
+   },
+   "T2-F": {
+    "não informado": 333.4,
+    "A": 17578.5,
+    "ABC": 83139.5,
+    "B": 7582.4,
+    "C": 766.7
+   },
+   "T2-G": {
+    "não informado": 1229.6,
+    "A": 36624.9,
+    "ABC": 72914.4,
+    "B": 26042.1,
+    "C": 72753.8
+   },
+   "T3-A": {
+    "não informado": 12.1,
+    "ABC": 1694.1,
+    "B": 962.2
+   },
+   "T3-B": {
+    "não informado": 60.0,
+    "A": 11241.0,
+    "ABC": 51.9
+   },
+   "T3-C": {
+    "não informado": 33.7,
+    "ABC": 7716.8
+   },
+   "T3-D": {
+    "ABC": 143.7
+   },
+   "T3-E": {
+    "não informado": 109.3,
+    "ABC": 11496.3,
+    "B": 2118.4,
+    "C": 20981.1
+   },
+   "T3-F": {
+    "não informado": 6.9,
+    "ABC": 425.0,
+    "B": 2905.5
+   },
+   "T3-G": {
+    "não informado": 758.9,
+    "A": 33112.2,
+    "ABC": 9798.5,
+    "B": 24739.9,
+    "C": 1378.0
+   },
+   "T3-H": {
+    "não informado": 6.0,
+    "B": 1000.7
+   },
+   "T3-I": {
+    "não informado": 32.1,
+    "B": 6955.7
+   },
+   "T3-J": {
+    "não informado": 19.2,
+    "B": 1756.5
+   },
+   "T3-K": {
+    "não informado": 795.0,
+    "A": 17990.6,
+    "ABC": 9065.1,
+    "B": 108555.7
+   },
+   "T3-L": {
+    "não informado": 9.5,
+    "A": 488.7
+   },
+   "T3-M": {
+    "não informado": 116.6,
+    "A": 27491.2
+   },
+   "T3-N": {
+    "não informado": 10.9,
+    "A": 2977.1
+   },
+   "T3-O": {
+    "A": 81.2
+   },
+   "T3-P": {
+    "não informado": 7.4,
+    "ABC": 2478.2
+   },
+   "T3-Q": {
+    "não informado": 7.3,
+    "A": 90.2,
+    "ABC": 1320.4
+   },
+   "T3-R": {
+    "A": 98.3
+   },
+   "T3-S": {
+    "ABC": 169.5
+   },
+   "T3-T": {
+    "B": 150.5
+   },
+   "T3-U": {
+    "ABC": 57.4
+   },
+   "T3-V": {
+    "não informado": 86.9,
+    "A": 17135.9
+   }
+  }
+ }
+}

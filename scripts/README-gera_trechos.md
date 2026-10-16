@@ -106,6 +106,18 @@ python scripts/gera_trechos.py --saida site --so-interface
   de serviço (painel); balão com as OS do ativo; OS do trecho no detalhe dele.
 - O .txt da base passa de 150 MB: pelo menu, enviar o .zip (23 MB).
 
+## Alimentadores sem as chaves fechadas no GIS (`sem_chaves.py`)
+
+LD02424015, LD01414015 e AL01102271 (`SEM_CHAVES` no `gera_trechos.py`): o GIS veio sem o `Fechado.kmz` e não há rede
+no Daimon, então a conversão sai com a rede inteira num trecho só. As chaves NA que vieram são os by-pass dos
+religadores (80/88/31 com o número do 79). `scripts/sem_chaves.json` guarda as chaves desses 3 (religador no ponto do
+by-pass; fusíveis e religadores das OS de inspeção, manutenção e executadas no poste da ESTRUTURA; religador com
+coordenada na BASE SS_OS da gestão de equipamentos) e a fase de cada trecho (FaseConcat do Vaos_MT do GIS, casado com os
+vãos pela geometria). `python scripts/sem_chaves.py <site>` aplica a divisão (como o `refaz_trechos.py`), reassocia NAE
+e trafos do GIS; depois, as camadas (inspeção, manutenção, executadas, `ativos_js.py`), a interface, `nae_rede.py` e as
+visões. São alimentadores longos com poucas chaves conhecidas: a média de km por trecho passa do limite da
+"classificação colapsada", e para eles isso é aviso.
+
 ## Atualização de dados pelo menu (automático)
 
 O menu ☰ tem **Atualização de dados**: arrastar o arquivo no diálogo; a base sai do nome (`critica`, `limpeza`,
